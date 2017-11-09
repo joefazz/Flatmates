@@ -1,8 +1,8 @@
 {
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 5816,
-  "expoServerNgrokUrl": "https://h5-3tb.joefazz.flatmates.exp.direct",
-  "packagerNgrokUrl": "https://packager.h5-3tb.joefazz.flatmates.exp.direct",
-  "ngrokPid": 5829
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
