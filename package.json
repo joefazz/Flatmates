@@ -34,6 +34,7 @@
         "redux-logger": "^3.0.6",
         "redux-persist": "^5.3.4",
         "redux-persist-immutable": "^4.3.1",
-        "redux-saga": "^0.16.0"
+        "redux-saga": "^0.16.0",
+        "redux-saga-routines": "^2.2.2"
     }
 }

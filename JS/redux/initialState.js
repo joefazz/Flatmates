@@ -1,7 +1,9 @@
 import { state } from '../navigators/Root';
 
 const initialState = {
-    login: {},
+    login: {
+        isRehydrated: false
+    },
     nav: state
 };
 

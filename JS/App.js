@@ -1,16 +1,23 @@
 import React from 'react';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
-import { BackHandler, AsyncStorage } from 'react-native';
+import { BackHandler, AsyncStorage, Image } from 'react-native';
 
 import store from './redux/store';
 import RootNavigation from './navigators/Root';
+import * as Global from './styles/Global';
+import Splash from '../Assets/splash_screen.png'
 
 export class App extends React.Component {
     componentDidMount() {
-        AsyncStorage.clear();
         BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
     }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.login.isRehydrated !== nextProps.login.isRehydrated;
+    }
+
+
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPressed);
@@ -27,6 +34,12 @@ export class App extends React.Component {
     }
 
     render() {
+        if (!this.props.login.isRehydrated) {
+            return (
+                <Image style={{...Global.fullScreen}} source={Splash} />
+            );
+        }
+
         return (
             <RootNavigation 
                 navigation={addNavigationHelpers({
@@ -37,12 +50,15 @@ export class App extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    nav: state.get('nav')
+    nav: state.get('nav'),
+    login: state.get('login').toJS()
 });
 
 const AppWithNavigationState = connect(mapStateToProps)(App);
 
 export default class Root extends React.Component {
+    
+
     render() {
         return (
             <Provider store={store}>

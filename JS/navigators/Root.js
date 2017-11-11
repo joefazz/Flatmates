@@ -1,7 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 
-import { Login } from '../containers/Login';
+import Login from '../containers/Login';
 import { HomeNavigator } from './Home';
 
 const routesConfig = {
