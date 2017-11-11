@@ -1,27 +1,53 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import { StyleSheet, Text, View } from 'react-native';
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
+import { Provider, connect } from 'react-redux';
+import { BackHandler, AsyncStorage } from 'react-native';
 
-export default class App extends React.Component {
+import store from './redux/store';
+import RootNavigation from './navigators/Root';
+
+export class App extends React.Component {
+    componentDidMount() {
+        AsyncStorage.clear();
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPressed);
+    }
+
+    onBackPressed = () => {
+        const { dispatch, nav } = this.props;
+        if (nav.index === 0) {
+            return false;
+        } 
+
+        dispatch(NavigationActions.back());
+        return true;
+    }
+
     render() {
         return (
-            <Provider store={store}>
-              <View style={styles.container}>
-                  <Text>Open up App.js to start working on your app!</Text>
-                  <Text>Changes you make will automatically reload.</Text>
-                  <Text>Shake your phone to open the developer menu.</Text>
-              </View>
-            </Provider>
+            <RootNavigation 
+                navigation={addNavigationHelpers({
+                    dispatch: this.props.dispatch,
+                    state: this.props.nav})} />
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+const mapStateToProps = (state) => ({
+    nav: state.get('nav')
 });
+
+const AppWithNavigationState = connect(mapStateToProps)(App);
+
+export default class Root extends React.Component {
+    render() {
+        return (
+            <Provider store={store}>
+                <AppWithNavigationState />
+            </Provider>
+        );
+    }
+}
