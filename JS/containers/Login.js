@@ -17,7 +17,6 @@ export class Login extends React.Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
         this.props.loginWithFacebook();
     }
 

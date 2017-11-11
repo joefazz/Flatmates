@@ -1,13 +1,9 @@
-import { all, takeEvery } from 'redux-saga/effects';
-
-import { loginWatcher } from './loginSaga';
+import { takeEvery, fork } from 'redux-saga/effects';
+import { loginWithFacebook } from '../routines';
+import { loginSaga } from './loginSaga';
+import { store } from '../store';
 
 export const rootSaga = function *() {
-    yield takeEvery('persist/REHYDRATE', loadSagas);
+    yield fork(loginSaga);
 };
 
-const loadSagas = function*() {
-    yield all([
-        loginWatcher() 
-    ]);
-};

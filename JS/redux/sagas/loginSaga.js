@@ -1,8 +1,10 @@
-import { loginWithFacebook } from '../routines';
-import { Strings, Config } from '../../consts';
+import { Facebook } from 'expo';
 import { takeEvery, put } from 'redux-saga/effects';
 
-export const loginWatcher = function *() {
+import { loginWithFacebook } from '../routines';
+import { Strings, Config } from '../../consts';
+
+export const loginSaga = function *() {
     yield takeEvery(loginWithFacebook.TRIGGER, login);
 };
 
@@ -10,7 +12,6 @@ const login = function *() {
     try {
         // Trigger request action
         yield put(loginWithFacebook.request());
-
         // Wait for response from API and assign it to response
         const response = yield Facebook.
             logInWithReadPermissionsAsync(Strings.FACEBOOK_APP_ID, { permissions: Config.FACEBOOK_PERMISSIONS });

@@ -16,6 +16,7 @@
         "react-native"
     ],
     "rules": {
+        "no-console":"off",
         "indent": [
             "warn",
             4
