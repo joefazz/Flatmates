@@ -8,8 +8,9 @@ import { autoRehydrate, persistStore } from 'redux-persist-immutable';
 import { AsyncStorage } from 'react-native';
 
 // File References
-import saga from '../sagas';
+import { rootSaga } from '../sagas';
 import reducers from '../reducers';
+import initialState from '../initialState';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -19,7 +20,7 @@ let enhancers = [ autoRehydrate() ];
 if (__DEV__) {
     middlewares.push(createLogger({stateTransformer(state) {
         return state.toJS();
-    }}))
+    }}));
 }
 
 
@@ -35,7 +36,6 @@ const store = createStore(
 
 persistStore(store, {storage: AsyncStorage});
 
+sagaMiddleware.run(rootSaga);
 
-// sagaMiddleware.run(saga);
-console.log(store)
 export default store;

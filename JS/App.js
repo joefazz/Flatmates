@@ -1,27 +1,69 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import store from './redux/store';
-import { StyleSheet, Text, View } from 'react-native';
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
+import { Provider, connect } from 'react-redux';
+import { BackHandler, AsyncStorage, Image } from 'react-native';
 
-export default class App extends React.Component {
+import store from './redux/store';
+import RootNavigation from './navigators/Root';
+import * as Global from './styles/Global';
+import Splash from '../Assets/splash_screen.png'
+
+export class App extends React.Component {
+    componentDidMount() {
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.login.isRehydrated !== nextProps.login.isRehydrated;
+    }
+
+
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPressed);
+    }
+
+    onBackPressed = () => {
+        const { dispatch, nav } = this.props;
+        if (nav.index === 0) {
+            return false;
+        } 
+
+        dispatch(NavigationActions.back());
+        return true;
+    }
+
     render() {
+        if (!this.props.login.isRehydrated) {
+            return (
+                <Image style={{...Global.fullScreen}} source={Splash} />
+            );
+        }
+
         return (
-            <Provider store={store}>
-              <View style={styles.container}>
-                  <Text>Open up App.js to start working on your app!</Text>
-                  <Text>Changes you make will automatically reload.</Text>
-                  <Text>Shake your phone to open the developer menu.</Text>
-              </View>
-            </Provider>
+            <RootNavigation 
+                navigation={addNavigationHelpers({
+                    dispatch: this.props.dispatch,
+                    state: this.props.nav})} />
         );
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+const mapStateToProps = (state) => ({
+    nav: state.get('nav'),
+    login: state.get('login').toJS()
 });
+
+const AppWithNavigationState = connect(mapStateToProps)(App);
+
+export default class Root extends React.Component {
+    
+
+    render() {
+        return (
+            <Provider store={store}>
+                <AppWithNavigationState />
+            </Provider>
+        );
+    }
+}

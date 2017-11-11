@@ -1,0 +1,1 @@
+export const FACEBOOK_PERMISSIONS = ['public_profile', 'user_friends', 'email', 'user_about_me', 'user_birthday', 'user_religion_politics', 'user_actions.books', 'user_actions.fitness', 'user_actions.music', 'user_actions.news', 'user_likes'];

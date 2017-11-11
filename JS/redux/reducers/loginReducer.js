@@ -9,9 +9,13 @@ const INITIAL_STATE = Immutable.fromJS(initialState.login);
 
 export default function loginReducer(state = INITIAL_STATE, action = {}) {
     switch(action.type) {
-        case Types.FACEBOOK_LOGIN_REQUEST:
-            break;
-        default:
-            return state;
+    case 'persist/REHYDRATE':
+        return state.merge({
+            isRehydrated: true,
+        });
+    case Types.FACEBOOK_LOGIN_REQUEST:
+        break;
+    default:
+        return state;
     }
 }
