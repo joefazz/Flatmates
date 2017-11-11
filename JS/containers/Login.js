@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Facebook } from 'expo';
-import { loginWithFacebook } from '../redux/routines';
+import Swiper from 'react-native-swiper';
 
+import { loginWithFacebook } from '../redux/routines';
+import * as login from '../styles/Login';
 import { Numbers, Config } from '../consts';
 
 export class Login extends React.Component {
@@ -16,15 +18,29 @@ export class Login extends React.Component {
         };
     }
 
-    componentDidMount() {
+    loginToFacebook = () => {
         this.props.loginWithFacebook();
     }
 
     render() {
         return (
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                <Text>Login test</Text>
-            </View>
+            <Swiper>
+                <View style={{...login.page}}>
+                    <Text>Welcome to Flatmates</Text>
+                </View>
+
+                <View style={{...login.page}}>
+                    <Text>What permissions would you like to provide</Text>
+                </View>
+
+                <View style={{...login.page}}>
+                    <TouchableOpacity onPress={this.loginToFacebook}>
+                        <Text>
+                            Login with Facebook
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </Swiper>
         );
     }
 }
