@@ -6,7 +6,7 @@ Hello,
 
 If you're reading this that means this project has developed to the point where people other than myself can work on it which is great!
 
-To get started take a read through [these docs](https://github.com/joefazz/Flatmates/Docs/CRNA.md) so you can understand some of the tech and scripts that we use for testing, deployment, adding packages etc.
+To get started take a read through [these docs](https://github.com/joefazz/Flatmates/blob/master/Docs/CRNA.md) so you can understand some of the tech and scripts that we use for testing, deployment, adding packages etc.
 
 This app is built with a lot of beta technologies which will undoubtably require updating once every month or so, the most core libs that we use and the places you will find yourself spending a lot of time visiting the docs of are:
 
