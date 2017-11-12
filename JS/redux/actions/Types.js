@@ -1,3 +1,6 @@
-export const FACEBOOK_LOGIN_REQUEST = 'FACEBOOK_LOGIN_REQUEST';
-export const FACEBOOK_LOGIN_SUCCEED = 'FACEBOOK_LOGIN_SUCCEED';
-export const FACEBOOK_LOGIN_FAILED = 'FACEBOOK_LOGIN_FAILED';
+import * as Routines from '../routines';
+
+export const FACEBOOK_LOGIN_REQUEST = Routines.loginWithFacebook.REQUEST;
+export const FACEBOOK_LOGIN_SUCCESS = Routines.loginWithFacebook.SUCCESS;
+export const FACEBOOK_LOGIN_FAILURE = Routines.loginWithFacebook.FAILURE;
+export const FACEBOOK_LOGIN_FULLFIL = Routines.loginWithFacebook.FULFILL;
