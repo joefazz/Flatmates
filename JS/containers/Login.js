@@ -24,6 +24,16 @@ export class Login extends React.Component {
         }
     }
 
+    // componentWillUpdate(newProps) {
+    //     return !newProps.login.equals(props)
+    // }
+
+    // componentWillReceiveProps(newProps) {
+    //     if (newProps.login.get('fbtoken') !== 0) {
+    //         this.props.navigation.navigate('Home');
+    //     }
+    // }
+
     loginToFacebook = () => {
         facebookPermissions = ['public_profile', 'email'];
 
@@ -103,7 +113,7 @@ export class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    login: state.get('login').toJS()
+    login: state.get('login')
 });
 
 const bindAction = (dispatch) => {

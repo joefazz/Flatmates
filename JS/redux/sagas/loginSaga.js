@@ -1,5 +1,6 @@
 import { Facebook } from 'expo';
 import { takeEvery, put } from 'redux-saga/effects';
+import { NavigationActions } from 'react-navigation';
 
 import { facebookPermissions } from '../../containers/Login';
 import { loginWithFacebook } from '../routines';
@@ -17,15 +18,15 @@ const login = function *() {
         const response = yield Facebook.
             logInWithReadPermissionsAsync(Strings.FACEBOOK_APP_ID, { permissions: facebookPermissions });
 
-        console.log(response);
         if (response.type === 'cancel') {
-            yield put(loginWithFacebook.failure('Login Cancelled'));
+            yield put(loginWithFacebook.failure('Login Process Cancelled'));
         } else {
             yield put(loginWithFacebook.success(response));
+            yield put(NavigationActions.navigate({routeName: 'Home'}));
         }
     } catch (error) {
         // If request fails
-        yield put(loginWithFacebook.failure(error.messages));
+        yield put(loginWithFacebook.failure());
     } finally {
         // At end of request
         yield put(loginWithFacebook.fulfill());
