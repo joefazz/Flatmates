@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Facebook } from 'expo';
 import Swiper from 'react-native-swiper';
+import { CheckBox } from 'react-native-elements'
 
 import { loginWithFacebook } from '../redux/routines';
 import * as login from '../styles/Login';
@@ -22,6 +23,10 @@ export class Login extends React.Component {
         this.props.loginWithFacebook();
     }
 
+    changePermissions = (newValue) => {
+
+    }
+
     render() {
         return (
             <Swiper>
@@ -30,7 +35,11 @@ export class Login extends React.Component {
                 </View>
 
                 <View style={{...login.page}}>
-                    <Text>What permissions would you like to provide</Text>
+                    <Text>What permissions would you like to provide, the more permissions
+                        you allow, the more similar flatmates we can find for you:</Text>
+                    <View style={{...login.permissionsWrapper}}>
+                        <CheckBox title={'Religious and Political Values'} />
+                    </View>
                 </View>
 
                 <View style={{...login.page}}>

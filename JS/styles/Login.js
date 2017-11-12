@@ -3,3 +3,9 @@ export const page = {
     alignItems: 'center',
     justifyContent: 'center'
 }
+
+export const permissionsWrapper = {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+}
