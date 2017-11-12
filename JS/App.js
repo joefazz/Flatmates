@@ -7,7 +7,7 @@ import { Button } from 'react-native-elements';
 
 import store from './redux/store';
 import RootNavigation from './navigators/Root';
-import * as Global from './styles/Global';
+import { baseStyle } from './styles';
 import Splash from '../Assets/splash_screen.png'
 
 export class App extends React.Component {
@@ -31,11 +31,12 @@ export class App extends React.Component {
     }
 
     async _loadAssetsAsync() {
-        console.log('are we doing anything useful')
         try {
             await Font.loadAsync([
                 {'FontAwesome': require('@expo/vector-icons/fonts/FontAwesome.ttf')},
-                {'Material Icons': require('@expo/vector-icons/fonts/MaterialIcons.ttf')}]);
+                {'Material Icons': require('@expo/vector-icons/fonts/MaterialIcons.ttf')},
+                {'MaterialCommunityIcons': require('@expo/vector-icons/fonts/MaterialCommunityIcons.ttf')},
+                {'Material Design Icons': require('@expo/vector-icons/fonts/MaterialCommunityIcons.ttf')}]);
         } catch (e) {
             console.log('Error: ', e);
         }
@@ -59,7 +60,7 @@ export class App extends React.Component {
         }
 
         if (!this.props.login.isRehydrated) {
-            return <Image source={Splash} style={{...Global.fullScreen}} />;
+            return <Image source={Splash} style={{...baseStyle.fullScreen}} />;
         }
 
         return (
