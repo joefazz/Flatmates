@@ -18,6 +18,10 @@ export class App extends React.Component {
         }        
     }
 
+    componentWillMount() {
+        // AsyncStorage.clear();
+    }
+
     componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
     }
