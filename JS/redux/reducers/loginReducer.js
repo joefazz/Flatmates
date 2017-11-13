@@ -2,8 +2,8 @@
 import Immutable from 'immutable';
 
 // File References
-import * as Types from '../actions/Types';
-import initialState from '../initialState';
+import * as Types from '../Types';
+import initialState from '../InitialState';
 
 const INITIAL_STATE = Immutable.fromJS(initialState.login);
 

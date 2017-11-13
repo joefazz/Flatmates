@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 
 import RootNavigator from '../../navigators/Root';
-import initialState from '../initialState';
+import initialState from '../InitialState';
 
 const INITIAL_STATE = Immutable.fromJS(initialState.nav);
 

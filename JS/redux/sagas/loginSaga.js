@@ -3,7 +3,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 import { NavigationActions } from 'react-navigation';
 
 import { facebookPermissions } from '../../containers/Login';
-import { loginWithFacebook } from '../routines';
+import { loginWithFacebook } from '../Routines';
 import { Strings } from '../../consts';
 
 export const loginSaga = function *() {

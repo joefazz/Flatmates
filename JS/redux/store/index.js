@@ -9,7 +9,7 @@ import { AsyncStorage } from 'react-native';
 // File References
 import { rootSaga } from '../sagas';
 import reducers from '../reducers';
-import initialState from '../initialState';
+import initialState from '../InitialState';
 
 const sagaMiddleware = createSagaMiddleware();
 

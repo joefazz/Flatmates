@@ -1,5 +1,5 @@
 import { takeEvery, fork } from 'redux-saga/effects';
-import { loginWithFacebook } from '../routines';
+import { loginWithFacebook } from '../Routines';
 import { loginSaga } from './loginSaga';
 import { store } from '../store';
 

@@ -6,7 +6,7 @@ import Swiper from 'react-native-swiper';
 import { Button } from 'react-native-elements';
 import { CheckBox } from '../widgets';
 
-import { loginWithFacebook } from '../redux/routines';
+import { loginWithFacebook } from '../redux/Routines';
 import { baseStyle, login } from '../styles';
 import { Colors, Strings } from '../consts';
 
