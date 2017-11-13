@@ -7,8 +7,8 @@ import {Chat} from '../containers/Chat';
 import {Settings} from '../containers/Settings';
 
 const routeConfig = {
+    Feed: { screen: Feed },    
     Profile: {screen: Profile },
-    Feed: { screen: Feed },
     Chat: { screen: Chat },
     Settings: { screen: Settings }
 };
