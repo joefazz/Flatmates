@@ -24,10 +24,10 @@ const mapStateToProps = (state) => ({
     
 })
 
-const bindAction = (dispatch) => {
+const bindActions = (dispatch) => {
     return {
         
     };
 }
 
-export default connect(mapStateToProps, bindAction)(Settings)
+export default connect(mapStateToProps, bindActions)(Settings)

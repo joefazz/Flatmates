@@ -25,10 +25,10 @@ const mapStateToProps = (state) => ({
     
 })
 
-const bindAction = (dispatch) => {
+const bindActions = (dispatch) => {
     return {
         
     };
 }
 
-export default connect(mapStateToProps, bindAction)(Chat)
+export default connect(mapStateToProps, bindActions)(Chat)
