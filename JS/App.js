@@ -48,6 +48,7 @@ export default class Root extends React.Component {
     }
 
     componentWillMount() {
+        // AsyncStorage.clear();
         persistentStore(() => {
             this.setState({ isRehydrated: true });
         })

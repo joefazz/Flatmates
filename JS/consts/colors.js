@@ -7,5 +7,6 @@ export default colors = {
     facebookBlue: '#4267B2',
 
     white: '#FFFFFF',
-    black: '#000000'
+    black: '#000000',
+    grey: '#C0C0C0'
 }

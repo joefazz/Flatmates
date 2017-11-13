@@ -1,22 +1,27 @@
 import { TabNavigator } from 'react-navigation';
 import { Platform } from 'react-native';
 
-import {Profile} from '../containers/Profile';
-import {Feed} from '../containers/Feed';
-import {Chat} from '../containers/Chat';
-import {Settings} from '../containers/Settings';
+import { ProfileNavigator } from './Profile';
+import { FeedNavigator } from './Feed';
+import { ChatNavigator } from './Chat';
+import { SettingsNavigator } from './Settings';
+import { Colors } from '../consts';
 
 const routeConfig = {
-    Feed: { screen: Feed },    
-    Profile: {screen: Profile },
-    Chat: { screen: Chat },
-    Settings: { screen: Settings }
+    Feed: { screen: FeedNavigator },    
+    Profile: {screen: ProfileNavigator },
+    Chat: { screen: ChatNavigator },
+    Settings: { screen: SettingsNavigator }
 };
 
 const navConfig = {
     swipeEnabled: Platform.OS === 'ios' ? false : true,
     animationEnabled: false,
-    lazy: true
+    lazy: true,
+    tabBarOptions: {
+        activeTintColor: Colors.brandTertiaryColor,
+        inactiveTintColor: Colors.grey
+    }
 };
 
 export const HomeNavigator = TabNavigator(routeConfig, navConfig);
