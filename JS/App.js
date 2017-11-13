@@ -4,34 +4,61 @@ import { Provider, connect } from 'react-redux';
 import { BackHandler, AsyncStorage, Image, Platform } from 'react-native';
 import { Font, AppLoading } from 'expo';
 import { Button } from 'react-native-elements';
+import { persistStore } from 'redux-persist-immutable';
 
 import store from './redux/store';
 import RootNavigation from './navigators/Root';
 import { baseStyle } from './styles';
 import Splash from '../Assets/splash_screen.png'
 
-export class App extends React.Component {
+const AppNav = ({ dispatch, nav }) => {
+    return <RootNavigation 
+            navigation={
+                addNavigationHelpers({
+                    dispatch,
+                    state: nav
+                })
+            }        
+        />;
+};
+
+const mapStateToProps = (state) => ({
+    nav: state.get('nav'),
+});
+
+const AppWithNavigationState = connect(mapStateToProps)(AppNav);
+
+function persistentStore(onComplete, purge = false) {
+    return persistStore(
+        store, 
+        {
+            storage: AsyncStorage
+        }, onComplete
+    );
+}
+
+export default class Root extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            isReady: false,
-        }        
+            isRehydrated: false,
+            isAssetsLoaded: false,
+        }
     }
 
     componentWillMount() {
-        // AsyncStorage.clear();
+        persistentStore(() => {
+            this.setState({ isRehydrated: true });
+        })
     }
 
     componentDidMount() {
-        BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return this.props.login.isRehydrated !== nextProps.login.isRehydrated || this.state.isReady !== nextState.isReady;
+        this.back = BackHandler.addEventListener('hardwareBackPress', () => store.dispatch(NavigationActions.back()));
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', this.onBackPressed);
+        this.back.remove();
     }
 
     async _loadAssetsAsync() {
@@ -46,45 +73,17 @@ export class App extends React.Component {
         }
     }
 
-    onBackPressed = () => {
-        const { dispatch, nav } = this.props;
-        if (nav.index === 0) {
-            return false;
-        } 
-
-        dispatch(NavigationActions.back());
-        return true;
-    }
-
     render() {
-        if (!this.state.isReady) {
+        if (!this.state.isAssetsLoaded) {
             return <AppLoading startAsync={this._loadAssetsAsync}
-                onFinish={() => this.setState({ isReady: true })}
-                onError={console.warn}/>            
+                onFinish={() => this.setState({ isAssetsLoaded: true })}
+                onError={console.warn}/> 
         }
 
-        if (!this.props.login.isRehydrated) {
-            return <Image source={Splash} style={{...baseStyle.fullScreen}} />;
+        if (!this.state.isRehydrated) {
+            return <Image source={Splash} resizeMethod={'stretch'} style={{...baseStyle.fullScreen}} />
         }
 
-        return (
-            <RootNavigation 
-                navigation={addNavigationHelpers({
-                    dispatch: this.props.dispatch,
-                    state: this.props.nav})} />
-        );
-    }
-}
-
-const mapStateToProps = (state) => ({
-    nav: state.get('nav'),
-    login: state.get('login').toJS()
-});
-
-const AppWithNavigationState = connect(mapStateToProps)(App);
-
-export default class Root extends React.Component {
-    render() {
         return (
             <Provider store={store}>
                 <AppWithNavigationState />

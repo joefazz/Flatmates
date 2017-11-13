@@ -1,6 +1,5 @@
 // Modules
 import { createStore, compose, applyMiddleware } from 'redux';
-import storage from 'redux-persist/es/storage';
 import createSagaMiddleware from 'redux-saga';
 import Immutable from 'immutable';
 import { createLogger } from 'redux-logger';
@@ -33,8 +32,6 @@ const store = createStore(
     INITIAL_STATE, 
     compose(applyMiddleware(...middlewares), ...enhancers
 ));
-
-persistStore(store, {storage: AsyncStorage});
 
 sagaMiddleware.run(rootSaga);
 
