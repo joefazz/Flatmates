@@ -12,4 +12,27 @@ export const buttonOutline = {
     borderRadius: 3, 
     backgroundColor: 'transparent', 
     borderColor: Colors.white
-}
+};
+
+export const content = {
+    flex: 1,
+    flexGrow: 1,
+    flexDirection: 'column',
+    padding: 5,
+    alignItems: 'center',
+};
+
+export const headerWrapper = {
+    flex: 1,
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+};
+
+export const absoluteFill = {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0
+};

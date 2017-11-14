@@ -8,5 +8,9 @@ export default colors = {
 
     white: '#FFFFFF',
     black: '#000000',
-    grey: '#C0C0C0'
+    grey: '#C0C0C0',
+
+    // Useful for getting rgbs https://www.webpagefx.com/web-design/hex-to-rgb/
+    gradientStart: 'rgba(188,78,156, 0.8)',
+    gradientStop: 'rgba(248,7,89, 0.8)'
 }
