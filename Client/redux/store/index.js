@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import { createLogger } from 'redux-logger';
 import { autoRehydrate, persistStore } from 'redux-persist-immutable';
 import { AsyncStorage } from 'react-native';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 // File References
 import { rootSaga } from '../sagas';
@@ -30,7 +31,7 @@ const INITIAL_STATE = Immutable.fromJS(initialState);
 const store = createStore(
     reducers, 
     INITIAL_STATE, 
-    compose(applyMiddleware(...middlewares), ...enhancers
+    composeWithDevTools(applyMiddleware(...middlewares), ...enhancers
 ));
 
 sagaMiddleware.run(rootSaga);

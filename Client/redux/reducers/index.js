@@ -5,7 +5,7 @@ import { combineReducers } from 'redux-immutablejs';
 import login from './loginReducer';
 import nav from './navReducer';
 
-export default combineReducers({
+export default combineReducers({    
     login,
-    nav
+    nav,
 });

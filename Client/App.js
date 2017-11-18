@@ -2,6 +2,7 @@ import React from 'react';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
 import { BackHandler, AsyncStorage, Image, Platform } from 'react-native';
+import { ApolloProvider } from 'react-apollo';
 import { Font, AppLoading } from 'expo';
 import { Button } from 'react-native-elements';
 import { persistStore } from 'redux-persist-immutable';
@@ -10,6 +11,7 @@ import store from './redux/store';
 import RootNavigation from './navigators/Root';
 import { baseStyle } from './styles';
 import Splash from '../Assets/splash_screen.png'
+import client from './Client';
 
 const AppNav = ({ dispatch, nav }) => {
     return <RootNavigation 
@@ -64,11 +66,11 @@ export default class Root extends React.Component {
 
     async _loadAssetsAsync() {
         try {
-            await Font.loadAsync([
-                {'FontAwesome': require('@expo/vector-icons/fonts/FontAwesome.ttf')},
-                {'Material Icons': require('@expo/vector-icons/fonts/MaterialIcons.ttf')},
-                {'MaterialCommunityIcons': require('@expo/vector-icons/fonts/MaterialCommunityIcons.ttf')},
-                {'Material Design Icons': require('@expo/vector-icons/fonts/MaterialCommunityIcons.ttf')}]);
+            await Font.loadAsync({
+                'FontAwesome': require('@expo/vector-icons/fonts/FontAwesome.ttf'),
+                'Material Icons': require('@expo/vector-icons/fonts/MaterialIcons.ttf'),
+                'MaterialCommunityIcons': require('@expo/vector-icons/fonts/MaterialCommunityIcons.ttf'),
+                'Material Design Icons': require('@expo/vector-icons/fonts/MaterialCommunityIcons.ttf')});
         } catch (e) {
             console.log('Error: ', e);
         }
@@ -86,9 +88,11 @@ export default class Root extends React.Component {
         }
 
         return (
-            <Provider store={store}>
-                <AppWithNavigationState />
-            </Provider>
+            <ApolloProvider client={client}>
+                <Provider store={store}>
+                    <AppWithNavigationState />
+                </Provider>
+            </ApolloProvider>
         );
     }
 }
