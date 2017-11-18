@@ -5,7 +5,7 @@ import { Avatar, Text } from 'react-native-elements';
 import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
-import { baseStyle, profile } from '../styles';
+import { base, profile } from '../styles';
 
 export class Profile extends React.Component {
     static navigationOptions = {
@@ -20,7 +20,7 @@ export class Profile extends React.Component {
     }
     render() {
         return (
-            <View style={{...baseStyle.content}}>
+            <View style={{...base.content}}>
                 <View style={{...profile.avatarWrapper}}>
                     <Avatar 
                         xlarge={true} 

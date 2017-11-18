@@ -1,8 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, FlatList, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux';
-
+import { Avatar, Text } from 'react-native-elements';
+import _ from 'lodash';
 import { Ionicons } from '@expo/vector-icons'
+
+import { chat, base } from '../styles';
+
+export const Data = _.times(50, i => ({
+    id: i,
+    name: 'Group ' + i,
+}));
 
 export class Chat extends React.Component {
     static navigationOptions = {
@@ -12,10 +20,30 @@ export class Chat extends React.Component {
         )
     }
 
+    renderItem = ({ item }) => {
+        return (
+            <TouchableHighlight onPress={() => console.log('Group pressed')}>
+                <View style={{...chat.groupRowWrapper}}>
+                    <View style={{...chat.groupAvatarWrapper}}>
+                        <Avatar  
+                            rounded={true} 
+                            source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg"}} />
+                    </View>
+                    <View style={{...chat.groupTitleWrapper}}>
+                        <Text h4>{item.name}</Text>
+                    </View>
+                </View>
+            </TouchableHighlight>
+        )
+    }
+
     render() {
         return (
-            <View>
-                <Text>Chat Screen</Text>
+            <View style={{ flex: 1 }}>
+                <FlatList
+                    data={Data}
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item.id}/>
             </View>
         );
     }

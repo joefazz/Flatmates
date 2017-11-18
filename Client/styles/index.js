@@ -1,5 +1,6 @@
-import * as baseStyle from './Global';
+import * as base from './Global';
 import * as login from './Login';
 import * as profile from './Profile';
+import * as chat from './Chat';
 
-export { baseStyle, login, profile }
+export { base, login, profile, chat }

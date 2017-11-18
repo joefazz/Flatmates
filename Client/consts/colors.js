@@ -11,6 +11,7 @@ export default colors = {
     grey: '#C0C0C0',
 
     // Useful for getting rgbs https://www.webpagefx.com/web-design/hex-to-rgb/
-    gradientStart: 'rgba(188,78,156, 0.8)',
-    gradientStop: 'rgba(248,7,89, 0.8)'
+    // NIGHTHAWK
+    gradientStart: 'rgb(41,128,185)',
+    gradientStop: 'rgb(44,62,80)'
 }

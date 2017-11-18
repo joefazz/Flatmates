@@ -4,7 +4,7 @@ import { View, Image } from 'react-native';
 import { LinearGradient } from 'expo';
 
 import Chat from '../containers/Chat';
-import { baseStyle } from '../styles';
+import { base } from '../styles';
 import { Colors } from '../consts';
 
 const routeConfig = {
@@ -25,7 +25,7 @@ const GradientHeader = props => (
             colors={[Colors.gradientStart, Colors.gradientStop]}
             start={[0, 0]}
             end={[1, 1]}
-            style={{...baseStyle.absoluteFill}} />
+            style={{...base.absoluteFill}} />
         <Header {...props} />
     </View>
 );

@@ -9,7 +9,7 @@ import { persistStore } from 'redux-persist-immutable';
 
 import store from './redux/store';
 import RootNavigation from './navigators/Root';
-import { baseStyle } from './styles';
+import { base } from './styles';
 import Splash from '../Assets/splash_screen.png'
 import client from './Client';
 
@@ -84,7 +84,7 @@ export default class Root extends React.Component {
         }
 
         if (!this.state.isRehydrated) {
-            return <Image source={Splash} resizeMode={'stretch'} style={{...baseStyle.fullScreen}} />
+            return <Image source={Splash} resizeMode={'stretch'} style={{...base.fullScreen}} />
         }
 
         return (

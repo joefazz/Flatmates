@@ -7,7 +7,7 @@ import { Button } from 'react-native-elements';
 import { CheckBox } from '../widgets';
 
 import { loginWithFacebook } from '../redux/Routines';
-import { baseStyle, login } from '../styles';
+import { base, login } from '../styles';
 import { Colors, Strings } from '../consts';
 
 export let facebookPermissions;
@@ -94,7 +94,7 @@ export class Login extends React.Component {
                             large={true} 
                             onPress={this.loginToFacebook}
                             title={'Login with Facebook'} 
-                            buttonStyle={{...baseStyle.buttonOutline, backgroundColor: Colors.facebookBlue}} />
+                            buttonStyle={{...base.buttonOutline, backgroundColor: Colors.facebookBlue}} />
                     </View>                
                 </View>
             </Swiper>
