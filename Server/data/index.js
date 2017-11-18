@@ -1,4 +1,5 @@
 import { MOCKS } from './Mocks';
 import { SCHEMA } from './Schema';
+import Resolvers from './Resolvers';
 
-export { MOCKS, SCHEMA };
+export { MOCKS, SCHEMA, Resolvers };
