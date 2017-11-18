@@ -84,7 +84,7 @@ export default class Root extends React.Component {
         }
 
         if (!this.state.isRehydrated) {
-            return <Image source={Splash} resizeMode={'stretch'} style={{...base.fullScreen}} />
+            return <Image source={Splash} resizeMode={'stretch'} style={ base.fullScreen } />
         }
 
         return (

@@ -20,8 +20,8 @@ export class Profile extends React.Component {
     }
     render() {
         return (
-            <View style={{...base.content}}>
-                <View style={{...profile.avatarWrapper}}>
+            <View style={ base.content }>
+                <View style={ profile.avatarWrapper }>
                     <Avatar 
                         xlarge={true} 
                         rounded={true} 
@@ -29,7 +29,7 @@ export class Profile extends React.Component {
 
                     <Text h3>Joe Fazzino</Text>
                 </View>
-                <View style={{...profile.preferencesWrapper}}>
+                <View style={ profile.preferencesWrapper }>
                     <Text>Sort your preferences from most important to least important</Text> 
                 </View>
             </View>

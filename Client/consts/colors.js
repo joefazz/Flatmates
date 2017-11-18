@@ -9,6 +9,7 @@ export default colors = {
     white: '#FFFFFF',
     black: '#000000',
     grey: '#C0C0C0',
+    lineSeperatorColor: "#CED0CE",
 
     // Useful for getting rgbs https://www.webpagefx.com/web-design/hex-to-rgb/
     // NIGHTHAWK

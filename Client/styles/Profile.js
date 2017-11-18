@@ -1,10 +1,15 @@
-export const avatarWrapper = {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-}
+import { StyleSheet } from 'react-native';
 
-export const preferencesWrapper = {
-    flex: 1, 
-    alignItems: 'flex-start'
-}
+export const profile = StyleSheet.create({
+    avatarWrapper: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    preferencesWrapper: {
+        flex: 1, 
+        alignItems: 'flex-start'
+    }
+})
+

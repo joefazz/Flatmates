@@ -49,15 +49,15 @@ export class Login extends React.Component {
     render() {
         return (
             <Swiper loop={false} dotStyle={{backgroundColor: 'transparent', borderWidth: 1, borderColor: Colors.white}} activeDotColor={Colors.white}>
-                <View style={{...login.page, backgroundColor: Colors.brandPrimaryColor}}>
+                <View style={[ login.page, {backgroundColor: Colors.brandPrimaryColor} ]}>
                     <Text>Welcome to Flatmates</Text>
                 </View>
 
-                <View style={{...login.page, backgroundColor: Colors.brandPrimaryColor}}>
-                    <View style={{...login.headingWrapper}}>
-                        <Text style={{...login.permissionsHeadingText}}>{Strings.permissionsInfo}</Text>
+                <View style={[ login.page, {backgroundColor: Colors.brandPrimaryColor} ]}>
+                    <View style={ login.headingWrapper }>
+                        <Text style={ login.permissionsHeadingText }>{Strings.permissionsInfo}</Text>
                     </View>
-                    <View style={{...login.mainContent}}>
+                    <View style={ login.mainContent }>
                         <View style={{marginVertical: 10}}>
                             <CheckBox 
                                 title={'About Me'} 
@@ -88,13 +88,13 @@ export class Login extends React.Component {
                                 isChecked={this.state.likesCheck} />
                         </View>
                     </View>
-                    <View style={{...login.pageFooter}}>
+                    <View style={ login.pageFooter }>
                         <Button 
                             leftIcon={{ type: 'font-awesome', name: 'facebook-square' }} 
                             large={true} 
                             onPress={this.loginToFacebook}
                             title={'Login with Facebook'} 
-                            buttonStyle={{...base.buttonOutline, backgroundColor: Colors.facebookBlue}} />
+                            buttonStyle={[ base.buttonOutline, { backgroundColor: Colors.facebookBlue }]} />
                     </View>                
                 </View>
             </Swiper>

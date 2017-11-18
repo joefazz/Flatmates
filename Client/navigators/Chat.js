@@ -3,12 +3,14 @@ import { StackNavigator, Header } from 'react-navigation';
 import { View, Image } from 'react-native';
 import { LinearGradient } from 'expo';
 
-import Chat from '../containers/Chat';
+import ChatList from '../containers/Chat/ChatList';
+import ChatDetail from '../containers/Chat/ChatDetail';
 import { base } from '../styles';
 import { Colors } from '../consts';
 
 const routeConfig = {
-    ChatList: {screen: Chat},
+    ChatList: {screen: ChatList},
+    ChatDetail: {screen: ChatDetail}
 }
 
 const navConfig = {
@@ -25,7 +27,7 @@ const GradientHeader = props => (
             colors={[Colors.gradientStart, Colors.gradientStop]}
             start={[0, 0]}
             end={[1, 1]}
-            style={{...base.absoluteFill}} />
+            style={ base.absoluteFill } />
         <Header {...props} />
     </View>
 );
