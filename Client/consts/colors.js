@@ -1,5 +1,5 @@
 export default colors = {
-    brandPrimaryColor: '#8470ff',
+    brandPrimaryColor: 'rgb(41,128,185)',
     brandSecondaryColor: '#583DBF',
     brandTertiaryColor: '#41b2f4',
     brandWarningColor: '#f4d142',

@@ -20,6 +20,12 @@ export const chat = StyleSheet.create({
     },
 
     // DETAIL STYLES
+    container: {
+        alignItems: 'stretch',
+        backgroundColor: '#e5ddd5',
+        flex: 1,
+        flexDirection: 'column',
+    },
 
     // MESSAGE STYLES
     messageSpacer: {

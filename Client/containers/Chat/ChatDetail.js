@@ -5,7 +5,7 @@ import randomColor from 'randomcolor';
 
 import { ChatDetailComponent } from '../../components/Chat/DetailComponent';
 
-const fakeData = () => _.times(100, i => ({
+const fakeData = _.times(100, i => ({
     // every message will have a different color
     color: randomColor(),
     // every 5th message will look like it's from the current user
@@ -21,10 +21,13 @@ const fakeData = () => _.times(100, i => ({
 }));
 
 export class ChatDetail extends React.Component {
-    static navigationOptions = {
-        title: 'Chat Detail',
-    }
-
+    static navigationOptions = ({ navigation }) => {
+        const { state } = navigation;
+        return {
+            title: state.params.title,
+            tabBarVisible: false,
+        };
+    };
     render() {
         return (
             <ChatDetailComponent data={fakeData} />

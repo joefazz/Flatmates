@@ -7,7 +7,7 @@ import { chat, base } from '../../styles';
 export class ChatListComponent extends React.Component {
     renderItem = ({ item }) => {
         return (
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('ChatDetail')}>
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('ChatDetail', { title: item.name })}>
                 <View style={ chat.groupRowWrapper }>
                     <View style={ chat.groupAvatarWrapper }>
                         <Avatar  

@@ -1,11 +1,8 @@
 import React from 'react';
 import { StackNavigator, Header } from 'react-navigation';
-import { View, Image } from 'react-native';
-import { LinearGradient } from 'expo';
 
 import ChatList from '../containers/Chat/ChatList';
 import ChatDetail from '../containers/Chat/ChatDetail';
-import { base } from '../styles';
 import { Colors } from '../consts';
 
 const routeConfig = {
@@ -15,22 +12,11 @@ const routeConfig = {
 
 const navConfig = {
     navigationOptions: {
-        header: props => <GradientHeader {...props} />,        
+        headerTintColor: 'white',
         headerTitleStyle: {color: 'white'},
-        headerStyle: {backgroundColor: 'transparent'}
+        headerStyle: {backgroundColor: Colors.brandPrimaryColor}
     }
 }
-
-const GradientHeader = props => (
-    <View style={{ backgroundColor: 'yellow'}}>
-        <LinearGradient 
-            colors={[Colors.gradientStart, Colors.gradientStop]}
-            start={[0, 0]}
-            end={[1, 1]}
-            style={ base.absoluteFill } />
-        <Header {...props} />
-    </View>
-);
 
 
 export const ChatNavigator = StackNavigator(routeConfig, navConfig);

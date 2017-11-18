@@ -1,7 +1,9 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
 
+import { chat } from '../../styles';
 import { Message } from './MessageComponent';
+
 export class ChatDetailComponent extends React.Component {
 
     renderItem = ({ item }) => {
@@ -12,10 +14,11 @@ export class ChatDetailComponent extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
+            <View style={ chat.detailWrapper }>
                 <FlatList
                     data={this.props.data}
-                    renderItem={this.renderItem}/>
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item.message.id}/>
             </View>
         )
     }
