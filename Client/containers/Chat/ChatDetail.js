@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
 import randomColor from 'randomcolor';
 
 import { ChatDetailComponent } from '../../components/Chat/DetailComponent';
+import { GROUP_QUERY } from '../../queries';
 
 const fakeData = _.times(100, i => ({
     // every message will have a different color
@@ -30,7 +32,7 @@ export class ChatDetail extends React.Component {
     };
     render() {
         return (
-            <ChatDetailComponent data={fakeData} />
+            <ChatDetailComponent data={this.props.data} />
         )
     }
 }
@@ -45,4 +47,18 @@ const bindActions = (dispatch) => {
     };
 }
 
-export default connect(mapStateToProps, bindActions)(ChatDetail)
+const groupQuery = graphql(GROUP_QUERY, {
+    options: ownProps => ({
+        variables: {
+            groupId: ownProps.navigation.state.params.groupId,
+        },
+    }),
+    props: ({ data }) => ({
+        data
+    })
+});
+
+export default compose(
+    groupQuery,
+    connect(mapStateToProps, bindActions)
+)(ChatDetail);
