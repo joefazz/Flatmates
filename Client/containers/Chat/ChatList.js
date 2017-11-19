@@ -1,14 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
 import { Ionicons } from '@expo/vector-icons'
 
 import { ChatListComponent } from '../../components/Chat/ListComponent';
-
-export const DATA = _.times(50, i => ({
-    id: i,
-    name: 'Group ' + i,
-}));
+import { USER_QUERY } from '../../queries/User';
 
 export class ChatList extends React.Component {
     static navigationOptions = {
@@ -20,19 +17,29 @@ export class ChatList extends React.Component {
 
     render() {
         return (
-            <ChatListComponent data={DATA} navigation={this.props.navigation} />
+            <ChatListComponent navigation={this.props.navigation} data={this.props.data} />
         );
     }
 }
 
 const mapStateToProps = (state) => ({
     
-})
+});
 
 const bindActions = (dispatch) => {
     return {
         
     };
-}
+};
 
-export default connect(mapStateToProps, bindActions)(ChatList)
+const userQuery = graphql(USER_QUERY, {
+    options: () => ({ variables: { id: 1 } }),
+    props: ({ data }) => ({
+        data
+    }),
+});
+
+export default compose(
+    userQuery,
+    connect(mapStateToProps, bindActions),
+)(ChatList)

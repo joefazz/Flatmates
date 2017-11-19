@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, TouchableHighlight, View } from 'react-native';
+import { FlatList, TouchableHighlight, View, ActivityIndicator } from 'react-native';
 import { Avatar, Text } from 'react-native-elements';
 
 import { chat, base } from '../../styles';
@@ -29,10 +29,21 @@ export class ChatListComponent extends React.Component {
     }
 
     render() {
+        const { loading, user } = this.props.data;
+        console.log(this.props);
+
+        if (loading) {
+            return (    
+                <View style={{justifyContent: 'center', flex: 1}}>
+                    <ActivityIndicator />
+                </View>
+            )
+        }
+
         return (
             <View style={{ flex: 1 }}>
                 <FlatList
-                    data={this.props.data}
+                    data={user.groups}
                     renderItem={this.renderItem}
                     ItemSeparatorComponent={this.renderSeperator}
                     keyExtractor={item => item.id}/>
@@ -40,3 +51,5 @@ export class ChatListComponent extends React.Component {
         );
     }
 }
+
+
