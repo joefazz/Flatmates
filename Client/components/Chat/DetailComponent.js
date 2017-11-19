@@ -1,9 +1,10 @@
 import React from 'react';
-import { FlatList, View, ActivityIndicator } from 'react-native';
+import { FlatList, View, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import randomColor from 'randomcolor';
 
 import { chat } from '../../styles';
 import { Message } from './MessageComponent';
+import { MessageInput } from './MessageInputComponent';
 
 export class ChatDetailComponent extends React.Component {
     constructor(props) {
@@ -34,6 +35,10 @@ export class ChatDetailComponent extends React.Component {
         );
     } 
 
+    send(text) {
+        console.log(text);
+    }
+
     render() {
         const { loading, group } = this.props.data;
 
@@ -46,13 +51,18 @@ export class ChatDetailComponent extends React.Component {
         }
 
         return (
-            <View style={ chat.detailWrapper }>
-                <FlatList
-                    data={group.messages.slice().reverse()}
-                    inverted={true}
-                    renderItem={this.renderItem}
-                    keyExtractor={item => item.id}/>
-            </View>
+            <KeyboardAvoidingView
+                behavior={'position'}
+                contentContainerStyle={chat.detailWrapper}
+                keyboardVerticalOffset={64}
+                style={chat.detailWrapper}>
+                    <FlatList
+                        data={group.messages}
+                        inverted={true}
+                        renderItem={this.renderItem}
+                        keyExtractor={item => item.id}/>
+                    <MessageInput send={this.send}/>
+            </KeyboardAvoidingView>
         )
     }
 }

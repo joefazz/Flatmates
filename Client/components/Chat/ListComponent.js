@@ -30,7 +30,6 @@ export class ChatListComponent extends React.Component {
 
     render() {
         const { loading, user } = this.props.data;
-        console.log(this.props);
 
         if (loading) {
             return (    

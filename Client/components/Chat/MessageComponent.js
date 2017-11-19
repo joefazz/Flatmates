@@ -9,7 +9,7 @@ export class Message extends React.PureComponent {
     render() {
         const { color, message, isCurrentUser } = this.props;
         return (
-            <View key={message.id} style={{ flex: 1, flexDirection: 'row' }}>
+            <View key={message.id} style={{ flex: 1, flexDirection: 'row', marginVertical: 2 }}>
                 {isCurrentUser ?
                     <View style={ chat.messageSpacer }/> : undefined }
                 <View style={[ chat.message, isCurrentUser && chat.myMessage ]}>
