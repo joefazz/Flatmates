@@ -5,7 +5,8 @@ import _ from 'lodash';
 import randomColor from 'randomcolor';
 
 import { ChatDetailComponent } from '../../components/Chat/DetailComponent';
-import { GROUP_QUERY } from '../../queries';
+import { GROUP_QUERY } from '../../graphql/queries';
+import { CREATE_MESSAGE_MUTATION } from '../../graphql/mutations';
 
 const fakeData = _.times(100, i => ({
     // every message will have a different color
@@ -32,7 +33,7 @@ export class ChatDetail extends React.Component {
     };
     render() {
         return (
-            <ChatDetailComponent data={this.props.data} />
+            <ChatDetailComponent data={this.props.data} createMessage={this.props.createMessage} />
         )
     }
 }
@@ -58,7 +59,46 @@ const groupQuery = graphql(GROUP_QUERY, {
     })
 });
 
+function isDuplicateMessage(newMessage, existingMessages) {
+    return newMessage.id !== null &&
+      existingMessages.some(message => newMessage.id === message.id);
+}
+
+const createMessageMutation = graphql(CREATE_MESSAGE_MUTATION, {
+    props: ({ mutate }) => ({
+        createMessage: ({ text, userId, groupId }) => 
+            mutate({
+                variables: {text, userId, groupId},
+                update: (store, { data: { createMessage } }) => {
+                    // Read data from cache for this query
+                    const data = store.readQuery({
+                        query: GROUP_QUERY,
+                        variables: {
+                            groupId,
+                        },
+                    });
+
+                    if (isDuplicateMessage(createMessage, data.group.messages)) {
+                        return data;
+                    } else {
+                        data.group.messages.unshift(createMessage);
+
+                        // Write data back to cache
+                        store.writeQuery({
+                            query: GROUP_QUERY,
+                            variables: {
+                                groupId
+                            },
+                            data,
+                        })
+                    }
+                }
+            }),
+    })
+})
+
 export default compose(
     groupQuery,
+    createMessageMutation,
     connect(mapStateToProps, bindActions)
 )(ChatDetail);

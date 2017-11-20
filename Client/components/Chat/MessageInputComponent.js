@@ -42,6 +42,8 @@ export class MessageInput extends React.Component {
                         onChangeText={(text) => this.setState({ text })}
                         style={chat.input}
                         placeholder={'Type your message here'}
+                        returnKeyType={'send'}
+                        onSubmitEditing={() => this.send()}
                     />
                 </View>
                 <View style={chat.sendButtonContainer}>

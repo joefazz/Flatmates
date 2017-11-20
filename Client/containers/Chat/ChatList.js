@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { Ionicons } from '@expo/vector-icons'
 
 import { ChatListComponent } from '../../components/Chat/ListComponent';
-import { USER_QUERY } from '../../queries';
+import { USER_QUERY } from '../../graphql/queries';
 
 export class ChatList extends React.Component {
     static navigationOptions = {

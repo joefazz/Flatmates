@@ -36,7 +36,7 @@ export class ChatDetailComponent extends React.Component {
     } 
 
     send(text) {
-        console.log(text);
+        this.props.createMessage({groupId: this.props.data.group.id, userId: 1, text});
     }
 
     render() {
@@ -61,7 +61,7 @@ export class ChatDetailComponent extends React.Component {
                         inverted={true}
                         renderItem={this.renderItem}
                         keyExtractor={item => item.id}/>
-                    <MessageInput send={this.send}/>
+                    <MessageInput send={(text) => this.send(text)}/>
             </KeyboardAvoidingView>
         )
     }
