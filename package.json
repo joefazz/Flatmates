@@ -1,0 +1,44 @@
+{
+    "name": "Flatmates",
+    "version": "0.1.0",
+    "private": true,
+    "devDependencies": {
+        "apollo-client-preset": "^1.0.3",
+        "eslint-plugin-react": "^7.4.0",
+        "graphql": "^0.11.7",
+        "graphql-tag": "^2.5.0",
+        "react-test-renderer": "16.0.0-beta.5",
+        "subscriptions-transport-ws": "^0.9.1"
+    },
+    "scripts": {
+        "ios": "react-native run-ios",
+        "android": "react-native run-android",
+        "packager": "react-native start",
+        "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf node_modules/ && yarn cache clean && yarn"
+    },
+    "dependencies": {
+        "apollo-link-ws": "^1.0.2",
+        "eslint-plugin-react-native": "^3.1.0",
+        "immutable": "^3.8.2",
+        "lodash": "^4.17.4",
+        "moment": "^2.19.2",
+        "randomcolor": "^0.5.3",
+        "react": "16.0.0",
+        "react-apollo": "^2.0.1",
+        "react-native": "0.50.3",
+        "react-native-elements": "^0.18.2",
+        "react-native-fbsdk": "^0.6.3",
+        "react-native-swiper": "^1.5.13",
+        "react-native-vector-icons": "^4.4.2",
+        "react-navigation": "^1.0.0-beta.19",
+        "react-redux": "^5.0.6",
+        "redux": "^3.7.2",
+        "redux-devtools-extension": "^2.13.2",
+        "redux-immutablejs": "^0.0.8",
+        "redux-logger": "^3.0.6",
+        "redux-persist": "4.10.2",
+        "redux-persist-immutable": "^4.3.1",
+        "redux-saga": "^0.16.0",
+        "redux-saga-routines": "^2.2.2"
+    }
+}
