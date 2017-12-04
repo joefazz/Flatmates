@@ -1,0 +1,69 @@
+# The following types define the data model of the example service
+# based on which the GraphQL API is generated
+
+
+type User @model {
+    id: ID! @isUnique # read-only (managed by Graphcool)
+ 
+    createdAt: DateTime! # read-only (managed by Graphcool)
+    updatedAt: DateTime! # read-only (managed by Graphcool)
+  
+    email: String! # optional, because it's obtained from Facebook API
+    name: String!
+
+    facebookUserId: String! @migration
+    permissions: [String!]
+    group: Group @relation(name: "GroupUsers")
+    house: House @relation(name: "UsersHouse")
+    messages: [Message!]! @relation(name: "UsersMessages")
+}
+
+# this is a chat entity
+type Group @model {
+    id: ID! @isUnique
+
+    createdAt: DateTime! # read-only (managed by Graphcool)
+    updatedAt: DateTime! # read-only (managed by Graphcool)
+
+    name: String!
+    users: [User!]! @relation(name: "GroupUsers")
+    messages: [Message!]! @relation(name: "GroupMessages")
+}
+
+type House @model {
+    id: ID! @isUnique
+
+    road: String!
+    
+    # Optional system fields (remove if not needed):
+    createdAt: DateTime! # read-only (managed by Graphcool)
+    updatedAt: DateTime! # read-only (managed by Graphcool)
+
+    posts: [Post!]! @relation(name: "HousePosts")
+    price: Int!
+    users: [User!]! @relation(name: "UsersHouse")
+}
+
+type Post @model {
+    id: ID! @isUnique
+
+    createdAt: DateTime!
+    updatedAt: DateTime!
+
+    title: String!
+    description: String!
+    imageUrl: [String!]!
+    createdBy: House! @relation(name: "HousePosts")
+}
+
+type Message @model {
+    id: ID! @isUnique
+
+    createdAt: DateTime!
+    
+    text: String!
+    from: User! @relation(name: "UsersMessages")
+    to: Group! @relation(name: "GroupMessages")
+}
+ 
+
