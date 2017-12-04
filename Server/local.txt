@@ -1,3 +1,0 @@
-targets:
-  dev: local/cjacb4fk7000401082eguo2jc
-  default: dev

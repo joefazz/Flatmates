@@ -1,3 +1,0 @@
-targets:
-  prod: shared-eu-west-1/cjan360c023tx0138uknsgziy
-  default: prod
