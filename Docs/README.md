@@ -6,23 +6,23 @@ Hello,
 
 If you're reading this that means this project has developed to the point where people other than myself can work on it which is great!
 
-To get started take a read through [these docs](https://github.com/joefazz/Flatmates/blob/master/Docs/CRNA.md) so you can understand some of the tech and scripts that we use for testing, deployment, adding packages etc.
-
 This app is built with a lot of beta technologies which will undoubtably require updating once every month or so, the most core libs that we use and the places you will find yourself spending a lot of time visiting the docs of are:
 
 - [React Native](https://facebook.github.io/react-native/)
 - [React](https://reactjs.org/)
-- [Expo](https://expo.io)
 - [Redux](https://redux.js.org)
 - [Redux Saga](https://redux-saga.js.org/)
 - [Immutable](https://facebook.github.io/immutable-js)
 - [React Navigation](https://reactnavigation.org)
+- [GraphQL](http://graphql.org/)
+- [GraphCool](https://graph.cool)
+- [Apollo](https://www.apollographql.com/)
 
 Familiarity with these is important and if you need any help on any of them ping [me](mailto:joseph@fazzino.net) and I have a stash of articles in my Pocket.
 
 ## Set-Up
 
-Set up is fairly straight forward, if you have an Android device you need only install Android Studio for testing other screen sizes etc and Xcode for iPhone dev. The reverse is true of iPhone users however you will need to install Xcode irregardless as it uses the Xcode build tools to compile the app.
+You must install Android Studio in order to build for Android whether or not you have an Android device or want to use the emulator. You will need to install Xcode as it uses the Xcode build tools to compile the app.
 
 Any IDE will work that can handle normal JavaScript coding. I personally recommend [VSCode](https://code.visualstudio.com/) as it has some handy React Native plugins that will help your development (especially [this one](https://github.com/Microsoft/vscode-react-native)). If you want to use something else like [Atom](https://ide.atom.io) you will have to do your own research on setting up your development environment.
 
