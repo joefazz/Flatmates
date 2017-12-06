@@ -1,11 +1,15 @@
+const highlightColor = '#E44D26';
+
 export default colors = {
-    brandPrimaryColor: 'rgb(41,128,185)',
-    brandSecondaryColor: '#583DBF',
-    brandTertiaryColor: '#41b2f4',
+    brandPrimaryColor: '#FFFFFF',
+    brandSecondaryColor: highlightColor,
+    brandTertiaryColor: highlightColor,
     brandWarningColor: '#f4d142',
     brandErrorColor: '#bc341c',
     facebookBlue: '#4267B2',
+    backgroundWhite: '#E6E6ED',
 
+    textHighlightColor: highlightColor,
     white: '#FFFFFF',
     black: '#000000',
     grey: '#C0C0C0',
@@ -16,3 +20,13 @@ export default colors = {
     gradientStart: 'rgb(41,128,185)',
     gradientStop: 'rgb(44,62,80)'
 }
+
+// #e53935 - passion red
+// #3d72b4 - Blueish
+// #D1913C - cardboard box
+// #00bf8f - vine
+// #f83600 - soundcloud red
+// #fe8c00 - soundcloud orange
+// #7474BF - stellar purple 
+// #E44D26 - html dark
+// #F16529 - html light

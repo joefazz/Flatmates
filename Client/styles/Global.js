@@ -12,7 +12,11 @@ export const base = StyleSheet.create({
         borderWidth: 1, 
         borderRadius: 3, 
         backgroundColor: 'transparent', 
-        borderColor: Colors.white
+        borderColor: 'transparent'
+    },
+
+    buttonStyle: {
+        width: 250
     },
     
     content: {

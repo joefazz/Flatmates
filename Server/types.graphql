@@ -16,6 +16,7 @@ type User @model {
     group: Group @relation(name: "GroupUsers")
     house: House @relation(name: "UsersHouse")
     messages: [Message!]! @relation(name: "UsersMessages")
+    imageUrl: String
 }
 
 # this is a chat entity

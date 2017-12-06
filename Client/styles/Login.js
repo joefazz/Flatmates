@@ -30,7 +30,15 @@ export const login = StyleSheet.create({
     permissionsHeadingText: {
         fontWeight: '600',
         fontSize: 18,
-        color: Colors.white,
+        color: Colors.textHighlightColor,
         margin: 5,
     },
+
+    labelText: {
+        fontSize: 16,
+        color: Colors.textHighlightColor,
+        alignSelf: 'flex-start',
+        fontWeight: '200',
+        marginVertical: 5,
+    }
 });
