@@ -28,7 +28,9 @@ You must install Android Studio in order to build for Android whether or not you
 After you run yarn for the first time you must go into node_modules/react-native-fbsdk/android/build/src/build.gradle and change line
 
 compile('com.facebook.android:facebook-android-sdk:4.+')
+
 with
+
 compile('com.facebook.android:facebook-android-sdk:4.22.1')
 
 Any IDE will work that can handle normal JavaScript coding. I personally recommend [VSCode](https://code.visualstudio.com/) as it has some handy React Native plugins that will help your development (especially [this one](https://github.com/Microsoft/vscode-react-native)). If you want to use something else like [Atom](https://ide.atom.io) you will have to do your own research on setting up your development environment.
