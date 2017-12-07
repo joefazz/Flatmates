@@ -9,6 +9,7 @@ If you're reading this that means this project has developed to the point where 
 This app is built with a lot of beta technologies which will undoubtably require updating once every month or so, the most core libs that we use and the places you will find yourself spending a lot of time visiting the docs of are:
 
 - [React Native](https://facebook.github.io/react-native/)
+- [React Native FBSDK](https://github.com/facebook/react-native-fbsdk)
 - [React](https://reactjs.org/)
 - [Redux](https://redux.js.org)
 - [Redux Saga](https://redux-saga.js.org/)
@@ -23,6 +24,12 @@ Familiarity with these is important and if you need any help on any of them ping
 ## Set-Up
 
 You must install Android Studio in order to build for Android whether or not you have an Android device or want to use the emulator. You will need to install Xcode as it uses the Xcode build tools to compile the app.
+
+After you run yarn for the first time you must go into node_modules/react-native-fbsdk/android/build/src/build.gradle and change line
+
+compile('com.facebook.android:facebook-android-sdk:4.+')
+with
+compile('com.facebook.android:facebook-android-sdk:4.22.1')
 
 Any IDE will work that can handle normal JavaScript coding. I personally recommend [VSCode](https://code.visualstudio.com/) as it has some handy React Native plugins that will help your development (especially [this one](https://github.com/Microsoft/vscode-react-native)). If you want to use something else like [Atom](https://ide.atom.io) you will have to do your own research on setting up your development environment.
 
