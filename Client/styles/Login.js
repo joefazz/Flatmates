@@ -27,7 +27,7 @@ export const login = StyleSheet.create({
         justifyContent: 'center',
     },
     
-    permissionsHeadingText: {
+    headingText: {
         fontWeight: '600',
         fontSize: 18,
         color: Colors.textHighlightColor,

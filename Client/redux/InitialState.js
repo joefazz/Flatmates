@@ -6,7 +6,8 @@ const initialState = {
         loginStatus: 'Not Started',
         grantedPermissions: [],
         deniedPermissions: [],
-        fbAccessToken: ''
+        fbAccessToken: '',
+        isLoggedIn: false
     },
     nav: state
 };

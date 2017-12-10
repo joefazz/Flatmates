@@ -6,6 +6,7 @@ export default colors = {
     brandTertiaryColor: highlightColor,
     brandWarningColor: '#f4d142',
     brandErrorColor: '#bc341c',
+    brandSuccessColor: '#14CC49',
     facebookBlue: '#4267B2',
     backgroundWhite: '#E6E6ED',
 

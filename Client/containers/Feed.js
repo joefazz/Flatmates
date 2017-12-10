@@ -5,9 +5,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 export class Feed extends React.Component {
     static navigationOptions = {
-        title: 'Feed',
+        title: 'Home',
+        
         tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={focused ? 'ios-pulse' : 'ios-pulse-outline'} color={tintColor} size={32} />
+            <Icon name={focused ? 'ios-home' : 'ios-home-outline'} color={tintColor} size={32} />
         )
     };
 

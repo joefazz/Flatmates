@@ -13,16 +13,16 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
     // Facebook Login Auth
     case Types.FACEBOOK_LOGIN_REQUEST:
         return state.merge({
-            loginStatus: 'Started'  
+            loginStatus: 'Started'
         });
     case Types.FACEBOOK_LOGIN_SUCCESS:
-        console.log(action.payload);
         return state.merge({
             fbAccessToken: action.payload.token.accessToken,
             fbTokenExpiryDate: action.payload.token.expiryDate,
             fbUserId: action.payload.response.userID,
             deniedPermissions: action.payload.response.deniedPermissions,
-            grantedPermissions: action.payload.response.grantedPermissions
+            grantedPermissions: action.payload.response.grantedPermissions,
+            isLoggedIn: true,
         });
     case Types.FACEBOOK_LOGIN_FAILURE:
         return state.merge({
@@ -33,6 +33,24 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
             loginStatus: 'Ended'
         });
 
+    // Get data from facebook about user
+    case Types.GET_USER_DATA_REQUEST:
+        return state;
+    case Types.GET_USER_DATA_SUCCESS:
+        return state.merge({
+            profile: {
+                name: action.payload.response.name, 
+                email: action.payload.response.email, 
+                facebookUserId: action.payload.response.id,
+                imageUrl: action.payload.response.picture.data.url
+            }
+        });
+    case Types.GET_USER_DATA_FAILURE:
+        return state.merge({
+            error: action.payload
+        });
+    case Types.GET_USER_DATA_FULFILL:
+        return state;
 
     default:
         return state;

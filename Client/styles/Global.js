@@ -7,16 +7,13 @@ export const base = StyleSheet.create({
         height: Dimensions.get('window').height,
         width: Dimensions.get('window').width
     },
-    
-    buttonOutline: {
-        borderWidth: 1, 
-        borderRadius: 3, 
-        backgroundColor: 'transparent', 
-        borderColor: 'transparent'
-    },
 
     buttonStyle: {
-        width: 250
+        width: 250,
+        backgroundColor: Colors.brandSecondaryColor,
+        borderWidth: 1, 
+        borderRadius: 3, 
+        borderColor: 'transparent'
     },
     
     content: {
