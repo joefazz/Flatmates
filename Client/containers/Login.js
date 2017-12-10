@@ -8,7 +8,7 @@ import * as Animatable from 'react-native-animatable';
 import { CheckBox } from '../widgets';
 import { loginWithFacebook, getUserDataFacebook } from '../redux/Routines';
 import { base, login, profile } from '../styles';
-import { Colors, Strings } from '../consts';
+import { Colors, Strings, Metrics } from '../consts';
 import { CREATE_USER_MUTATION } from '../graphql/mutations';
 import { _responseInfoCallback } from '../utils/FacebookCallback';
 import Box from '../../Assets/Joes_sexy_box.png';
@@ -81,7 +81,6 @@ export class Login extends React.Component {
                 ref={swiper => this.homeSwiper = swiper}
                 loop={false} 
                 scrollEnabled={false} 
-                horizontal={false} 
                 dotStyle={{backgroundColor: 'transparent', borderWidth: 1, borderColor: Colors.textHighlightColor}} 
                 activeDotColor={Colors.textHighlightColor}>
 
@@ -150,25 +149,35 @@ export class Login extends React.Component {
                         <Button 
                             leftIcon={{ type: 'font-awesome', name: this.state.isLoggedIn ? 'check' : 'facebook-square' }} 
                             onPress={this.state.isLoggedIn ? () => this.homeSwiper.scrollBy(1, true) : this.loginToFacebook}
-                            title={this.state.isLoggingIn ? 'Logging In' : this.state.isLoggedIn ? 'Next' : 'Login with Facebook'} 
+                            title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Next' : 'Login with Facebook'} 
                             buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : { backgroundColor: Colors.facebookBlue }]} />
                     </View>         
                 </View>       
                 <View style={ login.page }>
-                    <View style={ login.headingWrapper }>
-                        <Text style={ login.headingText }>Enter information for your profile</Text>
-                    </View>
-                    <View style={[ login.mainContent, { flex: 4, justifyContent: 'flex-start', alignItems: 'center' } ]}>
+                    
+                    <View style={[ login.mainContent, { flex: 4, alignItems: 'center', justifyContent: 'flex-start', marginTop: 48 } ]}>
+                        <Text style={{ fontSize: 32, fontWeight: 'bold', color: Colors.brandSecondaryColor }}>{this.state.isLoggedIn ? this.state.profile.get('name') : 'John Smith'}</Text>         
+                        <Text style={{ fontSize: 20, marginTop: 5, marginBottom: 15, fontWeight: '300', color: Colors.textGrey }}>21 / Male / University of Reading</Text>           
                         <Avatar 
                             xlarge={true} 
                             rounded={true} 
                             source={this.state.isLoggedIn ? {uri: this.state.profile.get('imageUrl')} : facebook_template } />
-                        <Text style={{ fontSize: 24, marginTop: 5 }}>{this.state.isLoggedIn ? this.state.profile.get('name') : 'John Smith'}</Text>
-                        <Text style={[ login.labelText, { marginTop: 20 } ]}>Bio</Text>
-                        <TextInput placeholder={'Enter a short description of yourself'}
-                            multiline={true}
-                            numberOfLines={2}
-                            style={{ color: Colors.textHighlightColor, width: 300, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey, }} />
+                        <View style={{ marginTop: 20 }}>
+                            <Text style={[ login.labelText ]}>About Me</Text>
+                            <TextInput placeholder={'Enter a short description of yourself'}
+                                multiline={true}
+                                maxLength={280}
+                                style={{ color: Colors.textHighlightColor, width: 300, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey, }} />
+                        </View>
+                        <View style={{ marginTop: 20 }}>
+                            <Text style={[ login.labelText ]}>Course</Text>
+                            <TextInput placeholder={'Enter the name of your course'}
+                                multiline={true}
+                                maxLength={280}
+                                style={{ color: Colors.textHighlightColor, width: 300, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey, }} />
+                        </View>
+                            
+                        
                             {/* social links would be good here */}
                     </View>
                     <View style={ login.pageFooter }>
@@ -205,7 +214,28 @@ export class Login extends React.Component {
                             <TouchableOpacity style={{ width: 200, borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ minEnabled: true })}>
                                 <Text style={{ color: Colors.textHighlightColor, fontSize: 18 }}>£{this.state.minPrice}</Text>
                             </TouchableOpacity>
-                            {this.state.minEnabled ?
+                        </View>
+                        
+                        <View style={{ marginVertical: 20 }}>
+                            <Text style={ login.labelText }>Maximum Price (incl. bills)</Text>
+                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ maxEnabled: true })}>
+                                <Text style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18 }}>£{this.state.maxPrice}</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                        <View style={{ marginTop: 20 }}>
+                            <Text style={ login.labelText }>Gender Majority</Text>
+                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ genderEnabled: true })}>
+                                <Text style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18 }}>{this.state.genderPreference}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {/* location would be good with with defaulting to current location */}
+                    </View>
+                    <View style={ login.pageFooter }>
+                        <Button title={'Confirm'} buttonStyle={ base.buttonStyle } />
+                    </View>
+                    {this.state.minEnabled ?
+                        <View style={{ position: 'absolute', bottom: 0, right: 0, left: 0, width: Metrics.screenWidth, height: Metrics.screenHeight * 0.4, backgroundColor: Colors.backgroundWhite }}>
                             <Picker
                                 enabled={this.state.minEnabled}
                                 selectedValue={this.state.minPrice}
@@ -216,16 +246,10 @@ export class Login extends React.Component {
                                 <Picker.Item label={"£300"} value={300} />
                                 <Picker.Item label={"£350"} value={350} />
                                 <Picker.Item label={"£400"} value={400} />
-                            </Picker> : <View/> }
-                        </View>
-                        
-                        <View style={{ marginVertical: 20 }}>
-                            <Text style={ login.labelText }>Maximum Price (incl. bills)</Text>
-                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ maxEnabled: true })}>
-                                <Text style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18 }}>£{this.state.maxPrice}</Text>
-                            </TouchableOpacity>
-
-                            {this.state.maxEnabled ?
+                            </Picker>
+                        </View> : <View/> }
+                    {this.state.maxEnabled ?
+                        <View style={{ position: 'absolute', bottom: 0, right: 0, left: 0,  width: Metrics.screenWidth, height: Metrics.screenHeight * 0.4, backgroundColor: Colors.backgroundWhite }}>
                             <Picker
                                 enabled={this.state.maxEnabled}
                                 selectedValue={this.state.maxPrice}
@@ -236,31 +260,20 @@ export class Login extends React.Component {
                                 <Picker.Item label={"£450"} value={450} />
                                 <Picker.Item label={"£500"} value={500} />
                                 <Picker.Item label={"£550"} value={550} />
-                            </Picker> : <View/> }
-                        </View>
-
-                        <View style={{ marginTop: 20 }}>
-                            <Text style={ login.labelText }>Gender Majority</Text>
-                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ genderEnabled: true })}>
-                                <Text style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18 }}>{this.state.genderPreference}</Text>
-                            </TouchableOpacity>
-
-                            {this.state.genderEnabled ?
-                                <Picker
-                                    enabled={this.state.genderEnabled}
-                                    selectedValue={this.state.genderPreference}
-                                    onValueChange={(itemValue, itemIndex) => this.setState({ genderPreference: itemValue },() => setTimeout(() => this.setState({genderEnabled: false}), 100))}
-                                    prompt={'Max Price'}>
-                                    <Picker.Item label={"Male"} value={"Male"} />
-                                    <Picker.Item label={"Female"} value={"Female"} />
-                                    <Picker.Item label={"No Preference"} value={"No Preference"} />
-                                </Picker> : <View/> }
-                        </View>
-                        {/* location would be good with with defaulting to current location */}
-                    </View>
-                    <View style={ login.pageFooter }>
-                        <Button title={'Confirm'} buttonStyle={ base.buttonStyle } />
-                    </View>
+                            </Picker>
+                        </View> : <View/> }
+                    {this.state.genderEnabled ?
+                        <View style={{ position: 'absolute', bottom: 0, right: 0, left: 0,  width: Metrics.screenWidth, height: Metrics.screenHeight * 0.4, backgroundColor: Colors.backgroundWhite }}>
+                            <Picker
+                                enabled={this.state.genderEnabled}
+                                selectedValue={this.state.genderPreference}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ genderPreference: itemValue },() => setTimeout(() => this.setState({genderEnabled: false}), 100))}
+                                prompt={'Gender Preference'}>
+                                <Picker.Item label={"Male"} value={"Male"} />
+                                <Picker.Item label={"Female"} value={"Female"} />
+                                <Picker.Item label={"No Preference"} value={"No Preference"} />
+                            </Picker>
+                        </View> : <View/> }
                 </View>
             );
         } else {
