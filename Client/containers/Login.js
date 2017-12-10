@@ -13,6 +13,7 @@ import { CREATE_USER_MUTATION } from '../graphql/mutations';
 import { _responseInfoCallback } from '../utils/FacebookCallback';
 import Box from '../../Assets/Joes_sexy_box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
+import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
 
 export let facebookPermissions;
 
@@ -73,9 +74,11 @@ export class Login extends React.Component {
         this.setState({ isLoggingIn: true }, () => this.props.loginWithFacebook());
     }
 
-    render() {
-        
+    finishSetup = () => {
+        this.props.finishSetup();
+    }
 
+    render() {
         return (
             <Swiper 
                 ref={swiper => this.homeSwiper = swiper}
@@ -87,7 +90,7 @@ export class Login extends React.Component {
                 <View style={[ login.page, {justifyContent: 'space-around'} ]}>
                     <View style={ login.headingWrapper }>
                         <Text style={[ login.headingText, { fontSize: 26 } ]}>Welcome to Flatmates</Text>
-                        <Text style={[ login.headingText, { fontSize: 18 } ]}>Student living made simple</Text>
+                        <Text style={[ login.headingText, { fontSize: 18, fontWeight: '300' } ]}>Student living made simple</Text>
                     </View>
                     <View style={[ login.mainContent, { flex: 3 } ]}>
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
@@ -156,8 +159,10 @@ export class Login extends React.Component {
                 <View style={ login.page }>
                     
                     <View style={[ login.mainContent, { flex: 4, alignItems: 'center', justifyContent: 'flex-start', marginTop: 48 } ]}>
-                        <Text style={{ fontSize: 32, fontWeight: 'bold', color: Colors.brandSecondaryColor }}>{this.state.isLoggedIn ? this.state.profile.get('name') : 'John Smith'}</Text>         
-                        <Text style={{ fontSize: 20, marginTop: 5, marginBottom: 15, fontWeight: '300', color: Colors.textGrey }}>21 / Male / University of Reading</Text>           
+                        <Text style={{ fontSize: 32, fontWeight: 'bold', color: Colors.brandSecondaryColor }}>{this.state.isLoggedIn ? this.state.profile.get('name') : 'John Smith'}</Text>
+                        {this.state.isLoggedIn ?          
+                            <Text style={{ fontSize: 20, marginTop: 5, marginBottom: 15, fontWeight: '300', color: Colors.textGrey }}>{ConvertBirthdayToAge(this.state.profile.get('birthday'))} / {this.state.profile.get('gender')} / University of Reading</Text>     
+                            : <View/>}      
                         <Avatar 
                             xlarge={true} 
                             rounded={true} 
@@ -211,21 +216,21 @@ export class Login extends React.Component {
                     <View style={[ login.mainContent, {justifyContent: 'flex-start'} ]}>
                         <View style={{ marginBottom: 20 }}>
                             <Text style={ login.labelText }>Minimum Price (incl. bills)</Text>
-                            <TouchableOpacity style={{ width: 200, borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ minEnabled: true })}>
+                            <TouchableOpacity style={{ width: 200, borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ minEnabled: true, genderEnabled: false, maxEnabled: false })}>
                                 <Text style={{ color: Colors.textHighlightColor, fontSize: 18 }}>£{this.state.minPrice}</Text>
                             </TouchableOpacity>
                         </View>
                         
                         <View style={{ marginVertical: 20 }}>
                             <Text style={ login.labelText }>Maximum Price (incl. bills)</Text>
-                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ maxEnabled: true })}>
+                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ maxEnabled: true, genderEnabled: false, minEnabled: false })}>
                                 <Text style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18 }}>£{this.state.maxPrice}</Text>
                             </TouchableOpacity>
                         </View>
 
                         <View style={{ marginTop: 20 }}>
                             <Text style={ login.labelText }>Gender Majority</Text>
-                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ genderEnabled: true })}>
+                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ genderEnabled: true, maxEnabled: false, minEnabled: false })}>
                                 <Text style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18 }}>{this.state.genderPreference}</Text>
                             </TouchableOpacity>
                         </View>
@@ -340,7 +345,7 @@ const mapStateToProps = ( state ) => ({
 const bindActions = (dispatch) => {
     return {
         loginWithFacebook: () => dispatch(loginWithFacebook()),
-        getUserDataFacebook: () => dispatch(getUserDataFacebook())
+        getUserDataFacebook: () => dispatch(getUserDataFacebook()),
     };
 }
 

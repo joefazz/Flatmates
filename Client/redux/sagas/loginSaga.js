@@ -22,7 +22,7 @@ function facebookRequest(token) {
                 accessToken: token,
                 parameters: {
                     fields: {
-                        string: 'email,name,about,picture.height(961)'
+                        string: 'email,name,about,picture.height(961),birthday,gender,first_name,last_name'
                     }
                 }
             },
@@ -35,6 +35,27 @@ function facebookRequest(token) {
             }
         );
         new GraphRequestManager().addRequest(infoRequest).start()
+    })
+}
+
+function updateDatabase(response) {
+    return new Promise(resolve => {
+        client.mutate({ 
+            mutation: CREATE_USER_MUTATION, 
+            variables: {
+                name: response.result.name, 
+                firstName: response.result.first_name,
+                lastName: response.result.last_name,
+                email: response.result.email, 
+                facebookUserId: response.result.id,
+                imageUrl: response.result.picture.data.url,
+                gender: response.result.gender,
+                birthday: response.result.birthday
+            },
+            update: function(proxy, { data: { createUser }}) {
+                resolve({ query: createUser });
+            }
+        });
     })
 }
 
@@ -88,15 +109,9 @@ function *getData() {
             yield put(getUserDataFacebook.failure({ response: response.error }));
         } else {
             yield put(getUserDataFacebook.success({ response: response.result }));
-            yield client.mutate({ 
-                mutation: CREATE_USER_MUTATION, 
-                variables: {
-                    name: response.result.name, 
-                    email: response.result.email, 
-                    facebookUserId: response.result.id,
-                    imageUrl: response.result.picture.data.url
-                }
-            });
+            const payload = yield call(updateDatabase, response);
+            console.log(payload);
+            yield put({ type: 'UPDATE_USER_DATA', payload })
         }
     } catch (error) {
         yield put(getUserDataFacebook.failure({ error }));

@@ -10,6 +10,16 @@ type User @model {
   
     email: String! # optional, because it's obtained from Facebook API
     name: String!
+    firstName: String!
+    lastName: String!
+    birthday: String!
+    gender: String!
+    course: String
+    bio: String
+
+    minPrice: String
+    maxPrice: String
+    genderPreference: String
 
     facebookUserId: String! @migration
     permissions: [String!]
