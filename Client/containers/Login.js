@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, Image, TouchableHighlight, TextInput, ActivityIndicator, Picker } from 'react-native';
 import { connect } from 'react-redux';
+import { compose, graphql } from 'react-apollo';
 import Swiper from 'react-native-swiper';
 import { Button, Avatar } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
@@ -9,7 +10,7 @@ import { CheckBox } from '../widgets';
 import { loginWithFacebook, getUserDataFacebook } from '../redux/Routines';
 import { base, login, profile } from '../styles';
 import { Colors, Strings, Metrics } from '../consts';
-import { CREATE_USER_MUTATION } from '../graphql/mutations';
+import { CREATE_USER_MUTATION, UPDATE_USER_MUTATION } from '../graphql/mutations';
 import { _responseInfoCallback } from '../utils/FacebookCallback';
 import Box from '../../Assets/Joes_sexy_box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
@@ -30,12 +31,15 @@ export class Login extends React.Component {
             isLoggingIn: false,
             isLoggedIn: false,
             profile: {},
+            bio: '',
+            course: '',
             minPrice: 300,
             maxPrice: 450,
             minEnabled: false,
             maxEnabled: false,
             genderEnabled: false,
-            genderPreference: "No Preference"
+            genderPreference: "No Preference",
+            userId: 1234
         }
     }
 
@@ -44,7 +48,7 @@ export class Login extends React.Component {
             if (this.state.isLoggingIn && newProps.login.get('loginStatus') === 'Ended') {
                 this.setState({ isLoggingIn: false });
                 if (newProps.login.get('isLoggedIn')) {
-                    this.setState({ isLoggedIn: true, profile: newProps.login.get('profile') });
+                    this.setState({ isLoggedIn: true, profile: newProps.login.get('profile'), userId: newProps.login.get('id') });
                 }
             }
         }
@@ -74,8 +78,17 @@ export class Login extends React.Component {
         this.setState({ isLoggingIn: true }, () => this.props.loginWithFacebook());
     }
 
-    finishSetup = () => {
-        this.props.finishSetup();
+    completeUserSetup = () => {
+        this.props.updateUser(
+            this.state.userId, 
+            this.state.bio, 
+            this.state.course, 
+            this.state.minPrice, 
+            this.state.maxPrice, 
+            this.state.genderPreference
+        );
+
+        this.homeSwiper.scrollBy(1, true);
     }
 
     render() {
@@ -172,6 +185,7 @@ export class Login extends React.Component {
                             <TextInput placeholder={'Enter a short description of yourself'}
                                 multiline={true}
                                 maxLength={280}
+                                onChangeText={(text) => this.setState({ bio: text })}
                                 style={{ color: Colors.textHighlightColor, width: 300, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey, }} />
                         </View>
                         <View style={{ marginTop: 20 }}>
@@ -179,6 +193,7 @@ export class Login extends React.Component {
                             <TextInput placeholder={'Enter the name of your course'}
                                 multiline={true}
                                 maxLength={280}
+                                onChangeText={(text) => this.setState({ course: text })}
                                 style={{ color: Colors.textHighlightColor, width: 300, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey, }} />
                         </View>
                             
@@ -237,7 +252,7 @@ export class Login extends React.Component {
                         {/* location would be good with with defaulting to current location */}
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button title={'Confirm'} buttonStyle={ base.buttonStyle } />
+                        <Button title={'Confirm'} onPress={this.completeUserSetup} buttonStyle={ base.buttonStyle } />
                     </View>
                     {this.state.minEnabled ?
                         <View style={{ position: 'absolute', bottom: 0, right: 0, left: 0, width: Metrics.screenWidth, height: Metrics.screenHeight * 0.4, backgroundColor: Colors.backgroundWhite }}>
@@ -338,6 +353,16 @@ export class Login extends React.Component {
     }
 }
 
+const updateUser = graphql(UPDATE_USER_MUTATION, {
+    props: ({ mutate }) => ({
+        updateUser: ( id, bio, course, minPrice, maxPrice, genderPreference ) =>
+            mutate({
+                variables: { id, bio, course, minPrice, maxPrice, genderPreference },
+            }),
+        
+    }),
+});
+
 const mapStateToProps = ( state ) => ({
     login: state.get('login')
 });
@@ -349,4 +374,7 @@ const bindActions = (dispatch) => {
     };
 }
 
-export default connect(mapStateToProps, bindActions)(Login);
+export default compose(
+    updateUser,
+    connect(mapStateToProps, bindActions)
+)(Login);

@@ -110,7 +110,6 @@ function *getData() {
         } else {
             yield put(getUserDataFacebook.success({ response: response.result }));
             const payload = yield call(updateDatabase, response);
-            console.log(payload);
             yield put({ type: 'UPDATE_USER_DATA', payload })
         }
     } catch (error) {

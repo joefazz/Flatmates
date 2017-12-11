@@ -17,8 +17,8 @@ type User @model {
     course: String
     bio: String
 
-    minPrice: String
-    maxPrice: String
+    minPrice: Int
+    maxPrice: Int
     genderPreference: String
 
     facebookUserId: String! @migration
