@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Image, TouchableHighlight, TextInput, ActivityIndicator, Picker } from 'react-native';
+import { View, TouchableOpacity, Text, Image, TouchableHighlight, TextInput, ActivityIndicator, Picker, KeyboardAvoidingView, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import Swiper from 'react-native-swiper';
@@ -13,6 +13,7 @@ import { Colors, Strings, Metrics } from '../consts';
 import { CREATE_USER_MUTATION, UPDATE_USER_MUTATION } from '../graphql/mutations';
 import { _responseInfoCallback } from '../utils/FacebookCallback';
 import Box from '../../Assets/Joes_sexy_box.png';
+import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
 import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
 
@@ -109,7 +110,7 @@ export class Login extends React.Component {
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button title={'New Account'} onPress={() => this.homeSwiper.scrollBy(1, true)} buttonStyle={ base.buttonStyle } />
+                        <Button title={'Sign Up'} onPress={() => this.homeSwiper.scrollBy(1, true)} buttonStyle={ base.buttonStyle } />
                         <TouchableHighlight onPress={this.loginToFacebook}>
                             <Text style={{ color: '#1ebde7', textDecorationLine: 'underline', marginTop: 10 }}>Already Got an Account? Login</Text>
                         </TouchableHighlight>
@@ -117,18 +118,17 @@ export class Login extends React.Component {
                 </View>
 
                 <View style={[ login.page, { justifyContent: 'space-around'} ]}>
-                    <View style={ login.headingWrapper }>
-                        <Text style={ login.headingText }>Are you looking for a house or looking for people to fill a room</Text>
-                    </View>
                     <View style={[ login.mainContent, { alignItems: 'center', justifyContent: 'center' } ]}>
-                        <Button title={'Looking for a House'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } buttonStyle={[ base.buttonStyle, { marginBottom: 20 } ]} />
+                        <Text style={ [login.headingText, {fontSize: 24, marginBottom: 20}] }>Are you...</Text>
+                        <Button title={'Looking for a House'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
                         <Button title={'Looking for People'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } buttonStyle={ base.buttonStyle } />
                     </View>
                 </View>
 
                 <View style={[ login.page ]}>
                     <View style={ login.headingWrapper }>
-                        <Text style={ login.headingText }>{Strings.permissionsInfo}</Text>
+                        <Text style={[ login.headingText, {fontWeight: 'bold', fontSize: 24} ]}>What would you like to share?</Text>
+                        <Text style={[ login.headingText, {fontSize: 16, fontWeight: '300'} ]}>This helps us find the right Flatmates for you</Text>
                     </View>
                     <View style={ login.mainContent }>
                         <View style={{marginVertical: 10}}>
@@ -180,22 +180,28 @@ export class Login extends React.Component {
                             xlarge={true} 
                             rounded={true} 
                             source={this.state.isLoggedIn ? {uri: this.state.profile.get('imageUrl')} : facebook_template } />
-                        <View style={{ marginTop: 20 }}>
-                            <Text style={[ login.labelText ]}>About Me</Text>
-                            <TextInput placeholder={'Enter a short description of yourself'}
-                                multiline={true}
-                                maxLength={280}
-                                onChangeText={(text) => this.setState({ bio: text })}
-                                style={{ color: Colors.textHighlightColor, width: 300, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey, }} />
-                        </View>
-                        <View style={{ marginTop: 20 }}>
-                            <Text style={[ login.labelText ]}>Course</Text>
-                            <TextInput placeholder={'Enter the name of your course'}
-                                multiline={true}
-                                maxLength={280}
-                                onChangeText={(text) => this.setState({ course: text })}
-                                style={{ color: Colors.textHighlightColor, width: 300, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey, }} />
-                        </View>
+                        <KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={ 50 }>
+                            <View style={{ marginTop: 20 }}>
+                                <Text style={[ login.labelText ]}>About Me</Text>
+                                <TextInput placeholder={'Enter a short description of yourself'}
+                                    maxLength={60}
+                                    returnKeyType={'next'}
+                                    blurOnSubmit={ false }
+                                    onSubmitEditing={() => this.courseInput.focus()}
+                                    enablesReturnKeyAutomatically={true}
+                                    onChangeText={(text) => this.setState({ bio: text })}
+                                    style={{ color: Colors.textHighlightColor, width: 300, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey, }} />
+                            </View>
+                            <View style={{ marginTop: 20 }}>
+                                <Text style={[ login.labelText ]}>Course</Text>
+                                <TextInput placeholder={'Enter the name of your course'}
+                                    ref={input => this.courseInput = input}
+                                    returnKeyType={'done'}
+                                    onSubmitEditing={() => this.homeSwiper.scrollBy(1, true)}
+                                    onChangeText={(text) => this.setState({ course: text })}
+                                    style={{ color: Colors.textHighlightColor, width: 300, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey, }} />
+                            </View>
+                        </KeyboardAvoidingView>
                             
                         
                             {/* social links would be good here */}
@@ -211,12 +217,17 @@ export class Login extends React.Component {
                 {this.renderHouseOrProfileSetup()}
 
                 <View style={[ login.page, {backgroundColor: Colors.brandSecondaryColor} ]}>
-                    <View style={ login.headingWrapper }/>
-                    <View style={ login.mainContent }>
-                        <Text style={[ login.headingText, { fontSize: 28 } ]}>House ID</Text>
+                    <ImageBackground source={OpenBox} style={{position: 'absolute', left: Metrics.screenWidth * 0.03, bottom: Metrics.screenHeight * 0.2, width: 350, height: 350 }} />                                    
+                    <View style={[ login.mainContent, { marginBottom: 50, flex: 4} ]}>
+                        <Text style={ login.congratsText }>Congrats!</Text>
+                        <Text style={ login.congratsSubtitleText }>You're ready to find your new Flatmates!</Text>
+                    </View>
+                    <View style={[ login.pageFooter, {justifyContent: 'flex-start'} ]}>
+                        <Button title={'Continue'} onPress={() => this.props.navigation.navigate('Home')} buttonStyle={[ base.buttonStyle, {backgroundColor: Colors.backgroundWhite}]} textStyle={{color: Colors.brandSecondaryColor}} />
                     </View>
                 </View>
-
+                
+                
             </Swiper>
         );
     }

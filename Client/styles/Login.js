@@ -40,5 +40,21 @@ export const login = StyleSheet.create({
         alignSelf: 'flex-start',
         fontWeight: '200',
         marginVertical: 5,
+    },
+
+    congratsText: {
+        fontSize: 60,
+        color: Colors.white,
+        fontWeight: '300',
+        backgroundColor: 'transparent',
+        alignSelf: 'center',
+    },
+
+    congratsSubtitleText: {
+        fontSize: 16,
+        color: Colors.white,
+        fontWeight: 'bold',
+        backgroundColor: 'transparent',
+        alignSelf: 'center',
     }
 });
