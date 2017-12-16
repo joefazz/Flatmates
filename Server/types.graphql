@@ -21,7 +21,7 @@ type User @model {
     maxPrice: Int
     genderPreference: String
 
-    facebookUserId: String! @migration
+    facebookUserId: String!
     permissions: [String!]
     group: Group @relation(name: "GroupUsers")
     house: House @relation(name: "UsersHouse")
@@ -43,7 +43,7 @@ type Group @model {
 
 type House @model {
     id: ID! @isUnique
-
+    shortID: Int! @isUnique 
     road: String!
     
     # Optional system fields (remove if not needed):
@@ -51,7 +51,9 @@ type House @model {
     updatedAt: DateTime! # read-only (managed by Graphcool)
 
     posts: [Post!]! @relation(name: "HousePosts")
-    price: Int!
+    rentPrice: Int! 
+    billsPrice: Int! 
+    spaces: Int! 
     users: [User!]! @relation(name: "UsersHouse")
 }
 

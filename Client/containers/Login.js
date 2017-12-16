@@ -10,8 +10,7 @@ import { CheckBox } from '../widgets';
 import { loginWithFacebook, getUserDataFacebook } from '../redux/Routines';
 import { base, login, profile } from '../styles';
 import { Colors, Strings, Metrics } from '../consts';
-import { CREATE_USER_MUTATION, UPDATE_USER_MUTATION } from '../graphql/mutations';
-import { _responseInfoCallback } from '../utils/FacebookCallback';
+import { CREATE_USER_MUTATION, UPDATE_USER_MUTATION, UPDATE_USER_CREATE_HOUSE_MUTATION } from '../graphql/mutations';
 import Box from '../../Assets/Joes_sexy_box.png';
 import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
@@ -39,8 +38,13 @@ export class Login extends React.Component {
             minEnabled: false,
             maxEnabled: false,
             genderEnabled: false,
-            genderPreference: "No Preference",
-            userId: 1234
+            genderPreference: 'No Preference',
+            
+            shortId: 1,
+            road: 'Road Street',
+            rentPrice: 200,
+            billsPrice: 30,
+            spaces: 3,
         }
     }
 
@@ -92,6 +96,27 @@ export class Login extends React.Component {
         this.homeSwiper.scrollBy(1, true);
     }
 
+    completeNewHouseSetup = () => {
+        // for short id what should happen is should query all houses for their ids and then generate a number that isn't in the array
+        this.setState({ shortId: 1234 })
+        this.props.updateUserCreateHouse(
+            this.state.userId,
+            this.state.bio,
+            this.state.course,
+            this.state.shortId,
+            this.state.road,
+            Math.round(this.state.rentPrice),
+            Math.round(this.state.billsPrice),
+            parseInt(this.state.spaces)
+        );
+
+        this.homeSwiper.scrollBy(1, true);
+    }
+
+    completeJoiningHouseSetup = () => {
+        
+    }
+
     render() {
         return (
             <Swiper 
@@ -121,7 +146,7 @@ export class Login extends React.Component {
                     <View style={[ login.mainContent, { alignItems: 'center', justifyContent: 'center' } ]}>
                         <Text style={ [login.headingText, {fontSize: 24, marginBottom: 20}] }>Are you...</Text>
                         <Button title={'Looking for a House'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
-                        <Button title={'Looking for People'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } buttonStyle={ base.buttonStyle } />
+                        <Button title={'Looking for People'} onPress={() => this.setState({ isLookingForHouse: false },() => this.homeSwiper.scrollBy(1, true)) } buttonStyle={ base.buttonStyle } />
                     </View>
                 </View>
 
@@ -215,6 +240,7 @@ export class Login extends React.Component {
                 </View>
 
                 {this.renderHouseOrProfileSetup()}
+                {!this.state.isLookingForHouse ? this.renderHouseDetail() : {}}
 
                 <View style={[ login.page, {backgroundColor: Colors.brandSecondaryColor} ]}>
                     <ImageBackground source={OpenBox} style={{position: 'absolute', left: Metrics.screenWidth * 0.03, bottom: Metrics.screenHeight * 0.2, width: 350, height: 350 }} />                                    
@@ -242,14 +268,14 @@ export class Login extends React.Component {
                     <View style={[ login.mainContent, {justifyContent: 'flex-start'} ]}>
                         <View style={{ marginBottom: 20 }}>
                             <Text style={ login.labelText }>Minimum Price (incl. bills)</Text>
-                            <TouchableOpacity style={{ width: 200, borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ minEnabled: true, genderEnabled: false, maxEnabled: false })}>
+                            <TouchableOpacity style={{ width: 200, borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ minEnabled: true, genderEnabled: false, maxEnabled: false } )}>
                                 <Text style={{ color: Colors.textHighlightColor, fontSize: 18 }}>£{this.state.minPrice}</Text>
                             </TouchableOpacity>
                         </View>
                         
                         <View style={{ marginVertical: 20 }}>
                             <Text style={ login.labelText }>Maximum Price (incl. bills)</Text>
-                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ maxEnabled: true, genderEnabled: false, minEnabled: false })}>
+                            <TouchableOpacity style={{ width: 200,borderBottomWidth: 1, borderColor: Colors.grey  }} onPress={() => this.setState({ maxEnabled: true, genderEnabled: false, minEnabled: false } )}>
                                 <Text style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18 }}>£{this.state.maxPrice}</Text>
                             </TouchableOpacity>
                         </View>
@@ -270,7 +296,7 @@ export class Login extends React.Component {
                             <Picker
                                 enabled={this.state.minEnabled}
                                 selectedValue={this.state.minPrice}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ minPrice: itemValue },() => setTimeout(() => this.setState({minEnabled: false}), 100))}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ minPrice: itemValue},() => setTimeout(() => this.setState({ minEnabled: false} ), 100))}
                                 prompt={'Min Price'}>
                                 <Picker.Item label={"£200"} value={200} />
                                 <Picker.Item label={"£250"} value={250} />
@@ -284,7 +310,7 @@ export class Login extends React.Component {
                             <Picker
                                 enabled={this.state.maxEnabled}
                                 selectedValue={this.state.maxPrice}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ maxPrice: itemValue },() => setTimeout(() => this.setState({maxEnabled: false}), 100))}
+                                onValueChange={(itemValue, itemIndex) => this.setState({  maxPrice: itemValue },() => setTimeout(() => this.setState({ maxEnabled: false}), 100))}
                                 prompt={'Max Price'}>
                                 <Picker.Item label={"£350"} value={350} />
                                 <Picker.Item label={"£400"} value={400} />
@@ -298,7 +324,7 @@ export class Login extends React.Component {
                             <Picker
                                 enabled={this.state.genderEnabled}
                                 selectedValue={this.state.genderPreference}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ genderPreference: itemValue },() => setTimeout(() => this.setState({genderEnabled: false}), 100))}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ genderPreference: itemValue},() => setTimeout(() => this.setState({ genderEnabled: false }), 100))}
                                 prompt={'Gender Preference'}>
                                 <Picker.Item label={"Male"} value={"Male"} />
                                 <Picker.Item label={"Female"} value={"Female"} />
@@ -308,8 +334,8 @@ export class Login extends React.Component {
                 </View>
             );
         } else {
-            return [
-                <View style={ login.page } key={'HouseID'}>
+            return (
+                <View style={ login.page } >
                     <View style={ login.headingWrapper }>
                         <Text style={ login.headingText }>Enter your House ID or if you don't have one press 'Create House'</Text>
                     </View>
@@ -323,45 +349,65 @@ export class Login extends React.Component {
                     <View style={ login.pageFooter }>
                         <Button
                             title={'Confirm'}
+                            onPress={() => this.homeSwiper.scrollBy(1, true)}
                             buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
                         <TouchableHighlight>
                             <Text style={{ color: '#1ebde7', textDecorationLine: 'underline' }}>Create House</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
-                ,
+            );
+        }
+    }
+
+    renderHouseDetail() {
+        return (
                 <View style={ login.page } key={'HouseDetails'}>
                     <View style={ login.headingWrapper }>
                         <Text style={[ login.headingText, { fontSize: 20 } ]}>Enter your house details</Text>
                     </View>
                     <View style={[ login.mainContent, {justifyContent: 'flex-start'} ]}>
-                        <View style={{ marginBottom: 20 }}>
+                    <View style={{ marginBottom: 20, alignSelf: 'center' }}>
                             <Text style={ login.labelText }>Road Name</Text>
                             <TextInput placeholder={'Fake Street'}
-                                style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey }} />
+                            onChangeText={(text) => this.setState({ road: text })}
+                            style={{ color: Colors.textHighlightColor, width: 270, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey }} />
                         </View>
                         
-                        <View style={{ marginVertical: 20 }}>
+                    <View style={{ marginVertical: 20, flexDirection: 'row' }}>
+                        <View style={{ marginRight: 30 }}>
                             <Text style={ login.labelText }>Rent Per Month</Text>
                             <TextInput placeholder={'£430.00'}
-                                style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey }} />
+                                keyboardType={'numeric'}
+                                onChangeText={(text) => this.setState({  rentPrice: text })}
+                                style={{ color: Colors.textHighlightColor, width: 120, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey }} />
                         </View>
-
-                        <View style={{ marginTop: 20 }}>
+                        <View>
                             <Text style={ login.labelText }>Bills Per Month</Text>
                             <TextInput placeholder={'£23.00'}
-                                style={{ color: Colors.textHighlightColor, width: 200, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey }} />
+                                keyboardType={'numeric'}
+                                onChangeText={(text) => this.setState({  billsPrice: text })}
+                                style={{ color: Colors.textHighlightColor, width: 120, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey }} />
+                        </View>
+                    </View>
+                    <View style={{ marginTop: 20, alignSelf: 'center' }}>
+                        <Text style={ login.labelText }>Available Rooms</Text>
+                        <TextInput placeholder={'1'}
+                            onChangeText={(text) => this.setState({  spaces: text })}
+                            keyboardType={'numeric'}
+                            style={{ color: Colors.textHighlightColor, width: 270, fontSize: 18, borderBottomWidth: 1, borderColor: Colors.grey }} />
                         </View>
                     </View>
                     <View style={ login.pageFooter }>
                         <Button
                             title={'Confirm'}
+                        onPress={this.completeNewHouseSetup}
                             buttonStyle={ base.buttonStyle} />
                     </View>
                 </View>
-            ];
-        }
+        );
     }
+
 }
 
 const updateUser = graphql(UPDATE_USER_MUTATION, {
@@ -370,9 +416,17 @@ const updateUser = graphql(UPDATE_USER_MUTATION, {
             mutate({
                 variables: { id, bio, course, minPrice, maxPrice, genderPreference },
             }),
-        
     }),
 });
+        
+const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
+    props: ({ mutate }) => ({
+        updateUserCreateHouse: ( id, bio, course, shortID, road, rentPrice, billsPrice, spaces ) => 
+            mutate({
+                variables: { id, bio, course, shortID, road, rentPrice, billsPrice, spaces },
+    }),
+    })
+})
 
 const mapStateToProps = ( state ) => ({
     login: state.get('login')
@@ -387,5 +441,6 @@ const bindActions = (dispatch) => {
 
 export default compose(
     updateUser,
+    updateUserCreateHouse,
     connect(mapStateToProps, bindActions)
 )(Login);
