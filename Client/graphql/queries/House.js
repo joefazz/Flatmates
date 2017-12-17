@@ -3,8 +3,8 @@ import gql from 'graphql-tag';
 import { HOUSE_FRAGMENT } from '../Fragments';
 
 export const HOUSE_QUERY = gql`
-    query house($houseId: Int!) {
-        house(id: $houseId) {
+    query House($shortID: Int!) {
+        House(shortID: $shortID) {
             ... HouseFragment
         }
     }

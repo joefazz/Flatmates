@@ -5,6 +5,7 @@ import { DELETE_HOUSE_MUTATION } from './House/DeleteHouse';
 import { CREATE_USER_MUTATION } from './User/CreateUser';
 import { UPDATE_USER_MUTATION } from './User/UpdateUser';
 import { UPDATE_USER_CREATE_HOUSE_MUTATION } from './User/UpdateUserCreateHouse';
+import { UPDATE_USER_UPDATE_HOUSE_MUTATION } from './User/UpdateUserUpdateHouse';
 
 export { 
     CREATE_MESSAGE_MUTATION, 
@@ -13,5 +14,6 @@ export {
     DELETE_HOUSE_MUTATION, 
     CREATE_USER_MUTATION,
     UPDATE_USER_MUTATION,
-    UPDATE_USER_CREATE_HOUSE_MUTATION
+    UPDATE_USER_CREATE_HOUSE_MUTATION,
+    UPDATE_USER_UPDATE_HOUSE_MUTATION
 };

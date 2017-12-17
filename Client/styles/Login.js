@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Colors } from '../consts';
+import { Colors, Metrics } from '../consts';
 
 export const login = StyleSheet.create({
     page: {
@@ -56,5 +56,114 @@ export const login = StyleSheet.create({
         fontWeight: 'bold',
         backgroundColor: 'transparent',
         alignSelf: 'center',
-    }
+    },
+
+    dotStyle: {
+        backgroundColor: 'transparent', 
+        borderWidth: 1, 
+        borderColor: Colors.textHighlightColor
+    },
+
+    profileName: { 
+        fontSize: 32, 
+        fontWeight: 'bold', 
+        color: Colors.brandSecondaryColor 
+    },
+
+    profileHeading: {
+        fontSize: 20, 
+        marginTop: 5, 
+        marginBottom: 15, 
+        fontWeight: '300', 
+        color: Colors.textGrey
+    },
+
+    profileInput: { 
+        color: Colors.textHighlightColor, 
+        width: 300, 
+        fontSize: 18, 
+        borderBottomWidth: 1, 
+        borderColor: Colors.grey 
+    },
+
+    marginTop: {
+        marginTop: 20,
+    },
+
+    marginBottom: {
+        marginBottom: 20,
+    },
+
+    marginVertical: {
+        marginVertical: 20,
+    },
+
+    shortIDStyle: {
+        fontSize: 72, 
+        fontWeight: '100', 
+        backgroundColor: 'transparent', 
+        color: Colors.white, 
+        alignSelf: 'center'
+    },
+
+    pickerActivator: { 
+        width: 200, 
+        borderBottomWidth: 1, 
+        borderColor: Colors.grey  
+    },
+
+    pickerActivatorText: {
+        color: Colors.textHighlightColor, 
+        width: 200, 
+        fontSize: 18
+    },
+
+    pickerWrapper: { 
+        position: 'absolute', 
+        bottom: 0, 
+        right: 0, 
+        left: 0, 
+        width: Metrics.screenWidth, 
+        height: Metrics.screenHeight * 0.4, 
+        backgroundColor: Colors.backgroundWhite 
+    },
+
+    houseIDInput: {
+        color: Colors.textHighlightColor, 
+        width: 75, 
+        fontSize: 24, 
+        borderBottomWidth: 1, 
+        borderColor: Colors.grey, 
+        textAlign: 'center'
+    },
+
+    hyperlink: { 
+        color: Colors.brandTertiaryColor, 
+        textDecorationLine: 'underline' 
+    },
+
+    houseDetailFullWidthInput: {
+        color: Colors.textHighlightColor, 
+        width: 270, 
+        fontSize: 18, 
+        borderBottomWidth: 1, 
+        borderColor: Colors.grey
+    },
+
+    houseDetailHalfWidthInput: { 
+        color: Colors.textHighlightColor, 
+        width: 110, 
+        fontSize: 18 
+    },
+
+    poundStyle: {
+        color: Colors.textHighlightColor, 
+        fontSize: 18 
+    },
+
+    priceInputWrapper: {
+        flexDirection: 'row', 
+        borderBottomWidth: 1, 
+        borderColor: Colors.grey
+    }        
 });
