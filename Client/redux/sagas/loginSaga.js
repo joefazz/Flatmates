@@ -4,13 +4,14 @@ import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 're
 import { graphql, gql } from 'react-apollo';
 
 import client from '../../Client';
+import { USER_LOGIN_QUERY } from '../../graphql/queries';
 import { CREATE_USER_MUTATION } from '../../graphql/mutations';
 import { facebookPermissions } from '../../containers/Login';
-import { loginWithFacebook, getUserDataFacebook } from '../Routines';
+import { loginWithFacebook, getUserDataFacebook, signupWithFacebook } from '../Routines';
 import { Strings } from '../../consts';
 
 export const loginSaga = function *() {
-    yield takeEvery(loginWithFacebook.TRIGGER, login);
+    yield takeEvery(signupWithFacebook.TRIGGER, login);
 };
 
 function facebookRequest(token) {
@@ -36,6 +37,15 @@ function facebookRequest(token) {
         );
         new GraphRequestManager().addRequest(infoRequest).start()
     })
+}
+
+function doesUserExist(facebookUserId) {
+    return new Promise(resolve => {
+        client.query({
+            variables: facebookUserId,
+            query: USER_LOGIN_QUERY,
+        }).then(user => user.data.User === null ? resolve(false) : resolve(true));
+    });
 }
 
 function updateDatabase(response) {
@@ -67,10 +77,39 @@ function* GET_TOKEN() {
     return yield token.accessToken;
 }
 
-const login = function *() {
+const signup = function *() {
     // Trigger request action
-    yield put(loginWithFacebook.request());
+    yield put(signupWithFacebook.request());
     // Wait for response from API and assign it to response    
+    try {
+        let response;
+        let token = {};
+        yield LoginManager.logInWithReadPermissions(facebookPermissions).then(data => {
+            response = data;
+        });
+        yield AccessToken.getCurrentAccessToken().then(data => {
+            token.accessToken = data.accessToken;
+            token.expiryDate = data.expirationTime;
+            response.userID = data.userID;
+        });
+
+        if (response.isCancelled) {
+            yield put(signupWithFacebook.failure('Login Process Cancelled'));
+        } else {
+            yield put(signupWithFacebook.success({response, token}));
+            yield* getData();    
+        }
+    } catch (error) {
+        yield put(signupWithFacebook.failure(error));
+        
+    } finally {
+        yield put(signupWithFacebook.fulfill());
+    }
+}
+
+const login = function *() {
+    yield put(loginWithFacebook.request());
+
     try {
         let response;
         let token = {};
@@ -87,7 +126,11 @@ const login = function *() {
             yield put(loginWithFacebook.failure('Login Process Cancelled'));
         } else {
             yield put(loginWithFacebook.success({response, token}));
-            yield* getData();    
+            if (doesUserExist(response.userID)) {
+                yield* getData();
+            } else {
+                new Error('User does not exist');
+            }    
         }
     } catch (error) {
         yield put(loginWithFacebook.failure(error));

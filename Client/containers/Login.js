@@ -1,5 +1,17 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, Image, TouchableHighlight, TextInput, ActivityIndicator, Picker, KeyboardAvoidingView, ImageBackground } from 'react-native';
+import { 
+    View, 
+    TouchableOpacity, 
+    Text, 
+    Image, 
+    TouchableHighlight, 
+    TextInput, 
+    ActivityIndicator, 
+    Picker, 
+    KeyboardAvoidingView, 
+    ImageBackground, 
+    Alert 
+} from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import Swiper from 'react-native-swiper';
@@ -7,7 +19,7 @@ import { Button, Avatar } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
 
 import { CheckBox } from '../widgets';
-import { loginWithFacebook, getUserDataFacebook } from '../redux/Routines';
+import { signupWithFacebook, loginWithFacebook } from '../redux/Routines';
 import { base, login, profile } from '../styles';
 import { Colors, Strings, Metrics } from '../consts';
 import Box from '../../Assets/Joes_sexy_box.png';
@@ -84,7 +96,11 @@ export class Login extends React.Component {
         this.setState({ shortID }, () => this.homeSwiper.scrollBy(1, true));
     }
 
-    loginToFacebook = () => {
+    loginWithFacebook = () => {
+        this.setState({ isLoggedIn: true }, () => this.props.loginWithFacebook());
+    }
+
+    signupWithFacebook = () => {
         facebookPermissions = ['public_profile', 'email'];
 
         if (this.state.friendsListCheck) {
@@ -103,7 +119,7 @@ export class Login extends React.Component {
             facebookPermissions.push('user_likes');
         }
 
-        this.setState({ isLoggingIn: true }, () => this.props.loginWithFacebook());
+        this.setState({ isLoggingIn: true }, () => this.props.signupWithFacebook());
     }
 
     completeUserSetup = () => {
@@ -116,7 +132,7 @@ export class Login extends React.Component {
             this.state.genderPreference
         );
 
-        this.homeSwiper.scrollBy(1, true);
+        this.homeSwiper.scrollBy(2, true);
     }
 
     completeNewHouseSetup = () => {
@@ -140,16 +156,23 @@ export class Login extends React.Component {
             variables: { shortID: parseInt(this.state.shortID) },
             query: HOUSE_QUERY,
         }).then(res => {
-            console.log(res);
             if (res.data.House !== null) {
-                alert('Are you sure you belong to the house on ' + res.data.House.road + '?')
-                this.props.updateUserUpdateHouse(
-                    this.state.userId,
-                    this.state.bio,
-                    this.state.course,
-                    res.data.House.id
-                );
-                this.homeSwiper.scrollBy(1, true)
+                Alert.alert(
+                    'Confirmation', 
+                    'Are you sure you belong to the house on ' + res.data.House.road + '?',
+                [
+                    {text: 'Confirm', onPress: () => {
+                        this.props.updateUserUpdateHouse(
+                            this.state.userId,
+                            this.state.bio,
+                            this.state.course,
+                            res.data.House.id
+                        );
+                        this.homeSwiper.scrollBy(2, true);
+                    }},
+                    {text: 'Cancel', style: "cancel"}
+                ]);
+                
             } else {
                 alert('ID does not exist')
             }
@@ -174,8 +197,8 @@ export class Login extends React.Component {
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button title={'Sign Up'} onPress={() => this.homeSwiper.scrollBy(1, true)} buttonStyle={ base.buttonStyle } />
-                        <TouchableHighlight onPress={this.loginToFacebook}>
+                        <Button title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Next...' : 'Sign Up'} onPress={() => this.homeSwiper.scrollBy(1, true)} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
+                        <TouchableHighlight onPress={this.loginWithFacebook}>
                             <Text style={[ login.hyperlink, { marginTop: 10 } ]}>Already Got an Account? Login</Text>
                         </TouchableHighlight>
                     </View>
@@ -228,7 +251,7 @@ export class Login extends React.Component {
                     <View style={ login.pageFooter }>
                         <Button 
                             leftIcon={{ type: 'font-awesome', name: this.state.isLoggedIn ? 'check' : 'facebook-square' }} 
-                            onPress={this.state.isLoggedIn ? () => this.homeSwiper.scrollBy(1, true) : this.loginToFacebook}
+                            onPress={this.state.isLoggedIn ? () => this.homeSwiper.scrollBy(1, true) : this.signupWithFacebook}
                             title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Next' : 'Login with Facebook'} 
                             buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : { backgroundColor: Colors.facebookBlue }]} />
                     </View>         
@@ -499,8 +522,8 @@ const mapStateToProps = ( state ) => ({
 
 const bindActions = (dispatch) => {
     return {
+        signupWithFacebook: () => dispatch(signupWithFacebook()),
         loginWithFacebook: () => dispatch(loginWithFacebook()),
-        getUserDataFacebook: () => dispatch(getUserDataFacebook()),
     };
 }
 

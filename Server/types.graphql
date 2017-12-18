@@ -21,7 +21,7 @@ type User @model {
     maxPrice: Int
     genderPreference: String
 
-    facebookUserId: String!
+    facebookUserId: String! @isUnique
     permissions: [String!]
     group: Group @relation(name: "GroupUsers")
     house: House @relation(name: "UsersHouse")

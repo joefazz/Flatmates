@@ -34,6 +34,26 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
             loginStatus: 'Ended'
         });
 
+    case Types.FACEBOOK_SIGNUP_REQUEST:
+        return state.merge({
+            loginStatus: 'Started'
+        });
+    case Types.FACEBOOK_SIGNUP_SUCCESS:
+        return state.merge({
+            fbAccessToken: action.payload.token.accessToken,
+            fbTokenExpiryDate: action.payload.token.expiryDate,
+            fbUserId: action.payload.response.userID,
+            deniedPermissions: action.payload.response.deniedPermissions,
+            grantedPermissions: action.payload.response.grantedPermissions,
+        });
+    case Types.FACEBOOK_SIGNUP_FAILURE:
+        return state.merge({
+            error: action.payload
+        });
+    case Types.FACEBOOK_SIGNUP_FULFILL:
+        return state.merge({
+            loginStatus: 'Ended'
+        });
     // Get data from facebook about user
     case Types.GET_USER_DATA_REQUEST:
         return state;
@@ -45,8 +65,7 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
                 lastName: action.payload.response.last_name,
                 gender: _.capitalize(action.payload.response.gender),
                 birthday: action.payload.response.birthday,
-                email: action.payload.response.email, 
-                facebookUserId: action.payload.response.id,
+                email: action.payload.response.email,
                 imageUrl: action.payload.response.picture.data.url
             }
         });
