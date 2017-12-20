@@ -4,9 +4,13 @@
     "private": true,
     "devDependencies": {
         "apollo-client-preset": "^1.0.3",
+        "enzyme": "^3.2.0",
         "eslint-plugin-react": "^7.4.0",
         "graphql": "^0.11.7",
         "graphql-tag": "^2.5.0",
+        "jest": "^22.0.3",
+        "react-addons-test-utils": "^15.6.2",
+        "react-dom": "^16.2.0",
         "react-test-renderer": "16.0.0-beta.5",
         "subscriptions-transport-ws": "^0.9.1"
     },
@@ -14,7 +18,12 @@
         "ios": "react-native run-ios",
         "android": "react-native run-android",
         "packager": "react-native start",
-        "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf node_modules/ && yarn cache clean && yarn"
+        "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf node_modules/ && yarn cache clean && yarn",
+        "test": "jest",
+        "update-tests": "jest -u"
+    },
+    "jest": {
+        "preset": "react-native"
     },
     "dependencies": {
         "apollo-link-ws": "^1.0.2",
