@@ -42,7 +42,7 @@ function facebookRequest(token) {
 function doesUserExist(facebookUserId) {
     return new Promise(resolve => {
         client.query({
-            variables: facebookUserId,
+            variables: {facebookUserId},
             query: USER_LOGIN_QUERY,
         }).then(user => user.data.User === null ? resolve(false) : resolve(true));
     });

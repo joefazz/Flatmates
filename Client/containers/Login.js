@@ -10,7 +10,8 @@ import {
     Picker, 
     KeyboardAvoidingView, 
     ImageBackground, 
-    Alert 
+    Alert,
+    Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
@@ -259,7 +260,7 @@ export class Login extends React.Component {
                 </View>       
                 <View style={ login.page }>
                     
-                    <View style={[ login.mainContent, { flex: 4, alignItems: 'center', justifyContent: 'flex-start', marginTop: 48 } ]}>
+                    <View style={[ login.mainContent, { flex: 4, alignItems: 'center', justifyContent: 'flex-start', marginTop: Platform.OS === 'ios' ? 48 : 0 } ]}>
                         <Text style={ login.profileName }>{this.state.isLoggedIn ? this.state.profile.get('name') : 'John Smith'}</Text>
                         {this.state.isLoggedIn ?          
                             <Text style={ login.profileHeading }>{ConvertBirthdayToAge(this.state.profile.get('birthday'))} / {this.state.profile.get('gender')} / University of Reading</Text>     
@@ -278,7 +279,8 @@ export class Login extends React.Component {
                                     onSubmitEditing={() => this.courseInput.focus()}
                                     enablesReturnKeyAutomatically={true}
                                     onChangeText={(text) => this.setState({ bio: text })}
-                                    style={ login.profileInput } />
+                                    underlineColorAndroid={Colors.grey}
+                                    style={[ login.profileInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
                             </View>
                             <View style={ login.marginTop }>
                                 <Text style={[ login.labelText ]}>Course</Text>
@@ -287,7 +289,8 @@ export class Login extends React.Component {
                                     returnKeyType={'done'}
                                     onSubmitEditing={() => this.homeSwiper.scrollBy(1, true)}
                                     onChangeText={(text) => this.setState({ course: text })}
-                                    style={ login.profileInput } />
+                                    underlineColorAndroid={Colors.grey}
+                                    style={[ login.profileInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
                             </View>
                         </KeyboardAvoidingView>
                             
