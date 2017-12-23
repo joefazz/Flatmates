@@ -9,9 +9,8 @@ const routeConfig = {
 
 const navConfig = {
     navigationOptions: {
-        headerTintColor: 'white',
-        headerTitleStyle: {color: 'white'},
-        headerStyle: {backgroundColor: Colors.brandPrimaryColor}
+        headerTintColor: Colors.brandSecondaryColor,
+        headerTitleStyle: {color: Colors.brandSecondaryColor},
     }
 }
 

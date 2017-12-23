@@ -19,7 +19,7 @@ const navConfig = {
     animationEnabled: false,
     lazy: true,
     tabBarOptions: {
-        activeTintColor: Colors.brandTertiaryColor,
+        activeTintColor: Colors.brandSecondaryColor,
         inactiveTintColor: Colors.grey
     }
 };

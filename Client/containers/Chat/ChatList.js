@@ -19,9 +19,23 @@ export class ChatList extends React.Component {
     constructor(props) {
         super(props);
 
+        this.isDummy = true;
+
+        if (this.isDummy) {
+            this.dummyGroups = [];
+            for (let i = 0; i < 10; i++) {
+                this.dummyGroups.push({
+                    id: 1234,
+                    name: "Real Fake Street",
+                    messages: [{text: 'Lorem ipsum doler set amet'}],
+                    users: [{name: 'Joe Fazzino'}, {name: 'Ben Buckley'}]
+                });
+            }
+        }
+
         this.state = {
             isLoading: props.data.loading,
-            groups: []
+            groups: this.isDummy ? this.dummyGroups : []
         }
     }
 
@@ -30,8 +44,8 @@ export class ChatList extends React.Component {
             console.log(newProps.data)
             this.setState({
                 isLoading: newProps.data.loading,
-                groups: newProps.data.User.group
-            })
+                // groups: newProps.data.User.group
+            });
         }
     }
 
@@ -49,7 +63,7 @@ export class ChatList extends React.Component {
         }
 
         return (
-            <ChatListComponent navigation={this.props.navigation} data={this.props.data} />
+            <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />
         );
     }
 }
