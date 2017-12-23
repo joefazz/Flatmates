@@ -18,38 +18,29 @@ export class ChatDetailComponent extends React.Component {
     componentWillReceiveProps(nextProps) {
         const usernameColors = {};
 
-        if (nextProps.data.group) {
-            if (nextProps.data.group.users) {
-                nextProps.data.group.users.forEach(user =>{
-                    usernameColors[user.username] = this.state.usernameColors[user.username] || randomColor()
-                });
-            }
+        // if (nextProps.data.group) {
+        //     if (nextProps.data.group.users) {
+        //         nextProps.data.group.users.forEach(user =>{
+        //             usernameColors[user.username] = this.state.usernameColors[user.username] || randomColor()
+        //         });
+        //     }
 
-            this.setState({ usernameColors })
-        }
+        //     this.setState({ usernameColors })
+        // }
     }
 
-    renderItem = ({ item: message }) => {
+    renderItem = ({ item }) => {
+        let message = item.message;
         return (
             <Message color={this.state.usernameColors[message.from.username]} isCurrentUser={message.from.id === 1} message={message} />
         );
     } 
 
     send(text) {
-        this.props.createMessage({groupId: this.props.data.group.id, userId: 1, text});
+        this.props.createMessage({groupId: this.props.data.id, userId: 1, text});
     }
 
     render() {
-        const { loading, group } = this.props.data;
-
-        if (loading) {
-            return (
-                <View style={{justifyContent: 'center', flex: 1}}>
-                    <ActivityIndicator />
-                </View>
-            )
-        }
-
         return (
             <KeyboardAvoidingView
                 behavior={'position'}
@@ -57,7 +48,7 @@ export class ChatDetailComponent extends React.Component {
                 keyboardVerticalOffset={64}
                 style={chat.detailWrapper}>
                     <FlatList
-                        data={group.messages}
+                        data={this.props.data.messages}
                         inverted={true}
                         renderItem={this.renderItem}
                         keyExtractor={item => item.id}/>

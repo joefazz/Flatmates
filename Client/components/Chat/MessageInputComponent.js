@@ -1,13 +1,13 @@
 import React from 'react';
 import { TextInput, View, TouchableHighlight } from 'react-native';
-
+import Icon from 'react-native-vector-icons/FontAwesome'
 import { chat } from '../../styles';
 import { Colors } from '../../consts';
 
 const sendButton = send => {
     return (
         <TouchableHighlight style={chat.sendButtonWrapper} onPress={send}>
-            <FontAwesome
+            <Icon
                 iconStyle={chat.iconStyle}
                 name={"send"}
                 size={20}

@@ -27,7 +27,7 @@ export class ChatList extends React.Component {
                 this.dummyGroups.push({
                     id: 1234,
                     name: "Real Fake Street",
-                    messages: [{text: 'Lorem ipsum doler set amet'}],
+                    lastMessageText: 'Lorem ipsum doler set amet',
                     users: [{name: 'Joe Fazzino'}, {name: 'Ben Buckley'}]
                 });
             }

@@ -19,7 +19,7 @@ export class ChatListComponent extends React.Component {
                             <Text style={ chat.groupTitle }>{item.name}</Text>
                         </View>
                         <View style={ chat.groupSubtitleWrapper }>
-                            <Text style={ chat.groupSubtitle }>{item.messages[item.messages.length - 1].text}</Text>
+                            <Text style={ chat.groupSubtitle }>{item.lastMessageText}</Text>
                         </View>
                     </View>
                 </View>

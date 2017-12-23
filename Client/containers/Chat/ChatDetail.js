@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
@@ -31,9 +32,18 @@ export class ChatDetail extends React.Component {
             tabBarVisible: false,
         };
     };
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            messages: fakeData
+        }
+    }
+
     render() {
         return (
-            <ChatDetailComponent data={this.props.data} createMessage={this.props.createMessage} />
+            <ChatDetailComponent data={this.state} createMessage={this.props.createMessage} />
         )
     }
 }
