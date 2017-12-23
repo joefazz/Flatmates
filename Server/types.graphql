@@ -23,7 +23,7 @@ type User @model {
 
     facebookUserId: String! @isUnique
     permissions: [String!]
-    group: Group @relation(name: "GroupUsers")
+    group: [Group!]! @relation(name: "GroupsUsers")
     house: House @relation(name: "UsersHouse")
     messages: [Message!]! @relation(name: "UsersMessages")
     imageUrl: String
@@ -37,7 +37,7 @@ type Group @model {
     updatedAt: DateTime! # read-only (managed by Graphcool)
 
     name: String!
-    users: [User!]! @relation(name: "GroupUsers")
+    users: [User!]! @relation(name: "GroupsUsers")
     messages: [Message!]! @relation(name: "GroupMessages")
 }
 

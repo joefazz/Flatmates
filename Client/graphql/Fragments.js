@@ -49,15 +49,4 @@ fragment UserFragment on User {
     id
     email
     facebookUserId
-    house {
-        id
-        road
-    }
-    messages {
-        text
-        to {
-            id
-            road
-        }
-    }
 }`

@@ -1,11 +1,12 @@
 import React from 'react';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import Icon from 'react-native-vector-icons/Ionicons'
 import _ from 'lodash';
 
 import { ChatListComponent } from '../../components/Chat/ListComponent';
-import { USER_QUERY } from '../../graphql/queries';
+import { USER_CHAT_QUERY } from '../../graphql/queries';
 
 export class ChatList extends React.Component {
     static navigationOptions = {
@@ -15,7 +16,38 @@ export class ChatList extends React.Component {
         )
     }
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isLoading: props.data.loading,
+            groups: []
+        }
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (this.props.data !== newProps.data) {
+            console.log(newProps.data)
+            this.setState({
+                isLoading: newProps.data.loading,
+                groups: newProps.data.User.group
+            })
+        }
+    }
+
     render() {
+        if (this.state.isLoading) {
+            return <ActivityIndicator />
+        }
+
+        if (!this.state.isLoading && this.state.groups.length === 0) {
+            return (
+                <View>
+                    <Text>No Groups Found</Text>
+                </View>
+            );
+        }
+
         return (
             <ChatListComponent navigation={this.props.navigation} data={this.props.data} />
         );
@@ -23,7 +55,7 @@ export class ChatList extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    
+    login: state.get('login')
 });
 
 const bindActions = (dispatch) => {
@@ -32,14 +64,14 @@ const bindActions = (dispatch) => {
     };
 };
 
-const userQuery = graphql(USER_QUERY, {
-    options: () => ({ variables: { id: 'cjaqu2gggbhd00154wnhzhjku' } }),
+const userChatQuery = graphql(USER_CHAT_QUERY, {
+    options: (ownProps) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') } }),
     props: ({ data }) => ({
-        data
+        data,
     }),
 });
 
 export default compose(
-    userQuery,
     connect(mapStateToProps, bindActions),
+    userChatQuery,    
 )(ChatList)

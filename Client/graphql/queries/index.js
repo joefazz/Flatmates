@@ -1,5 +1,5 @@
-import { USER_QUERY } from './User/User';
-import { USER_LOGIN_QUERY } from './User/UserLoginQuery';
+import { USER_LOGIN_QUERY } from './User/LoginQuery';
+import { USER_CHAT_QUERY } from './User/ChatQuery';
 import { HOUSE_QUERY } from './House';
 
-export { USER_QUERY, USER_LOGIN_QUERY, HOUSE_QUERY };
+export { USER_LOGIN_QUERY, USER_CHAT_QUERY, HOUSE_QUERY };

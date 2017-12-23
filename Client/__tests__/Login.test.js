@@ -1,12 +1,18 @@
 import 'react-native';
+import { shallow } from 'enzyme';
+import toJSON from 'enzyme-to-json';
 import React from 'react';
-import { WebSocketLink } from 'apollo-link-ws';
 jest.mock("Dimensions")
+jest.mock("react-apollo")
+jest.mock("apollo-link-ws")
 import { Login } from '../containers/Login';
 
 import renderer from 'react-test-renderer';
 
-test('Renders Login Correctly', () => {
-    const tree = renderer.create(<Login />).toJSON();
-    expect(tree).toMatchSnapshot();
-});
+describe('Login', () => 
+    test('Renders component correctly', () => {
+        const wrapper = shallow(<Login />);
+
+        expect(toJSON(wrapper)).toMatchSnapshot();
+    })
+)

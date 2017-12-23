@@ -1,13 +1,13 @@
 import gql from 'graphql-tag';
 
-import {USER_FRAGMENT} from '../Fragments';
-
 // Get the user and all user's groups
-export const USER_LOGIN_QUERY = gql`
+export const USER_CHAT_QUERY = gql`
     query User($facebookUserId: String!) {
         User(facebookUserId: $facebookUserId) {
-            ... UserFragment
+            group {
+                id
+                name
+            }
         }
     }
-    ${USER_FRAGMENT}
 `;

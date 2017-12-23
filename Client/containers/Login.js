@@ -28,6 +28,7 @@ import facebook_template from '../../Assets/Man_Silhouette.png';
 import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
 import Client from '../Client';
 import { HOUSE_QUERY } from '../graphql/queries';
+
 import { 
     CREATE_USER_MUTATION, 
     UPDATE_USER_MUTATION, 

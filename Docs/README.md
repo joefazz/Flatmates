@@ -25,15 +25,23 @@ Familiarity with these is important and if you need any help on any of them ping
 
 You must install Android Studio in order to build for Android whether or not you have an Android device or want to use the emulator. You will need to install Xcode as it uses the Xcode build tools to compile the app.
 
-After you run yarn for the first time you must go into node_modules/react-native-fbsdk/android/build/src/build.gradle and change line
+The FBSDK module is really outdated and is broken with recent versions so you'll need to put this into your android/build.gradle inside allprojects -> repositories object
+        
+configurations.all {
+    resolutionStrategy {
+        force 'com.facebook.android:facebook-android-sdk:4.22.1'
+    }
+}
 
-compile('com.facebook.android:facebook-android-sdk:4.+')
+and the following to android/app/build.gradle at the end
 
-with
+compile(project(':react-native-fbsdk')){
+    exclude(group: 'com.facebook.android', module: 'facebook-android-sdk')
+}
+compile "com.facebook.android:facebook-android-sdk:4.22.1"
 
-compile('com.facebook.android:facebook-android-sdk:4.22.1')
 
-Any IDE will work that can handle normal JavaScript coding. I personally recommend [VSCode](https://code.visualstudio.com/) as it has some handy React Native plugins that will help your development (especially [this one](https://github.com/Microsoft/vscode-react-native)). If you want to use something else like [Atom](https://ide.atom.io) you will have to do your own research on setting up your development environment.
+Any IDE will work that can handle normal JavaScript coding. I personally recommend [VSCode](https://code.visualstudio.com/) as it has some handy React Native plugins that will help your development (especially [this one](https://github.com/Microsoft/vscode-react-native)). If you want to use something else like [Atom](https://ide.atom.io) you will have to do your own research on setting up your development environment (See Nuclide).
 
 Any git tool you want is fine, I use SourceTree but it's certainly not out of joy or pleasure, I find myself commiting more from VSCode nowadays.
 
