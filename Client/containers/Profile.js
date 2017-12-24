@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { Avatar, Text } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -14,7 +14,7 @@ export class Profile extends React.Component {
         title: 'Profile',
 
         tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={focused ? 'ios-person' : 'ios-person-outline'} color={tintColor} size={32} />
+            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-person' : 'ios-person-outline' : 'md-person'} color={tintColor} size={32} />
         )
     }
     render() {

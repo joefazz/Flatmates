@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -8,7 +8,7 @@ export class Settings extends React.Component {
     static navigationOptions = {
         title: 'Settings',
         tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={focused ? 'ios-settings' : 'ios-settings-outline'} color={tintColor} size={32} />
+            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-settings' : 'ios-settings-outline' : 'md-settings'} color={tintColor} size={29} />
         )
     }
     render() {

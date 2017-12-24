@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -8,7 +8,7 @@ export class Feed extends React.Component {
         title: 'Home',
         
         tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={focused ? 'ios-home' : 'ios-home-outline'} color={tintColor} size={32} />
+            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
         )
     };
 

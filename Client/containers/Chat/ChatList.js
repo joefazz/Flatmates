@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -12,7 +12,7 @@ export class ChatList extends React.Component {
     static navigationOptions = {
         title: 'Chat',
         tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={focused ? 'ios-text' : 'ios-text-outline'} color={tintColor} size={32} />
+            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-text' : 'ios-text-outline' : 'md-text'} color={tintColor} size={32} />
         )
     }
 

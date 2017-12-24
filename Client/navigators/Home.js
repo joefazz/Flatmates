@@ -16,11 +16,25 @@ const routeConfig = {
 
 const navConfig = {
     swipeEnabled: Platform.OS === 'ios' ? false : true,
-    animationEnabled: false,
+    animationEnabled: true,
     lazy: true,
+    tabBarPosition: 'bottom',
     tabBarOptions: {
         activeTintColor: Colors.brandSecondaryColor,
-        inactiveTintColor: Colors.grey
+        inactiveTintColor: Colors.grey,
+        ...Platform.select({
+            android: {
+                showLabel: false,
+                showIcon: true,
+                style: {
+                    backgroundColor: Colors.white
+                },
+                indicatorStyle: {
+                    backgroundColor: Colors.brandSecondaryColor
+                },
+                pressColor: Colors.brandSecondaryColor,
+            }
+        })
     }
 };
 

@@ -269,7 +269,7 @@ export class Login extends React.Component {
                             xlarge={true} 
                             rounded={true} 
                             source={this.state.isLoggedIn ? {uri: this.state.profile.get('imageUrl')} : facebook_template } />
-                        <KeyboardAvoidingView behavior={'position'} keyboardVerticalOffset={ 50 }>
+                        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'position' : 'height'} keyboardVerticalOffset={ 50 }>
                             <View style={ login.marginTop }>
                                 <Text style={[ login.labelText ]}>About Me</Text>
                                 <TextInput placeholder={'Enter a short description of yourself'}
@@ -446,8 +446,9 @@ export class Login extends React.Component {
                     <View style={[ login.marginBottom, { alignSelf: 'center' } ]}>
                         <Text style={ login.labelText }>Road Name</Text>
                         <TextInput placeholder={'Fake Street'}
-                        onChangeText={(text) => this.setState({ road: text })}
-                        style={ login.houseDetailFullWidthInput } />
+                            onChangeText={(text) => this.setState({ road: text })}
+                            underlineColorAndroid={Colors.grey}
+                            style={[ login.houseDetailFullWidthInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
                     </View>
                         
                     <View style={[ login.marginVertical, { flexDirection: 'row' } ]}>
@@ -458,7 +459,8 @@ export class Login extends React.Component {
                                 <TextInput placeholder={'430.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  rentPrice: text })}
-                                    style={ login.houseDetailHalfWidthInput } />
+                                    underlineColorAndroid={Colors.grey}
+                                    style={[ login.houseDetailHalfWidthInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
                             </View>
                         </View>
                         <View>
@@ -468,7 +470,8 @@ export class Login extends React.Component {
                                 <TextInput placeholder={'23.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  billsPrice: text })}
-                                    style={ login.houseDetailHalfWidthInput } />
+                                    underlineColorAndroid={Colors.grey}
+                                    style={[ login.houseDetailHalfWidthInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
                             </View>
                         </View>
                     </View>
@@ -477,7 +480,8 @@ export class Login extends React.Component {
                         <TextInput placeholder={'1'}
                             onChangeText={(text) => this.setState({  spaces: text })}
                             keyboardType={'numeric'}
-                            style={ login.houseDetailFullWidthInput } />
+                            underlineColorAndroid={Colors.grey}
+                            style={[ login.profileInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
                     </View>
                 </View>
                 

@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 import { Colors } from '../consts';
 
@@ -93,14 +93,16 @@ export const chat = StyleSheet.create({
     },
 
     sendButtonWrapper: {
-        width: 34,
-        height: 34,
-        borderRadius: 18,
-        borderWidth: 1,
-        borderColor: 'transparent',
-        backgroundColor: Colors.brandSecondaryColor,
-        alignItems: 'center',
-        justifyContent: 'center'
+        ...Platform.select({
+            ios: {
+                width: 34,
+                height: 34,
+                borderRadius: 18,
+                borderWidth: 1,
+                borderColor: 'transparent',
+                backgroundColor: Colors.brandSecondaryColor,
+            },
+        })
     },
 
     messageInputContainer: {
@@ -118,17 +120,29 @@ export const chat = StyleSheet.create({
     },
 
     input: {
-        backgroundColor: 'white',
-        borderColor: '#dbdbdb',
-        borderRadius: 15,
-        borderWidth: 1,
-        color: 'black',
-        height: 32,
-        paddingHorizontal: 8,
+        ...Platform.select({
+            ios: {
+                backgroundColor: 'white',
+                borderColor: '#dbdbdb',
+                borderRadius: 15,
+                borderWidth: 1,
+                color: 'black',
+                height: 32,
+                paddingHorizontal: 8,
+            },
+            android: {
+                fontSize: 18,
+                borderWidth: 1,
+                borderColor: '#dbdbdb',
+                borderRadius: 4,
+                height: 50,
+                paddingHorizontal: 8
+            }
+        })
     },
 
     sendButtonContainer: {
         paddingRight: 12,
-        paddingVertical: 6,
+        alignSelf: 'center'
     },
 })
