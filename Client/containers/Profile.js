@@ -5,6 +5,7 @@ import { Avatar, Text } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import { base, profile } from '../styles';
+import { FloatingActionButton } from '../widgets/FloatingActionButton';
 
 export class Profile extends React.Component {
     static navigationOptions = {
@@ -31,6 +32,7 @@ export class Profile extends React.Component {
                 <View style={ profile.preferencesWrapper }>
                     <Text>Sort your preferences from most important to least important</Text> 
                 </View>
+                <FloatingActionButton iconName={'edit'} />
             </View>
         );
     }
