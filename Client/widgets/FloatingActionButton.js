@@ -11,6 +11,10 @@ export class FloatingActionButton extends React.Component {
     }
 
     render() {
+        if (Platform.OS === 'ios') {
+            return <View />
+        }
+
         if (this.props.children) {
             return (
                 <View>
