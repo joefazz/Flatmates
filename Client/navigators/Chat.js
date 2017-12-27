@@ -15,8 +15,9 @@ const routeConfig = {
 
 const navConfig = {
     navigationOptions: {
-        headerTintColor: Colors.brandSecondaryColor,
-        headerTitleStyle: {color: Colors.brandSecondaryColor},
+        headerTintColor: Colors.white,
+        headerTitleStyle: {color: Colors.white},
+        headerStyle: {backgroundColor: Colors.brandSecondaryColor},
     }
 }
 

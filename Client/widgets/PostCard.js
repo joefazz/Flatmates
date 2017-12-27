@@ -1,10 +1,24 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Swiper from 'react-native-swiper';
+import FastImage from 'react-native-fast-image';
 
 import { Colors, Metrics } from '../consts';
 
 export class PostCard extends React.Component {
+    constructor(props) {
+        super(props);
+
+        let counter = 0;
+        this.images = this.props.images.map(image => {
+            return (
+                <View style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, overflow: 'hidden' }}>
+                    <FastImage style={ styles.postImage } source={{uri: image}} key={++counter} />
+                </View>
+            )
+        });
+
+    }
     
     render() {
         return(
@@ -12,7 +26,7 @@ export class PostCard extends React.Component {
                 <View style={ styles.swiperContainer }>
                     {this.renderPostPictures()}
                 </View>
-                <TouchableOpacity style={{ flex: 1 }} onPress={() => this.props.navigation.navigate('PostDetail', {data: this.props})}>
+                <TouchableOpacity style={{ flex: 1, padding: 10 }} onPress={() => this.props.navigation.navigate('PostDetail', {data: this.props})}>
                     <View style={ styles.titleContainer }>
                         <Text style={ styles.titleText }>{this.props.title}</Text>
                         <Text style={ styles.spacesText }>{this.props.spaces} Spaces</Text>
@@ -27,18 +41,9 @@ export class PostCard extends React.Component {
     }
 
     renderPostPictures() {
-        let counter = 0;
-        let images = this.props.images.map(image => {
-            return (
-                <View key={++counter}>
-                    <Image style={ styles.postImage } source={{uri: image}} />
-                </View>
-            )
-        });
-
         return(
-            <Swiper style={{ flex: 1 }} showsButtons={true} showsPagination={false}>
-                {images}
+            <Swiper paginationStyle={{bottom: 0}} activeDotColor={ Colors.brandSecondaryColor } dotStyle={{ borderWidth: 1, borderColor: Colors.brandSecondaryColor, backgroundColor: 'transparent' }}>
+                {this.images}
             </Swiper>
         )
     }
@@ -50,8 +55,15 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.white,
         borderRadius: 5,
-        borderWidth: 0.5,
-        borderColor: 'transparent'
+        borderColor: Colors.backgroundWhite,
+        shadowColor: Colors.grey,
+        shadowOffset: {
+            width: 2,
+            height: 4,
+        },
+        shadowOpacity: 0.6,
+        shadowRadius: 4,
+        elevation: 3,
     },
 
     swiperContainer: {
@@ -62,33 +74,30 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 5,
-        alignItems: 'center',
+        alignItems: 'flex-end',
         backgroundColor: Colors.white,
     },
 
     subtitleContainer: {
         flex: 1,
         flexDirection: 'row',
-        padding: 5,
-        backgroundColor: Colors.white
+        backgroundColor: Colors.white,
+        alignItems: 'center',
     },
 
     postImage: {
-        width: Metrics.screenWidth * 0.85,
-        height: 190,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: 'transparent'
+        width: Metrics.screenWidth * 0.9,
+        height: 193,
     },
 
     titleText: {
         fontSize: 22,
-        fontWeight: '200'
+        fontWeight: '200',
     },
 
     spacesText: {
-        fontSize: 16,
+        fontSize: 18,
+        marginBottom: 1.5,
         color: Colors.textHighlightColor
     },
 

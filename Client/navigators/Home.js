@@ -16,7 +16,7 @@ const routeConfig = {
 
 const navConfig = {
     swipeEnabled: Platform.OS === 'ios' ? false : true,
-    animationEnabled: true,
+    animationEnabled: Platform.OS === 'android' ? true : false,
     lazy: true,
     tabBarPosition: 'bottom',
     tabBarOptions: {
