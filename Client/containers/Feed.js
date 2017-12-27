@@ -1,7 +1,11 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import { PostCard } from '../widgets/PostCard';
+import { Colors } from '../consts';
+import { feed } from '../styles';
 
 export class Feed extends React.Component {
     static navigationOptions = {
@@ -12,10 +16,26 @@ export class Feed extends React.Component {
         )
     };
 
+    renderCard = () => {
+        return (
+            <View style={ feed.card }>
+                <PostCard title={'De Beauvoir Road'} 
+                    spaces={2} 
+                    price={450}
+                    images={['https://placeimg.com/375/282/any', 'https://placeimg.com/375/285/any', 'https://placeimg.com/375/285/any']} />
+            </View>
+        );
+    }
+
     render() {
         return (
-            <View>
-                <Text>Feed Screen</Text>
+            <View style={{ flex: 1, backgroundColor: Colors.backgroundWhite }}>
+                <FlatList
+                    data={[1, 2]}
+                    contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+                    renderItem={this.renderCard}
+                    keyExtractor={item => item}
+                    />
             </View>
         );
     }

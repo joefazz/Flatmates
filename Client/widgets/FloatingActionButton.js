@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Metrics, Colors } from '../consts';
 

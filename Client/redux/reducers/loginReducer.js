@@ -75,11 +75,6 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
         });
     case Types.GET_USER_DATA_FULFILL:
         return state;
-
-    case 'UPDATE_USER_DATA':
-        return state.merge({
-            id: action.payload.query.id
-        });
     default:
         return state;
     }

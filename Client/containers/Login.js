@@ -99,7 +99,7 @@ export class Login extends React.Component {
     }
 
     loginWithFacebook = () => {
-        this.setState({ isLoggedIn: true }, () => this.props.loginWithFacebook());
+        this.setState({ isLoggingIn: true }, () => this.props.loginWithFacebook());
     }
 
     signupWithFacebook = () => {
@@ -199,10 +199,10 @@ export class Login extends React.Component {
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Next...' : 'Sign Up'} onPress={() => this.homeSwiper.scrollBy(1, true)} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
-                        <TouchableHighlight onPress={this.loginWithFacebook}>
+                        <Button title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
+                        <TouchableOpacity onPress={this.loginWithFacebook}>
                             <Text style={[ login.hyperlink, { marginTop: 10 } ]}>Already Got an Account? Login</Text>
-                        </TouchableHighlight>
+                        </TouchableOpacity>
                     </View>
                 </View>
 

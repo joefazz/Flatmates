@@ -11,7 +11,8 @@ import { loginWithFacebook, getUserDataFacebook, signupWithFacebook } from '../R
 import { Strings } from '../../consts';
 
 export const loginSaga = function *() {
-    yield takeEvery(signupWithFacebook.TRIGGER, login);
+    yield takeEvery(signupWithFacebook.TRIGGER, signup);
+    yield takeEvery(loginWithFacebook.TRIGGER, login)
 };
 
 function facebookRequest(token) {
@@ -126,8 +127,10 @@ const login = function *() {
             yield put(loginWithFacebook.failure('Login Process Cancelled'));
         } else {
             yield put(loginWithFacebook.success({response, token}));
-            if (doesUserExist(response.userID)) {
-                yield* getData();
+            const doesExist = yield call(doesUserExist, response.userID);
+            console.log(doesExist)
+            if (doesExist) {
+                yield* getLocalData();
             } else {
                 new Error('User does not exist');
             }    
@@ -152,8 +155,27 @@ function *getData() {
             yield put(getUserDataFacebook.failure({ response: response.error }));
         } else {
             yield put(getUserDataFacebook.success({ response: response.result }));
-            const payload = yield call(updateDatabase, response);
-            yield put({ type: 'UPDATE_USER_DATA', payload })
+            yield call(updateDatabase, response);
+        }
+    } catch (error) {
+        yield put(getUserDataFacebook.failure({ error }));
+    } finally {
+        yield put(getUserDataFacebook.fulfill());
+    }
+}
+
+function *getLocalData() {
+    yield put(getUserDataFacebook.request());
+
+    try {
+        const token = yield GET_TOKEN();
+        
+        const response = yield call(facebookRequest, token);     
+            
+        if (response.isError) {
+            yield put(getUserDataFacebook.failure({ response: response.error }));
+        } else {
+            yield put(getUserDataFacebook.success({ response: response.result }));
         }
     } catch (error) {
         yield put(getUserDataFacebook.failure({ error }));
