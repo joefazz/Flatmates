@@ -22,7 +22,7 @@ import * as Animatable from 'react-native-animatable';
 import { CheckBox } from '../widgets';
 import { signupWithFacebook, loginWithFacebook } from '../redux/Routines';
 import { base, login, profile } from '../styles';
-import { Colors, Strings, Metrics } from '../consts';
+import { Colors, Strings, Metrics, Font } from '../consts';
 import Box from '../../Assets/Joes_sexy_box.png';
 import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
@@ -192,14 +192,14 @@ export class Login extends React.Component {
 
                 <View style={[ login.page, {justifyContent: 'space-around'} ]}>
                     <View style={ login.headingWrapper }>
-                        <Text style={[ login.headingText, { fontSize: 26 } ]}>Welcome to Flatmates</Text>
-                        <Text style={[ login.headingText, { fontSize: 18, fontWeight: '300' } ]}>Student living made simple</Text>
+                        <Text style={[ login.headingText, { fontSize: 32, fontWeight: 'bold' } ]}>Welcome to Flatmates</Text>
+                        <Text style={[ login.headingText, { fontSize: 20 } ]}>Student living made simple</Text>
                     </View>
                     <View style={[ login.mainContent, { flex: 3 } ]}>
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
+                        <Button title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
                         <TouchableOpacity onPress={this.loginWithFacebook}>
                             <Text style={[ login.hyperlink, { marginTop: 10 } ]}>Already Got an Account? Login</Text>
                         </TouchableOpacity>
@@ -208,52 +208,57 @@ export class Login extends React.Component {
 
                 <View style={[ login.page, { justifyContent: 'space-around'} ]}>
                     <View style={[ login.mainContent, { alignItems: 'center', justifyContent: 'center' } ]}>
-                        <Text style={ [login.headingText, {fontSize: 24, marginBottom: 20}] }>Are you...</Text>
-                        <Button title={'Looking for a House'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
-                        <Button title={'Looking for People'} onPress={() => this.setState({ isLookingForHouse: false },() => this.homeSwiper.scrollBy(1, true)) } buttonStyle={ base.buttonStyle } />
+                        <Text style={ [login.headingText, {fontSize: 24, fontWeight: '700', marginBottom: 20}] }>Are you...</Text>
+                        <Button title={'Looking for a House'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
+                        <Button title={'Looking for People'} onPress={() => this.setState({ isLookingForHouse: false },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={ base.buttonStyle } />
                     </View>
                 </View>
 
                 <View style={[ login.page ]}>
                     <View style={ login.headingWrapper }>
                         <Text style={[ login.headingText, {fontWeight: 'bold', fontSize: 24} ]}>What would you like to share?</Text>
-                        <Text style={[ login.headingText, {fontSize: 16, fontWeight: '300'} ]}>This helps us find the right Flatmates for you</Text>
+                        <Text style={[ login.headingText, {fontSize: 16, fontWeight: '400'} ]}>This helps us find the right Flatmates for you</Text>
                     </View>
                     <View style={ login.mainContent }>
                         <View style={{marginVertical: 10}}>
                             <CheckBox 
-                                title={'About Me'} 
+                                title={'About Me'}
+                                fontFamily={Font.FONT_FAMILY}
                                 color={Colors.textHighlightColor}
                                 onIconPress={() => this.setState({ aboutCheck: !this.state.aboutCheck })}
                                 isChecked={this.state.aboutCheck} />
                         </View>
                         <View style={{marginVertical: 10}}>
                             <CheckBox 
-                                title={'Activities'} 
+                                title={'Activities'}
+                                fontFamily={Font.FONT_FAMILY}
                                 color={Colors.textHighlightColor}
                                 onIconPress={() => this.setState({ activityCheck: !this.state.activityCheck })}
                                 isChecked={this.state.activityCheck} />
                         </View>
                         <View style={{marginVertical: 10}}>
                             <CheckBox 
-                                title={'Friends List'} 
+                                title={'Friends List'}
+                                fontFamily={Font.FONT_FAMILY} 
                                 color={Colors.textHighlightColor}
                                 onIconPress={() => this.setState({ friendsListCheck: !this.state.friendsListCheck })}
                                 isChecked={this.state.friendsListCheck} />
                         </View>
                         <View style={{marginVertical: 10}}>
                             <CheckBox 
-                                title={'Liked Pages'} 
+                                title={'Liked Pages'}
+                                fontFamily={Font.FONT_FAMILY} 
                                 color={Colors.textHighlightColor}
                                 onIconPress={() => this.setState({ likesCheck: !this.state.likesCheck })}
-                                onPress={this.onPress}
                                 isChecked={this.state.likesCheck} />
                         </View>
                     </View>
                     <View style={ login.pageFooter }>
                         <Button 
-                            leftIcon={{ type: 'font-awesome', name: this.state.isLoggedIn ? 'check' : 'facebook-square' }} 
+                            leftIcon={{ type: 'font-awesome', name: this.state.isLoggedIn ? 'check' : 'facebook-square', size: 26 }} 
                             onPress={this.state.isLoggedIn ? () => this.homeSwiper.scrollBy(1, true) : this.signupWithFacebook}
+                            fontFamily={Font.FONT_FAMILY} 
+                            fontSize={20}
                             title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Next' : 'Login with Facebook'} 
                             buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : { backgroundColor: Colors.facebookBlue }]} />
                     </View>         
@@ -300,6 +305,8 @@ export class Login extends React.Component {
                     <View style={ login.pageFooter }>
                         <Button
                             title={'Confirm'}
+                            fontFamily={Font.FONT_FAMILY} 
+                            fontSize={20}
                             onPress={() => this.homeSwiper.scrollBy(1, true)}
                             buttonStyle={[ base.buttonStyle ]} />
                     </View>
@@ -324,7 +331,7 @@ export class Login extends React.Component {
                         </View>}
 
                     <View style={[ login.pageFooter, {justifyContent: 'flex-start'} ]}>
-                        <Button title={'Continue'} onPress={() => this.props.navigation.navigate('Home')} buttonStyle={[ base.buttonStyle, {backgroundColor: Colors.backgroundWhite}]} textStyle={{color: Colors.brandSecondaryColor}} />
+                        <Button title={'Continue'} onPress={() => this.props.navigation.navigate('Home')} buttonStyle={[ base.buttonStyle, {backgroundColor: Colors.backgroundWhite}]} fontFamily={Font.FONT_FAMILY} fontSize={20} textStyle={{color: Colors.brandSecondaryColor}} />
                     </View>
                 </View>
                 
@@ -364,7 +371,7 @@ export class Login extends React.Component {
                         {/* location would be good with with defaulting to current location */}
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button title={'Confirm'} onPress={this.completeUserSetup} buttonStyle={ base.buttonStyle } />
+                        <Button title={'Confirm'} fontFamily={Font.FONT_FAMILY} fontSize={20} onPress={this.completeUserSetup} buttonStyle={ base.buttonStyle } />
                     </View>
                     {this.state.minEnabled ?
                         <View style={ login.pickerWrapper }>
@@ -426,6 +433,8 @@ export class Login extends React.Component {
                         <Button
                             title={'Confirm'}
                             onPress={this.completeJoiningHouseSetup}
+                            fontFamily={Font.FONT_FAMILY} 
+                            fontSize={20}
                             buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
                         <TouchableOpacity onPress={() => this.setState({isCreatingHouse: true}, this.generateShortID)}>
                             <Text style={ login.hyperlink }>Create House</Text>
@@ -488,7 +497,9 @@ export class Login extends React.Component {
                 <View style={ login.pageFooter }>
                     <Button
                         title={'Confirm'}
-                    onPress={this.completeNewHouseSetup}
+                        onPress={this.completeNewHouseSetup}
+                        fontFamily={Font.FONT_FAMILY} 
+                        fontSize={20}
                         buttonStyle={ base.buttonStyle} />
                 </View>
             </View>

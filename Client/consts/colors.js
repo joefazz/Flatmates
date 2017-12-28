@@ -3,7 +3,7 @@ const highlightColor = '#E44D26';
 export default colors = {
     brandPrimaryColor: '#FFFFFF',
     brandSecondaryColor: highlightColor,
-    brandTertiaryColor: '#1ebde7',
+    brandTertiaryColor: '#f83600',
     brandWarningColor: '#f4d142',
     brandErrorColor: '#bc341c',
     brandSuccessColor: '#14CC49',

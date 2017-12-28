@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
-import { Colors } from '../consts';
+import { Colors, Font } from '../consts';
 
 export const base = StyleSheet.create({
     fullScreen: {
@@ -14,6 +14,11 @@ export const base = StyleSheet.create({
         borderWidth: 1, 
         borderRadius: 3, 
         borderColor: 'transparent'
+    },
+
+    buttonTextStyle: {
+        fontFamily: Font.FONT_FAMILY,
+        fontSize: 24,
     },
     
     content: {

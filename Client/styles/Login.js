@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 import { Colors, Metrics } from '../consts';
+import { Font } from '../consts';
 
 export const login = StyleSheet.create({
     page: {
@@ -28,13 +29,14 @@ export const login = StyleSheet.create({
     },
     
     headingText: {
-        fontWeight: '600',
+        fontFamily: Font.FONT_FAMILY,
         fontSize: 18,
         color: Colors.textHighlightColor,
         margin: 5,
     },
 
     labelText: {
+        fontFamily: Font.FONT_FAMILY,
         fontSize: 16,
         color: Colors.textHighlightColor,
         alignSelf: 'flex-start',
@@ -43,6 +45,7 @@ export const login = StyleSheet.create({
     },
 
     congratsText: {
+        fontFamily: Font.FONT_FAMILY,
         fontSize: 60,
         color: Colors.white,
         fontWeight: '300',
@@ -51,6 +54,7 @@ export const login = StyleSheet.create({
     },
 
     congratsSubtitleText: {
+        fontFamily: Font.FONT_FAMILY,
         fontSize: 16,
         color: Colors.white,
         fontWeight: 'bold',
@@ -65,12 +69,14 @@ export const login = StyleSheet.create({
     },
 
     profileName: { 
+        fontFamily: Font.FONT_FAMILY,
         fontSize: 32, 
         fontWeight: 'bold', 
         color: Colors.brandSecondaryColor 
     },
 
     profileHeading: {
+        fontFamily: Font.FONT_FAMILY,
         fontSize: 20, 
         marginTop: 5, 
         marginBottom: 15, 
@@ -79,6 +85,7 @@ export const login = StyleSheet.create({
     },
 
     profileInput: { 
+        fontFamily: Font.FONT_FAMILY,
         color: Colors.textHighlightColor, 
         width: 300, 
         fontSize: 18, 
@@ -99,6 +106,7 @@ export const login = StyleSheet.create({
     },
 
     shortIDStyle: {
+        fontFamily: Font.FONT_FAMILY,
         fontSize: 72, 
         fontWeight: '100', 
         backgroundColor: 'transparent', 
@@ -113,6 +121,7 @@ export const login = StyleSheet.create({
     },
 
     pickerActivatorText: {
+        fontFamily: Font.FONT_FAMILY,
         color: Colors.textHighlightColor, 
         width: 200, 
         fontSize: 18
@@ -129,6 +138,7 @@ export const login = StyleSheet.create({
     },
 
     houseIDInput: {
+        fontFamily: Font.FONT_FAMILY,
         color: Colors.textHighlightColor, 
         width: 75, 
         fontSize: 24, 
@@ -138,11 +148,14 @@ export const login = StyleSheet.create({
     },
 
     hyperlink: { 
+        fontFamily: Font.FONT_FAMILY,
+        fontSize: 14,
         color: Colors.brandTertiaryColor, 
         textDecorationLine: 'underline' 
     },
 
     houseDetailFullWidthInput: {
+        fontFamily: Font.FONT_FAMILY,
         color: Colors.textHighlightColor, 
         width: 270, 
         fontSize: 18, 
@@ -151,17 +164,20 @@ export const login = StyleSheet.create({
     },
 
     houseDetailHalfWidthInput: { 
+        fontFamily: Font.FONT_FAMILY,
         color: Colors.textHighlightColor, 
         width: 110, 
         fontSize: 18 
     },
 
     poundStyle: {
+        fontFamily: Font.FONT_FAMILY,
         color: Colors.textHighlightColor, 
         fontSize: 18 
     },
 
     priceInputWrapper: {
+        fontFamily: Font.FONT_FAMILY,
         flexDirection: 'row', 
         borderBottomWidth: 1, 
         borderColor: Colors.grey
