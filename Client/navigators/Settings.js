@@ -1,7 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 
 import Settings from '../containers/Settings';
-import { Colors } from '../consts';
+import { Colors, Font } from '../consts';
 
 const routeConfig = {
     Settings: {screen: Settings},
@@ -10,7 +10,7 @@ const routeConfig = {
 const navConfig = {
     navigationOptions: {
         headerTintColor: Colors.white,
-        headerTitleStyle: {color: Colors.white},
+        headerTitleStyle: {color: Colors.white, fontFamily: Font.FONT_FAMILY},
         headerStyle: {backgroundColor: Colors.brandSecondaryColor},
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -14,6 +14,7 @@ export class Settings extends React.Component {
     render() {
         return (
             <View>
+                <StatusBar barStyle={'light-content'} />
                 <Text>Settings Screen</Text>
             </View>
         );

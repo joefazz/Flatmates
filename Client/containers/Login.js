@@ -71,7 +71,6 @@ export class Login extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
         if (!newProps.login.equals(this.props.login)) {
             if (this.state.isLoggingIn && newProps.login.get('loginStatus') === 'Ended') {
                 this.setState({ isLoggingIn: false });
@@ -191,11 +190,11 @@ export class Login extends React.Component {
                 activeDotColor={Colors.textHighlightColor}>
 
                 <View style={[ login.page, {justifyContent: 'space-around'} ]}>
-                    <View style={ login.headingWrapper }>
+                    <View style={[ login.headingWrapper, {flex: 1} ]}>
                         <Text style={[ login.headingText, { fontSize: 32, fontWeight: 'bold' } ]}>Welcome to Flatmates</Text>
                         <Text style={[ login.headingText, { fontSize: 20 } ]}>Student living made simple</Text>
                     </View>
-                    <View style={[ login.mainContent, { flex: 3 } ]}>
+                    <View style={[ login.mainContent, { flex: 2 } ]}>
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>

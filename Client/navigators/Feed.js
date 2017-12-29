@@ -1,8 +1,8 @@
 import { StackNavigator } from 'react-navigation';
+import { Platform } from 'react-native';
 
 import Feed from '../containers/Feed';
-import { Colors } from '../consts';
-import { Platform } from 'react-native';
+import { Colors, Font } from '../consts';
 
 const routeConfig = {
     Feed: {screen: Feed},
@@ -11,7 +11,7 @@ const routeConfig = {
 const navConfig = {
     navigationOptions: {
         headerTintColor: Colors.white,
-        headerTitleStyle: {color: Colors.white},
+        headerTitleStyle: {color: Colors.white, fontFamily: Font.FONT_FAMILY},
         headerStyle: {backgroundColor: Colors.brandSecondaryColor},
         headerMode: Platform.OS === 'android' ? 'none' : 'float'
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Platform } from 'react-native';
+import { View, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { Avatar, Text } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -23,6 +23,7 @@ export class Profile extends React.Component {
     render() {
         return (
             <View style={ base.content }>
+                <StatusBar barStyle={'light-content'} />
                 <View style={ profile.avatarWrapper }>
                     <Avatar 
                         xlarge={true} 

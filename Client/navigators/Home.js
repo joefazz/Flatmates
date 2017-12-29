@@ -5,7 +5,7 @@ import { ProfileNavigator } from './Profile';
 import { FeedNavigator } from './Feed';
 import { ChatNavigator } from './Chat';
 import { SettingsNavigator } from './Settings';
-import { Colors } from '../consts';
+import { Colors, Font } from '../consts';
 
 const routeConfig = {
     Feed: { screen: FeedNavigator },    
@@ -22,6 +22,7 @@ const navConfig = {
     tabBarOptions: {
         activeTintColor: Colors.brandSecondaryColor,
         inactiveTintColor: Colors.grey,
+        labelStyle: { fontFamily: Font.FONT_FAMILY },
         ...Platform.select({
             android: {
                 showLabel: false,

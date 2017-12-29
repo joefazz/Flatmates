@@ -9,7 +9,7 @@ export class CreateButton extends React.Component {
     render() {
         return (
             <TouchableOpacity onPress={this.props.onPress} style={{ marginRight: 10 }}>
-                <Icon name={'ios-add'} size={34} style={{ color: Colors.white }} />
+                <Icon name={'ios-add'} size={33} style={{ color: Colors.white }} />
             </TouchableOpacity>
         )
     }

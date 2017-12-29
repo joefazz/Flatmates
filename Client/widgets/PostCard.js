@@ -12,7 +12,7 @@ export class PostCard extends React.Component {
         let counter = 0;
         this.images = this.props.images.map(image => {
             return (
-                <View style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, overflow: 'hidden' }}>
+                <View style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, overflow: 'hidden' }} key={++counter}>
                     <FastImage style={ styles.postImage } source={{uri: image}} key={++counter} />
                 </View>
             )
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
 
     postImage: {
         width: Metrics.screenWidth * 0.9,
-        height: 193,
+        height: Metrics.screenHeight * 0.3,
     },
 
     titleText: {
