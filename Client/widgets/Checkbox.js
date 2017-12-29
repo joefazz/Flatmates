@@ -2,9 +2,9 @@ import React from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 
-import { Colors } from '../consts';
+import { Colors, Font } from '../consts';
 
-export default class Checkbox extends React.Component {
+export class Checkbox extends React.Component {
     render() {
         return <CheckBox 
             title={this.props.title} 
@@ -12,7 +12,7 @@ export default class Checkbox extends React.Component {
             center={true}
             component={TouchableWithoutFeedback}
             containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
-            textStyle={{color: this.props.color, fontSize: 18}}
+            textStyle={{color: this.props.color, fontSize: 18, fontFamily: Font.FONT_FAMILY}}
             onIconPress={this.props.onIconPress}
             onPress={this.props.onIconPress}
             checkedIcon={'checkbox-marked-circle'}

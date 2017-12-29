@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.react.ReactApplication;
+import com.wix.interactable.Interactable;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -37,6 +38,7 @@ public class MainApplication extends Application implements ReactApplication {
       mCallbackManager = new CallbackManager.Factory().create();
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new Interactable(),
             new FastImageViewPackage(),
             new FBSDKPackage(mCallbackManager),
             new VectorIconsPackage()

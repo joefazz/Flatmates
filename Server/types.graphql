@@ -8,18 +8,25 @@ type User @model {
     createdAt: DateTime! # read-only (managed by Graphcool)
     updatedAt: DateTime! # read-only (managed by Graphcool)
   
-    email: String! # optional, because it's obtained from Facebook API
+    email: String!
     name: String!
     firstName: String!
     lastName: String!
     birthday: String!
+
     gender: String!
     course: String
-    bio: String
+    yearOfStudy: String! 
+    smokingStatus: String! @migrationValue(value: "Non Smoker")
+    bio: String!
 
     minPrice: Int
     maxPrice: Int
-    genderPreference: String
+
+    genderPreference: String! 
+    smokingPreference: String! 
+    studyYearPreference: String! 
+    socialLevelPreference: String! 
 
     facebookUserId: String! @isUnique
     permissions: [String!]

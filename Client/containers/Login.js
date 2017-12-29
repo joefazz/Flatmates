@@ -19,7 +19,7 @@ import Swiper from 'react-native-swiper';
 import { Button, Avatar } from 'react-native-elements';
 import * as Animatable from 'react-native-animatable';
 
-import { CheckBox } from '../widgets';
+import { Checkbox } from '../widgets';
 import { signupWithFacebook, loginWithFacebook } from '../redux/Routines';
 import { base, login, profile } from '../styles';
 import { Colors, Strings, Metrics, Font } from '../consts';
@@ -75,7 +75,7 @@ export class Login extends React.Component {
             if (this.state.isLoggingIn && newProps.login.get('loginStatus') === 'Ended') {
                 this.setState({ isLoggingIn: false });
                 if (newProps.login.get('isLoggedIn')) {
-                    this.setState({ isLoggedIn: true, profile: newProps.login.get('profile'), userId: newProps.login.get('id') });
+                    this.setState({ isLoggedIn: true, profile: newProps.profile, userId: newProps.login.get('id') });
                 }
             }
         }
@@ -109,7 +109,7 @@ export class Login extends React.Component {
         }
 
         if (this.state.aboutCheck) {
-            facebookPermissions.push('user_about_me', 'user_birthday', 'user_religion_politics');
+            facebookPermissions.push('user_about_me', 'user_birthday');
         }
 
         if (this.state.activityCheck) {
@@ -220,7 +220,7 @@ export class Login extends React.Component {
                     </View>
                     <View style={ login.mainContent }>
                         <View style={{marginVertical: 10}}>
-                            <CheckBox 
+                            <Checkbox 
                                 title={'About Me'}
                                 fontFamily={Font.FONT_FAMILY}
                                 color={Colors.textHighlightColor}
@@ -228,7 +228,7 @@ export class Login extends React.Component {
                                 isChecked={this.state.aboutCheck} />
                         </View>
                         <View style={{marginVertical: 10}}>
-                            <CheckBox 
+                            <Checkbox 
                                 title={'Activities'}
                                 fontFamily={Font.FONT_FAMILY}
                                 color={Colors.textHighlightColor}
@@ -236,7 +236,7 @@ export class Login extends React.Component {
                                 isChecked={this.state.activityCheck} />
                         </View>
                         <View style={{marginVertical: 10}}>
-                            <CheckBox 
+                            <Checkbox 
                                 title={'Friends List'}
                                 fontFamily={Font.FONT_FAMILY} 
                                 color={Colors.textHighlightColor}
@@ -244,7 +244,7 @@ export class Login extends React.Component {
                                 isChecked={this.state.friendsListCheck} />
                         </View>
                         <View style={{marginVertical: 10}}>
-                            <CheckBox 
+                            <Checkbox 
                                 title={'Liked Pages'}
                                 fontFamily={Font.FONT_FAMILY} 
                                 color={Colors.textHighlightColor}
@@ -535,7 +535,8 @@ const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
 });
 
 const mapStateToProps = ( state ) => ({
-    login: state.get('login')
+    login: state.get('login'),
+    profile: state.get('profile')
 });
 
 const bindActions = (dispatch) => {

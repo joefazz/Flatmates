@@ -9,6 +9,15 @@ const initialState = {
         fbAccessToken: '',
         isLoggedIn: false
     },
+    profile: {
+        name: '',
+        firstName: '',
+        lastName: '',
+        gender: '',
+        birthday: '',
+        email: '',
+        imageUrl: ''
+    },
     nav: state
 };
 

@@ -1,17 +1,16 @@
 import React from 'react';
 import { View, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
-import { Avatar, Text } from 'react-native-elements';
+import { graphql, compose } from 'react-apollo';
+import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import { base, profile } from '../styles';
-import { FloatingActionButton } from '../widgets/FloatingActionButton';
-import { EditButton } from '../widgets/EditButton';
+import { FloatingActionButton, EditButton } from '../widgets';
+import { ProfileComponent } from '../components/Profile/ProfileComponent';
+import { USER_DETAILS_QUERY } from '../graphql/queries';
 
 export class Profile extends React.Component {
-    static navigationOptions = {
-        
-    }
     static navigationOptions = ({ navigation }) => ({
         title: 'Profile',
         headerRight: Platform.OS === 'ios' ? <EditButton onPress={() => navigation.navigate('EditProfile')} /> : null,
@@ -20,21 +19,32 @@ export class Profile extends React.Component {
         )
     })
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            profile: props.profile,
+            isLoading: props.loading,
+        }
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.loading !== this.props.loading) {
+            // Remove null properties
+            const trimmedData = _.pickBy(newProps.User, _.identity);
+
+            this.setState({ 
+                isLoading: newProps.loading,
+                profile: this.state.profile.merge(trimmedData)
+            });
+        }
+    }
+
     render() {
         return (
-            <View style={ base.content }>
+            <View style={{flex: 1}}>
                 <StatusBar barStyle={'light-content'} />
-                <View style={ profile.avatarWrapper }>
-                    <Avatar 
-                        xlarge={true} 
-                        rounded={true} 
-                        source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg"}} />
-
-                    <Text h3>Joe Fazzino</Text>
-                </View>
-                <View style={ profile.preferencesWrapper }>
-                    <Text>Sort your preferences from most important to least important</Text> 
-                </View>
+                <ProfileComponent {...this.state} />
                 <FloatingActionButton iconName={'edit'} />
             </View>
         );
@@ -42,8 +52,9 @@ export class Profile extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    
-})
+    login: state.get('login'),
+    profile: state.get('profile'),
+});
 
 const bindActions = (dispatch) => {
     return {
@@ -51,4 +62,16 @@ const bindActions = (dispatch) => {
     };
 }
 
-export default connect(mapStateToProps, bindActions)(Profile)
+const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
+    options: (ownProps) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') }}),
+    props: ({ data: { loading, User} }) => ({
+        loading, User
+    })
+})
+
+export default compose(
+    connect(mapStateToProps, bindActions),
+    userDetailsQuery,
+)(Profile);
+
+

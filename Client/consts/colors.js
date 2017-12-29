@@ -12,6 +12,7 @@ export default colors = {
 
     textHighlightColor: highlightColor,
     white: '#FFFFFF',
+    highlightWhite: '#F5F5F5',
     black: '#000000',
     grey: '#C0C0C0',
     textGrey: '#373737',

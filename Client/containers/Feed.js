@@ -3,8 +3,7 @@ import { View, Text, Platform, FlatList, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { CreateButton } from '../widgets/CreateButton';
-import { PostCard } from '../widgets/PostCard';
+import { CreateButton, PostCard } from '../widgets';
 import { Colors, Metrics } from '../consts';
 import { feed } from '../styles';
 
