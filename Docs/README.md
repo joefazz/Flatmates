@@ -40,6 +40,7 @@ compile(project(':react-native-fbsdk')){
 }
 compile "com.facebook.android:facebook-android-sdk:4.22.1"
 
+You will also need to copy the 'FacebookSDK' folder into the root of your Documents
 
 Any IDE will work that can handle normal JavaScript coding. I personally recommend [VSCode](https://code.visualstudio.com/) as it has some handy React Native plugins that will help your development (especially [this one](https://github.com/Microsoft/vscode-react-native)). If you want to use something else like [Atom](https://ide.atom.io) you will have to do your own research on setting up your development environment (See Nuclide).
 
