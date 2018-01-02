@@ -4,12 +4,11 @@ import gql from 'graphql-tag';
 export const USER_DETAILS_QUERY = gql`
     query User($facebookUserId: String!) {
         User(facebookUserId: $facebookUserId) {
+            id
             course
             bio
             yearOfStudy
             genderPreference
-            smokingPreference
-            studyYearPreference
             maxPrice
             minPrice
             house {
