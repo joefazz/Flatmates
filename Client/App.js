@@ -73,17 +73,6 @@ export default class Root extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1 }}>
-                <Mapbox.MapView
-                    styleURL={Mapbox.StyleURL.Street}
-                    zoomLevel={15}
-                    centerCoordinate={[11.256, 43.770]}
-                    style={{ flex: 1 }}>
-                </Mapbox.MapView>
-            </View>
-        )
-
-        return (
             <ApolloProvider client={client}>
                 <Provider store={store}>
                     <AppWithNavigationState />
