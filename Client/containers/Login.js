@@ -11,13 +11,14 @@ import {
     KeyboardAvoidingView, 
     ImageBackground, 
     Alert,
-    Platform
+    Platform,
+    Switch
 } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import Swiper from 'react-native-swiper';
-import { Button, Avatar } from 'react-native-elements';
-import * as Animatable from 'react-native-animatable';
+import { Button, Avatar, Slider } from 'react-native-elements';
+import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 import { Checkbox } from '../widgets';
 import { signupWithFacebook, loginWithFacebook } from '../redux/Routines';
@@ -47,6 +48,7 @@ export class Login extends React.Component {
             hasLoginFailed: false, 
             isLoggingIn: false,
             isLoggedIn: false,
+            hasGotProfile: false,
 
             aboutCheck: false,
             friendsListCheck: false,
@@ -57,6 +59,9 @@ export class Login extends React.Component {
             
             profile: {},
             bio: '',
+            isSmoker: false,
+            studyYear: 'First',
+            studyYearEnabled: false,
             course: '',
             minPrice: 300,
             maxPrice: 450,
@@ -64,6 +69,7 @@ export class Login extends React.Component {
             maxEnabled: false,
             genderEnabled: false,
             genderPreference: 'No Preference',
+            socialLevel: 0,
             
             shortID: 1,
             road: 'Road Street',
@@ -78,10 +84,16 @@ export class Login extends React.Component {
             if (this.state.isLoggingIn && newProps.login.get('loginStatus') === 'Ended') {
                 this.setState({ isLoggingIn: false });
                 if (newProps.login.get('isLoggedIn')) {
-                    this.setState({ isLoggedIn: true, profile: newProps.profile, userId: newProps.login.get('id') });
+                    this.setState({ isLoggedIn: true, userId: newProps.login.get('id') });
                 }
             } else if (newProps.login.get('loginStatus') === 'Failed') {
                 this.setState({ isLoggedIn: false, hasLoginFailed: true });
+            }
+        }
+
+        if (!newProps.profile.equals(this.props.profile)) {
+            if (newProps.profile.get('name') !== '') {
+                this.setState({ profile: newProps.profile, hasGotProfile: true });
             }
         }
     }    
@@ -273,17 +285,17 @@ export class Login extends React.Component {
                             buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : { backgroundColor: Colors.facebookBlue }]} />
                     </View>         
                 </View>       
+
                 <View style={ login.page }>
-                    
                     <View style={[ login.mainContent, { flex: 4, alignItems: 'center', justifyContent: 'flex-start', marginTop: Platform.OS === 'ios' ? 48 : 0 } ]}>
-                        <Text style={ login.profileName }>{this.state.isLoggedIn ? this.state.profile.get('name') : 'John Smith'}</Text>
-                        {this.state.isLoggedIn ?          
+                        <Text style={ login.profileName }>{this.state.hasGotProfile ? this.state.profile.get('name') : 'John Smith'}</Text>
+                        {this.state.hasGotProfile ?          
                             <Text style={ login.profileHeading }>{ConvertBirthdayToAge(this.state.profile.get('birthday'))} / {this.state.profile.get('gender')} / University of Reading</Text>     
                             : <View/>}      
                         <Avatar 
                             xlarge={true} 
                             rounded={true} 
-                            source={this.state.isLoggedIn ? {uri: this.state.profile.get('imageUrl')} : facebook_template } />
+                            source={this.state.hasGotProfile ? {uri: this.state.profile.get('imageUrl')} : facebook_template } />
                         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'position' : 'height'} keyboardVerticalOffset={ 50 }>
                             <View style={ login.marginTop }>
                                 <Text style={[ login.labelText ]}>About Me</Text>
@@ -322,11 +334,67 @@ export class Login extends React.Component {
                     </View>
                 </View>
 
+                <View style={[ login.page, { alignItems: 'stretch' } ]}>
+                    <View style={ login.headingWrapper }>
+                        <Text style={ login.headingText }>Enter additional information</Text>
+                    </View>
+                    <View style={[ login.mainContent, { alignItems: 'stretch', justifyContent: 'flex-start', flex: 3 } ]}>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <View>
+                                <Text style={[ login.labelText, { alignSelf: 'center' } ]}>Study Year</Text>
+                                <TouchableHighlight style={ login.pickerActivator } onPress={() => this.setState({ studyYearEnabled: true })}>
+                                    <Text style={ login.pickerActivatorText }>{this.state.studyYear}</Text>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around', paddingHorizontal: 15}}>
+                            <Text style={ login.labelText }>Smoker</Text>
+                            <Switch onTintColor={ Colors.brandSecondaryColor } thumbTintColor={ Colors.brandPrimaryColor } tintColor={ Colors.grey } onValueChange={(val) => this.setState({ isSmoker: val })} value={this.state.isSmoker}/>
+                        </View>
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <View>
+                                <Text style={[ login.labelText, { alignSelf: 'center' } ]}>How social would you say you are? (From 1 to 10)</Text>
+                                <Text style={[ login.labelText, { alignSelf: 'center', fontWeight: 'bold'} ]}>{ this.state.socialLevel }</Text>                                
+                                    <Slider 
+                                        value={ this.state.socialLevel } 
+                                        onValueChange={(val) => this.setState({ socialLevel: val })} 
+                                        step={1} 
+                                        minimumValue={0} 
+                                        maximumValue={10} 
+                                        minimumTrackTintColor={ Colors.brandSecondaryColor } />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={ login.pageFooter }>
+                        <Button
+                        title={'Confirm'}
+                        fontFamily={Font.FONT_FAMILY} 
+                        fontSize={20}
+                        onPress={() => this.homeSwiper.scrollBy(1, true)}
+                        buttonStyle={[ base.buttonStyle ]} />
+                    </View>
+                    {this.state.studyYearEnabled ?
+                        <View style={ login.pickerWrapper }>
+                            <Picker
+                                enabled={this.state.studyYearEnabled}
+                                selectedValue={this.state.studyYear}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ studyYear: itemValue },() => setTimeout(() => this.setState({ studyYearEnabled: false} ), 100))}
+                                prompt={'Study Year'}>
+                                <Picker.Item label={'First'} value={'First'} />
+                                <Picker.Item label={'Second'} value={'Second'} />
+                                <Picker.Item label={'Third'} value={'Third'} />
+                                <Picker.Item label={'Sandwich Year'} value={'Sandwich Year'} />
+                                <Picker.Item label={'Masters'} value={'Masters'} />
+                                <Picker.Item label={'Ph.D.'} value={'Ph.D.'} />
+                            </Picker>
+                        </View> : <View/> }
+                </View>
+
                 {this.renderHouseOrProfileSetup()}
                 {!this.state.isLookingForHouse && this.state.isCreatingHouse ? this.renderHouseDetail() : null}
 
                 <View style={[ login.page, {backgroundColor: Colors.brandSecondaryColor} ]}>
-                    <ImageBackground source={OpenBox} style={{position: 'absolute', left: Metrics.screenWidth * 0.03, bottom: Metrics.screenHeight * 0.2, width: 350, height: 350 }} />                                    
+                    <ImageBackground source={OpenBox} style={{position: 'absolute', left: Metrics.screenWidth * 0.03, bottom: Metrics.screenHeight * 0.3, width: 350, height: 350 }} />                                    
                     
                     {this.state.isCreatingHouse ? 
                         <View style={[ login.mainContent, { marginBottom: 170, flex: 3} ]}>
@@ -335,7 +403,7 @@ export class Login extends React.Component {
                             <Text style={ login.shortIDStyle }>{this.state.shortID}</Text>
                         </View> 
                         : 
-                        <View style={[ login.mainContent, { marginBottom: 50, flex: 4} ]}>
+                        <View style={[ login.mainContent, { marginBottom: 50, flex: 2} ]}>
                             <Text style={ login.congratsText }>Congrats!</Text>
                             <Text style={ login.congratsSubtitleText }>You're ready to find your new Flatmates!</Text>
                         </View>}
@@ -558,8 +626,8 @@ const bindActions = (dispatch) => {
 }
 
 export default compose(
+    connect(mapStateToProps, bindActions),    
     updateUser,
     updateUserCreateHouse,
     updateUserUpdateHouse,
-    connect(mapStateToProps, bindActions)
 )(Login);

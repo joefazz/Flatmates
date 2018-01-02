@@ -177,7 +177,6 @@ export const login = StyleSheet.create({
     },
 
     priceInputWrapper: {
-        fontFamily: Font.FONT_FAMILY,
         flexDirection: 'row', 
         borderBottomWidth: 1, 
         borderColor: Colors.grey
