@@ -7,11 +7,11 @@ import { ApolloProvider } from 'react-apollo';
 import { Button } from 'react-native-elements';
 import { persistStore } from 'redux-persist-immutable';
 
-import store from './Client/redux/store';
-import RootNavigation from './Client/navigators/Root';
-import { base } from './Client/styles';
-import Splash from './Assets/splash_screen.png'
-import client from './Client/Client';
+import store from './redux/store';
+import RootNavigation from './navigators/Root';
+import { base } from './styles';
+import Splash from '../Assets/splash_screen.png'
+import client from './Client';
 
 const AppNav = ({ dispatch, nav }) => {
     return <RootNavigation 
