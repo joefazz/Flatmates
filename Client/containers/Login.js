@@ -44,14 +44,17 @@ export class Login extends React.Component {
         super(props);
 
         this.state = {
+            hasLoginFailed: false, 
+            isLoggingIn: false,
+            isLoggedIn: false,
+
             aboutCheck: false,
             friendsListCheck: false,
             activityCheck: false,
             likesCheck: false,
             isLookingForHouse: false,
             isCreatingHouse: false,
-            isLoggingIn: false,
-            isLoggedIn: false,
+            
             profile: {},
             bio: '',
             course: '',
@@ -77,9 +80,11 @@ export class Login extends React.Component {
                 if (newProps.login.get('isLoggedIn')) {
                     this.setState({ isLoggedIn: true, profile: newProps.profile, userId: newProps.login.get('id') });
                 }
+            } else if (newProps.login.get('loginStatus') === 'Failed') {
+                this.setState({ isLoggedIn: false, hasLoginFailed: true });
             }
         }
-    }
+    }    
 
     // Let the record show I have tested this works    
     generateShortID = function GenerateID() {
@@ -181,6 +186,12 @@ export class Login extends React.Component {
     }
 
     render() {
+        if (this.state.hasLoginFailed) {
+            Alert.alert('Login Failed', this.props.login.get('error'), [{
+                text: 'OK', onPress: () => this.setState({ hasLoginFailed: false, isLoggingIn: false })
+            }]);
+        }
+
         return (
             <Swiper 
                 ref={swiper => this.homeSwiper = swiper}

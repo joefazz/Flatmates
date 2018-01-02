@@ -126,17 +126,17 @@ const login = function *() {
         if (response.isCancelled) {
             yield put(loginWithFacebook.failure('Login Process Cancelled'));
         } else {
-            yield put(loginWithFacebook.success({response, token}));
             const doesExist = yield call(doesUserExist, response.userID);
-            console.log(doesExist)
+
             if (doesExist) {
                 yield* getLocalData();
+                yield put(loginWithFacebook.success({response, token}));  
             } else {
-                new Error('User does not exist');
+                throw new Error('User does not exist');
             }    
         }
     } catch (error) {
-        yield put(loginWithFacebook.failure(error));
+        yield put(loginWithFacebook.failure(error.message));
         
     } finally {
         yield put(loginWithFacebook.fulfill());

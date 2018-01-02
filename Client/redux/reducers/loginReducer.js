@@ -24,14 +24,13 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
             deniedPermissions: action.payload.response.deniedPermissions,
             grantedPermissions: action.payload.response.grantedPermissions,
             isLoggedIn: true,
+            loginStatus: 'Ended'
         });
     case Types.FACEBOOK_LOGIN_FAILURE:
+        console.log(action.payload)
         return state.merge({
-            error: action.payload
-        });
-    case Types.FACEBOOK_LOGIN_FULFILL:
-        return state.merge({
-            loginStatus: 'Ended'
+            error: action.payload,
+            loginStatus: 'Failed'
         });
 
     case Types.FACEBOOK_SIGNUP_REQUEST:
@@ -46,14 +45,13 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
             deniedPermissions: action.payload.response.deniedPermissions,
             grantedPermissions: action.payload.response.grantedPermissions,
             isLoggedIn: true,
+            loginStatus: 'Ended'
         });
     case Types.FACEBOOK_SIGNUP_FAILURE:
+        console.log(action.payload)
         return state.merge({
-            error: action.payload
-        });
-    case Types.FACEBOOK_SIGNUP_FULFILL:
-        return state.merge({
-            loginStatus: 'Ended'
+            error: action.payload,
+            loginStatus: 'Failed',
         });
     default:
         return state;
