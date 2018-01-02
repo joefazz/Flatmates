@@ -1,4 +1,4 @@
-package com.flatmatesv2;
+package com.fazzino.flatmates;
 
 import android.app.Application;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.flatmatesv2;
+package com.fazzino.flatmates;
 
 import com.facebook.react.ReactActivity;
 import android.content.Intent;
@@ -16,6 +16,6 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected String getMainComponentName() {
-        return "FlatmatesV2";
+        return "Flatmates";
     }
 }
