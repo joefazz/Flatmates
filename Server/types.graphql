@@ -17,7 +17,7 @@ type User @model {
     gender: String!
     bio: String
     course: String
-    yearOfStudy: String 
+    studyYear: String
     isSmoker: Boolean @migrationValue(value: false)
     socialScore: Int @migrationValue(value: 4)
 

@@ -2,6 +2,7 @@ import { state } from '../navigators/Root';
 
 const initialState = {
     login: {
+        id: '',
         isRehydrated: false,
         loginStatus: 'Not Started',
         grantedPermissions: [],

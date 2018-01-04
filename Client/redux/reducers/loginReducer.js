@@ -45,13 +45,16 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
             deniedPermissions: action.payload.response.deniedPermissions,
             grantedPermissions: action.payload.response.grantedPermissions,
             isLoggedIn: true,
-            loginStatus: 'Ended'
+            loginStatus: 'Ended',
         });
     case Types.FACEBOOK_SIGNUP_FAILURE:
-        console.log(action.payload)
         return state.merge({
             error: action.payload,
             loginStatus: 'Failed',
+        });
+    case Types.GET_USER_DATA_SUCCESS:
+        return state.merge({
+            id: action.payload.response.id
         });
     default:
         return state;

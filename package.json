@@ -16,7 +16,7 @@
         "subscriptions-transport-ws": "^0.9.1"
     },
     "scripts": {
-        "ios": "react-native run-ios",
+        "ios": "react-native run-ios --simulator=\"iPhone X\"",
         "android": "react-native run-android",
         "emulator": "cd ~ && ./RunAndEmulate",
         "packager": "react-native start",

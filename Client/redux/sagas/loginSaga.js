@@ -88,15 +88,15 @@ const signup = function *() {
         yield LoginManager.logInWithReadPermissions(facebookPermissions).then(data => {
             response = data;
         });
-        yield AccessToken.getCurrentAccessToken().then(data => {
-            token.accessToken = data.accessToken;
-            token.expiryDate = data.expirationTime;
-            response.userID = data.userID;
-        });
 
         if (response.isCancelled) {
             yield put(signupWithFacebook.failure('Login Process Cancelled'));
         } else {
+            yield AccessToken.getCurrentAccessToken().then(data => {
+                token.accessToken = data.accessToken;
+                token.expiryDate = data.expirationTime;
+                response.userID = data.userID;
+            });
             yield put(signupWithFacebook.success({response, token}));
             yield* getData();    
         }
@@ -155,8 +155,9 @@ function *getData() {
         if (response.isError) {
             yield put(getUserDataFacebook.failure({ response: response.error }));
         } else {
+            const recievedData = yield call(updateDatabase, response);
+            response.result.id = recievedData.query.id;
             yield put(getUserDataFacebook.success({ response: response.result }));
-            yield call(updateDatabase, response);
         }
     } catch (error) {
         yield put(getUserDataFacebook.failure({ error }));

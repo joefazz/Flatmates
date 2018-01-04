@@ -12,7 +12,8 @@ import {
     ImageBackground, 
     Alert,
     Platform,
-    Switch
+    Switch,
+    StatusBar
 } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
@@ -57,6 +58,7 @@ export class Login extends React.Component {
             isLookingForHouse: false,
             isCreatingHouse: false,
             
+            userId: '',
             profile: {},
             bio: '',
             isSmoker: false,
@@ -79,16 +81,24 @@ export class Login extends React.Component {
         }
     }
 
+    componentWillMount() {
+        StatusBar.setBarStyle('dark-content');        
+    }
+
     componentWillReceiveProps(newProps) {
         if (!newProps.login.equals(this.props.login)) {
             if (this.state.isLoggingIn && newProps.login.get('loginStatus') === 'Ended') {
                 this.setState({ isLoggingIn: false });
                 if (newProps.login.get('isLoggedIn')) {
-                    this.setState({ isLoggedIn: true, userId: newProps.login.get('id') });
+                    this.setState({ isLoggedIn: true });
                 }
             } else if (newProps.login.get('loginStatus') === 'Failed') {
                 this.setState({ isLoggedIn: false, hasLoginFailed: true });
             }
+        }
+
+        if (this.props.login.get('id') === '' && newProps.login.get('id') !== '') {
+            this.setState({ userId: newProps.login.get('id') });
         }
 
         if (!newProps.profile.equals(this.props.profile)) {
@@ -162,11 +172,11 @@ export class Login extends React.Component {
             this.state.userId,
             this.state.bio,
             this.state.course,
-            this.state.shortID,
-            this.state.road,
             this.state.studyYear,
             this.state.isSmoker,
             this.state.socialScore,
+            this.state.shortID,
+            this.state.road,
             Math.round(this.state.rentPrice),
             Math.round(this.state.billsPrice),
             parseInt(this.state.spaces)
@@ -331,7 +341,6 @@ export class Login extends React.Component {
                         </KeyboardAvoidingView>
                             
                         
-                            {/* social links would be good here */}
                     </View>
                     <View style={ login.pageFooter }>
                         <Button
@@ -351,9 +360,9 @@ export class Login extends React.Component {
                         <View style={{ flex: 1, alignItems: 'center' }}>
                             <View>
                                 <Text style={[ login.labelText, { alignSelf: 'center' } ]}>Study Year</Text>
-                                <TouchableHighlight style={ login.pickerActivator } onPress={() => this.setState({ studyYearEnabled: true })}>
+                                <TouchableOpacity style={ login.pickerActivator } onPress={() => this.setState({ studyYearEnabled: true })}>
                                     <Text style={ login.pickerActivatorText }>{this.state.studyYear}</Text>
-                                </TouchableHighlight>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around', paddingHorizontal: 15}}>
@@ -406,7 +415,7 @@ export class Login extends React.Component {
                     <ImageBackground source={OpenBox} style={{position: 'absolute', left: Metrics.screenWidth * 0.03, bottom: Metrics.screenHeight * 0.3, width: 350, height: 350 }} />                                    
                     
                     {this.state.isCreatingHouse ? 
-                        <View style={[ login.mainContent, { marginBottom: 170, flex: 3} ]}>
+                        <View style={[ login.mainContent, { marginBottom: 170, flex: 2} ]}>
                             <Text style={ login.congratsText }>Congrats!</Text>
                             <Text style={ login.congratsSubtitleText }>Your unique House ID is</Text>
                             <Text style={ login.shortIDStyle }>{this.state.shortID}</Text>
@@ -415,7 +424,10 @@ export class Login extends React.Component {
                         <View style={[ login.mainContent, { marginBottom: 50, flex: 2} ]}>
                             <Text style={ login.congratsText }>Congrats!</Text>
                             <Text style={ login.congratsSubtitleText }>You're ready to find your new Flatmates!</Text>
-                        </View>}
+                        </View> 
+                    }
+
+                    <View style={{ flex: this.state.isCreatingHouse ? 0.8 : 2}} />                    
 
                     <View style={[ login.pageFooter, {justifyContent: 'flex-start'} ]}>
                         <Button title={'Continue'} onPress={() => this.props.navigation.navigate('Home')} buttonStyle={[ base.buttonStyle, {backgroundColor: Colors.backgroundWhite}]} fontFamily={Font.FONT_FAMILY} fontSize={20} textStyle={{color: Colors.brandSecondaryColor}} />
