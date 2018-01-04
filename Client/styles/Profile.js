@@ -46,9 +46,9 @@ export const profile = StyleSheet.create({
         elevation: 3,
         borderRadius: 3,
 
-        
+        paddingHorizontal: 20,
         paddingTop: 20,
-        alignItems: 'center',
+        alignItems: 'stretch',
         backgroundColor: Colors.highlightWhite
     },
 
@@ -75,6 +75,7 @@ export const profile = StyleSheet.create({
 
     preferencesWrapper: {
         marginTop: 20,
+        justifyContent: 'space-between'
     },
 
     preference: {

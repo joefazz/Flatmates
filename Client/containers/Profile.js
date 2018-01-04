@@ -31,8 +31,13 @@ export class Profile extends React.Component {
     componentWillReceiveProps(newProps) {
         if (newProps.loading !== this.props.loading) {
             // Remove null properties
-            const trimmedData = _.pickBy(newProps.User, _.identity);
-
+            let trimmedData = {};
+            Object.keys(newProps.User).map(property => {
+                if (newProps.User[property] !== null) {
+                    trimmedData[property] = newProps.User[property]
+                }
+            });
+            console.log(trimmedData);
             this.setState({ 
                 isLoading: newProps.loading,
                 profile: this.state.profile.merge(trimmedData)

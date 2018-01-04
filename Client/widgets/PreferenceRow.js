@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 22,
         fontWeight: '300',
-        color: Colors.textGrey,
+        color: Colors.brandSecondaryColor,
         fontFamily: Font.FONT_FAMILY,
     },
 
@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
         fontFamily: Font.FONT_FAMILY,
         fontWeight: '300',
         fontSize: 22,
-        color: Colors.brandSecondaryColor,
+        color: Colors.textGrey,
     }
 });

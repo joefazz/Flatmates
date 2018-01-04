@@ -106,7 +106,7 @@ export class ProfileComponent extends React.Component {
                                 </View>
                                 <View>
                                     <Text style={ profile.aboutLabel }>Study Year</Text>
-                                    <Text style={ profile.aboutText }>{this.props.profile.get('yearOfStudy')}</Text>
+                                    <Text style={ profile.aboutText }>{this.props.profile.get('studyYear')}</Text>
                                 </View>
                                 <View>
                                     <Text style={ profile.aboutLabel }>Gender</Text>
@@ -114,10 +114,8 @@ export class ProfileComponent extends React.Component {
                                 </View>
                             </View>
                             <View style={ profile.preferencesWrapper }>
-                                <Text style={ profile.aboutLabel }>Flatmate Preferences</Text>
-                                <PreferenceRow label={'Gender'} value={this.props.profile.get('genderPreference')} />
-                                <PreferenceRow label={'Smoking'} value={this.props.profile.get('smokingPreference')} />
-                                <PreferenceRow label={'Study Year'} value={this.props.profile.get('studyYearPreference')} />
+                                <PreferenceRow label={'Smoker'} value={this.props.profile.get('isSmoker') ? 'Yes' : 'No'} />
+                                <PreferenceRow label={'Social Score'} value={this.props.profile.get('socialScore')} />
                             </View>
                         </View>
                     }
