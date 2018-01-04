@@ -7,7 +7,9 @@ export const USER_DETAILS_QUERY = gql`
             id
             course
             bio
-            yearOfStudy
+            studyYear
+            isSmoker
+            socialScore
             genderPreference
             maxPrice
             minPrice
