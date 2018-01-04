@@ -15,25 +15,23 @@ type User @model {
     birthday: String!
 
     gender: String!
+    bio: String
     course: String
-    yearOfStudy: String! 
-    smokingStatus: String! @migrationValue(value: "Non Smoker")
-    bio: String!
+    yearOfStudy: String 
+    isSmoker: Boolean @migrationValue(value: false)
+    socialScore: Int @migrationValue(value: 4)
 
     minPrice: Int
     maxPrice: Int
 
-    genderPreference: String! 
-    smokingPreference: String! 
-    studyYearPreference: String! 
-    socialLevelPreference: String! 
+    genderPreference: String
 
     facebookUserId: String! @isUnique
     permissions: [String!]
     group: [Group!]! @relation(name: "GroupsUsers")
     house: House @relation(name: "UsersHouse")
     messages: [Message!]! @relation(name: "UsersMessages")
-    imageUrl: String
+    imageUrl: String!
 }
 
 # this is a chat entity

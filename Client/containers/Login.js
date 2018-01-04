@@ -69,7 +69,7 @@ export class Login extends React.Component {
             maxEnabled: false,
             genderEnabled: false,
             genderPreference: 'No Preference',
-            socialLevel: 0,
+            socialScore: 5,
             
             shortID: 1,
             road: 'Road Street',
@@ -145,6 +145,9 @@ export class Login extends React.Component {
             this.state.userId, 
             this.state.bio, 
             this.state.course, 
+            this.state.studyYear,
+            this.state.isSmoker,
+            this.state.socialScore,
             this.state.minPrice, 
             this.state.maxPrice, 
             this.state.genderPreference
@@ -161,6 +164,9 @@ export class Login extends React.Component {
             this.state.course,
             this.state.shortID,
             this.state.road,
+            this.state.studyYear,
+            this.state.isSmoker,
+            this.state.socialScore,
             Math.round(this.state.rentPrice),
             Math.round(this.state.billsPrice),
             parseInt(this.state.spaces)
@@ -184,6 +190,9 @@ export class Login extends React.Component {
                             this.state.userId,
                             this.state.bio,
                             this.state.course,
+                            this.state.studyYear,
+                            this.state.isSmoker,
+                            this.state.socialScore,
                             res.data.House.id
                         );
                         this.homeSwiper.scrollBy(2, true);
@@ -354,10 +363,10 @@ export class Login extends React.Component {
                         <View style={{ flex: 1, alignItems: 'center' }}>
                             <View>
                                 <Text style={[ login.labelText, { alignSelf: 'center' } ]}>How social would you say you are? (From 1 to 10)</Text>
-                                <Text style={[ login.labelText, { alignSelf: 'center', fontWeight: 'bold'} ]}>{ this.state.socialLevel }</Text>                                
+                                <Text style={[ login.labelText, { alignSelf: 'center', fontWeight: 'bold'} ]}>{ this.state.socialScore }</Text>                                
                                     <Slider 
-                                        value={ this.state.socialLevel } 
-                                        onValueChange={(val) => this.setState({ socialLevel: val })} 
+                                        value={ this.state.socialScore } 
+                                        onValueChange={(val) => this.setState({ socialScore: val })} 
                                         step={1} 
                                         minimumValue={0} 
                                         maximumValue={10} 
@@ -588,27 +597,27 @@ export class Login extends React.Component {
 
 const updateUser = graphql(UPDATE_USER_MUTATION, {
     props: ({ mutate }) => ({
-        updateUser: ( id, bio, course, minPrice, maxPrice, genderPreference ) =>
+        updateUser: ( id, bio, course, studyYear, isSmoker, socialScore, minPrice, maxPrice, genderPreference ) =>
             mutate({
-                variables: { id, bio, course, minPrice, maxPrice, genderPreference },
+                variables: { id, bio, course, studyYear, isSmoker, socialScore, minPrice, maxPrice, genderPreference },
             }),
     }),
 });
         
 const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
     props: ({ mutate }) => ({
-        updateUserCreateHouse: ( id, bio, course, shortID, road, rentPrice, billsPrice, spaces ) => 
+        updateUserCreateHouse: ( id, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces ) => 
             mutate({
-                variables: { id, bio, course, shortID, road, rentPrice, billsPrice, spaces },
+                variables: { id, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces },
             }),
     })
 });
 
 const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
     props: ({ mutate }) => ({
-        updateUserUpdateHouse: (id, bio, course, houseId) =>
+        updateUserUpdateHouse: (id, bio, course, studyYear, isSmoker, socialScore, houseId) =>
             mutate({
-                variables: { id, bio, course, houseId },
+                variables: { id, bio, course, studyYear, isSmoker, socialScore, houseId },
             }),
     })
 });

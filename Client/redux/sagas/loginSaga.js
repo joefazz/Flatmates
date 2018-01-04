@@ -117,15 +117,16 @@ const login = function *() {
         yield LoginManager.logInWithReadPermissions(facebookPermissions).then(data => {
             response = data;
         });
-        yield AccessToken.getCurrentAccessToken().then(data => {
-            token.accessToken = data.accessToken;
-            token.expiryDate = data.expirationTime;
-            response.userID = data.userID;
-        });
 
         if (response.isCancelled) {
             yield put(loginWithFacebook.failure('Login Process Cancelled'));
         } else {
+            yield AccessToken.getCurrentAccessToken().then(data => {
+                token.accessToken = data.accessToken;
+                token.expiryDate = data.expirationTime;
+                response.userID = data.userID;
+            });
+            
             const doesExist = yield call(doesUserExist, response.userID);
 
             if (doesExist) {
