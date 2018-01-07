@@ -24,14 +24,12 @@ const styles = StyleSheet.create({
 
     label: {
         fontSize: 22,
-        fontWeight: '300',
         color: Colors.brandSecondaryColor,
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' })
     },
 
     value: {
-        fontFamily: Font.FONT_FAMILY,
-        fontWeight: '300',
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
         fontSize: 22,
         color: Colors.textGrey,
     }

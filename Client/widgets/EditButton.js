@@ -8,7 +8,7 @@ export class EditButton extends React.Component {
     render() {
         return (
             <TouchableOpacity onPress={this.props.onPress} style={{ marginRight: 10 }}>
-                <Text style={{ fontSize: 17, color: Colors.white, fontFamily: Font.FONT_FAMILY }}>Edit</Text>
+                <Text style={{ fontSize: 17, color: Colors.white, ...Font.FONT_FAMILY }}>Edit</Text>
             </TouchableOpacity>
         )
     }

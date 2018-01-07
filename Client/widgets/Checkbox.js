@@ -12,7 +12,7 @@ export class Checkbox extends React.Component {
             center={true}
             component={TouchableWithoutFeedback}
             containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
-            textStyle={{color: this.props.color, fontSize: 18, fontFamily: Font.FONT_FAMILY}}
+            textStyle={{color: this.props.color, fontSize: 18, ...Font.FontFactory({ family: 'Nunito' }),}}
             onIconPress={this.props.onIconPress}
             onPress={this.props.onIconPress}
             checkedIcon={'checkbox-marked-circle'}

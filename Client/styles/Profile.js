@@ -23,8 +23,8 @@ export const profile = StyleSheet.create({
     },
 
     headerText: {
-        fontFamily: Font.FONT_FAMILY,
-        fontWeight: 'bold',
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }),
+        color: Colors.black
     },
 
     headerAvatar: {
@@ -57,17 +57,15 @@ export const profile = StyleSheet.create({
 
     aboutLabel: {
         fontSize: 15,
-        fontWeight: '300',
         color: Colors.brandSecondaryColor,
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
         alignSelf: 'flex-start'
     },
 
     aboutText: {
         fontSize: 22,
         color: Colors.textGrey,
-        fontFamily: Font.FONT_FAMILY,
-        fontWeight: '200'
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
     },
 
     ageGenderWrapper: {

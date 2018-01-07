@@ -29,35 +29,32 @@ export const login = StyleSheet.create({
     },
     
     headingText: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito' }),
         fontSize: 18,
         color: Colors.textHighlightColor,
         margin: 5,
     },
 
     labelText: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
         fontSize: 16,
         color: Colors.textHighlightColor,
         alignSelf: 'flex-start',
-        fontWeight: '200',
         marginVertical: 5,
     },
 
     congratsText: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
         fontSize: 60,
         color: Colors.white,
-        fontWeight: '300',
         backgroundColor: 'transparent',
         alignSelf: 'center',
     },
 
     congratsSubtitleText: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }),
         fontSize: 16,
         color: Colors.white,
-        fontWeight: 'bold',
         backgroundColor: 'transparent',
         alignSelf: 'center',
     },
@@ -69,23 +66,21 @@ export const login = StyleSheet.create({
     },
 
     profileName: { 
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }),
         fontSize: 32, 
-        fontWeight: 'bold', 
         color: Colors.brandSecondaryColor 
     },
 
     profileHeading: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
         fontSize: 20, 
         marginTop: 5, 
         marginBottom: 15, 
-        fontWeight: '300', 
         color: Colors.textGrey
     },
 
     profileInput: { 
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor, 
         width: 300, 
         fontSize: 18, 
@@ -106,9 +101,8 @@ export const login = StyleSheet.create({
     },
 
     shortIDStyle: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
         fontSize: 72, 
-        fontWeight: '100', 
         backgroundColor: 'transparent', 
         color: Colors.white, 
         alignSelf: 'center'
@@ -121,7 +115,7 @@ export const login = StyleSheet.create({
     },
 
     pickerActivatorText: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor, 
         width: 200, 
         fontSize: 18
@@ -138,7 +132,7 @@ export const login = StyleSheet.create({
     },
 
     houseIDInput: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor, 
         width: 75, 
         fontSize: 24, 
@@ -148,14 +142,14 @@ export const login = StyleSheet.create({
     },
 
     hyperlink: { 
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito' }),
         fontSize: 14,
         color: Colors.brandTertiaryColor, 
         textDecorationLine: 'underline' 
     },
 
     houseDetailFullWidthInput: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor, 
         width: 270, 
         fontSize: 18, 
@@ -164,14 +158,14 @@ export const login = StyleSheet.create({
     },
 
     houseDetailHalfWidthInput: { 
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor, 
         width: 110, 
         fontSize: 18 
     },
 
     poundStyle: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor, 
         fontSize: 18 
     },

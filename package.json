@@ -21,6 +21,7 @@
         "emulator": "cd ~ && ./RunAndEmulate",
         "packager": "react-native start",
         "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && rm -rf node_modules/ && yarn cache clean && yarn",
+        "shake": "adb shell input keyevent 82",
         "test": "jest",
         "update-tests": "jest -u"
     },

@@ -11,7 +11,7 @@ const routeConfig = {
 const navConfig = {
     navigationOptions: {
         headerTintColor: Colors.white,
-        headerTitleStyle: {color: Colors.white, fontFamily: Font.FONT_FAMILY},
+        headerTitleStyle: {color: Colors.white, ...Font.FontFactory({ family: 'Nunito' })},
         headerStyle: {backgroundColor: Colors.brandSecondaryColor},
         headerMode: Platform.OS === 'android' ? 'none' : 'float'
     }

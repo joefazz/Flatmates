@@ -17,7 +17,7 @@ export const base = StyleSheet.create({
     },
 
     buttonTextStyle: {
-        fontFamily: Font.FONT_FAMILY,
+        ...Font.FontFactory({ family: 'Nunito' }),
         fontSize: 24,
     },
     
