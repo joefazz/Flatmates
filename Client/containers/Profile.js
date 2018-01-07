@@ -39,6 +39,23 @@ export class Profile extends React.Component {
                 }
             });
 
+            if (trimmedData.house) {
+                const trimmedUsers = trimmedData.house.users.filter(user => {
+                    return (user.name !== this.state.profile.get('name'));
+                })
+
+                const tempHouse = {};
+                Object.keys(trimmedData.house).map(property => {
+                    if (property === 'users') {
+                        tempHouse[property] = trimmedUsers;
+                    } else {
+                        tempHouse[property] = trimmedData.house[property];
+                    }
+                });
+
+                trimmedData.house = tempHouse;
+            }
+
             this.setState({ 
                 isLoading: newProps.loading,
                 profile: this.state.profile.merge(trimmedData)

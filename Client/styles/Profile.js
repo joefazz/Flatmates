@@ -28,13 +28,12 @@ export const profile = StyleSheet.create({
     },
 
     headerAvatar: {
-        height: Metrics.screenHeight * 0.22,
+        height: Metrics.screenHeight * 0.21,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'black'
     },
 
-    interactableWrapper: {
-    },
 
     contentWrapper: {
         marginHorizontal: 10,
