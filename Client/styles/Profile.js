@@ -28,7 +28,7 @@ export const profile = StyleSheet.create({
     },
 
     headerAvatar: {
-        height: Metrics.screenHeight * 0.2,
+        height: Metrics.screenHeight * 0.22,
         justifyContent: 'center',
         alignItems: 'center',
     },

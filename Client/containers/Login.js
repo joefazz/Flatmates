@@ -223,6 +223,7 @@ export class Login extends React.Component {
             }]);
         }
 
+
         return (
             <Swiper 
                 ref={swiper => this.homeSwiper = swiper}
@@ -233,7 +234,7 @@ export class Login extends React.Component {
 
                 <View style={[ login.page, {justifyContent: 'space-around'} ]}>
                     <View style={[ login.headingWrapper, {flex: 1} ]}>
-                        <Text style={[ login.headingText, { fontSize: 32, fontWeight: 'bold' } ]}>Welcome to Flatmates</Text>
+                        <Text style={[ login.headingText, { fontSize: 32, ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }) } ]}>Welcome to Flatmates</Text>
                         <Text style={[ login.headingText, { fontSize: 20 } ]}>Student living made simple</Text>
                     </View>
                     <View style={[ login.mainContent, { flex: 2 } ]}>

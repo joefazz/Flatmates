@@ -1,8 +1,6 @@
 import { Platform } from "react-native";
 
 export const FONT_FAMILY = Platform.OS === 'ios' ? 'Nunito' : 'Nunito Regular';
-export const FONT_WEIGHT_LIGHT = Platform.OS === 'ios' ? '300' : 'Nunito Light';
-export const FONT_WEIGHT_HEAVY = Platform.OS === 'ios' ? 'bold' : 'Nunito Bold';
 
 const font = {
     Nunito: {
@@ -28,7 +26,7 @@ export const FontFactory = (options = {}) => {
     const { weights, styles } = font[family];
 
     if (Platform.OS === 'android') {
-        weight = weights[weight] ? weight : '';
+        weight = weights[weight] ? weight : 'Regular';
         style = styles[style] ? style : ''
 
         const suffix = weight + style;

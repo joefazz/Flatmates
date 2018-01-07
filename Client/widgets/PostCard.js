@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.6,
         shadowRadius: 4,
-        elevation: 3,
+        elevation: 1.8,
     },
 
     swiperContainer: {
