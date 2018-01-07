@@ -27,11 +27,12 @@ export class ProfileComponent extends React.Component {
     }
 
     render() {
+        console.log(Metrics.screenHeight, this._deltaY);
         return (
             <View style={{ flex: 1, alignItems: 'stretch' }}>
                 <Animated.View style={[ profile.headerPanel, {
                     height: this._deltaY.interpolate({
-                        inputRange: [-Metrics.screenHeight * 0.11, Metrics.screenHeight * 0.17],
+                        inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
                         outputRange: [20, 100],
                         extrapolateRight: 'clamp'
                     })
@@ -39,7 +40,7 @@ export class ProfileComponent extends React.Component {
                     <Animated.View style={[ profile.headerTextWrapper, 
                     {
                         maxHeight: this._deltaY.interpolate({
-                            inputRange: [-Metrics.screenHeight * 0.11, Metrics.screenHeight * 0.17],
+                            inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
                             outputRange: [50, 180],
                             extrapolateLeft: 'clamp',
                             extrapolateRight: 'clamp',
@@ -47,15 +48,15 @@ export class ProfileComponent extends React.Component {
                     },
                     {
                         paddingTop: this._deltaY.interpolate({
-                            inputRange: [-Metrics.screenHeight * 0.11, Metrics.screenHeight * 0.17],
-                            outputRange: [Metrics.screenHeight * 0.009, Metrics.screenHeight * 0.01],
+                            inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
+                            outputRange: [Metrics.screenHeight * 0.013, Metrics.screenHeight * 0.01],
                             extrapolateLeft: 'clamp',
                             extrapolateRight: 'clamp'
                         })
                     } ]}>
                         <Animated.Text style={[ profile.headerText, {
                             fontSize: this._deltaY.interpolate({
-                                inputRange: [-Metrics.screenHeight * 0.11, Metrics.screenHeight * 0.17],
+                                inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
                                 outputRange: [26, 45],
                                 extrapolateLeft: 'clamp',
                                 extrapolateRight: 'clamp'
@@ -63,9 +64,9 @@ export class ProfileComponent extends React.Component {
                         }]}>
                             {this.props.profile.get('name')}
                         </Animated.Text>
-                        <Animated.Text style={[ profile.aboutText, {fontSize: 24}, {
+                        <Animated.Text style={[ profile.aboutText, {fontSize: 24, paddingLeft: 10}, {
                             opacity: this._deltaY.interpolate({
-                                inputRange: [-Metrics.screenHeight * 0.11, Metrics.screenHeight * 0.17],
+                                inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
                                 outputRange: [0, 1],
                                 extrapolate: 'clamp',
                             })
@@ -76,7 +77,7 @@ export class ProfileComponent extends React.Component {
 
                     <Animated.View style={[ profile.headerAvatar, {
                         opacity: this._deltaY.interpolate({
-                            inputRange: [-Metrics.screenHeight * 0.11, Metrics.screenHeight * 0.17],
+                            inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
                             outputRange: [0, 1],
                             extrapolateLeft: 'clamp',
                             extrapolateRight: 'clamp'
@@ -92,8 +93,10 @@ export class ProfileComponent extends React.Component {
 
                 <Interactable.View
                     verticalOnly
-                    snapPoints={[ {y: Metrics.screenHeight * 0.17}, {y: -Metrics.screenHeight * 0.11 } ]}
-                    initialPosition={{ y: Metrics.screenHeight * 0.17 }}
+                    snapPoints={[ {y: Metrics.screenHeight * 0.3699}, {y: Metrics.screenHeight * 0.08 } ]}
+                    boundaries={{ top: Metrics.screenHeight * 0.062 }}
+                    initialPosition={{ y: Metrics.screenHeight * 0.3699 }}
+                    style={ profile.interactableWrapper }
                     animatedValueY={this._deltaY}>
 
                     {this.props.isLoading ? <ActivityIndicator /> :
@@ -166,7 +169,7 @@ export class ProfileComponent extends React.Component {
                                         styleURL={Mapbox.StyleURL.Street}
                                         zoomLevel={15}
                                         centerCoordinate={[11.256, 43.770]}
-                                        style={{ height: Metrics.screenHeight * 0.15, marginBottom: 10, borderRadius: 3, alignSelf: 'stretch' }}>
+                                        style={{ height: Metrics.screenHeight * 0.085, marginBottom: 10, borderRadius: 3, alignSelf: 'stretch' }}>
                                         <Mapbox.PointAnnotation
                                             key='pointAnnotation'
                                             id='pointAnnotation'

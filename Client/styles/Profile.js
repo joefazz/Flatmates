@@ -10,7 +10,6 @@ export const profile = StyleSheet.create({
 
     headerTextWrapper: {
         height: Metrics.screenHeight * 0.15,
-        paddingLeft: 10,
         paddingBottom: 5,
         backgroundColor: Colors.highlightWhite,
         shadowOffset: {
@@ -24,16 +23,20 @@ export const profile = StyleSheet.create({
 
     headerText: {
         ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }),
-        color: Colors.black
+        color: Colors.black,
+        paddingLeft: 10,
     },
 
     headerAvatar: {
         height: Metrics.screenHeight * 0.21,
+        paddingTop: Metrics.screenHeight * 0.01,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'black'
     },
 
+    interactableWrapper: {
+        minHeight: 1000,
+    },
 
     contentWrapper: {
         marginHorizontal: 10,
@@ -48,8 +51,7 @@ export const profile = StyleSheet.create({
         elevation: 3,
         borderRadius: 3,
 
-        paddingHorizontal: 20,
-        paddingTop: 15,
+        padding: Metrics.screenWidth * 0.035,
         alignItems: 'stretch',
         backgroundColor: Colors.highlightWhite
     },
@@ -75,7 +77,6 @@ export const profile = StyleSheet.create({
 
     preferencesWrapper: {
         marginTop: 10,
-        marginBottom: 10,
         justifyContent: 'space-between'
     },
 
