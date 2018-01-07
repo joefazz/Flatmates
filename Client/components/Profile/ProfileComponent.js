@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text, Animated, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, Animated, FlatList, ActivityIndicator, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import Interactable from 'react-native-interactable';
+import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 import { PreferenceRow } from '../../widgets';
 import { base, profile } from '../../styles';
-import { Metrics } from '../../consts';
+import { Metrics, Colors } from '../../consts';
 import { ConvertBirthdayToAge } from '../../utils/BirthdayToAge';
 
 export class ProfileComponent extends React.Component {
@@ -13,6 +14,8 @@ export class ProfileComponent extends React.Component {
         super(props);
         this._deltaY = new Animated.Value(0);
     }
+
+
 
     renderPreference = ({ item }) => {
         return (
@@ -24,12 +27,11 @@ export class ProfileComponent extends React.Component {
     }
 
     render() {
-        console.log(this.props.profile.toJS());
         return (
             <View style={{ flex: 1, alignItems: 'stretch' }}>
                 <Animated.View style={[ profile.headerPanel, {
                     height: this._deltaY.interpolate({
-                        inputRange: [-130, -50],
+                        inputRange: [0, 250],
                         outputRange: [20, 100],
                         extrapolateRight: 'clamp'
                     })
@@ -37,7 +39,7 @@ export class ProfileComponent extends React.Component {
                     <Animated.View style={[ profile.headerTextWrapper, 
                     {
                         maxHeight: this._deltaY.interpolate({
-                            inputRange: [-200, -20],
+                            inputRange: [10, 250],
                             outputRange: [50, 200],
                             extrapolateLeft: 'clamp',
                             extrapolateRight: 'clamp',
@@ -45,7 +47,7 @@ export class ProfileComponent extends React.Component {
                     },
                     {
                         paddingTop: this._deltaY.interpolate({
-                            inputRange: [-200, -20],
+                            inputRange: [10, 250],
                             outputRange: [10, 20],
                             extrapolateLeft: 'clamp',
                             extrapolateRight: 'clamp'
@@ -53,7 +55,7 @@ export class ProfileComponent extends React.Component {
                     } ]}>
                         <Animated.Text style={[ profile.headerText, {
                             fontSize: this._deltaY.interpolate({
-                                inputRange: [-200, -20],
+                                inputRange: [10, 250],
                                 outputRange: [26, 45],
                                 extrapolateLeft: 'clamp',
                                 extrapolateRight: 'clamp'
@@ -63,7 +65,7 @@ export class ProfileComponent extends React.Component {
                         </Animated.Text>
                         <Animated.Text style={[ profile.aboutText, {fontSize: 24}, {
                             opacity: this._deltaY.interpolate({
-                                inputRange: [-200, -20],
+                                inputRange: [10, 250],
                                 outputRange: [0, 1],
                                 extrapolate: 'clamp',
                             })
@@ -74,7 +76,7 @@ export class ProfileComponent extends React.Component {
 
                     <Animated.View style={[ profile.headerAvatar, {
                         opacity: this._deltaY.interpolate({
-                            inputRange: [-200, -50],
+                            inputRange: [20, 250],
                             outputRange: [0, 1],
                             extrapolateLeft: 'clamp',
                             extrapolateRight: 'clamp'
@@ -90,33 +92,90 @@ export class ProfileComponent extends React.Component {
 
                 <Interactable.View
                     verticalOnly
-                    snapPoints={[ {y: 0}, {y: -240} ]}
-                    boundaries={{ top: -250 }}
-                    style={ profile.contentWrapper }
+                    snapPoints={[ {y: Metrics.screenHeight * 0.269}, {y: Metrics.screenHeight * 0.01 } ]}
+                    boundaries={{ top: Metrics.screenHeight * 0.005 }}
+                    initialPosition={{ y: Metrics.screenHeight * 0.269 }}
                     animatedValueY={this._deltaY}>
 
                     {this.props.isLoading ? <ActivityIndicator /> :
                         <View>
-                            <Text style={ profile.aboutLabel }>About</Text>
-                            <Text style={ profile.aboutText }>{this.props.profile.get('bio')}</Text>
-                            <View style={ profile.ageGenderWrapper }>
-                                <View>
-                                    <Text style={ profile.aboutLabel }>Age</Text>
-                                    <Text style={ profile.aboutText }>{ConvertBirthdayToAge(this.props.profile.get('birthday'))}</Text>
+                            <View style={ profile.contentWrapper }>
+                                <Text style={ profile.aboutLabel }>About</Text>
+                                <Text style={ profile.aboutText }>{this.props.profile.get('bio')}</Text>
+                                <View style={ profile.ageGenderWrapper }>
+                                    <View>
+                                        <Text style={ profile.aboutLabel }>Age</Text>
+                                        <Text style={ profile.aboutText }>{ConvertBirthdayToAge(this.props.profile.get('birthday'))}</Text>
+                                    </View>
+                                    <View>
+                                        <Text style={ profile.aboutLabel }>Study Year</Text>
+                                        <Text style={ profile.aboutText }>{this.props.profile.get('studyYear')}</Text>
+                                    </View>
+                                    <View>
+                                        <Text style={ profile.aboutLabel }>Gender</Text>
+                                        <Text style={ profile.aboutText }>{this.props.profile.get('gender')}</Text>
+                                    </View>
                                 </View>
-                                <View>
-                                    <Text style={ profile.aboutLabel }>Study Year</Text>
-                                    <Text style={ profile.aboutText }>{this.props.profile.get('studyYear')}</Text>
-                                </View>
-                                <View>
-                                    <Text style={ profile.aboutLabel }>Gender</Text>
-                                    <Text style={ profile.aboutText }>{this.props.profile.get('gender')}</Text>
+                                <View style={ profile.preferencesWrapper }>
+                                    <PreferenceRow label={'Smoker'} value={this.props.profile.get('isSmoker') ? 'Yes' : 'No'} />
+                                    <PreferenceRow label={'Social Score'} value={this.props.profile.get('socialScore')} />
                                 </View>
                             </View>
-                            <View style={ profile.preferencesWrapper }>
-                                <PreferenceRow label={'Smoker'} value={this.props.profile.get('isSmoker') ? 'Yes' : 'No'} />
-                                <PreferenceRow label={'Social Score'} value={this.props.profile.get('socialScore')} />
-                            </View>
+
+                            {this.props.profile.get('house') ? 
+                                <View style={ profile.contentWrapper }>
+                                    <Text style={ profile.aboutLabel }>Road Name</Text>
+                                    <Text style={ profile.aboutText }>{this.props.profile.get('house').get('road')}</Text>
+                                    <View style={ profile.ageGenderWrapper }>
+                                        <View>
+                                            <Text style={ profile.aboutLabel }>House ID</Text>
+                                            <Text style={ profile.aboutText }>{this.props.profile.get('house').get('shortID')}</Text>
+                                        </View>
+                                        <View>
+                                            <Text style={ profile.aboutLabel }>Free Spaces</Text>
+                                            <Text style={ profile.aboutText }>{this.props.profile.get('house').get('spaces')}</Text>
+                                        </View>
+                                        <View>
+                                            <Text style={ profile.aboutLabel }>Cost Per Month</Text>
+                                            <Text style={ profile.aboutText }>£{this.props.profile.get('house').get('rentPrice') + this.props.profile.get('house').get('billsPrice')}</Text>
+                                        </View>
+                                    </View>
+                                    <ScrollView contentContainerStyle={ profile.preferencesWrapper }>
+                                        <Text style={ profile.aboutLabel }>Flatmates</Text>
+                                        {this.props.profile.get('house').get('users').map(flatmate => {
+                                            return <Text key={flatmate.get('name')} style={ profile.aboutText }>{flatmate.get('name')}</Text>
+                                        })}
+                                    </ScrollView>
+                                </View> 
+                            :
+                                <View style={ profile.contentWrapper }>
+                                    <Text style={[ profile.aboutText, {color: Colors.brandSecondaryColor} ]}>House Preferences</Text>
+                                    <View style={ profile.ageGenderWrapper }>
+                                        <View>
+                                            <Text style={ profile.aboutLabel }>Minimum Price</Text>
+                                            <Text style={ profile.aboutText }>£{this.props.profile.get('minPrice')}</Text>
+                                        </View>
+                                        <View>
+                                            <Text style={ profile.aboutLabel }>Maximum Price</Text>
+                                            <Text style={ profile.aboutText }>£{this.props.profile.get('maxPrice')}</Text>
+                                        </View>
+                                    </View>
+                                    <Text style={[ profile.aboutLabel, { marginTop: 10 }] }>Preferred Gender</Text>
+                                    <Text style={ profile.aboutText }>{this.props.profile.get('genderPreference')}</Text>
+                                    <Text style={[ profile.aboutLabel, { marginTop: 10 }]}>Preferred Location</Text>
+                                    <Mapbox.MapView 
+                                        styleURL={Mapbox.StyleURL.Street}
+                                        zoomLevel={15}
+                                        centerCoordinate={[11.256, 43.770]}
+                                        style={{ height: Metrics.screenHeight * 0.15, marginBottom: 10, borderRadius: 3, alignSelf: 'stretch' }}>
+                                        <Mapbox.PointAnnotation
+                                            key='pointAnnotation'
+                                            id='pointAnnotation'
+                                            coordinate={[11.256, 43.770]}>
+
+                                        </Mapbox.PointAnnotation>
+                                    </Mapbox.MapView>
+                                </View>}
                         </View>
                     }
 

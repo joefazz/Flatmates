@@ -30,7 +30,7 @@ import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
 import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
 import Client from '../Client';
-import { HOUSE_QUERY } from '../graphql/queries';
+import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
 
 import { 
     CREATE_USER_MUTATION, 
@@ -39,7 +39,7 @@ import {
     UPDATE_USER_UPDATE_HOUSE_MUTATION 
 } from '../graphql/mutations';
 
-export let facebookPermissions;
+export let facebookPermissions = [];
 
 export class Login extends React.Component {
     constructor(props) {
@@ -115,7 +115,7 @@ export class Login extends React.Component {
         try {
             Client.query({
                 variables: { shortID },
-                query: HOUSE_QUERY
+                query: HOUSE_DETAILS_QUERY
             }).then(res => res.data.House === null ? null : new Error())
         } catch(error) {
             GenerateID();
@@ -188,7 +188,7 @@ export class Login extends React.Component {
     completeJoiningHouseSetup = () => {
         Client.query({
             variables: { shortID: parseInt(this.state.shortID) },
-            query: HOUSE_QUERY,
+            query: HOUSE_DETAILS_QUERY,
         }).then(res => {
             if (res.data.House !== null) {
                 Alert.alert(

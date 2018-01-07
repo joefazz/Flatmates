@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Font, Colors } from '../consts';
+import { Font, Colors, Metrics } from '../consts';
 
 export const profile = StyleSheet.create({
     headerPanel: {
@@ -9,7 +9,7 @@ export const profile = StyleSheet.create({
     },
 
     headerTextWrapper: {
-        flex: 1,
+        height: Metrics.screenHeight * 0.15,
         paddingLeft: 10,
         paddingBottom: 5,
         backgroundColor: Colors.highlightWhite,
@@ -18,6 +18,7 @@ export const profile = StyleSheet.create({
         },
         shadowColor: Colors.grey,
         shadowOpacity: 0.6,
+        elevation: 3,
         shadowRadius: 4,
     },
 
@@ -27,15 +28,17 @@ export const profile = StyleSheet.create({
     },
 
     headerAvatar: {
-        flex: 2,
+        height: Metrics.screenHeight * 0.2,
         justifyContent: 'center',
         alignItems: 'center',
     },
 
+    interactableWrapper: {
+    },
+
     contentWrapper: {
-        flex: 1, 
         marginHorizontal: 10,
-        marginBottom: 10,
+        marginBottom: 15,
         shadowColor: Colors.grey,
         shadowOffset: {
             width: 2,
@@ -47,7 +50,7 @@ export const profile = StyleSheet.create({
         borderRadius: 3,
 
         paddingHorizontal: 20,
-        paddingTop: 20,
+        paddingTop: 15,
         alignItems: 'stretch',
         backgroundColor: Colors.highlightWhite
     },
@@ -68,13 +71,14 @@ export const profile = StyleSheet.create({
     },
 
     ageGenderWrapper: {
-        marginTop: 20,
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
 
     preferencesWrapper: {
-        marginTop: 20,
+        marginTop: 10,
+        marginBottom: 10,
         justifyContent: 'space-between'
     },
 

@@ -16,6 +16,12 @@ export const USER_DETAILS_QUERY = gql`
             house {
                 shortID
                 road
+                billsPrice
+                rentPrice
+                spaces
+                users {
+                    name
+                }
             }
         }
     }

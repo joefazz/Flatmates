@@ -6,6 +6,7 @@ import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import { base, profile } from '../styles';
+import Client from '../Client';
 import { FloatingActionButton, EditButton } from '../widgets';
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
@@ -37,7 +38,7 @@ export class Profile extends React.Component {
                     trimmedData[property] = newProps.User[property]
                 }
             });
-            console.log(trimmedData);
+
             this.setState({ 
                 isLoading: newProps.loading,
                 profile: this.state.profile.merge(trimmedData)

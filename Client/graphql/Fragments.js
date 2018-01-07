@@ -35,8 +35,10 @@ export const HOUSE_FRAGMENT = gql`
 fragment HouseFragment on House {
     id
     road
+    billsPrice
+    rentPrice
     users {
-        email
+        name
     }
     posts {
         title
