@@ -20,6 +20,7 @@ export const FontFactory = (options = {}) => {
     let { weight, style, family } = Object.assign({
         weight: null,
         style: null,
+        size: null,
         family: 'Nunito'
     }, options);
 
@@ -28,7 +29,7 @@ export const FontFactory = (options = {}) => {
     if (Platform.OS === 'android') {
         weight = weights[weight] ? weight : 'Regular';
         style = styles[style] ? style : ''
-
+        
         const suffix = weight + style;
 
         return {

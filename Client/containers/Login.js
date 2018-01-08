@@ -13,7 +13,8 @@ import {
     Alert,
     Platform,
     Switch,
-    StatusBar
+    StatusBar,
+    Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
@@ -30,8 +31,8 @@ import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
 import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
 import Client from '../Client';
+import { toConstantFontSize } from '../utils/PercentageConversion';
 import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
-
 import { 
     CREATE_USER_MUTATION, 
     UPDATE_USER_MUTATION, 
@@ -223,7 +224,6 @@ export class Login extends React.Component {
             }]);
         }
 
-
         return (
             <Swiper 
                 ref={swiper => this.homeSwiper = swiper}
@@ -234,8 +234,8 @@ export class Login extends React.Component {
 
                 <View style={[ login.page, {justifyContent: 'space-around'} ]}>
                     <View style={[ login.headingWrapper, {flex: 1} ]}>
-                        <Text style={[ login.headingText, { fontSize: 32, ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }) } ]}>Welcome to Flatmates</Text>
-                        <Text style={[ login.headingText, { fontSize: 20 } ]}>Student living made simple</Text>
+                        <Text style={[ login.headingText, { fontSize: toConstantFontSize(3.9), ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }) } ]}>Welcome to Flatmates</Text>
+                        <Text style={[ login.headingText, { fontSize: toConstantFontSize(2.9) } ]}>Student living made simple</Text>
                     </View>
                     <View style={[ login.mainContent, { flex: 2 } ]}>
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 

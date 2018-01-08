@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { Colors, Metrics } from '../consts';
 import { Font } from '../consts';
+import { toConstantFontSize } from '../utils/PercentageConversion';
 
 export const login = StyleSheet.create({
     page: {
@@ -30,7 +31,7 @@ export const login = StyleSheet.create({
     
     headingText: {
         ...Font.FontFactory({ family: 'Nunito' }),
-        fontSize: 18,
+        fontSize: toConstantFontSize(3),
         color: Colors.textHighlightColor,
         margin: 5,
     },
