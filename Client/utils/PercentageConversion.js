@@ -19,7 +19,7 @@ export function toConstantFontSize(percentage) {
 }
 
 function toConstant(percentage, type) {
-    switch(type) {
+    switch (type) {
         case TYPES.Width:
             return Metrics.screenWidth * (percentage / 100);
         case TYPES.Height:
