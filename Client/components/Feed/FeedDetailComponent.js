@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 
 export class FeedDetailComponent extends React.Component {
     constructor(props) {
@@ -8,9 +8,9 @@ export class FeedDetailComponent extends React.Component {
 
     render() {
         return (
-            <View>
-
-            </View>
+            <ScrollView>
+                
+            </ScrollView>
         );
     }
 }

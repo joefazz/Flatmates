@@ -3,6 +3,7 @@ import { View, Text, Platform } from 'react-native'
 import { compose, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 
+import { FeedDetailComponent } from '../../components/Feed/FeedDetailComponent';
 import { POST_DETAILS_QUERY } from '../../graphql/queries';
 import { BackButton } from '../../widgets';
 
