@@ -3,9 +3,9 @@ import { View, Text, Platform, FlatList, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { PostCard } from '../widgets';
-import { Colors, Metrics } from '../consts';
-import { feed } from '../styles';
+import { PostCard } from '../../widgets';
+import { Colors, Metrics } from '../../consts';
+import { feed } from '../../styles';
 
 export class FeedListComponent extends React.Component {
     constructor(props) {
@@ -41,4 +41,4 @@ export class FeedListComponent extends React.Component {
                 />
         );
     }
-}
+}0

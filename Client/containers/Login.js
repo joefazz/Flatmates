@@ -23,6 +23,7 @@ import { Button, Avatar, Slider } from 'react-native-elements';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 import { Checkbox } from '../widgets';
+import { MapView } from '../widgets/MapView';
 import { signupWithFacebook, loginWithFacebook } from '../redux/Routines';
 import { base, login, profile } from '../styles';
 import { Colors, Strings, Metrics, Font } from '../consts';
@@ -231,6 +232,10 @@ export class Login extends React.Component {
                 scrollEnabled={false} 
                 dotStyle={ login.dotStyle } 
                 activeDotColor={Colors.textHighlightColor}>
+
+                <View style={{ height: Metrics.screenHeight, width: Metrics.screenWidth }}>
+                    <MapView />
+                </View>
 
                 <View style={[ login.page, {justifyContent: 'space-around'} ]}>
                     <View style={[ login.headingWrapper, {flex: 1} ]}>

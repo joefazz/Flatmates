@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { FeedListComponent } from '../../components/Feed/FeedListComponent';
-import { CreateButton, PostCard } from '../widgets';
-import { Colors, Metrics } from '../consts';
-import { feed } from '../styles';
+import { CreateButton, PostCard } from '../../widgets';
+import { Colors, Metrics } from '../../consts';
+import { feed } from '../../styles';
 
 export class Feed extends React.Component {
     static navigationOptions = ({ navigation }) => ({

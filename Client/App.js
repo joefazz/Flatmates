@@ -52,7 +52,7 @@ export default class Root extends React.Component {
     }
 
     componentWillMount() {
-        // AsyncStorage.clear().catch(error => console.log(error));
+        AsyncStorage.clear().catch(error => console.log(error));
         persistentStore(() => {
             this.setState({ isRehydrated: true });
         })

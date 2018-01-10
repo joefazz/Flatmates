@@ -10,6 +10,7 @@ export default colors = {
     facebookBlue: '#4267B2',
     backgroundWhite: '#E6E6ED',
 
+    purple: '#7474BF',
     textHighlightColor: highlightColor,
     white: '#FFFFFF',
     highlightWhite: '#F5F5F5',
