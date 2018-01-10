@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, TouchableHighlight, Slider } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 import { Colors } from '../consts';
 import PulseCircleLayer from './PulseCircleLayer';
 
-const ANNOTATION_SIZE = 30;
+const ANNOTATION_SIZE = 20;
 
 export class MapView extends React.Component {
     constructor(props) {
@@ -18,7 +18,6 @@ export class MapView extends React.Component {
     }
 
     placeAnnotation(feature) {
-        console.table(feature)
         this.setState({ coordinates: feature.geometry.coordinates });
     }
 
@@ -29,8 +28,6 @@ export class MapView extends React.Component {
                 shape={{type: 'Feature', geometry: {type: 'Point', coordinates: this.state.coordinates}}}>
                 <Mapbox.CircleLayer
                     id={'circleLayer'}
-                    maxZoomLayer={16}
-                    
                     style={[ MapboxStyles.circleStyle, {circleRadius: this.state.circleRadius }]}>
 
                 </Mapbox.CircleLayer>
@@ -44,13 +41,21 @@ export class MapView extends React.Component {
                 id={'chosen'}
                 coordinate={this.state.coordinates}>
 
+                <View style={ styles.annotationContainer }>
+                    <View style={ styles.annotationFill } />
+                </View>
+
             </Mapbox.PointAnnotation>
 
         );
     }
 
-    renderRadiusDial() {
-        
+    renderRadiusSlider() {
+        return(
+            <View style={{ position: 'absolute', bottom: 0, left: 10, right: 40 }}>
+                <Slider value={this.state.circleRadius / 10} maximumValue={20} minimumValue={5} onValueChange={(value) => this.setState({ circleRadius: value * 10 })} />
+            </View>
+        );
     }
 
     render() {
@@ -58,13 +63,15 @@ export class MapView extends React.Component {
             <Mapbox.MapView
                 style={{ flex: 1 }}
                 zoomLevel={14}
+                zoomEnabled={false}
                 styleURL={Mapbox.StyleURL.Street}
+                logoEnabled={false}
                 onPress={(feature) => this.placeAnnotation(feature)}
                 centerCoordinate={this.state.coordinates}>
 
                 {this.renderCircleLayer()}
                 {this.renderAnnotation()}
-                {this.renderRadiusDial()}
+                {this.renderRadiusSlider()}
 
             </Mapbox.MapView>
         )
