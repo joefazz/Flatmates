@@ -227,36 +227,37 @@ export class Login extends React.Component {
             mediaType: 'photo', 
             maxFiles: 3,
             loadingLabelText: 'Processing photos...' 
-        }).then(images => {
-            const formData = new FormData();
-            const data = {
-                uri: images[0].path,
-                name: 'Hello.jpg',
-                type: images[0].mime
-            };
-            console.log(data);
+        }).then(images => {            
+            images.forEach(image => {
+                const formData = new FormData();
 
-            formData.append('data', data);
-            console.log(formData)
-            const options = {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'multipart/form-data'
-                }
-            };
+                let lastIndex = image.path.lastIndexOf('/') + 1;
+                const data = {
+                    uri: image.path,
+                    name: image.path.slice(lastIndex),
+                    type: image.mime
+                };
 
-            return fetch('https://api.graph.cool/file/v1/cjan360c023tx0138uknsgziy', options).then(res => {
-                console.log(res.ok);
-                return res;
-            }).then(image => {
-                console.log(image)
-                return image;
-            }).catch(error => alert('Fetch alert' + error))
-            
+                formData.append('data', data);
+
+                const options = {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'multipart/form-data'
+                    }
+                };
+    
+                fetch('https://api.graph.cool/file/v1/cjan360c023tx0138uknsgziy', options).then(res => {
+                    return res.json();
+                }).then(image => {
+                    console.log(image)
+                    return image;
+                }).catch(error => alert('Fetch alert: ' + error))
+            });
         }).catch(error => {
-            alert('ImagePicker alert' + error);
+            alert('ImagePicker alert: ' + error);
         });
     }
 
