@@ -99,5 +99,7 @@
 	<string>777909632392769</string>
 	<key>FacebookDisplayName</key>
 	<string>Flatmates</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We require access to your photos in order to let you upload pictures of your house for potential flatmates to see</string>
 </dict>
 </plist>

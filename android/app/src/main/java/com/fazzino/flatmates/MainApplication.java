@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.react.ReactApplication;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.mapbox.rctmgl.RCTMGLPackage;
 import com.wix.interactable.Interactable;
 import com.dylanvann.fastimage.FastImageViewPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
       mCallbackManager = new CallbackManager.Factory().create();
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new PickerPackage(),
             new RCTMGLPackage(),
             new Interactable(),
             new FastImageViewPackage(),

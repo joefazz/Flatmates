@@ -16,6 +16,7 @@ import {
     StatusBar,
     Dimensions
 } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import Swiper from 'react-native-swiper';
@@ -218,6 +219,47 @@ export class Login extends React.Component {
         });
     }
 
+    uploadImages() {
+        ImagePicker.openPicker({
+            multiple: true, 
+            compressImageMaxHeight: 300, 
+            compressImageMaxWidth: 300, 
+            mediaType: 'photo', 
+            maxFiles: 3,
+            loadingLabelText: 'Processing photos...' 
+        }).then(images => {
+            const formData = new FormData();
+            const data = {
+                uri: images[0].path,
+                name: 'Hello.jpg',
+                type: images[0].mime
+            };
+            console.log(data);
+
+            formData.append('data', data);
+            console.log(formData)
+            const options = {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+
+            return fetch('https://api.graph.cool/file/v1/cjan360c023tx0138uknsgziy', options).then(res => {
+                console.log(res.ok);
+                return res;
+            }).then(image => {
+                console.log(image)
+                return image;
+            }).catch(error => alert('Fetch alert' + error))
+            
+        }).catch(error => {
+            alert('ImagePicker alert' + error);
+        });
+    }
+
     render() {
         if (this.state.hasLoginFailed) {
             Alert.alert('Login Failed', this.props.login.get('error'), [{
@@ -233,10 +275,6 @@ export class Login extends React.Component {
                 dotStyle={ login.dotStyle } 
                 activeDotColor={Colors.textHighlightColor}>
 
-                <View style={{ height: Metrics.screenHeight, width: Metrics.screenWidth }}>
-                    <MapView />
-                </View>
-
                 <View style={[ login.page, {justifyContent: 'space-around'} ]}>
                     <View style={[ login.headingWrapper, {flex: 1} ]}>
                         <Text style={[ login.headingText, { fontSize: toConstantFontSize(3.9), ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }) } ]}>Welcome to Flatmates</Text>
@@ -246,6 +284,7 @@ export class Login extends React.Component {
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>
+                        <Button title={'Image Test'} onPress={() => this.uploadImages()} />
                         <Button title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
                         <TouchableOpacity onPress={this.loginWithFacebook}>
                             <Text style={[ login.hyperlink, { marginTop: 10 } ]}>Already Got an Account? Login</Text>
@@ -473,7 +512,7 @@ export class Login extends React.Component {
                                 <Text style={ login.pickerActivatorText }>{this.state.genderPreference}</Text>
                             </TouchableOpacity>
                         </View>
-                        {/* location would be good with with defaulting to current location */}
+                        {/* location would be good with with defaulting to university location */}
                     </View>
                     <View style={ login.pageFooter }>
                         <Button title={'Confirm'} fontFamily={Font.FONT_FAMILY} fontSize={20} onPress={this.completeUserSetup} buttonStyle={ base.buttonStyle } />
