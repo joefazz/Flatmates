@@ -97,8 +97,10 @@ export const chat = StyleSheet.create({
             ios: {
                 width: 34,
                 height: 34,
-                borderRadius: 18,
+                borderRadius: 17,
                 borderWidth: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
                 borderColor: 'transparent',
                 backgroundColor: Colors.brandSecondaryColor,
             },
@@ -111,6 +113,7 @@ export const chat = StyleSheet.create({
         borderColor: '#dbdbdb',
         borderTopWidth: 1,
         flexDirection: 'row',
+        paddingBottom: 20 // iPhone X padding required
     },
 
     inputContainer: {
@@ -143,6 +146,6 @@ export const chat = StyleSheet.create({
 
     sendButtonContainer: {
         paddingRight: 12,
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
 })

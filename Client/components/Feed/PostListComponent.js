@@ -3,22 +3,26 @@ import { View, Text, Platform, FlatList, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+
 import { PostCard } from '../../widgets';
 import { Colors, Metrics } from '../../consts';
 import { feed } from '../../styles';
 
-export class FeedListComponent extends React.Component {
+export class PostListComponent extends React.Component {
     constructor(props) {
         super(props);
     }
 
-    renderCard = () => {
+    renderCard = ({ item }) => {
         return (
             <View style={ feed.card }>
-                <PostCard title={'De Beauvoir Road'} 
-                    spaces={2} 
-                    price={450}
-                    images={['https://placeimg.com/600/300/animals', 'https://placeimg.com/600/300/people', 'https://placeimg.com/600/300/any']} />
+                <PostCard 
+                    onPress={() => this.props.navigation.navigate('PostDetail', {data: item} )}
+                    title={item.createdBy.road} 
+                    spaces={item.createdBy.spaces} 
+                    price={item.createdBy.billsPrice + item.createdBy.rentPrice}
+                    images={item.createdBy.houseImages}
+                    createdDate={item.createdAt} />
             </View>
         );
     }
@@ -32,13 +36,13 @@ export class FeedListComponent extends React.Component {
     render() {
         return (
             <FlatList
-                data={[1, 2]}
+                data={this.props.data}
                 contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
                 renderItem={this.renderCard}
                 ListHeaderComponent={this.renderHeaderFooter}
                 ListFooterComponent={this.renderHeaderFooter}
-                keyExtractor={item => item}
+                keyExtractor={item => item.createdAt}
                 />
         );
     }
-}0
+}

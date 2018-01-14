@@ -25,7 +25,7 @@ export class ChatList extends React.Component {
             this.dummyGroups = [];
             for (let i = 0; i < 10; i++) {
                 this.dummyGroups.push({
-                    id: 1234,
+                    id: i,
                     name: "Real Fake Street",
                     lastMessageText: 'Lorem ipsum doler set amet',
                     users: [{name: 'Joe Fazzino'}, {name: 'Ben Buckley'}]
@@ -41,7 +41,6 @@ export class ChatList extends React.Component {
 
     componentWillReceiveProps(newProps) {
         if (this.props.data !== newProps.data) {
-            console.log(newProps.data)
             this.setState({
                 isLoading: newProps.data.loading,
                 // groups: newProps.data.User.group
@@ -63,10 +62,7 @@ export class ChatList extends React.Component {
         }
 
         return (
-            <View>
-                <StatusBar barStyle={'light-content'} />
-                <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />
-            </View>
+            <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />
         );
     }
 }

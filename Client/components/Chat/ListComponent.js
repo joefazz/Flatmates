@@ -6,6 +6,7 @@ import { chat, base } from '../../styles';
 
 export class ChatListComponent extends React.Component {
     renderItem = ({ item }) => {
+        console.log(item);
         return (
             <TouchableOpacity style={ chat.row } onPress={() => this.props.navigation.navigate('ChatDetail', { title: item.name, groupId: item.id })}>
                 <View style={ chat.groupRowWrapper }>

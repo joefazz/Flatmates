@@ -27,7 +27,7 @@ export class ProfileComponent extends React.Component {
     }
 
     render() {
-        console.log(Metrics.screenHeight, this._deltaY);
+
         return (
             <View style={{ flex: 1, alignItems: 'stretch' }}>
                 <Animated.View style={[ profile.headerPanel, {

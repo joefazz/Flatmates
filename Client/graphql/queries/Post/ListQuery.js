@@ -5,13 +5,13 @@ export const POST_LIST_QUERY = gql`
         allPosts {
             title
             description
-            imageUrl
             createdAt
             createdBy {
                 road
                 billsPrice
                 rentPrice
                 spaces
+                houseImages
             }
         }
     }

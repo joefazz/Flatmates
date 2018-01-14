@@ -1,14 +1,13 @@
 import { StackNavigator } from 'react-navigation';
 import { Platform } from 'react-native';
 
-import Feed from '../containers/Feed/Feed';
-import FeedDetail from '../containers/Feed/Detail'
+import PostList from '../containers/Feed/PostList';
+import PostDetail from '../containers/Feed/PostDetail';
 import { Colors, Font } from '../consts';
 
 const routeConfig = {
-    Feed: { screen: Feed },
-    FeedDetail: { screen: FeedDetail}
-    
+    PostList: { screen: PostList },    
+    PostDetail: { screen: PostDetail },    
 }
 
 const navConfig = {

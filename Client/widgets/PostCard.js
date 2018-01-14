@@ -2,8 +2,10 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import Swiper from 'react-native-swiper';
 import FastImage from 'react-native-fast-image';
+import moment from 'moment';
 
 import { Colors, Metrics } from '../consts';
+import { Font } from '../consts';
 
 export class PostCard extends React.Component {
     constructor(props) {
@@ -26,7 +28,7 @@ export class PostCard extends React.Component {
                 <View style={ styles.swiperContainer }>
                     {this.renderPostPictures()}
                 </View>
-                <TouchableOpacity style={{ flex: 1, padding: 10 }} onPress={() => this.props.navigation.navigate('PostDetail', {data: this.props})}>
+                <TouchableOpacity style={{ flex: 1, padding: 10 }} onPress={this.props.onPress}>
                     <View style={ styles.titleContainer }>
                         <Text style={ styles.titleText }>{this.props.title}</Text>
                         <Text style={ styles.spacesText }>{this.props.spaces} Spaces</Text>
@@ -34,6 +36,7 @@ export class PostCard extends React.Component {
 
                     <View style={ styles.subtitleContainer }>
                         <Text style={ styles.priceText }>£{this.props.price} Per Month (incl. Bills)</Text>
+                        <Text style={ styles.priceText }>{moment(this.props.createdDate).format('DD MMM')}</Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -83,6 +86,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         backgroundColor: Colors.white,
         alignItems: 'center',
+        justifyContent: 'space-between'
     },
 
     postImage: {
@@ -92,12 +96,13 @@ const styles = StyleSheet.create({
 
     titleText: {
         fontSize: 22,
-        fontWeight: '200',
+        ...Font.FontFactory({family: 'Nunito', weight: 'Light'}),
     },
 
     spacesText: {
         fontSize: 18,
         marginBottom: 1.5,
+        ...Font.FontFactory({family: 'Nunito', weight: 'Light'}),
         color: Colors.textHighlightColor
     },
 
