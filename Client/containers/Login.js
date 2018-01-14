@@ -81,6 +81,7 @@ export class Login extends React.Component {
             rentPrice: 200,
             billsPrice: 30,
             spaces: 3,
+            houseImages: []
         }
     }
 
@@ -182,7 +183,8 @@ export class Login extends React.Component {
             this.state.road,
             Math.round(this.state.rentPrice),
             Math.round(this.state.billsPrice),
-            parseInt(this.state.spaces)
+            parseInt(this.state.spaces),
+            this.state.houseImages
         );
 
         this.homeSwiper.scrollBy(1, true);
@@ -219,19 +221,24 @@ export class Login extends React.Component {
         });
     }
 
-    uploadImages() {
-        ImagePicker.openPicker({
+    async uploadImages() {
+        var imageUrls = [];
+        var images = [];
+
+        images = await ImagePicker.openPicker({
             multiple: true, 
             compressImageMaxHeight: 300, 
             compressImageMaxWidth: 300, 
             mediaType: 'photo', 
-            maxFiles: 3,
             loadingLabelText: 'Processing photos...' 
-        }).then(images => {            
-            images.forEach(image => {
+        }).catch(error => alert('Image Upload Cancelled'));
+        
+        if (images && images.length > 0) {   
+            imageUrls = await Promise.all(images.map(async (image) => {
                 const formData = new FormData();
 
                 let lastIndex = image.path.lastIndexOf('/') + 1;
+
                 const data = {
                     uri: image.path,
                     name: image.path.slice(lastIndex),
@@ -248,17 +255,19 @@ export class Login extends React.Component {
                         'Content-Type': 'multipart/form-data'
                     }
                 };
-    
-                fetch('https://api.graph.cool/file/v1/cjan360c023tx0138uknsgziy', options).then(res => {
-                    return res.json();
-                }).then(image => {
-                    console.log(image)
-                    return image;
-                }).catch(error => alert('Fetch alert: ' + error))
-            });
-        }).catch(error => {
-            alert('ImagePicker alert: ' + error);
-        });
+
+                let response = await fetch('https://api.graph.cool/file/v1/cjan360c023tx0138uknsgziy', options);
+                
+                if (response.ok) {
+                    let json = await response.json();
+                    return json.url;
+                } else {
+                    alert('Problem with fetch: ' + response.status);
+                }
+            }));
+
+            this.setState({ houseImages: imageUrls });
+        }
     }
 
     render() {
@@ -285,7 +294,6 @@ export class Login extends React.Component {
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button title={'Image Test'} onPress={() => this.uploadImages()} />
                         <Button title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
                         <TouchableOpacity onPress={this.loginWithFacebook}>
                             <Text style={[ login.hyperlink, { marginTop: 10 } ]}>Already Got an Account? Login</Text>
@@ -601,11 +609,13 @@ export class Login extends React.Component {
                         <Text style={ login.labelText }>Road Name</Text>
                         <TextInput placeholder={'Fake Street'}
                             onChangeText={(text) => this.setState({ road: text })}
+                            autoCorrect={false}
+                            spellCheck={false}
                             underlineColorAndroid={Colors.grey}
-                            style={[ login.houseDetailFullWidthInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
+                            style={ login.houseDetailFullWidthInput } />
                     </View>
                         
-                    <View style={[ login.marginVertical, { flexDirection: 'row' } ]}>
+                    <View style={[ login.marginVertical, { flexDirection: 'row', alignSelf: 'center' } ]}>
                         <View style={{ marginRight: 30 }}>
                             <Text style={ login.labelText }>Rent Per Month</Text>
                             <View style={ login.priceInputWrapper }>
@@ -614,7 +624,7 @@ export class Login extends React.Component {
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  rentPrice: text })}
                                     underlineColorAndroid={Colors.grey}
-                                    style={[ login.houseDetailHalfWidthInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
+                                    style={ login.houseDetailHalfWidthInput } />
                             </View>
                         </View>
                         <View>
@@ -625,7 +635,7 @@ export class Login extends React.Component {
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  billsPrice: text })}
                                     underlineColorAndroid={Colors.grey}
-                                    style={[ login.houseDetailHalfWidthInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
+                                    style={ login.houseDetailHalfWidthInput } />
                             </View>
                         </View>
                     </View>
@@ -635,17 +645,29 @@ export class Login extends React.Component {
                             onChangeText={(text) => this.setState({  spaces: text })}
                             keyboardType={'numeric'}
                             underlineColorAndroid={Colors.grey}
-                            style={[ login.profileInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
+                            style={ login.houseDetailFullWidthInput } />
+                    </View>
+                    <View style={[ login.marginTop, { alignSelf: 'flex-start' } ]}>
+                        <Text style={ login.labelText }>Images</Text>
+                        {/* Probably want to make this a horizontal scroll view in the future */}
+                        <View style={{ flexDirection: 'row' }}>
+                            {this.state.houseImages.map(image => {
+                                return <Image source={{uri: image}} style={{width: 70, height: 70, marginRight: 6}} />
+                            })}
+                        </View>
                     </View>
                 </View>
                 
                 <View style={ login.pageFooter }>
-                    <Button
-                        title={'Confirm'}
-                        onPress={this.completeNewHouseSetup}
-                        fontFamily={Font.FONT_FAMILY} 
-                        fontSize={20}
-                        buttonStyle={ base.buttonStyle} />
+                    {this.state.houseImages.length === 0 ?
+                        <Button title={'Upload Photos'} leftIcon={{ type: 'font-awesome', name: 'camera', size: 26 }} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, { backgroundColor: Colors.purple } ]} onPress={() => this.uploadImages()} />
+                        :
+                        <Button
+                            title={'Confirm'}
+                            onPress={this.completeNewHouseSetup}
+                            fontFamily={Font.FONT_FAMILY} 
+                            fontSize={20}
+                            buttonStyle={ base.buttonStyle} /> }
                 </View>
             </View>
         );
@@ -664,9 +686,9 @@ const updateUser = graphql(UPDATE_USER_MUTATION, {
         
 const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
     props: ({ mutate }) => ({
-        updateUserCreateHouse: ( id, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces ) => 
+        updateUserCreateHouse: ( id, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces, houseImages ) => 
             mutate({
-                variables: { id, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces },
+                variables: { id, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces, houseImages },
             }),
     })
 });

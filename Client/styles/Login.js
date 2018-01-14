@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 import { Colors, Metrics } from '../consts';
 import { Font } from '../consts';
@@ -85,7 +85,7 @@ export const login = StyleSheet.create({
         color: Colors.textHighlightColor, 
         width: 300, 
         fontSize: 18, 
-        borderBottomWidth: 1, 
+        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0, 
         borderColor: Colors.grey 
     },
 
@@ -154,7 +154,7 @@ export const login = StyleSheet.create({
         color: Colors.textHighlightColor, 
         width: 270, 
         fontSize: 18, 
-        borderBottomWidth: 1, 
+        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0, 
         borderColor: Colors.grey
     },
 
