@@ -8,6 +8,8 @@ target 'Flatmates' do
   # use_frameworks!
 
   # Pods for Flatmates
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'FlatmatesTests' do
     inherit! :search_paths
     # Pods for testing

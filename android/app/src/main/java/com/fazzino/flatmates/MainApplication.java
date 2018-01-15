@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.mapbox.rctmgl.RCTMGLPackage;
 import com.wix.interactable.Interactable;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -40,12 +40,12 @@ public class MainApplication extends Application implements ReactApplication {
       mCallbackManager = new CallbackManager.Factory().create();
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new VectorIconsPackage(),
             new PickerPackage(),
             new RCTMGLPackage(),
             new Interactable(),
             new FastImageViewPackage(),
-            new FBSDKPackage(mCallbackManager),
-            new VectorIconsPackage()
+            new FBSDKPackage(mCallbackManager)
       );
     }
 
