@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { View, Text, Platform, FlatList, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
@@ -40,10 +40,10 @@ export class PostList extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, backgroundColor: Colors.backgroundWhite }}>
+            <Fragment>
                 <StatusBar barStyle={'light-content'} />
                 <PostListComponent navigation={this.props.navigation} {...this.state} />
-            </View>
+            </Fragment>
         );
     }
 }

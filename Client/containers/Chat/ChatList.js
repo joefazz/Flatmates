@@ -5,7 +5,7 @@ import { graphql, compose } from 'react-apollo';
 import Icon from 'react-native-vector-icons/Ionicons'
 import _ from 'lodash';
 
-import { ChatListComponent } from '../../components/Chat/ListComponent';
+import { ChatListComponent } from '../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY } from '../../graphql/queries';
 
 export class ChatList extends React.Component {

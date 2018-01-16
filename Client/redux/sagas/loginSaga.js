@@ -1,7 +1,7 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { NavigationActions } from 'react-navigation';
 import { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-import { graphql, gql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 
 import client from '../../Client';
 import { USER_LOGIN_QUERY } from '../../graphql/queries';

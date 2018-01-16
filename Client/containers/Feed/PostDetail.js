@@ -1,40 +1,68 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { View, Text, Platform, FlatList, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 
+import Client from '../../Client';
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
-import { POST_DETAILS_QUERY, POST_LIST_QUERY } from '../../graphql/queries';
+import { POST_DETAILS_QUERY } from '../../graphql/queries';
 import { BackButton } from '../../widgets';
 
 export class PostDetail extends React.Component {
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: navigation.state.params.data.road,
-        headerLeft: Platform.OS === 'ios' ? <BackButton goBack={ () => navigation.goBack() }/> : null,
+        title: navigation.state.params.data.createdBy.road,
     });
 
     constructor(props) {
         super(props);
 
+        console.log(props);
+
         this.state = {
-            data: props.navigation.state.params.data,
-        };
+            data: navigation.state.params.data,
+            isLoading: props.loading
+        }
+    }
+
+    componentDidMount() {
+        this.setState({ data: this.getPostDetail() });
     }
 
     componentWillReceiveProps(newProps) {
+        if (newProps.loading !== this.state.isLoading) {
+            this.setState({ isLoading: newProps.loading });
 
+            if (newProps.Post !== this.state.Post) {
+                this.setState({ data: newProps.Post });
+            }
+        }
+    }
+
+    async getPostDetail() {
+        try {
+            return await Client.query({
+                variables: { id: this.state.data.id },
+                query: POST_DETAILS_QUERY
+            });
+        } catch(error) {
+            alert(error);
+        }
     }
 
     render() {
+        console.log(this.state);
         return (
-            <Text>Hello</Text>
+            <Fragment>
+                <StatusBar barStyle={'light-content'} />
+                <PostDetailComponent navigation={this.props.navigation} {...this.state} />
+            </Fragment>
         );
     }
 }
 
 const mapStateToProps = (state) => ({
-    
-})
+
+});
 
 const bindActions = (dispatch) => {
     return {
@@ -42,13 +70,4 @@ const bindActions = (dispatch) => {
     };
 }
 
-const allPostsQuery = graphql(POST_LIST_QUERY, {
-    props: ({ data: { loading, allPosts } }) => ({
-        loading, allPosts
-    })
-})
-
-export default compose(
-    connect(mapStateToProps, bindActions),
-    allPostsQuery,
-)(PostDetail);
+export default connect(mapStateToProps, bindActions)(PostDetail);
