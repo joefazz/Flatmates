@@ -5,7 +5,7 @@ import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
 import randomColor from 'randomcolor';
 
-import { ChatDetailComponent } from '../../components/Chat/DetailComponent';
+import { ChatDetailComponent } from '../../components/Chat/ChatDetailComponent';
 import { GROUP_QUERY } from '../../graphql/queries';
 import { CREATE_MESSAGE_MUTATION } from '../../graphql/mutations';
 
