@@ -21,10 +21,8 @@ import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import Swiper from 'react-native-swiper';
 import { Button, Avatar, Slider } from 'react-native-elements';
-import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 import { Checkbox } from '../widgets';
-import { MapView } from '../widgets/MapView';
 import { signupWithFacebook, loginWithFacebook } from '../redux/Routines';
 import { base, login, profile } from '../styles';
 import { Colors, Strings, Metrics, Font } from '../consts';
@@ -294,8 +292,8 @@ export class Login extends React.Component {
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
-                        <TouchableOpacity onPress={this.loginWithFacebook}>
+                        <Button testID={'SignUpButton'} title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
+                        <TouchableOpacity testID={'LoginButton'} onPress={this.loginWithFacebook}>
                             <Text style={[ login.hyperlink, { marginTop: 10 } ]}>Already Got an Account? Login</Text>
                         </TouchableOpacity>
                     </View>
@@ -304,8 +302,8 @@ export class Login extends React.Component {
                 <View style={[ login.page, { justifyContent: 'space-around'} ]}>
                     <View style={[ login.mainContent, { alignItems: 'center', justifyContent: 'center' } ]}>
                         <Text style={ [login.headingText, {fontSize: 24, fontWeight: '700', marginBottom: 20}] }>Are you...</Text>
-                        <Button title={'Looking for a House'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
-                        <Button title={'Looking for People'} onPress={() => this.setState({ isLookingForHouse: false },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={ base.buttonStyle } />
+                        <Button testID={'PersonFlow'} title={'Looking for a House'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
+                        <Button testID={'HouseFlow'} title={'Looking for People'} onPress={() => this.setState({ isLookingForHouse: false },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={ base.buttonStyle } />
                     </View>
                 </View>
 
@@ -350,6 +348,7 @@ export class Login extends React.Component {
                     </View>
                     <View style={ login.pageFooter }>
                         <Button 
+                            testID={'FBLogin'}
                             leftIcon={{ type: 'font-awesome', name: this.state.isLoggedIn ? 'check' : 'facebook-square', size: 26 }} 
                             onPress={this.state.isLoggedIn ? () => this.homeSwiper.scrollBy(1, true) : this.signupWithFacebook}
                             fontFamily={Font.FONT_FAMILY} 
