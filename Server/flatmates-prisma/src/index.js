@@ -3,11 +3,17 @@ const { Prisma } = require('prisma-binding')
 
 const resolvers = {
   Query: {
-    user(parent, args, ctx, info) {
-      return ctx.db.query.user({ where: { facebookUserId: args.facebookUserId } }, info)
+    user(parent, { facebookUserId }, ctx, info) {
+      return ctx.db.query.user({ where: { facebookUserId } }, info)
     },
-    allUsers(parent, args, ctx, info) {
-      return ctx.db.query.users({}, info);
+    house(parent, { shortID }, ctx, info) {
+      return ctx.db.query.house({ where: { shortID } }, info)
+    },
+    post(parent, { ID }, ctx, info) {
+      return ctx.db.query.post({ where: { ID } }, info)
+    },
+    allPosts(parent, { take, skip }, ctx, info) {
+      return ctx.db.query.posts({ take: { take }, skip: { skip } }, info)
     }
   },
   Mutation: {
@@ -27,6 +33,59 @@ const resolvers = {
           },
         },
         info,
+      )
+    },            
+    updateUserCreateHouse(parent, { facebookUserId, bio, course, studyYear, isSmoker, socialScore, shortID, road, billsPrice, rentPrice, spaces, houseImages }, ctx, info) {
+      return ctx.db.mutation.updateUser(
+        {
+          where: { facebookUserId },
+          data: {
+            bio,
+            course,
+            studyYear,
+            isSmoker,
+            socialScore,
+            house: {
+              create: {
+                shortID,
+                road,
+                billsPrice,
+                rentPrice,
+                spaces,
+                houseImages
+              },
+              connect: { facebookUserId }
+            }
+          }
+        }
+      )
+    },
+    updateUserUpdateHouse(parent, { facebookUserId, bio, course, studyYear, isSmoker, socialScore, houseId }, ctx, info) {
+      return ctx.db.mutation.updateUser(
+        {
+          where: { facebookUserId },
+          data: {
+            bio,
+            course,
+            studyYear,
+            isSmoker,
+            socialScore,
+            house: {
+              update: { where: { shortID: houseId } }
+            }
+          },
+        }
+      )
+    },
+    createPost(parent, { title, description, createdBy }, ctx, info) {
+      return ctx.db.mutation.createPost(
+        {
+          data: {
+            title,
+            description,
+            connect: { facebookUserId: createdBy }
+          }
+        }
       )
     },
   },
