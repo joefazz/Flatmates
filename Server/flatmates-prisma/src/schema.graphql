@@ -16,7 +16,7 @@ type Mutation {
         lastName: String!
         birthday: String!
         gender: String!
-        permissions: [String!]!
+        permissions: [String!]
         imageUrl: String!
     ): User
 
@@ -32,7 +32,7 @@ type Mutation {
         billsPrice: Int!
         rentPrice: Int!
         spaces: Int!
-        houseImages: [String!]!
+        houseImages: [Int]
     ): User
 
     updateUserUpdateHouse(

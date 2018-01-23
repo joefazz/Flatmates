@@ -5,13 +5,13 @@ import { createHttpLink } from 'apollo-link-http';
 import { getMainDefinition } from 'apollo-utilities';
 
 const wsLink = new WebSocketLink({
-    uri: 'wss://subscriptions.graph.cool/v1/cjan360c023tx0138uknsgziy',
+    uri: 'ws://localhost:4466/flatmates-prisma/dev',
     options: {
         reconnect: true
     }
 });
 
-const httpLink = createHttpLink({ uri: 'https://api.graph.cool/simple/v1/cjan360c023tx0138uknsgziy' });
+const httpLink = createHttpLink({ uri: 'http://localhost:4466/flatmates-prisma/dev' });
 
 const link = split(
     ({ query }) => {

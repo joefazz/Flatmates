@@ -52,9 +52,8 @@ const resolvers = {
                 billsPrice,
                 rentPrice,
                 spaces,
-                houseImages
+                houseImages: { set: houseImages }
               },
-              connect: { facebookUserId }
             }
           }
         }
@@ -71,9 +70,9 @@ const resolvers = {
             isSmoker,
             socialScore,
             house: {
-              update: { where: { shortID: houseId } }
+              connect: { shortID: houseId }
             }
-          },
+          }
         }
       )
     },
