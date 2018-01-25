@@ -28,7 +28,7 @@ const resolvers = {
             lastName,
             birthday,
             gender,
-            permissions,
+            permissions: { set: permissions },
             imageUrl
           },
         },

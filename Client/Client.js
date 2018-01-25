@@ -5,13 +5,13 @@ import { createHttpLink } from 'apollo-link-http';
 import { getMainDefinition } from 'apollo-utilities';
 
 const wsLink = new WebSocketLink({
-    uri: 'ws://localhost:4466/flatmates-prisma/dev',
+    uri: 'http://localhost:4000',
     options: {
         reconnect: true
     }
 });
 
-const httpLink = createHttpLink({ uri: 'http://localhost:4466/flatmates-prisma/dev' });
+const httpLink = createHttpLink({ uri: 'http://localhost:4000' });
 
 const link = split(
     ({ query }) => {
