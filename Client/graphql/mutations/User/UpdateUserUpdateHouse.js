@@ -2,11 +2,11 @@ import gql from 'graphql-tag';
 
 
 export const UPDATE_USER_UPDATE_HOUSE_MUTATION = gql`
-    mutation updateUserUpdateHouse($id: ID!, $bio: String!, $course: String!, $studyYear: String!, $isSmoker: Boolean!, $socialScore: Int!, $houseId: ID!) {
-        updateUser(id: $id, bio: $bio, course: $course, studyYear: $studyYear, isSmoker: $isSmoker, socialScore: $socialScore, houseId: $houseId) {
-            id
+    mutation updateUserUpdateHouse($facebookUserId: String!, $bio: String!, $course: String!, $studyYear: String!, $isSmoker: Boolean!, $socialScore: Int!, $houseId: Int!) {
+        updateUserUpdateHouse(facebookUserId: $facebookUserId, bio: $bio, course: $course, studyYear: $studyYear, isSmoker: $isSmoker, socialScore: $socialScore, houseId: $houseId) {
+            facebookUserId
             house {
-                id
+                shortID
             }
         }
     }

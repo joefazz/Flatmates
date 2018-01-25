@@ -52,10 +52,6 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
             error: action.payload,
             loginStatus: 'Failed',
         });
-    case Types.GET_USER_DATA_SUCCESS:
-        return state.merge({
-            id: action.payload.response.id
-        });
     default:
         return state;
     }

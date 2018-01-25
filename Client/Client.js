@@ -1,7 +1,7 @@
-import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset';
+import { ApolloClient, InMemoryCache } from 'apollo-client-preset';
 import { WebSocketLink } from 'apollo-link-ws';
 import { split } from 'apollo-link'
-import { createHttpLink } from 'apollo-link-http';
+import { HttpLink } from 'apollo-link-http';
 import { getMainDefinition } from 'apollo-utilities';
 
 const wsLink = new WebSocketLink({
@@ -11,7 +11,7 @@ const wsLink = new WebSocketLink({
     }
 });
 
-const httpLink = createHttpLink({ uri: 'http://localhost:4000' });
+const httpLink = new HttpLink({ uri: 'http://localhost:4000' });
 
 const link = split(
     ({ query }) => {
@@ -23,7 +23,7 @@ const link = split(
 );
 
 const client = new ApolloClient({
-    link,
+    link: httpLink,
     cache: new InMemoryCache(),
 });
 

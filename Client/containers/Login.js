@@ -154,7 +154,7 @@ export class Login extends React.Component {
 
     completeUserSetup = () => {
         this.props.updateUser(
-            this.state.userId, 
+            this.state.fbUserId, 
             this.state.bio, 
             this.state.course, 
             this.state.studyYear,
@@ -171,7 +171,7 @@ export class Login extends React.Component {
     completeNewHouseSetup = () => {
         // for short id what should happen is should query all houses for their ids and then generate a number that isn't in the array
         this.props.updateUserCreateHouse(
-            this.state.userId,
+            this.state.fbUserId,
             this.state.bio,
             this.state.course,
             this.state.studyYear,
@@ -200,13 +200,13 @@ export class Login extends React.Component {
                 [
                     {text: 'Confirm', onPress: () => {
                         this.props.updateUserUpdateHouse(
-                            this.state.userId,
+                            this.state.fbUserId,
                             this.state.bio,
                             this.state.course,
                             this.state.studyYear,
                             this.state.isSmoker,
                             this.state.socialScore,
-                            res.data.House.id
+                            this.state.shortID
                         );
                         this.homeSwiper.scrollBy(2, true);
                     }},
@@ -676,27 +676,27 @@ export class Login extends React.Component {
 
 const updateUser = graphql(UPDATE_USER_MUTATION, {
     props: ({ mutate }) => ({
-        updateUser: ( id, bio, course, studyYear, isSmoker, socialScore, minPrice, maxPrice, genderPreference ) =>
+        updateUser: ( facebookUserId, bio, course, studyYear, isSmoker, socialScore, minPrice, maxPrice, genderPreference ) =>
             mutate({
-                variables: { id, bio, course, studyYear, isSmoker, socialScore, minPrice, maxPrice, genderPreference },
+                variables: { facebookUserId, bio, course, studyYear, isSmoker, socialScore, minPrice, maxPrice, genderPreference },
             }),
     }),
 });
         
 const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
     props: ({ mutate }) => ({
-        updateUserCreateHouse: ( id, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces, houseImages ) => 
+        updateUserCreateHouse: ( facebookUserId, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces, houseImages ) => 
             mutate({
-                variables: { id, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces, houseImages },
+                variables: { facebookUserId, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces, houseImages },
             }),
     })
 });
 
 const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
     props: ({ mutate }) => ({
-        updateUserUpdateHouse: (id, bio, course, studyYear, isSmoker, socialScore, houseId) =>
+        updateUserUpdateHouse: (facebookUserId, bio, course, studyYear, isSmoker, socialScore, shortID) =>
             mutate({
-                variables: { id, bio, course, studyYear, isSmoker, socialScore, houseId },
+                variables: { facebookUserId, bio, course, studyYear, isSmoker, socialScore, shortID },
             }),
     })
 });
