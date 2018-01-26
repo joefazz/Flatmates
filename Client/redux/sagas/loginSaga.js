@@ -49,25 +49,21 @@ function doesUserExist(facebookUserId) {
     });
 }
 
-function updateDatabase(response) {
-    return new Promise(resolve => {
-        client.mutate({ 
-            mutation: CREATE_USER_MUTATION, 
-            variables: {
-                name: response.result.name, 
-                firstName: response.result.first_name,
-                lastName: response.result.last_name,
-                email: response.result.email, 
-                facebookUserId: response.result.id,
-                imageUrl: response.result.picture.data.url,
-                gender: response.result.gender,
-                birthday: response.result.birthday
-            },
-            update: function(proxy, { data: { createUser }}) {
-                resolve({ query: createUser });
-            }
-        });
-    })
+async function updateDatabase(response) {
+    let answer = await client.mutate({ 
+        mutation: CREATE_USER_MUTATION, 
+        variables: {
+            name: response.result.name, 
+            firstName: response.result.first_name,
+            lastName: response.result.last_name,
+            email: response.result.email, 
+            facebookUserId: response.result.id,
+            imageUrl: response.result.picture.data.url,
+            gender: response.result.gender,
+            birthday: response.result.birthday
+        }
+    });
+    return answer.data.createUser;
 }
 
 function* GET_TOKEN() {
@@ -155,8 +151,7 @@ function *getData() {
         if (response.isError) {
             yield put(getUserDataFacebook.failure({ response: response.error }));
         } else {
-            const recievedData = yield call(updateDatabase, response);
-            response.result.id = recievedData.query.id;
+            yield call(updateDatabase, response);
             yield put(getUserDataFacebook.success({ response: response.result }));
         }
     } catch (error) {
