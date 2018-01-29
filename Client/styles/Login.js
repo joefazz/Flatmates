@@ -167,7 +167,7 @@ export const login = StyleSheet.create({
 
     poundStyle: {
         ...Font.FontFactory({ family: 'Nunito' }),
-        color: Colors.textHighlightColor, 
+        color: Colors.grey, 
         fontSize: 18 
     },
 

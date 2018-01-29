@@ -32,8 +32,8 @@ export class PostList extends React.Component {
         if (newProps.loading !== this.state.isLoading) {
             this.setState({ isLoading: newProps.loading });
 
-            if (newProps.allPosts !== this.state.allPosts) {
-                this.setState({ data: newProps.allPosts });
+            if (newProps.posts !== this.state.posts) {
+                this.setState({ data: newProps.posts });
             }
         }
     }
@@ -42,7 +42,7 @@ export class PostList extends React.Component {
         return (
             <Fragment>
                 <StatusBar barStyle={'light-content'} />
-                <PostListComponent navigation={this.props.navigation} {...this.state} />
+                <PostListComponent navigation={this.props.navigation} loadMorePosts={this.props.loadMorePosts} {...this.state} />
             </Fragment>
         );
     }
@@ -59,10 +59,31 @@ const bindActions = (dispatch) => {
 }
 
 const allPostsQuery = graphql(POST_LIST_QUERY, {
-    props: ({ data: { loading, allPosts } }) => ({
-        loading, allPosts
-    })
-})
+    options(props) {
+        return {
+            variables: {
+                take: 2,
+                skip: 0
+            }
+        };
+    },
+    props({ data: { loading, posts, fetchMore } }) {
+        return {
+            loading, 
+            posts,
+            loadMorePosts() {
+                return fetchMore({
+                    variables: { skip: posts.length },
+                    updateQuery: (prevResult, { fetchMoreResult }) => {
+                        return Object.assign({}, prevResult, {
+                            posts: [...prevResult.posts, ...fetchMoreResult.posts]
+                        });
+                    }
+                });
+            }
+        }
+    }
+});
 
 export default compose(
     connect(mapStateToProps, bindActions),

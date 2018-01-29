@@ -34,11 +34,17 @@ export class PostListComponent extends React.Component {
     }
 
     render() {
+        if (!this.props.data) {
+            return (
+                <Text>No Posts Found</Text>
+            )
+        }
         return (
             <FlatList
                 data={this.props.data}
                 contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
                 renderItem={this.renderCard}
+                onEndReached={() => this.props.loadMorePosts()}
                 ListHeaderComponent={this.renderHeaderFooter}
                 ListFooterComponent={this.renderHeaderFooter}
                 keyExtractor={item => item.createdAt}

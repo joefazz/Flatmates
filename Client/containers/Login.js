@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { 
     View, 
     TouchableOpacity, 
@@ -14,10 +14,12 @@ import {
     Platform,
     Switch,
     StatusBar,
-    Dimensions
+    Dimensions,
+    ScrollView
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { compose, graphql } from 'react-apollo';
 import Swiper from 'react-native-swiper';
 import { Button, Avatar, Slider } from 'react-native-elements';
@@ -31,7 +33,7 @@ import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
 import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
 import Client from '../Client';
-import { toConstantFontSize } from '../utils/PercentageConversion';
+import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
 import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
 import { 
     CREATE_USER_MUTATION, 
@@ -46,11 +48,14 @@ export class Login extends React.Component {
     constructor(props) {
         super(props);
 
+
         this.state = {
             hasLoginFailed: false, 
             isLoggingIn: false,
             isLoggedIn: false,
             hasGotProfile: false,
+            tempImages: [],
+            removeImageToggle: false,
 
             aboutCheck: false,
             friendsListCheck: false,
@@ -59,7 +64,7 @@ export class Login extends React.Component {
             isLookingForHouse: false,
             isCreatingHouse: false,
             
-            userId: '',
+            fbUserId: '',
             profile: {},
             bio: '',
             isSmoker: false,
@@ -99,8 +104,8 @@ export class Login extends React.Component {
             }
         }
 
-        if (this.props.login.get('id') === '' && newProps.login.get('id') !== '') {
-            this.setState({ userId: newProps.login.get('id') });
+        if (this.props.login.get('fbUserId') && newProps.login.get('fbUserId') !== '') {
+            this.setState({ fbUserId: newProps.login.get('fbUserId') });
         }
 
         if (!newProps.profile.equals(this.props.profile)) {
@@ -219,7 +224,7 @@ export class Login extends React.Component {
         });
     }
 
-    async uploadImages() {
+    async selectImages() {
         var imageUrls = [];
         var images = [];
 
@@ -230,9 +235,20 @@ export class Login extends React.Component {
             mediaType: 'photo', 
             loadingLabelText: 'Processing photos...' 
         }).catch(error => alert('Image Upload Cancelled'));
-        
-        if (images && images.length > 0) {   
-            imageUrls = await Promise.all(images.map(async (image) => {
+
+        images = this.state.tempImages.concat(images);
+        this.setState({ tempImages: images });
+    }
+
+    removeImage(index) {
+        let clone = this.state.tempImages;
+        clone.splice(index, 1);
+        this.setState({ tempImages: clone });
+    }
+
+    async uploadImages() {
+        if (this.state.tempImages && this.state.tempImages.length > 0) {   
+            imageUrls = await Promise.all(this.state.tempImages.map(async (image) => {
                 const formData = new FormData();
 
                 let lastIndex = image.path.lastIndexOf('/') + 1;
@@ -254,8 +270,7 @@ export class Login extends React.Component {
                     }
                 };
 
-                let response = await fetch('https://api.graph.cool/file/v1/cjan360c023tx0138uknsgziy', options);
-                
+                let response = await fetch('http://localhost:4000/upload', options);
                 if (response.ok) {
                     let json = await response.json();
                     return json.url;
@@ -264,7 +279,7 @@ export class Login extends React.Component {
                 }
             }));
 
-            this.setState({ houseImages: imageUrls });
+            this.setState({ houseImages: imageUrls }, this.completeNewHouseSetup);
         }
     }
 
@@ -618,7 +633,7 @@ export class Login extends React.Component {
                         <View style={{ marginRight: 30 }}>
                             <Text style={ login.labelText }>Rent Per Month</Text>
                             <View style={ login.priceInputWrapper }>
-                                <Text style={ login.poundStyle }>£</Text>
+                                <Text style={[ login.poundStyle, this.state.rentPrice.length > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                 <TextInput placeholder={'430.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  rentPrice: text })}
@@ -629,7 +644,7 @@ export class Login extends React.Component {
                         <View>
                             <Text style={ login.labelText }>Bills Per Month</Text>
                             <View style={ login.priceInputWrapper }>
-                                <Text style={ login.poundStyle }>£</Text>
+                                <Text style={[ login.poundStyle, this.state.billsPrice.length > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                 <TextInput placeholder={'23.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  billsPrice: text })}
@@ -647,23 +662,39 @@ export class Login extends React.Component {
                             style={ login.houseDetailFullWidthInput } />
                     </View>
                     <View style={[ login.marginTop, { alignSelf: 'flex-start' } ]}>
-                        <Text style={ login.labelText }>Images</Text>
+                        {this.state.tempImages.length > 0 ? <Text style={ login.labelText }>Images</Text> : <Fragment /> }
                         {/* Probably want to make this a horizontal scroll view in the future */}
-                        <View style={{ flexDirection: 'row' }}>
-                            {this.state.houseImages.map(image => {
-                                return <Image source={{uri: image}} style={{width: 70, height: 70, marginRight: 6}} />
+                        <ScrollView style={{ flexDirection: 'row', width: toConstantWidth(80) }} horizontal={true}>
+                            {this.state.tempImages.map((image, index) => {
+                                return (
+                                    <View key={index}>
+                                        <TouchableOpacity activeOpacity={0.7} style={{ marginRight: 4 }} onPress={() => this.setState({ removeImageToggle: !this.state.removeImageToggle })}>
+                                            <Image source={{uri: image.path}} style={{width: 70, height: 70}} />
+                                        </TouchableOpacity>
+                                        {this.state.removeImageToggle ?
+                                            <TouchableOpacity style={{position: 'absolute', right: 4, top: 0}} onPress={() => this.removeImage(index)}>
+                                                <Icon name={'ios-remove-circle'} size={toConstantFontSize(2.5)} style={{color: Colors.brandTertiaryColor}}/>
+                                            </TouchableOpacity>
+                                        : <Fragment /> }
+                                    </View>
+                                )
                             })}
-                        </View>
+                            {this.state.tempImages.length > 0 ? 
+                                <TouchableOpacity style={{ width: 70, height: 70, borderWidth: 1, borderColor: Colors.brandSecondaryColor, borderStyle: 'dashed', borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => this.selectImages()}>
+                                    <Icon name={'ios-add'} size={toConstantFontSize(4)} style={{color: Colors.brandSecondaryColor}} />
+                                </TouchableOpacity>
+                             : <Fragment />}
+                        </ScrollView>
                     </View>
                 </View>
                 
                 <View style={ login.pageFooter }>
-                    {this.state.houseImages.length === 0 ?
-                        <Button title={'Upload Photos'} leftIcon={{ type: 'font-awesome', name: 'camera', size: 26 }} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, { backgroundColor: Colors.purple } ]} onPress={() => this.uploadImages()} />
-                        :
+                    {this.state.tempImages.length === 0 ?
+                        <Button title={'Upload Photos'} leftIcon={{ type: 'font-awesome', name: 'camera', size: 26 }} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, { backgroundColor: Colors.purple } ]} onPress={() => this.selectImages()} />
+                    :
                         <Button
                             title={'Confirm'}
-                            onPress={this.completeNewHouseSetup}
+                            onPress={() => this.uploadImages()}
                             fontFamily={Font.FONT_FAMILY} 
                             fontSize={20}
                             buttonStyle={ base.buttonStyle} /> }
@@ -676,28 +707,90 @@ export class Login extends React.Component {
 
 const updateUser = graphql(UPDATE_USER_MUTATION, {
     props: ({ mutate }) => ({
-        updateUser: ( facebookUserId, bio, course, studyYear, isSmoker, socialScore, minPrice, maxPrice, genderPreference ) =>
+        updateUser: (
+            facebookUserId,
+            bio,
+            course,
+            studyYear,
+            isSmoker,
+            socialScore,
+            minPrice,
+            maxPrice,
+            genderPreference
+        ) =>
             mutate({
-                variables: { facebookUserId, bio, course, studyYear, isSmoker, socialScore, minPrice, maxPrice, genderPreference },
-            }),
-    }),
+                variables: {
+                    facebookUserId,
+                    bio,
+                    course,
+                    studyYear,
+                    isSmoker,
+                    socialScore,
+                    minPrice,
+                    maxPrice,
+                    genderPreference
+                }
+            })
+    })
 });
-        
+
 const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
     props: ({ mutate }) => ({
-        updateUserCreateHouse: ( facebookUserId, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces, houseImages ) => 
+        updateUserCreateHouse: (
+            facebookUserId,
+            bio,
+            course,
+            studyYear,
+            isSmoker,
+            socialScore,
+            shortID,
+            road,
+            rentPrice,
+            billsPrice,
+            spaces,
+            houseImages
+        ) =>
             mutate({
-                variables: { facebookUserId, bio, course, studyYear, isSmoker, socialScore, shortID, road, rentPrice, billsPrice, spaces, houseImages },
-            }),
+                variables: {
+                    facebookUserId,
+                    bio,
+                    course,
+                    studyYear,
+                    isSmoker,
+                    socialScore,
+                    shortID,
+                    road,
+                    rentPrice,
+                    billsPrice,
+                    spaces,
+                    houseImages
+                }
+            })
     })
 });
 
 const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
     props: ({ mutate }) => ({
-        updateUserUpdateHouse: (facebookUserId, bio, course, studyYear, isSmoker, socialScore, shortID) =>
+        updateUserUpdateHouse: (
+            facebookUserId,
+            bio,
+            course,
+            studyYear,
+            isSmoker,
+            socialScore,
+            shortID
+        ) =>
             mutate({
-                variables: { facebookUserId, bio, course, studyYear, isSmoker, socialScore, shortID },
-            }),
+                variables: {
+                    facebookUserId,
+                    bio,
+                    course,
+                    studyYear,
+                    isSmoker,
+                    socialScore,
+                    shortID
+                }
+            })
     })
 });
 

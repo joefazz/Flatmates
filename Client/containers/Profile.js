@@ -33,21 +33,21 @@ export class Profile extends React.Component {
         if (newProps.loading !== this.props.loading) {
             // Remove null properties
             let trimmedData = {};
-            Object.keys(newProps.User).map(property => {
-                if (newProps.User[property] !== null) {
-                    trimmedData[property] = newProps.User[property]
+            Object.keys(newProps.user).map(property => {
+                if (newProps.user[property] !== null) {
+                    trimmedData[property] = newProps.user[property]
                 }
             });
 
             if (trimmedData.house) {
-                const trimmedUsers = trimmedData.house.users.filter(user => {
+                const trimmedusers = trimmedData.house.users.filter(user => {
                     return (user.name !== this.state.profile.get('name'));
                 })
 
                 const tempHouse = {};
                 Object.keys(trimmedData.house).map(property => {
                     if (property === 'users') {
-                        tempHouse[property] = trimmedUsers;
+                        tempHouse[property] = trimmedusers;
                     } else {
                         tempHouse[property] = trimmedData.house[property];
                     }
@@ -87,8 +87,8 @@ const bindActions = (dispatch) => {
 
 const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
     options: (ownProps) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') }}),
-    props: ({ data: { loading, User} }) => ({
-        loading, User
+    props: ({ data: { loading, user} }) => ({
+        loading, user
     })
 })
 
