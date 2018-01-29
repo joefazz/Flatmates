@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './Client/App';
+import App from './src/App';
 
 AppRegistry.registerComponent('Flatmates', () => App);
