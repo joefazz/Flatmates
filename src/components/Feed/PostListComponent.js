@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { PostCard } from '../../widgets';
 import { Colors, Metrics } from '../../consts';
-import { feed } from '../../styles';
+import { feed, base } from '../../styles';
 
 export class PostListComponent extends React.Component {
     constructor(props) {
@@ -39,6 +39,13 @@ export class PostListComponent extends React.Component {
                 <Text>No Posts Found</Text>
             )
         }
+
+        if (this.props.isLoading) {
+            <View style={base.fullScreen}>
+
+            </View>
+        }
+
         return (
             <FlatList
                 data={this.props.data}
