@@ -5,9 +5,9 @@ import _ from 'lodash';
 
 import client from '../../Client';
 import { PostCard } from '../../widgets';
-import { Colors, Metrics } from '../../consts';
+import { Colors, Metrics, Font } from '../../consts';
 import { feed, base } from '../../styles';
-import { toConstantFontSize } from '../../utils/PercentageConversion';
+import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
 
 export class PostListComponent extends React.Component {
     constructor(props) {
@@ -30,8 +30,8 @@ export class PostListComponent extends React.Component {
 
     renderCreateHeader = () => {
         return (
-            <View style={[ feed.card, { marginTop: 10, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderRadius: 5, borderColor: Colors.brandSecondaryColor, borderStyle: 'dashed' } ]} >
-                <Icon name={'ios-add'} size={toConstantFontSize(9)} style={{color: Colors.brandSecondaryColor}}/>
+            <View style={ feed.createCard } >
+                <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light', family: 'Nunito'})} ]}>+</Text>
             </View>
         )
     }
@@ -58,15 +58,28 @@ export class PostListComponent extends React.Component {
         }
 
         return (
-            <FlatList
-                data={this.props.data}
-                contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
-                renderItem={this.renderCard}
-                ListHeaderComponent={this.renderCreateHeader}
-                ListFooterComponent={this.renderHeaderFooter}
-                ListEmptyComponent={this.renderEmpty}
-                keyExtractor={item => item.createdAt}
-                />
+            <Fragment>
+                <View style={{ backgroundColor: Colors.brandPrimaryColor, height: toConstantHeight(20), alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ width: toConstantWidth(90), marginTop: 10, borderRadius: 10, borderWidth: 1, height: toConstantHeight(5), justifyContent: 'center', paddingHorizontal: toConstantWidth(3) }}>
+                        <Text>Price (Low to High)</Text>
+                    </View>
+                    <View style={{ width: toConstantWidth(90), marginVertical: 10, borderRadius: 10, borderWidth: 1, height: toConstantHeight(5), justifyContent: 'center', paddingHorizontal: toConstantWidth(3) }}>
+                        <Text>Spaces</Text>
+                    </View>
+                    <View style={{ width: toConstantWidth(90), marginBottom: 10, borderRadius: 10, borderWidth: 1, height: toConstantHeight(5), justifyContent: 'center', paddingHorizontal: toConstantWidth(3) }}>
+                        <Text>Other option</Text>
+                    </View>
+                </View>
+                <FlatList
+                    data={this.props.data}
+                    contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+                    renderItem={this.renderCard}
+                    ListHeaderComponent={this.renderCreateHeader}
+                    ListFooterComponent={this.renderHeaderFooter}
+                    ListEmptyComponent={this.renderEmpty}
+                    keyExtractor={item => item.createdAt}
+                    />
+            </Fragment>
         );
     }
 }

@@ -5,7 +5,7 @@ import { compose, graphql } from 'react-apollo';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
-import { CreateButton, PostCard } from '../../widgets';
+import { PostCard } from '../../widgets';
 import { Colors, Metrics } from '../../consts';
 import { POST_LIST_QUERY } from '../../graphql/queries';
 import { feed } from '../../styles';
@@ -13,10 +13,6 @@ import { feed } from '../../styles';
 export class PostList extends React.Component {
     static navigationOptions = ({ navigation }) => ({
         title: 'Home',
-        headerRight: Platform.OS === 'ios' ? <CreateButton onPress={() => navigation.navigate('CreatePost')} /> : null,
-        tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
-        )
     });
 
     constructor(props) {
