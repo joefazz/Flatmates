@@ -10,16 +10,6 @@ import { Font } from '../consts';
 export class PostCard extends React.Component {
     constructor(props) {
         super(props);
-
-        let counter = 0;
-        this.images = this.props.images.map(image => {
-            return (
-                <View style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, overflow: 'hidden' }} key={++counter}>
-                    <FastImage style={ styles.postImage } source={{uri: image}} key={++counter} />
-                </View>
-            )
-        });
-
     }
     
     render() {
@@ -46,7 +36,13 @@ export class PostCard extends React.Component {
     renderPostPictures() {
         return(
             <Swiper paginationStyle={{bottom: 0}} activeDotColor={ Colors.brandSecondaryColor } dotStyle={{ borderWidth: 1, borderColor: Colors.brandSecondaryColor, backgroundColor: 'transparent' }}>
-                {this.images}
+                {this.props.images.map((image, index) => {
+                    return (
+                        <View style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, overflow: 'hidden' }} key={index}>
+                            <FastImage style={ styles.postImage } source={{uri: image}} key={index} />
+                        </View>
+                    )
+                })}
             </Swiper>
         )
     }

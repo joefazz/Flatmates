@@ -23,18 +23,24 @@ export class PostList extends React.Component {
         super(props);
 
         this.state = {
-            data: props.allPosts,
-            isLoading: props.loading
+            data: props.posts,
+            isLoading: props.loading,
+            fbUserId: ''
         }
     }
 
     componentWillReceiveProps(newProps) {
+        console.log(newProps);
         if (newProps.loading !== this.state.isLoading) {
             this.setState({ isLoading: newProps.loading });
 
-            if (newProps.posts !== this.state.posts) {
-                this.setState({ data: newProps.posts });
+            if (newProps.allPosts !== this.state.data) {
+                this.setState({ data: newProps.allPosts });
             }
+        }
+
+        if (newProps.login.get('fbUserId') !== null) {
+            this.setState({ fbUserId: newProps.login.get('fbUserId') });
         }
     }
 
@@ -49,7 +55,7 @@ export class PostList extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    
+    login: state.get('login')
 })
 
 const bindActions = (dispatch) => {
@@ -67,16 +73,16 @@ const allPostsQuery = graphql(POST_LIST_QUERY, {
             }
         };
     },
-    props({ data: { loading, posts, fetchMore } }) {
+    props({ data: { loading, allPosts, fetchMore } }) {
         return {
             loading, 
-            posts,
+            allPosts,
             loadMorePosts() {
                 return fetchMore({
-                    variables: { skip: posts.length },
+                    variables: { skip: allPosts.length },
                     updateQuery: (prevResult, { fetchMoreResult }) => {
                         return Object.assign({}, prevResult, {
-                            posts: [...prevResult.posts, ...fetchMoreResult.posts]
+                            posts: [...prevResult.allPosts, ...fetchMoreResult.allPosts]
                         });
                     }
                 });

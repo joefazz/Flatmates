@@ -18,9 +18,10 @@ export const USER_DETAILS_QUERY = gql`
                 billsPrice
                 rentPrice
                 spaces
-                users {
+                users(where: {facebookUserId_not: $facebookUserId}) {
                     name
                 }
+                houseImages
             }
         }
     }
