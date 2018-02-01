@@ -13,7 +13,7 @@ export const base = StyleSheet.create({
         backgroundColor: Colors.brandSecondaryColor,
         borderWidth: 1, 
         borderRadius: 3, 
-        borderColor: 'transparent'
+        borderColor: Colors.transparent
     },
 
     buttonTextStyle: {

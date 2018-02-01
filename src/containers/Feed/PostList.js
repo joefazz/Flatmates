@@ -1,19 +1,34 @@
 import React, { Fragment } from 'react';
-import { View, Text, Platform, FlatList, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
-import { PostCard } from '../../widgets';
-import { Colors, Metrics } from '../../consts';
 import { POST_LIST_QUERY } from '../../graphql/queries';
-import { feed } from '../../styles';
 
-export class PostList extends React.Component {
-    static navigationOptions = ({ navigation }) => ({
+type Props = {
+    posts: Array<Object>,
+    loading: boolean,
+    loadMorePosts: Function,
+    login: Object,
+    navigation: Object,
+    skip: number
+};
+
+type State = {
+    data: Array<Object>,
+    isLoading: boolean,
+    fbUserId: string
+};
+
+export class PostList extends React.Component<Props, State> {
+    static navigationOptions = () => ({
         title: 'Home',
     });
+
+    static defaultProps = {
+        skip: 0
+    };
 
     constructor(props) {
         super(props);
@@ -22,11 +37,10 @@ export class PostList extends React.Component {
             data: props.posts,
             isLoading: props.loading,
             fbUserId: ''
-        }
+        };
     }
 
     componentWillReceiveProps(newProps) {
-        console.log(newProps);
         if (newProps.loading !== this.state.isLoading) {
             this.setState({ isLoading: newProps.loading });
 
@@ -52,20 +66,20 @@ export class PostList extends React.Component {
 
 const mapStateToProps = (state) => ({
     login: state.get('login')
-})
+});
 
-const bindActions = (dispatch) => {
+const bindActions = () => {
     return {
         
     };
-}
+};
 
 const allPostsQuery = graphql(POST_LIST_QUERY, {
     options(props) {
         return {
             variables: {
                 take: 2,
-                skip: 0
+                skip: props.skip
             }
         };
     },
@@ -83,7 +97,7 @@ const allPostsQuery = graphql(POST_LIST_QUERY, {
                     }
                 });
             }
-        }
+        };
     }
 });
 

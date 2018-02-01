@@ -4,7 +4,15 @@ import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export class Settings extends React.Component {
+type Props = {
+
+};
+
+type State = {
+
+};
+
+export class Settings extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Settings',
         tabBarIcon: ({ focused, tintColor }) => (
@@ -21,14 +29,14 @@ export class Settings extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = () => ({
     
-})
+});
 
-const bindActions = (dispatch) => {
+const bindActions = () => {
     return {
         
     };
-}
+};
 
-export default connect(mapStateToProps, bindActions)(Settings)
+export default connect(mapStateToProps, bindActions)(Settings);

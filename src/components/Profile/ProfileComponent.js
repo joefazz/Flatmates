@@ -1,15 +1,24 @@
 import React from 'react';
-import { View, Text, Animated, FlatList, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, Animated, ActivityIndicator, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import Interactable from 'react-native-interactable';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 import { PreferenceRow } from '../../widgets';
-import { base, profile } from '../../styles';
+import { profile } from '../../styles';
 import { Metrics, Colors } from '../../consts';
 import { ConvertBirthdayToAge } from '../../utils/BirthdayToAge';
 
-export class ProfileComponent extends React.Component {
+type Props = {
+    profile: Array<Object>,
+    isLoading: boolean
+};
+
+type State = {
+
+};
+
+export class ProfileComponent extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this._deltaY = new Animated.Value(0);
@@ -23,7 +32,7 @@ export class ProfileComponent extends React.Component {
                 <Text>{item.name}</Text>
                 <Text>{item.option}</Text>
             </View>
-        )
+        );
     }
 
     render() {
@@ -38,22 +47,22 @@ export class ProfileComponent extends React.Component {
                     })
                 }]}>
                     <Animated.View style={[ profile.headerTextWrapper, 
-                    {
-                        maxHeight: this._deltaY.interpolate({
-                            inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
-                            outputRange: [50, 180],
-                            extrapolateLeft: 'clamp',
-                            extrapolateRight: 'clamp',
-                        })
-                    },
-                    {
-                        paddingTop: this._deltaY.interpolate({
-                            inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
-                            outputRange: [Metrics.screenHeight * 0.013, Metrics.screenHeight * 0.01],
-                            extrapolateLeft: 'clamp',
-                            extrapolateRight: 'clamp'
-                        })
-                    } ]}>
+                        {
+                            maxHeight: this._deltaY.interpolate({
+                                inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
+                                outputRange: [50, 180],
+                                extrapolateLeft: 'clamp',
+                                extrapolateRight: 'clamp',
+                            })
+                        },
+                        {
+                            paddingTop: this._deltaY.interpolate({
+                                inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
+                                outputRange: [Metrics.screenHeight * 0.013, Metrics.screenHeight * 0.01],
+                                extrapolateLeft: 'clamp',
+                                extrapolateRight: 'clamp'
+                            })
+                        } ]}>
                         <Animated.Text style={[ profile.headerText, {
                             fontSize: this._deltaY.interpolate({
                                 inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
@@ -145,11 +154,11 @@ export class ProfileComponent extends React.Component {
                                     <ScrollView contentContainerStyle={ profile.preferencesWrapper }>
                                         <Text style={ profile.aboutLabel }>Flatmates</Text>
                                         {this.props.profile.get('house').get('users').map(flatmate => {
-                                            return <Text key={flatmate.get('name')} style={ profile.aboutText }>{flatmate.get('name')}</Text>
+                                            return <Text key={flatmate.get('name')} style={ profile.aboutText }>{flatmate.get('name')}</Text>;
                                         })}
                                     </ScrollView>
                                 </View> 
-                            :
+                                :
                                 <View style={ profile.contentWrapper }>
                                     <Text style={[ profile.aboutText, {color: Colors.brandSecondaryColor} ]}>House Preferences</Text>
                                     <View style={ profile.ageGenderWrapper }>

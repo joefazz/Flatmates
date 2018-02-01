@@ -44,7 +44,7 @@ export class MessageInput extends React.Component {
                         style={chat.input}
                         placeholder={'Type your message here'}
                         returnKeyType={'send'}
-                        underlineColorAndroid={'transparent'}
+                        underlineColorAndroid={Colors.transparent}
                         onSubmitEditing={() => this.send()}
                     />
                 </View>

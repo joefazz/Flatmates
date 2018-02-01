@@ -1,13 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
 import _ from 'lodash';
 import randomColor from 'randomcolor';
 
 import { ChatDetailComponent } from '../../components/Chat/ChatDetailComponent';
-import { GROUP_QUERY } from '../../graphql/queries';
-import { CREATE_MESSAGE_MUTATION } from '../../graphql/mutations';
 
 const fakeData = _.times(100, i => ({
     // every message will have a different color
@@ -15,16 +11,24 @@ const fakeData = _.times(100, i => ({
     // every 5th message will look like it's from the current user
     isCurrentUser: i % 5 === 0,
     message: {
-      id: i,
-      createdAt: new Date().toISOString(),
-      from: {
-        username: `Username ${i}`,
-      },
-      text: `Message ${i}`,
+        id: i,
+        createdAt: new Date().toISOString(),
+        from: {
+            username: `Username ${i}`,
+        },
+        text: `Message ${i}`,
     },
 }));
 
-export class ChatDetail extends React.Component {
+type Props = {
+    createMessage: Function
+};
+
+type State = {
+    messages: Array<Object>
+}
+
+export class ChatDetail extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => {
         const { state } = navigation;
         return {
@@ -38,24 +42,24 @@ export class ChatDetail extends React.Component {
 
         this.state = {
             messages: fakeData
-        }
+        };
     }
 
     render() {
         return (
             <ChatDetailComponent data={this.state} createMessage={this.props.createMessage} />
-        )
+        );
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = () => ({
     
-})
+});
 
-const bindActions = (dispatch) => {
+const bindActions = () => {
     return {
         
     };
-}
+};
 
-export default connect(mapStateToProps, bindActions)(ChatDetail)
+export default connect(mapStateToProps, bindActions)(ChatDetail);

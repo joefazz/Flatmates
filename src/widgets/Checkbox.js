@@ -11,7 +11,7 @@ export class Checkbox extends React.Component {
             iconType={'material-community'}
             center={true}
             component={TouchableWithoutFeedback}
-            containerStyle={{backgroundColor: 'transparent', borderWidth: 0}}
+            containerStyle={{backgroundColor: Colors.transparent, borderWidth: 0}}
             textStyle={{color: this.props.color, fontSize: 18, ...Font.FontFactory({ family: 'Nunito' }),}}
             onIconPress={this.props.onIconPress}
             onPress={this.props.onIconPress}
@@ -19,6 +19,6 @@ export class Checkbox extends React.Component {
             uncheckedIcon={'checkbox-blank-circle-outline'}
             checked={this.props.isChecked} 
             uncheckedColor={this.props.color}
-            checkedColor={this.props.color} />
+            checkedColor={this.props.color} />;
     }
 }

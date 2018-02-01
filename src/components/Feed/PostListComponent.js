@@ -1,15 +1,18 @@
 import React, { Fragment } from 'react';
-import { View, Text, Platform, FlatList, StatusBar, ActivityIndicator } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import _ from 'lodash';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 
-import client from '../../Client';
 import { PostCard } from '../../widgets';
-import { Colors, Metrics, Font } from '../../consts';
+import { Colors, Font } from '../../consts';
 import { feed, base } from '../../styles';
 import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
 
-export class PostListComponent extends React.Component {
+type Props = {
+    navigation: Object,
+    data: Array<Object>,
+    isLoading: boolean
+};
+
+export class PostListComponent extends React.Component<Props> {
     constructor(props) {
         super(props);
     }
@@ -33,19 +36,19 @@ export class PostListComponent extends React.Component {
             <View style={ feed.createCard } >
                 <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light', family: 'Nunito'})} ]}>+</Text>
             </View>
-        )
+        );
     }
 
     renderHeaderFooter = () => {
         return (
             <View style={{ height: 10 }} />
-        )
+        );
     }
 
     renderEmpty = () => {
         return (
             <Text>No posts</Text>
-        )
+        );
     }
 
     render() {
@@ -54,7 +57,7 @@ export class PostListComponent extends React.Component {
                 <View style={base.fullScreen}>
                     <ActivityIndicator size={'large'} />
                 </View>
-            )
+            );
         }
 
         return (
@@ -78,7 +81,7 @@ export class PostListComponent extends React.Component {
                     ListFooterComponent={this.renderHeaderFooter}
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={item => item.createdAt}
-                    />
+                />
             </Fragment>
         );
     }

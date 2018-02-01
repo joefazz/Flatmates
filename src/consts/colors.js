@@ -1,6 +1,6 @@
 const highlightColor = '#E44D26';
 
-export default colors = {
+const colors = {
     brandPrimaryColor: '#FFFFFF',
     brandSecondaryColor: highlightColor,
     brandTertiaryColor: '#f83600',
@@ -17,13 +17,16 @@ export default colors = {
     black: '#000000',
     grey: '#C0C0C0',
     textGrey: '#373737',
-    lineSeperatorColor: "#CED0CE",
+    lineSeperatorColor: '#CED0CE',
+    transparent: 'transparent',
 
     // Useful for getting rgbs https://www.webpagefx.com/web-design/hex-to-rgb/
     // NIGHTHAWK
     gradientStart: 'rgb(41,128,185)',
     gradientStop: 'rgb(44,62,80)'
-}
+};
+
+export default colors;
 
 // #e53935 - passion red
 // #3d72b4 - Blueish

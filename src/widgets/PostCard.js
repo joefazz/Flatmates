@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Swiper from 'react-native-swiper';
 import FastImage from 'react-native-fast-image';
 import moment from 'moment';
@@ -30,21 +30,21 @@ export class PostCard extends React.Component {
                     </View>
                 </TouchableOpacity>
             </View>
-        )
+        );
     }
 
     renderPostPictures() {
         return(
-            <Swiper paginationStyle={{bottom: 0}} activeDotColor={ Colors.brandSecondaryColor } dotStyle={{ borderWidth: 1, borderColor: Colors.brandSecondaryColor, backgroundColor: 'transparent' }}>
+            <Swiper paginationStyle={{bottom: 0}} activeDotColor={ Colors.brandSecondaryColor } dotStyle={{ borderWidth: 1, borderColor: Colors.brandSecondaryColor, backgroundColor: Colors.transparent }}>
                 {this.props.images.map((image, index) => {
                     return (
                         <View style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, overflow: 'hidden' }} key={index}>
                             <FastImage style={ styles.postImage } source={{uri: image}} key={index} />
                         </View>
-                    )
+                    );
                 })}
             </Swiper>
-        )
+        );
     }
 }
 

@@ -4,9 +4,7 @@ import {
     TouchableOpacity, 
     Text, 
     Image, 
-    TouchableHighlight, 
     TextInput, 
-    ActivityIndicator, 
     Picker, 
     KeyboardAvoidingView, 
     ImageBackground, 
@@ -14,7 +12,6 @@ import {
     Platform,
     Switch,
     StatusBar,
-    Dimensions,
     ScrollView
 } from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -26,8 +23,8 @@ import { Button, Avatar, Slider } from 'react-native-elements';
 
 import { Checkbox } from '../widgets';
 import { signupWithFacebook, loginWithFacebook } from '../redux/Routines';
-import { base, login, profile } from '../styles';
-import { Colors, Strings, Metrics, Font } from '../consts';
+import { base, login } from '../styles';
+import { Colors, Metrics, Font } from '../consts';
 import Box from '../../Assets/Joes_sexy_box.png';
 import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
@@ -35,8 +32,7 @@ import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
 import Client from '../Client';
 import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
 import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
-import { 
-    CREATE_USER_MUTATION, 
+import {  
     UPDATE_USER_MUTATION, 
     UPDATE_USER_CREATE_HOUSE_MUTATION, 
     UPDATE_USER_UPDATE_HOUSE_MUTATION 
@@ -44,7 +40,53 @@ import {
 
 export let facebookPermissions = [];
 
-export class Login extends React.Component {
+type Props = {
+    login: Object,
+    profile: Object,
+    loginWithFacebook: Function,
+    updateUserCreateHouse: Function,
+    updateUserUpdateHouse: Function,
+}
+
+type State = {
+    hasLoginFailed: boolean, 
+    isLoggingIn: boolean,
+    isLoggedIn: boolean,
+    hasGotProfile: boolean,
+    tempImages: Array<Object>,
+    removeImageToggle: boolean,
+
+    aboutCheck: boolean,
+    friendsListCheck: boolean,
+    activityCheck: boolean,
+    likesCheck: boolean,
+    isLookingForHouse: boolean,
+    isCreatingHouse: boolean,
+    
+    fbUserId: string,
+    profile: Object,
+    bio: string,
+    isSmoker: boolean,
+    studyYear: string,
+    studyYearEnabled: boolean,
+    course: string,
+    minPrice: number,
+    maxPrice: number,
+    minEnabled: boolean,
+    maxEnabled: boolean,
+    genderEnabled: boolean,
+    genderPreference: string,
+    socialScore: number,
+    
+    shortID: number,
+    road: string,
+    rentPrice: number,
+    billsPrice: number,
+    spaces: number,
+    houseImages: Array<string>
+}
+
+export class Login extends React.Component<Props, State> {
     constructor(props) {
         super(props);
 
@@ -85,7 +127,7 @@ export class Login extends React.Component {
             billsPrice: 30,
             spaces: 3,
             houseImages: []
-        }
+        };
     }
 
     componentWillMount() {
@@ -123,7 +165,7 @@ export class Login extends React.Component {
             Client.query({
                 variables: { shortID },
                 query: HOUSE_DETAILS_QUERY
-            }).then(res => res.data.House === null ? null : new Error())
+            }).then(res => res.data.House === null ? null : new Error());
         } catch(error) {
             GenerateID();
         }
@@ -139,7 +181,7 @@ export class Login extends React.Component {
         facebookPermissions = ['public_profile', 'email'];
 
         if (this.state.friendsListCheck) {
-            facebookPermissions.push('user_friends')
+            facebookPermissions.push('user_friends');
         }
 
         if (this.state.aboutCheck) {
@@ -147,7 +189,7 @@ export class Login extends React.Component {
         }
 
         if (this.state.activityCheck) {
-            facebookPermissions.push('user_actions.books', 'user_actions.fitness', 'user_actions.music', 'user_actions.news')
+            facebookPermissions.push('user_actions.books', 'user_actions.fitness', 'user_actions.music', 'user_actions.news');
         }
 
         if (this.state.likesCheck) {
@@ -202,30 +244,29 @@ export class Login extends React.Component {
                 Alert.alert(
                     'Confirmation', 
                     'Are you sure you belong to the house on ' + res.data.House.road + '?',
-                [
-                    {text: 'Confirm', onPress: () => {
-                        this.props.updateUserUpdateHouse(
-                            this.state.fbUserId,
-                            this.state.bio,
-                            this.state.course,
-                            this.state.studyYear,
-                            this.state.isSmoker,
-                            this.state.socialScore,
-                            this.state.shortID
-                        );
-                        this.homeSwiper.scrollBy(2, true);
-                    }},
-                    {text: 'Cancel', style: "cancel"}
-                ]);
+                    [
+                        {text: 'Confirm', onPress: () => {
+                            this.props.updateUserUpdateHouse(
+                                this.state.fbUserId,
+                                this.state.bio,
+                                this.state.course,
+                                this.state.studyYear,
+                                this.state.isSmoker,
+                                this.state.socialScore,
+                                this.state.shortID
+                            );
+                            this.homeSwiper.scrollBy(2, true);
+                        }},
+                        {text: 'Cancel', style: 'cancel'}
+                    ]);
                 
             } else {
-                alert('ID does not exist')
+                alert('ID does not exist');
             }
         });
     }
 
     async selectImages() {
-        var imageUrls = [];
         var images = [];
 
         images = await ImagePicker.openPicker({
@@ -234,7 +275,7 @@ export class Login extends React.Component {
             compressImageMaxWidth: 300, 
             mediaType: 'photo', 
             loadingLabelText: 'Processing photos...' 
-        }).catch(error => alert('Image Upload Cancelled'));
+        }).catch(() => alert('Image Upload Cancelled'));
 
         images = this.state.tempImages.concat(images);
         this.setState({ tempImages: images });
@@ -248,6 +289,8 @@ export class Login extends React.Component {
 
     async uploadImages() {
         if (this.state.tempImages && this.state.tempImages.length > 0) {   
+            let imageUrls;
+
             imageUrls = await Promise.all(this.state.tempImages.map(async (image) => {
                 const formData = new FormData();
 
@@ -441,30 +484,30 @@ export class Login extends React.Component {
                             <View>
                                 <Text style={[ login.labelText, { alignSelf: 'center' } ]}>How social would you say you are? (From 1 to 10)</Text>
                                 <Text style={[ login.labelText, { alignSelf: 'center', fontWeight: 'bold'} ]}>{ this.state.socialScore }</Text>                                
-                                    <Slider 
-                                        value={ this.state.socialScore } 
-                                        onValueChange={(val) => this.setState({ socialScore: val })} 
-                                        step={1} 
-                                        minimumValue={0} 
-                                        maximumValue={10} 
-                                        minimumTrackTintColor={ Colors.brandSecondaryColor } />
+                                <Slider 
+                                    value={ this.state.socialScore } 
+                                    onValueChange={(val) => this.setState({ socialScore: val })} 
+                                    step={1} 
+                                    minimumValue={0} 
+                                    maximumValue={10} 
+                                    minimumTrackTintColor={ Colors.brandSecondaryColor } />
                             </View>
                         </View>
                     </View>
                     <View style={ login.pageFooter }>
                         <Button
-                        title={'Confirm'}
-                        fontFamily={Font.FONT_FAMILY} 
-                        fontSize={20}
-                        onPress={() => this.homeSwiper.scrollBy(1, true)}
-                        buttonStyle={[ base.buttonStyle ]} />
+                            title={'Confirm'}
+                            fontFamily={Font.FONT_FAMILY} 
+                            fontSize={20}
+                            onPress={() => this.homeSwiper.scrollBy(1, true)}
+                            buttonStyle={[ base.buttonStyle ]} />
                     </View>
                     {this.state.studyYearEnabled ?
                         <View style={ login.pickerWrapper }>
                             <Picker
                                 enabled={this.state.studyYearEnabled}
                                 selectedValue={this.state.studyYear}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ studyYear: itemValue },() => setTimeout(() => this.setState({ studyYearEnabled: false} ), 100))}
+                                onValueChange={(itemValue) => this.setState({ studyYear: itemValue },() => setTimeout(() => this.setState({ studyYearEnabled: false} ), 100))}
                                 prompt={'Study Year'}>
                                 <Picker.Item label={'First'} value={'First'} />
                                 <Picker.Item label={'Second'} value={'Second'} />
@@ -545,13 +588,13 @@ export class Login extends React.Component {
                             <Picker
                                 enabled={this.state.minEnabled}
                                 selectedValue={this.state.minPrice}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ minPrice: itemValue},() => setTimeout(() => this.setState({ minEnabled: false} ), 100))}
+                                onValueChange={(itemValue) => this.setState({ minPrice: itemValue},() => setTimeout(() => this.setState({ minEnabled: false} ), 100))}
                                 prompt={'Min Price'}>
-                                <Picker.Item label={"£200"} value={200} />
-                                <Picker.Item label={"£250"} value={250} />
-                                <Picker.Item label={"£300"} value={300} />
-                                <Picker.Item label={"£350"} value={350} />
-                                <Picker.Item label={"£400"} value={400} />
+                                <Picker.Item label={'£200'} value={200} />
+                                <Picker.Item label={'£250'} value={250} />
+                                <Picker.Item label={'£300'} value={300} />
+                                <Picker.Item label={'£350'} value={350} />
+                                <Picker.Item label={'£400'} value={400} />
                             </Picker>
                         </View> : <View/> }
                     {this.state.maxEnabled ?
@@ -559,13 +602,13 @@ export class Login extends React.Component {
                             <Picker
                                 enabled={this.state.maxEnabled}
                                 selectedValue={this.state.maxPrice}
-                                onValueChange={(itemValue, itemIndex) => this.setState({  maxPrice: itemValue },() => setTimeout(() => this.setState({ maxEnabled: false}), 100))}
+                                onValueChange={(itemValue) => this.setState({  maxPrice: itemValue },() => setTimeout(() => this.setState({ maxEnabled: false}), 100))}
                                 prompt={'Max Price'}>
-                                <Picker.Item label={"£350"} value={350} />
-                                <Picker.Item label={"£400"} value={400} />
-                                <Picker.Item label={"£450"} value={450} />
-                                <Picker.Item label={"£500"} value={500} />
-                                <Picker.Item label={"£550"} value={550} />
+                                <Picker.Item label={'£350'} value={350} />
+                                <Picker.Item label={'£400'} value={400} />
+                                <Picker.Item label={'£450'} value={450} />
+                                <Picker.Item label={'£500'} value={500} />
+                                <Picker.Item label={'£550'} value={550} />
                             </Picker>
                         </View> : <View/> }
                     {this.state.genderEnabled ?
@@ -573,11 +616,11 @@ export class Login extends React.Component {
                             <Picker
                                 enabled={this.state.genderEnabled}
                                 selectedValue={this.state.genderPreference}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ genderPreference: itemValue},() => setTimeout(() => this.setState({ genderEnabled: false }), 100))}
+                                onValueChange={(itemValue) => this.setState({ genderPreference: itemValue},() => setTimeout(() => this.setState({ genderEnabled: false }), 100))}
                                 prompt={'Gender Preference'}>
-                                <Picker.Item label={"Male"} value={"Male"} />
-                                <Picker.Item label={"Female"} value={"Female"} />
-                                <Picker.Item label={"No Preference"} value={"No Preference"} />
+                                <Picker.Item label={'Male'} value={'Male'} />
+                                <Picker.Item label={'Female'} value={'Female'} />
+                                <Picker.Item label={'No Preference'} value={'No Preference'} />
                             </Picker>
                         </View> : <View/> }
                 </View>
@@ -633,7 +676,7 @@ export class Login extends React.Component {
                         <View style={{ marginRight: 30 }}>
                             <Text style={ login.labelText }>Rent Per Month</Text>
                             <View style={ login.priceInputWrapper }>
-                                <Text style={[ login.poundStyle, this.state.rentPrice.length > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
+                                <Text style={[ login.poundStyle, this.state.rentPrice > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                 <TextInput placeholder={'430.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  rentPrice: text })}
@@ -644,7 +687,7 @@ export class Login extends React.Component {
                         <View>
                             <Text style={ login.labelText }>Bills Per Month</Text>
                             <View style={ login.priceInputWrapper }>
-                                <Text style={[ login.poundStyle, this.state.billsPrice.length > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
+                                <Text style={[ login.poundStyle, this.state.billsPrice > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                 <TextInput placeholder={'23.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  billsPrice: text })}
@@ -675,15 +718,15 @@ export class Login extends React.Component {
                                             <TouchableOpacity style={{position: 'absolute', right: 4, top: 0}} onPress={() => this.removeImage(index)}>
                                                 <Icon name={'ios-remove-circle'} size={toConstantFontSize(2.5)} style={{color: Colors.brandTertiaryColor}}/>
                                             </TouchableOpacity>
-                                        : <Fragment /> }
+                                            : <Fragment /> }
                                     </View>
-                                )
+                                );
                             })}
                             {this.state.tempImages.length > 0 ? 
                                 <TouchableOpacity style={{ width: 70, height: 70, borderWidth: 1, borderColor: Colors.brandSecondaryColor, borderStyle: 'dashed', borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => this.selectImages()}>
                                     <Icon name={'ios-add'} size={toConstantFontSize(4)} style={{color: Colors.brandSecondaryColor}} />
                                 </TouchableOpacity>
-                             : <Fragment />}
+                                : <Fragment />}
                         </ScrollView>
                     </View>
                 </View>
@@ -691,7 +734,7 @@ export class Login extends React.Component {
                 <View style={ login.pageFooter }>
                     {this.state.tempImages.length === 0 ?
                         <Button title={'Upload Photos'} leftIcon={{ type: 'font-awesome', name: 'camera', size: 26 }} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, { backgroundColor: Colors.purple } ]} onPress={() => this.selectImages()} />
-                    :
+                        :
                         <Button
                             title={'Confirm'}
                             onPress={() => this.uploadImages()}
@@ -804,7 +847,7 @@ const bindActions = (dispatch) => {
         signupWithFacebook: () => dispatch(signupWithFacebook()),
         loginWithFacebook: () => dispatch(loginWithFacebook()),
     };
-}
+};
 
 export default compose(
     connect(mapStateToProps, bindActions),    

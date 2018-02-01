@@ -2,16 +2,24 @@ import React from 'react';
 import { View, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import _ from 'lodash';
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import { base, profile } from '../styles';
-import Client from '../Client';
 import { FloatingActionButton, EditButton } from '../widgets';
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
 
-export class Profile extends React.Component {
+type Props = {
+    profile: Object,
+    loading: boolean,
+    userDetailsQuery: Function
+};
+
+type State = {
+    isLoading: boolean,
+    profile: Object
+}
+
+export class Profile extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
         title: 'Profile',
         headerRight: Platform.OS === 'ios' ? <EditButton onPress={() => navigation.navigate('EditProfile')} /> : null,
@@ -26,7 +34,7 @@ export class Profile extends React.Component {
         this.state = {
             profile: props.profile,
             isLoading: props.loading,
-        }
+        };
     }
 
     componentWillReceiveProps(newProps) {
@@ -35,14 +43,14 @@ export class Profile extends React.Component {
             let trimmedData = {};
             Object.keys(newProps.user).map(property => {
                 if (newProps.user[property] !== null) {
-                    trimmedData[property] = newProps.user[property]
+                    trimmedData[property] = newProps.user[property];
                 }
             });
 
             if (trimmedData.house) {
                 const trimmedusers = trimmedData.house.users.filter(user => {
                     return (user.name !== this.state.profile.get('name'));
-                })
+                });
 
                 const tempHouse = {};
                 Object.keys(trimmedData.house).map(property => {
@@ -79,22 +87,20 @@ const mapStateToProps = (state) => ({
     profile: state.get('profile'),
 });
 
-const bindActions = (dispatch) => {
+const bindActions = () => {
     return {
         
     };
-}
+};
 
 const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
     options: (ownProps) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') }}),
     props: ({ data: { loading, user} }) => ({
         loading, user
     })
-})
+});
 
 export default compose(
     connect(mapStateToProps, bindActions),
     userDetailsQuery,
 )(Profile);
-
-

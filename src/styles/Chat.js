@@ -101,7 +101,7 @@ export const chat = StyleSheet.create({
                 borderWidth: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
-                borderColor: 'transparent',
+                borderColor: Colors.transparent,
                 backgroundColor: Colors.brandSecondaryColor,
             },
         })

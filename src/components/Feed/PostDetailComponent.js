@@ -1,7 +1,11 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native'
+import { View } from 'react-native';
 
-export class PostDetailComponent extends React.Component {
+type Props = {
+
+};
+
+export class PostDetailComponent extends React.Component<Props> {
     constructor(props) {
         super(props);
     }

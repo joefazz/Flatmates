@@ -1,14 +1,24 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, Platform, StatusBar } from 'react-native';
+import { View, Text, ActivityIndicator, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import Icon from 'react-native-vector-icons/Ionicons'
-import _ from 'lodash';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { ChatListComponent } from '../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY } from '../../graphql/queries';
 
-export class ChatList extends React.Component {
+type Props = {
+    loading: boolean,
+    groups: Array<Object>,
+    navigation: Object
+};
+
+type State = {
+    isLoading: boolean,
+    groups: Array<Object>
+};
+
+export class ChatList extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Chat',
         tabBarIcon: ({ focused, tintColor }) => (
@@ -26,7 +36,7 @@ export class ChatList extends React.Component {
             for (let i = 0; i < 10; i++) {
                 this.dummyGroups.push({
                     id: i,
-                    name: "Real Fake Street",
+                    name: 'Real Fake Street',
                     lastMessageText: 'Lorem ipsum doler set amet',
                     users: [{name: 'Joe Fazzino'}, {name: 'Ben Buckley'}]
                 });
@@ -34,15 +44,15 @@ export class ChatList extends React.Component {
         }
 
         this.state = {
-            isLoading: props.data.loading,
+            isLoading: props.loading,
             groups: this.isDummy ? this.dummyGroups : []
-        }
+        };
     }
 
     componentWillReceiveProps(newProps) {
-        if (this.props.data !== newProps.data) {
+        if (this.props.loading !== newProps.loading) {
             this.setState({
-                isLoading: newProps.data.loading,
+                isLoading: newProps.loading,
                 // groups: newProps.data.User.group
             });
         }
@@ -50,7 +60,7 @@ export class ChatList extends React.Component {
 
     render() {
         if (this.state.isLoading) {
-            return <ActivityIndicator />
+            return <ActivityIndicator />;
         }
 
         if (!this.state.isLoading && this.state.groups.length === 0) {
@@ -71,7 +81,7 @@ const mapStateToProps = (state) => ({
     login: state.get('login')
 });
 
-const bindActions = (dispatch) => {
+const bindActions = () => {
     return {
         
     };
@@ -79,12 +89,13 @@ const bindActions = (dispatch) => {
 
 const userChatQuery = graphql(USER_CHAT_QUERY, {
     options: (ownProps) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') } }),
-    props: ({ data }) => ({
-        data,
+    props: ({ data: {loading, groups} }) => ({
+        loading,
+        groups
     }),
 });
 
 export default compose(
     connect(mapStateToProps, bindActions),
     userChatQuery,    
-)(ChatList)
+)(ChatList);

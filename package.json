@@ -4,10 +4,13 @@
     "private": true,
     "devDependencies": {
         "apollo-client-preset": "^1.0.3",
+        "babel-eslint": "^8.2.1",
         "detox": "^7.0.0-alpha.0",
         "enzyme": "^3.2.0",
         "enzyme-to-json": "^3.3.0",
-        "eslint-plugin-react": "^7.4.0",
+        "eslint": "^4.16.0",
+        "eslint-plugin-react": "^7.6.1",
+        "flow-bin": "0.61.0",
         "graphql": "^0.11.7",
         "graphql-tag": "^2.5.0",
         "jest": "^22.0.3",
@@ -35,7 +38,10 @@
         "transformIgnorePatterns": [
             "node_modules/(?!(react-native|Flatmates|@mapbox/react-native-mapbox-gl|react-native-image-crop-picker))"
         ],
-        "testPathIgnorePatterns": ["__E2E__", "node_modules"]
+        "testPathIgnorePatterns": [
+            "__E2E__",
+            "node_modules"
+        ]
     },
     "detox": {
         "test-runner": "jest",
@@ -57,7 +63,7 @@
     "dependencies": {
         "@mapbox/react-native-mapbox-gl": "^6.0.2",
         "apollo-link-ws": "^1.0.2",
-        "eslint-plugin-react-native": "^3.1.0",
+        "eslint-plugin-react-native": "^3.2.1",
         "immutable": "^3.8.2",
         "lodash": "^4.17.4",
         "moment": "^2.19.2",

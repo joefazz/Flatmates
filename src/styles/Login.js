@@ -48,7 +48,7 @@ export const login = StyleSheet.create({
         ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
         fontSize: 60,
         color: Colors.white,
-        backgroundColor: 'transparent',
+        backgroundColor: Colors.transparent,
         alignSelf: 'center',
     },
 
@@ -56,12 +56,12 @@ export const login = StyleSheet.create({
         ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }),
         fontSize: 16,
         color: Colors.white,
-        backgroundColor: 'transparent',
+        backgroundColor: Colors.transparent,
         alignSelf: 'center',
     },
 
     dotStyle: {
-        backgroundColor: 'transparent', 
+        backgroundColor: Colors.transparent, 
         borderWidth: 1, 
         borderColor: Colors.textHighlightColor
     },
@@ -104,7 +104,7 @@ export const login = StyleSheet.create({
     shortIDStyle: {
         ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
         fontSize: 72, 
-        backgroundColor: 'transparent', 
+        backgroundColor: Colors.transparent, 
         color: Colors.white, 
         alignSelf: 'center'
     },

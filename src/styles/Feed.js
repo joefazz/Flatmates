@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Metrics, Colors } from '../consts';
+import { Colors } from '../consts';
 import { toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
 
 export const feed = StyleSheet.create({
