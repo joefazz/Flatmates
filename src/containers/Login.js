@@ -41,11 +41,14 @@ import {
 export let facebookPermissions = [];
 
 type Props = {
-    login: Object,
-    profile: Object,
-    loginWithFacebook: Function,
-    updateUserCreateHouse: Function,
-    updateUserUpdateHouse: Function,
+    login: any,
+    profile: any,
+    loginWithFacebook: () => mixed,
+    signupWithFacebook: () => mixed,
+    updateUser: () => mixed,
+    updateUserCreateHouse: () => mixed,
+    updateUserUpdateHouse: () => mixed,
+    navigation: {navigate: () => mixed}
 }
 
 type State = {
@@ -53,7 +56,7 @@ type State = {
     isLoggingIn: boolean,
     isLoggedIn: boolean,
     hasGotProfile: boolean,
-    tempImages: Array<Object>,
+    tempImages: Array<{}>,
     removeImageToggle: boolean,
 
     aboutCheck: boolean,
@@ -64,7 +67,7 @@ type State = {
     isCreatingHouse: boolean,
     
     fbUserId: string,
-    profile: Object,
+    profile: {},
     bio: string,
     isSmoker: boolean,
     studyYear: string,

@@ -10,7 +10,7 @@ import { Metrics, Colors } from '../../consts';
 import { ConvertBirthdayToAge } from '../../utils/BirthdayToAge';
 
 type Props = {
-    profile: Array<Object>,
+    profile: Array<{}>,
     isLoading: boolean
 };
 

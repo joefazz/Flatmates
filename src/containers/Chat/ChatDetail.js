@@ -21,11 +21,11 @@ const fakeData = _.times(100, i => ({
 }));
 
 type Props = {
-    createMessage: Function
+    createMessage: () => mixed
 };
 
 type State = {
-    messages: Array<Object>
+    messages: Array<{}>
 }
 
 export class ChatDetail extends React.Component<Props, State> {

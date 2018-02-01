@@ -9,13 +9,13 @@ import { USER_CHAT_QUERY } from '../../graphql/queries';
 
 type Props = {
     loading: boolean,
-    groups: Array<Object>,
-    navigation: Object
+    groups: Array<{}>,
+    navigation: {}
 };
 
 type State = {
     isLoading: boolean,
-    groups: Array<Object>
+    groups: Array<{}>
 };
 
 export class ChatList extends React.Component<Props, State> {

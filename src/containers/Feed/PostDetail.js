@@ -8,20 +8,29 @@ import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { POST_DETAILS_QUERY } from '../../graphql/queries';
 import { BackButton } from '../../widgets';
 
-export class PostDetail extends React.Component {
+type Props = {
+    navigation: {state: {params: {data: {}}}},
+    loading: boolean
+};
+
+type State = {
+    data: {},
+    isLoading: boolean
+}
+
+export class PostDetail extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.data.createdBy.road,
+        headerLeft: <BackButton />
     });
 
     constructor(props) {
         super(props);
 
-        console.log(props);
-
         this.state = {
-            data: navigation.state.params.data,
+            data: props.navigation.state.params.data,
             isLoading: props.loading
-        }
+        };
     }
 
     componentDidMount() {
@@ -50,7 +59,6 @@ export class PostDetail extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         return (
             <Fragment>
                 <StatusBar barStyle={'light-content'} />
@@ -60,14 +68,14 @@ export class PostDetail extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = () => ({
 
 });
 
-const bindActions = (dispatch) => {
+const bindActions = () => {
     return {
         
     };
-}
+};
 
 export default connect(mapStateToProps, bindActions)(PostDetail);

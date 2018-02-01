@@ -7,16 +7,16 @@ import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { POST_LIST_QUERY } from '../../graphql/queries';
 
 type Props = {
-    posts: Array<Object>,
+    posts: Array<{}>,
     loading: boolean,
     loadMorePosts: Function,
-    login: Object,
-    navigation: Object,
+    login: {},
+    navigation: {},
     skip: number
 };
 
 type State = {
-    data: Array<Object>,
+    data: Array<{}>,
     isLoading: boolean,
     fbUserId: string
 };

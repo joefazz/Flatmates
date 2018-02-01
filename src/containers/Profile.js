@@ -9,14 +9,14 @@ import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
 
 type Props = {
-    profile: Object,
+    profile: any,
     loading: boolean,
-    userDetailsQuery: Function
+    userDetailsQuery: () => mixed
 };
 
 type State = {
     isLoading: boolean,
-    profile: Object
+    profile: {}
 }
 
 export class Profile extends React.Component<Props, State> {
