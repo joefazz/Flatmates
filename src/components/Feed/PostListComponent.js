@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, Animated, TouchableOpacity, Easing } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { PostCard } from '../../widgets';
 import { Colors, Font } from '../../consts';
 import { feed, base } from '../../styles';
-import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
+import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
 
 type Props = {
     navigation: Object,
@@ -12,9 +13,54 @@ type Props = {
     isLoading: boolean
 };
 
-export class PostListComponent extends React.Component<Props> {
+type State = {
+    isFilterOpen: boolean
+}
+
+export class PostListComponent extends React.Component<Props, State> {
+    _animationValue: Animated.Value = new Animated.Value(1);
+    _ANIMATION_DURATION_CONSTANT: number = 500;
+
     constructor(props) {
         super(props);
+
+        this.state = {
+            isFilterOpen: true
+        };
+    }
+
+    heightAnimation = {
+        height: this._animationValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [toConstantHeight(9.8), toConstantHeight(21.5)]
+        })
+    };
+
+    rotateAnimation = {
+        transform: [
+            {
+                rotate: this._animationValue.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: ['180deg', '0deg']
+                })
+            }
+        ]
+    }
+
+    animateFilter = () => {
+        if (this.state.isFilterOpen) {
+            Animated.timing(this._animationValue, {
+                toValue: 0,
+                duration: this._ANIMATION_DURATION_CONSTANT,
+                easing: Easing.elastic(1)
+            }).start(() => this.setState({ isFilterOpen: false }));
+        } else {
+            Animated.timing(this._animationValue, {
+                toValue: 1,
+                duration: this._ANIMATION_DURATION_CONSTANT,
+                easing: Easing.elastic(1)
+            }).start(() => this.setState({ isFilterOpen: true }));
+        }
     }
 
     renderCard = ({ item }) => {
@@ -62,17 +108,24 @@ export class PostListComponent extends React.Component<Props> {
 
         return (
             <Fragment>
-                <View style={{ backgroundColor: Colors.brandPrimaryColor, height: toConstantHeight(20), alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={{ width: toConstantWidth(90), marginTop: 10, borderRadius: 10, borderWidth: 1, height: toConstantHeight(5), justifyContent: 'center', paddingHorizontal: toConstantWidth(3) }}>
-                        <Text>Price (Low to High)</Text>
+                <Animated.View style={[ feed.filterWrapper, this.heightAnimation ]}>
+                    <TouchableOpacity onPress={this.animateFilter} activeOpacity={0.7} style={ feed.expandBar }>
+                        <Animated.View style={this.rotateAnimation}>
+                            <Icon name={'ios-arrow-up'} size={toConstantFontSize(3)} style={{color: Colors.highlightWhite}} />
+                        </Animated.View>
+                    </TouchableOpacity>
+                    <View>
+                        <View style={ feed.filterItem }>
+                            <Text style={ feed.filterItemText }>Price (Low to High)</Text>
+                        </View>
+                        <View style={ feed.filterItem }>
+                            <Text style={ feed.filterItemText }>Spaces</Text>
+                        </View>
+                        <View style={ feed.filterItem }>
+                            <Text style={ feed.filterItemText }>Other option</Text>
+                        </View>
                     </View>
-                    <View style={{ width: toConstantWidth(90), marginVertical: 10, borderRadius: 10, borderWidth: 1, height: toConstantHeight(5), justifyContent: 'center', paddingHorizontal: toConstantWidth(3) }}>
-                        <Text>Spaces</Text>
-                    </View>
-                    <View style={{ width: toConstantWidth(90), marginBottom: 10, borderRadius: 10, borderWidth: 1, height: toConstantHeight(5), justifyContent: 'center', paddingHorizontal: toConstantWidth(3) }}>
-                        <Text>Other option</Text>
-                    </View>
-                </View>
+                </Animated.View>
                 <FlatList
                     data={this.props.data}
                     contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}

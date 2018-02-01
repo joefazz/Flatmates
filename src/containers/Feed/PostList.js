@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { POST_LIST_QUERY } from '../../graphql/queries';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 type Props = {
     posts: Array<{}>,
@@ -24,6 +25,9 @@ type State = {
 export class PostList extends React.Component<Props, State> {
     static navigationOptions = () => ({
         title: 'Home',
+        tabBarIcon: ({ focused, tintColor }) => (
+            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
+        )
     });
 
     static defaultProps = {
@@ -79,7 +83,7 @@ const allPostsQuery = graphql(POST_LIST_QUERY, {
         return {
             variables: {
                 take: 2,
-                skip: props.skip
+                skip: 0
             }
         };
     },

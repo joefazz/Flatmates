@@ -14,12 +14,13 @@ const colors = {
     textHighlightColor: highlightColor,
     white: '#FFFFFF',
     highlightWhite: '#F5F5F5',
+    offWhite: '#fbfbfb',
     black: '#000000',
     grey: '#C0C0C0',
     textGrey: '#373737',
     lineSeperatorColor: '#CED0CE',
     transparent: 'transparent',
-
+    airbnbRed: '#ff5a5f',
     // Useful for getting rgbs https://www.webpagefx.com/web-design/hex-to-rgb/
     // NIGHTHAWK
     gradientStart: 'rgb(41,128,185)',
