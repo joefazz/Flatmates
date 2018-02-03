@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
-import FastImage from 'react-native-fast-image';
 import moment from 'moment';
 
 import { Colors, Metrics } from '../consts';
@@ -39,7 +38,7 @@ export class PostCard extends React.Component {
                 {this.props.images.map((image, index) => {
                     return (
                         <View style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, overflow: 'hidden' }} key={index}>
-                            <FastImage style={ styles.postImage } source={{uri: image}} key={index} />
+                            <Image style={ styles.postImage } source={{uri: image}} key={index} />
                         </View>
                     );
                 })}

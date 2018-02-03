@@ -12,7 +12,6 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* FlatmatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* FlatmatesTests.m */; };
-		03976D1B30F942779F5CEFF4 /* libFastImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 246D441F85044523A2A7018C /* libFastImage.a */; };
 		04584EC7E0C0425891D25624 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BD128C1EBFC4AB0BF889D6D /* libimageCropPicker.a */; };
 		11EEA504D93A32ACB80F15B5 /* libPods-FlatmatesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE0628D1CBDE33419625255 /* libPods-FlatmatesTests.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -76,6 +75,7 @@
 		4F879B4AADC9478E818A049B /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B87650C14A2144F7970CD088 /* Octicons.ttf */; };
 		D697E743465A4D55913B8D3A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A42DCEAE826546B6A730396A /* SimpleLineIcons.ttf */; };
 		CDC91B9668474A27B5E14E54 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D01FA0CDB9804D9D94C51FA1 /* Zocial.ttf */; };
+		2D54E1CEB2EE4CC48802FDE1 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -366,13 +366,6 @@
 			remoteGlobalIDString = C4D1443D1F4E16F600396F26;
 			remoteInfo = RCTMGL;
 		};
-		A27EA6211FFBDB09007D68D9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2B26A6FC8C04411B82518022 /* FastImage.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A287971D1DE0C0A60081BDFA;
-			remoteInfo = FastImage;
-		};
 		A27EA6241FFBDB09007D68D9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6F2FD57FE18F42D482774450 /* Interactable.xcodeproj */;
@@ -435,8 +428,6 @@
 		17F1E5A6AF49430597BE1D5E /* Nunito Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Light.ttf"; path = "../Assets/Fonts/Nunito/Nunito Light.ttf"; sourceTree = "<group>"; };
 		1DC076EA845244790C2ADE34 /* libPods-Flatmates-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Flatmates-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F17232BC14643A1A1542816 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
-		246D441F85044523A2A7018C /* libFastImage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libFastImage.a; sourceTree = "<group>"; };
-		2B26A6FC8C04411B82518022 /* FastImage.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = FastImage.xcodeproj; path = "../node_modules/react-native-fast-image/ios/FastImage.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Flatmates-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flatmates-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Flatmates-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Flatmates-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -488,6 +479,8 @@
 		B87650C14A2144F7970CD088 /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		A42DCEAE826546B6A730396A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		D01FA0CDB9804D9D94C51FA1 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; name = "RNGestureHandler.xcodeproj"; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */ = {isa = PBXFileReference; name = "libRNGestureHandler.a"; path = "libRNGestureHandler.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -524,10 +517,10 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				A2FBD7581FD46312005C1561 /* FBSDKShareKit.framework in Frameworks */,
 				A2FBD7561FD46312005C1561 /* FBSDKLoginKit.framework in Frameworks */,
-				03976D1B30F942779F5CEFF4 /* libFastImage.a in Frameworks */,
 				2AFBB2EC62A941F0AEE17B41 /* libInteractable.a in Frameworks */,
 				04584EC7E0C0425891D25624 /* libimageCropPicker.a in Frameworks */,
 				683E2CF9B527A4B0E7542073 /* libPods-Flatmates.a in Frameworks */,
+				2D54E1CEB2EE4CC48802FDE1 /* libRNGestureHandler.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,9 +746,9 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				1F17232BC14643A1A1542816 /* RCTFBSDK.xcodeproj */,
-				2B26A6FC8C04411B82518022 /* FastImage.xcodeproj */,
 				6F2FD57FE18F42D482774450 /* Interactable.xcodeproj */,
 				420EB64209FE478CAA768E7A /* imageCropPicker.xcodeproj */,
+				1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -838,14 +831,6 @@
 			isa = PBXGroup;
 			children = (
 				A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		A27EA61C1FFBDB09007D68D9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A27EA6221FFBDB09007D68D9 /* libFastImage.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1000,10 +985,6 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = A27EA61C1FFBDB09007D68D9 /* Products */;
-					ProjectRef = 2B26A6FC8C04411B82518022 /* FastImage.xcodeproj */;
-				},
 				{
 					ProductGroup = A2D3D608200A5C2F006F2355 /* Products */;
 					ProjectRef = 420EB64209FE478CAA768E7A /* imageCropPicker.xcodeproj */;
@@ -1351,13 +1332,6 @@
 			fileType = archive.ar;
 			path = libRCTMGL.a;
 			remoteRef = A26DBE0A1FFBE64E00FE1330 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A27EA6221FFBDB09007D68D9 /* libFastImage.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libFastImage.a;
-			remoteRef = A27EA6211FFBDB09007D68D9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A27EA6251FFBDB09007D68D9 /* libInteractable.a */ = {
@@ -1757,9 +1731,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 				);
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1785,9 +1759,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 				);
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1818,9 +1792,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 				);
 				INFOPLIST_FILE = Flatmates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1852,9 +1826,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 				);
 				INFOPLIST_FILE = Flatmates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1889,9 +1863,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1926,9 +1900,9 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
-					"$(SRCROOT)/../node_modules/react-native-fast-image/ios/FastImage/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

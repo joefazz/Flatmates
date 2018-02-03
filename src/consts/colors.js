@@ -21,6 +21,7 @@ const colors = {
     lineSeperatorColor: '#CED0CE',
     transparent: 'transparent',
     airbnbRed: '#ff5a5f',
+    translucentAirBnbRed: 'rgba(255, 90, 95, 0.2)',
     // Useful for getting rgbs https://www.webpagefx.com/web-design/hex-to-rgb/
     // NIGHTHAWK
     gradientStart: 'rgb(41,128,185)',

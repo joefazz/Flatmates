@@ -1,12 +1,11 @@
 import React from 'react';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
-import { BackHandler, AsyncStorage, Image, Platform, View } from 'react-native';
-import { LoginManager } from 'react-native-fbsdk';
+import { AsyncStorage, Image, BackHandler } from 'react-native';
 import { ApolloProvider } from 'react-apollo';
-import { Button } from 'react-native-elements';
 import { persistStore } from 'redux-persist-immutable';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
+import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 
 import store from './redux/store';
 import RootNavigation from './navigators/Root';
@@ -16,16 +15,23 @@ import client from './Client';
 
 Mapbox.setAccessToken('pk.eyJ1Ijoiam9lZmF6eiIsImEiOiJjamJ4cGh4b3MydXFtMzNrMXBjcnJoNTJ1In0.3TXY6xnx57AhOOtFV8gpyw');
 
-const AppNav = ({ dispatch, nav }) => {
-    return <RootNavigation 
-            navigation={
-                addNavigationHelpers({
-                    dispatch,
-                    state: nav
-                })
-            }        
-        />;
-};
+const addListener = createReduxBoundAddListener('root');
+
+class AppNav extends React.Component<{dispatch: () => mixed, nav: {}}> {
+    render() {
+        return (
+            <RootNavigation 
+                navigation={
+                    addNavigationHelpers({
+                        dispatch: this.props.dispatch,
+                        state: this.props.nav,
+                        addListener
+                    })
+                }        
+            />
+        );
+    }
+}
 
 const mapStateToProps = (state) => ({
     nav: state.get('nav'),
@@ -42,7 +48,15 @@ function persistentStore(onComplete, purge = false) {
     );
 }
 
-export default class Root extends React.Component {
+type Props = {};
+
+type State = {
+    isRehydrated: boolean
+};
+
+export default class Root extends React.Component<Props, State> {
+    back: () => mixed;
+
     constructor(props) {
         super(props);
 
@@ -55,7 +69,7 @@ export default class Root extends React.Component {
         // AsyncStorage.clear().catch(error => console.log(error));
         persistentStore(() => {
             this.setState({ isRehydrated: true });
-        })
+        });
     }
 
     componentDidMount() {
@@ -67,7 +81,6 @@ export default class Root extends React.Component {
     }
 
     render() {
-
         if (!this.state.isRehydrated) {
             return <Image source={Splash} resizeMode={'stretch'} style={ base.fullScreen } />
         }

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, Text, FlatList, ActivityIndicator, Animated, TouchableOpacity, Easing } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, Animated, TouchableOpacity, Easing, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { PostCard } from '../../widgets';
@@ -32,7 +32,14 @@ export class PostListComponent extends React.Component<Props, State> {
     heightAnimation = {
         height: this._animationValue.interpolate({
             inputRange: [0, 1],
-            outputRange: [toConstantHeight(9.8), toConstantHeight(21.5)]
+            outputRange: [toConstantHeight(10), toConstantHeight(21.5)]
+        })
+    };
+
+    opacityAnimation = {
+        opacity: this._animationValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 1]
         })
     };
 
@@ -52,7 +59,7 @@ export class PostListComponent extends React.Component<Props, State> {
             Animated.timing(this._animationValue, {
                 toValue: 0,
                 duration: this._ANIMATION_DURATION_CONSTANT,
-                easing: Easing.elastic(1)
+                easing: Easing.elastic(0.7)
             }).start(() => this.setState({ isFilterOpen: false }));
         } else {
             Animated.timing(this._animationValue, {
@@ -101,7 +108,7 @@ export class PostListComponent extends React.Component<Props, State> {
         if (this.props.isLoading) {
             return (
                 <View style={base.fullScreen}>
-                    <ActivityIndicator size={'large'} />
+                    <ActivityIndicator size={'small'} />
                 </View>
             );
         }
@@ -114,17 +121,17 @@ export class PostListComponent extends React.Component<Props, State> {
                             <Icon name={'ios-arrow-up'} size={toConstantFontSize(3)} style={{color: Colors.highlightWhite}} />
                         </Animated.View>
                     </TouchableOpacity>
-                    <View>
-                        <View style={ feed.filterItem }>
-                            <Text style={ feed.filterItemText }>Price (Low to High)</Text>
-                        </View>
-                        <View style={ feed.filterItem }>
+                    <TouchableHighlight onPress={() => console.log('hello')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
+                        <Text style={ feed.filterItemText }>Price (Low to High)</Text>
+                    </TouchableHighlight>
+                    <Animated.View style={ this.opacityAnimation }>
+                        <TouchableHighlight onPress={() => console.log('hello')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
                             <Text style={ feed.filterItemText }>Spaces</Text>
-                        </View>
-                        <View style={ feed.filterItem }>
+                        </TouchableHighlight>
+                        <TouchableHighlight onPress={() => console.log('hello')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
                             <Text style={ feed.filterItemText }>Other option</Text>
-                        </View>
-                    </View>
+                        </TouchableHighlight>
+                    </Animated.View>
                 </Animated.View>
                 <FlatList
                     data={this.props.data}

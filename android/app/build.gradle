@@ -139,11 +139,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-gesture-handler')
     compile project(':react-native-vector-icons')
     compile project(':react-native-image-crop-picker')
     compile project(':mapbox-react-native-mapbox-gl')
     compile project(':react-native-interactable')
-    compile project(':react-native-fast-image')
     compile(project(':react-native-fbsdk')){
       exclude(group: 'com.facebook.android', module: 'facebook-android-sdk')
     }
