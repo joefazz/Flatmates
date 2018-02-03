@@ -6,7 +6,16 @@ import moment from 'moment';
 import { Colors, Metrics } from '../consts';
 import { Font } from '../consts';
 
-export class PostCard extends React.Component {
+type Props = {
+    images: string[],
+    createdDate: number,
+    title: string,
+    onPress: () => mixed,
+    price: number,
+    spaces: number
+}
+
+export class PostCard extends React.Component<Props> {
     constructor(props) {
         super(props);
     }

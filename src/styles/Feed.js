@@ -81,5 +81,18 @@ export const feed = StyleSheet.create({
         borderWidth: 2, 
         borderRadius: 5, 
         borderColor: Colors.brandSecondaryColor, borderStyle: 'dashed'
+    },
+
+    swiper: {
+        width: toConstantWidth(90),
+    },
+
+    image: {
+        width: toConstantWidth(90),
+        height: toConstantHeight(30)
+    },
+
+    content: {
+        flex: 2
     }
 });

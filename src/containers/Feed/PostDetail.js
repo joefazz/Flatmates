@@ -1,27 +1,24 @@
 import React, { Fragment } from 'react';
-import { View, Text, Platform, FlatList, StatusBar } from 'react-native';
-import { connect } from 'react-redux';
-import { compose, graphql } from 'react-apollo';
+import { StatusBar } from 'react-native';
+import { graphql } from 'react-apollo';
 
-import Client from '../../Client';
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { POST_DETAILS_QUERY } from '../../graphql/queries';
-import { BackButton } from '../../widgets';
 
 type Props = {
     navigation: {state: {params: {data: {}}}},
-    loading: boolean
+    loading: boolean,
+    post: {}
 };
 
 type State = {
-    data: {},
+    data: {id?: string},
     isLoading: boolean
 }
 
 export class PostDetail extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.data.createdBy.road,
-        headerLeft: <BackButton />
     });
 
     constructor(props) {
@@ -33,32 +30,18 @@ export class PostDetail extends React.Component<Props, State> {
         };
     }
 
-    componentDidMount() {
-        this.setState({ data: this.getPostDetail() });
-    }
-
     componentWillReceiveProps(newProps) {
         if (newProps.loading !== this.state.isLoading) {
             this.setState({ isLoading: newProps.loading });
 
-            if (newProps.Post !== this.state.Post) {
-                this.setState({ data: newProps.Post });
+            if (newProps.post !== this.state.data) {
+                this.setState({ data: newProps.post });
             }
         }
     }
 
-    async getPostDetail() {
-        try {
-            return await Client.query({
-                variables: { id: this.state.data.id },
-                query: POST_DETAILS_QUERY
-            });
-        } catch(error) {
-            alert(error);
-        }
-    }
-
     render() {
+        console.log(this.state);
         return (
             <Fragment>
                 <StatusBar barStyle={'light-content'} />
@@ -68,14 +51,20 @@ export class PostDetail extends React.Component<Props, State> {
     }
 }
 
-const mapStateToProps = () => ({
+export default graphql(POST_DETAILS_QUERY, {
+    options(props) {
+        return {
+            variables: {
+                id: props.navigation.state.params.data.id
+            }
+        };
+    },
+    props({ data: { loading, post } }) {
+        return {
+            loading, 
+            post,
+        };
+    }
+})(PostDetail);
 
-});
 
-const bindActions = () => {
-    return {
-        
-    };
-};
-
-export default connect(mapStateToProps, bindActions)(PostDetail);

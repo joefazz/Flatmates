@@ -28,6 +28,10 @@ export const base = StyleSheet.create({
         padding: 5,
         alignItems: 'center',
     },
+
+    wholePage: {
+        flex: 1
+    },
     
     headerWrapper: {
         flex: 1,

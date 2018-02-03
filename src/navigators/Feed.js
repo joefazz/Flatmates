@@ -1,4 +1,7 @@
+import React from 'react';
+import { Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import PostList from '../containers/Feed/PostList';
 import PostDetail from '../containers/Feed/PostDetail';
@@ -12,6 +15,9 @@ const routeConfig = {
 const navConfig = {
     navigationOptions: {
         headerTintColor: Colors.white,
+        tabBarIcon: ({ focused, tintColor }) => (
+            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
+        ),
         headerTitleStyle: {color: Colors.white, ...Font.FontFactory({ family: 'Nunito' })},
         headerStyle: {backgroundColor: Colors.brandSecondaryColor},
     }

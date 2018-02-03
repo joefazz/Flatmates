@@ -25,9 +25,6 @@ type State = {
 export class PostList extends React.Component<Props, State> {
     static navigationOptions = () => ({
         title: 'Home',
-        tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
-        )
     });
 
     static defaultProps = {
