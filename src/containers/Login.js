@@ -39,6 +39,7 @@ import {
     UPDATE_USER_UPDATE_HOUSE_MUTATION 
 } from '../graphql/mutations';
 import { TouchableRect } from '../widgets/TouchableRect';
+import { FONT_FAMILY } from '../consts/font';
 
 export let facebookPermissions = [];
 
@@ -128,8 +129,8 @@ export class Login extends React.Component<Props, State> {
             
             shortID: 1,
             road: 'Road Street',
-            rentPrice: 200,
-            billsPrice: 30,
+            rentPrice: 0,
+            billsPrice: 0,
             spaces: 3,
             houseImages: [],
         };
@@ -379,7 +380,11 @@ export class Login extends React.Component<Props, State> {
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>
-                        <TouchableRect title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
+                        <TouchableRect 
+                            title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} 
+                            onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} 
+                            backgroundColor={this.state.isLoggedIn ? Colors.brandSuccessColor : Colors.brandSecondaryColor}
+                            buttonStyle={ base.buttonStyle } />
                         <TouchableOpacity testID={'LoginButton'} onPress={this.loginWithFacebook}>
                             <Text style={[ login.hyperlink, { marginTop: 10 } ]}>Already Got an Account? Login</Text>
                         </TouchableOpacity>
@@ -388,22 +393,31 @@ export class Login extends React.Component<Props, State> {
 
                 <View style={[ login.page, { justifyContent: 'space-around'} ]}>
                     <View style={[ login.mainContent, { alignItems: 'center', justifyContent: 'center' } ]}>
-                        <Text style={ [base.headingText, {fontSize: 24, fontWeight: '700', marginBottom: 20}] }>Are you...</Text>
-                        <Button testID={'PersonFlow'} title={'Looking for a House'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
-                        <Button testID={'HouseFlow'} title={'Looking for People'} onPress={() => this.setState({ isLookingForHouse: false },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={ base.buttonStyle } />
+                        <Text style={ [base.headingText, {fontSize: 24, ...Font.FontFactory({weight: 'Bold', family: 'Nunito'}), marginBottom: 20}] }>Are you...</Text>
+                        <TouchableRect 
+                            title={'Looking for a House'} 
+                            onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } 
+                            backgroundColor={Colors.brandSecondaryColor}
+                            buttonStyle={ base.buttonStyle } 
+                            wrapperStyle={{marginBottom: 10}} />
+                        <TouchableRect 
+                            title={'Looking for People'} 
+                            onPress={() => this.setState({ isLookingForHouse: false },() => this.homeSwiper.scrollBy(1, true)) } 
+                            backgroundColor={Colors.brandSecondaryColor}
+                            buttonStyle={ base.buttonStyle } />
                     </View>
                 </View>
 
                 <View style={[ login.page ]}>
                     <View style={ base.headingWrapper }>
-                        <Text style={[ base.headingText, {fontWeight: 'bold', fontSize: 24} ]}>What would you like to share?</Text>
-                        <Text style={[ base.headingText, {fontSize: 16, fontWeight: '400'} ]}>This helps us find the right Flatmates for you</Text>
+                        <Text style={[ base.headingText, {...Font.FontFactory({weight: 'Bold', family: 'Nunito'}), fontSize: 24} ]}>What would you like to share?</Text>
+                        <Text style={[ base.headingText, {fontSize: 16, ...Font.FontFactory({weight: 'Light', family: 'Nunito'})} ]}>This helps us find the right Flatmates for you</Text>
                     </View>
                     <View style={ login.mainContent }>
                         <View style={{marginVertical: 10}}>
                             <Checkbox 
                                 title={'About Me'}
-                                fontFamily={Font.FONT_FAMILY}
+                                fontFamily={FONT_FAMILY}
                                 color={Colors.textHighlightColor}
                                 onIconPress={() => this.setState({ aboutCheck: !this.state.aboutCheck })}
                                 isChecked={this.state.aboutCheck} />
@@ -434,14 +448,12 @@ export class Login extends React.Component<Props, State> {
                         </View>
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button 
-                            testID={'FBLogin'}
-                            leftIcon={{ type: 'font-awesome', name: this.state.isLoggedIn ? 'check' : 'facebook-square', size: 26 }} 
+                        <TouchableRect 
+                            iconName={this.state.isLoggedIn ? 'check' : 'facebook-square'} 
                             onPress={this.state.isLoggedIn ? () => this.homeSwiper.scrollBy(1, true) : this.signupWithFacebook}
-                            fontFamily={Font.FONT_FAMILY} 
-                            fontSize={20}
                             title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Next' : 'Login with Facebook'} 
-                            buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : { backgroundColor: Colors.facebookBlue }]} />
+                            backgroundColor={this.state.isLoggedIn ? Colors.brandSuccessColor : Colors.facebookBlue}
+                            buttonStyle={base.buttonStyle} />
                     </View>         
                 </View>       
 
@@ -505,8 +517,8 @@ export class Login extends React.Component<Props, State> {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around', paddingHorizontal: 15}}>
-                            <Text style={ base.labelText }>Smoker</Text>
+                        <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-around', paddingHorizontal: 15 }}>
+                            <Text style={[ base.labelText, {alignSelf: 'center'} ]}>Smoker</Text>
                             <Switch onTintColor={ Colors.brandSecondaryColor } thumbTintColor={ Colors.brandPrimaryColor } tintColor={ Colors.grey } onValueChange={(val) => this.setState({ isSmoker: val })} value={this.state.isSmoker}/>
                         </View>
                         <View style={{ flex: 1, alignItems: 'center' }}>
@@ -690,7 +702,7 @@ export class Login extends React.Component<Props, State> {
                 <View style={ base.headingWrapper }>
                     <Text style={[ base.headingText, { fontSize: 20 } ]}>Enter your house details</Text>
                 </View>
-                <View style={[ login.mainContent, {justifyContent: 'flex-start'} ]}>
+                <View style={[ login.mainContent, {justifyContent: 'flex-start', flex: 4} ]}>
                     <View style={[ login.marginBottom, { alignSelf: 'center' } ]}>
                         <Text style={ base.labelText }>Road Name</Text>
                         <TextInput placeholder={'Fake Street'}
@@ -709,18 +721,18 @@ export class Login extends React.Component<Props, State> {
                                 <TextInput placeholder={'430.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  rentPrice: text })}
-                                    underlineColorAndroid={Colors.grey}
+                                    underlineColorAndroid={Colors.transparent}
                                     style={ base.halfWidthInput } />
                             </View>
                         </View>
                         <View>
                             <Text style={ base.labelText }>Bills Per Month</Text>
-                            <View style={ login.priceInputWrapper }>
+                            <View style={[ login.priceInputWrapper ]}>
                                 <Text style={[ login.poundStyle, this.state.billsPrice > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                 <TextInput placeholder={'23.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  billsPrice: text })}
-                                    underlineColorAndroid={Colors.grey}
+                                    underlineColorAndroid={Colors.transparent}
                                     style={ base.halfWidthInput } />
                             </View>
                         </View>

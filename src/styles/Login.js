@@ -131,7 +131,8 @@ export const login = StyleSheet.create({
     poundStyle: {
         ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.grey, 
-        fontSize: 18 
+        fontSize: 18,
+        alignSelf: 'center'
     },
 
     priceInputWrapper: {

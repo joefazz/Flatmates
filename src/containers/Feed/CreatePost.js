@@ -63,6 +63,15 @@ export class CreatePost extends React.Component<Props, State> {
                         <TextInput onChangeText={(text) => this.setState({ description: text })} style={ feed.descriptionInput } multiline={true} defaultValue={(this.state.data.house.spaces > 0 ? 'Looking to fill ' + this.state.data.house.spaces + ' rooms ' : 'a room ') + 'on ' + this.state.data.house.road + ' '} />
                     </View>
 
+                    <View style={{ flexDirection: 'row' }}>
+                        <View>
+                            <Text style={ base.labelText }>Contract Start Date</Text>
+                        </View>
+                        <View>
+                            <Text style={ base.labelText }>Contract End Date</Text>
+                        </View>
+                    </View>
+
                     <TouchableRect title={'Create'} buttonStyle={ base.buttonStyle } onPress={() => console.log('working')} />
                 </View>
             </View>
