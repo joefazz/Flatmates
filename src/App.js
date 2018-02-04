@@ -6,16 +6,20 @@ import { ApolloProvider } from 'react-apollo';
 import { persistStore } from 'redux-persist-immutable';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
+import MapboxClient from 'mapbox/lib/services/geocoding';
 
 import store from './redux/store';
+import { MAPBOX_API_TOKEN } from './consts/strings';
 import RootNavigation from './navigators/Root';
 import { base } from './styles';
-import Splash from '../Assets/splash_screen.png'
+import Splash from '../Assets/splash_screen.png';
 import client from './Client';
 
-Mapbox.setAccessToken('pk.eyJ1Ijoiam9lZmF6eiIsImEiOiJjamJ4cGh4b3MydXFtMzNrMXBjcnJoNTJ1In0.3TXY6xnx57AhOOtFV8gpyw');
+Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 
 const addListener = createReduxBoundAddListener('root');
+
+export const MapboxSDK = new MapboxClient(MAPBOX_API_TOKEN);
 
 class AppNav extends React.Component<{dispatch: () => mixed, nav: {}}> {
     render() {
@@ -65,8 +69,9 @@ export default class Root extends React.Component<Props, State> {
         }
     }
 
+    // TODO: MAKE SURE REDUX CLEARS STORE IF SOMEONE EXITS OR CRASHES DURING SET UP OTHERWISE THE FACEBOOK QUERY WILL NEVER UPDATE THE UI
     componentWillMount() {
-        // AsyncStorage.clear().catch(error => console.log(error));
+        AsyncStorage.clear().catch(error => console.log(error));
         persistentStore(() => {
             this.setState({ isRehydrated: true });
         });

@@ -22,27 +22,6 @@ export const login = StyleSheet.create({
         alignItems: 'flex-start',
         justifyContent: 'center',
     },
-    
-    headingWrapper: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    
-    headingText: {
-        ...Font.FontFactory({ family: 'Nunito' }),
-        fontSize: toConstantFontSize(3),
-        color: Colors.textHighlightColor,
-        margin: 5,
-    },
-
-    labelText: {
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
-        fontSize: 16,
-        color: Colors.textHighlightColor,
-        alignSelf: 'flex-start',
-        marginVertical: 5,
-    },
 
     congratsText: {
         ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
@@ -147,22 +126,6 @@ export const login = StyleSheet.create({
         fontSize: 14,
         color: Colors.brandTertiaryColor, 
         textDecorationLine: 'underline' 
-    },
-
-    houseDetailFullWidthInput: {
-        ...Font.FontFactory({ family: 'Nunito' }),
-        color: Colors.textHighlightColor, 
-        width: 270, 
-        fontSize: 18, 
-        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0, 
-        borderColor: Colors.grey
-    },
-
-    houseDetailHalfWidthInput: { 
-        ...Font.FontFactory({ family: 'Nunito' }),
-        color: Colors.textHighlightColor, 
-        width: 110, 
-        fontSize: 18 
     },
 
     poundStyle: {

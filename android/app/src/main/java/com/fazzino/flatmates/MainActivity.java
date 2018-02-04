@@ -2,6 +2,9 @@ package com.fazzino.flatmates;
 
 import com.facebook.react.ReactActivity;
 import android.content.Intent;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 public class MainActivity extends ReactActivity {
     /**

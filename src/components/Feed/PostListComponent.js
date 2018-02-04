@@ -10,7 +10,8 @@ import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConv
 type Props = {
     navigation: Object,
     data: Array<Object>,
-    isLoading: boolean
+    isLoading: boolean,
+    fbUserId: string
 };
 
 type State = {
@@ -74,7 +75,7 @@ export class PostListComponent extends React.Component<Props, State> {
         return (
             <View style={ feed.card }>
                 <PostCard 
-                    onPress={() => this.props.navigation.navigate('PostDetail', {data: item} )}
+                    onPress={() => this.props.navigation.push('PostDetail', {data: item} )}
                     title={item.createdBy.road} 
                     spaces={item.createdBy.spaces} 
                     price={item.createdBy.billsPrice + item.createdBy.rentPrice}
@@ -86,9 +87,9 @@ export class PostListComponent extends React.Component<Props, State> {
 
     renderCreateHeader = () => {
         return (
-            <View style={ feed.createCard } >
+            <TouchableHighlight underlayColor={Colors.grey} onPress={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})} style={ feed.createCard } >
                 <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light', family: 'Nunito'})} ]}>+</Text>
-            </View>
+            </TouchableHighlight>
         );
     }
 

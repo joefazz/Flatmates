@@ -5,11 +5,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import PostList from '../containers/Feed/PostList';
 import PostDetail from '../containers/Feed/PostDetail';
+import CreatePost from '../containers/Feed/CreatePost';
 import { Colors, Font } from '../consts';
 
 const routeConfig = {
     PostList: {screen: PostList},
     PostDetail: {screen: PostDetail},
+    CreatePost: {screen: CreatePost}
 };
 
 const navConfig = {

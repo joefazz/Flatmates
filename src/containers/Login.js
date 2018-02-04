@@ -21,6 +21,7 @@ import { compose, graphql } from 'react-apollo';
 import Swiper from 'react-native-swiper';
 import { Button, Avatar, Slider } from 'react-native-elements';
 
+import { MapboxSDK } from '../App';
 import { Checkbox } from '../widgets';
 import { signupWithFacebook, loginWithFacebook } from '../redux/Routines';
 import { base, login } from '../styles';
@@ -37,6 +38,7 @@ import {
     UPDATE_USER_CREATE_HOUSE_MUTATION, 
     UPDATE_USER_UPDATE_HOUSE_MUTATION 
 } from '../graphql/mutations';
+import { TouchableRect } from '../widgets/TouchableRect';
 
 export let facebookPermissions = [];
 
@@ -86,7 +88,7 @@ type State = {
     rentPrice: number,
     billsPrice: number,
     spaces: number,
-    houseImages: Array<string>
+    houseImages: string[],
 }
 
 export class Login extends React.Component<Props, State> {
@@ -129,7 +131,7 @@ export class Login extends React.Component<Props, State> {
             rentPrice: 200,
             billsPrice: 30,
             spaces: 3,
-            houseImages: []
+            houseImages: [],
         };
     }
 
@@ -202,6 +204,24 @@ export class Login extends React.Component<Props, State> {
         this.setState({ isLoggingIn: true }, () => this.props.signupWithFacebook());
     }
 
+    async getCoordsFromAddress(road: string) {
+        let address = road + ', Reading';
+        let res;
+        try {
+            res = await MapboxSDK.geocodeForward(address, {country: 'gb', proximity: {latitude: 51.4412, longitude: -0.9430}}); 
+        } catch(err) {
+            alert('There was a problem with the road name you entered, please check it and try again');
+            return 'Error';
+        }
+        
+        if (res.status !== 200 || res.entity.features.length === 0) {
+            alert('There was a problem with the road name you entered, please check it and try again.');
+            return 'Error';
+        } else {
+            return res.entity.features[0].center;            
+        }
+    }
+
     completeUserSetup = () => {
         this.props.updateUser(
             this.state.fbUserId, 
@@ -218,8 +238,13 @@ export class Login extends React.Component<Props, State> {
         this.homeSwiper.scrollBy(2, true);
     }
 
-    completeNewHouseSetup = () => {
+    completeNewHouseSetup = async () => {
         // for short id what should happen is should query all houses for their ids and then generate a number that isn't in the array
+        let coords = await this.getCoordsFromAddress(this.state.road);
+        if (coords === 'Error') {
+            return;
+        }
+        
         this.props.updateUserCreateHouse(
             this.state.fbUserId,
             this.state.bio,
@@ -229,6 +254,7 @@ export class Login extends React.Component<Props, State> {
             this.state.socialScore,
             this.state.shortID,
             this.state.road,
+            coords,
             Math.round(this.state.rentPrice),
             Math.round(this.state.billsPrice),
             parseInt(this.state.spaces),
@@ -345,15 +371,15 @@ export class Login extends React.Component<Props, State> {
                 activeDotColor={Colors.textHighlightColor}>
 
                 <View style={[ login.page, {justifyContent: 'space-around'} ]}>
-                    <View style={[ login.headingWrapper, {flex: 1} ]}>
-                        <Text style={[ login.headingText, { fontSize: toConstantFontSize(3.9), ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }) } ]}>Welcome to Flatmates</Text>
-                        <Text style={[ login.headingText, { fontSize: toConstantFontSize(2.9) } ]}>Student living made simple</Text>
+                    <View style={[ base.headingWrapper, {flex: 1} ]}>
+                        <Text style={[ base.headingText, { fontSize: toConstantFontSize(3.9), ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }) } ]}>Welcome to Flatmates</Text>
+                        <Text style={[ base.headingText, { fontSize: toConstantFontSize(2.9) } ]}>Student living made simple</Text>
                     </View>
                     <View style={[ login.mainContent, { flex: 2 } ]}>
                         <Image style={{ width: 250, height: 250 }} source={Box} /> 
                     </View>
                     <View style={ login.pageFooter }>
-                        <Button testID={'SignUpButton'} title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
+                        <TouchableRect title={this.state.isLoggingIn ? 'Logging In...' : this.state.isLoggedIn ? 'Finish' : 'Sign Up'} onPress={() => this.state.isLoggedIn ? this.props.navigation.navigate('Home') : this.homeSwiper.scrollBy(1, true)} buttonStyle={[ base.buttonStyle, this.state.isLoggedIn ? { backgroundColor: Colors.brandSuccessColor } : {} ]} />
                         <TouchableOpacity testID={'LoginButton'} onPress={this.loginWithFacebook}>
                             <Text style={[ login.hyperlink, { marginTop: 10 } ]}>Already Got an Account? Login</Text>
                         </TouchableOpacity>
@@ -362,16 +388,16 @@ export class Login extends React.Component<Props, State> {
 
                 <View style={[ login.page, { justifyContent: 'space-around'} ]}>
                     <View style={[ login.mainContent, { alignItems: 'center', justifyContent: 'center' } ]}>
-                        <Text style={ [login.headingText, {fontSize: 24, fontWeight: '700', marginBottom: 20}] }>Are you...</Text>
+                        <Text style={ [base.headingText, {fontSize: 24, fontWeight: '700', marginBottom: 20}] }>Are you...</Text>
                         <Button testID={'PersonFlow'} title={'Looking for a House'} onPress={() => this.setState({ isLookingForHouse: true },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={[ base.buttonStyle, { marginBottom: 10 } ]} />
                         <Button testID={'HouseFlow'} title={'Looking for People'} onPress={() => this.setState({ isLookingForHouse: false },() => this.homeSwiper.scrollBy(1, true)) } fontFamily={Font.FONT_FAMILY} fontSize={20} buttonStyle={ base.buttonStyle } />
                     </View>
                 </View>
 
                 <View style={[ login.page ]}>
-                    <View style={ login.headingWrapper }>
-                        <Text style={[ login.headingText, {fontWeight: 'bold', fontSize: 24} ]}>What would you like to share?</Text>
-                        <Text style={[ login.headingText, {fontSize: 16, fontWeight: '400'} ]}>This helps us find the right Flatmates for you</Text>
+                    <View style={ base.headingWrapper }>
+                        <Text style={[ base.headingText, {fontWeight: 'bold', fontSize: 24} ]}>What would you like to share?</Text>
+                        <Text style={[ base.headingText, {fontSize: 16, fontWeight: '400'} ]}>This helps us find the right Flatmates for you</Text>
                     </View>
                     <View style={ login.mainContent }>
                         <View style={{marginVertical: 10}}>
@@ -431,7 +457,7 @@ export class Login extends React.Component<Props, State> {
                             source={this.state.hasGotProfile ? {uri: this.state.profile.get('imageUrl')} : facebook_template } />
                         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'position' : 'height'} keyboardVerticalOffset={ 50 }>
                             <View style={ login.marginTop }>
-                                <Text style={[ login.labelText ]}>About Me</Text>
+                                <Text style={[ base.labelText ]}>About Me</Text>
                                 <TextInput placeholder={'Enter a short description of yourself'}
                                     maxLength={60}
                                     returnKeyType={'next'}
@@ -443,7 +469,7 @@ export class Login extends React.Component<Props, State> {
                                     style={[ login.profileInput, {borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }]} />
                             </View>
                             <View style={ login.marginTop }>
-                                <Text style={[ login.labelText ]}>Course</Text>
+                                <Text style={[ base.labelText ]}>Course</Text>
                                 <TextInput placeholder={'Enter the name of your course'}
                                     ref={input => this.courseInput = input}
                                     returnKeyType={'done'}
@@ -467,26 +493,26 @@ export class Login extends React.Component<Props, State> {
                 </View>
 
                 <View style={[ login.page, { alignItems: 'stretch' } ]}>
-                    <View style={ login.headingWrapper }>
-                        <Text style={ login.headingText }>Enter additional information</Text>
+                    <View style={ base.headingWrapper }>
+                        <Text style={ base.headingText }>Enter additional information</Text>
                     </View>
                     <View style={[ login.mainContent, { alignItems: 'stretch', justifyContent: 'flex-start', flex: 3 } ]}>
                         <View style={{ flex: 1, alignItems: 'center' }}>
                             <View>
-                                <Text style={[ login.labelText, { alignSelf: 'center' } ]}>Study Year</Text>
+                                <Text style={[ base.labelText, { alignSelf: 'center' } ]}>Study Year</Text>
                                 <TouchableOpacity style={ login.pickerActivator } onPress={() => this.setState({ studyYearEnabled: true })}>
                                     <Text style={ login.pickerActivatorText }>{this.state.studyYear}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
                         <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-around', paddingHorizontal: 15}}>
-                            <Text style={ login.labelText }>Smoker</Text>
+                            <Text style={ base.labelText }>Smoker</Text>
                             <Switch onTintColor={ Colors.brandSecondaryColor } thumbTintColor={ Colors.brandPrimaryColor } tintColor={ Colors.grey } onValueChange={(val) => this.setState({ isSmoker: val })} value={this.state.isSmoker}/>
                         </View>
                         <View style={{ flex: 1, alignItems: 'center' }}>
                             <View>
-                                <Text style={[ login.labelText, { alignSelf: 'center' } ]}>How social would you say you are? (From 1 to 10)</Text>
-                                <Text style={[ login.labelText, { alignSelf: 'center', fontWeight: 'bold'} ]}>{ this.state.socialScore }</Text>                                
+                                <Text style={[ base.labelText, { alignSelf: 'center' } ]}>How social would you say you are? (From 1 to 10)</Text>
+                                <Text style={[ base.labelText, { alignSelf: 'center', fontWeight: 'bold'} ]}>{ this.state.socialScore }</Text>                                
                                 <Slider 
                                     value={ this.state.socialScore } 
                                     onValueChange={(val) => this.setState({ socialScore: val })} 
@@ -557,26 +583,26 @@ export class Login extends React.Component<Props, State> {
         if (this.state.isLookingForHouse) {
             return (
                 <View style={ login.page }>
-                    <View style={ login.headingWrapper }>
-                        <Text style={ login.headingText }>Enter your preferences for a house</Text>
+                    <View style={ base.headingWrapper }>
+                        <Text style={ base.headingText }>Enter your preferences for a house</Text>
                     </View>
                     <View style={[ login.mainContent, {justifyContent: 'flex-start'} ]}>
                         <View style={ login.marginBottom }>
-                            <Text style={ login.labelText }>Minimum Price (incl. bills)</Text>
+                            <Text style={ base.labelText }>Minimum Price (incl. bills)</Text>
                             <TouchableOpacity style={ login.pickerActivator } onPress={() => this.setState({ minEnabled: true, genderEnabled: false, maxEnabled: false } )}>
                                 <Text style={ login.pickerActivatorText }>£{this.state.minPrice}</Text>
                             </TouchableOpacity>
                         </View>
                         
                         <View style={ login.marginVertical }>
-                            <Text style={ login.labelText }>Maximum Price (incl. bills)</Text>
+                            <Text style={ base.labelText }>Maximum Price (incl. bills)</Text>
                             <TouchableOpacity style={ login.pickerActivator } onPress={() => this.setState({ maxEnabled: true, genderEnabled: false, minEnabled: false } )}>
                                 <Text style={ login.pickerActivatorText }>£{this.state.maxPrice}</Text>
                             </TouchableOpacity>
                         </View>
 
                         <View style={  login.marginTop }>
-                            <Text style={ login.labelText }>Gender Majority</Text>
+                            <Text style={ base.labelText }>Gender Majority</Text>
                             <TouchableOpacity style={ login.pickerActivator } onPress={() => this.setState({ genderEnabled: true, maxEnabled: false, minEnabled: false })}>
                                 <Text style={ login.pickerActivatorText }>{this.state.genderPreference}</Text>
                             </TouchableOpacity>
@@ -631,8 +657,8 @@ export class Login extends React.Component<Props, State> {
         } else {
             return (
                 <View style={ login.page } >
-                    <View style={ login.headingWrapper }>
-                        <Text style={ login.headingText }>Enter your House ID or if you don't have one press 'Create House'</Text>
+                    <View style={ base.headingWrapper }>
+                        <Text style={ base.headingText }>Enter your House ID or if you don't have one press 'Create House'</Text>
                     </View>
                     <View style={ login.mainContent }>
                         <TextInput placeholder={'1234'} 
@@ -661,54 +687,54 @@ export class Login extends React.Component<Props, State> {
     renderHouseDetail() {
         return (
             <View style={ login.page }>
-                <View style={ login.headingWrapper }>
-                    <Text style={[ login.headingText, { fontSize: 20 } ]}>Enter your house details</Text>
+                <View style={ base.headingWrapper }>
+                    <Text style={[ base.headingText, { fontSize: 20 } ]}>Enter your house details</Text>
                 </View>
                 <View style={[ login.mainContent, {justifyContent: 'flex-start'} ]}>
                     <View style={[ login.marginBottom, { alignSelf: 'center' } ]}>
-                        <Text style={ login.labelText }>Road Name</Text>
+                        <Text style={ base.labelText }>Road Name</Text>
                         <TextInput placeholder={'Fake Street'}
                             onChangeText={(text) => this.setState({ road: text })}
                             autoCorrect={false}
                             spellCheck={false}
                             underlineColorAndroid={Colors.grey}
-                            style={ login.houseDetailFullWidthInput } />
+                            style={ base.fullWidthInput } />
                     </View>
                         
                     <View style={[ login.marginVertical, { flexDirection: 'row', alignSelf: 'center' } ]}>
                         <View style={{ marginRight: 30 }}>
-                            <Text style={ login.labelText }>Rent Per Month</Text>
+                            <Text style={ base.labelText }>Rent Per Month</Text>
                             <View style={ login.priceInputWrapper }>
                                 <Text style={[ login.poundStyle, this.state.rentPrice > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                 <TextInput placeholder={'430.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  rentPrice: text })}
                                     underlineColorAndroid={Colors.grey}
-                                    style={ login.houseDetailHalfWidthInput } />
+                                    style={ base.halfWidthInput } />
                             </View>
                         </View>
                         <View>
-                            <Text style={ login.labelText }>Bills Per Month</Text>
+                            <Text style={ base.labelText }>Bills Per Month</Text>
                             <View style={ login.priceInputWrapper }>
                                 <Text style={[ login.poundStyle, this.state.billsPrice > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                 <TextInput placeholder={'23.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  billsPrice: text })}
                                     underlineColorAndroid={Colors.grey}
-                                    style={ login.houseDetailHalfWidthInput } />
+                                    style={ base.halfWidthInput } />
                             </View>
                         </View>
                     </View>
                     <View style={[ login.marginTop, {alignSelf: 'center'} ]}>
-                        <Text style={ login.labelText }>Available Rooms</Text>
-                        <TextInput placeholder={'1'}
+                        <Text style={ base.labelText }>Available Rooms</Text>
+                        <TextInput placeholder={'How many free rooms are there?'}
                             onChangeText={(text) => this.setState({  spaces: text })}
                             keyboardType={'numeric'}
                             underlineColorAndroid={Colors.grey}
-                            style={ login.houseDetailFullWidthInput } />
+                            style={ base.fullWidthInput } />
                     </View>
                     <View style={[ login.marginTop, { alignSelf: 'flex-start' } ]}>
-                        {this.state.tempImages.length > 0 ? <Text style={ login.labelText }>Images</Text> : <Fragment /> }
+                        {this.state.tempImages.length > 0 ? <Text style={ base.labelText }>Images</Text> : <Fragment /> }
                         {/* Probably want to make this a horizontal scroll view in the future */}
                         <ScrollView style={{ flexDirection: 'row', width: toConstantWidth(80) }} horizontal={true}>
                             {this.state.tempImages.map((image, index) => {
@@ -791,6 +817,7 @@ const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
             socialScore,
             shortID,
             road,
+            coords,
             rentPrice,
             billsPrice,
             spaces,
@@ -806,6 +833,7 @@ const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
                     socialScore,
                     shortID,
                     road,
+                    coords,
                     rentPrice,
                     billsPrice,
                     spaces,

@@ -5,6 +5,16 @@ import { toConstantHeight, toConstantWidth, toConstantFontSize } from '../utils/
 import { FontFactory } from '../consts/font';
 
 export const feed = StyleSheet.create({
+    // Create Styles
+    descriptionInput: {
+        width: toConstantWidth(100),
+        height: toConstantHeight(25),
+        backgroundColor: Colors.offWhite,
+        fontSize: 16,
+        ...FontFactory({family: 'Nunito'})
+    },
+
+    // List styles
     card: {
         height: toConstantHeight(36),
         width: toConstantWidth(90), 
@@ -22,6 +32,7 @@ export const feed = StyleSheet.create({
         backgroundColor: Colors.offWhite
     },
 
+    // Filter styles
     filterContainer: { 
         backgroundColor: Colors.offWhite, 
     },

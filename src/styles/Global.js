@@ -1,11 +1,25 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, Platform } from 'react-native';
 
+import { toConstantFontSize } from '../utils/PercentageConversion';
 import { Colors, Font } from '../consts';
 
 export const base = StyleSheet.create({
     fullScreen: {
         height: Dimensions.get('window').height,
         width: Dimensions.get('window').width
+    },
+
+    headingWrapper: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    
+    headingText: {
+        ...Font.FontFactory({ family: 'Nunito' }),
+        fontSize: toConstantFontSize(3),
+        color: Colors.textHighlightColor,
+        margin: 5,
     },
 
     buttonStyle: {
@@ -19,6 +33,30 @@ export const base = StyleSheet.create({
     buttonTextStyle: {
         ...Font.FontFactory({ family: 'Nunito' }),
         fontSize: 24,
+    },
+
+    labelText: {
+        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
+        fontSize: 16,
+        color: Colors.textHighlightColor,
+        alignSelf: 'flex-start',
+        marginVertical: 5,
+    },
+
+    fullWidthInput: {
+        ...Font.FontFactory({ family: 'Nunito' }),
+        color: Colors.textHighlightColor, 
+        width: 270, 
+        fontSize: 18, 
+        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0, 
+        borderColor: Colors.grey
+    },
+
+    halfWidthInput: { 
+        ...Font.FontFactory({ family: 'Nunito' }),
+        color: Colors.textHighlightColor, 
+        width: 110, 
+        fontSize: 18 
     },
     
     content: {
