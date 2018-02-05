@@ -307,6 +307,7 @@ export class Login extends React.Component<Props, State> {
             loadingLabelText: 'Processing photos...' 
         }).catch(() => alert('Image Upload Cancelled'));
 
+        console.log(images);
         images = this.state.tempImages.concat(images);
         this.setState({ tempImages: images });
     }
@@ -318,6 +319,7 @@ export class Login extends React.Component<Props, State> {
     }
 
     async uploadImages() {
+        console.log(this.state.tempImages)
         if (this.state.tempImages && this.state.tempImages.length > 0) {   
             let imageUrls;
 
@@ -343,7 +345,7 @@ export class Login extends React.Component<Props, State> {
                     }
                 };
 
-                let response = await fetch('http://localhost:4000/upload', options);
+                let response = await fetch(Platform.OS === 'ios' ? 'http://localhost:4000/upload' : 'http://10.0.2.2:4000/upload', options);
                 if (response.ok) {
                     let json = await response.json();
                     return json.url;

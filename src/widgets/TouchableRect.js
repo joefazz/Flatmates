@@ -24,7 +24,7 @@ export class TouchableRect extends React.Component<Props> {
             <View style={[styles.borderWrapper, this.props.wrapperStyle, {backgroundColor: this.props.backgroundColor}]}>
                 <RectButton underlayColor={this.props.underlayColor} style={[this.props.buttonStyle, styles.buttonContentWrapper, {backgroundColor: this.props.backgroundColor}]} onPress={this.props.onPress}>
                     {this.props.iconName ?
-                        <Icon name={this.props.iconName} style={styles.iconStyle} size={26}/> :
+                        <Icon name={this.props.iconName} style={[styles.iconStyle, {marginRight: 10}]} size={26}/> :
                         <Fragment /> 
                     }
                     <Text style={styles.textStyle}>{this.props.title}</Text>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         height: toConstantHeight(7.4),
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-around'
+        justifyContent: 'center'
     },
 
     iconStyle: {
