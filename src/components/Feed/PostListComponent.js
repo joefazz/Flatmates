@@ -33,7 +33,7 @@ export class PostListComponent extends React.Component<Props, State> {
     heightAnimation = {
         height: this._animationValue.interpolate({
             inputRange: [0, 1],
-            outputRange: [toConstantHeight(10), toConstantHeight(21.5)]
+            outputRange: [toConstantHeight(10.5), toConstantHeight(22)]
         })
     };
 

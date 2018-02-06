@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, TextInput, Text } from 'react-native';
 import { graphql } from 'react-apollo';
-import { RectButton } from 'react-native-gesture-handler';
 
 import { base, feed } from '../../styles';
 import { USER_DETAILS_QUERY } from '../../graphql/queries';
-import { toConstantFontSize } from '../../utils/PercentageConversion';
+import { toConstantFontSize, toConstantWidth } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
+import { Colors } from '../../consts/index';
+import Client from '../../Client';
+import { CREATE_POST_MUTATION } from '../../graphql/mutations';
 
 type Props = {
     navigation: {state: {params: {fbUserId: string}}},
@@ -15,7 +17,7 @@ type Props = {
 };
 
 type State = {
-    data: { house: {spaces: number, road: string} },
+    data: { house: {spaces: number, road: string, shortID: number} },
     isLoading: boolean,
     title: string,
     description: string
@@ -46,6 +48,17 @@ export class CreatePost extends React.Component<Props, State> {
         }
     }
 
+    createPostMutation = async () => {
+        await Client.mutate({
+            mutation: CREATE_POST_MUTATION,
+            variables: {
+                createdBy: this.state.data.house.shortID,
+                title: this.state.title,
+                description: this.state.description
+            }
+        });
+    }
+
     render() {
         return (
             <View style={[ base.wholePage, {alignItems: 'center', justifyContent: 'center'} ]}>
@@ -55,24 +68,16 @@ export class CreatePost extends React.Component<Props, State> {
                 <View style={{ flex: 4, alignItems: 'center', justifyContent: 'space-around'}}>
                     <View style={{ marginBottom: 10 }}>
                         <Text style={ base.labelText }>Title</Text>
-                        <TextInput onChangeText={(text) => this.setState({ title: text })} style={ base.fullWidthInput } placeholder={'Enter post title'} />
+                        <TextInput onChangeText={(text) => this.setState({ title: text })} style={[ base.fullWidthInput, {width: toConstantWidth(85)} ]} placeholder={'Enter post title'} />
                     </View>
 
                     <View>
                         <Text style={ base.labelText }>Description</Text>
-                        <TextInput onChangeText={(text) => this.setState({ description: text })} style={ feed.descriptionInput } multiline={true} defaultValue={(this.state.data.house.spaces > 0 ? 'Looking to fill ' + this.state.data.house.spaces + ' rooms ' : 'a room ') + 'on ' + this.state.data.house.road + ' '} />
+                        <TextInput onChangeText={(text) => this.setState({ description: text })} underlineColorAndroid={Colors.transparent} style={ feed.descriptionInput } multiline={true} defaultValue={(this.state.data.house.spaces > 0 ? 'Looking to fill ' + this.state.data.house.spaces + ' rooms ' : 'a room ') + 'on ' + this.state.data.house.road + ' '} />
                     </View>
 
-                    <View style={{ flexDirection: 'row' }}>
-                        <View>
-                            <Text style={ base.labelText }>Contract Start Date</Text>
-                        </View>
-                        <View>
-                            <Text style={ base.labelText }>Contract End Date</Text>
-                        </View>
-                    </View>
 
-                    <TouchableRect title={'Create'} buttonStyle={ base.buttonStyle } onPress={() => console.log('working')} />
+                    <TouchableRect title={'Create'} buttonStyle={ base.buttonStyle } backgroundColor={Colors.brandSecondaryColor} onPress={this.createPostMutation} />
                 </View>
             </View>
         );

@@ -7,10 +7,14 @@ import { FontFactory } from '../consts/font';
 export const feed = StyleSheet.create({
     // Create Styles
     descriptionInput: {
-        width: toConstantWidth(100),
+        width: toConstantWidth(85),
         height: toConstantHeight(25),
+        paddingHorizontal: 5,
         backgroundColor: Colors.offWhite,
         fontSize: 16,
+        borderWidth: 1,
+        borderColor: Colors.grey,
+        borderRadius: 3,
         ...FontFactory({family: 'Nunito'})
     },
 
