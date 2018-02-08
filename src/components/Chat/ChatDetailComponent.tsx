@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { FlatList, View, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
-import randomColor from 'randomcolor';
+import { FlatList, KeyboardAvoidingView } from 'react-native';
 
 import { chat } from '../../styles';
 import { Message } from './MessageComponent';

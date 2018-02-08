@@ -1,13 +1,13 @@
+import Mapbox from '@mapbox/react-native-mapbox-gl';
 import * as React from 'react';
-import { View, Text, Animated, ActivityIndicator, ScrollView } from 'react-native';
+import { ActivityIndicator, Animated, ScrollView, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import * as Interactable from 'react-native-interactable';
-import Mapbox from '@mapbox/react-native-mapbox-gl';
 
-import { PreferenceRow } from '../../widgets';
+import { Colors, Metrics } from '../../consts';
 import { profile } from '../../styles';
-import { Metrics, Colors } from '../../consts';
 import { ConvertBirthdayToAge } from '../../utils/BirthdayToAge';
+import { PreferenceRow } from '../../widgets';
 
 interface Props  {
     profile: any,

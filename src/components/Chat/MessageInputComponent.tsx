@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { TextInput, View, TouchableHighlight, Platform } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { chat } from '../../styles';
+import { Platform, TextInput, TouchableHighlight, View } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import { Colors } from '../../consts';
+import { chat } from '../../styles';
 
 interface Props {
     send: (string) => void

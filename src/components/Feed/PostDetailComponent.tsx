@@ -1,9 +1,8 @@
-import * as React from 'react';
-import { View, Text, Image } from 'react-native';
-import Swiper from 'react-native-swiper';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
+import * as React from 'react';
+import { View } from 'react-native';
 
-import { feed, base } from '../../styles';
+import { base, feed } from '../../styles';
 
 interface Props {
     data: {

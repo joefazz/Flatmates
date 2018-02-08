@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { FlatList, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
-import { chat, base } from '../../styles';
+import { base, chat } from '../../styles';
 
 interface Props {
     navigation: {navigate: (string, {}) => void}

@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { View, Text } from 'react-native';
 import * as moment from 'moment';
+import * as React from 'react';
+import { Text, View } from 'react-native';
 
 import { chat } from '../../styles';
 

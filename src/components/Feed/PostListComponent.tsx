@@ -1,11 +1,20 @@
 import * as React from 'react';
-import { View, Text, FlatList, ActivityIndicator, Animated, TouchableOpacity, Easing, TouchableHighlight } from 'react-native';
+import {
+    ActivityIndicator,
+    Animated,
+    Easing,
+    FlatList,
+    Text,
+    TouchableHighlight,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { PostCard } from '../../widgets';
 import { Colors, Font } from '../../consts';
-import { feed, base } from '../../styles';
+import { base, feed } from '../../styles';
 import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
+import { PostCard } from '../../widgets';
 
 interface Props {
     navigation: {},
