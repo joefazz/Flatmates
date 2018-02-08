@@ -1,10 +1,19 @@
-import React from 'react';
+import * as React from 'react';
 import { FlatList, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
 import { chat, base } from '../../styles';
 
-export class ChatListComponent extends React.Component {
+interface Props {
+    navigation: {navigate: (string, {}) => void}
+    data: ReadonlyArray<{}>
+}
+
+interface State {
+
+}
+
+export class ChatListComponent extends React.Component<Props, State> {
     renderItem = ({ item }) => {
         return (
             <TouchableOpacity style={ chat.row } onPress={() => this.props.navigation.navigate('ChatDetail', { title: item.name, groupId: item.id })}>

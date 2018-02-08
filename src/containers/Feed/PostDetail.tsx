@@ -1,17 +1,17 @@
-import React, { Fragment } from 'react';
+import * as React from 'react';
 import { StatusBar } from 'react-native';
 import { graphql } from 'react-apollo';
 
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { POST_DETAILS_QUERY } from '../../graphql/queries';
 
-type Props = {
+interface Props  {
     navigation: {state: {params: {data: {}}}},
     loading: boolean,
     post: {}
 };
 
-type State = {
+interface State {
     data: {id?: string},
     isLoading: boolean
 }
@@ -43,10 +43,10 @@ export class PostDetail extends React.Component<Props, State> {
     render() {
         console.log(this.state);
         return (
-            <Fragment>
+            <React.Fragment>
                 <StatusBar barStyle={'light-content'} />
                 <PostDetailComponent navigation={this.props.navigation} {...this.state} />
-            </Fragment>
+            </React.Fragment>
         );
     }
 }

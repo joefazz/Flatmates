@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import * as React from 'react';
 import { 
     View, 
     TouchableOpacity, 
@@ -43,7 +43,7 @@ import { FONT_FAMILY } from '../consts/font';
 
 export let facebookPermissions = [];
 
-type Props = {
+interface Props  {
     login: any,
     profile: any,
     loginWithFacebook: () => mixed,
@@ -54,7 +54,7 @@ type Props = {
     navigation: {navigate: () => mixed}
 }
 
-type State = {
+interface State {
     hasLoginFailed: boolean, 
     isLoggingIn: boolean,
     isLoggedIn: boolean,
@@ -748,7 +748,7 @@ export class Login extends React.Component<Props, State> {
                             style={ base.fullWidthInput } />
                     </View>
                     <View style={[ login.marginTop, { alignSelf: 'flex-start' } ]}>
-                        {this.state.tempImages.length > 0 ? <Text style={ base.labelText }>Images</Text> : <Fragment /> }
+                        {this.state.tempImages.length > 0 ? <Text style={ base.labelText }>Images</Text> : <React.Fragment /> }
                         {/* Probably want to make this a horizontal scroll view in the future */}
                         <ScrollView style={{ flexDirection: 'row', width: toConstantWidth(80) }} horizontal={true}>
                             {this.state.tempImages.map((image, index) => {
@@ -761,7 +761,7 @@ export class Login extends React.Component<Props, State> {
                                             <TouchableOpacity style={{position: 'absolute', right: 4, top: 0}} onPress={() => this.removeImage(index)}>
                                                 <Icon name={'ios-remove-circle'} size={toConstantFontSize(2.5)} style={{color: Colors.brandTertiaryColor}}/>
                                             </TouchableOpacity>
-                                            : <Fragment /> }
+                                            : <React.Fragment /> }
                                     </View>
                                 );
                             })}
@@ -769,7 +769,7 @@ export class Login extends React.Component<Props, State> {
                                 <TouchableOpacity style={{ width: 70, height: 70, borderWidth: 1, borderColor: Colors.brandSecondaryColor, borderStyle: 'dashed', borderRadius: 3, alignItems: 'center', justifyContent: 'center' }} onPress={() => this.selectImages()}>
                                     <Icon name={'ios-add'} size={toConstantFontSize(4)} style={{color: Colors.brandSecondaryColor}} />
                                 </TouchableOpacity>
-                                : <Fragment />}
+                                : <React.Fragment />}
                         </ScrollView>
                     </View>
                 </View>

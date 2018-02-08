@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
 import { AsyncStorage, Image, BackHandler } from 'react-native';
@@ -21,7 +21,7 @@ const addListener = createReduxBoundAddListener('root');
 
 export const MapboxSDK = new MapboxClient(MAPBOX_API_TOKEN);
 
-class AppNav extends React.Component<{dispatch: () => mixed, nav: {}}> {
+class AppNav extends React.Component<{dispatch: () => any, nav: {}}> {
     render() {
         return (
             <RootNavigation 
@@ -52,9 +52,9 @@ function persistentStore(onComplete, purge = false) {
     );
 }
 
-type Props = {};
+interface Props {};
 
-type State = {
+interface State {
     isRehydrated: boolean
 };
 

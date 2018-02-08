@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import randomColor from 'randomcolor';
@@ -20,11 +20,11 @@ const fakeData = _.times(100, i => ({
     },
 }));
 
-type Props = {
+interface Props  {
     createMessage: () => mixed
 };
 
-type State = {
+interface State {
     messages: Array<{}>
 }
 

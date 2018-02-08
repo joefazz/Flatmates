@@ -1,10 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import { View, Text } from 'react-native';
-import moment from 'moment';
+import * as moment from 'moment';
 
 import { chat } from '../../styles';
 
-export class Message extends React.PureComponent {
+interface Props {
+    color: string,
+    message: {id: number, text: string, createdAt: number, from: {username: string}},
+    isCurrentUser: boolean
+}
+
+export class Message extends React.PureComponent<Props> {
 
     render() {
         const { color, message, isCurrentUser } = this.props;

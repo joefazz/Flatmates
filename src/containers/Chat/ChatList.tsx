@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { View, Text, ActivityIndicator, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
@@ -7,18 +7,21 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { ChatListComponent } from '../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY } from '../../graphql/queries';
 
-type Props = {
+interface Props  {
     loading: boolean,
     groups: Array<{}>,
-    navigation: {}
+    navigation: {},
 };
 
-type State = {
+interface State {
     isLoading: boolean,
     groups: Array<{}>
 };
 
 export class ChatList extends React.Component<Props, State> {
+    isDummy: boolean;
+    dummyGroups: Array<{}>;
+
     static navigationOptions = {
         title: 'Chat',
         tabBarIcon: ({ focused, tintColor }) => (

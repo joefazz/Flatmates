@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { View, TextInput, Text } from 'react-native';
 import { graphql } from 'react-apollo';
 
@@ -10,13 +10,13 @@ import { Colors } from '../../consts/index';
 import Client from '../../Client';
 import { CREATE_POST_MUTATION } from '../../graphql/mutations';
 
-type Props = {
+interface Props  {
     navigation: {state: {params: {fbUserId: string}}},
     user: {},
     loading: boolean
 };
 
-type State = {
+interface State {
     data: { house: {spaces: number, road: string, shortID: number} },
     isLoading: boolean,
     title: string,

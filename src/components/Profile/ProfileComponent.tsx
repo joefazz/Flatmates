@@ -1,7 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import { View, Text, Animated, ActivityIndicator, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import Interactable from 'react-native-interactable';
+import * as Interactable from 'react-native-interactable';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 import { PreferenceRow } from '../../widgets';
@@ -9,16 +9,18 @@ import { profile } from '../../styles';
 import { Metrics, Colors } from '../../consts';
 import { ConvertBirthdayToAge } from '../../utils/BirthdayToAge';
 
-type Props = {
-    profile: Array<{}>,
+interface Props  {
+    profile: any,
     isLoading: boolean
 };
 
-type State = {
+interface State {
 
 };
 
 export class ProfileComponent extends React.Component<Props, State> {
+    _deltaY: Animated.Value;
+
     constructor(props) {
         super(props);
         this._deltaY = new Animated.Value(0);

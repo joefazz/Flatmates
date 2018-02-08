@@ -1,14 +1,14 @@
-import React from 'react';
+import * as React from 'react';
 import { View, Text, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-type Props = {
+interface Props  {
 
 };
 
-type State = {
+interface State {
 
 };
 

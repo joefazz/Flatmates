@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { View, Platform, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
@@ -8,13 +8,13 @@ import { FloatingActionButton, EditButton } from '../widgets';
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
 
-type Props = {
+interface Props  {
     profile: any,
     loading: boolean,
-    userDetailsQuery: () => mixed
+    userDetailsQuery: () => void
 };
 
-type State = {
+interface State {
     isLoading: boolean,
     profile: {}
 }

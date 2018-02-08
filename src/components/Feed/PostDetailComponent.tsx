@@ -1,11 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import { View, Text, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 import { feed, base } from '../../styles';
 
-type Props = {
+interface Props {
     data: {
         createdAt: string,
         createdBy: {
@@ -14,7 +14,7 @@ type Props = {
             houseImages: string[],
             road: string,
             spaces: number,
-            users: [],
+            users: any[],
             coords: number[]
         },
         description: string,
@@ -24,7 +24,7 @@ type Props = {
     isLoading: boolean
 };
 
-type State = {}
+interface State {}
 
 export class PostDetailComponent extends React.Component<Props, State> {
     constructor(props) {

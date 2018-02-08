@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import * as React from 'react';
 import { View, Text, FlatList, ActivityIndicator, Animated, TouchableOpacity, Easing, TouchableHighlight } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -7,14 +7,14 @@ import { Colors, Font } from '../../consts';
 import { feed, base } from '../../styles';
 import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
 
-type Props = {
-    navigation: Object,
-    data: Array<Object>,
+interface Props {
+    navigation: {},
+    data: Array<{}>,
     isLoading: boolean,
     fbUserId: string
 };
 
-type State = {
+interface State {
     isFilterOpen: boolean
 }
 
@@ -115,7 +115,7 @@ export class PostListComponent extends React.Component<Props, State> {
         }
 
         return (
-            <Fragment>
+            <React.Fragment>
                 <Animated.View style={[ feed.filterWrapper, this.heightAnimation ]}>
                     <TouchableOpacity onPress={this.animateFilter} activeOpacity={0.7} style={ feed.expandBar }>
                         <Animated.View style={this.rotateAnimation}>
@@ -143,7 +143,7 @@ export class PostListComponent extends React.Component<Props, State> {
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={item => item.createdAt}
                 />
-            </Fragment>
+            </React.Fragment>
         );
     }
 }

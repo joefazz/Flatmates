@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import * as React from 'react';
 import { StatusBar, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
@@ -7,7 +7,7 @@ import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { POST_LIST_QUERY } from '../../graphql/queries';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-type Props = {
+interface Props  {
     posts: Array<{}>,
     loading: boolean,
     loadMorePosts: Function,
@@ -16,7 +16,7 @@ type Props = {
     skip: number
 };
 
-type State = {
+interface State {
     data: Array<{}>,
     isLoading: boolean,
     fbUserId: string
@@ -57,10 +57,10 @@ export class PostList extends React.Component<Props, State> {
 
     render() {
         return (
-            <Fragment>
+            <React.Fragment>
                 <StatusBar barStyle={'light-content'} />
                 <PostListComponent navigation={this.props.navigation} loadMorePosts={this.props.loadMorePosts} {...this.state} />
-            </Fragment>
+            </React.Fragment>
         );
     }
 }

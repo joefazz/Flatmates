@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { FlatList, View, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import randomColor from 'randomcolor';
 
@@ -6,7 +6,16 @@ import { chat } from '../../styles';
 import { Message } from './MessageComponent';
 import { MessageInput } from './MessageInputComponent';
 
-export class ChatDetailComponent extends React.Component {
+interface Props {
+    data: {id: number, messages: Array<{}>},
+    createMessage: ({}) => void
+}
+
+interface State {
+    usernameColors: any
+}
+
+export class ChatDetailComponent extends React.Component<Props, State> {
     constructor(props) {
         super(props);
 
@@ -36,7 +45,7 @@ export class ChatDetailComponent extends React.Component {
         );
     } 
 
-    send(text) {
+    private send(text) {
         this.props.createMessage({groupId: this.props.data.id, userId: 1, text});
     }
 

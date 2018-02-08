@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import moment from 'moment';
@@ -6,7 +6,7 @@ import moment from 'moment';
 import { Colors, Metrics } from '../consts';
 import { Font } from '../consts';
 
-type Props = {
+interface Props  {
     images: string[],
     createdDate: number,
     title: string,

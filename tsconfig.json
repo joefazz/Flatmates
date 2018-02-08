@@ -4,6 +4,7 @@
       "jsx": "react",
       "noEmit": true,
       "moduleResolution": "node",
+      "baseUrl": "."
     },
     "exclude": [
       "node_modules"

@@ -1,28 +1,23 @@
-import React from 'react';
+import * as React from 'react';
 import { TextInput, View, TouchableHighlight, Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { chat } from '../../styles';
 import { Colors } from '../../consts';
 
-const sendButton = send => {
-    return (
-        <TouchableHighlight style={chat.sendButtonWrapper} onPress={send}>
-            <Icon
-                iconStyle={chat.iconStyle}
-                name={"send"}
-                size={Platform.OS === 'ios' ? 20 : 26}
-                color={Platform.OS === 'ios' ? Colors.white : Colors.brandSecondaryColor}
-                style={chat.sendButton}
-                />
-        </TouchableHighlight>
-    )
+interface Props {
+    send: (string) => void
 }
 
-export class MessageInput extends React.Component {
+interface State {
+    text: string
+}
+
+export class MessageInput extends React.Component<Props, State> {
+    textInput: any;
+
     constructor(props) {
         super(props);
 
-        this.state = {};
         this.send = this.send.bind(this);
     }
 
@@ -30,6 +25,20 @@ export class MessageInput extends React.Component {
         this.props.send(this.state.text);
         this.textInput.clear();
         this.textInput.blur();
+    }
+
+    sendButton = send => {
+        return (
+            <TouchableHighlight style={chat.sendButtonWrapper} onPress={send}>
+                <Icon
+                    iconStyle={chat.iconStyle}
+                    name={"send"}
+                    size={Platform.OS === 'ios' ? 20 : 26}
+                    color={Platform.OS === 'ios' ? Colors.white : Colors.brandSecondaryColor}
+                    style={chat.sendButton}
+                    />
+            </TouchableHighlight>
+        )
     }
 
     render() {
@@ -40,7 +49,6 @@ export class MessageInput extends React.Component {
                         ref={ref => this.textInput = ref}
                         onChangeText={(text) => this.setState({ text })}
                         multiline={true}
-                        autoGrow={true}
                         style={chat.input}
                         placeholder={'Type your message here'}
                         returnKeyType={'send'}
@@ -49,7 +57,7 @@ export class MessageInput extends React.Component {
                     />
                 </View>
                 <View style={chat.sendButtonContainer}>
-                    {sendButton(this.send)}
+                    {this.sendButton(this.send)}
                 </View>
             </View>
         )
