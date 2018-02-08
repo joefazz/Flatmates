@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { addNavigationHelpers, NavigationActions } from 'react-navigation';
-import { Provider, connect } from 'react-redux';
-import { AsyncStorage, Image, BackHandler } from 'react-native';
-import { ApolloProvider } from 'react-apollo';
-import { persistStore } from 'redux-persist-immutable';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
 import MapboxClient from 'mapbox/lib/services/geocoding';
+import * as React from 'react';
+import { ApolloProvider } from 'react-apollo';
+import { AsyncStorage, BackHandler, Image } from 'react-native';
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
+import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
+import { connect, Provider } from 'react-redux';
+import { persistStore } from 'redux-persist-immutable';
 
-import store from './redux/store';
-import { MAPBOX_API_TOKEN } from './consts/strings';
-import RootNavigation from './navigators/Root';
-import { base } from './styles';
 import Splash from '../Assets/splash_screen.png';
 import client from './Client';
+import { MAPBOX_API_TOKEN } from './consts/strings';
+import RootNavigation from './navigators/Root';
+import store from './redux/store';
+import { base } from './styles';
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 
@@ -59,8 +59,6 @@ interface State {
 };
 
 export default class Root extends React.Component<Props, State> {
-    back: () => mixed;
-
     constructor(props) {
         super(props);
 
@@ -78,11 +76,11 @@ export default class Root extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        this.back = BackHandler.addEventListener('hardwareBackPress', () => store.dispatch(NavigationActions.back()));
+        BackHandler.addEventListener('hardwareBackPress', () => store.dispatch(NavigationActions.back()));
     }
 
     componentWillUnmount() {
-        this.back.remove();
+        BackHandler.removeEventListener('hardwareBackPress', () => store.dispatch(NavigationActions.back()));
     }
 
     render() {

@@ -1,57 +1,89 @@
 import * as React from 'react';
-import { 
-    View, 
-    TouchableOpacity, 
-    Text, 
-    Image, 
-    TextInput, 
-    Picker, 
-    KeyboardAvoidingView, 
-    ImageBackground, 
-    Alert,
-    Platform,
-    Switch,
-    StatusBar,
-    ScrollView
-} from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
-import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { compose, graphql } from 'react-apollo';
+import {
+    Alert,
+    Image,
+    ImageBackground,
+    KeyboardAvoidingView,
+    Picker,
+    Platform,
+    ScrollView,
+    StatusBar,
+    Switch,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import { Avatar, Button, Slider } from 'react-native-elements';
+import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
 import Swiper from 'react-native-swiper';
-import { Button, Avatar, Slider } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
-import { MapboxSDK } from '../App';
-import { Checkbox } from '../widgets';
-import { signupWithFacebook, loginWithFacebook } from '../redux/Routines';
-import { base, login } from '../styles';
-import { Colors, Metrics, Font } from '../consts';
-import Box from '../../Assets/Joes_sexy_box.png';
 import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
+import Box from '../../Assets/Joes_sexy_box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
-import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
+import { MapboxSDK } from '../App';
 import Client from '../Client';
-import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
-import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
-import {  
-    UPDATE_USER_MUTATION, 
-    UPDATE_USER_CREATE_HOUSE_MUTATION, 
-    UPDATE_USER_UPDATE_HOUSE_MUTATION 
-} from '../graphql/mutations';
-import { TouchableRect } from '../widgets/TouchableRect';
+import { Colors, Font, Metrics } from '../consts';
 import { FONT_FAMILY } from '../consts/font';
+import {
+    UPDATE_USER_CREATE_HOUSE_MUTATION,
+    UPDATE_USER_MUTATION,
+    UPDATE_USER_UPDATE_HOUSE_MUTATION,
+} from '../graphql/mutations';
+import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
+import { loginWithFacebook, signupWithFacebook } from '../redux/Routines';
+import { base, login } from '../styles';
+import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
+import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
+import { Checkbox } from '../widgets';
+import { TouchableRect } from '../widgets/TouchableRect';
 
 export let facebookPermissions = [];
 
 interface Props  {
     login: any,
     profile: any,
-    loginWithFacebook: () => mixed,
-    signupWithFacebook: () => mixed,
-    updateUser: () => mixed,
-    updateUserCreateHouse: () => mixed,
-    updateUserUpdateHouse: () => mixed,
-    navigation: {navigate: () => mixed}
+    loginWithFacebook: () => void,
+    signupWithFacebook: () => void,
+    updateUser: (
+        fbUserId: string, 
+        bio: string, 
+        course: string, 
+        studyYear: string,
+        isSmoker: boolean,
+        socialScore: number,
+        minPrice: number, 
+        maxPrice: number, 
+        genderPreference: string
+    ) => void,
+    updateUserCreateHouse: (
+        fbUserId: string,
+        bio: string,
+        course: string,
+        studyYear: string,
+        isSmoker: boolean,
+        socialScore: number,
+        shortID: string,
+        road: string,
+        coords: number[],
+        rentPrice: number,
+        billsPrice: number,
+        spaces: number,
+        houseImages: string[]
+    ) => void,
+    updateUserUpdateHouse: (
+        fbUserId: string,
+        bio: string,
+        course: string,
+        studyYear: string,
+        isSmoker: boolean,
+        socialScore: number,
+        shortID: string
+    ) => void,
+    navigation: {navigate: (route: string) => void}
 }
 
 interface State {
@@ -59,7 +91,7 @@ interface State {
     isLoggingIn: boolean,
     isLoggedIn: boolean,
     hasGotProfile: boolean,
-    tempImages: Array<{}>,
+    tempImages: Array<any>,
     removeImageToggle: boolean,
 
     aboutCheck: boolean,
@@ -84,56 +116,20 @@ interface State {
     genderPreference: string,
     socialScore: number,
     
-    shortID: number,
+    shortID: string,
     road: string,
-    rentPrice: number,
-    billsPrice: number,
-    spaces: number,
+    rentPrice: string,
+    billsPrice: string,
+    spaces: string,
     houseImages: string[],
 }
 
 export class Login extends React.Component<Props, State> {
+    homeSwiper: any;
+    courseInput: any;
+
     constructor(props) {
         super(props);
-
-
-        this.state = {
-            hasLoginFailed: false, 
-            isLoggingIn: false,
-            isLoggedIn: false,
-            hasGotProfile: false,
-            tempImages: [],
-            removeImageToggle: false,
-
-            aboutCheck: false,
-            friendsListCheck: false,
-            activityCheck: false,
-            likesCheck: false,
-            isLookingForHouse: false,
-            isCreatingHouse: false,
-            
-            fbUserId: '',
-            profile: {},
-            bio: '',
-            isSmoker: false,
-            studyYear: 'First',
-            studyYearEnabled: false,
-            course: '',
-            minPrice: 300,
-            maxPrice: 450,
-            minEnabled: false,
-            maxEnabled: false,
-            genderEnabled: false,
-            genderPreference: 'No Preference',
-            socialScore: 5,
-            
-            shortID: 1,
-            road: 'Road Street',
-            rentPrice: 0,
-            billsPrice: 0,
-            spaces: 3,
-            houseImages: [],
-        };
     }
 
     componentWillMount() {
@@ -171,7 +167,7 @@ export class Login extends React.Component<Props, State> {
             Client.query({
                 variables: { shortID },
                 query: HOUSE_DETAILS_QUERY
-            }).then(res => res.data.House === null ? null : new Error());
+            }).then((res: any) => res.data.House === null ? null : new Error());
         } catch(error) {
             GenerateID();
         }
@@ -205,7 +201,7 @@ export class Login extends React.Component<Props, State> {
         this.setState({ isLoggingIn: true }, () => this.props.signupWithFacebook());
     }
 
-    async getCoordsFromAddress(road: string) {
+    async getCoordsFromAddress(road: string) : Promise<string | string[]> {
         let address = road + ', Reading';
         let res;
         try {
@@ -256,8 +252,8 @@ export class Login extends React.Component<Props, State> {
             this.state.shortID,
             this.state.road,
             coords,
-            Math.round(this.state.rentPrice),
-            Math.round(this.state.billsPrice),
+            Math.round(parseInt(this.state.rentPrice)),
+            Math.round(parseInt(this.state.billsPrice)),
             parseInt(this.state.spaces),
             this.state.houseImages
         );
@@ -269,7 +265,7 @@ export class Login extends React.Component<Props, State> {
         Client.query({
             variables: { shortID: parseInt(this.state.shortID) },
             query: HOUSE_DETAILS_QUERY,
-        }).then(res => {
+        }).then((res: any) => {
             if (res.data.House !== null) {
                 Alert.alert(
                     'Confirmation', 
@@ -296,8 +292,8 @@ export class Login extends React.Component<Props, State> {
         });
     }
 
-    async selectImages() {
-        var images = [];
+    async selectImages() : Promise<void> {
+        var images: ImageType[] | ImageType | void;
 
         images = await ImagePicker.openPicker({
             multiple: true, 
@@ -312,16 +308,16 @@ export class Login extends React.Component<Props, State> {
         this.setState({ tempImages: images });
     }
 
-    removeImage(index) {
+    removeImage(index) : void {
         let clone = this.state.tempImages;
         clone.splice(index, 1);
         this.setState({ tempImages: clone });
     }
 
-    async uploadImages() {
+    async uploadImages() : Promise<void> {
         console.log(this.state.tempImages)
         if (this.state.tempImages && this.state.tempImages.length > 0) {   
-            let imageUrls;
+            let imageUrls: string[];
 
             imageUrls = await Promise.all(this.state.tempImages.map(async (image) => {
                 const formData = new FormData();
@@ -719,7 +715,7 @@ export class Login extends React.Component<Props, State> {
                         <View style={{ marginRight: 30 }}>
                             <Text style={ base.labelText }>Rent Per Month</Text>
                             <View style={ login.priceInputWrapper }>
-                                <Text style={[ login.poundStyle, this.state.rentPrice > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
+                                <Text style={[ login.poundStyle, parseInt(this.state.rentPrice) > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                 <TextInput placeholder={'430.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  rentPrice: text })}
@@ -730,7 +726,7 @@ export class Login extends React.Component<Props, State> {
                         <View>
                             <Text style={ base.labelText }>Bills Per Month</Text>
                             <View style={[ login.priceInputWrapper ]}>
-                                <Text style={[ login.poundStyle, this.state.billsPrice > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
+                                <Text style={[ login.poundStyle, parseInt(this.state.billsPrice) > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                 <TextInput placeholder={'23.00'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({  billsPrice: text })}

@@ -4,7 +4,9 @@
       "jsx": "react",
       "noEmit": true,
       "moduleResolution": "node",
-      "baseUrl": "."
+      "baseUrl": ".",
+      "noImplicitReturns": true,
+      "importHelpers": true
     },
     "exclude": [
       "node_modules"
