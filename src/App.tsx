@@ -24,14 +24,14 @@ export const MapboxSDK = new MapboxClient(MAPBOX_API_TOKEN);
 class AppNav extends React.Component<{dispatch: () => any, nav: {}}> {
     render() {
         return (
-            <RootNavigation 
+            <RootNavigation
                 navigation={
                     addNavigationHelpers({
                         dispatch: this.props.dispatch,
                         state: this.props.nav,
                         addListener
                     })
-                }        
+                }
             />
         );
     }
@@ -43,9 +43,9 @@ const mapStateToProps = (state) => ({
 
 const AppWithNavigationState = connect(mapStateToProps)(AppNav);
 
-function persistentStore(onComplete, purge = false) {
+function persistentStore(onComplete) {
     return persistStore(
-        store, 
+        store,
         {
             storage: AsyncStorage
         }, onComplete

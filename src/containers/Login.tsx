@@ -140,7 +140,7 @@ export class Login extends React.Component<Props, State> {
             tempImages: [],
 
             fbUserId: '',
-            profile: props.profile,
+            profile: {},
             bio: '',
             isSmoker: false,
             course: '',
@@ -803,7 +803,6 @@ export class Login extends React.Component<Props, State> {
             loadingLabelText: 'Processing photos...'
         }).catch(() => alert('Image Upload Cancelled'));
 
-        console.log(images);
         images = this.state.tempImages.concat(images);
         this.setState({ tempImages: images });
     }
@@ -815,17 +814,21 @@ export class Login extends React.Component<Props, State> {
     }
 
     private async uploadImages(): Promise<void> {
-        console.log(this.state.tempImages)
         if (this.state.tempImages && this.state.tempImages.length > 0) {
             let imageUrls: Array<string>;
 
             imageUrls = await Promise.all(this.state.tempImages.map(async (image) => {
-                const formData = new FormData();
+                let formData = new FormData();
 
                 const lastIndex = image.path.lastIndexOf('/') + 1;
 
-                const data = new Blob([{uri: image.path, name: image.path.slice(lastIndex), type: image.mime}]);
+                const data = {
+                    uri: image.path,
+                    name: image.path.slice(lastIndex),
+                    type: image.mime
+                };
 
+                // @ts-ignore
                 formData.append('data', data);
 
                 const options = {
@@ -833,7 +836,7 @@ export class Login extends React.Component<Props, State> {
                     body: formData,
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'multipart/form-data'
+                        'Content-Type': 'application/json'
                     }
                 };
 
