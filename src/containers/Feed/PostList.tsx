@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { StatusBar, Platform } from 'react-native';
-import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
+import { Platform, StatusBar } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { POST_LIST_QUERY } from '../../graphql/queries';
-import Icon from 'react-native-vector-icons/Ionicons';
 
-interface Props  {
+interface Props {
     posts: Array<{}>,
     loading: boolean,
-    loadMorePosts: Function,
+    loadMorePosts: () => {},
     login: {},
     navigation: {},
     skip: number
@@ -23,13 +23,13 @@ interface State {
 };
 
 export class PostList extends React.Component<Props, State> {
-    static navigationOptions = () => ({
-        title: 'Home',
-    });
-
-    static defaultProps = {
+    private static defaultProps = {
         skip: 0
     };
+
+    private static navigationOptions = () => ({
+        title: 'Home',
+    });
 
     constructor(props) {
         super(props);
@@ -41,7 +41,7 @@ export class PostList extends React.Component<Props, State> {
         };
     }
 
-    componentWillReceiveProps(newProps) {
+    public componentWillReceiveProps(newProps) {
         if (newProps.loading !== this.state.isLoading) {
             this.setState({ isLoading: newProps.loading });
 
@@ -55,7 +55,7 @@ export class PostList extends React.Component<Props, State> {
         }
     }
 
-    render() {
+    public render() {
         return (
             <React.Fragment>
                 <StatusBar barStyle={'light-content'} />
@@ -70,9 +70,7 @@ const mapStateToProps = (state) => ({
 });
 
 const bindActions = () => {
-    return {
-        
-    };
+    return {};
 };
 
 const allPostsQuery = graphql(POST_LIST_QUERY, {
@@ -86,7 +84,7 @@ const allPostsQuery = graphql(POST_LIST_QUERY, {
     },
     props({ data: { loading, allPosts, fetchMore } }) {
         return {
-            loading, 
+            loading,
             allPosts,
             loadMorePosts() {
                 return fetchMore({

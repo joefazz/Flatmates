@@ -1,31 +1,31 @@
 import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-
+import { RegisteredStyle, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Font, Colors } from '../consts';
-import { toConstantWidth, toConstantHeight } from '../utils/PercentageConversion';
+
+import { Colors, Font } from '../consts';
+import { toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
 
 interface Props  {
-    underlayColor: any,
-    buttonStyle: {backgroundColor: any},
-    wrapperStyle: {},
+    buttonStyle: RegisteredStyle<ViewStyle>,
+    wrapperStyle?: RegisteredStyle<ViewStyle> | {},
     title: string,
     onPress: () => void,
-    iconName: string,
+    iconName?: string,
     backgroundColor: string,
+    underlayColor?: string
 }
 
 export class TouchableRect extends React.Component<Props> {
 
-    render() {
-        // The wrapping view is neccessary otherwise border radius doesn't work on android for some reason
+    public render() {
+        // The wrapping view is neccessary otherwise border radius doesn't work on android for some reason, issue submitted
         return (
             <View style={[styles.borderWrapper, this.props.wrapperStyle, {backgroundColor: this.props.backgroundColor}]}>
                 <RectButton underlayColor={this.props.underlayColor} style={[this.props.buttonStyle, styles.buttonContentWrapper, {backgroundColor: this.props.backgroundColor}]} onPress={this.props.onPress}>
                     {this.props.iconName ?
                         <Icon name={this.props.iconName} style={[styles.iconStyle, {marginRight: 10}]} size={26}/> :
-                        <React.Fragment /> 
+                        <React.Fragment />
                     }
                     <Text style={styles.textStyle}>{this.props.title}</Text>
                 </RectButton>
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 
     textStyle: {
         color: Colors.white,
-        fontSize: 20, 
+        fontSize: 20,
         ...Font.FontFactory({ family: 'Nunito' }),
     }
 

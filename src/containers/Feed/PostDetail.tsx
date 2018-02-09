@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { StatusBar } from 'react-native';
 import { graphql } from 'react-apollo';
+import { StatusBar } from 'react-native';
 
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { POST_DETAILS_QUERY } from '../../graphql/queries';
 
 interface Props  {
-    navigation: {state: {params: {data: {}}}},
+    navigation: {state: {params: {data: {id?: number}}}},
     loading: boolean,
     post: {}
 };
@@ -17,7 +17,7 @@ interface State {
 }
 
 export class PostDetail extends React.Component<Props, State> {
-    static navigationOptions = ({ navigation }) => ({
+    public static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.data.createdBy.road,
     });
 
@@ -30,7 +30,7 @@ export class PostDetail extends React.Component<Props, State> {
         };
     }
 
-    componentWillReceiveProps(newProps) {
+    public componentWillReceiveProps(newProps) {
         if (newProps.loading !== this.state.isLoading) {
             this.setState({ isLoading: newProps.loading });
 
@@ -40,7 +40,7 @@ export class PostDetail extends React.Component<Props, State> {
         }
     }
 
-    render() {
+    public render() {
         console.log(this.state);
         return (
             <React.Fragment>
@@ -52,7 +52,7 @@ export class PostDetail extends React.Component<Props, State> {
 }
 
 export default graphql(POST_DETAILS_QUERY, {
-    options(props) {
+    options(props: Props) {
         return {
             variables: {
                 id: props.navigation.state.params.data.id
@@ -61,10 +61,8 @@ export default graphql(POST_DETAILS_QUERY, {
     },
     props({ data: { loading, post } }) {
         return {
-            loading, 
+            loading,
             post,
         };
     }
 })(PostDetail);
-
-

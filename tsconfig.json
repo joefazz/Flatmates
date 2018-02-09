@@ -6,7 +6,11 @@
       "moduleResolution": "node",
       "baseUrl": ".",
       "noImplicitReturns": true,
-      "importHelpers": true
+      "importHelpers": true,
+      "noImplicitAny": false,
+      "allowUnusedLabels": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true
     },
     "exclude": [
       "node_modules"
