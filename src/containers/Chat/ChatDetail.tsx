@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import randomColor from 'randomcolor';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
 import { ChatDetailComponent } from '../../components/Chat/ChatDetailComponent';
 
@@ -21,16 +21,16 @@ const fakeData = _.times(100, i => ({
 }));
 
 interface Props  {
-    createMessage: () => mixed
+    createMessage: () => void
 };
 
 interface State {
-    messages: Array<{}>
+    messages: Array<object>
 }
 
 export class ChatDetail extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => {
-        const { state } = navigation;
+        const ObjectURLOptions{ state } = navigation;
         return {
             title: state.params.title,
             tabBarVisible: false,

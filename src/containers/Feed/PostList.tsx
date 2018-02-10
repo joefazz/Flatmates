@@ -8,27 +8,30 @@ import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { POST_LIST_QUERY } from '../../graphql/queries';
 
 interface Props {
-    posts: Array<{}>,
+    posts: Array<object>,
     loading: boolean,
-    loadMorePosts: () => {},
-    login: {},
-    navigation: {},
+    loadMorePosts: () => object,
+    login: object,
+    navigation: object,
     skip: number
 };
 
 interface State {
-    data: Array<{}>,
+    data: Array<object>,
     isLoading: boolean,
     fbUserId: string
 };
 
 export class PostList extends React.Component<Props, State> {
-    private static defaultProps = {
+    protected static defaultProps = {
         skip: 0
     };
 
-    private static navigationOptions = () => ({
+    protected static navigationOptions = () => ({
         title: 'Home',
+        tabBarIcon: ({ focused, tintColor }) => (
+            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
+        ),
     });
 
     constructor(props) {
@@ -74,7 +77,7 @@ const bindActions = () => {
 };
 
 const allPostsQuery = graphql(POST_LIST_QUERY, {
-    options(props) {
+    options() {
         return {
             variables: {
                 take: 2,

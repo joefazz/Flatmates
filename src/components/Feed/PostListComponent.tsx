@@ -17,10 +17,11 @@ import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConv
 import { PostCard } from '../../widgets';
 
 interface Props {
-    navigation: {},
-    data: Array<{}>,
+    navigation: {push: (route, params: {data: object}) => void},
+    data: Array<object>,
     isLoading: boolean,
-    fbUserId: string
+    fbUserId: string,
+    loadMorePosts: () => any
 };
 
 interface State {
@@ -30,14 +31,6 @@ interface State {
 export class PostListComponent extends React.Component<Props, State> {
     _animationValue: Animated.Value = new Animated.Value(1);
     _ANIMATION_DURATION_CONSTANT: number = 500;
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isFilterOpen: true
-        };
-    }
 
     heightAnimation = {
         height: this._animationValue.interpolate({
@@ -64,7 +57,38 @@ export class PostListComponent extends React.Component<Props, State> {
         ]
     }
 
-    animateFilter = () => {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isFilterOpen: true
+        };
+    }
+
+    private renderCard = ({ item }) => {
+        return (
+            <View style={ feed.card }>
+                <PostCard 
+                    onPress={() => this.props.navigation.push('PostDetail', {data: item})}
+                    title={item.createdBy.road}
+                    spaces={item.createdBy.spaces}
+                    price={item.createdBy.billsPrice + item.createdBy.rentPrice}
+                    images={item.createdBy.houseImages}
+                    createdDate={item.createdAt}
+                />
+            </View>
+        );
+    }
+
+    private renderCreateHeader = () => {
+        return (
+            <TouchableHighlight underlayColor={Colors.grey} onPress={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})} style={ feed.createCard } >
+                <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light', family: 'Nunito'})} ]}>+</Text>
+            </TouchableHighlight>
+        );
+    }
+
+    private animateFilter = () => {
         if (this.state.isFilterOpen) {
             Animated.timing(this._animationValue, {
                 toValue: 0,
@@ -80,27 +104,7 @@ export class PostListComponent extends React.Component<Props, State> {
         }
     }
 
-    renderCard = ({ item }) => {
-        return (
-            <View style={ feed.card }>
-                <PostCard 
-                    onPress={() => this.props.navigation.push('PostDetail', {data: item} )}
-                    title={item.createdBy.road} 
-                    spaces={item.createdBy.spaces} 
-                    price={item.createdBy.billsPrice + item.createdBy.rentPrice}
-                    images={item.createdBy.houseImages}
-                    createdDate={item.createdAt} />
-            </View>
-        );
-    }
-
-    renderCreateHeader = () => {
-        return (
-            <TouchableHighlight underlayColor={Colors.grey} onPress={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})} style={ feed.createCard } >
-                <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light', family: 'Nunito'})} ]}>+</Text>
-            </TouchableHighlight>
-        );
-    }
+    
 
     renderHeaderFooter = () => {
         return (

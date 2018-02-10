@@ -1,33 +1,33 @@
 import * as React from 'react';
-import { View, Text, ActivityIndicator, Platform } from 'react-native';
-import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
+import { ActivityIndicator, Platform, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
 import { ChatListComponent } from '../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY } from '../../graphql/queries';
 
 interface Props  {
     loading: boolean,
-    groups: Array<{}>,
-    navigation: {},
+    groups: Array<object>,
+    navigation: object,
 };
 
 interface State {
     isLoading: boolean,
-    groups: Array<{}>
+    groups: Array<object>
 };
 
-export class ChatList extends React.Component<Props, State> {
-    isDummy: boolean;
-    dummyGroups: Array<{}>;
-
+export class ChatObjectConstructorList extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Chat',
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon name={Platform.OS === 'ios' ? focused ? 'ios-text' : 'ios-text-outline' : 'md-text'} color={tintColor} size={32} />
         )
     }
+
+    isDummy: boolean;
+    dummyGroups: Array<object>;
 
     constructor(props) {
         super(props);

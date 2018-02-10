@@ -1,10 +1,13 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
-import { Colors, Font } from '../consts';
+import { Colors } from '../consts';
 
-export class EditButton extends React.Component {
+interface Props {
+    onPress: () => void
+}
 
+export class EditButton extends React.PureComponent<Props> {
     render() {
         return (
             <TouchableOpacity onPress={this.props.onPress} style={{ marginRight: 10 }}>

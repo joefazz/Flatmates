@@ -21,7 +21,7 @@ const addListener = createReduxBoundAddListener('root');
 
 export const MapboxSDK = new MapboxClient(MAPBOX_API_TOKEN);
 
-class AppNav extends React.Component<{dispatch: () => any, nav: {}}> {
+class AppNav extends React.Component<{dispatch: () => any, nav: object}> {
     render() {
         return (
             <RootNavigation

@@ -5,8 +5,8 @@ import { Avatar } from 'react-native-elements';
 import { base, chat } from '../../styles';
 
 interface Props {
-    navigation: {navigate: (string, {}) => void}
-    data: ReadonlyArray<{}>
+    navigation: {navigate: (string, object) => void}
+    data: ReadonlyArray<object>
 }
 
 interface State {

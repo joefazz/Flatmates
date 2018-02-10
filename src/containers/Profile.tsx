@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { View, Platform, StatusBar } from 'react-native';
-import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
+import { Platform, StatusBar, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
-import { FloatingActionButton, EditButton } from '../widgets';
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
+import { EditButton, FloatingActionButton } from '../widgets';
 
 interface Props  {
     profile: any,
@@ -16,7 +16,7 @@ interface Props  {
 
 interface State {
     isLoading: boolean,
-    profile: {}
+    profile: object
 }
 
 export class Profile extends React.Component<Props, State> {
@@ -53,7 +53,7 @@ export class Profile extends React.Component<Props, State> {
                 });
 
                 const tempHouse = {};
-                Object.keys(trimmedData.house).map(property => {
+                Object.keys(trimmedData.house).map((property) => {
                     if (property === 'users') {
                         tempHouse[property] = trimmedusers;
                     } else {
@@ -64,7 +64,7 @@ export class Profile extends React.Component<Props, State> {
                 trimmedData.house = tempHouse;
             }
 
-            this.setState({ 
+            this.setState({
                 isLoading: newProps.loading,
                 profile: this.state.profile.merge(trimmedData)
             });

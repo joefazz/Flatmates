@@ -1,18 +1,19 @@
 import * as React from 'react';
-import { View, TextInput, Text } from 'react-native';
 import { graphql } from 'react-apollo';
+import { Platform, Text, TextInput, View } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import { base, feed } from '../../styles';
+import Client from '../../Client';
+import { Colors } from '../../consts';
+import { CREATE_POST_MUTATION } from '../../graphql/mutations';
 import { USER_DETAILS_QUERY } from '../../graphql/queries';
+import { base, feed } from '../../styles';
 import { toConstantFontSize, toConstantWidth } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
-import { Colors } from '../../consts/index';
-import Client from '../../Client';
-import { CREATE_POST_MUTATION } from '../../graphql/mutations';
 
 interface Props  {
     navigation: {state: {params: {fbUserId: string}}},
-    user: {},
+    user: object,
     loading: boolean
 };
 
@@ -25,7 +26,10 @@ interface State {
 
 export class CreatePost extends React.Component<Props, State> {
     static navigationOptions = {
-        title: 'Create Post'
+        title: 'Create Post',
+        tabBarIcon: ({ focused, tintColor }) => (
+            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
+        ),
     };
 
     constructor(props) {
@@ -85,7 +89,7 @@ export class CreatePost extends React.Component<Props, State> {
 }
 
 export default graphql(USER_DETAILS_QUERY, {
-    options(props) {
+    options(props: Props) {
         return {
             variables: {facebookUserId: props.navigation.state.params.fbUserId}
         };

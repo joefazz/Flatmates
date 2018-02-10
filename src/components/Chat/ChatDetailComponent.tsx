@@ -6,8 +6,8 @@ import { Message } from './MessageComponent';
 import { MessageInput } from './MessageInputComponent';
 
 interface Props {
-    data: {id: number, messages: Array<{}>},
-    createMessage: ({}) => void
+    data: {id: number, messages: Array<object>},
+    createMessage: (object) => void
 }
 
 interface State {
@@ -24,7 +24,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps) {
-        const usernameColors = {};
+        const usernameColors: object = {};
 
         // if (nextProps.data.group) {
         //     if (nextProps.data.group.users) {

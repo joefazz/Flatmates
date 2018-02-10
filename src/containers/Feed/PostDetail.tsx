@@ -8,7 +8,7 @@ import { POST_DETAILS_QUERY } from '../../graphql/queries';
 interface Props  {
     navigation: {state: {params: {data: {id?: number}}}},
     loading: boolean,
-    post: {}
+    post: object
 };
 
 interface State {
