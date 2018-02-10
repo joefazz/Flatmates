@@ -21,14 +21,9 @@ interface Props {
         title: string
     },
     isLoading: boolean
-};
+}
 
-interface State {}
-
-export class PostDetailComponent extends React.Component<Props, State> {
-    constructor(props) {
-        super(props);
-    }
+export class PostDetailComponent extends React.PureComponent<Props> {
 
     render() {
         return (
