@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { View, Text, Platform, StatusBar } from 'react-native';
-import { connect } from 'react-redux';
-
+import { Platform, StatusBar, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
 interface Props  {
 
@@ -30,12 +29,12 @@ export class Settings extends React.Component<Props, State> {
 }
 
 const mapStateToProps = () => ({
-    
+
 });
 
 const bindActions = () => {
     return {
-        
+
     };
 };
 

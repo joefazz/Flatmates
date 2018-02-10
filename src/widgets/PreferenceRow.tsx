@@ -1,9 +1,14 @@
 import * as React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Colors, Font } from '../consts';
 
-export class PreferenceRow extends React.Component {
+interface Props {
+    label: string,
+    value: string
+}
+
+export class PreferenceRow extends React.PureComponent<Props> {
 
     render() {
         return (
@@ -25,11 +30,11 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 22,
         color: Colors.brandSecondaryColor,
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' })
+        ...Font.FontFactory({ weight: 'Light' })
     },
 
     value: {
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
+        ...Font.FontFactory({ weight: 'Light' }),
         fontSize: 22,
         color: Colors.textGrey,
     }

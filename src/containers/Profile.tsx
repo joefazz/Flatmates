@@ -9,14 +9,15 @@ import { USER_DETAILS_QUERY } from '../graphql/queries';
 import { EditButton, FloatingActionButton } from '../widgets';
 
 interface Props  {
-    profile: any,
+    profile: { get?: (key: string) => object, merge?: (newState: object) => object }
+    login: any,
     loading: boolean,
     userDetailsQuery: () => void
 };
 
 interface State {
     isLoading: boolean,
-    profile: object
+    profile: { get?: (key: string) => object, merge?: (newState: object) => object }
 }
 
 export class Profile extends React.Component<Props, State> {
@@ -40,28 +41,25 @@ export class Profile extends React.Component<Props, State> {
     componentWillReceiveProps(newProps) {
         if (newProps.loading !== this.props.loading) {
             // Remove null properties
-            let trimmedData = {};
-            Object.keys(newProps.user).map(property => {
+            const trimmedData: { house?: { users: Array<any> } } = {};
+
+            Object.keys(newProps.user).map((property) => {
                 if (newProps.user[property] !== null) {
                     trimmedData[property] = newProps.user[property];
                 }
             });
 
             if (trimmedData.house) {
-                const trimmedusers = trimmedData.house.users.filter(user => {
+                const trimmedusers = trimmedData.house.users.filter((user) => {
                     return (user.name !== this.state.profile.get('name'));
                 });
 
-                const tempHouse = {};
+                const tempHouse: { users?: Array<any> } = {};
                 Object.keys(trimmedData.house).map((property) => {
-                    if (property === 'users') {
-                        tempHouse[property] = trimmedusers;
-                    } else {
-                        tempHouse[property] = trimmedData.house[property];
-                    }
+                    tempHouse[property] = property === 'users' ? trimmedusers : trimmedData.house[property];
                 });
 
-                trimmedData.house = tempHouse;
+                trimmedData.house = tempHouse as { users: Array<any> };
             }
 
             this.setState({
@@ -88,14 +86,14 @@ const mapStateToProps = (state) => ({
 });
 
 const bindActions = () => {
-    return {
-        
-    };
+    return {};
 };
 
 const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
-    options: (ownProps) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') }}),
-    props: ({ data: { loading, user} }) => ({
+    options: (ownProps: Props) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') }}),
+
+    // @ts-ignore
+    props: ({ data: { loading, user } }) => ({
         loading, user
     })
 });

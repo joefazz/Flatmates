@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Font, Colors, Metrics } from '../consts';
+import { Colors, Font, Metrics } from '../consts';
 
 export const profile = StyleSheet.create({
     headerPanel: {
@@ -14,6 +14,7 @@ export const profile = StyleSheet.create({
         backgroundColor: Colors.highlightWhite,
         shadowOffset: {
             height: 4,
+            width: 0
         },
         shadowColor: Colors.grey,
         shadowOpacity: 0.6,
@@ -22,7 +23,7 @@ export const profile = StyleSheet.create({
     },
 
     headerText: {
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }),
+        ...Font.FontFactory({ weight: 'Bold' }),
         color: Colors.black,
         paddingLeft: 10,
     },
@@ -59,14 +60,14 @@ export const profile = StyleSheet.create({
     aboutLabel: {
         fontSize: 15,
         color: Colors.brandSecondaryColor,
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
+        ...Font.FontFactory({ weight: 'Light' }),
         alignSelf: 'flex-start'
     },
 
     aboutText: {
         fontSize: 22,
         color: Colors.textGrey,
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
+        ...Font.FontFactory({ weight: 'Light' }),
     },
 
     ageGenderWrapper: {
@@ -85,4 +86,3 @@ export const profile = StyleSheet.create({
         justifyContent: 'space-between',
     },
 })
-

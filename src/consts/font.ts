@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import { Platform } from 'react-native';
 
 export const FONT_FAMILY = Platform.OS === 'ios' ? 'Nunito' : 'Nunito Regular';
 
@@ -17,19 +17,19 @@ const font = {
 };
 
 export const FontFactory = (options = {}) => {
-    let { weight, style, family } = Object.assign({
+    let { weight, style } = Object.assign({
         weight: null,
         style: null,
         size: null,
-        family: 'Nunito'
     }, options);
+
+    const family = 'Nunito';
 
     const { weights, styles } = font[family];
 
     if (Platform.OS === 'android') {
         weight = weights[weight] ? weight : 'Regular';
         style = styles[style] ? style : ''
-        
         const suffix = weight + style;
 
         return {

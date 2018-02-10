@@ -1,14 +1,14 @@
-import { TabNavigator } from 'react-navigation';
 import { Platform } from 'react-native';
+import { TabNavigator } from 'react-navigation';
 
-import { ProfileNavigator } from './Profile';
-import { FeedNavigator } from './Feed';
-import { ChatNavigator } from './Chat';
-import { SettingsNavigator } from './Settings';
 import { Colors, Font } from '../consts';
+import { ChatNavigator } from './Chat';
+import { FeedNavigator } from './Feed';
+import { ProfileNavigator } from './Profile';
+import { SettingsNavigator } from './Settings';
 
 const routeConfig = {
-    Feed: { screen: FeedNavigator },    
+    Feed: { screen: FeedNavigator },
     Profile: {screen: ProfileNavigator },
     Chat: { screen: ChatNavigator },
     Settings: { screen: SettingsNavigator }

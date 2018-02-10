@@ -1,4 +1,3 @@
-import Icon from 'react-native-vector-icons/Ionicons';
 import { StackNavigator } from 'react-navigation';
 
 import { Colors, Font } from '../consts';

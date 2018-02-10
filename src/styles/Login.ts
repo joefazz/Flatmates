@@ -1,8 +1,7 @@
-import { StyleSheet, Platform } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 import { Colors, Metrics } from '../consts';
 import { Font } from '../consts';
-import { toConstantFontSize } from '../utils/PercentageConversion';
 
 export const login = StyleSheet.create({
     page: {
@@ -10,13 +9,13 @@ export const login = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    
+
     pageFooter: {
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    
+
     mainContent: {
         flex: 2,
         alignItems: 'flex-start',
@@ -24,7 +23,7 @@ export const login = StyleSheet.create({
     },
 
     congratsText: {
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
+        ...Font.FontFactory({ weight: 'Light' }),
         fontSize: 60,
         color: Colors.white,
         backgroundColor: Colors.transparent,
@@ -32,7 +31,7 @@ export const login = StyleSheet.create({
     },
 
     congratsSubtitleText: {
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }),
+        ...Font.FontFactory({ weight: 'Bold' }),
         fontSize: 16,
         color: Colors.white,
         backgroundColor: Colors.transparent,
@@ -40,32 +39,32 @@ export const login = StyleSheet.create({
     },
 
     dotStyle: {
-        backgroundColor: Colors.transparent, 
-        borderWidth: 1, 
+        backgroundColor: Colors.transparent,
+        borderWidth: 1,
         borderColor: Colors.textHighlightColor
     },
 
-    profileName: { 
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }),
-        fontSize: 32, 
-        color: Colors.brandSecondaryColor 
+    profileName: {
+        ...Font.FontFactory({ weight: 'Bold' }),
+        fontSize: 32,
+        color: Colors.brandSecondaryColor
     },
 
     profileHeading: {
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
-        fontSize: 20, 
-        marginTop: 5, 
-        marginBottom: 15, 
+        ...Font.FontFactory({ weight: 'Light' }),
+        fontSize: 20,
+        marginTop: 5,
+        marginBottom: 15,
         color: Colors.textGrey
     },
 
-    profileInput: { 
-        ...Font.FontFactory({ family: 'Nunito' }),
-        color: Colors.textHighlightColor, 
-        width: 300, 
-        fontSize: 18, 
-        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0, 
-        borderColor: Colors.grey 
+    profileInput: {
+        ...Font.FontFactory(),
+        color: Colors.textHighlightColor,
+        width: 300,
+        fontSize: 18,
+        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
+        borderColor: Colors.grey
     },
 
     marginTop: {
@@ -81,63 +80,63 @@ export const login = StyleSheet.create({
     },
 
     shortIDStyle: {
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
-        fontSize: 72, 
-        backgroundColor: Colors.transparent, 
-        color: Colors.white, 
+        ...Font.FontFactory({ weight: 'Light' }),
+        fontSize: 72,
+        backgroundColor: Colors.transparent,
+        color: Colors.white,
         alignSelf: 'center'
     },
 
-    pickerActivator: { 
-        width: 200, 
-        borderBottomWidth: 1, 
-        borderColor: Colors.grey  
+    pickerActivator: {
+        width: 200,
+        borderBottomWidth: 1,
+        borderColor: Colors.grey
     },
 
     pickerActivatorText: {
-        ...Font.FontFactory({ family: 'Nunito' }),
-        color: Colors.textHighlightColor, 
-        width: 200, 
+        ...Font.FontFactory(),
+        color: Colors.textHighlightColor,
+        width: 200,
         fontSize: 18
     },
 
-    pickerWrapper: { 
-        position: 'absolute', 
-        bottom: 0, 
-        right: 0, 
-        left: 0, 
-        width: Metrics.screenWidth, 
-        height: Metrics.screenHeight * 0.4, 
-        backgroundColor: Colors.backgroundWhite 
+    pickerWrapper: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: Metrics.screenWidth,
+        height: Metrics.screenHeight * 0.4,
+        backgroundColor: Colors.backgroundWhite
     },
 
     houseIDInput: {
-        ...Font.FontFactory({ family: 'Nunito' }),
-        color: Colors.textHighlightColor, 
-        width: 75, 
-        fontSize: 24, 
-        borderBottomWidth: 1, 
-        borderColor: Colors.grey, 
+        ...Font.FontFactory(),
+        color: Colors.textHighlightColor,
+        width: 75,
+        fontSize: 24,
+        borderBottomWidth: 1,
+        borderColor: Colors.grey,
         textAlign: 'center'
     },
 
-    hyperlink: { 
+    hyperlink: {
         ...Font.FontFactory({ family: 'Nunito' }),
         fontSize: 14,
-        color: Colors.brandTertiaryColor, 
-        textDecorationLine: 'underline' 
+        color: Colors.brandTertiaryColor,
+        textDecorationLine: 'underline'
     },
 
     poundStyle: {
-        ...Font.FontFactory({ family: 'Nunito' }),
-        color: Colors.grey, 
+        ...Font.FontFactory(),
+        color: Colors.grey,
         fontSize: 18,
         alignSelf: 'center'
     },
 
     priceInputWrapper: {
-        flexDirection: 'row', 
-        borderBottomWidth: 1, 
+        flexDirection: 'row',
+        borderBottomWidth: 1,
         borderColor: Colors.grey
-    }        
+    }
 });

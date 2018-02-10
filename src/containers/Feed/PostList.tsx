@@ -85,6 +85,8 @@ const allPostsQuery = graphql(POST_LIST_QUERY, {
             }
         };
     },
+
+    // @ts-ignore
     props({ data: { loading, allPosts, fetchMore } }) {
         return {
             loading,

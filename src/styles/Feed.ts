@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 
 import { Colors } from '../consts';
-import { toConstantHeight, toConstantWidth, toConstantFontSize } from '../utils/PercentageConversion';
 import { FontFactory } from '../consts/font';
+import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
 
 export const feed = StyleSheet.create({
     // Create Styles
@@ -15,41 +15,42 @@ export const feed = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.grey,
         borderRadius: 3,
-        ...FontFactory({family: 'Nunito'})
+        ...FontFactory()
     },
 
     // List styles
     card: {
         height: toConstantHeight(36),
-        width: toConstantWidth(90), 
-        marginVertical: 10,    
+        width: toConstantWidth(90),
+        marginVertical: 10,
     },
 
     filterWrapper: {
         shadowOffset: {
-            height: 1
+            height: 1,
+            width: 0
         },
         shadowOpacity: 0.7,
         shadowRadius: 4,
         shadowColor: Colors.grey,
-        alignItems: 'center', 
+        alignItems: 'center',
         backgroundColor: Colors.offWhite
     },
 
     // Filter styles
-    filterContainer: { 
-        backgroundColor: Colors.offWhite, 
+    filterContainer: {
+        backgroundColor: Colors.offWhite,
     },
 
-    filterItem: { 
-        width: toConstantWidth(90), 
+    filterItem: {
+        width: toConstantWidth(90),
         marginTop: 5,
         borderColor: Colors.airbnbRed,
-        borderRadius: 20, 
-        borderWidth: 1.5, 
-        height: toConstantHeight(5), 
+        borderRadius: 20,
+        borderWidth: 1.5,
+        height: toConstantHeight(5),
         justifyContent: 'center',
-        paddingHorizontal: toConstantWidth(3) 
+        paddingHorizontal: toConstantWidth(3)
     },
 
     expandBar: {
@@ -58,7 +59,8 @@ export const feed = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: Colors.airbnbRed,
         shadowOffset: {
-            height: 1
+            height: 1,
+            width: 0
         },
         flexDirection: 'row',
         shadowOpacity: 0.3,
@@ -79,22 +81,22 @@ export const feed = StyleSheet.create({
     },
 
     createCard: {
-        width: toConstantWidth(90), 
+        width: toConstantWidth(90),
         marginVertical: 10,
-        marginTop: 10, 
-        alignItems: 'center', 
-        backgroundColor: Colors.highlightWhite, 
-        shadowOffset: { 
-            width: 2, 
-            height: 2 
-        }, 
-        shadowColor: Colors.grey, 
-        shadowRadius: 2, 
-        shadowOpacity: 0.7, 
-        height: toConstantHeight(30), 
-        justifyContent: 'center', 
-        borderWidth: 2, 
-        borderRadius: 5, 
+        marginTop: 10,
+        alignItems: 'center',
+        backgroundColor: Colors.highlightWhite,
+        shadowOffset: {
+            width: 2,
+            height: 2
+        },
+        shadowColor: Colors.grey,
+        shadowRadius: 2,
+        shadowOpacity: 0.7,
+        height: toConstantHeight(30),
+        justifyContent: 'center',
+        borderWidth: 2,
+        borderRadius: 5,
         borderColor: Colors.brandSecondaryColor, borderStyle: 'dashed'
     },
 

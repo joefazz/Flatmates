@@ -215,7 +215,7 @@ export class Login extends React.Component<Props, State> {
                 >
                     <View style={[ login.page, {justifyContent: 'space-around'} ]}>
                         <View style={[ base.headingWrapper, {flex: 1} ]}>
-                            <Text style={[ base.headingText, { fontSize: toConstantFontSize(3.9), ...Font.FontFactory({ family: 'Nunito', weight: 'Bold' }) } ]}>Welcome to Flatmates</Text>
+                            <Text style={[ base.headingText, { fontSize: toConstantFontSize(3.9), ...Font.FontFactory({ weight: 'Bold' }) } ]}>Welcome to Flatmates</Text>
                             <Text style={[ base.headingText, { fontSize: toConstantFontSize(2.9) } ]}>Student living made simple</Text>
                         </View>
                         <View style={[ login.mainContent, { flex: 2 } ]}>
@@ -818,7 +818,7 @@ export class Login extends React.Component<Props, State> {
             let imageUrls: Array<string>;
 
             imageUrls = await Promise.all(this.state.tempImages.map(async (image) => {
-                let formData = new FormData();
+                const formData = new FormData();
 
                 const lastIndex = image.path.lastIndexOf('/') + 1;
 

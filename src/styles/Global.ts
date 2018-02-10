@@ -1,7 +1,7 @@
-import { Dimensions, StyleSheet, Platform } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
 
-import { toConstantFontSize } from '../utils/PercentageConversion';
 import { Colors, Font } from '../consts';
+import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
 
 export const base = StyleSheet.create({
     fullScreen: {
@@ -14,7 +14,7 @@ export const base = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    
+
     headingText: {
         ...Font.FontFactory({ family: 'Nunito' }),
         fontSize: toConstantFontSize(3),
@@ -25,8 +25,8 @@ export const base = StyleSheet.create({
     buttonStyle: {
         width: 250,
         backgroundColor: Colors.brandSecondaryColor,
-        borderWidth: 1, 
-        borderRadius: 3, 
+        borderWidth: 1,
+        borderRadius: 3,
         borderColor: Colors.transparent
     },
 
@@ -36,7 +36,7 @@ export const base = StyleSheet.create({
     },
 
     labelText: {
-        ...Font.FontFactory({ family: 'Nunito', weight: 'Light' }),
+        ...Font.FontFactory({ weight: 'Light' }),
         fontSize: 16,
         color: Colors.textHighlightColor,
         alignSelf: 'flex-start',
@@ -45,20 +45,20 @@ export const base = StyleSheet.create({
 
     fullWidthInput: {
         ...Font.FontFactory({ family: 'Nunito' }),
-        color: Colors.textHighlightColor, 
-        width: 270, 
-        fontSize: 18, 
-        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0, 
+        color: Colors.textHighlightColor,
+        width: 270,
+        fontSize: 18,
+        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
         borderColor: Colors.grey
     },
 
-    halfWidthInput: { 
+    halfWidthInput: {
         ...Font.FontFactory({ family: 'Nunito' }),
-        color: Colors.textHighlightColor, 
-        width: 110, 
-        fontSize: 18 
+        color: Colors.textHighlightColor,
+        width: 110,
+        fontSize: 18
     },
-    
+
     content: {
         flex: 1,
         flexGrow: 1,
@@ -70,14 +70,14 @@ export const base = StyleSheet.create({
     wholePage: {
         flex: 1
     },
-    
+
     headerWrapper: {
         flex: 1,
         flexGrow: 1,
         justifyContent: 'center',
         alignItems: 'center'
     },
-    
+
     absoluteFill: {
         position: 'absolute',
         top: 0,
@@ -85,13 +85,11 @@ export const base = StyleSheet.create({
         right: 0,
         left: 0
     },
-    
+
     listSeperator: {
         height: 1,
-        width: "86%",
+        width: toConstantWidth(86),
         backgroundColor: Colors.lineSeperatorColor,
-        marginLeft: "14%"
+        marginLeft: toConstantWidth(14)
     }
 });
-
-

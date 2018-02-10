@@ -10,11 +10,11 @@ interface Props {
         createdBy: {
             billsPrice: number,
             rentPrice: number,
-            houseImages: string[],
+            houseImages: Array<string>,
             road: string,
             spaces: number,
-            users: any[],
-            coords: number[]
+            users: Array<any>,
+            coords: Array<number>
         },
         description: string,
         id: string,
@@ -38,16 +38,14 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     zoomLevel={14}
                     styleUrl={Mapbox.StyleURL.Street}
                     logoEnabled={false}
-                    centerCoordinate={this.props.data.createdBy.coords}>
+                    centerCoordinate={this.props.data.createdBy.coords}
+                >
                     <Mapbox.PointAnnotation
                         id={'chosen'}
-                        coordinate={this.props.data.createdBy.coords}>
-
-                    </Mapbox.PointAnnotation>
+                        coordinate={this.props.data.createdBy.coords}
+                    />
                 </Mapbox.MapView>
-                <View style={ feed.content }>
-                
-                </View>
+                <View style={ feed.content }/>
             </View>
         );
     }

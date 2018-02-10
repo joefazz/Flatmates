@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { View, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Metrics, Colors } from '../consts';
 
-export class FloatingActionButton extends React.Component {
-    renderChildrenItems = () => {
-        let ChildComponents = [];
-        
-        
-    }
+import { Colors, Metrics } from '../consts';
 
+interface Props {
+    iconName: string
+}
+
+export class FloatingActionButton extends React.Component<Props> {
     render() {
         if (Platform.OS === 'ios') {
             return <View />
@@ -18,7 +17,6 @@ export class FloatingActionButton extends React.Component {
         if (this.props.children) {
             return (
                 <View>
-                    {this.renderChildrenItems}
                     <TouchableOpacity activeOpacity={0.8} style={ styles.absoluteWrapper }>
                         <Icon name={this.props.iconName} size={32} color={Colors.white} />
                     </TouchableOpacity>

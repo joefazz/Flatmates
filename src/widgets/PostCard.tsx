@@ -1,25 +1,21 @@
+import * as moment from 'moment';
 import * as React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Swiper from 'react-native-swiper';
-import moment from 'moment';
 
 import { Colors, Metrics } from '../consts';
 import { Font } from '../consts';
 
 interface Props  {
-    images: string[],
+    images: Array<string>,
     createdDate: number,
     title: string,
-    onPress: () => mixed,
+    onPress: () => void,
     price: number,
     spaces: number
 }
 
-export class PostCard extends React.Component<Props> {
-    constructor(props) {
-        super(props);
-    }
-    
+export class PostCard extends React.PureComponent<Props> {
     render() {
         return(
             <View style={ styles.cardContainer }>
@@ -55,7 +51,6 @@ export class PostCard extends React.Component<Props> {
         );
     }
 }
-
 
 const styles = StyleSheet.create({
     cardContainer: {
@@ -100,13 +95,13 @@ const styles = StyleSheet.create({
 
     titleText: {
         fontSize: 22,
-        ...Font.FontFactory({family: 'Nunito', weight: 'Light'}),
+        ...Font.FontFactory({weight: 'Light'}),
     },
 
     spacesText: {
         fontSize: 18,
         marginBottom: 1.5,
-        ...Font.FontFactory({family: 'Nunito', weight: 'Light'}),
+        ...Font.FontFactory({weight: 'Light'}),
         color: Colors.textHighlightColor
     },
 

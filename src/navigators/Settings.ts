@@ -1,7 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 
-import Settings from '../containers/Settings';
 import { Colors, Font } from '../consts';
+import Settings from '../containers/Settings';
 
 const routeConfig = {
     Settings: {screen: Settings},

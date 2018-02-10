@@ -36,6 +36,6 @@ export default colors;
 // #00bf8f - vine
 // #f83600 - soundcloud red
 // #fe8c00 - soundcloud orange
-// #7474BF - stellar purple 
+// #7474BF - stellar purple
 // #E44D26 - html dark
 // #F16529 - html light
