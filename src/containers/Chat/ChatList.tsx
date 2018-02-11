@@ -10,7 +10,8 @@ import { USER_CHAT_QUERY } from '../../graphql/queries';
 interface Props  {
     loading: boolean,
     groups: Array<object>,
-    navigation: object,
+    navigation: { navigate: (route: string) => void },
+    login: any
 };
 
 interface State {
@@ -18,7 +19,7 @@ interface State {
     groups: Array<object>
 };
 
-export class ChatObjectConstructorList extends React.Component<Props, State> {
+export class ChatList extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Chat',
         tabBarIcon: ({ focused, tintColor }) => (
@@ -85,13 +86,12 @@ const mapStateToProps = (state) => ({
 });
 
 const bindActions = () => {
-    return {
-        
-    };
+    return {};
 };
 
 const userChatQuery = graphql(USER_CHAT_QUERY, {
-    options: (ownProps) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') } }),
+    options: (ownProps: Props) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') } }),
+    // @ts-ignore
     props: ({ data: {loading, groups} }) => ({
         loading,
         groups
@@ -100,5 +100,5 @@ const userChatQuery = graphql(USER_CHAT_QUERY, {
 
 export default compose(
     connect(mapStateToProps, bindActions),
-    userChatQuery,    
+    userChatQuery,
 )(ChatList);

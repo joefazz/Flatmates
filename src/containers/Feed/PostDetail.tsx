@@ -6,15 +6,35 @@ import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { POST_DETAILS_QUERY } from '../../graphql/queries';
 
 interface Props  {
-    navigation: {state: {params: {data: {id?: number}}}},
+    navigation: {state: {
+        params: {
+            data: {
+                id
+            }
+        }
+    }, push: (route: string, params: {fbUserId?: string, data?: object}) => void},
     loading: boolean,
     post: object
 };
 
 interface State {
-    data: {id?: string},
+    data: {
+        id?: string,
+        createdAt: number,
+        createdBy: {
+            billsPrice: number,
+            rentPrice: number,
+            houseImages: Array<string>,
+            road: string,
+            spaces: number,
+            users: Array<any>,
+            coords: Array<number>
+        },
+        description: string,
+        title: string
+    },
     isLoading: boolean
-}
+};
 
 export class PostDetail extends React.Component<Props, State> {
     public static navigationOptions = ({ navigation }) => ({
@@ -41,12 +61,11 @@ export class PostDetail extends React.Component<Props, State> {
     }
 
     public render() {
-        console.log(this.state);
         return (
-            <React.Fragment>
+            <>
                 <StatusBar barStyle={'light-content'} />
                 <PostDetailComponent navigation={this.props.navigation} {...this.state} />
-            </React.Fragment>
+            </>
         );
     }
 }
@@ -59,10 +78,12 @@ export default graphql(POST_DETAILS_QUERY, {
             }
         };
     },
+    // @ts-ignore
     props({ data: { loading, post } }) {
         return {
             loading,
             post,
         };
     }
+    // @ts-ignore
 })(PostDetail);

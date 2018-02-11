@@ -12,7 +12,7 @@ import { toConstantFontSize, toConstantWidth } from '../../utils/PercentageConve
 import { TouchableRect } from '../../widgets/TouchableRect';
 
 interface Props  {
-    navigation: {state: {params: {fbUserId: string}}},
+    navigation: {pop: () => void, state: {params: {fbUserId: string}}},
     user: object,
     loading: boolean
 };
@@ -61,6 +61,8 @@ export class CreatePost extends React.Component<Props, State> {
                 description: this.state.description
             }
         });
+
+        this.props.navigation.pop();
     }
 
     render() {
@@ -94,6 +96,7 @@ export default graphql(USER_DETAILS_QUERY, {
             variables: {facebookUserId: props.navigation.state.params.fbUserId}
         };
     },
+    // @ts-ignore
     props({ data: {user, loading} }) {
         return {
             user,
@@ -101,4 +104,5 @@ export default graphql(USER_DETAILS_QUERY, {
         };
     }
 }
+// @ts-ignore
 )(CreatePost);

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { ChatDetailComponent } from '../../components/Chat/ChatDetailComponent';
 
-const fakeData = _.times(100, i => ({
+const fakeData = _.times(100, (i) => ({
     // every message will have a different color
     color: randomColor(),
     // every 5th message will look like it's from the current user
@@ -30,7 +30,7 @@ interface State {
 
 export class ChatDetail extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => {
-        const ObjectURLOptions{ state } = navigation;
+        const { state } = navigation;
         return {
             title: state.params.title,
             tabBarVisible: false,
@@ -47,18 +47,18 @@ export class ChatDetail extends React.Component<Props, State> {
 
     render() {
         return (
-            <ChatDetailComponent data={this.state} createMessage={this.props.createMessage} />
+            <ChatDetailComponent id={123} data={this.state.messages} createMessage={this.props.createMessage} />
         );
     }
 }
 
 const mapStateToProps = () => ({
-    
+
 });
 
 const bindActions = () => {
     return {
-        
+
     };
 };
 

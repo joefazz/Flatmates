@@ -1,18 +1,9 @@
 import * as React from 'react';
-import {
-    ActivityIndicator,
-    Animated,
-    Easing,
-    FlatList,
-    Text,
-    TouchableHighlight,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { Animated, Easing, FlatList, RefreshControl, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Colors, Font } from '../../consts';
-import { base, feed } from '../../styles';
+import { Colors } from '../../consts';
+import { feed } from '../../styles';
 import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
 import { PostCard } from '../../widgets';
 
@@ -21,6 +12,7 @@ interface Props {
     data: Array<object>,
     isLoading: boolean,
     fbUserId: string,
+    refreshPostList: () => void,
     loadMorePosts: () => any,
 };
 
@@ -29,24 +21,24 @@ interface State {
 }
 
 export class PostListComponent extends React.Component<Props, State> {
-    _animationValue: Animated.Value = new Animated.Value(1);
-    _ANIMATION_DURATION_CONSTANT: number = 500;
+    private _animationValue: Animated.Value = new Animated.Value(1);
+    private _ANIMATION_DURATION_CONSTANT: number = 500;
 
-    heightAnimation = {
+    private heightAnimation = {
         height: this._animationValue.interpolate({
             inputRange: [0, 1],
             outputRange: [toConstantHeight(10.5), toConstantHeight(22)]
         })
     };
 
-    opacityAnimation = {
+    private opacityAnimation = {
         opacity: this._animationValue.interpolate({
             inputRange: [0, 1],
             outputRange: [0, 1]
         })
     };
 
-    rotateAnimation = {
+    private rotateAnimation = {
         transform: [
             {
                 rotate: this._animationValue.interpolate({
@@ -66,16 +58,8 @@ export class PostListComponent extends React.Component<Props, State> {
     }
 
     render() {
-        if (this.props.isLoading) {
-            return (
-                <View style={base.fullScreen}>
-                    <ActivityIndicator size={'small'} />
-                </View>
-            );
-        }
-
         return (
-            <React.Fragment>
+            <>
                 <Animated.View style={[ feed.filterWrapper, this.heightAnimation ]}>
                     <TouchableOpacity onPress={this.animateFilter} activeOpacity={0.7} style={ feed.expandBar }>
                         <Animated.View style={this.rotateAnimation}>
@@ -99,12 +83,22 @@ export class PostListComponent extends React.Component<Props, State> {
                     contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
                     renderItem={this.renderCard}
                     ListHeaderComponent={this.renderCreateHeader}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.isLoading}
+                            onRefresh={() => this.refreshPostList}
+                        />
+                    }
                     ListFooterComponent={this.renderHeaderFooter}
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
-            </React.Fragment>
+            </>
         );
+    }
+
+    private refreshPostList() {
+        this.props.refreshPostList();
     }
 
     private renderHeaderFooter = () => {
@@ -135,11 +129,12 @@ export class PostListComponent extends React.Component<Props, State> {
     }
 
     private renderCreateHeader = () => {
-        return (
-            <TouchableHighlight underlayColor={Colors.grey} onPress={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})} style={ feed.createCard } >
-                <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light'})} ]}>+</Text>
-            </TouchableHighlight>
-        );
+        return <View />;
+        // return (
+        //     <TouchableHighlight underlayColor={Colors.grey} onPress={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})} style={ feed.createCard } >
+        //         <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light'})} ]}>+</Text>
+        //     </TouchableHighlight>
+        // );
     }
 
     private animateFilter = () => {

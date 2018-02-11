@@ -12,7 +12,7 @@ interface Props {
     loading: boolean,
     loadMorePosts: () => object,
     login: object,
-    navigation: object,
+    navigation: {push: (route: string, params: {fbUserId?: string, data?: object}) => void},
     skip: number
 };
 
@@ -44,7 +44,7 @@ export class PostList extends React.Component<Props, State> {
         };
     }
 
-    public componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
         if (newProps.loading !== this.state.isLoading) {
             this.setState({ isLoading: newProps.loading });
 
@@ -58,13 +58,18 @@ export class PostList extends React.Component<Props, State> {
         }
     }
 
-    public render() {
+    render() {
+        console.log(this.state);
         return (
-            <React.Fragment>
+            <>
                 <StatusBar barStyle={'light-content'} />
-                <PostListComponent navigation={this.props.navigation} loadMorePosts={this.props.loadMorePosts} {...this.state} />
-            </React.Fragment>
+                <PostListComponent navigation={this.props.navigation} loadMorePosts={this.props.loadMorePosts} refreshPostList={() => this.refreshPostList} {...this.state} />
+            </>
         );
+    }
+
+    private refreshPostList() {
+        return;
     }
 }
 
@@ -88,6 +93,7 @@ const allPostsQuery = graphql(POST_LIST_QUERY, {
 
     // @ts-ignore
     props({ data: { loading, allPosts, fetchMore } }) {
+        console.log(allPosts)
         return {
             loading,
             allPosts,

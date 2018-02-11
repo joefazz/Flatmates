@@ -6,7 +6,7 @@ import { base, feed } from '../../styles';
 
 interface Props {
     data: {
-        createdAt: string,
+        createdAt: number,
         createdBy: {
             billsPrice: number,
             rentPrice: number,
@@ -17,9 +17,16 @@ interface Props {
             coords: Array<number>
         },
         description: string,
-        id: string,
         title: string
     },
+    navigation: {state: {
+        params: {
+            data: {
+                id
+            }
+        }
+    }, push: (route: string, params: {fbUserId?: string, data?: object}) => void},
+    id?: string,
     isLoading: boolean
 }
 
