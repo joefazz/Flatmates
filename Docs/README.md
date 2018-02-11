@@ -4,7 +4,9 @@
 
 Hello,
 
-If you're reading this that means this project has developed to the point where people other than myself can work on it which is great!
+This is my baby, don't hurt it!
+
+This entire project is, and will continue to be written in [TypeScript](https://www.typescriptlang.org/). I've tried [Flow](https://flow.org/), it's not as good with VSCode, I find it slows it down quite a lot.
 
 This app is built with a lot of beta technologies which will undoubtably require updating once every month or so, the most core libs that we use and the places you will find yourself spending a lot of time visiting the docs of are:
 
@@ -16,7 +18,7 @@ This app is built with a lot of beta technologies which will undoubtably require
 - [Immutable](https://facebook.github.io/immutable-js)
 - [React Navigation](https://reactnavigation.org)
 - [GraphQL](http://graphql.org/)
-- [GraphCool](https://graph.cool)
+- [Prisma](https://www.prismagraphql.com/)
 - [Apollo](https://www.apollographql.com/)
 
 Familiarity with these is important and if you need any help on any of them ping [me](mailto:joseph@fazzino.net) and I have a stash of articles in my Pocket.
@@ -61,6 +63,6 @@ A little aside here about how the repo is organised.
 
 VSCode lets you insert a tab as 4 spaces which is how I choose to live my life so either 1 tab or 4 spaces.
 
-I don't care about semicolons, I find myself entering them out of habit and adding them to missing lines when I notice them but it really doesn't bother me.
+Follow the TSLint rules.
 
-Comment your code (I shouldn't have to explain this but well documented code makes sure that PRs are merged faster and understanding can be shared between all developers)
+If you write good code you shouldn't need to comment it but if you think you've written some complex functionality then comment it.
