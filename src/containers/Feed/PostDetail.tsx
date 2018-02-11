@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { graphql } from 'react-apollo';
-import { StatusBar } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { POST_DETAILS_QUERY } from '../../graphql/queries';
@@ -39,6 +40,9 @@ interface State {
 export class PostDetail extends React.Component<Props, State> {
     public static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.data.createdBy.road,
+        tabBarIcon: ({ focused, tintColor }) => (
+            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
+        ),
     });
 
     constructor(props) {
@@ -50,7 +54,7 @@ export class PostDetail extends React.Component<Props, State> {
         };
     }
 
-    public componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps) {
         if (newProps.loading !== this.state.isLoading) {
             this.setState({ isLoading: newProps.loading });
 
@@ -60,11 +64,19 @@ export class PostDetail extends React.Component<Props, State> {
         }
     }
 
-    public render() {
+    render() {
         return (
             <>
                 <StatusBar barStyle={'light-content'} />
-                <PostDetailComponent navigation={this.props.navigation} {...this.state} />
+                <PostDetailComponent
+                    title={this.state.data.title}
+                    description={this.state.data.title}
+                    house={this.state.data.createdBy}
+                    createdAt={this.state.data.createdAt}
+                    id={this.state.data.id}
+                    isLoading={this.state.isLoading}
+                    navigation={this.props.navigation}
+                />
             </>
         );
     }

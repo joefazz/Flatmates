@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Client from '../../Client';
 import { Colors } from '../../consts';
 import { CREATE_POST_MUTATION } from '../../graphql/mutations';
-import { USER_DETAILS_QUERY } from '../../graphql/queries';
+import { USER_POST_QUERY } from '../../graphql/queries';
 import { base, feed } from '../../styles';
 import { toConstantFontSize, toConstantWidth } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
@@ -82,7 +82,6 @@ export class CreatePost extends React.Component<Props, State> {
                         <TextInput onChangeText={(text) => this.setState({ description: text })} underlineColorAndroid={Colors.transparent} style={ feed.descriptionInput } multiline={true} defaultValue={(this.state.data.house.spaces > 0 ? 'Looking to fill ' + this.state.data.house.spaces + ' rooms ' : 'a room ') + 'on ' + this.state.data.house.road + ' '} />
                     </View>
 
-
                     <TouchableRect title={'Create'} buttonStyle={ base.buttonStyle } backgroundColor={Colors.brandSecondaryColor} onPress={this.createPostMutation} />
                 </View>
             </View>
@@ -90,7 +89,7 @@ export class CreatePost extends React.Component<Props, State> {
     }
 }
 
-export default graphql(USER_DETAILS_QUERY, {
+export default graphql(USER_POST_QUERY, {
     options(props: Props) {
         return {
             variables: {facebookUserId: props.navigation.state.params.fbUserId}

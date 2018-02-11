@@ -111,5 +111,52 @@ export const feed = StyleSheet.create({
 
     content: {
         flex: 2
+    },
+
+    // Detail Styles
+    detailImage: {
+        flex: 1,
+        shadowOffset: {
+            height: 2,
+            width: 0
+        },
+        shadowColor: Colors.grey,
+        shadowRadius: 2,
+        shadowOpacity: 0.7,
+    },
+
+    swiperButtonWrapperStyle: {
+        flexDirection: 'row',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        flex: 1,
+        paddingHorizontal: 10,
+        paddingVertical: 10,
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+
+    leftRightButtonStyle: {
+        ...FontFactory({weight: 'Light'}),
+        fontSize: toConstantFontSize(9),
+        color: Colors.brandSecondaryColor
+    },
+
+    magnifierWrapper: {
+        width: 40,
+        height: 40,
+        backgroundColor: Colors.offWhite,
+        borderRadius: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 5,
+        shadowOffset: {
+            height: 2,
+            width: 1
+        },
+        shadowColor: Colors.grey,
+        shadowRadius: 2,
+        shadowOpacity: 0.7,
     }
 });

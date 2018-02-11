@@ -43,7 +43,7 @@ import { TouchableRect } from '../widgets/TouchableRect';
 
 export let facebookPermissions: Array<string> = [];
 
-interface Props  {
+interface Props {
     login: any,
     profile: any,
     loginWithFacebook: () => void,
