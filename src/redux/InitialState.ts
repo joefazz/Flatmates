@@ -4,7 +4,7 @@ const initialState = {
     login: {
         id: '',
         isRehydrated: false,
-        loginStatus: 'Not Started',
+        loginStatus: LoginStatus.NOT_STARTED,
         grantedPermissions: [],
         deniedPermissions: [],
         fbAccessToken: '',
@@ -19,8 +19,15 @@ const initialState = {
         email: '',
         imageUrl: ''
     },
+    feed: {
+        posts: [],
+        isFetchingPosts: false,
+        isCreatingPost: false,
+        isErrorFetchingPosts: false,
+        isErrorCreatingPost: false,
+        error: '',
+    },
     nav: state
 };
 
 export default initialState;
-

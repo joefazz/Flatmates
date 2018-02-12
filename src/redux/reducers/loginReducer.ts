@@ -1,20 +1,19 @@
-// Modules
-import Immutable from 'immutable';
-import _ from 'lodash';
+import * as Immutable from 'immutable';
 
-// File References
-import * as Types from '../Types';
 import initialState from '../InitialState';
+import * as Types from '../Types';
 
+// Modules
+// File References
 const INITIAL_STATE = Immutable.fromJS(initialState.login);
 let fbAccessToken;
 
-export default function loginReducer(state = INITIAL_STATE, action = {}) {
-    switch(action.type) {
+export default function loginReducer(state: State = INITIAL_STATE, action: Action) {
+    switch (action.type) {
     // Facebook Login Auth
     case Types.FACEBOOK_LOGIN_REQUEST:
         return state.merge({
-            loginStatus: 'Started'
+            loginStatus: LoginStatus.STARTED
         });
     case Types.FACEBOOK_LOGIN_SUCCESS:
         return state.merge({
@@ -24,18 +23,17 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
             deniedPermissions: action.payload.response.deniedPermissions,
             grantedPermissions: action.payload.response.grantedPermissions,
             isLoggedIn: true,
-            loginStatus: 'Ended'
+            loginStatus: LoginStatus.ENDED
         });
     case Types.FACEBOOK_LOGIN_FAILURE:
-        console.log(action.payload)
         return state.merge({
             error: action.payload,
-            loginStatus: 'Failed'
+            loginStatus: LoginStatus.FAILED
         });
 
     case Types.FACEBOOK_SIGNUP_REQUEST:
         return state.merge({
-            loginStatus: 'Started'
+            loginStatus: LoginStatus.STARTED
         });
     case Types.FACEBOOK_SIGNUP_SUCCESS:
         return state.merge({
@@ -45,12 +43,12 @@ export default function loginReducer(state = INITIAL_STATE, action = {}) {
             deniedPermissions: action.payload.response.deniedPermissions,
             grantedPermissions: action.payload.response.grantedPermissions,
             isLoggedIn: true,
-            loginStatus: 'Ended',
+            loginStatus: LoginStatus.ENDED,
         });
     case Types.FACEBOOK_SIGNUP_FAILURE:
         return state.merge({
             error: action.payload,
-            loginStatus: 'Failed',
+            loginStatus: LoginStatus.FAILED,
         });
     default:
         return state;
