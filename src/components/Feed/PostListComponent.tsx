@@ -9,7 +9,7 @@ import { PostCard } from '../../widgets';
 
 interface Props {
     navigation: {push: (route: string, params: {fbUserId?: string, data?: object}) => void},
-    data: Array<object>,
+    data: { toJS: () => Array<object> },
     isLoading: boolean,
     fbUserId: string,
     refreshPostList: () => void,
@@ -79,7 +79,7 @@ export class PostListComponent extends React.Component<Props, State> {
                     </Animated.View>
                 </Animated.View>
                 <FlatList
-                    data={this.props.data}
+                    data={this.props.data.toJS()}
                     contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
                     renderItem={this.renderCard}
                     ListHeaderComponent={this.renderCreateHeader}

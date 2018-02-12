@@ -1,21 +1,22 @@
-// Modules
-import Immutable from 'immutable';
+import * as Immutable from 'immutable';
 import _ from 'lodash';
 
-// File References
-import * as Types from '../Types';
 import initialState from '../InitialState';
+import { Action, State } from '../ReduxTypes';
+import * as Types from '../Types';
 
+// Modules
+// File References
 const INITIAL_STATE = Immutable.fromJS(initialState.profile);
 
-export default function profileReducer(state = INITIAL_STATE, action = {}) {
+export default function profileReducer(state: State = INITIAL_STATE, action: Action) {
     switch(action.type) {
     // Facebook Login Auth
     case Types.GET_USER_DATA_REQUEST:
         return state;
     case Types.GET_USER_DATA_SUCCESS:
         return state.merge({
-            name: action.payload.response.name, 
+            name: action.payload.response.name,
             firstName: action.payload.response.first_name,
             lastName: action.payload.response.last_name,
             gender: _.capitalize(action.payload.response.gender),

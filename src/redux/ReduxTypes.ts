@@ -1,20 +1,20 @@
-declare enum LoginStatus {
+export enum LoginStatus {
     NOT_STARTED,
     STARTED,
     ENDED,
     FAILED
 }
 
-interface Action {
+export interface Action {
     type: string,
-    payload: object
+    payload: { error?: string }
 }
 
-interface State {
+export interface State {
     get: (string) => any,
     merge: (object) => any,
     login: {
-        id: string,
+        fbUserId: string,
         isRehydrated: boolean,
         loginStatus: LoginStatus,
         grantedPermissions: Array<string>,

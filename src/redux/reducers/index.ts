@@ -1,13 +1,15 @@
 // Modules
 import { combineReducers } from 'redux-immutablejs';
 
-// File References
+import feed from './feedReducer';
 import login from './loginReducer';
-import profile from './profileReducer';
 import nav from './navReducer';
+import profile from './profileReducer';
 
-export default combineReducers({    
+// File References
+export default combineReducers({
     login,
     profile,
     nav,
+    feed
 });

@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { graphql } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import { Platform, Text, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
-import Client from '../../Client';
 import { Colors } from '../../consts';
-import { CREATE_POST_MUTATION } from '../../graphql/mutations';
 import { USER_POST_QUERY } from '../../graphql/queries';
+import { createPost } from '../../redux/Routines';
 import { base, feed } from '../../styles';
 import { toConstantFontSize, toConstantWidth } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
@@ -14,7 +14,8 @@ import { TouchableRect } from '../../widgets/TouchableRect';
 interface Props  {
     navigation: {pop: () => void, state: {params: {fbUserId: string}}},
     user: object,
-    loading: boolean
+    loading: boolean,
+    createPost: ({title, description, createdBy}) => void
 };
 
 interface State {
@@ -52,14 +53,11 @@ export class CreatePost extends React.Component<Props, State> {
         }
     }
 
-    createPostMutation = async () => {
-        await Client.mutate({
-            mutation: CREATE_POST_MUTATION,
-            variables: {
-                createdBy: this.state.data.house.shortID,
-                title: this.state.title,
-                description: this.state.description
-            }
+    createPostTrigger = () => {
+        this.props.createPost({
+            title: this.state.title,
+            description: this.state.description,
+            createdBy: this.state.data.house.shortID
         });
 
         this.props.navigation.pop();
@@ -82,14 +80,14 @@ export class CreatePost extends React.Component<Props, State> {
                         <TextInput onChangeText={(text) => this.setState({ description: text })} underlineColorAndroid={Colors.transparent} style={ feed.descriptionInput } multiline={true} defaultValue={(this.state.data.house.spaces > 0 ? 'Looking to fill ' + this.state.data.house.spaces + ' rooms ' : 'a room ') + 'on ' + this.state.data.house.road + ' '} />
                     </View>
 
-                    <TouchableRect title={'Create'} buttonStyle={ base.buttonStyle } backgroundColor={Colors.brandSecondaryColor} onPress={this.createPostMutation} />
+                    <TouchableRect title={'Create'} buttonStyle={ base.buttonStyle } backgroundColor={Colors.brandSecondaryColor} onPress={this.createPostTrigger} />
                 </View>
             </View>
         );
     }
 }
 
-export default graphql(USER_POST_QUERY, {
+const getUserInfo = graphql(USER_POST_QUERY, {
     options(props: Props) {
         return {
             variables: {facebookUserId: props.navigation.state.params.fbUserId}
@@ -102,6 +100,18 @@ export default graphql(USER_POST_QUERY, {
             loading
         };
     }
-}
-// @ts-ignore
+});
+
+const mapStateToProps = () => ({
+});
+
+const bindActions = (dispatch) => {
+    return {
+        createPost: ({title, description, createdBy}) => dispatch(createPost({title, description, createdBy}))
+    };
+};
+
+export default compose(
+    connect(mapStateToProps, bindActions),
+    getUserInfo
 )(CreatePost);

@@ -34,6 +34,7 @@ import {
     UPDATE_USER_UPDATE_HOUSE_MUTATION,
 } from '../graphql/mutations';
 import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
+import { LoginStatus } from '../redux/ReduxTypes';
 import { loginWithFacebook, signupWithFacebook } from '../redux/Routines';
 import { base, login } from '../styles';
 import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
@@ -177,12 +178,12 @@ export class Login extends React.Component<Props, State> {
 
     componentWillReceiveProps(newProps) {
         if (!newProps.login.equals(this.props.login)) {
-            if (this.state.isLoggingIn && newProps.login.get('loginStatus') === 'Ended') {
+            if (this.state.isLoggingIn && newProps.login.get('loginStatus') === LoginStatus.ENDED) {
                 this.setState({ isLoggingIn: false });
                 if (newProps.login.get('isLoggedIn')) {
                     this.setState({ isLoggedIn: true });
                 }
-            } else if (newProps.login.get('loginStatus') === 'Failed') {
+            } else if (newProps.login.get('loginStatus') === LoginStatus.FAILED) {
                 this.setState({ isLoggedIn: false, hasLoginFailed: true });
             }
         }

@@ -1,23 +1,21 @@
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose } from 'react-apollo';
 import { Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
-import { POST_LIST_QUERY } from '../../graphql/queries';
+import { getPosts } from '../../redux/Routines';
 
 interface Props {
-    posts: Array<object>,
-    loading: boolean,
-    loadMorePosts: () => object,
+    feed: { get: (string) => object },
     login: object,
     navigation: {push: (route: string, params: {fbUserId?: string, data?: object}) => void},
-    skip: number
+    getPosts: (take?: number, skip?: number) => void
 };
 
 interface State {
-    data: Array<object>,
+    data: { toJS: () => Array<object> },
     isLoading: boolean,
     fbUserId: string
 };
@@ -38,18 +36,22 @@ export class PostList extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            data: props.posts,
-            isLoading: props.loading,
-            fbUserId: ''
+            data: props.feed.get('posts'),
+            isLoading: props.feed.get('isFetchingPosts'),
+            fbUserId: '',
         };
     }
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.loading !== this.state.isLoading) {
-            this.setState({ isLoading: newProps.loading });
+    componentDidMount() {
+        this.props.getPosts();
+    }
 
-            if (newProps.allPosts !== this.state.data) {
-                this.setState({ data: newProps.allPosts });
+    componentWillReceiveProps(newProps) {
+        if (newProps.feed.get('isFetchingPosts') !== this.state.isLoading) {
+            this.setState({ isLoading: newProps.feed.get('isFetchingPosts') });
+
+            if (newProps.feed.get('posts') !== this.state.data) {
+                this.setState({ data: newProps.feed.get('posts') });
             }
         }
 
@@ -59,59 +61,34 @@ export class PostList extends React.Component<Props, State> {
     }
 
     render() {
-        console.log(this.state);
         return (
             <>
                 <StatusBar barStyle={'light-content'} />
-                <PostListComponent navigation={this.props.navigation} loadMorePosts={this.props.loadMorePosts} refreshPostList={() => this.refreshPostList} {...this.state} />
+                <PostListComponent navigation={this.props.navigation} loadMorePosts={this.loadMorePosts} refreshPostList={() => this.refreshPostList} {...this.state} />
             </>
         );
     }
 
-    private refreshPostList() {
+    private loadMorePosts = () => {
         return;
+    }
+
+    private refreshPostList() {
+        return this.props.getPosts();
     }
 }
 
 const mapStateToProps = (state) => ({
-    login: state.get('login')
+    login: state.get('login'),
+    feed: state.get('feed')
 });
 
-const bindActions = () => {
-    return {};
+const bindActions = (dispatch) => {
+    return {
+        getPosts: (take, skip) => dispatch(getPosts(take, skip))
+    };
 };
 
-const allPostsQuery = graphql(POST_LIST_QUERY, {
-    options() {
-        return {
-            variables: {
-                take: 2,
-                skip: 0
-            }
-        };
-    },
-
-    // @ts-ignore
-    props({ data: { loading, allPosts, fetchMore } }) {
-        console.log(allPosts)
-        return {
-            loading,
-            allPosts,
-            loadMorePosts() {
-                return fetchMore({
-                    variables: { skip: allPosts.length },
-                    updateQuery: (prevResult, { fetchMoreResult }) => {
-                        return Object.assign({}, prevResult, {
-                            posts: [...prevResult.allPosts, ...fetchMoreResult.allPosts]
-                        });
-                    }
-                });
-            }
-        };
-    }
-});
-
 export default compose(
-    connect(mapStateToProps, bindActions),
-    allPostsQuery,
+    connect(mapStateToProps, bindActions)
 )(PostList);

@@ -6,6 +6,7 @@ export const CREATE_POST_MUTATION = gql`
             id
             title
             description
+            createdAt
         }
     }
 `;

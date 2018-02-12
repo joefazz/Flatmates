@@ -1,12 +1,12 @@
 import * as Immutable from 'immutable';
 
 import initialState from '../InitialState';
+import { Action, LoginStatus, State } from '../ReduxTypes';
 import * as Types from '../Types';
 
 // Modules
 // File References
 const INITIAL_STATE = Immutable.fromJS(initialState.login);
-let fbAccessToken;
 
 export default function loginReducer(state: State = INITIAL_STATE, action: Action) {
     switch (action.type) {

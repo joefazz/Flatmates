@@ -1,8 +1,9 @@
 import { state } from '../navigators/Root';
+import { LoginStatus } from './ReduxTypes';
 
 const initialState = {
     login: {
-        id: '',
+        fbUserId: '',
         isRehydrated: false,
         loginStatus: LoginStatus.NOT_STARTED,
         grantedPermissions: [],
