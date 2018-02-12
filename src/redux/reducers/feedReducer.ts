@@ -35,7 +35,7 @@ export default function feedReducer(state: State = INITIAL_STATE, action: Action
                 isErrorCreatingPost: false
             });
         case Types.CREATE_POST_SUCCESS:
-            posts = state.get('posts').push(action.payload);
+            posts = state.get('posts').set(state.get('posts').size, action.payload);
 
             return state.merge({
                 posts
