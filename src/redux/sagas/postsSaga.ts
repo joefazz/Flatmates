@@ -8,15 +8,16 @@ import { createPost, getPosts } from '../Routines';
 
 
 
+
 export const postSaga = function *() {
-    yield takeEvery(getPosts.TRIGGER, getPosts);
-    yield takeEvery(createPost.TRIGGER, createPost);
+    yield takeEvery(getPosts.TRIGGER, posts);
+    yield takeEvery(createPost.TRIGGER, create);
 }
 
-function *getPosts() {
+function *posts() {
     return;
 }
 
-function *createPost() {
+function *create() {
     return;
 }
