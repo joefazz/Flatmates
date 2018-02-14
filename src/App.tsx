@@ -69,7 +69,7 @@ export default class Root extends React.Component<Props, State> {
 
     // TODO: MAKE SURE REDUX CLEARS STORE IF SOMEONE EXITS OR CRASHES DURING SET UP OTHERWISE THE FACEBOOK QUERY WILL NEVER UPDATE THE UI
     componentWillMount() {
-        AsyncStorage.clear().catch(error => console.log(error));
+        // AsyncStorage.clear().catch(error => console.log(error));
         persistentStore(() => {
             this.setState({ isRehydrated: true });
         });

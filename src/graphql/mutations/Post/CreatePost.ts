@@ -7,6 +7,13 @@ export const CREATE_POST_MUTATION = gql`
             title
             description
             createdAt
+            createdBy {
+                road
+                billsPrice
+                rentPrice
+                spaces
+                houseImages
+            }
         }
     }
 `;

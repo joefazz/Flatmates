@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import { Avatar, Button, Slider } from 'react-native-elements';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
+import Pickerise from 'react-native-pickerise';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
@@ -364,9 +365,12 @@ export class Login extends React.Component<Props, State> {
                             <View style={{ flex: 1, alignItems: 'center' }}>
                                 <View>
                                     <Text style={[ base.labelText, { alignSelf: 'center' } ]}>Study Year</Text>
-                                    <TouchableOpacity style={ login.pickerActivator } onPress={() => this.setState({ studyYearEnabled: true })}>
-                                        <Text style={ login.pickerActivatorText }>{this.state.studyYear}</Text>
-                                    </TouchableOpacity>
+                                    <Pickerise
+                                        items={[{section: false, label: 'Select the year you\'re currently in'}, {label: 'First Year'}, {label: 'Second Year'}, {label: 'Third Year'}, {label: 'Masters'}, {label: 'Placement Year'}, {label: 'PHd'}]}
+                                        initValue={'First'}
+                                        cancelText={'Cancel'}
+                                        onChange={(item) => this.setState({ studyYear: item })}
+                                    />
                                 </View>
                             </View>
                             <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-around', paddingHorizontal: 15 }}>
@@ -397,22 +401,6 @@ export class Login extends React.Component<Props, State> {
                                 buttonStyle={[ base.buttonStyle ]}
                             />
                         </View>
-                        {this.state.studyYearEnabled ?
-                            <View style={ login.pickerWrapper }>
-                                <Picker
-                                    enabled={this.state.studyYearEnabled}
-                                    selectedValue={this.state.studyYear}
-                                    onValueChange={(itemValue) => this.setState({ studyYear: itemValue }, () => setTimeout(() => this.setState({ studyYearEnabled: false }), 100))}
-                                    prompt={'Study Year'}
-                                >
-                                    <Picker.Item label={'First'} value={'First'} />
-                                    <Picker.Item label={'Second'} value={'Second'} />
-                                    <Picker.Item label={'Third'} value={'Third'} />
-                                    <Picker.Item label={'Sandwich Year'} value={'Sandwich Year'} />
-                                    <Picker.Item label={'Masters'} value={'Masters'} />
-                                    <Picker.Item label={'Ph.D.'} value={'Ph.D.'} />
-                                </Picker>
-                            </View> : <View/> }
                     </View>
 
                     {this.renderHouseOrProfileSetup()}

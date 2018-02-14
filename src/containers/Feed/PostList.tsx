@@ -47,7 +47,7 @@ export class PostList extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.feed.get('isFetchingPosts') !== this.state.isLoading) {
+        if (!newProps.feed.equals(this.props.feed) || newProps.feed.get('isFetchingPosts') !== this.state.isLoading) {
             this.setState({ isLoading: newProps.feed.get('isFetchingPosts') });
 
             if (newProps.feed.get('posts') !== this.state.data) {
