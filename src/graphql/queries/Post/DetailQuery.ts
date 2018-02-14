@@ -4,7 +4,6 @@ export const POST_DETAILS_QUERY = gql`
     query post($id: ID!) {
         post(id: $id) {
             id
-            title
             description
             createdAt
             createdBy {

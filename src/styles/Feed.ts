@@ -115,7 +115,7 @@ export const feed = StyleSheet.create({
 
     // Detail Styles
     detailImage: {
-        flex: 1,
+        height: toConstantHeight(30),
         shadowOffset: {
             height: 2,
             width: 0

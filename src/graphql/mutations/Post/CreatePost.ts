@@ -4,7 +4,6 @@ export const CREATE_POST_MUTATION = gql`
     mutation createPost($description: String!, $createdBy: Int!) {
         createPost(description: $description, createdBy: $createdBy) {
             id
-            title
             description
             createdAt
             createdBy {

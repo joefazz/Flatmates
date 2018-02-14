@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import { Colors } from '../../consts';
 import { base, feed } from '../../styles';
+import { toConstantHeight } from '../../utils/PercentageConversion';
 
 interface Props {
     house: {
@@ -49,7 +50,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
 
     render() {
         return (
-            <>
+            <ScrollView>
                 <Swiper
                     style={feed.detailImage}
                     buttonWrapperStyle={feed.swiperButtonWrapperStyle}
@@ -66,30 +67,27 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     );
                 })}
                 </Swiper>
-                <View style={{ flex: 2 }}>
-                    <ScrollView contentContainerStyle={{ flex: 2 }}>
-                        <View style={{ flex: 2 }} />
-                        <Mapbox.MapView
-                            style={{ flex: 2, justifyContent: 'center', alignItems: 'flex-start', paddingLeft: 20}}
-                            zoomLevel={this.state.zoomLevel}
-                            styleUrl={Mapbox.StyleURL.Street}
-                            logoEnabled={false}
-                            centerCoordinate={this.props.house.coords}
-                        >
-                            <Mapbox.PointAnnotation
-                                id={'chosen'}
-                                coordinate={this.props.house.coords}
-                            />
-                            <TouchableHighlight underlayColor={Colors.grey} style={feed.magnifierWrapper} onPress={() => this.setState({ zoomLevel: this.state.zoomLevel + 1 })}>
-                                <Icon name={'magnifier-add'} size={24} />
-                            </TouchableHighlight>
-                            <TouchableHighlight underlayColor={Colors.grey} style={feed.magnifierWrapper} onPress={() => this.setState({ zoomLevel: this.state.zoomLevel - 1 })}>
-                                <Icon name={'magnifier-remove'} size={24} />
-                            </TouchableHighlight>
-                        </Mapbox.MapView>
-                    </ScrollView>
+                <View style={{ height: toConstantHeight(30) }}>
+                    <Mapbox.MapView
+                        style={{ flex: 2, justifyContent: 'center', alignItems: 'flex-start', paddingLeft: 20}}
+                        zoomLevel={this.state.zoomLevel}
+                        styleUrl={Mapbox.StyleURL.Street}
+                        logoEnabled={false}
+                        centerCoordinate={this.props.house.coords}
+                    >
+                        <Mapbox.PointAnnotation
+                            id={'chosen'}
+                            coordinate={this.props.house.coords}
+                        />
+                        <TouchableHighlight underlayColor={Colors.grey} style={feed.magnifierWrapper} onPress={() => this.setState({ zoomLevel: this.state.zoomLevel + 1 })}>
+                            <Icon name={'magnifier-add'} size={24} />
+                        </TouchableHighlight>
+                        <TouchableHighlight underlayColor={Colors.grey} style={feed.magnifierWrapper} onPress={() => this.setState({ zoomLevel: this.state.zoomLevel - 1 })}>
+                            <Icon name={'magnifier-remove'} size={24} />
+                        </TouchableHighlight>
+                    </Mapbox.MapView>
                 </View>
-            </>
+            </ScrollView>
         );
     }
 }
