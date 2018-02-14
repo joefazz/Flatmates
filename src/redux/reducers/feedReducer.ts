@@ -2,7 +2,7 @@ import * as Immutable from 'immutable';
 
 import initialState from '../InitialState';
 import { Action, State } from '../ReduxTypes';
-import * as Types from '../Types';
+import { createPost, deletePost, getPosts } from '../Routines';
 
 const INITIAL_STATE = Immutable.fromJS(initialState.feed)
 let posts;
@@ -10,46 +10,71 @@ let posts;
 export default function feedReducer(state: State = INITIAL_STATE, action: Action) {
     switch (action.type) {
         // Get Posts
-        case Types.GET_POSTS_REQUEST:
+        case getPosts.REQUEST:
             return state.merge({
                 isFetchingPosts: true,
                 isErrorFetchingPosts: false
             });
-        case Types.GET_POSTS_SUCCESS:
+        case getPosts.SUCCESS:
             return state.merge({
                 posts: action.payload
             });
-        case Types.GET_POSTS_FAILURE:
+        case getPosts.FAILURE:
             return state.merge({
                 isErrorFetchingPosts: true,
                 error: action.payload.error
             });
-        case Types.GET_POSTS_FULFILL:
+        case getPosts.FULFILL:
             return state.merge({
                 isFetchingPosts: false
             });
 
         // Create Post
-        case Types.CREATE_POST_REQUEST:
+        case createPost.REQUEST:
             return state.merge({
                 isCreatingPost: true,
                 isErrorCreatingPost: false
             });
-        case Types.CREATE_POST_SUCCESS:
+        case createPost.SUCCESS:
             posts = state.get('posts').set(state.get('posts').size, action.payload);
 
             return state.merge({
                 posts
             });
-        case Types.CREATE_POST_FAILURE:
+        case createPost.FAILURE:
             return state.merge({
                 isErrorCreatingPost: true,
                 error: action.payload.error
             });
-        case Types.CREATE_POST_FULFILL:
+        case createPost.FULFILL:
             return state.merge({
                 isCreatingPost: false
             });
+
+        // Delete Post
+        case deletePost.REQUEST:
+            return state.merge({
+                isDeletingPost: true,
+                isErrorDeletingPost: false
+            })
+        case deletePost.SUCCESS:
+            posts = state.get('posts');
+            const postIndex = posts.findIndex((post) => post.get('id') === action.payload);
+
+            posts = posts.delete(postIndex);
+
+            return state.merge({
+                posts
+            });
+        case deletePost.FAILURE:
+            return state.merge({
+                isErrorDeletingPost: true,
+                error: action.payload.error
+            });
+        case deletePost.FULFILL:
+            return state.merge({
+                isDeletingPost: false,
+            })
         default:
             return state;
     }
