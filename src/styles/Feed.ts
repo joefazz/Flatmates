@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import colors, { Colors } from '../consts';
+import { Colors } from '../consts';
 import { FontFactory } from '../consts/font';
 import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
 

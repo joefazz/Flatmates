@@ -1,4 +1,5 @@
 import Mapbox from '@mapbox/react-native-mapbox-gl';
+// @ts-ignore
 import moment from 'moment';
 import * as React from 'react';
 import { ActivityIndicator, Image, ScrollView, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
@@ -9,12 +10,9 @@ import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import { Colors } from '../../consts';
 import { feed } from '../../styles';
-import { toConstantFontSize, toConstantHeight, toConstantWidth, toPercentageHeight } from '../../utils/PercentageConversion';
+import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
 
-// @ts-ignore
-// @ts-ignore
-// @ts-ignore
 interface Props {
     house: {
         billsPrice: number,
