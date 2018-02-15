@@ -7,9 +7,9 @@ import { Colors, Font } from '../consts';
 import { toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
 
 interface Props  {
-    buttonStyle: RegisteredStyle<ViewStyle>,
+    buttonStyle?: RegisteredStyle<ViewStyle> | {},
     wrapperStyle?: RegisteredStyle<ViewStyle> | {},
-    title: string,
+    title?: string,
     onPress: () => void,
     iconName?: string,
     backgroundColor: string,
@@ -22,12 +22,14 @@ export class TouchableRect extends React.Component<Props> {
         // The wrapping view is neccessary otherwise border radius doesn't work on android for some reason, issue submitted
         return (
             <View style={[styles.borderWrapper, this.props.wrapperStyle, {backgroundColor: this.props.backgroundColor}]}>
-                <RectButton underlayColor={this.props.underlayColor} style={[this.props.buttonStyle, styles.buttonContentWrapper, {backgroundColor: this.props.backgroundColor}]} onPress={this.props.onPress}>
+                <RectButton underlayColor={this.props.underlayColor} style={[ styles.buttonContentWrapper, this.props.buttonStyle, {backgroundColor: this.props.backgroundColor}]} onPress={this.props.onPress}>
                     {this.props.iconName ?
-                        <Icon name={this.props.iconName} style={[styles.iconStyle, {marginRight: 10}]} size={26}/> :
+                        <Icon name={this.props.iconName} style={[styles.iconStyle, this.props.title ? {marginRight: 10} : {}]} size={26}/> :
                         <React.Fragment />
                     }
-                    <Text style={styles.textStyle}>{this.props.title}</Text>
+                    {this.props.title ?
+                        <Text style={styles.textStyle}>{this.props.title}</Text>
+                    : <React.Fragment /> }
                 </RectButton>
             </View>
         );

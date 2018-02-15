@@ -14,7 +14,7 @@ export const POST_DETAILS_QUERY = gql`
                 spaces
                 houseImages
                 users {
-                    name
+                    firstName
                     gender
                     bio
                     studyYear

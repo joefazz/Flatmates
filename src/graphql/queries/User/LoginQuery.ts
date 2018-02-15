@@ -7,5 +7,4 @@ export const USER_LOGIN_QUERY = gql`
             facebookUserId
         }
     }
-    
 `;
