@@ -18,6 +18,31 @@ export function toConstantFontSize(percentage: number): number {
     return toConstant(percentage, TYPES.Font);
 }
 
+export function toPercentageHeight(constant: number): number {
+    return toPercentage(constant, TYPES.Height);
+}
+
+export function toPercentageWidth(constant: number): number {
+    return toPercentage(constant, TYPES.Width);
+}
+
+export function toPercentageFontSize(constant: number): number {
+    return toPercentage(constant, TYPES.Font);
+}
+
+function toPercentage(constant: number, type: TYPES): number {
+    switch (type) {
+        case TYPES.Width:
+            return (constant * 100) / Metrics.screenWidth;
+
+        case TYPES.Height:
+            return (constant * 100) / Metrics.screenHeight;
+
+        case TYPES.Font:
+            return (constant * 100) / Metrics.totalSize;
+    }
+}
+
 function toConstant(percentage: number, type: TYPES): number {
     switch (type) {
         case TYPES.Width:

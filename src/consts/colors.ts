@@ -13,6 +13,7 @@ const colors = {
     purple: '#7474BF',
     textHighlightColor: highlightColor,
     white: '#FFFFFF',
+    reallyLight: '#FAFAFA',
     highlightWhite: '#F5F5F5',
     offWhite: '#fbfbfb',
     black: '#000000',

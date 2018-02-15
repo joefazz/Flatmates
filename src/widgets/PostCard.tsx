@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
 
     titleText: {
         fontSize: 22,
+        color: Colors.black,
         ...Font.FontFactory({weight: 'Light'}),
     },
 
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom: 1.5,
         ...Font.FontFactory({weight: 'Light'}),
-        color: Colors.textHighlightColor
+        color: Colors.black
     },
 
     priceText: {

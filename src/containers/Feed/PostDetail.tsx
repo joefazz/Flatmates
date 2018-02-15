@@ -3,6 +3,8 @@ import { graphql } from 'react-apollo';
 import { Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { Colors } from '../../consts';
+import { toConstantWidth } from '../../utils/PercentageConversion';
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { POST_DETAILS_QUERY } from '../../graphql/queries';
 
@@ -38,11 +40,12 @@ interface State {
 };
 
 export class PostDetail extends React.Component<Props, State> {
-    public static navigationOptions = ({ navigation }) => ({
+    protected static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.data.createdBy.road,
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
         ),
+        headerRight: <Icon name={'ios-star-outline'} style={{ marginRight: toConstantWidth(1.8) }} color={Colors.white} size={28} />
     });
 
     constructor(props) {
@@ -70,7 +73,7 @@ export class PostDetail extends React.Component<Props, State> {
                 <StatusBar barStyle={'light-content'} />
                 <PostDetailComponent
                     title={this.state.data.title}
-                    description={this.state.data.title}
+                    description={this.state.data.description}
                     house={this.state.data.createdBy}
                     createdAt={this.state.data.createdAt}
                     id={this.state.data.id}
