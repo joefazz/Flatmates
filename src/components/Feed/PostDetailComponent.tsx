@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import { Colors } from '../../consts';
-import { base, feed } from '../../styles';
+import { feed } from '../../styles';
 import { toConstantHeight } from '../../utils/PercentageConversion';
 
 interface Props {

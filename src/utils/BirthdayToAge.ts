@@ -1,6 +1,5 @@
-import moment from 'moment';
+import * as moment from 'moment';
 
-export function ConvertBirthdayToAge(birthday) {
-    var years = moment().diff(moment(birthday, "MM/DD/YYYY"), 'years');
-    return years;
+export function ConvertBirthdayToAge(birthday: string): number {
+    return moment().diff(moment(birthday, 'MM/DD/YYYY'), 'years');
 }

@@ -66,18 +66,22 @@ export class PostListComponent extends React.Component<Props, State> {
                             <Icon name={'ios-arrow-up'} size={toConstantFontSize(3)} style={{color: Colors.highlightWhite}} />
                         </Animated.View>
                     </TouchableOpacity>
+
                     <TouchableHighlight onPress={() => alert('Price pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
                         <Text style={ feed.filterItemText }>Price (Low to High)</Text>
                     </TouchableHighlight>
+
                     <Animated.View style={ this.opacityAnimation }>
                         <TouchableHighlight onPress={() => alert('Spaces pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
                             <Text style={ feed.filterItemText }>Spaces</Text>
                         </TouchableHighlight>
+
                         <TouchableHighlight onPress={() => alert('Other options pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
                             <Text style={ feed.filterItemText }>Other option</Text>
                         </TouchableHighlight>
                     </Animated.View>
                 </Animated.View>
+
                 <FlatList
                     data={this.props.data.toJS()}
                     contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
