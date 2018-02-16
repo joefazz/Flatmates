@@ -1,11 +1,10 @@
 import gql from 'graphql-tag';
 
-export const POST_DETAILS_QUERY = gql`
-    query PostDetail($id: ID!) {
-        post(id: $id) {
+export const UPDATE_POST_MUTATION = gql`
+    mutation UpdatePost($id: ID!, $lastSeen: DateTime!) {
+        updatePost(id: $id, lastSeen: $lastSeen) {
             id
             description
-            createdAt
             createdBy {
                 coords
                 road
@@ -15,13 +14,9 @@ export const POST_DETAILS_QUERY = gql`
                 houseImages
                 users {
                     name
-                    gender
-                    bio
                     studyYear
-                    isSmoker
                     imageUrl
                     course
-                    birthday
                 }
             }
         }

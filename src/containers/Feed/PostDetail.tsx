@@ -3,10 +3,10 @@ import { graphql } from 'react-apollo';
 import { Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Colors } from '../../consts';
-import { toConstantWidth } from '../../utils/PercentageConversion';
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
-import { POST_DETAILS_QUERY } from '../../graphql/queries';
+import { Colors } from '../../consts';
+import { UPDATE_POST_MUTATION } from '../../graphql/mutations';
+import { toConstantWidth } from '../../utils/PercentageConversion';
 
 interface Props  {
     navigation: {state: {
@@ -85,11 +85,12 @@ export class PostDetail extends React.Component<Props, State> {
     }
 }
 
-export default graphql(POST_DETAILS_QUERY, {
+export default graphql(UPDATE_POST_MUTATION, {
     options(props: Props) {
         return {
             variables: {
-                id: props.navigation.state.params.data.id
+                id: props.navigation.state.params.data.id,
+                lastSeen: new Date().toISOString()
             }
         };
     },

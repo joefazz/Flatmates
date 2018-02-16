@@ -35,7 +35,7 @@
         "shake": "adb shell input keyevent 82",
         "test": "jest",
         "postinstall": "rm ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json",
-        "update-tests": "jest -u"
+        "update-api-types": "apollo-codegen introspect-schema http://localhost:4000 --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts"
     },
     "jest": {
         "preset": "react-native",

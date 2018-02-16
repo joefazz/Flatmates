@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 // Get the user and all user's groups
 export const USER_DETAILS_QUERY = gql`
-    query user($facebookUserId: String!) {
+    query UserDetail($facebookUserId: String!) {
         user(facebookUserId: $facebookUserId) {
             course
             bio
