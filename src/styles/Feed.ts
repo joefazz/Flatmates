@@ -33,6 +33,7 @@ export const feed = StyleSheet.create({
         shadowOpacity: 0.7,
         shadowRadius: 4,
         shadowColor: Colors.grey,
+        elevation: 2,
         alignItems: 'center',
         backgroundColor: Colors.offWhite
     },
@@ -66,6 +67,7 @@ export const feed = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 4,
         shadowColor: Colors.grey,
+        elevation: 2
     },
 
     expandText: {
@@ -115,14 +117,7 @@ export const feed = StyleSheet.create({
 
     // Detail Styles
     detailImage: {
-        height: toConstantHeight(30),
-        shadowOffset: {
-            height: 2,
-            width: 0
-        },
-        shadowColor: Colors.grey,
-        shadowRadius: 2,
-        shadowOpacity: 0.7,
+        height: toConstantHeight(30)
     },
 
     swiperButtonWrapperStyle: {
@@ -158,6 +153,7 @@ export const feed = StyleSheet.create({
         shadowColor: Colors.grey,
         shadowRadius: 2,
         shadowOpacity: 0.7,
+        elevation: 2
     },
 
     detailContentWrapper: {
@@ -197,7 +193,8 @@ export const feed = StyleSheet.create({
             height: 0
         },
         shadowRadius: 5,
-        shadowOpacity: 0.7
+        shadowOpacity: 0.7,
+        elevation: 2
     },
 
     descriptionText: {
@@ -230,7 +227,8 @@ export const feed = StyleSheet.create({
         },
         shadowColor: Colors.grey,
         shadowRadius: 5,
-        shadowOpacity: 0.7
+        shadowOpacity: 0.7,
+        elevation: 2,
     },
 
     avatarWrapper: {

@@ -26,8 +26,6 @@ export class ProfileComponent extends React.Component<Props, State> {
         this._deltaY = new Animated.Value(0);
     }
 
-
-
     renderPreference = ({ item }) => {
         return (
             <View style={ profile.preference }>
@@ -48,7 +46,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                         extrapolateRight: 'clamp'
                     })
                 }]}>
-                    <Animated.View style={[ profile.headerTextWrapper, 
+                    <Animated.View style={[ profile.headerTextWrapper,
                         {
                             maxHeight: this._deltaY.interpolate({
                                 inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
@@ -94,13 +92,12 @@ export class ProfileComponent extends React.Component<Props, State> {
                             extrapolateRight: 'clamp'
                         })
                     }]}>
-                        <Avatar 
-                            xlarge={true} 
-                            rounded={true} 
+                        <Avatar
+                            xlarge={true}
+                            rounded={true}
                             source={{uri: this.props.profile.get('imageUrl')}} />
                     </Animated.View>
                 </Animated.View>
-
 
                 <Interactable.View
                     verticalOnly
@@ -135,7 +132,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                                 </View>
                             </View>
 
-                            {this.props.profile.get('house') ? 
+                            {this.props.profile.get('house') ?
                                 <View style={ profile.contentWrapper }>
                                     <Text style={ profile.aboutLabel }>Road Name</Text>
                                     <Text style={ profile.aboutText }>{this.props.profile.get('house').get('road')}</Text>
@@ -155,11 +152,11 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     </View>
                                     <ScrollView contentContainerStyle={ profile.preferencesWrapper }>
                                         <Text style={ profile.aboutLabel }>Flatmates</Text>
-                                        {this.props.profile.get('house').get('users').map(flatmate => {
+                                        {this.props.profile.get('house').get('users').map((flatmate) => {
                                             return <Text key={flatmate.get('name')} style={ profile.aboutText }>{flatmate.get('name')}</Text>;
                                         })}
                                     </ScrollView>
-                                </View> 
+                                </View>
                                 :
                                 <View style={ profile.contentWrapper }>
                                     <Text style={[ profile.aboutText, {color: Colors.brandSecondaryColor} ]}>House Preferences</Text>
@@ -176,17 +173,16 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     <Text style={[ profile.aboutLabel, { marginTop: 10 }] }>Preferred Gender</Text>
                                     <Text style={ profile.aboutText }>{this.props.profile.get('genderPreference')}</Text>
                                     <Text style={[ profile.aboutLabel, { marginTop: 10 }]}>Preferred Location</Text>
-                                    <Mapbox.MapView 
+                                    <Mapbox.MapView
                                         styleURL={Mapbox.StyleURL.Street}
                                         zoomLevel={15}
                                         centerCoordinate={[11.256, 43.770]}
                                         style={{ height: Metrics.screenHeight * 0.085, marginBottom: 10, borderRadius: 3, alignSelf: 'stretch' }}>
                                         <Mapbox.PointAnnotation
-                                            key='pointAnnotation'
-                                            id='pointAnnotation'
-                                            coordinate={[11.256, 43.770]}>
-
-                                        </Mapbox.PointAnnotation>
+                                            key={'pointAnnotation'}
+                                            id={'pointAnnotation'}
+                                            coordinate={[11.256, 43.770]}
+                                        />
                                     </Mapbox.MapView>
                                 </View>}
                         </View>

@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Animated, Easing, FlatList, RefreshControl, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { Animated, Easing, FlatList, Platform, RefreshControl, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { FloatingAction } from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Colors, Font } from '../../consts';
@@ -97,6 +98,12 @@ export class PostListComponent extends React.Component<Props, State> {
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
+                <FloatingAction
+                    buttonColor={Colors.brandSecondaryColor}
+                    showBackground={false}
+                    floatingIcon={<Icon name={'md-add'} size={26} color={Colors.white} />}
+                    onPressMain={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})}
+                />
             </>
         );
     }
@@ -134,11 +141,14 @@ export class PostListComponent extends React.Component<Props, State> {
 
     private renderCreateHeader = () => {
         // return <View />;
-        return (
-            <TouchableHighlight underlayColor={Colors.grey} onPress={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})} style={ feed.createCard } >
-                <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light'})} ]}>+</Text>
-            </TouchableHighlight>
-        );
+        if (Platform.OS === 'ios') {
+            return (
+                <TouchableHighlight underlayColor={Colors.grey} onPress={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})} style={ feed.createCard } >
+                    <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light'})} ]}>+</Text>
+                </TouchableHighlight>
+            );
+        }
+        return <View />
     }
 
     private animateFilter = () => {

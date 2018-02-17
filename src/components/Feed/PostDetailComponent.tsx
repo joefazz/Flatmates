@@ -125,13 +125,15 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             id={'chosen'}
                             coordinate={this.props.house.coords}
                         />
+                    </Mapbox.MapView>
+                    <View style={{ position: 'absolute', top: toConstantHeight(7), left: toConstantWidth(7) }}>
                         <TouchableHighlight underlayColor={Colors.grey} style={feed.magnifierWrapper} onPress={() => this.setState({ zoomLevel: this.state.zoomLevel + 1 })}>
-                            <Icon name={'magnifier-add'} size={24} />
+                                <Icon name={'magnifier-add'} size={24} />
                         </TouchableHighlight>
                         <TouchableHighlight underlayColor={Colors.grey} style={feed.magnifierWrapper} onPress={() => this.setState({ zoomLevel: this.state.zoomLevel - 1 })}>
-                            <Icon name={'magnifier-remove'} size={24} />
+                                <Icon name={'magnifier-remove'} size={24} />
                         </TouchableHighlight>
-                    </Mapbox.MapView>
+                    </View>
                 </View>
                 <View>
                     <Text style={[ feed.userRow, feed.labelText ]}>Flatmates</Text>
@@ -147,7 +149,6 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         buttonStyle={{ width: toConstantWidth(100) }}
                     />
                 </View>
-
             </ScrollView>
         );
     }

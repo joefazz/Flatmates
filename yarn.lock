@@ -5936,6 +5936,12 @@ react-native-fbsdk@^0.7.0:
     pump "^1.0.2"
     xcode "^0.9.3"
 
+react-native-floating-action@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-floating-action/-/react-native-floating-action-1.9.0.tgz#5a10f47c5a1c2bf8fc1e07435d60f12576958835"
+  dependencies:
+    lodash "^4.17.4"
+
 react-native-gesture-handler@^1.0.0-alpha.40:
   version "1.0.0-alpha.40"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.0-alpha.40.tgz#b0eb2a158db1d38d2eee17d8600125dd82fa5989"

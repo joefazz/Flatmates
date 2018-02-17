@@ -10,7 +10,7 @@ import {
 
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
-import { EditButton, FloatingActionButton } from '../widgets';
+import { EditButton } from '../widgets';
 
 interface Props  {
     profile: { get?: (key: string) => object, merge?: (newState: object) => object }
@@ -78,7 +78,6 @@ export class Profile extends React.Component<Props, State> {
             <View style={{flex: 1}}>
                 <StatusBar barStyle={'light-content'} />
                 <ProfileComponent {...this.state} />
-                <FloatingActionButton iconName={'edit'} />
             </View>
         );
     }

@@ -45,7 +45,7 @@ export class PostDetail extends React.Component<Props, State> {
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
         ),
-        headerRight: <Icon name={'ios-star-outline'} style={{ marginRight: toConstantWidth(1.8) }} color={Colors.white} size={28} />
+        headerRight: Platform.OS === 'ios' ? <Icon name={'ios-star-outline'} style={{ marginRight: toConstantWidth(1.8) }} color={Colors.white} size={28} /> : <React.Fragment />
     });
 
     constructor(props) {

@@ -86,6 +86,7 @@
         "react-native-calendars": "^1.17.0",
         "react-native-elements": "^0.19.0",
         "react-native-fbsdk": "^0.7.0",
+        "react-native-floating-action": "^1.9.0",
         "react-native-gesture-handler": "^1.0.0-alpha.40",
         "react-native-image-crop-picker": "^0.19.2",
         "react-native-interactable": "^0.1.10",

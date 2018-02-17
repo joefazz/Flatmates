@@ -172,7 +172,9 @@ export class Login extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        StatusBar.setBarStyle('dark-content');
+        if (Platform.OS === 'ios') {
+            StatusBar.setBarStyle('dark-content');
+        }
     }
 
     componentWillReceiveProps(newProps) {
