@@ -42,6 +42,7 @@ interface State {
 export class PostDetail extends React.Component<Props, State> {
     protected static navigationOptions = ({ navigation }) => ({
         title: 'Post Detail',
+        headerTitle: navigation.state.params.data.createdBy.road,
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
         ),

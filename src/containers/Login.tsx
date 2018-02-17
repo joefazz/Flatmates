@@ -22,8 +22,8 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
+import Box from '../../Assets/box.png';
 import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
-import Box from '../../Assets/Joes_sexy_box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
 import { MapboxSDK } from '../App';
 import Client from '../Client';
@@ -35,12 +35,8 @@ import {
 } from '../graphql/mutations';
 import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
 import {
-    UpdateUserCreateHouseMutation,
-    UpdateUserCreateHouseMutationVariables,
     UpdateUserMutation,
     UpdateUserMutationVariables,
-    UpdateUserUpdateHouseMutation,
-    UpdateUserUpdateHouseMutationVariables
 } from '../graphql/Types';
 import { LoginStatus } from '../redux/ReduxTypes';
 import { loginWithFacebook, signupWithFacebook } from '../redux/Routines';
