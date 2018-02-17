@@ -16,14 +16,14 @@ interface Props  {
             }
         }
     }, push: (route: string, params: {fbUserId?: string, data?: object}) => void},
-    loading: boolean,
-    post: object
+    mutate: ({ variables: { id: string, lastSeen: Date }}) => Promise<any>
 };
 
 interface State {
     data: {
         id?: string,
-        createdAt: number,
+        createdAt: string,
+        lastSeen: string,
         createdBy: {
             billsPrice: number,
             rentPrice: number,
@@ -41,7 +41,7 @@ interface State {
 
 export class PostDetail extends React.Component<Props, State> {
     protected static navigationOptions = ({ navigation }) => ({
-        title: navigation.state.params.data.createdBy.road,
+        title: 'Post Detail',
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
         ),
@@ -53,18 +53,31 @@ export class PostDetail extends React.Component<Props, State> {
 
         this.state = {
             data: props.navigation.state.params.data,
-            isLoading: props.loading
+            isLoading: true
         };
     }
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.loading !== this.state.isLoading) {
-            this.setState({ isLoading: newProps.loading });
+    async getPostDetails() {
+        try {
+            const { data: { updatePost } } = await this.props.mutate({
+                variables: {
+                    id: this.props.navigation.state.params.data.id,
+                    lastSeen: new Date().toISOString()
+                }
+            });
 
-            if (newProps.post !== this.state.data) {
-                this.setState({ data: newProps.post });
-            }
+            const combinedData = Object.assign(this.state.data, updatePost);
+
+            console.log(combinedData);
+
+            this.setState({ isLoading: false, data: combinedData });
+        } catch (error) {
+            console.log('There was an error: ' + error + '... This will turn into a ui element eventually...');
         }
+    }
+
+    componentDidMount() {
+        this.getPostDetails();
     }
 
     render() {
@@ -76,6 +89,7 @@ export class PostDetail extends React.Component<Props, State> {
                     description={this.state.data.description}
                     house={this.state.data.createdBy}
                     createdAt={this.state.data.createdAt}
+                    lastSeen={this.state.data.lastSeen}
                     id={this.state.data.id}
                     isLoading={this.state.isLoading}
                     navigation={this.props.navigation}
@@ -85,21 +99,4 @@ export class PostDetail extends React.Component<Props, State> {
     }
 }
 
-export default graphql(UPDATE_POST_MUTATION, {
-    options(props: Props) {
-        return {
-            variables: {
-                id: props.navigation.state.params.data.id,
-                lastSeen: new Date().toISOString()
-            }
-        };
-    },
-    // @ts-ignore
-    props({ data: { loading, post } }) {
-        return {
-            loading,
-            post,
-        };
-    }
-    // @ts-ignore
-})(PostDetail);
+export default graphql(UPDATE_POST_MUTATION)(PostDetail);

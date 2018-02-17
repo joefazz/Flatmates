@@ -24,7 +24,8 @@ interface Props {
         coords: Array<number>
     };
 
-    createdAt: number,
+    createdAt: string,
+    lastSeen: string,
 
     description: string,
     title: string,
@@ -60,9 +61,11 @@ export class PostDetailComponent extends React.Component<Props, State> {
     }
 
     render() {
-        if (this.props.isLoading || this.props.house.users.length === 0) {
+        if (this.props.isLoading && !this.props.house.users) {
             return <ActivityIndicator />
         }
+
+        console.log(this.props);
 
         return (
             <ScrollView>
@@ -90,7 +93,11 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                 <Icon style={{fontSize: toConstantFontSize(3.5), color: Colors.airbnbRed}} name={'flag'} />
                             </TouchableOpacity>
                         </View>
-                        <Text style={ feed.dateText }>Last Viewed: {moment(this.props.createdAt).utc().format('DD MMMM')} at {moment(this.props.createdAt).utc().format('HH:MM')}</Text>
+                        <Text style={ feed.dateText }>
+                            {this.props.lastSeen ?
+                                'Last Viewed: ' + moment(this.props.lastSeen).utc().format('DD MMMM') + ' at ' + moment(this.props.lastSeen).utc().format('HH:MM')
+                                :
+                                'Created On: ' + moment(this.props.createdAt).utc().format('DD MMM') + ' at ' + moment(this.props.createdAt).utc().format('HH:MM')}</Text>
                         <Text style={ feed.spacesText }>{this.props.house.spaces} Spaces Remaining</Text>
                     </View>
                     <View style={ feed.descriptionWrapper }>
@@ -158,7 +165,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                 </View>
                 <View style={ feed.userDetailsWrapper }>
                     <Text style={ feed.userNameText }>{user.name}</Text>
-                    <Text style={ feed.userInfoText }>Placement year student studying {user.course}</Text>
+                    <Text style={ feed.userInfoText }>{user.studyYear} student studying {user.course}</Text>
                 </View>
             </RectButton>
         )

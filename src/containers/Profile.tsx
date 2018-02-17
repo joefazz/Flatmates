@@ -3,6 +3,10 @@ import { compose, graphql } from 'react-apollo';
 import { Platform, StatusBar, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
+import {
+    UserDetailQuery,
+    UserDetailQueryVariables
+} from '../graphql/Types';
 
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';

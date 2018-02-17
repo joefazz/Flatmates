@@ -22,6 +22,7 @@
         "subscriptions-transport-ws": "^0.9.1",
         "tslint": "^5.9.1",
         "tslint-react": "^3.4.0",
+        "typescript": "^2.7.2",
         "url": "^0.11.0"
     },
     "scripts": {
