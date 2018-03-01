@@ -4,13 +4,12 @@ import Login from '../containers/Login';
 import { HomeNavigator } from './Home';
 
 const routesConfig = {
-    Login: { screen: Login },
     Home: { screen: HomeNavigator }
+    Login: { screen: Login },
 };
 
 const navConfig = {
     headerMode: 'none',
-    initialRoute: 'Home',
     navigationOptions: {
         gesturesEnabled: false
     }

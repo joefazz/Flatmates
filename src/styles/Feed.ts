@@ -207,13 +207,13 @@ export const feed = StyleSheet.create({
         flexDirection: 'row',
         marginVertical: toConstantHeight(1),
         alignItems: 'center',
-        justifyContent: 'space-around'
+        justifyContent: 'center'
     },
 
     priceText: {
         ...FontFactory({ weight: 'Bold' }),
         color: Colors.brandTertiaryColor,
-        fontSize: toConstantFontSize(1.8)
+        fontSize: toConstantFontSize(2)
     },
 
     userRow: {

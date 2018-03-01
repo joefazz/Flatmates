@@ -1,6 +1,5 @@
 // Modules
 import * as Immutable from 'immutable';
-import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers';
 import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
@@ -22,8 +21,6 @@ if (__DEV__) {
         return state.toJS();
     }}));
 }
-
-middlewares.push(createReactNavigationReduxMiddleware('root', (state) => state.nav));
 
 // TODO: WILL HAVE TO ACCOUNT FOR THE REHYDRATE ACTION BEING FIRED AND MAKING SURE NO ACTIONS CAN FIRE UNTIL THAT COMPLETES
 // THIS SHOULD BE EASY WITH SAGA

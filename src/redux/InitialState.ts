@@ -1,4 +1,3 @@
-import { state } from '../navigators/Root';
 import { LoginStatus } from './ReduxTypes';
 
 const initialState = {
@@ -27,8 +26,7 @@ const initialState = {
         isErrorFetchingPosts: false,
         isErrorCreatingPost: false,
         error: '',
-    },
-    nav: state
+    }
 };
 
 export default initialState;
