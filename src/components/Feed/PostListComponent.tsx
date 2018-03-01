@@ -98,12 +98,12 @@ export class PostListComponent extends React.Component<Props, State> {
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
-                <FloatingAction
+                {Platform.OS === 'android' ? <FloatingAction
                     buttonColor={Colors.brandSecondaryColor}
                     showBackground={false}
                     floatingIcon={<Icon name={'md-add'} size={26} color={Colors.white} />}
                     onPressMain={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})}
-                />
+                /> : <React.Fragment />}
             </>
         );
     }
