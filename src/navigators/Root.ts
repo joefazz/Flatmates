@@ -1,11 +1,11 @@
-import { StackNavigator } from 'react-navigation';
+import { SwitchNavigator } from 'react-navigation';
 
 import Login from '../containers/Login';
 import { HomeNavigator } from './Home';
 
 const routesConfig = {
-    Home: { screen: HomeNavigator }
     Login: { screen: Login },
+    Home: { screen: HomeNavigator }
 };
 
 const navConfig = {
@@ -15,6 +15,6 @@ const navConfig = {
     }
 };
 
-const RootNavigator = StackNavigator(routesConfig, navConfig);
+const RootNavigator = SwitchNavigator(routesConfig, navConfig);
 
 export default RootNavigator;
