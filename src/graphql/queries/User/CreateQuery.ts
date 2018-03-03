@@ -1,9 +1,7 @@
 import gql from 'graphql-tag';
 
-
-
 export const USER_POST_QUERY = gql`
-    query user($facebookUserId: String!) {
+    query UserPost($facebookUserId: String!) {
         user(facebookUserId: $facebookUserId) {
             house {
                 shortID

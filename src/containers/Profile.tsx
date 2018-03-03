@@ -3,10 +3,14 @@ import { compose, graphql } from 'react-apollo';
 import { Platform, StatusBar, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
+import {
+    UserDetailQuery,
+    UserDetailQueryVariables
+} from '../graphql/Types';
 
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
-import { EditButton, FloatingActionButton } from '../widgets';
+import { EditButton } from '../widgets';
 
 interface Props  {
     profile: { get?: (key: string) => object, merge?: (newState: object) => object }
@@ -39,7 +43,7 @@ export class Profile extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.loading !== this.props.loading) {
+        if (newProps.loading !== this.props.loading && newProps.user) {
             // Remove null properties
             const trimmedData: { house?: { users: Array<any> } } = {};
 
@@ -74,7 +78,6 @@ export class Profile extends React.Component<Props, State> {
             <View style={{flex: 1}}>
                 <StatusBar barStyle={'light-content'} />
                 <ProfileComponent {...this.state} />
-                <FloatingActionButton iconName={'edit'} />
             </View>
         );
     }

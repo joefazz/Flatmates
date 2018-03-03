@@ -15,12 +15,14 @@ function *posts() {
     yield put(getPosts.request());
 
     try {
-        const { data } = yield call (Client.query, {
+        const { data: { allPosts } } = yield call (Client.query, {
             query: POST_LIST_QUERY,
-            variables: {take: 10, skip: 0}
+            variables: {take: 10}
         });
 
-        yield put(getPosts.success(data.allPosts));
+        console.log(allPosts);
+
+        yield put(getPosts.success(allPosts));
     } catch (error) {
         yield put(getPosts.failure(error));
     } finally {

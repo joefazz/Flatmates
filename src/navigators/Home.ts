@@ -17,7 +17,7 @@ const routeConfig = {
 const navConfig = {
     swipeEnabled: false,
     animationEnabled: Platform.OS === 'android' ? true : false,
-    lazy: false,
+    lazy: true,
     tabBarPosition: 'bottom',
     tabBarOptions: {
         activeTintColor: Colors.brandSecondaryColor,

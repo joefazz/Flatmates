@@ -3,10 +3,10 @@ import { graphql } from 'react-apollo';
 import { Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Colors } from '../../consts';
-import { toConstantWidth } from '../../utils/PercentageConversion';
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
-import { POST_DETAILS_QUERY } from '../../graphql/queries';
+import { Colors } from '../../consts';
+import { UPDATE_POST_MUTATION } from '../../graphql/mutations';
+import { toConstantWidth } from '../../utils/PercentageConversion';
 
 interface Props  {
     navigation: {state: {
@@ -16,14 +16,14 @@ interface Props  {
             }
         }
     }, push: (route: string, params: {fbUserId?: string, data?: object}) => void},
-    loading: boolean,
-    post: object
+    mutate: ({ variables: { id: string, lastSeen: Date }}) => Promise<any>
 };
 
 interface State {
     data: {
         id?: string,
-        createdAt: number,
+        createdAt: string,
+        lastSeen: string,
         createdBy: {
             billsPrice: number,
             rentPrice: number,
@@ -41,11 +41,12 @@ interface State {
 
 export class PostDetail extends React.Component<Props, State> {
     protected static navigationOptions = ({ navigation }) => ({
-        title: navigation.state.params.data.createdBy.road,
+        title: 'Post Detail',
+        headerTitle: navigation.state.params.data.createdBy.road,
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
         ),
-        headerRight: <Icon name={'ios-star-outline'} style={{ marginRight: toConstantWidth(1.8) }} color={Colors.white} size={28} />
+        headerRight: Platform.OS === 'ios' ? <Icon name={'ios-star-outline'} style={{ marginRight: toConstantWidth(1.8) }} color={Colors.white} size={28} /> : <React.Fragment />
     });
 
     constructor(props) {
@@ -53,18 +54,31 @@ export class PostDetail extends React.Component<Props, State> {
 
         this.state = {
             data: props.navigation.state.params.data,
-            isLoading: props.loading
+            isLoading: true
         };
     }
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.loading !== this.state.isLoading) {
-            this.setState({ isLoading: newProps.loading });
+    async getPostDetails() {
+        try {
+            const { data: { updatePost } } = await this.props.mutate({
+                variables: {
+                    id: this.props.navigation.state.params.data.id,
+                    lastSeen: new Date().toISOString()
+                }
+            });
 
-            if (newProps.post !== this.state.data) {
-                this.setState({ data: newProps.post });
-            }
+            const combinedData = Object.assign(this.state.data, updatePost);
+
+            console.log(combinedData);
+
+            this.setState({ isLoading: false, data: combinedData });
+        } catch (error) {
+            console.log('There was an error: ' + error + '... This will turn into a ui element eventually...');
         }
+    }
+
+    componentDidMount() {
+        this.getPostDetails();
     }
 
     render() {
@@ -76,6 +90,7 @@ export class PostDetail extends React.Component<Props, State> {
                     description={this.state.data.description}
                     house={this.state.data.createdBy}
                     createdAt={this.state.data.createdAt}
+                    lastSeen={this.state.data.lastSeen}
                     id={this.state.data.id}
                     isLoading={this.state.isLoading}
                     navigation={this.props.navigation}
@@ -85,20 +100,4 @@ export class PostDetail extends React.Component<Props, State> {
     }
 }
 
-export default graphql(POST_DETAILS_QUERY, {
-    options(props: Props) {
-        return {
-            variables: {
-                id: props.navigation.state.params.data.id
-            }
-        };
-    },
-    // @ts-ignore
-    props({ data: { loading, post } }) {
-        return {
-            loading,
-            post,
-        };
-    }
-    // @ts-ignore
-})(PostDetail);
+export default graphql(UPDATE_POST_MUTATION)(PostDetail);

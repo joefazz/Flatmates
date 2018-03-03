@@ -3,8 +3,7 @@ import MapboxClient from 'mapbox/lib/services/geocoding';
 import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { AsyncStorage, BackHandler, Image } from 'react-native';
-import { addNavigationHelpers, NavigationActions } from 'react-navigation';
-import { createReduxBoundAddListener } from 'react-navigation-redux-helpers';
+import { NavigationActions } from 'react-navigation';
 import { connect, Provider } from 'react-redux';
 import { persistStore } from 'redux-persist-immutable';
 
@@ -17,31 +16,7 @@ import { base } from './styles';
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 
-const addListener = createReduxBoundAddListener('root');
-
 export const MapboxSDK = new MapboxClient(MAPBOX_API_TOKEN);
-
-class AppNav extends React.Component<{dispatch: () => any, nav: object}> {
-    render() {
-        return (
-            <RootNavigation
-                navigation={
-                    addNavigationHelpers({
-                        dispatch: this.props.dispatch,
-                        state: this.props.nav,
-                        addListener
-                    })
-                }
-            />
-        );
-    }
-}
-
-const mapStateToProps = (state) => ({
-    nav: state.get('nav'),
-});
-
-const AppWithNavigationState = connect(mapStateToProps)(AppNav);
 
 function persistentStore(onComplete) {
     return persistStore(
@@ -69,7 +44,7 @@ export default class Root extends React.Component<Props, State> {
 
     // TODO: MAKE SURE REDUX CLEARS STORE IF SOMEONE EXITS OR CRASHES DURING SET UP OTHERWISE THE FACEBOOK QUERY WILL NEVER UPDATE THE UI
     componentWillMount() {
-        // AsyncStorage.clear().catch(error => console.log(error));
+        AsyncStorage.clear().catch((error) => console.log(error));
         persistentStore(() => {
             this.setState({ isRehydrated: true });
         });
@@ -91,7 +66,7 @@ export default class Root extends React.Component<Props, State> {
         return (
             <ApolloProvider client={client}>
                 <Provider store={store}>
-                    <AppWithNavigationState />
+                    <RootNavigation />
                 </Provider>
             </ApolloProvider>
         );

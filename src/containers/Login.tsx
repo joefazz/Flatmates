@@ -6,7 +6,6 @@ import {
     ImageBackground,
     ImageURISource,
     KeyboardAvoidingView,
-    Picker,
     Platform,
     ScrollView,
     StatusBar,
@@ -23,8 +22,8 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
+import Box from '../../Assets/box.png';
 import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
-import Box from '../../Assets/Joes_sexy_box.png';
 import facebook_template from '../../Assets/Man_Silhouette.png';
 import { MapboxSDK } from '../App';
 import Client from '../Client';
@@ -35,6 +34,10 @@ import {
     UPDATE_USER_UPDATE_HOUSE_MUTATION,
 } from '../graphql/mutations';
 import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
+import {
+    UpdateUserMutation,
+    UpdateUserMutationVariables,
+} from '../graphql/Types';
 import { LoginStatus } from '../redux/ReduxTypes';
 import { loginWithFacebook, signupWithFacebook } from '../redux/Routines';
 import { base, login } from '../styles';
@@ -108,13 +111,9 @@ interface State {
     bio: string,
     isSmoker: boolean,
     studyYear: string,
-    studyYearEnabled: boolean,
     course: string,
     minPrice: number,
     maxPrice: number,
-    minEnabled: boolean,
-    maxEnabled: boolean,
-    genderEnabled: boolean,
     genderPreference: string,
     socialScore: number,
 
@@ -159,11 +158,6 @@ export class Login extends React.Component<Props, State> {
             spaces: 0,
             houseImages: [],
 
-            studyYearEnabled: false,
-            minEnabled: false,
-            maxEnabled: false,
-            genderEnabled: false,
-
             aboutCheck: false,
             friendsListCheck: false,
             activityCheck: false,
@@ -174,7 +168,9 @@ export class Login extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        StatusBar.setBarStyle('dark-content');
+        if (Platform.OS === 'ios') {
+            StatusBar.setBarStyle('dark-content');
+        }
     }
 
     componentWillReceiveProps(newProps) {
@@ -369,7 +365,7 @@ export class Login extends React.Component<Props, State> {
                                         items={[{section: false, label: 'Select the year you\'re currently in'}, {label: 'First Year'}, {label: 'Second Year'}, {label: 'Third Year'}, {label: 'Masters'}, {label: 'Placement Year'}, {label: 'PHd'}]}
                                         initValue={'First'}
                                         cancelText={'Cancel'}
-                                        onChange={(item) => this.setState({ studyYear: item })}
+                                        onChange={(item) => this.setState({ studyYear: item.label })}
                                     />
                                 </View>
                             </View>
@@ -442,72 +438,38 @@ export class Login extends React.Component<Props, State> {
                         <View style={[ login.mainContent, {justifyContent: 'flex-start'} ]}>
                             <View style={ login.marginBottom }>
                                 <Text style={ base.labelText }>Minimum Price (incl. bills)</Text>
-                                <TouchableOpacity style={ login.pickerActivator } onPress={() => this.setState({ minEnabled: true, genderEnabled: false, maxEnabled: false })}>
-                                    <Text style={ login.pickerActivatorText }>£{this.state.minPrice}</Text>
-                                </TouchableOpacity>
+                                <Pickerise
+                                    items={[{section: false, label: 'Minimum price you\'re willing to pay monthly'}, {label: '£150'}, {label: '£200'}, {label: '£250'}, {label: '£300'}, { label: '£350'}, { label: '£400'}, { label: '£450'}, { label: '£500'}]}
+                                    initValue={'£300'}
+                                    cancelText={'Cancel'}
+                                    onChange={({ label }) => this.setState({ genderPreference: label.replace('£', '') })}
+                                />
                             </View>
 
                             <View style={ login.marginVertical }>
                                 <Text style={ base.labelText }>Maximum Price (incl. bills)</Text>
-                                <TouchableOpacity style={ login.pickerActivator } onPress={() => this.setState({ maxEnabled: true, genderEnabled: false, minEnabled: false })}>
-                                    <Text style={ login.pickerActivatorText }>£{this.state.maxPrice}</Text>
-                                </TouchableOpacity>
+                                <Pickerise
+                                    items={[{section: false, label: 'Maximum price you\'re willing to pay monthly'}, {label: '£250'}, {label: '£300'}, {label: '£350'}, {label: '£400'}, {label: '£450'}, {label: '£500'}, {label: '£550'}, {label: '£600'}]}
+                                    initValue={'£500'}
+                                    cancelText={'Cancel'}
+                                    onChange={({ label }) => this.setState({ maxPrice: label.replace('£', '') })}
+                                />
                             </View>
 
                             <View style={  login.marginTop }>
                                 <Text style={ base.labelText }>Gender Majority</Text>
-                                <TouchableOpacity style={ login.pickerActivator } onPress={() => this.setState({ genderEnabled: true, maxEnabled: false, minEnabled: false })}>
-                                    <Text style={ login.pickerActivatorText }>{this.state.genderPreference}</Text>
-                                </TouchableOpacity>
+                                <Pickerise
+                                    items={[{section: false, label: 'Select the gender you would prefer to live with'}, {label: 'Male'}, {label: 'Female'}, {label: 'LGBT'}, {label: 'No Preference'}]}
+                                    initValue={'No Preference'}
+                                    cancelText={'Cancel'}
+                                    onChange={({ label }) => this.setState({ genderPreference: label })}
+                                />
                             </View>
                             {/* location would be good with with defaulting to university location */}
                         </View>
                         <View style={ login.pageFooter }>
                             <Button title={'Confirm'} fontFamily={Font.FONT_FAMILY} fontSize={20} onPress={this.completeUserSetup} buttonStyle={ base.buttonStyle } />
                         </View>
-                        {this.state.minEnabled ?
-                            <View style={ login.pickerWrapper }>
-                                <Picker
-                                    enabled={this.state.minEnabled}
-                                    selectedValue={this.state.minPrice}
-                                    onValueChange={(itemValue) => this.setState({ minPrice: itemValue}, () => setTimeout(() => this.setState({ minEnabled: false}), 100))}
-                                    prompt={'Min Price'}
-                                >
-                                    <Picker.Item label={'£200'} value={200} />
-                                    <Picker.Item label={'£250'} value={250} />
-                                    <Picker.Item label={'£300'} value={300} />
-                                    <Picker.Item label={'£350'} value={350} />
-                                    <Picker.Item label={'£400'} value={400} />
-                                </Picker>
-                            </View> : <View/> }
-                        {this.state.maxEnabled ?
-                            <View style={ login.pickerWrapper }>
-                                <Picker
-                                    enabled={this.state.maxEnabled}
-                                    selectedValue={this.state.maxPrice}
-                                    onValueChange={(itemValue) => this.setState({  maxPrice: itemValue }, () => setTimeout(() => this.setState({ maxEnabled: false}), 100))}
-                                    prompt={'Max Price'}
-                                >
-                                    <Picker.Item label={'£350'} value={350} />
-                                    <Picker.Item label={'£400'} value={400} />
-                                    <Picker.Item label={'£450'} value={450} />
-                                    <Picker.Item label={'£500'} value={500} />
-                                    <Picker.Item label={'£550'} value={550} />
-                                </Picker>
-                            </View> : <View/> }
-                        {this.state.genderEnabled ?
-                            <View style={ login.pickerWrapper }>
-                                <Picker
-                                    enabled={this.state.genderEnabled}
-                                    selectedValue={this.state.genderPreference}
-                                    onValueChange={(itemValue) => this.setState({ genderPreference: itemValue}, () => setTimeout(() => this.setState({ genderEnabled: false }), 100))}
-                                    prompt={'Gender Preference'}
-                                >
-                                    <Picker.Item label={'Male'} value={'Male'} />
-                                    <Picker.Item label={'Female'} value={'Female'} />
-                                    <Picker.Item label={'No Preference'} value={'No Preference'} />
-                                </Picker>
-                            </View> : <View/> }
                     </View>
                 );
             } else {
@@ -566,7 +528,7 @@ export class Login extends React.Component<Props, State> {
                             <View style={{ marginRight: 30 }}>
                                 <Text style={ base.labelText }>Rent Per Month</Text>
                                 <View style={ login.priceInputWrapper }>
-                                    <Text style={[ login.poundStyle, parseInt(this.state.rentPrice as string, 10) > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
+                                    <Text style={[ login.poundStyle, Number(this.state.rentPrice as string) > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                     <TextInput
                                         placeholder={'430.00'}
                                         keyboardType={'numeric'}
@@ -579,7 +541,7 @@ export class Login extends React.Component<Props, State> {
                             <View>
                                 <Text style={ base.labelText }>Bills Per Month</Text>
                                 <View style={[ login.priceInputWrapper ]}>
-                                    <Text style={[ login.poundStyle, parseInt(this.state.billsPrice as string, 10) > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
+                                    <Text style={[ login.poundStyle, Number(this.state.billsPrice as string) > 0 ? {color: Colors.textHighlightColor} : {} ]}>£</Text>
                                     <TextInput
                                         placeholder={'23.00'}
                                         keyboardType={'numeric'}
@@ -717,8 +679,8 @@ export class Login extends React.Component<Props, State> {
             this.state.studyYear,
             this.state.isSmoker,
             this.state.socialScore,
-            this.state.minPrice,
-            this.state.maxPrice,
+            Number(this.state.minPrice),
+            Number(this.state.maxPrice),
             this.state.genderPreference
         );
 
@@ -742,9 +704,9 @@ export class Login extends React.Component<Props, State> {
             this.state.shortID as number,
             this.state.road,
             coords as Array<number>,
-            Math.round(parseInt(this.state.rentPrice as string, 10)),
-            Math.round(parseInt(this.state.billsPrice as string, 10)),
-            parseInt(this.state.spaces as string, 10),
+            Math.round(Number(this.state.rentPrice as string)),
+            Math.round(Number(this.state.billsPrice as string)),
+            Number(this.state.spaces as string),
             this.state.houseImages
         );
 
@@ -753,7 +715,7 @@ export class Login extends React.Component<Props, State> {
 
     private completeJoiningHouseSetup = (): void => {
         Client.query({
-            variables: { shortID: parseInt(this.state.shortID as string, 10) },
+            variables: { shortID: Number(this.state.shortID as string) },
             query: HOUSE_DETAILS_QUERY,
         }).then((res: any) => {
             if (res.data.House !== null) {
@@ -844,7 +806,7 @@ export class Login extends React.Component<Props, State> {
 
 }
 
-const updateUser = graphql(UPDATE_USER_MUTATION, {
+const updateUser = graphql<UpdateUserMutation, UpdateUserMutationVariables>(UPDATE_USER_MUTATION, {
     props: ({ mutate }) => ({
         updateUser: (
             facebookUserId,

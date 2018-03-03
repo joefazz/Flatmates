@@ -346,28 +346,28 @@
 			remoteGlobalIDString = CC0127971E3ACC3900B23C9F;
 			remoteInfo = Interactable;
 		};
-		A2D14FD62048AEB400C4DD57 /* PBXContainerItemProxy */ = {
+		A2D150AD2048B10600C4DD57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 2D2A28131D9B038B00D4039D;
 			remoteInfo = "React-tvOS";
 		};
-		A2D14FD82048AEB400C4DD57 /* PBXContainerItemProxy */ = {
+		A2D150AF2048B10600C4DD57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EBF21BDC1FC498900052F4D5;
 			remoteInfo = jsinspector;
 		};
-		A2D14FDA2048AEB400C4DD57 /* PBXContainerItemProxy */ = {
+		A2D150B12048B10600C4DD57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = EBF21BFA1FC4989A0052F4D5;
 			remoteInfo = "jsinspector-tvOS";
 		};
-		A2D14FDF2048AEB400C4DD57 /* PBXContainerItemProxy */ = {
+		A2D150B62048B10700C4DD57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */;
 			proxyType = 2;
@@ -649,15 +649,15 @@
 			isa = PBXGroup;
 			children = (
 				146834041AC3E56700842450 /* libReact.a */,
-				A2D14FD72048AEB400C4DD57 /* libReact.a */,
+				A2D150AE2048B10600C4DD57 /* libReact.a */,
 				3DAD3EA51DF850E9000B6D8A /* libyoga.a */,
 				3DAD3EA71DF850E9000B6D8A /* libyoga.a */,
 				3DAD3EA91DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAB1DF850E9000B6D8A /* libcxxreact.a */,
 				3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */,
 				3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */,
-				A2D14FD92048AEB400C4DD57 /* libjsinspector.a */,
-				A2D14FDB2048AEB400C4DD57 /* libjsinspector-tvOS.a */,
+				A2D150B02048B10600C4DD57 /* libjsinspector.a */,
+				A2D150B22048B10600C4DD57 /* libjsinspector-tvOS.a */,
 				A20D48FA1FCD6AEE00059AAE /* libthird-party.a */,
 				A20D48FC1FCD6AEE00059AAE /* libthird-party.a */,
 				A20D48FE1FCD6AEE00059AAE /* libdouble-conversion.a */,
@@ -846,10 +846,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A2D14FDC2048AEB400C4DD57 /* Products */ = {
+		A2D150B32048B10600C4DD57 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A2D14FE02048AEB400C4DD57 /* libRNGestureHandler.a */,
+				A2D150B72048B10700C4DD57 /* libRNGestureHandler.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1061,7 +1061,7 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = A2D14FDC2048AEB400C4DD57 /* Products */;
+					ProductGroup = A2D150B32048B10600C4DD57 /* Products */;
 					ProjectRef = 1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */;
 				},
 			);
@@ -1328,32 +1328,32 @@
 			remoteRef = A27EA6241FFBDB09007D68D9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A2D14FD72048AEB400C4DD57 /* libReact.a */ = {
+		A2D150AE2048B10600C4DD57 /* libReact.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libReact.a;
-			remoteRef = A2D14FD62048AEB400C4DD57 /* PBXContainerItemProxy */;
+			remoteRef = A2D150AD2048B10600C4DD57 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A2D14FD92048AEB400C4DD57 /* libjsinspector.a */ = {
+		A2D150B02048B10600C4DD57 /* libjsinspector.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libjsinspector.a;
-			remoteRef = A2D14FD82048AEB400C4DD57 /* PBXContainerItemProxy */;
+			remoteRef = A2D150AF2048B10600C4DD57 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A2D14FDB2048AEB400C4DD57 /* libjsinspector-tvOS.a */ = {
+		A2D150B22048B10600C4DD57 /* libjsinspector-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libjsinspector-tvOS.a";
-			remoteRef = A2D14FDA2048AEB400C4DD57 /* PBXContainerItemProxy */;
+			remoteRef = A2D150B12048B10600C4DD57 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A2D14FE02048AEB400C4DD57 /* libRNGestureHandler.a */ = {
+		A2D150B72048B10700C4DD57 /* libRNGestureHandler.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNGestureHandler.a;
-			remoteRef = A2D14FDF2048AEB400C4DD57 /* PBXContainerItemProxy */;
+			remoteRef = A2D150B62048B10700C4DD57 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A2D3D60C200A5C30006F2355 /* libimageCropPicker.a */ = {

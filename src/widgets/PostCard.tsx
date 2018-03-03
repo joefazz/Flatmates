@@ -6,6 +6,7 @@ import Swiper from 'react-native-swiper';
 
 import { Colors, Metrics } from '../consts';
 import { Font } from '../consts';
+import { toConstantFontSize } from '../utils/PercentageConversion';
 
 interface Props  {
     images: Array<string>,
@@ -95,20 +96,20 @@ const styles = StyleSheet.create({
     },
 
     titleText: {
-        fontSize: 22,
+        fontSize: toConstantFontSize(3.2),
         color: Colors.black,
         ...Font.FontFactory({weight: 'Light'}),
     },
 
     spacesText: {
-        fontSize: 18,
+        fontSize: toConstantFontSize(2.5),
         marginBottom: 1.5,
         ...Font.FontFactory({weight: 'Light'}),
         color: Colors.black
     },
 
     priceText: {
-        fontSize: 16,
+        fontSize: toConstantFontSize(2),
         color: Colors.textGrey
     }
 });
