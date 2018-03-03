@@ -43,7 +43,7 @@ export class Profile extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.loading !== this.props.loading) {
+        if (newProps.loading !== this.props.loading && newProps.user) {
             // Remove null properties
             const trimmedData: { house?: { users: Array<any> } } = {};
 
