@@ -186,7 +186,6 @@ export const feed = StyleSheet.create({
         backgroundColor: Colors.white,
         width: toConstantWidth(100),
         padding: toConstantFontSize(1),
-        marginBottom: toConstantHeight(1),
         shadowColor: Colors.grey,
         shadowOffset: {
             width: 0,
@@ -205,15 +204,22 @@ export const feed = StyleSheet.create({
 
     priceWrapper: {
         flexDirection: 'row',
-        marginVertical: toConstantHeight(1),
         alignItems: 'center',
         justifyContent: 'center'
     },
 
+    priceItem: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 4,
+        backgroundColor: Colors.brandSecondaryColor
+    },
+
     priceText: {
         ...FontFactory({ weight: 'Bold' }),
-        color: Colors.brandTertiaryColor,
-        fontSize: toConstantFontSize(2)
+        color: Colors.highlightWhite,
+        fontSize: toConstantFontSize(2.3)
     },
 
     userRow: {

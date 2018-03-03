@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
-import { Platform, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Platform, Text, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
@@ -14,6 +14,9 @@ import { TouchableRect } from '../../widgets/TouchableRect';
 interface Props  {
     navigation: {pop: () => void, state: {params: {fbUserId: string}}},
     user: object,
+    login: {
+        get: (prop) => string;
+    },
     loading: boolean,
     createPost: ({description, createdBy}) => void
 };
@@ -61,6 +64,10 @@ export class CreatePost extends React.Component<Props, State> {
     }
 
     render() {
+        if (this.state.isLoading) {
+            return <ActivityIndicator />;
+        }
+
         return (
             <View style={[ base.wholePage, {alignItems: 'center', justifyContent: 'center'} ]}>
                 <View style={ base.headingWrapper }>
@@ -82,7 +89,7 @@ export class CreatePost extends React.Component<Props, State> {
 const getUserInfo = graphql(USER_POST_QUERY, {
     options(props: Props) {
         return {
-            variables: {facebookUserId: props.navigation.state.params.fbUserId}
+            variables: {facebookUserId: props.login.get('fbUserId')}
         };
     },
     // @ts-ignore
@@ -94,7 +101,8 @@ const getUserInfo = graphql(USER_POST_QUERY, {
     }
 });
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state) => ({
+    login: state.get('login')
 });
 
 const bindActions = (dispatch) => {

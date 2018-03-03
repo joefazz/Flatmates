@@ -78,7 +78,8 @@ export const profile = StyleSheet.create({
 
     preferencesWrapper: {
         marginTop: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        flexDirection: 'row'
     },
 
     preference: {

@@ -8,7 +8,6 @@ export const USER_DETAILS_QUERY = gql`
             bio
             studyYear
             isSmoker
-            socialScore
             genderPreference
             maxPrice
             minPrice

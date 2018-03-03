@@ -39,14 +39,17 @@ export class ProfileComponent extends React.Component<Props, State> {
 
         return (
             <View style={{ flex: 1, alignItems: 'stretch' }}>
-                <Animated.View style={[ profile.headerPanel, {
+                <Animated.View
+                    style={[ profile.headerPanel, {
                     height: this._deltaY.interpolate({
                         inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
                         outputRange: [20, 100],
                         extrapolateRight: 'clamp'
                     })
-                }]}>
-                    <Animated.View style={[ profile.headerTextWrapper,
+                }]}
+                >
+                    <Animated.View
+                        style={[ profile.headerTextWrapper,
                         {
                             maxHeight: this._deltaY.interpolate({
                                 inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
@@ -62,36 +65,43 @@ export class ProfileComponent extends React.Component<Props, State> {
                                 extrapolateLeft: 'clamp',
                                 extrapolateRight: 'clamp'
                             })
-                        } ]}>
-                        <Animated.Text style={[ profile.headerText, {
+                        } ]}
+                        >
+                        <Animated.Text
+                            style={[ profile.headerText, {
                             fontSize: this._deltaY.interpolate({
                                 inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
                                 outputRange: [26, 45],
                                 extrapolateLeft: 'clamp',
                                 extrapolateRight: 'clamp'
                             })
-                        }]}>
+                        }]}
+                        >
                             {this.props.profile.get('name')}
                         </Animated.Text>
-                        <Animated.Text style={[ profile.aboutText, {fontSize: 24, paddingLeft: 10}, {
+                        <Animated.Text
+                            style={[ profile.aboutText, {fontSize: 24, paddingLeft: 10}, {
                             opacity: this._deltaY.interpolate({
                                 inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
                                 outputRange: [0, 1],
                                 extrapolate: 'clamp',
                             })
-                        }]}>
+                        }]}
+                        >
                             {this.props.profile.get('course')}
                         </Animated.Text>
                     </Animated.View>
 
-                    <Animated.View style={[ profile.headerAvatar, {
+                    <Animated.View
+                        style={[ profile.headerAvatar, {
                         opacity: this._deltaY.interpolate({
                             inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
                             outputRange: [0, 1],
                             extrapolateLeft: 'clamp',
                             extrapolateRight: 'clamp'
                         })
-                    }]}>
+                    }]}
+                    >
                         <Avatar
                             xlarge={true}
                             rounded={true}
@@ -125,10 +135,13 @@ export class ProfileComponent extends React.Component<Props, State> {
                                         <Text style={ profile.aboutLabel }>Gender</Text>
                                         <Text style={ profile.aboutText }>{this.props.profile.get('gender')}</Text>
                                     </View>
+
                                 </View>
                                 <View style={ profile.preferencesWrapper }>
-                                    <PreferenceRow label={'Smoker'} value={this.props.profile.get('isSmoker') ? 'Yes' : 'No'} />
-                                    <PreferenceRow label={'Social Score'} value={this.props.profile.get('socialScore')} />
+                                    <View>
+                                        <Text style={ profile.aboutLabel }>Smoker?</Text>
+                                        <Text style={ profile.aboutText }>{this.props.profile.get('isSmoker') ? 'Yes' : 'No'}</Text>
+                                    </View>
                                 </View>
                             </View>
 
@@ -150,12 +163,13 @@ export class ProfileComponent extends React.Component<Props, State> {
                                             <Text style={ profile.aboutText }>£{this.props.profile.get('house').get('rentPrice') + this.props.profile.get('house').get('billsPrice')}</Text>
                                         </View>
                                     </View>
+                                    {this.props.profile.get('house').get('users').size > 1 ?
                                     <ScrollView contentContainerStyle={ profile.preferencesWrapper }>
                                         <Text style={ profile.aboutLabel }>Flatmates</Text>
                                         {this.props.profile.get('house').get('users').map((flatmate) => {
                                             return <Text key={flatmate.get('name')} style={ profile.aboutText }>{flatmate.get('name')}</Text>;
                                         })}
-                                    </ScrollView>
+                                    </ScrollView> : <React.Fragment /> }
                                 </View>
                                 :
                                 <View style={ profile.contentWrapper }>

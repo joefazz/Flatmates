@@ -59,7 +59,6 @@ interface Props {
         course: string,
         studyYear: string,
         isSmoker: boolean,
-        socialScore: number,
         minPrice: number,
         maxPrice: number,
         genderPreference: string
@@ -70,7 +69,6 @@ interface Props {
         course: string,
         studyYear: string,
         isSmoker: boolean,
-        socialScore: number,
         shortID: number,
         road: string,
         coords: Array<number>,
@@ -85,7 +83,6 @@ interface Props {
         course: string,
         studyYear: string,
         isSmoker: boolean,
-        socialScore: number,
         shortID: number
     ) => void,
     navigation: {navigate: (route: string) => void}
@@ -115,7 +112,6 @@ interface State {
     minPrice: number,
     maxPrice: number,
     genderPreference: string,
-    socialScore: number,
 
     shortID: string | number,
     road: string,
@@ -149,7 +145,6 @@ export class Login extends React.Component<Props, State> {
             minPrice: 0,
             maxPrice: 0,
             genderPreference: '',
-            socialScore: 5,
 
             shortID: 0 as number,
             road: '',
@@ -372,20 +367,6 @@ export class Login extends React.Component<Props, State> {
                             <View style={{ flexDirection: 'row', flex: 1, alignItems: 'center', justifyContent: 'space-around', paddingHorizontal: 15 }}>
                                 <Text style={[ base.labelText, {alignSelf: 'center'} ]}>Smoker</Text>
                                 <Switch onTintColor={ Colors.brandSecondaryColor } thumbTintColor={ Colors.brandPrimaryColor } tintColor={ Colors.grey } onValueChange={(val) => this.setState({ isSmoker: val })} value={this.state.isSmoker}/>
-                            </View>
-                            <View style={{ flex: 1, alignItems: 'center' }}>
-                                <View>
-                                    <Text style={[ base.labelText, { alignSelf: 'center' } ]}>How social would you say you are? (From 1 to 10)</Text>
-                                    <Text style={[ base.labelText, { alignSelf: 'center', fontWeight: 'bold'} ]}>{ this.state.socialScore }</Text>
-                                    <Slider
-                                        value={ this.state.socialScore }
-                                        onValueChange={(val) => this.setState({ socialScore: val })}
-                                        step={1}
-                                        minimumValue={0}
-                                        maximumValue={10}
-                                        minimumTrackTintColor={ Colors.brandSecondaryColor }
-                                    />
-                                </View>
                             </View>
                         </View>
                         <View style={ login.pageFooter }>
@@ -678,7 +659,6 @@ export class Login extends React.Component<Props, State> {
             this.state.course,
             this.state.studyYear,
             this.state.isSmoker,
-            this.state.socialScore,
             Number(this.state.minPrice),
             Number(this.state.maxPrice),
             this.state.genderPreference
@@ -700,7 +680,6 @@ export class Login extends React.Component<Props, State> {
             this.state.course,
             this.state.studyYear,
             this.state.isSmoker,
-            this.state.socialScore,
             this.state.shortID as number,
             this.state.road,
             coords as Array<number>,
@@ -730,7 +709,6 @@ export class Login extends React.Component<Props, State> {
                                 this.state.course,
                                 this.state.studyYear,
                                 this.state.isSmoker,
-                                this.state.socialScore,
                                 this.state.shortID as number
                             );
                             this.homeSwiper.scrollBy(2, true);
@@ -814,7 +792,6 @@ const updateUser = graphql<UpdateUserMutation, UpdateUserMutationVariables>(UPDA
             course,
             studyYear,
             isSmoker,
-            socialScore,
             minPrice,
             maxPrice,
             genderPreference
@@ -826,7 +803,6 @@ const updateUser = graphql<UpdateUserMutation, UpdateUserMutationVariables>(UPDA
                     course,
                     studyYear,
                     isSmoker,
-                    socialScore,
                     minPrice,
                     maxPrice,
                     genderPreference
@@ -843,7 +819,6 @@ const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
             course,
             studyYear,
             isSmoker,
-            socialScore,
             shortID,
             road,
             coords,
@@ -859,7 +834,6 @@ const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
                     course,
                     studyYear,
                     isSmoker,
-                    socialScore,
                     shortID,
                     road,
                     coords,
@@ -880,7 +854,6 @@ const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
             course,
             studyYear,
             isSmoker,
-            socialScore,
             shortID
         ) =>
             mutate({
@@ -890,7 +863,6 @@ const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
                     course,
                     studyYear,
                     isSmoker,
-                    socialScore,
                     shortID
                 }
             })

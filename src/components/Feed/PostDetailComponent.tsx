@@ -9,6 +9,7 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import { Colors } from '../../consts';
+import { FontFactory } from '../../consts/font';
 import { feed } from '../../styles';
 import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
@@ -65,8 +66,6 @@ export class PostDetailComponent extends React.Component<Props, State> {
             return <ActivityIndicator />
         }
 
-        console.log(this.props);
-
         return (
             <ScrollView>
                 <Swiper
@@ -104,8 +103,14 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         <Text style={ feed.descriptionText }>{this.props.description}</Text>
                     </View>
                     <View style={ feed.priceWrapper }>
-                        <Text style={ feed.priceText }>Rent: £{this.props.house.rentPrice} per month</Text>
-                        <Text style={ feed.priceText }>Bills: £{this.props.house.billsPrice} per month</Text>
+                        <View style={ feed.priceItem }>
+                            <Text style={[ feed.priceText, {...FontFactory({ weight: 'SemiBold' })} ]}>Rent</Text>
+                            <Text style={ feed.priceText }>£{this.props.house.rentPrice}</Text>
+                        </View>
+                        <View style={[ feed.priceItem, { borderLeftWidth: 0.7, borderLeftColor: Colors.white } ]}>
+                            <Text style={[ feed.priceText, {...FontFactory({ weight: 'SemiBold' })} ]}>Bills</Text>
+                            <Text style={ feed.priceText }>£{this.props.house.billsPrice}</Text>
+                        </View>
                     </View>
                 </View>
                 <View style={{ height: toConstantHeight(30) }}>
