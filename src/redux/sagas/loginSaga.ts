@@ -45,7 +45,7 @@ function doesUserExist(facebookUserId) {
             variables: {facebookUserId},
             query: USER_LOGIN_QUERY,
             // @ts-ignore
-        }).then(({data}) => data.User === null ? resolve(false) : resolve(true));
+        }).then(({data}) => data.user === null ? resolve(false) : resolve(data.user));
     });
 }
 
@@ -124,7 +124,9 @@ const login = function *() {
             const doesExist = yield call(doesUserExist, response.userID);
 
             if (doesExist) {
-                yield* getLocalData();
+                const serverData = Object.assign(response, doesExist);
+
+                yield* getLocalData(serverData);
                 yield put(loginWithFacebook.success({response, token}));
             } else {
                 throw new Error('User does not exist');
@@ -159,7 +161,7 @@ function *getData() {
     }
 }
 
-function *getLocalData() {
+function *getLocalData(serverData) {
     yield put(getUserDataFacebook.request());
 
     try {
@@ -170,7 +172,7 @@ function *getLocalData() {
         if (response.isError) {
             yield put(getUserDataFacebook.failure({ response: response.error }));
         } else {
-            yield put(getUserDataFacebook.success({ response: response.result }));
+            yield put(getUserDataFacebook.success({ response: Object.assign(response.result, serverData) }));
         }
     } catch (error) {
         yield put(getUserDataFacebook.failure({ error }));

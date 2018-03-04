@@ -12,6 +12,7 @@ import { Colors } from '../../consts';
 import { FontFactory } from '../../consts/font';
 import { feed } from '../../styles';
 import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
+import { compareUsers } from '../../utils/UserComparison';
 import { TouchableRect } from '../../widgets/TouchableRect';
 
 interface Props {
@@ -39,7 +40,10 @@ interface Props {
         }
     }, push: (route: string, params: {fbUserId?: string, data?: object}) => void};
     id: string,
-    isLoading: boolean
+    isLoading: boolean,
+    profile: {
+        get: (prop) => any
+    }
 }
 
 interface State {
@@ -170,7 +174,10 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     />
                 </View>
                 <View style={ feed.userDetailsWrapper }>
-                    <Text style={ feed.userNameText }>{user.name}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={ feed.userNameText }>{user.name}</Text>
+                        <Text style={ feed.userNameText }>{compareUsers(this.props.profile.toJS(), user)}% Match</Text>
+                    </View>
                     <Text style={ feed.userInfoText }>{user.studyYear} student studying {user.course}</Text>
                 </View>
             </RectButton>

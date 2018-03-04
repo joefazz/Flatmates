@@ -10,7 +10,7 @@ import * as Types from '../Types';
 const INITIAL_STATE = Immutable.fromJS(initialState.profile);
 
 export default function profileReducer(state: State = INITIAL_STATE, action: Action) {
-    switch(action.type) {
+    switch (action.type) {
     // Facebook Login Auth
     case Types.GET_USER_DATA_REQUEST:
         return state;
@@ -21,6 +21,9 @@ export default function profileReducer(state: State = INITIAL_STATE, action: Act
             lastName: action.payload.response.last_name,
             gender: _.capitalize(action.payload.response.gender),
             birthday: action.payload.response.birthday,
+            studyYear: action.payload.response.studyYear,
+            course: action.payload.response.course,
+            isSmoker: action.payload.response.isSmoker,
             email: action.payload.response.email,
             imageUrl: action.payload.response.picture.data.url
         });

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { graphql } from 'react-apollo';
 import { Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { Colors } from '../../consts';
@@ -16,6 +17,7 @@ interface Props  {
             }
         }
     }, push: (route: string, params: {fbUserId?: string, data?: object}) => void},
+    profile: any;
     mutate: ({ variables: { id: string, lastSeen: Date }}) => Promise<any>
 };
 
@@ -49,6 +51,7 @@ export class PostDetail extends React.Component<Props, State> {
         headerRight: Platform.OS === 'ios' ? <Icon name={'ios-star-outline'} style={{ marginRight: toConstantWidth(1.8) }} color={Colors.white} size={28} /> : <React.Fragment />
     });
 
+    // TODO: FIND A WAY TO CONNECT THIS SCREEN TO STATE SO I CAN USE PROFILE TO COMPARE AND GET PERCENTAGE
     constructor(props) {
         super(props);
 
@@ -56,6 +59,7 @@ export class PostDetail extends React.Component<Props, State> {
             data: props.navigation.state.params.data,
             isLoading: true
         };
+
     }
 
     async getPostDetails() {
@@ -68,8 +72,6 @@ export class PostDetail extends React.Component<Props, State> {
             });
 
             const combinedData = Object.assign(this.state.data, updatePost);
-
-            console.log(combinedData);
 
             this.setState({ isLoading: false, data: combinedData });
         } catch (error) {
@@ -90,6 +92,7 @@ export class PostDetail extends React.Component<Props, State> {
                     description={this.state.data.description}
                     house={this.state.data.createdBy}
                     createdAt={this.state.data.createdAt}
+                    profile={this.props.profile}
                     lastSeen={this.state.data.lastSeen}
                     id={this.state.data.id}
                     isLoading={this.state.isLoading}
@@ -100,4 +103,8 @@ export class PostDetail extends React.Component<Props, State> {
     }
 }
 
-export default graphql(UPDATE_POST_MUTATION)(PostDetail);
+const mapStateToProps = (state) => ({
+    profile: state.get('profile')
+});
+
+export default graphql(UPDATE_POST_MUTATION)(connect(mapStateToProps)(PostDetail));

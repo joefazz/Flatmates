@@ -15,6 +15,9 @@ export const UPDATE_POST_MUTATION = gql`
                 users {
                     name
                     studyYear
+                    birthday
+                    gender
+                    isSmoker
                     imageUrl
                     course
                 }

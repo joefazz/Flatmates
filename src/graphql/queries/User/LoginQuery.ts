@@ -5,6 +5,9 @@ export const USER_LOGIN_QUERY = gql`
     query UserLogin($facebookUserId: String!) {
         user(facebookUserId: $facebookUserId) {
             facebookUserId
+            isSmoker
+            course
+            studyYear
         }
     }
 `;
