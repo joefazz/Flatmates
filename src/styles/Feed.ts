@@ -44,13 +44,13 @@ export const feed = StyleSheet.create({
     },
 
     filterItem: {
-        width: toConstantWidth(90),
         marginTop: 5,
         borderColor: Colors.airbnbRed,
         borderRadius: 20,
         borderWidth: 1.5,
         height: toConstantHeight(5),
         justifyContent: 'center',
+        alignItems: 'center',
         paddingHorizontal: toConstantWidth(3)
     },
 

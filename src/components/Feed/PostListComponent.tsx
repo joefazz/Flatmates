@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { Colors, Font } from '../../consts';
 import { feed } from '../../styles';
-import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
+import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
 import { PostCard } from '../../widgets';
 
 interface Props {
@@ -18,7 +18,8 @@ interface Props {
 };
 
 interface State {
-    isFilterOpen: boolean
+    isFilterOpen: boolean,
+    filterIndex: number
 }
 
 export class PostListComponent extends React.Component<Props, State> {
@@ -32,12 +33,20 @@ export class PostListComponent extends React.Component<Props, State> {
         })
     };
 
-    private opacityAnimation = {
-        opacity: this._animationValue.interpolate({
+    private shrinkGrowAnimation = {
+        width: this._animationValue.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, 1]
-        })
-    };
+            outputRange: [toConstantWidth(27), toConstantWidth(90)]
+        }),
+        // backgroundColor: 'red'
+    }
+
+    // private opacityAnimation = {
+    //     opacity: this._animationValue.interpolate({
+    //         inputRange: [0, 1],
+    //         outputRange: [0, 1]
+    //     })
+    // };
 
     private rotateAnimation = {
         transform: [
@@ -54,7 +63,8 @@ export class PostListComponent extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            isFilterOpen: false
+            isFilterOpen: false,
+            filterIndex: 0
         };
     }
 
@@ -68,18 +78,24 @@ export class PostListComponent extends React.Component<Props, State> {
                         </Animated.View>
                     </TouchableOpacity>
 
-                    <TouchableHighlight onPress={() => alert('Price pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
-                        <Text style={ feed.filterItemText }>Price (Low to High)</Text>
-                    </TouchableHighlight>
+                    <Animated.View style={{flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch', marginHorizontal: toConstantWidth(5)}}>
+                        <Animated.View style={ this.shrinkGrowAnimation }>
+                            <TouchableHighlight onPress={() => alert('Price pressed')} underlayColor={Colors.translucentAirBnbRed} style={[ feed.filterItem, {backgroundColor: Colors.airbnbRed} ]}>
+                                <Text style={[ feed.filterItemText, {color: Colors.white} ]}>All</Text>
+                            </TouchableHighlight>
+                        </Animated.View>
 
-                    <Animated.View style={ this.opacityAnimation }>
-                        <TouchableHighlight onPress={() => alert('Spaces pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
-                            <Text style={ feed.filterItemText }>Spaces</Text>
-                        </TouchableHighlight>
+                        <Animated.View style={ this.shrinkGrowAnimation }>
+                            <TouchableHighlight onPress={() => alert('Spaces pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
+                                <Text style={ feed.filterItemText }>Starred</Text>
+                            </TouchableHighlight>
+                        </Animated.View>
 
-                        <TouchableHighlight onPress={() => alert('Other options pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
-                            <Text style={ feed.filterItemText }>Other option</Text>
-                        </TouchableHighlight>
+                        <Animated.View style={ this.shrinkGrowAnimation }>
+                            <TouchableHighlight onPress={() => alert('Other options pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
+                                <Text style={ feed.filterItemText }>My Posts</Text>
+                            </TouchableHighlight>
+                        </Animated.View>
                     </Animated.View>
                 </Animated.View>
 
