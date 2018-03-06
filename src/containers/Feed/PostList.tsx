@@ -25,8 +25,9 @@ export class PostList extends React.Component<Props, State> {
         skip: 0
     };
 
-    protected static navigationOptions = () => ({
+    protected static navigationOptions = (props) => ({
         title: 'Home',
+        tabBarVisible: !props.login.get('isReadOnlyEnabled'),
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
         ),

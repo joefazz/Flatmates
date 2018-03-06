@@ -10,6 +10,8 @@ export const FACEBOOK_LOGIN_SUCCESS = Routines.loginWithFacebook.SUCCESS;
 export const FACEBOOK_LOGIN_FAILURE = Routines.loginWithFacebook.FAILURE;
 export const FACEBOOK_LOGIN_FULFILL = Routines.loginWithFacebook.FULFILL;
 
+export const READ_ONLY_LOGIN_SUCCESS = Routines.readOnlyLogin.SUCCESS;
+
 export const GET_USER_DATA_REQUEST = Routines.getUserDataFacebook.REQUEST;
 export const GET_USER_DATA_SUCCESS = Routines.getUserDataFacebook.SUCCESS;
 export const GET_USER_DATA_FAILURE = Routines.getUserDataFacebook.FAILURE;

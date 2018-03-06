@@ -8,7 +8,8 @@ const initialState = {
         grantedPermissions: [],
         deniedPermissions: [],
         fbAccessToken: '',
-        isLoggedIn: false
+        isLoggedIn: false,
+        isReadOnly: false
     },
     profile: {
         name: '',

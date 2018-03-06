@@ -5,13 +5,14 @@ import client from '../../Client';
 import { facebookPermissions } from '../../containers/Login';
 import { CREATE_USER_MUTATION } from '../../graphql/mutations';
 import { USER_LOGIN_QUERY } from '../../graphql/queries';
-import { getUserDataFacebook, loginWithFacebook, signupWithFacebook } from '../Routines';
+import { getUserDataFacebook, loginWithFacebook, readOnlyLogin, signupWithFacebook } from '../Routines';
 
 let token: { accessToken?: string, expiryDate?: string } = {};
 
 export const loginSaga = function *() {
     yield takeEvery(signupWithFacebook.TRIGGER, signup);
-    yield takeEvery(loginWithFacebook.TRIGGER, login)
+    yield takeEvery(loginWithFacebook.TRIGGER, login);
+    yield takeEvery(readOnlyLogin.TRIGGER, readOnly);
 };
 
 function facebookRequest(accessToken) {
@@ -138,6 +139,10 @@ const login = function *() {
     } finally {
         yield put(loginWithFacebook.fulfill());
     }
+}
+
+const readOnly = function *() {
+    yield put(readOnlyLogin.success());
 }
 
 function *getData() {

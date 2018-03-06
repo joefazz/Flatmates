@@ -10,6 +10,11 @@ const INITIAL_STATE = Immutable.fromJS(initialState.login);
 
 export default function loginReducer(state: State = INITIAL_STATE, action: Action) {
     switch (action.type) {
+    // Read only login
+    case Types.READ_ONLY_LOGIN_SUCCESS:
+        return state.merge({
+            isReadOnlyEnabled: true
+        });
     // Facebook Login Auth
     case Types.FACEBOOK_LOGIN_REQUEST:
         return state.merge({
