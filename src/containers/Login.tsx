@@ -15,7 +15,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { Avatar, Button, Slider } from 'react-native-elements';
+import { Avatar, Button } from 'react-native-elements';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
 import Pickerise from 'react-native-pickerise';
 import Swiper from 'react-native-swiper';
@@ -229,7 +229,7 @@ export class Login extends React.Component<Props, State> {
 
                     <View style={[ login.page, { justifyContent: 'space-around'} ]}>
                         <View style={[ login.mainContent, { alignItems: 'center', justifyContent: 'center' } ]}>
-                            <Text style={ [base.headingText, {fontSize: 24, ...Font.FontFactory({weight: 'Bold', family: 'Nunito'}), marginBottom: 20}] }>Are you...</Text>
+                            <Text style={ [base.headingText, {fontSize: 24, ...Font.FontFactory({ weight: 'Bold' }), marginBottom: 20}] }>Are you...</Text>
                             <TouchableRect
                                 title={'Looking for a House'}
                                 onPress={ () => this.setState({ isLookingForHouse: true }, (): void => this.homeSwiper.scrollBy(1, true)) }
