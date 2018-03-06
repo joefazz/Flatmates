@@ -27,10 +27,10 @@ export const feed = StyleSheet.create({
 
     filterWrapper: {
         shadowOffset: {
-            height: 1,
+            height: 2,
             width: 0
         },
-        shadowOpacity: 0.7,
+        shadowOpacity: 0.9,
         shadowRadius: 4,
         shadowColor: Colors.grey,
         elevation: 2,
@@ -41,13 +41,18 @@ export const feed = StyleSheet.create({
     // Filter styles
     filterContainer: {
         backgroundColor: Colors.offWhite,
+        paddingVertical: 5,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignSelf: 'stretch',
+        marginHorizontal: toConstantWidth(5)
     },
 
     filterItem: {
-        marginTop: 5,
         borderColor: Colors.airbnbRed,
         borderRadius: 20,
         borderWidth: 1.5,
+        width: toConstantWidth(28),
         height: toConstantHeight(5),
         justifyContent: 'center',
         alignItems: 'center',

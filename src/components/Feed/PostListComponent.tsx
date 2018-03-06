@@ -23,23 +23,23 @@ interface State {
 }
 
 export class PostListComponent extends React.Component<Props, State> {
-    private _animationValue: Animated.Value = new Animated.Value(0);
-    private _ANIMATION_DURATION_CONSTANT: number = 500;
+    // private _animationValue: Animated.Value = new Animated.Value(0);
+    // private _ANIMATION_DURATION_CONSTANT: number = 500;
 
-    private heightAnimation = {
-        height: this._animationValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [toConstantHeight(10.5), toConstantHeight(22)]
-        })
-    };
+    // private heightAnimation = {
+    //     height: this._animationValue.interpolate({
+    //         inputRange: [0, 1],
+    //         outputRange: [toConstantHeight(10.5), toConstantHeight(22)]
+    //     })
+    // };
 
-    private shrinkGrowAnimation = {
-        width: this._animationValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [toConstantWidth(27), toConstantWidth(90)]
-        }),
-        // backgroundColor: 'red'
-    }
+    // private shrinkGrowAnimation = {
+    //     width: this._animationValue.interpolate({
+    //         inputRange: [0, 1],
+    //         outputRange: [toConstantWidth(27), toConstantWidth(90)]
+    //     }),
+    //     // backgroundColor: 'red'
+    // }
 
     // private opacityAnimation = {
     //     opacity: this._animationValue.interpolate({
@@ -48,16 +48,16 @@ export class PostListComponent extends React.Component<Props, State> {
     //     })
     // };
 
-    private rotateAnimation = {
-        transform: [
-            {
-                rotate: this._animationValue.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0deg', '180deg']
-                })
-            }
-        ]
-    }
+    // private rotateAnimation = {
+    //     transform: [
+    //         {
+    //             rotate: this._animationValue.interpolate({
+    //                 inputRange: [0, 1],
+    //                 outputRange: ['0deg', '180deg']
+    //             })
+    //         }
+    //     ]
+    // }
 
     constructor(props) {
         super(props);
@@ -71,33 +71,27 @@ export class PostListComponent extends React.Component<Props, State> {
     render() {
         return (
             <>
-                <Animated.View style={[ feed.filterWrapper, this.heightAnimation ]}>
-                    <TouchableOpacity onPress={this.animateFilter} activeOpacity={0.7} style={ feed.expandBar }>
+                <View style={ feed.filterWrapper }>
+                    {/*<TouchableOpacity onPress={this.animateFilter} activeOpacity={0.7} style={ feed.expandBar }>
                         <Animated.View style={this.rotateAnimation}>
                             <Icon name={'ios-arrow-up'} size={toConstantFontSize(3)} style={{color: Colors.highlightWhite}} />
                         </Animated.View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>*/}
 
-                    <Animated.View style={{flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'stretch', marginHorizontal: toConstantWidth(5)}}>
-                        <Animated.View style={ this.shrinkGrowAnimation }>
-                            <TouchableHighlight onPress={() => alert('Price pressed')} underlayColor={Colors.translucentAirBnbRed} style={[ feed.filterItem, {backgroundColor: Colors.airbnbRed} ]}>
-                                <Text style={[ feed.filterItemText, {color: Colors.white} ]}>All</Text>
-                            </TouchableHighlight>
-                        </Animated.View>
+                    <View style={feed.filterContainer}>
+                        <TouchableHighlight onPress={() => alert('Price pressed')} underlayColor={Colors.translucentAirBnbRed} style={[ feed.filterItem, {backgroundColor: Colors.airbnbRed} ]}>
+                            <Text style={[ feed.filterItemText, {color: Colors.white} ]}>All</Text>
+                        </TouchableHighlight>
 
-                        <Animated.View style={ this.shrinkGrowAnimation }>
-                            <TouchableHighlight onPress={() => alert('Spaces pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
-                                <Text style={ feed.filterItemText }>Starred</Text>
-                            </TouchableHighlight>
-                        </Animated.View>
+                        <TouchableHighlight onPress={() => alert('Spaces pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
+                            <Text style={ feed.filterItemText }>Starred</Text>
+                        </TouchableHighlight>
 
-                        <Animated.View style={ this.shrinkGrowAnimation }>
-                            <TouchableHighlight onPress={() => alert('Other options pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
-                                <Text style={ feed.filterItemText }>My Posts</Text>
-                            </TouchableHighlight>
-                        </Animated.View>
-                    </Animated.View>
-                </Animated.View>
+                        <TouchableHighlight onPress={() => alert('Other options pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
+                            <Text style={ feed.filterItemText }>My Posts</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
 
                 <FlatList
                     data={this.props.data.toJS()}
@@ -167,19 +161,19 @@ export class PostListComponent extends React.Component<Props, State> {
         return <View />
     }
 
-    private animateFilter = () => {
-        if (this.state.isFilterOpen) {
-            Animated.timing(this._animationValue, {
-                toValue: 0,
-                duration: this._ANIMATION_DURATION_CONSTANT,
-                easing: Easing.elastic(0.7)
-            }).start(() => this.setState({ isFilterOpen: false }));
-        } else {
-            Animated.timing(this._animationValue, {
-                toValue: 1,
-                duration: this._ANIMATION_DURATION_CONSTANT,
-                easing: Easing.elastic(1)
-            }).start(() => this.setState({ isFilterOpen: true }));
-        }
-    }
+    // private animateFilter = () => {
+    //     if (this.state.isFilterOpen) {
+    //         Animated.timing(this._animationValue, {
+    //             toValue: 0,
+    //             duration: this._ANIMATION_DURATION_CONSTANT,
+    //             easing: Easing.elastic(0.7)
+    //         }).start(() => this.setState({ isFilterOpen: false }));
+    //     } else {
+    //         Animated.timing(this._animationValue, {
+    //             toValue: 1,
+    //             duration: this._ANIMATION_DURATION_CONSTANT,
+    //             easing: Easing.elastic(1)
+    //         }).start(() => this.setState({ isFilterOpen: true }));
+    //     }
+    // }
 }
