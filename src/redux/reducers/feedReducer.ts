@@ -1,13 +1,13 @@
 import * as Immutable from 'immutable';
 
+import { FeedAction, FeedState } from '../../types/ReduxTypes';
 import initialState from '../InitialState';
-import { Action, State } from '../ReduxTypes';
 import { createPost, deletePost, getPosts } from '../Routines';
 
 const INITIAL_STATE = Immutable.fromJS(initialState.feed)
 let posts;
 
-export default function feedReducer(state: State = INITIAL_STATE, action: Action) {
+export default function feedReducer(state: FeedState = INITIAL_STATE, action: FeedAction) {
     switch (action.type) {
         // Get Posts
         case getPosts.REQUEST:

@@ -1,14 +1,15 @@
 import * as Immutable from 'immutable';
 
+import { LoginAction, LoginState } from '../../types/ReduxTypes';
+import { LoginStatus } from '../../types/Types';
 import initialState from '../InitialState';
-import { Action, LoginStatus, State } from '../ReduxTypes';
 import * as Types from '../Types';
 
 // Modules
 // File References
 const INITIAL_STATE = Immutable.fromJS(initialState.login);
 
-export default function loginReducer(state: State = INITIAL_STATE, action: Action) {
+export default function loginReducer(state: LoginState = INITIAL_STATE, action: LoginAction) {
     switch (action.type) {
     // Read only login
     case Types.READ_ONLY_LOGIN_SUCCESS:

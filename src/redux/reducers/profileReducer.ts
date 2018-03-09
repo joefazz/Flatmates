@@ -1,15 +1,15 @@
 import * as Immutable from 'immutable';
 import _ from 'lodash';
 
+import { ProfileAction, ProfileState } from '../../types/ReduxTypes';
 import initialState from '../InitialState';
-import { Action, State } from '../ReduxTypes';
 import * as Types from '../Types';
 
 // Modules
 // File References
 const INITIAL_STATE = Immutable.fromJS(initialState.profile);
 
-export default function profileReducer(state: State = INITIAL_STATE, action: Action) {
+export default function profileReducer(state: ProfileState = INITIAL_STATE, action: ProfileAction) {
     switch (action.type) {
     // Facebook Login Auth
     case Types.GET_USER_DATA_REQUEST:

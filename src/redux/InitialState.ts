@@ -1,4 +1,4 @@
-import { LoginStatus } from './ReduxTypes';
+import { LoginStatus } from '../types/Types';
 
 const initialState = {
     login: {

@@ -38,9 +38,10 @@ import {
     UpdateUserMutation,
     UpdateUserMutationVariables,
 } from '../graphql/Types';
-import { LoginStatus } from '../redux/ReduxTypes';
 import { loginWithFacebook, signupWithFacebook } from '../redux/Routines';
 import { base, login } from '../styles';
+import { LoginState, ProfileState } from '../types/ReduxTypes';
+import { LoginStatus } from '../types/Types';
 import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
 import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
 import { Checkbox } from '../widgets';
@@ -49,8 +50,8 @@ import { TouchableRect } from '../widgets/TouchableRect';
 export let facebookPermissions: Array<string> = [];
 
 interface Props {
-    login: any,
-    profile: any,
+    login: LoginState,
+    profile: ProfileState,
     loginWithFacebook: () => void,
     signupWithFacebook: () => void,
     updateUser: (
@@ -170,22 +171,22 @@ export class Login extends React.Component<Props, State> {
 
     componentWillReceiveProps(newProps) {
         if (!newProps.login.equals(this.props.login)) {
-            if (this.state.isLoggingIn && newProps.login.get('loginStatus') === LoginStatus.ENDED) {
+            if (this.state.isLoggingIn && newProps.login.loginStatus === LoginStatus.ENDED) {
                 this.setState({ isLoggingIn: false });
-                if (newProps.login.get('isLoggedIn')) {
+                if (newProps.login.isLoggedIn) {
                     this.setState({ isLoggedIn: true });
                 }
-            } else if (newProps.login.get('loginStatus') === LoginStatus.FAILED) {
+            } else if (newProps.login.loginStatus === LoginStatus.FAILED) {
                 this.setState({ isLoggedIn: false, hasLoginFailed: true });
             }
         }
 
-        if (this.props.login.get('fbUserId') && newProps.login.get('fbUserId') !== '') {
-            this.setState({ fbUserId: newProps.login.get('fbUserId') });
+        if (this.props.login.fbUserId && newProps.login.fbUserId !== '') {
+            this.setState({ fbUserId: newProps.login.fbUserId });
         }
 
         if (!newProps.profile.equals(this.props.profile)) {
-            if (newProps.profile.get('name') !== '') {
+            if (newProps.profile.name !== '') {
                 this.setState({ profile: newProps.profile, hasGotProfile: true });
             }
         }
@@ -193,7 +194,7 @@ export class Login extends React.Component<Props, State> {
 
     render() {
             if (this.state.hasLoginFailed) {
-                Alert.alert('Login Failed', this.props.login.get('error'), [{
+                Alert.alert('Login Failed', this.props.login.error, [{
                     text: 'OK', onPress: () => this.setState({ hasLoginFailed: false, isLoggingIn: false })
                 }]);
             }
@@ -298,14 +299,14 @@ export class Login extends React.Component<Props, State> {
 
                     <View style={ login.page }>
                         <View style={[ login.mainContent, { flex: 4, alignItems: 'center', justifyContent: 'flex-start', marginTop: Platform.OS === 'ios' ? 48 : 0 } ]}>
-                            <Text style={ login.profileName }>{this.state.hasGotProfile ? this.state.profile.get('name') : 'John Smith'}</Text>
+                            <Text style={ login.profileName }>{this.state.hasGotProfile ? this.state.profile.name : 'John Smith'}</Text>
                             {this.state.hasGotProfile ?
-                                <Text style={ login.profileHeading }>{ConvertBirthdayToAge(this.state.profile.get('birthday'))} / {this.state.profile.get('gender')} / University of Reading</Text>
+                                <Text style={ login.profileHeading }>{ConvertBirthdayToAge(this.state.profile.birthday)} / {this.state.profile.gender} / University of Reading</Text>
                                 : <View/>}
                             <Avatar
                                 xlarge={true}
                                 rounded={true}
-                                source={this.state.hasGotProfile ? {uri: this.state.profile.get('imageUrl')} : facebook_template as ImageURISource}
+                                source={this.state.hasGotProfile ? {uri: this.state.profile.imageUrl} : facebook_template as ImageURISource}
                             />
                             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'position' : 'height'} keyboardVerticalOffset={ 50 }>
                                 <View style={ login.marginTop }>
@@ -870,8 +871,8 @@ const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
 });
 
 const mapStateToProps = (state) => ({
-    login: state.get('login'),
-    profile: state.get('profile')
+    login: state.login,
+    profile: state.profile
 });
 
 const bindActions = (dispatch) => {
