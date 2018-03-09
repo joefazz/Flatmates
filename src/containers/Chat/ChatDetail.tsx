@@ -4,6 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { ChatDetailComponent } from '../../components/Chat/ChatDetailComponent';
+import { Message } from '../../components/Chat/MessageComponent';
 
 const fakeData = _.times(100, (i) => ({
     // every message will have a different color
@@ -25,7 +26,7 @@ interface Props  {
 };
 
 interface State {
-    messages: Array<object>
+    messages: Array<Message>
 }
 
 export class ChatDetail extends React.Component<Props, State> {

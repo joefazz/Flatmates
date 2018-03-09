@@ -1,27 +1,26 @@
+import { Map } from 'immutable';
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { Platform, StatusBar, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
-import {
-    UserDetailQuery,
-    UserDetailQueryVariables
-} from '../graphql/Types';
-
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
+import { UserDetailQuery } from '../graphql/Types';
+import { LoginState, ProfileState } from '../types/ReduxTypes';
+import { User } from '../types/Types';
 import { EditButton } from '../widgets';
 
 interface Props  {
-    profile: { get?: (key: string) => object, merge?: (newState: object) => object }
-    login: any,
-    loading: boolean,
-    userDetailsQuery: () => void
+    profile: ProfileState;
+    login: LoginState;
+    loading: boolean;
+    userDetailsQuery: () => void;
 };
 
 interface State {
-    isLoading: boolean,
-    profile: { get?: (key: string) => object, merge?: (newState: object) => object }
+    isLoading: boolean;
+    profile: Map<string, any>;
 }
 
 export class Profile extends React.Component<Props, State> {
@@ -45,7 +44,7 @@ export class Profile extends React.Component<Props, State> {
     componentWillReceiveProps(newProps) {
         if (newProps.loading !== this.props.loading && newProps.user) {
             // Remove null properties
-            const trimmedData: { house?: { users: Array<any> } } = {};
+            const trimmedData: { house?: { users: Array<User> } } = {};
 
             Object.keys(newProps.user).map((property) => {
                 if (newProps.user[property] !== null) {
@@ -62,8 +61,7 @@ export class Profile extends React.Component<Props, State> {
                 Object.keys(trimmedData.house).map((property) => {
                     tempHouse[property] = property === 'users' ? trimmedusers : trimmedData.house[property];
                 });
-
-                trimmedData.house = tempHouse as { users: Array<any> };
+                trimmedData.house = tempHouse as { users: Array<User> };
             }
 
             this.setState({

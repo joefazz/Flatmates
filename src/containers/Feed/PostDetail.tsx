@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { Colors } from '../../consts';
 import { UPDATE_POST_MUTATION } from '../../graphql/mutations';
+import { ProfileState } from '../../types/ReduxTypes';
 import { toConstantWidth } from '../../utils/PercentageConversion';
 
 interface Props  {
@@ -17,7 +18,7 @@ interface Props  {
             }
         }
     }, push: (route: string, params: {fbUserId?: string, data?: object}) => void},
-    profile: any;
+    profile: ProfileState;
     mutate: ({ variables: { id: string, lastSeen: Date }}) => Promise<any>
 };
 

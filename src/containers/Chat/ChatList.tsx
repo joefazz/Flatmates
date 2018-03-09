@@ -6,17 +6,19 @@ import { connect } from 'react-redux';
 
 import { ChatListComponent } from '../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY } from '../../graphql/queries';
+import { LoginState } from '../../types/ReduxTypes';
+import { Group } from '../../types/Types';
 
 interface Props  {
     loading: boolean,
-    groups: Array<object>,
+    groups: Array<Group>,
     navigation: { navigate: (route: string) => void },
-    login: any
+    login: LoginState
 };
 
 interface State {
     isLoading: boolean,
-    groups: Array<object>
+    groups: Array<Group>
 };
 
 export class ChatList extends React.Component<Props, State> {

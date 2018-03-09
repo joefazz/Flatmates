@@ -1,24 +1,22 @@
 import Mapbox from '@mapbox/react-native-mapbox-gl';
+import { Map } from 'immutable';
 import * as React from 'react';
+import { QueryProps } from 'react-apollo';
 import { ActivityIndicator, Animated, ScrollView, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import * as Interactable from 'react-native-interactable';
 
 import { Colors, Metrics } from '../../consts';
+import { UserDetailQuery } from '../../graphql/Types';
 import { profile } from '../../styles';
 import { ConvertBirthdayToAge } from '../../utils/BirthdayToAge';
-import { PreferenceRow } from '../../widgets';
 
 interface Props  {
-    profile: any,
-    isLoading: boolean
+    profile: QueryProps<UserDetailQuery> | Map<string, any>;
+    isLoading: boolean;
 };
 
-interface State {
-
-};
-
-export class ProfileComponent extends React.Component<Props, State> {
+export class ProfileComponent extends React.Component<Props> {
     _deltaY: Animated.Value;
 
     constructor(props) {

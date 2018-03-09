@@ -4,17 +4,15 @@ import {
     ImageBackground,
     StatusBar,
     StyleSheet,
-    Text,
     View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import splash_screen from '../../Assets/splash_screen.png';
+import { LoginState } from '../types/ReduxTypes';
 import { toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
 
 interface Props {
-    login: {
-        get: (prop) => string;
-    },
+    login: LoginState,
     navigation: {
         navigate: (route) => void;
     }
@@ -30,7 +28,7 @@ class AuthLoadingScreen extends React.Component<Props> {
     _bootstrap = () => {
         // This will switch to the App screen or Auth screen and this loading
         // screen will be unmounted and thrown away.
-        this.props.navigation.navigate(this.props.login.get('fbAccessToken') !== '' ? 'Home' : 'Login');
+        this.props.navigation.navigate(this.props.login.fbAccessToken !== '' ? 'Home' : 'Login');
     };
 
   // Render any loading content that you like here

@@ -6,10 +6,11 @@ import { connect } from 'react-redux';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { getPosts } from '../../redux/Routines';
+import { FeedState, LoginState } from '../../types/ReduxTypes';
 
 interface Props {
-    feed: { get: (string) => object },
-    login: object,
+    feed: FeedState,
+    login: LoginState,
     navigation: {push: (route: string, params: {fbUserId?: string, data?: object}) => void},
     getPosts: (take?: number, skip?: number) => void
 };
@@ -25,7 +26,7 @@ export class PostList extends React.Component<Props, State> {
         skip: 0
     };
 
-    protected static navigationOptions = (props) => ({
+    protected static navigationOptions = () => ({
         title: 'Home',
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />

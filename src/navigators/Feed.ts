@@ -4,11 +4,13 @@ import { Colors, Font } from '../consts';
 import CreatePost from '../containers/Feed/CreatePost';
 import PostDetail from '../containers/Feed/PostDetail';
 import PostList from '../containers/Feed/PostList';
+import UserProfile from '../containers/Feed/UserProfile';
 
 const routeConfig = {
     PostList: {screen: PostList},
     PostDetail: {screen: PostDetail},
-    CreatePost: {screen: CreatePost}
+    CreatePost: {screen: CreatePost},
+    UserProfile: {screen: UserProfile}
 };
 
 const navConfig: any = {

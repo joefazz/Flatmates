@@ -8,15 +8,15 @@ import { Colors } from '../../consts';
 import { USER_POST_QUERY } from '../../graphql/queries';
 import { createPost } from '../../redux/Routines';
 import { base, feed } from '../../styles';
+import { LoginState } from '../../types/ReduxTypes';
+import { User } from '../../types/Types';
 import { toConstantFontSize } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
 
 interface Props  {
     navigation: {pop: () => void, state: {params: {fbUserId: string}}},
-    user: object,
-    login: {
-        get: (prop) => string;
-    },
+    user: User,
+    login: LoginState,
     loading: boolean,
     createPost: ({description, createdBy}) => void
 };
@@ -89,7 +89,7 @@ export class CreatePost extends React.Component<Props, State> {
 const getUserInfo = graphql(USER_POST_QUERY, {
     options(props: Props) {
         return {
-            variables: {facebookUserId: props.login.get('fbUserId')}
+            variables: {facebookUserId: props.login.fbUserId}
         };
     },
     // @ts-ignore
