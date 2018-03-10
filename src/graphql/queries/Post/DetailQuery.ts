@@ -14,6 +14,7 @@ export const POST_DETAILS_QUERY = gql`
                 spaces
                 houseImages
                 users {
+                    facebookUserId
                     name
                     gender
                     bio

@@ -8,6 +8,7 @@ import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import { Colors } from '../../consts';
 import { UPDATE_POST_MUTATION } from '../../graphql/mutations';
 import { ProfileState } from '../../types/ReduxTypes';
+import { House } from '../../types/Types';
 import { toConstantWidth } from '../../utils/PercentageConversion';
 
 interface Props  {
@@ -24,32 +25,21 @@ interface Props  {
 
 interface State {
     data: {
-        id?: string,
-        createdAt: string,
-        lastSeen: string,
-        createdBy: {
-            billsPrice: number,
-            rentPrice: number,
-            houseImages: Array<string>,
-            road: string,
-            spaces: number,
-            users: Array<any>,
-            coords: Array<number>
-        },
-        description: string,
-        title: string
+        id?: string;
+        createdAt: string;
+        lastSeen: string;
+        createdBy: House;
+        description: string;
+        title: string;
     },
-    isLoading: boolean
+    isLoading: boolean;
 };
 
 export class PostDetail extends React.Component<Props, State> {
     protected static navigationOptions = ({ navigation }) => ({
-        title: 'Post Detail',
         headerTitle: navigation.state.params.data.createdBy.road,
-        tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
-        ),
-        headerRight: Platform.OS === 'ios' ? <Icon name={'ios-star-outline'} style={{ marginRight: toConstantWidth(1.8) }} color={Colors.white} size={28} /> : <React.Fragment />
+        headerRight: Platform.OS === 'ios' ? <Icon name={'ios-star-outline'} style={{ marginRight: toConstantWidth(1.8) }} color={Colors.white} size={28} /> : <React.Fragment />,
+        tabBarVisible: false
     });
 
     // TODO: FIND A WAY TO CONNECT THIS SCREEN TO STATE SO I CAN USE PROFILE TO COMPARE AND GET PERCENTAGE

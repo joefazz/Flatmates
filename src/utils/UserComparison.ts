@@ -7,7 +7,6 @@ export function compareUsers(me, otherUser): number {
     // study year - 0.1
     // birthday - 0.05
     // facebook info - 0.05
-    console.log(me, otherUser);
     let score = 0;
 
     if (me.isSmoker === otherUser.isSmoker) {

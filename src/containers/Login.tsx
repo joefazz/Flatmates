@@ -171,18 +171,18 @@ export class Login extends React.Component<Props, State> {
 
     componentWillReceiveProps(newProps) {
         if (!newProps.login.equals(this.props.login)) {
-            if (this.state.isLoggingIn && newProps.login.loginStatus === LoginStatus.ENDED) {
+            if (this.state.isLoggingIn && newProps.login.get('loginStatus') === LoginStatus.SUCCEED) {
                 this.setState({ isLoggingIn: false });
-                if (newProps.login.isLoggedIn) {
+                if (newProps.login.get('isLoggedIn')) {
                     this.setState({ isLoggedIn: true });
                 }
-            } else if (newProps.login.loginStatus === LoginStatus.FAILED) {
+            } else if (newProps.login.get('loginStatus') === LoginStatus.FAILED) {
                 this.setState({ isLoggedIn: false, hasLoginFailed: true });
             }
         }
 
-        if (this.props.login.fbUserId && newProps.login.fbUserId !== '') {
-            this.setState({ fbUserId: newProps.login.fbUserId });
+        if (this.props.login.get('fbUserId') && newProps.login.get('fbUserId') !== '') {
+            this.setState({ fbUserId: newProps.login.get('fbUserId') });
         }
 
         if (!newProps.profile.equals(this.props.profile)) {
@@ -194,7 +194,7 @@ export class Login extends React.Component<Props, State> {
 
     render() {
             if (this.state.hasLoginFailed) {
-                Alert.alert('Login Failed', this.props.login.error, [{
+                Alert.alert('Login Failed', this.props.login.get('error'), [{
                     text: 'OK', onPress: () => this.setState({ hasLoginFailed: false, isLoggingIn: false })
                 }]);
             }
@@ -871,8 +871,8 @@ const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
 });
 
 const mapStateToProps = (state) => ({
-    login: state.login,
-    profile: state.profile
+    login: state.get('login'),
+    profile: state.get('profile')
 });
 
 const bindActions = (dispatch) => {

@@ -1,33 +1,50 @@
+import * as Immutable from 'immutable';
 import * as React from 'react';
 import { graphql, QueryProps } from 'react-apollo';
 import { ActivityIndicator } from 'react-native';
 import { ProfileComponent } from '../../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../../graphql/queries';
-import { UserDetailQuery } from '../../graphql/Types';
-import { ProfileState } from '../../types/ReduxTypes';
+import { User } from '../../types/Types';
 
-interface Props {
-    profile: ProfileState;
-    data: QueryProps<UserDetailQuery>
+type Props = Response & QueryProps & InputProps
+
+interface Response {
+    user: User
+}
+
+interface InputProps {
+    navigation: {
+        state: {
+            params: {
+                fbUserId: string;
+                data: User;
+            }
+        }
+    }
 }
 
 export class UserProfile extends React.Component<Props> {
+    protected static navigationOptions = ({navigation}) => ({
+        headerTitle: navigation.state.params.data.name,
+        tabBarVisible: false
+    })
+
     render() {
-        if (this.props.data.loading) {
+        if (this.props.loading) {
             return <ActivityIndicator />;
         }
 
-        console.log(this.props.data);
         return (
-            <>
-                <ProfileComponent isLoading={this.props.data.loading} profile={this.props.data} />
-            </>
+            <ProfileComponent isLoading={this.props.loading} profile={Immutable.fromJS(Object.assign(this.props.navigation.state.params.data, this.props.user))} />
         );
     }
 }
 
-export default graphql(USER_DETAILS_QUERY,
-    {
-        options: ({ navigation }) => ({ variables: { facebookUserId: navigation.state.params.id } })
-    }
-)(UserProfile);
+const getUserDetail = graphql<Response, InputProps, Props>(USER_DETAILS_QUERY, {
+    options: ({ navigation }) => ({
+      variables: { facebookUserId: navigation.state.params.fbUserId }
+    }),
+    props: ({ data }) => ({ ...data })
+});
+
+export default getUserDetail(UserProfile);

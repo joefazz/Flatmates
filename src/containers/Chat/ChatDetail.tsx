@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import randomColor from 'randomcolor';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -6,20 +5,20 @@ import { connect } from 'react-redux';
 import { ChatDetailComponent } from '../../components/Chat/ChatDetailComponent';
 import { Message } from '../../components/Chat/MessageComponent';
 
-const fakeData = _.times(100, (i) => ({
-    // every message will have a different color
-    color: randomColor(),
-    // every 5th message will look like it's from the current user
-    isCurrentUser: i % 5 === 0,
-    message: {
-        id: i,
-        createdAt: new Date().toISOString(),
-        from: {
-            username: `Username ${i}`,
-        },
-        text: `Message ${i}`,
-    },
-}));
+// const fakeData = _.times(100, (i) => ({
+//     // every message will have a different color
+//     color: randomColor(),
+//     // every 5th message will look like it's from the current user
+//     isCurrentUser: i % 5 === 0,
+//     message: {
+//         id: i,
+//         createdAt: new Date().toISOString(),
+//         from: {
+//             username: `Username ${i}`,
+//         },
+//         text: `Message ${i}`,
+//     },
+// }));
 
 interface Props  {
     createMessage: () => void
@@ -42,7 +41,7 @@ export class ChatDetail extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            messages: fakeData
+            messages: []
         };
     }
 

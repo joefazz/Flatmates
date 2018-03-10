@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { AsyncStorage, BackHandler, Image } from 'react-native';
 import { NavigationActions } from 'react-navigation';
-import { connect, Provider } from 'react-redux';
+import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist-immutable';
 
 import Splash from '../Assets/splash_screen.png';
@@ -42,15 +42,12 @@ export default class Root extends React.Component<Props, State> {
         }
     }
 
-    // TODO: MAKE SURE REDUX CLEARS STORE IF SOMEONE EXITS OR CRASHES DURING SET UP OTHERWISE THE FACEBOOK QUERY WILL NEVER UPDATE THE UI
-    componentWillMount() {
+    componentDidMount() {
         // AsyncStorage.clear().catch((error) => console.log(error));
+        console.disableYellowBox = true;
         persistentStore(() => {
             this.setState({ isRehydrated: true });
         });
-    }
-
-    componentDidMount() {
         BackHandler.addEventListener('hardwareBackPress', () => store.dispatch(NavigationActions.back()));
     }
 

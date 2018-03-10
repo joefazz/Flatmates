@@ -1,7 +1,6 @@
 import * as Immutable from 'immutable';
-import _ from 'lodash';
-
 import { ProfileAction, ProfileState } from '../../types/ReduxTypes';
+import _ from '../../utils/localdash';
 import initialState from '../InitialState';
 import * as Types from '../Types';
 

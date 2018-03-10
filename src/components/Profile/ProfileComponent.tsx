@@ -1,18 +1,16 @@
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-import { Map } from 'immutable';
 import * as React from 'react';
-import { QueryProps } from 'react-apollo';
 import { ActivityIndicator, Animated, ScrollView, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import * as Interactable from 'react-native-interactable';
-
 import { Colors, Metrics } from '../../consts';
-import { UserDetailQuery } from '../../graphql/Types';
 import { profile } from '../../styles';
+import { ProfileState } from '../../types/ReduxTypes';
 import { ConvertBirthdayToAge } from '../../utils/BirthdayToAge';
+import _ from '../../utils/localdash';
 
 interface Props  {
-    profile: QueryProps<UserDetailQuery> | Map<string, any>;
+    profile: ProfileState;
     isLoading: boolean;
 };
 
@@ -64,7 +62,7 @@ export class ProfileComponent extends React.Component<Props> {
                                 extrapolateRight: 'clamp'
                             })
                         } ]}
-                        >
+                    >
                         <Animated.Text
                             style={[ profile.headerText, {
                             fontSize: this._deltaY.interpolate({
@@ -131,7 +129,7 @@ export class ProfileComponent extends React.Component<Props> {
                                     </View>
                                     <View>
                                         <Text style={ profile.aboutLabel }>Gender</Text>
-                                        <Text style={ profile.aboutText }>{this.props.profile.get('gender')}</Text>
+                                        <Text style={ profile.aboutText }>{_.capitalize(this.props.profile.get('gender'))}</Text>
                                     </View>
 
                                 </View>

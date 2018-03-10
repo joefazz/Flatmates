@@ -12,14 +12,14 @@ export interface House {
     billsPrice: number;
     rentPrice: number;
     spaces: number;
-    coords: string[];
-    houseImages: string[];
+    coords: Array<string>;
+    houseImages: Array<string>;
 
     createdAt: Date;
     updatedAt: Date;
 
     post: Post;
-    users: User[];
+    users: Array<User>;
 }
 
 export interface User {
@@ -46,7 +46,7 @@ export interface User {
 
     group: Group;
     house: House;
-    messages: Message[];
+    messages: Array<Message>;
     imageUrl: string;
 }
 
@@ -57,15 +57,15 @@ export interface Group {
     updatedAt: Date;
 
     name: string;
-    users: User[];
-    messages: Message[];
+    users: Array<User>;
+    messages: Array<Message>;
 }
 
 export interface Message {
     id: string;
 
     createdAt: Date;
-    
+
     text: string;
     from: User
     to: Group
@@ -83,8 +83,9 @@ export enum StudyYear {
 export enum LoginStatus {
     NOT_STARTED,
     STARTED,
+    SUCCEED,
+    FAILED,
     ENDED,
-    FAILED
 }
 
 export enum Course {
