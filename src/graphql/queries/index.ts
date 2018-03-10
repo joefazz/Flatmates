@@ -7,5 +7,15 @@ import { USER_CHAT_QUERY } from './User/ChatQuery';
 import { USER_POST_QUERY } from './User/CreateQuery';
 import { USER_DETAILS_QUERY } from './User/DetailQuery';
 import { USER_LOGIN_QUERY } from './User/LoginQuery';
+import { USER_STARRED_POSTS_QUERY } from './User/StarredPostQuery';
 
-export { USER_POST_QUERY, USER_LOGIN_QUERY, USER_CHAT_QUERY, USER_DETAILS_QUERY, HOUSE_DETAILS_QUERY, POST_LIST_QUERY, POST_DETAILS_QUERY };
+export {
+    USER_POST_QUERY,
+    USER_LOGIN_QUERY,
+    USER_CHAT_QUERY,
+    USER_DETAILS_QUERY,
+    HOUSE_DETAILS_QUERY,
+    POST_LIST_QUERY,
+    POST_DETAILS_QUERY,
+    USER_STARRED_POSTS_QUERY
+};

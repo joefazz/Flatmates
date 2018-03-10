@@ -1,4 +1,5 @@
-import * as moment from 'moment';
+// @ts-ignore
+import moment from 'moment';
 
 export function compareUsers(me, otherUser): number {
     // smoker - 0.3
@@ -26,9 +27,9 @@ export function compareUsers(me, otherUser): number {
         score += 0.1;
     }
 
-    // if (moment(me.birthday).format('YYYY') === moment(otherUser.birthday).format('YYYY')) {
-    //     score += 0.5
-    // }
+    if (moment(me.birthday).format('YYYY') === moment(otherUser.birthday).format('YYYY')) {
+        score += 0.5
+    }
 
     // leave facebook
 
