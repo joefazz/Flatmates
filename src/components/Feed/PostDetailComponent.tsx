@@ -37,6 +37,8 @@ interface Props {
     id: string;
     isLoading: boolean;
     profile: ProfileState;
+    starPost: () => void;
+    isStarred: boolean;
 }
 
 interface State {
@@ -88,8 +90,8 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         <View style={ feed.roadDateWrapper }>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Text style={ feed.roadText }>{this.props.house.road}</Text>
-                                <TouchableOpacity activeOpacity={0.7} onPress={() => console.log('Report Pressed')}>
-                                    <Icon style={{fontSize: toConstantFontSize(3.5), color: Colors.airbnbRed}} name={'flag'} />
+                                <TouchableOpacity activeOpacity={0.7} onPress={() => this.props.starPost()}>
+                                    <Icon style={{fontSize: toConstantFontSize(3.5), color: this.props.isStarred ? Colors.white : Colors.brandWarningColor, backgroundColor: this.props.isStarred ? Colors.brandWarningColor : 'transparent'}} name={'star'} />
                                 </TouchableOpacity>
                             </View>
                             <Text style={ feed.dateText }>
