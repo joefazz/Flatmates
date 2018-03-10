@@ -5,7 +5,7 @@ import * as React from 'react';
 import { ActivityIndicator, Image, ScrollView, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { RectButton } from 'react-native-gesture-handler';
-import { ifIphoneX } from 'react-native-iphone-x-helper';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
@@ -66,7 +66,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
         return (
             <>
                 <ScrollView
-                    contentContainerStyle={{ paddingBottom: toConstantHeight(ifIphoneX ? 9.4 : 7.4) }}
+                    contentContainerStyle={{ paddingBottom: toConstantHeight(isIphoneX() ? 9.4 : 7.4) }}
                 >
                     <Swiper
                         style={feed.detailImage}
@@ -115,13 +115,13 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     </View>
                     <View style={{ height: toConstantHeight(30) }}>
                         <Mapbox.MapView
-                            style={{ flex: 2, justifyContent: 'center', alignItems: 'flex-start', paddingLeft: 20}}
+                            style={{ flex: 2, justifyContent: 'center', paddingLeft: 20}}
                             zoomLevel={this.state.zoomLevel}
                             zoomEnabled={false}
                             scrollEnabled={false}
                             pitchEnabled={false}
                             rotateEnabled={false}
-                            onPress={() => console.log('This will go to a full screen map page')}
+                            onPress={() => this.props.navigation.push('MapView', { data: { coords: this.props.house.coords }})}
                             styleUrl={Mapbox.StyleURL.Street}
                             logoEnabled={false}
                             centerCoordinate={this.props.house.coords}
@@ -145,17 +145,17 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         {this.props.house.users.map((user, index) => this.renderFlatmateRow(user, index))}
                     </View>
                 </ScrollView>
-                <View style={{ height: toConstantHeight(ifIphoneX ? 9.4 : 7.4), position: 'absolute', bottom: 0 }}>
+                <View style={{ height: toConstantHeight(isIphoneX() ? 9.4 : 7.4), position: 'absolute', bottom: 0 }}>
                     <TouchableRect
                         onPress={() => console.log('Chat join pressed')}
                         title={'Send Application'}
                         iconName={'bullhorn'}
                         backgroundColor={Colors.brandSecondaryColor}
                         wrapperStyle={{ borderRadius: 0 }}
-                        buttonStyle={{ width: toConstantWidth(100), paddingBottom: ifIphoneX ? 18 : 0, height: toConstantHeight(ifIphoneX ? 9.4 : 7.4) }}
+                        buttonStyle={{ width: toConstantWidth(100), paddingBottom: isIphoneX() ? 18 : 0, height: toConstantHeight(isIphoneX() ? 9.4 : 7.4) }}
                     />
                 </View>
-            </>
+            </ >
         );
     }
 
