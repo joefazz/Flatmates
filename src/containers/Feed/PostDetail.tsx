@@ -19,8 +19,8 @@ interface Props  {
     }, push: (route: string, params: {fbUserId?: string, data?: object}) => void},
     profile: ProfileState;
     id: string;
-    updatePostMutation: (...UpdatePostMutationVariables) => { data: UpdatePostMutation } & QueryProps;
-    starPostMutation: (...StarPostMutationVariables) => StarPostMutation;
+    updatePost: (...UpdatePostMutationVariables) => { data: UpdatePostMutation } & QueryProps;
+    starPost: (...StarPostMutationVariables) => StarPostMutation;
 };
 
 interface State {
@@ -54,12 +54,9 @@ export class PostDetail extends React.Component<Props, State> {
 
     }
 
-    async getPostDetails() {
+    getPostDetails = async () => {
         try {
-            const { data: { updatePost } } = await this.props.updatePostMutation(
-                this.props.navigation.state.params.data.id,
-                new Date().toISOString()
-            );
+            const { data: { updatePost } } = await this.props.updatePost(this.props.navigation.state.params.data.id, new Date().toISOString());
 
             const combinedData = Object.assign(this.state.data, updatePost);
 
@@ -70,7 +67,7 @@ export class PostDetail extends React.Component<Props, State> {
     }
 
     starPost = () => {
-        this.props.starPostMutation(this.props.id, this.props.navigation.state.params.data.id);
+        this.props.starPost(this.props.id, this.props.navigation.state.params.data.id);
         this.setState({ isStarred: true });
     }
 
