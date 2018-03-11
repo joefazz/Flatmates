@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.facebook.react.ReactApplication;
+import ui.shine.RNShineButtonPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnative.ivpusic.imagepicker.PickerPackage;
@@ -40,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
       mCallbackManager = new CallbackManager.Factory().create();
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new RNShineButtonPackage(),
             new RNGestureHandlerPackage(),
             new VectorIconsPackage(),
             new PickerPackage(),

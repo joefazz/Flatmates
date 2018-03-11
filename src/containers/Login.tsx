@@ -186,7 +186,7 @@ export class Login extends React.Component<Props, State> {
         }
 
         if (!newProps.profile.equals(this.props.profile)) {
-            if (newProps.profile.name !== '') {
+            if (newProps.profile.get('name') !== '') {
                 this.setState({ profile: newProps.profile, hasGotProfile: true });
             }
         }
@@ -299,14 +299,14 @@ export class Login extends React.Component<Props, State> {
 
                     <View style={ login.page }>
                         <View style={[ login.mainContent, { flex: 4, alignItems: 'center', justifyContent: 'flex-start', marginTop: Platform.OS === 'ios' ? 48 : 0 } ]}>
-                            <Text style={ login.profileName }>{this.state.hasGotProfile ? this.state.profile.name : 'John Smith'}</Text>
+                            <Text style={ login.profileName }>{this.state.hasGotProfile ? this.state.profile.get('name') : 'John Smith'}</Text>
                             {this.state.hasGotProfile ?
-                                <Text style={ login.profileHeading }>{ConvertBirthdayToAge(this.state.profile.birthday)} / {this.state.profile.gender} / University of Reading</Text>
+                                <Text style={ login.profileHeading }>{ConvertBirthdayToAge(this.state.profile.get('birthday'))} / {this.state.profile.get('gender')} / University of Reading</Text>
                                 : <View/>}
                             <Avatar
                                 xlarge={true}
                                 rounded={true}
-                                source={this.state.hasGotProfile ? {uri: this.state.profile.imageUrl} : facebook_template as ImageURISource}
+                                source={this.state.hasGotProfile ? {uri: this.state.profile.get('imageUrl')} : facebook_template as ImageURISource}
                             />
                             <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'position' : 'height'} keyboardVerticalOffset={ 50 }>
                                 <View style={ login.marginTop }>

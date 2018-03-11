@@ -6,6 +6,7 @@ import { ActivityIndicator, Image, ScrollView, Text, TouchableHighlight, Touchab
 import { Avatar } from 'react-native-elements';
 import { RectButton } from 'react-native-gesture-handler';
 import { isIphoneX } from 'react-native-iphone-x-helper';
+import RNShineButton from 'react-native-shine-button';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
@@ -90,9 +91,14 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         <View style={ feed.roadDateWrapper }>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Text style={ feed.roadText }>{this.props.house.road}</Text>
-                                <TouchableOpacity activeOpacity={0.7} onPress={() => this.props.starPost()}>
-                                    <Icon style={{fontSize: toConstantFontSize(3.5), color: this.props.isStarred ? Colors.white : Colors.brandWarningColor, backgroundColor: this.props.isStarred ? Colors.brandWarningColor : 'transparent'}} name={'star'} />
-                                </TouchableOpacity>
+                                <RNShineButton
+                                    size={toConstantFontSize(3.5)}
+                                    color={Colors.textGrey}
+                                    fillColor={Colors.brandWarningColor}
+                                    shape={'star'}
+                                    onChange={() => this.props.starPost()}
+                                    value={this.props.isStarred}
+                                />
                             </View>
                             <Text style={ feed.dateText }>
                                 {this.props.lastSeen ?

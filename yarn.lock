@@ -4686,6 +4686,10 @@ react-native-safe-area-view@^0.7.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
+react-native-shine-button@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/react-native-shine-button/-/react-native-shine-button-0.0.4.tgz#da83d0b08b7cd3425c5b13ff9c755e3fe6ef2bbb"
+
 react-native-swiper@^1.5.13:
   version "1.5.13"
   resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.13.tgz#fa695cd4ab77b9a9df2d2bfee38ea7274dd07a2e"

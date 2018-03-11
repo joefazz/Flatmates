@@ -60,7 +60,10 @@
 		8984374BD95549F0AD6CE3DB /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3048F3E3DE0A4F7A8BAA8898 /* FontAwesome.ttf */; };
 		9848123C409F4791A1DC4B5E /* Nunito SemiBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B712D49E1C8045EA9695E4F0 /* Nunito SemiBold Italic.ttf */; };
 		9C49CB85C04C4D73917C9D1B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02743E41C3B445FF98098195 /* Foundation.ttf */; };
+		A0766A10C22B4C2F91FC4CF4 /* libRNShineButton.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 247F28FB6EC0408CB3FBE322 /* libRNShineButton.a */; };
 		A187D8B921594ED290DA9DC9 /* Nunito SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */; };
+		A24895B42054A9B80029EE11 /* WCLShineButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24895B12054A9A00029EE11 /* WCLShineButton.framework */; };
+		A24895B52054A9B80029EE11 /* WCLShineButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24895B12054A9A00029EE11 /* WCLShineButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26DBE031FFBE62300FE1330 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; };
 		A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */; };
@@ -332,6 +335,34 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+		A248959C2054A88B0029EE11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EDEE9F13F01940EAB65D2164 /* RNShineButton.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNShineButton;
+		};
+		A24895B02054A9A00029EE11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9773F93C1E547C060011CBEF;
+			remoteInfo = WCLShineButton;
+		};
+		A24895B22054A9A00029EE11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9721D6151E5576D8003C31EF;
+			remoteInfo = Demo;
+		};
+		A24895B62054A9B80029EE11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 9773F93B1E547C060011CBEF;
+			remoteInfo = WCLShineButton;
+		};
 		A26DBE0A1FFBE64E00FE1330 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */;
@@ -398,6 +429,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */,
+				A24895B52054A9B80029EE11 /* WCLShineButton.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,6 +463,7 @@
 		17F1E5A6AF49430597BE1D5E /* Nunito Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Light.ttf"; path = "../Assets/Fonts/Nunito/Nunito Light.ttf"; sourceTree = "<group>"; };
 		1DC076EA845244790C2ADE34 /* libPods-Flatmates-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Flatmates-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F17232BC14643A1A1542816 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
+		247F28FB6EC0408CB3FBE322 /* libRNShineButton.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNShineButton.a; sourceTree = "<group>"; };
 		2607C2442A2046528B6AD78E /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Flatmates-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flatmates-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Flatmates-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Flatmates-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -456,6 +489,7 @@
 		8F130619A78745C2A9B259D4 /* Nunito Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Black.ttf"; path = "../Assets/Fonts/Nunito/Nunito Black.ttf"; sourceTree = "<group>"; };
 		92666A5AC50E103D720121A4 /* Pods-Flatmates-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOS/Pods-Flatmates-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito SemiBold.ttf"; path = "../Assets/Fonts/Nunito/Nunito SemiBold.ttf"; sourceTree = "<group>"; };
+		A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WCLShineButton.xcodeproj; path = "../node_modules/react-native-shine-button/ios/WCLShineButton/WCLShineButton.xcodeproj"; sourceTree = "<group>"; };
 		A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
 		A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
 		A2FBD7521FD46312005C1561 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -479,6 +513,7 @@
 		DE24A7EEFB3E41F39B85A8C6 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		E3C2BD9D16A92E28025D5DA5 /* libPods-Flatmates.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Flatmates.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECE0628D1CBDE33419625255 /* libPods-FlatmatesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlatmatesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EDEE9F13F01940EAB65D2164 /* RNShineButton.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNShineButton.xcodeproj; path = "../node_modules/react-native-shine-button/ios/RNShineButton.xcodeproj"; sourceTree = "<group>"; };
 		EED8BC209733A9881B7389AC /* Pods-FlatmatesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlatmatesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlatmatesTests/Pods-FlatmatesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		FE050012E176E4E0BC1260A0 /* Pods-Flatmates-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOSTests/Pods-Flatmates-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -499,6 +534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */,
+				A24895B42054A9B80029EE11 /* WCLShineButton.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				A2FBD7591FD46312005C1561 /* Bolts.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -522,6 +558,7 @@
 				04584EC7E0C0425891D25624 /* libimageCropPicker.a in Frameworks */,
 				683E2CF9B527A4B0E7542073 /* libPods-Flatmates.a in Frameworks */,
 				2D54E1CEB2EE4CC48802FDE1 /* libRNGestureHandler.a in Frameworks */,
+				A0766A10C22B4C2F91FC4CF4 /* libRNShineButton.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -736,6 +773,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */,
 				A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -753,6 +791,7 @@
 				6F2FD57FE18F42D482774450 /* Interactable.xcodeproj */,
 				420EB64209FE478CAA768E7A /* imageCropPicker.xcodeproj */,
 				1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */,
+				EDEE9F13F01940EAB65D2164 /* RNShineButton.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -802,6 +841,7 @@
 				5BF855C967F34A8FA3AC0DCE /* libInteractable.a */,
 				7BD128C1EBFC4AB0BF889D6D /* libimageCropPicker.a */,
 				FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */,
+				247F28FB6EC0408CB3FBE322 /* libRNShineButton.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -828,6 +868,23 @@
 				ECE0628D1CBDE33419625255 /* libPods-FlatmatesTests.a */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		A24895992054A88B0029EE11 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A248959D2054A88B0029EE11 /* libRNShineButton.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A24895AC2054A9A00029EE11 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A24895B12054A9A00029EE11 /* WCLShineButton.framework */,
+				A24895B32054A9A00029EE11 /* Demo.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		A26DBE071FFBE64D00FE1330 /* Products */ = {
@@ -912,6 +969,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A24895B72054A9B80029EE11 /* PBXTargetDependency */,
 			);
 			name = Flatmates;
 			productName = "Hello World";
@@ -1063,6 +1121,14 @@
 				{
 					ProductGroup = A2D150B32048B10600C4DD57 /* Products */;
 					ProjectRef = 1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */;
+				},
+				{
+					ProductGroup = A24895992054A88B0029EE11 /* Products */;
+					ProjectRef = EDEE9F13F01940EAB65D2164 /* RNShineButton.xcodeproj */;
+				},
+				{
+					ProductGroup = A24895AC2054A9A00029EE11 /* Products */;
+					ProjectRef = A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1312,6 +1378,27 @@
 			fileType = archive.ar;
 			path = "libprivatedata-tvOS.a";
 			remoteRef = A20D49031FCD6AEE00059AAE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A248959D2054A88B0029EE11 /* libRNShineButton.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNShineButton.a;
+			remoteRef = A248959C2054A88B0029EE11 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A24895B12054A9A00029EE11 /* WCLShineButton.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = WCLShineButton.framework;
+			remoteRef = A24895B02054A9A00029EE11 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A24895B32054A9A00029EE11 /* Demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Demo.app;
+			remoteRef = A24895B22054A9A00029EE11 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */ = {
@@ -1719,6 +1806,11 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* Flatmates-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
+		A24895B72054A9B80029EE11 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WCLShineButton;
+			targetProxy = A24895B62054A9B80029EE11 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1749,11 +1841,15 @@
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1775,11 +1871,15 @@
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1793,6 +1893,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D02747B8652952F22A096003 /* Pods-Flatmates.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
@@ -1806,6 +1907,7 @@
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = Flatmates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1828,6 +1930,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CCD26172338273C9A4EF6102 /* Pods-Flatmates.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1840,6 +1943,7 @@
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = Flatmates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1877,10 +1981,14 @@
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1912,10 +2020,14 @@
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1942,7 +2054,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Flatmates-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -1965,7 +2080,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Flatmates-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
