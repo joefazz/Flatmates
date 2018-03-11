@@ -28,6 +28,7 @@ class AuthLoadingScreen extends React.Component<Props> {
     _bootstrap = () => {
         // This will switch to the App screen or Auth screen and this loading
         // screen will be unmounted and thrown away.
+        console.log(this.props.login.toJS());
         this.props.navigation.navigate(this.props.login.get('fbAccessToken') && this.props.login.get('fbAccessToken') !== '' ? 'Home' : 'Login');
     };
 

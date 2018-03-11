@@ -8,10 +8,8 @@ interface GenericAction {
 
 export interface LoginAction extends GenericAction {
     payload: {
-        token: {
-            accessToken: string;
-            expiryDate: string;
-        };
+        token: string;
+        expiryDate: number;
         response: {
             userID: string;
             deniedPermissions: Array<string>;

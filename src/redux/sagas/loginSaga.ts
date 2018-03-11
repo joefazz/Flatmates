@@ -92,7 +92,11 @@ const signup = function *() {
                 token.expiryDate = data.expirationTime;
                 response.userID = data.userID;
             });
-            yield put(signupWithFacebook.success({response, token}));
+
+            const { expiryDate } = token;
+            const access = token.accessToken;
+
+            yield put(signupWithFacebook.success({response, token: access, expiryDate}));
             yield* getData();
         }
 
@@ -122,13 +126,16 @@ const login = function *() {
                 response.userID = data.userID;
             });
 
+            const { expiryDate } = token;
+
             const doesExist = yield call(doesUserExist, response.userID);
 
             if (doesExist) {
                 const serverData = Object.assign(response, doesExist);
 
                 yield* getLocalData(serverData);
-                yield put(loginWithFacebook.success({response, token}));
+                console.log(token);
+                yield put(loginWithFacebook.success({response, token, expiryDate}));
             } else {
                 throw new Error('User does not exist');
             }

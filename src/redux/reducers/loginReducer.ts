@@ -23,8 +23,8 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
         });
     case Types.FACEBOOK_LOGIN_SUCCESS:
         return state.merge({
-            fbAccessToken: action.payload.token.accessToken,
-            fbTokenExpiryDate: action.payload.token.expiryDate,
+            fbAccessToken: action.payload.token,
+            fbTokenExpiryDate: action.payload.expiryDate,
             fbUserId: action.payload.response.userID,
             deniedPermissions: action.payload.response.deniedPermissions,
             grantedPermissions: action.payload.response.grantedPermissions,
@@ -47,8 +47,8 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
         });
     case Types.FACEBOOK_SIGNUP_SUCCESS:
         return state.merge({
-            fbAccessToken: action.payload.token.accessToken,
-            fbTokenExpiryDate: action.payload.token.expiryDate,
+            fbAccessToken: action.payload.token,
+            fbTokenExpiryDate: action.payload.expiryDate,
             fbUserId: action.payload.response.userID,
             deniedPermissions: action.payload.response.deniedPermissions,
             grantedPermissions: action.payload.response.grantedPermissions,

@@ -28,10 +28,10 @@ export function compareUsers(me, otherUser): number {
     }
 
     if (moment(me.birthday).format('YYYY') === moment(otherUser.birthday).format('YYYY')) {
-        score += 0.5
+        score += 0.05
     }
 
     // leave facebook
 
-    return score * 100;
+    return Math.floor(score * 100);
 }

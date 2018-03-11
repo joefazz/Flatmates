@@ -808,7 +808,7 @@
           "inputFields": [
             {
               "name": "AND",
-              "description": "",
+              "description": "Logical AND on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -826,7 +826,7 @@
             },
             {
               "name": "OR",
-              "description": "",
+              "description": "Logical OR on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -854,7 +854,7 @@
             },
             {
               "name": "id_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -864,7 +864,7 @@
             },
             {
               "name": "id_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -882,7 +882,7 @@
             },
             {
               "name": "id_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -900,7 +900,7 @@
             },
             {
               "name": "id_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -910,7 +910,7 @@
             },
             {
               "name": "id_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -920,7 +920,7 @@
             },
             {
               "name": "id_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -930,7 +930,7 @@
             },
             {
               "name": "id_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -940,7 +940,7 @@
             },
             {
               "name": "id_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -950,7 +950,7 @@
             },
             {
               "name": "id_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -960,7 +960,7 @@
             },
             {
               "name": "id_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -970,7 +970,7 @@
             },
             {
               "name": "id_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -980,7 +980,7 @@
             },
             {
               "name": "id_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -990,7 +990,7 @@
             },
             {
               "name": "id_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -1010,7 +1010,7 @@
             },
             {
               "name": "createdAt_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1020,7 +1020,7 @@
             },
             {
               "name": "createdAt_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1038,7 +1038,7 @@
             },
             {
               "name": "createdAt_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1056,7 +1056,7 @@
             },
             {
               "name": "createdAt_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1066,7 +1066,7 @@
             },
             {
               "name": "createdAt_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1076,7 +1076,7 @@
             },
             {
               "name": "createdAt_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1086,7 +1086,7 @@
             },
             {
               "name": "createdAt_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1106,7 +1106,7 @@
             },
             {
               "name": "lastSeen_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1116,7 +1116,7 @@
             },
             {
               "name": "lastSeen_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1134,7 +1134,7 @@
             },
             {
               "name": "lastSeen_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1152,7 +1152,7 @@
             },
             {
               "name": "lastSeen_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1162,7 +1162,7 @@
             },
             {
               "name": "lastSeen_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1172,7 +1172,7 @@
             },
             {
               "name": "lastSeen_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1182,7 +1182,7 @@
             },
             {
               "name": "lastSeen_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1202,7 +1202,7 @@
             },
             {
               "name": "description_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1212,7 +1212,7 @@
             },
             {
               "name": "description_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1230,7 +1230,7 @@
             },
             {
               "name": "description_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1248,7 +1248,7 @@
             },
             {
               "name": "description_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1258,7 +1258,7 @@
             },
             {
               "name": "description_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1268,7 +1268,7 @@
             },
             {
               "name": "description_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1278,7 +1278,7 @@
             },
             {
               "name": "description_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1288,7 +1288,7 @@
             },
             {
               "name": "description_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1298,7 +1298,7 @@
             },
             {
               "name": "description_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1308,7 +1308,7 @@
             },
             {
               "name": "description_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1318,7 +1318,7 @@
             },
             {
               "name": "description_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1328,7 +1328,7 @@
             },
             {
               "name": "description_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1338,7 +1338,7 @@
             },
             {
               "name": "description_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1379,7 +1379,7 @@
           "inputFields": [
             {
               "name": "AND",
-              "description": "",
+              "description": "Logical AND on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1397,7 +1397,7 @@
             },
             {
               "name": "OR",
-              "description": "",
+              "description": "Logical OR on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1425,7 +1425,7 @@
             },
             {
               "name": "shortID_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1435,7 +1435,7 @@
             },
             {
               "name": "shortID_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1453,7 +1453,7 @@
             },
             {
               "name": "shortID_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1471,7 +1471,7 @@
             },
             {
               "name": "shortID_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1481,7 +1481,7 @@
             },
             {
               "name": "shortID_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1491,7 +1491,7 @@
             },
             {
               "name": "shortID_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1501,7 +1501,7 @@
             },
             {
               "name": "shortID_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1521,7 +1521,7 @@
             },
             {
               "name": "road_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1531,7 +1531,7 @@
             },
             {
               "name": "road_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1549,7 +1549,7 @@
             },
             {
               "name": "road_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1567,7 +1567,7 @@
             },
             {
               "name": "road_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1577,7 +1577,7 @@
             },
             {
               "name": "road_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1587,7 +1587,7 @@
             },
             {
               "name": "road_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1597,7 +1597,7 @@
             },
             {
               "name": "road_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1607,7 +1607,7 @@
             },
             {
               "name": "road_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1617,7 +1617,7 @@
             },
             {
               "name": "road_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1627,7 +1627,7 @@
             },
             {
               "name": "road_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1637,7 +1637,7 @@
             },
             {
               "name": "road_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1647,7 +1647,7 @@
             },
             {
               "name": "road_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1657,7 +1657,7 @@
             },
             {
               "name": "road_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -1677,7 +1677,7 @@
             },
             {
               "name": "createdAt_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1687,7 +1687,7 @@
             },
             {
               "name": "createdAt_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1705,7 +1705,7 @@
             },
             {
               "name": "createdAt_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1723,7 +1723,7 @@
             },
             {
               "name": "createdAt_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1733,7 +1733,7 @@
             },
             {
               "name": "createdAt_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1743,7 +1743,7 @@
             },
             {
               "name": "createdAt_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1753,7 +1753,7 @@
             },
             {
               "name": "createdAt_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1773,7 +1773,7 @@
             },
             {
               "name": "updatedAt_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1783,7 +1783,7 @@
             },
             {
               "name": "updatedAt_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1801,7 +1801,7 @@
             },
             {
               "name": "updatedAt_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1819,7 +1819,7 @@
             },
             {
               "name": "updatedAt_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1829,7 +1829,7 @@
             },
             {
               "name": "updatedAt_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1839,7 +1839,7 @@
             },
             {
               "name": "updatedAt_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1849,7 +1849,7 @@
             },
             {
               "name": "updatedAt_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -1869,7 +1869,7 @@
             },
             {
               "name": "rentPrice_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1879,7 +1879,7 @@
             },
             {
               "name": "rentPrice_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1897,7 +1897,7 @@
             },
             {
               "name": "rentPrice_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1915,7 +1915,7 @@
             },
             {
               "name": "rentPrice_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1925,7 +1925,7 @@
             },
             {
               "name": "rentPrice_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1935,7 +1935,7 @@
             },
             {
               "name": "rentPrice_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1945,7 +1945,7 @@
             },
             {
               "name": "rentPrice_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1965,7 +1965,7 @@
             },
             {
               "name": "billsPrice_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -1975,7 +1975,7 @@
             },
             {
               "name": "billsPrice_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -1993,7 +1993,7 @@
             },
             {
               "name": "billsPrice_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2011,7 +2011,7 @@
             },
             {
               "name": "billsPrice_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -2021,7 +2021,7 @@
             },
             {
               "name": "billsPrice_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -2031,7 +2031,7 @@
             },
             {
               "name": "billsPrice_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -2041,7 +2041,7 @@
             },
             {
               "name": "billsPrice_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -2061,7 +2061,7 @@
             },
             {
               "name": "spaces_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -2071,7 +2071,7 @@
             },
             {
               "name": "spaces_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2089,7 +2089,7 @@
             },
             {
               "name": "spaces_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2107,7 +2107,7 @@
             },
             {
               "name": "spaces_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -2117,7 +2117,7 @@
             },
             {
               "name": "spaces_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -2127,7 +2127,7 @@
             },
             {
               "name": "spaces_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -2137,7 +2137,7 @@
             },
             {
               "name": "spaces_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -2198,7 +2198,7 @@
           "inputFields": [
             {
               "name": "AND",
-              "description": "",
+              "description": "Logical AND on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2216,7 +2216,7 @@
             },
             {
               "name": "OR",
-              "description": "",
+              "description": "Logical OR on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2244,7 +2244,7 @@
             },
             {
               "name": "facebookUserId_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2254,7 +2254,7 @@
             },
             {
               "name": "facebookUserId_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2272,7 +2272,7 @@
             },
             {
               "name": "facebookUserId_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2290,7 +2290,7 @@
             },
             {
               "name": "facebookUserId_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2300,7 +2300,7 @@
             },
             {
               "name": "facebookUserId_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2310,7 +2310,7 @@
             },
             {
               "name": "facebookUserId_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2320,7 +2320,7 @@
             },
             {
               "name": "facebookUserId_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2330,7 +2330,7 @@
             },
             {
               "name": "facebookUserId_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2340,7 +2340,7 @@
             },
             {
               "name": "facebookUserId_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2350,7 +2350,7 @@
             },
             {
               "name": "facebookUserId_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2360,7 +2360,7 @@
             },
             {
               "name": "facebookUserId_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2370,7 +2370,7 @@
             },
             {
               "name": "facebookUserId_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2380,7 +2380,7 @@
             },
             {
               "name": "facebookUserId_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2400,7 +2400,7 @@
             },
             {
               "name": "createdAt_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2410,7 +2410,7 @@
             },
             {
               "name": "createdAt_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2428,7 +2428,7 @@
             },
             {
               "name": "createdAt_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2446,7 +2446,7 @@
             },
             {
               "name": "createdAt_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2456,7 +2456,7 @@
             },
             {
               "name": "createdAt_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2466,7 +2466,7 @@
             },
             {
               "name": "createdAt_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2476,7 +2476,7 @@
             },
             {
               "name": "createdAt_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2496,7 +2496,7 @@
             },
             {
               "name": "updatedAt_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2506,7 +2506,7 @@
             },
             {
               "name": "updatedAt_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2524,7 +2524,7 @@
             },
             {
               "name": "updatedAt_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2542,7 +2542,7 @@
             },
             {
               "name": "updatedAt_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2552,7 +2552,7 @@
             },
             {
               "name": "updatedAt_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2562,7 +2562,7 @@
             },
             {
               "name": "updatedAt_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2572,7 +2572,7 @@
             },
             {
               "name": "updatedAt_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -2592,7 +2592,7 @@
             },
             {
               "name": "email_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2602,7 +2602,7 @@
             },
             {
               "name": "email_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2620,7 +2620,7 @@
             },
             {
               "name": "email_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2638,7 +2638,7 @@
             },
             {
               "name": "email_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2648,7 +2648,7 @@
             },
             {
               "name": "email_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2658,7 +2658,7 @@
             },
             {
               "name": "email_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2668,7 +2668,7 @@
             },
             {
               "name": "email_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2678,7 +2678,7 @@
             },
             {
               "name": "email_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2688,7 +2688,7 @@
             },
             {
               "name": "email_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2698,7 +2698,7 @@
             },
             {
               "name": "email_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2708,7 +2708,7 @@
             },
             {
               "name": "email_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2718,7 +2718,7 @@
             },
             {
               "name": "email_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2728,7 +2728,7 @@
             },
             {
               "name": "email_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2748,7 +2748,7 @@
             },
             {
               "name": "name_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2758,7 +2758,7 @@
             },
             {
               "name": "name_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2776,7 +2776,7 @@
             },
             {
               "name": "name_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2794,7 +2794,7 @@
             },
             {
               "name": "name_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2804,7 +2804,7 @@
             },
             {
               "name": "name_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2814,7 +2814,7 @@
             },
             {
               "name": "name_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2824,7 +2824,7 @@
             },
             {
               "name": "name_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2834,7 +2834,7 @@
             },
             {
               "name": "name_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2844,7 +2844,7 @@
             },
             {
               "name": "name_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2854,7 +2854,7 @@
             },
             {
               "name": "name_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2864,7 +2864,7 @@
             },
             {
               "name": "name_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2874,7 +2874,7 @@
             },
             {
               "name": "name_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2884,7 +2884,7 @@
             },
             {
               "name": "name_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2904,7 +2904,7 @@
             },
             {
               "name": "firstName_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2914,7 +2914,7 @@
             },
             {
               "name": "firstName_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2932,7 +2932,7 @@
             },
             {
               "name": "firstName_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -2950,7 +2950,7 @@
             },
             {
               "name": "firstName_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2960,7 +2960,7 @@
             },
             {
               "name": "firstName_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2970,7 +2970,7 @@
             },
             {
               "name": "firstName_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2980,7 +2980,7 @@
             },
             {
               "name": "firstName_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2990,7 +2990,7 @@
             },
             {
               "name": "firstName_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3000,7 +3000,7 @@
             },
             {
               "name": "firstName_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3010,7 +3010,7 @@
             },
             {
               "name": "firstName_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3020,7 +3020,7 @@
             },
             {
               "name": "firstName_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3030,7 +3030,7 @@
             },
             {
               "name": "firstName_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3040,7 +3040,7 @@
             },
             {
               "name": "firstName_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3060,7 +3060,7 @@
             },
             {
               "name": "lastName_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3070,7 +3070,7 @@
             },
             {
               "name": "lastName_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3088,7 +3088,7 @@
             },
             {
               "name": "lastName_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3106,7 +3106,7 @@
             },
             {
               "name": "lastName_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3116,7 +3116,7 @@
             },
             {
               "name": "lastName_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3126,7 +3126,7 @@
             },
             {
               "name": "lastName_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3136,7 +3136,7 @@
             },
             {
               "name": "lastName_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3146,7 +3146,7 @@
             },
             {
               "name": "lastName_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3156,7 +3156,7 @@
             },
             {
               "name": "lastName_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3166,7 +3166,7 @@
             },
             {
               "name": "lastName_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3176,7 +3176,7 @@
             },
             {
               "name": "lastName_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3186,7 +3186,7 @@
             },
             {
               "name": "lastName_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3196,7 +3196,7 @@
             },
             {
               "name": "lastName_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3216,7 +3216,7 @@
             },
             {
               "name": "birthday_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3226,7 +3226,7 @@
             },
             {
               "name": "birthday_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3244,7 +3244,7 @@
             },
             {
               "name": "birthday_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3262,7 +3262,7 @@
             },
             {
               "name": "birthday_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3272,7 +3272,7 @@
             },
             {
               "name": "birthday_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3282,7 +3282,7 @@
             },
             {
               "name": "birthday_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3292,7 +3292,7 @@
             },
             {
               "name": "birthday_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3302,7 +3302,7 @@
             },
             {
               "name": "birthday_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3312,7 +3312,7 @@
             },
             {
               "name": "birthday_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3322,7 +3322,7 @@
             },
             {
               "name": "birthday_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3332,7 +3332,7 @@
             },
             {
               "name": "birthday_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3342,7 +3342,7 @@
             },
             {
               "name": "birthday_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3352,7 +3352,7 @@
             },
             {
               "name": "birthday_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3372,7 +3372,7 @@
             },
             {
               "name": "gender_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3382,7 +3382,7 @@
             },
             {
               "name": "gender_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3400,7 +3400,7 @@
             },
             {
               "name": "gender_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3418,7 +3418,7 @@
             },
             {
               "name": "gender_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3428,7 +3428,7 @@
             },
             {
               "name": "gender_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3438,7 +3438,7 @@
             },
             {
               "name": "gender_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3448,7 +3448,7 @@
             },
             {
               "name": "gender_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3458,7 +3458,7 @@
             },
             {
               "name": "gender_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3468,7 +3468,7 @@
             },
             {
               "name": "gender_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3478,7 +3478,7 @@
             },
             {
               "name": "gender_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3488,7 +3488,7 @@
             },
             {
               "name": "gender_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3498,7 +3498,7 @@
             },
             {
               "name": "gender_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3508,7 +3508,7 @@
             },
             {
               "name": "gender_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3528,7 +3528,7 @@
             },
             {
               "name": "bio_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3538,7 +3538,7 @@
             },
             {
               "name": "bio_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3556,7 +3556,7 @@
             },
             {
               "name": "bio_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3574,7 +3574,7 @@
             },
             {
               "name": "bio_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3584,7 +3584,7 @@
             },
             {
               "name": "bio_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3594,7 +3594,7 @@
             },
             {
               "name": "bio_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3604,7 +3604,7 @@
             },
             {
               "name": "bio_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3614,7 +3614,7 @@
             },
             {
               "name": "bio_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3624,7 +3624,7 @@
             },
             {
               "name": "bio_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3634,7 +3634,7 @@
             },
             {
               "name": "bio_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3644,7 +3644,7 @@
             },
             {
               "name": "bio_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3654,7 +3654,7 @@
             },
             {
               "name": "bio_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3664,7 +3664,7 @@
             },
             {
               "name": "bio_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3684,7 +3684,7 @@
             },
             {
               "name": "course_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3694,7 +3694,7 @@
             },
             {
               "name": "course_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3712,7 +3712,7 @@
             },
             {
               "name": "course_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3730,7 +3730,7 @@
             },
             {
               "name": "course_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3740,7 +3740,7 @@
             },
             {
               "name": "course_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3750,7 +3750,7 @@
             },
             {
               "name": "course_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3760,7 +3760,7 @@
             },
             {
               "name": "course_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3770,7 +3770,7 @@
             },
             {
               "name": "course_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3780,7 +3780,7 @@
             },
             {
               "name": "course_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3790,7 +3790,7 @@
             },
             {
               "name": "course_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3800,7 +3800,7 @@
             },
             {
               "name": "course_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3810,7 +3810,7 @@
             },
             {
               "name": "course_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3820,7 +3820,7 @@
             },
             {
               "name": "course_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3840,7 +3840,7 @@
             },
             {
               "name": "studyYear_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3850,7 +3850,7 @@
             },
             {
               "name": "studyYear_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3868,7 +3868,7 @@
             },
             {
               "name": "studyYear_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -3886,7 +3886,7 @@
             },
             {
               "name": "studyYear_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3896,7 +3896,7 @@
             },
             {
               "name": "studyYear_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3906,7 +3906,7 @@
             },
             {
               "name": "studyYear_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3916,7 +3916,7 @@
             },
             {
               "name": "studyYear_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3926,7 +3926,7 @@
             },
             {
               "name": "studyYear_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3936,7 +3936,7 @@
             },
             {
               "name": "studyYear_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3946,7 +3946,7 @@
             },
             {
               "name": "studyYear_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3956,7 +3956,7 @@
             },
             {
               "name": "studyYear_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3966,7 +3966,7 @@
             },
             {
               "name": "studyYear_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3976,7 +3976,7 @@
             },
             {
               "name": "studyYear_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -3996,7 +3996,7 @@
             },
             {
               "name": "isSmoker_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Boolean",
@@ -4016,7 +4016,7 @@
             },
             {
               "name": "minPrice_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4026,7 +4026,7 @@
             },
             {
               "name": "minPrice_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4044,7 +4044,7 @@
             },
             {
               "name": "minPrice_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4062,7 +4062,7 @@
             },
             {
               "name": "minPrice_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4072,7 +4072,7 @@
             },
             {
               "name": "minPrice_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4082,7 +4082,7 @@
             },
             {
               "name": "minPrice_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4092,7 +4092,7 @@
             },
             {
               "name": "minPrice_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4112,7 +4112,7 @@
             },
             {
               "name": "maxPrice_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4122,7 +4122,7 @@
             },
             {
               "name": "maxPrice_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4140,7 +4140,7 @@
             },
             {
               "name": "maxPrice_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4158,7 +4158,7 @@
             },
             {
               "name": "maxPrice_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4168,7 +4168,7 @@
             },
             {
               "name": "maxPrice_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4178,7 +4178,7 @@
             },
             {
               "name": "maxPrice_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4188,7 +4188,7 @@
             },
             {
               "name": "maxPrice_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -4208,7 +4208,7 @@
             },
             {
               "name": "genderPreference_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4218,7 +4218,7 @@
             },
             {
               "name": "genderPreference_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4236,7 +4236,7 @@
             },
             {
               "name": "genderPreference_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4254,7 +4254,7 @@
             },
             {
               "name": "genderPreference_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4264,7 +4264,7 @@
             },
             {
               "name": "genderPreference_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4274,7 +4274,7 @@
             },
             {
               "name": "genderPreference_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4284,7 +4284,7 @@
             },
             {
               "name": "genderPreference_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4294,7 +4294,7 @@
             },
             {
               "name": "genderPreference_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4304,7 +4304,7 @@
             },
             {
               "name": "genderPreference_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4314,7 +4314,7 @@
             },
             {
               "name": "genderPreference_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4324,7 +4324,7 @@
             },
             {
               "name": "genderPreference_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4334,7 +4334,7 @@
             },
             {
               "name": "genderPreference_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4344,7 +4344,7 @@
             },
             {
               "name": "genderPreference_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4364,7 +4364,7 @@
             },
             {
               "name": "imageUrl_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4374,7 +4374,7 @@
             },
             {
               "name": "imageUrl_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4392,7 +4392,7 @@
             },
             {
               "name": "imageUrl_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4410,7 +4410,7 @@
             },
             {
               "name": "imageUrl_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4420,7 +4420,7 @@
             },
             {
               "name": "imageUrl_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4430,7 +4430,7 @@
             },
             {
               "name": "imageUrl_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4440,7 +4440,7 @@
             },
             {
               "name": "imageUrl_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4450,7 +4450,7 @@
             },
             {
               "name": "imageUrl_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4460,7 +4460,7 @@
             },
             {
               "name": "imageUrl_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4470,7 +4470,7 @@
             },
             {
               "name": "imageUrl_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4480,7 +4480,7 @@
             },
             {
               "name": "imageUrl_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4490,7 +4490,7 @@
             },
             {
               "name": "imageUrl_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4500,7 +4500,7 @@
             },
             {
               "name": "imageUrl_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -4621,7 +4621,7 @@
           "inputFields": [
             {
               "name": "AND",
-              "description": "",
+              "description": "Logical AND on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4639,7 +4639,7 @@
             },
             {
               "name": "OR",
-              "description": "",
+              "description": "Logical OR on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4667,7 +4667,7 @@
             },
             {
               "name": "id_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4677,7 +4677,7 @@
             },
             {
               "name": "id_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4695,7 +4695,7 @@
             },
             {
               "name": "id_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4713,7 +4713,7 @@
             },
             {
               "name": "id_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4723,7 +4723,7 @@
             },
             {
               "name": "id_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4733,7 +4733,7 @@
             },
             {
               "name": "id_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4743,7 +4743,7 @@
             },
             {
               "name": "id_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4753,7 +4753,7 @@
             },
             {
               "name": "id_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4763,7 +4763,7 @@
             },
             {
               "name": "id_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4773,7 +4773,7 @@
             },
             {
               "name": "id_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4783,7 +4783,7 @@
             },
             {
               "name": "id_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4793,7 +4793,7 @@
             },
             {
               "name": "id_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4803,7 +4803,7 @@
             },
             {
               "name": "id_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -4823,7 +4823,7 @@
             },
             {
               "name": "createdAt_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -4833,7 +4833,7 @@
             },
             {
               "name": "createdAt_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4851,7 +4851,7 @@
             },
             {
               "name": "createdAt_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4869,7 +4869,7 @@
             },
             {
               "name": "createdAt_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -4879,7 +4879,7 @@
             },
             {
               "name": "createdAt_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -4889,7 +4889,7 @@
             },
             {
               "name": "createdAt_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -4899,7 +4899,7 @@
             },
             {
               "name": "createdAt_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -4919,7 +4919,7 @@
             },
             {
               "name": "updatedAt_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -4929,7 +4929,7 @@
             },
             {
               "name": "updatedAt_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4947,7 +4947,7 @@
             },
             {
               "name": "updatedAt_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -4965,7 +4965,7 @@
             },
             {
               "name": "updatedAt_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -4975,7 +4975,7 @@
             },
             {
               "name": "updatedAt_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -4985,7 +4985,7 @@
             },
             {
               "name": "updatedAt_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -4995,7 +4995,7 @@
             },
             {
               "name": "updatedAt_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -5015,7 +5015,7 @@
             },
             {
               "name": "name_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5025,7 +5025,7 @@
             },
             {
               "name": "name_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5043,7 +5043,7 @@
             },
             {
               "name": "name_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5061,7 +5061,7 @@
             },
             {
               "name": "name_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5071,7 +5071,7 @@
             },
             {
               "name": "name_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5081,7 +5081,7 @@
             },
             {
               "name": "name_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5091,7 +5091,7 @@
             },
             {
               "name": "name_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5101,7 +5101,7 @@
             },
             {
               "name": "name_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5111,7 +5111,7 @@
             },
             {
               "name": "name_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5121,7 +5121,7 @@
             },
             {
               "name": "name_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5131,7 +5131,7 @@
             },
             {
               "name": "name_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5141,7 +5141,7 @@
             },
             {
               "name": "name_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5151,7 +5151,7 @@
             },
             {
               "name": "name_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5232,7 +5232,7 @@
           "inputFields": [
             {
               "name": "AND",
-              "description": "",
+              "description": "Logical AND on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5250,7 +5250,7 @@
             },
             {
               "name": "OR",
-              "description": "",
+              "description": "Logical OR on all given filters.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5278,7 +5278,7 @@
             },
             {
               "name": "id_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5288,7 +5288,7 @@
             },
             {
               "name": "id_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5306,7 +5306,7 @@
             },
             {
               "name": "id_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5324,7 +5324,7 @@
             },
             {
               "name": "id_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5334,7 +5334,7 @@
             },
             {
               "name": "id_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5344,7 +5344,7 @@
             },
             {
               "name": "id_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5354,7 +5354,7 @@
             },
             {
               "name": "id_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5364,7 +5364,7 @@
             },
             {
               "name": "id_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5374,7 +5374,7 @@
             },
             {
               "name": "id_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5384,7 +5384,7 @@
             },
             {
               "name": "id_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5394,7 +5394,7 @@
             },
             {
               "name": "id_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5404,7 +5404,7 @@
             },
             {
               "name": "id_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5414,7 +5414,7 @@
             },
             {
               "name": "id_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -5434,7 +5434,7 @@
             },
             {
               "name": "createdAt_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -5444,7 +5444,7 @@
             },
             {
               "name": "createdAt_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5462,7 +5462,7 @@
             },
             {
               "name": "createdAt_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5480,7 +5480,7 @@
             },
             {
               "name": "createdAt_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -5490,7 +5490,7 @@
             },
             {
               "name": "createdAt_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -5500,7 +5500,7 @@
             },
             {
               "name": "createdAt_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -5510,7 +5510,7 @@
             },
             {
               "name": "createdAt_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -5530,7 +5530,7 @@
             },
             {
               "name": "text_not",
-              "description": "",
+              "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5540,7 +5540,7 @@
             },
             {
               "name": "text_in",
-              "description": "",
+              "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5558,7 +5558,7 @@
             },
             {
               "name": "text_not_in",
-              "description": "",
+              "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
                 "name": null,
@@ -5576,7 +5576,7 @@
             },
             {
               "name": "text_lt",
-              "description": "",
+              "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5586,7 +5586,7 @@
             },
             {
               "name": "text_lte",
-              "description": "",
+              "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5596,7 +5596,7 @@
             },
             {
               "name": "text_gt",
-              "description": "",
+              "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5606,7 +5606,7 @@
             },
             {
               "name": "text_gte",
-              "description": "",
+              "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5616,7 +5616,7 @@
             },
             {
               "name": "text_contains",
-              "description": "",
+              "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5626,7 +5626,7 @@
             },
             {
               "name": "text_not_contains",
-              "description": "",
+              "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5636,7 +5636,7 @@
             },
             {
               "name": "text_starts_with",
-              "description": "",
+              "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5646,7 +5646,7 @@
             },
             {
               "name": "text_not_starts_with",
-              "description": "",
+              "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5656,7 +5656,7 @@
             },
             {
               "name": "text_ends_with",
-              "description": "",
+              "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5666,7 +5666,7 @@
             },
             {
               "name": "text_not_ends_with",
-              "description": "",
+              "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5877,11 +5877,11 @@
         {
           "kind": "INTERFACE",
           "name": "Node",
-          "description": "",
+          "description": "An object with an ID",
           "fields": [
             {
               "name": "id",
-              "description": "",
+              "description": "The id of the object.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -7727,6 +7727,47 @@
             },
             {
               "name": "starPost",
+              "description": "",
+              "args": [
+                {
+                  "name": "facebookUserId",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "postID",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "unstarPost",
               "description": "",
               "args": [
                 {

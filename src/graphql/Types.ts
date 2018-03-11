@@ -100,6 +100,17 @@ export interface StarPostMutation {
   } | null,
 };
 
+export interface UnstarPostMutationVariables {
+  facebookUserId: string,
+  postID: string,
+};
+
+export interface UnstarPostMutation {
+  unstarPost:  {
+    facebookUserId: string,
+  } | null,
+};
+
 export interface UpdateUserMutationVariables {
   facebookUserId: string,
   bio: string,

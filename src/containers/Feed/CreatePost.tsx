@@ -67,7 +67,7 @@ export class CreatePost extends React.Component<Props, State> {
         if (this.state.isLoading) {
             return <ActivityIndicator />;
         }
-
+        
         return (
             <View style={[ base.wholePage, {alignItems: 'center', justifyContent: 'center'} ]}>
                 <View style={ base.headingWrapper }>
@@ -89,7 +89,7 @@ export class CreatePost extends React.Component<Props, State> {
 const getUserInfo = graphql(USER_POST_QUERY, {
     options(props: Props) {
         return {
-            variables: {facebookUserId: props.login.fbUserId}
+            variables: {facebookUserId: props.login.get('fbUserId')}
         };
     },
     // @ts-ignore

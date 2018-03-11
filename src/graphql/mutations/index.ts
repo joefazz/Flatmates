@@ -8,6 +8,7 @@ import { UPDATE_POST_MUTATION } from './Post/UpdatePost';
 import { CREATE_USER_MUTATION } from './User/CreateUser';
 import { DELETE_USER_MUTATION } from './User/DeleteUser';
 import { STAR_POST_MUTATION } from './User/StarPostUser';
+import { UNSTAR_POST_MUTATION } from './User/UnstarPostUser';
 import { UPDATE_USER_MUTATION } from './User/UpdateUser';
 import { UPDATE_USER_CREATE_HOUSE_MUTATION } from './User/UpdateUserCreateHouse';
 import { UPDATE_USER_UPDATE_HOUSE_MUTATION } from './User/UpdateUserUpdateHouse';
@@ -17,6 +18,7 @@ export {
     // UPDATE_HOUSE_MUTATION,
     // LEAVE_HOUSE_MUTATION,
     // DELETE_HOUSE_MUTATION,
+    UNSTAR_POST_MUTATION,
     STAR_POST_MUTATION,
     CREATE_USER_MUTATION,
     UPDATE_USER_MUTATION,

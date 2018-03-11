@@ -39,7 +39,6 @@ interface Props {
     isLoading: boolean;
     profile: ProfileState;
     starPost: () => void;
-    isStarred: boolean;
 }
 
 interface State {
@@ -91,14 +90,15 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         <View style={ feed.roadDateWrapper }>
                             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <Text style={ feed.roadText }>{this.props.house.road}</Text>
-                                <RNShineButton
-                                    size={toConstantFontSize(3.5)}
-                                    color={Colors.textGrey}
-                                    fillColor={Colors.brandWarningColor}
-                                    shape={'star'}
-                                    onChange={() => this.props.starPost()}
-                                    value={this.props.isStarred}
-                                />
+                                <View style={{ marginRight: 10, marginBottom: 3 }}>
+                                    <RNShineButton
+                                        size={toConstantFontSize(3.5)}
+                                        color={Colors.grey}
+                                        fillColor={Colors.brandWarningColor}
+                                        shape={'star'}
+                                        onChange={() => this.props.starPost()}
+                                    />
+                                </View>
                             </View>
                             <Text style={ feed.dateText }>
                                 {this.props.lastSeen ?

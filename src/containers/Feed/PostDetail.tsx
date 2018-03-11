@@ -4,8 +4,8 @@ import { StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
-import { STAR_POST_MUTATION, UPDATE_POST_MUTATION } from '../../graphql/mutations';
-import { StarPostMutation, StarPostMutationVariables, UpdatePostMutation, UpdatePostMutationVariables } from '../../graphql/Types';
+import { STAR_POST_MUTATION, UNSTAR_POST_MUTATION, UPDATE_POST_MUTATION } from '../../graphql/mutations';
+import { StarPostMutation, StarPostMutationVariables, UnstarPostMutation, UnstarPostMutationVariables, UpdatePostMutation, UpdatePostMutationVariables } from '../../graphql/Types';
 import { ProfileState } from '../../types/ReduxTypes';
 import { House } from '../../types/Types';
 
@@ -13,15 +13,16 @@ interface Props  {
     navigation: {state: {
         params: {
             data: {
-                id
+                id: string;
             }
         }
-    }, push: (route: string, params: {fbUserId?: string, data?: object}) => void},
+    }, push: (route: string, params: {fbUserId?: string, data?: object}) => void};
     profile: ProfileState;
-    id: string;
+    userId: string;
     updatePost: (...UpdatePostMutationVariables) => { data: UpdatePostMutation } & QueryProps;
     starPost: (...StarPostMutationVariables) => StarPostMutation;
-};
+    unstarPost: (...UnstarPostMutationVariables) => UnstarPostMutation;
+}
 
 interface State {
     data: {
@@ -32,7 +33,6 @@ interface State {
         description: string;
         title: string;
     },
-    isStarred: boolean;
     isLoading: boolean;
 };
 
@@ -42,20 +42,24 @@ export class PostDetail extends React.Component<Props, State> {
         tabBarVisible: false
     });
 
+    isStarred: boolean;
+
     // TODO: FIND A WAY TO CONNECT THIS SCREEN TO STATE SO I CAN USE PROFILE TO COMPARE AND GET PERCENTAGE
     constructor(props) {
         super(props);
 
+        this.isStarred = false;
+
         this.state = {
             data: props.navigation.state.params.data,
             isLoading: true,
-            isStarred: false
         };
 
     }
 
     getPostDetails = async () => {
         try {
+            console.log(this.props.navigation.state.params.data.id, new Date().toISOString());
             const { data: { updatePost } } = await this.props.updatePost(this.props.navigation.state.params.data.id, new Date().toISOString());
 
             const combinedData = Object.assign(this.state.data, updatePost);
@@ -67,8 +71,13 @@ export class PostDetail extends React.Component<Props, State> {
     }
 
     starPost = () => {
-        this.props.starPost(this.props.id, this.props.navigation.state.params.data.id);
-        this.setState({ isStarred: true });
+        if (!this.isStarred) {
+            this.props.starPost(this.props.userId, this.props.navigation.state.params.data.id);
+            this.isStarred = true;
+        } else {
+            this.props.unstarPost(this.props.userId, this.props.navigation.state.params.data.id);
+            this.isStarred = false;
+        }
     }
 
     componentDidMount() {
@@ -90,7 +99,6 @@ export class PostDetail extends React.Component<Props, State> {
                     isLoading={this.state.isLoading}
                     navigation={this.props.navigation}
                     starPost={this.starPost}
-                    isStarred={this.state.isStarred}
                 />
             </>
         );
@@ -127,13 +135,29 @@ const starPostMutation = graphql(STAR_POST_MUTATION, {
     })
 });
 
+const unstarPostMutation = graphql(UNSTAR_POST_MUTATION, {
+    props: ({ mutate }) => ({
+        unstarPost: (
+            facebookUserId,
+            postID
+        ) =>
+            mutate({
+                variables: {
+                    facebookUserId,
+                    postID
+                }
+            })
+    })
+});
+
 const mapStateToProps = (state) => ({
     profile: state.get('profile'),
-    id: state.get('login').get('fbUserId')
+    userId: state.get('login').get('fbUserId')
 });
 
 export default compose(
     connect(mapStateToProps),
     updatePostMutation,
-    starPostMutation
+    starPostMutation,
+    unstarPostMutation
 )(PostDetail);
