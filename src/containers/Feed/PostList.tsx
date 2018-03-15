@@ -1,25 +1,26 @@
-import * as React from 'react';
-import { compose } from 'react-apollo';
-import { Platform, StatusBar } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { connect } from 'react-redux';
+import * as React from "react";
+import { compose } from "react-apollo";
+import { Platform, StatusBar } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
+import { connect } from "react-redux";
 
-import { PostListComponent } from '../../components/Feed/PostListComponent';
-import { getPosts } from '../../redux/Routines';
-import { FeedState, LoginState } from '../../types/ReduxTypes';
+import { PostListComponent } from "../../components/Feed/PostListComponent";
+import { getPosts } from "../../redux/Routines";
+import { FeedState, LoginState } from "../../types/ReduxTypes";
+import { Post } from "../../types/Types";
 
 interface Props {
-    feed: FeedState,
-    login: LoginState,
-    navigation: {push: (route: string, params: {fbUserId?: string, data?: object}) => void},
-    getPosts: (take?: number, skip?: number) => void
-};
+    feed: FeedState;
+    login: LoginState;
+    navigation: { push: (route: string, params: { fbUserId?: string; data?: object }) => void };
+    getPosts: (take?: number, skip?: number) => void;
+}
 
 interface State {
-    data: { toJS: () => Array<object> },
-    isLoading: boolean,
-    fbUserId: string
-};
+    data: Array<Post>;
+    isLoading: boolean;
+    fbUserId: string;
+}
 
 export class PostList extends React.Component<Props, State> {
     protected static defaultProps = {
@@ -27,19 +28,23 @@ export class PostList extends React.Component<Props, State> {
     };
 
     protected static navigationOptions = () => ({
-        title: 'Home',
+        title: "Home",
         tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
-        ),
+            <Icon
+                name={Platform.OS === "ios" ? (focused ? "ios-home" : "ios-home-outline") : "md-home"}
+                color={tintColor}
+                size={32}
+            />
+        )
     });
 
     constructor(props) {
         super(props);
 
         this.state = {
-            data: props.feed.get('posts'),
-            isLoading: props.feed.get('isFetchingPosts'),
-            fbUserId: '',
+            data: props.feed.posts,
+            isLoading: props.feed.isFetchingPosts,
+            fbUserId: ""
         };
     }
 
@@ -48,31 +53,36 @@ export class PostList extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(newProps) {
-        if (!newProps.feed.equals(this.props.feed) || newProps.feed.get('isFetchingPosts') !== this.state.isLoading) {
-            this.setState({ isLoading: newProps.feed.get('isFetchingPosts') });
+        if (newProps.feed.isFetchingPosts !== this.state.isLoading) {
+            this.setState({ isLoading: newProps.feed.isFetchingPosts });
 
-            if (newProps.feed.get('posts') !== this.state.data) {
-                this.setState({ data: newProps.feed.get('posts') });
+            if (newProps.feed.posts !== this.state.data) {
+                this.setState({ data: newProps.feed.posts });
             }
         }
 
-        if (newProps.login.get('fbUserId') !== null) {
-            this.setState({ fbUserId: newProps.login.get('fbUserId') });
+        if (newProps.login.fbUserId !== null) {
+            this.setState({ fbUserId: newProps.login.fbUserId });
         }
     }
 
     render() {
         return (
             <>
-                <StatusBar barStyle={'light-content'} />
-                <PostListComponent navigation={this.props.navigation} loadMorePosts={this.loadMorePosts} refreshPostList={() => this.refreshPostList} {...this.state} />
+                <StatusBar barStyle={"light-content"} />
+                <PostListComponent
+                    navigation={this.props.navigation}
+                    loadMorePosts={this.loadMorePosts}
+                    refreshPostList={() => this.refreshPostList}
+                    {...this.state}
+                />
             </>
         );
     }
 
     private loadMorePosts = () => {
         return;
-    }
+    };
 
     private refreshPostList() {
         return this.props.getPosts();
@@ -80,8 +90,8 @@ export class PostList extends React.Component<Props, State> {
 }
 
 const mapStateToProps = (state) => ({
-    login: state.get('login'),
-    feed: state.get('feed')
+    login: state.login,
+    feed: state.feed
 });
 
 const bindActions = (dispatch) => {
@@ -90,6 +100,4 @@ const bindActions = (dispatch) => {
     };
 };
 
-export default compose(
-    connect(mapStateToProps, bindActions)
-)(PostList);
+export default compose(connect(mapStateToProps, bindActions))(PostList);

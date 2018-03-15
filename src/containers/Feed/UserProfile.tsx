@@ -1,15 +1,14 @@
-import * as Immutable from 'immutable';
-import * as React from 'react';
-import { graphql, QueryProps } from 'react-apollo';
-import { ActivityIndicator } from 'react-native';
-import { ProfileComponent } from '../../components/Profile/ProfileComponent';
-import { USER_DETAILS_QUERY } from '../../graphql/queries';
-import { User } from '../../types/Types';
+import * as React from "react";
+import { graphql, QueryProps } from "react-apollo";
+import { ActivityIndicator } from "react-native";
+import { ProfileComponent } from "../../components/Profile/ProfileComponent";
+import { USER_DETAILS_QUERY } from "../../graphql/queries";
+import { User } from "../../types/Types";
 
-type Props = Response & QueryProps & InputProps
+type Props = Response & QueryProps & InputProps;
 
 interface Response {
-    user: User
+    user: User;
 }
 
 interface InputProps {
@@ -18,16 +17,16 @@ interface InputProps {
             params: {
                 fbUserId: string;
                 data: User;
-            }
-        }
-    }
+            };
+        };
+    };
 }
 
 export class UserProfile extends React.Component<Props> {
-    protected static navigationOptions = ({navigation}) => ({
+    protected static navigationOptions = ({ navigation }) => ({
         headerTitle: navigation.state.params.data.name,
         tabBarVisible: false
-    })
+    });
 
     render() {
         if (this.props.loading) {
@@ -35,14 +34,17 @@ export class UserProfile extends React.Component<Props> {
         }
 
         return (
-            <ProfileComponent isLoading={this.props.loading} profile={Immutable.fromJS(Object.assign(this.props.navigation.state.params.data, this.props.user))} />
+            <ProfileComponent
+                isLoading={this.props.loading}
+                profile={Object.assign({}, this.props.navigation.state.params.data, this.props.user)}
+            />
         );
     }
 }
 
 const getUserDetail = graphql<Response, InputProps, Props>(USER_DETAILS_QUERY, {
     options: ({ navigation }) => ({
-      variables: { facebookUserId: navigation.state.params.fbUserId }
+        variables: { facebookUserId: navigation.state.params.fbUserId }
     }),
     props: ({ data }) => ({ ...data })
 });

@@ -1,22 +1,32 @@
-import * as React from 'react';
-import { compose, graphql, QueryProps } from 'react-apollo';
-import { StatusBar } from 'react-native';
-import { connect } from 'react-redux';
+import * as React from "react";
+import { compose, graphql, QueryProps } from "react-apollo";
+import { StatusBar } from "react-native";
+import { connect } from "react-redux";
 
-import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
-import { STAR_POST_MUTATION, UNSTAR_POST_MUTATION, UPDATE_POST_MUTATION } from '../../graphql/mutations';
-import { StarPostMutation, StarPostMutationVariables, UnstarPostMutation, UnstarPostMutationVariables, UpdatePostMutation, UpdatePostMutationVariables } from '../../graphql/Types';
-import { ProfileState } from '../../types/ReduxTypes';
-import { House } from '../../types/Types';
+import { PostDetailComponent } from "../../components/Feed/PostDetailComponent";
+import { STAR_POST_MUTATION, UNSTAR_POST_MUTATION, UPDATE_POST_MUTATION } from "../../graphql/mutations";
+import {
+    StarPostMutation,
+    StarPostMutationVariables,
+    UnstarPostMutation,
+    UnstarPostMutationVariables,
+    UpdatePostMutation,
+    UpdatePostMutationVariables
+} from "../../graphql/Types";
+import { ProfileState } from "../../types/ReduxTypes";
+import { House } from "../../types/Types";
 
-interface Props  {
-    navigation: {state: {
-        params: {
-            data: {
-                id: string;
-            }
-        }
-    }, push: (route: string, params: {fbUserId?: string, data?: object}) => void};
+interface Props {
+    navigation: {
+        state: {
+            params: {
+                data: {
+                    id: string;
+                };
+            };
+        };
+        push: (route: string, params: { fbUserId?: string; data?: object }) => void;
+    };
     profile: ProfileState;
     userId: string;
     updatePost: (...UpdatePostMutationVariables) => { data: UpdatePostMutation } & QueryProps;
@@ -32,9 +42,9 @@ interface State {
         createdBy: House;
         description: string;
         title: string;
-    },
+    };
     isLoading: boolean;
-};
+}
 
 export class PostDetail extends React.Component<Props, State> {
     protected static navigationOptions = ({ navigation }) => ({
@@ -52,23 +62,25 @@ export class PostDetail extends React.Component<Props, State> {
 
         this.state = {
             data: props.navigation.state.params.data,
-            isLoading: true,
+            isLoading: true
         };
-
     }
 
     getPostDetails = async () => {
         try {
             console.log(this.props.navigation.state.params.data.id, new Date().toISOString());
-            const { data: { updatePost } } = await this.props.updatePost(this.props.navigation.state.params.data.id, new Date().toISOString());
+            const { data: { updatePost } } = await this.props.updatePost(
+                this.props.navigation.state.params.data.id,
+                new Date().toISOString()
+            );
 
-            const combinedData = Object.assign(this.state.data, updatePost);
+            const combinedData = Object.assign({}, this.state.data, updatePost);
 
             this.setState({ isLoading: false, data: combinedData });
         } catch (error) {
-            console.log('There was an error: ' + error + '... This will turn into a ui element eventually...');
+            console.log("There was an error: " + error + "... This will turn into a ui element eventually...");
         }
-    }
+    };
 
     starPost = () => {
         if (!this.isStarred) {
@@ -78,7 +90,7 @@ export class PostDetail extends React.Component<Props, State> {
             this.props.unstarPost(this.props.userId, this.props.navigation.state.params.data.id);
             this.isStarred = false;
         }
-    }
+    };
 
     componentDidMount() {
         this.getPostDetails();
@@ -87,7 +99,7 @@ export class PostDetail extends React.Component<Props, State> {
     render() {
         return (
             <>
-                <StatusBar barStyle={'light-content'} />
+                <StatusBar barStyle={"light-content"} />
                 <PostDetailComponent
                     title={this.state.data.title}
                     description={this.state.data.description}
@@ -107,10 +119,7 @@ export class PostDetail extends React.Component<Props, State> {
 
 const updatePostMutation = graphql(UPDATE_POST_MUTATION, {
     props: ({ mutate }) => ({
-        updatePost: (
-            id,
-            lastSeen
-        ) =>
+        updatePost: (id, lastSeen) =>
             mutate({
                 variables: {
                     id,
@@ -122,10 +131,7 @@ const updatePostMutation = graphql(UPDATE_POST_MUTATION, {
 
 const starPostMutation = graphql(STAR_POST_MUTATION, {
     props: ({ mutate }) => ({
-        starPost: (
-            facebookUserId,
-            postID
-        ) =>
+        starPost: (facebookUserId, postID) =>
             mutate({
                 variables: {
                     facebookUserId,
@@ -137,10 +143,7 @@ const starPostMutation = graphql(STAR_POST_MUTATION, {
 
 const unstarPostMutation = graphql(UNSTAR_POST_MUTATION, {
     props: ({ mutate }) => ({
-        unstarPost: (
-            facebookUserId,
-            postID
-        ) =>
+        unstarPost: (facebookUserId, postID) =>
             mutate({
                 variables: {
                     facebookUserId,
@@ -151,13 +154,10 @@ const unstarPostMutation = graphql(UNSTAR_POST_MUTATION, {
 });
 
 const mapStateToProps = (state) => ({
-    profile: state.get('profile'),
-    userId: state.get('login').get('fbUserId')
+    profile: state.profile,
+    userId: state.login.fbUserId
 });
 
-export default compose(
-    connect(mapStateToProps),
-    updatePostMutation,
-    starPostMutation,
-    unstarPostMutation
-)(PostDetail);
+export default compose(connect<{}, {}, Props>(mapStateToProps), updatePostMutation, starPostMutation, unstarPostMutation)(
+    PostDetail
+);

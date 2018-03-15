@@ -5,6 +5,7 @@
     "devDependencies": {
         "@types/react": "^16.0.40",
         "@types/react-native": "^0.52.16",
+        "@types/react-redux": "^5.0.15",
         "apollo-client-preset": "^1.0.3",
         "babel-eslint": "^8.2.2",
         "detox": "^7.1.0",
@@ -35,6 +36,14 @@
         "test": "jest",
         "postinstall": "rm ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json",
         "update-api-types": "apollo-codegen introspect-schema http://localhost:4000 --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts"
+    },
+    "prettier": {
+        "arrowParens": "always",
+        "tabWidth": 4,
+        "printWidth": 130,
+        "parser": "typescript",
+        "singleQuote": false,
+        "bracketSpacing": true
     },
     "jest": {
         "preset": "react-native",
@@ -69,7 +78,6 @@
     "dependencies": {
         "@mapbox/react-native-mapbox-gl": "^6.1.0",
         "apollo-link-ws": "^1.0.7",
-        "immutable": "^3.8.2",
         "mapbox": "^1.0.0-beta9",
         "moment": "^2.21.0",
         "randomcolor": "^0.5.3",
@@ -94,10 +102,8 @@
         "react-redux": "^5.0.7",
         "redux": "^3.7.2",
         "redux-devtools-extension": "^2.13.2",
-        "redux-immutablejs": "^0.0.8",
         "redux-logger": "^3.0.6",
-        "redux-persist": "4.10.2",
-        "redux-persist-immutable": "^4.3.1",
+        "redux-persist": "^4.10.2",
         "redux-saga": "^0.16.0",
         "redux-saga-routines": "^2.2.2"
     }

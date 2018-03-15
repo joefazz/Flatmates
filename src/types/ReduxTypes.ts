@@ -1,5 +1,3 @@
-import { Record } from 'immutable';
-import initialState from '../redux/InitialState';
 import { Course, LoginStatus, Post, StudyYear } from './Types';
 
 interface GenericAction {
@@ -15,14 +13,12 @@ export interface LoginAction extends GenericAction {
             deniedPermissions: Array<string>;
             grantedPermissions: Array<string>;
         };
-        error?: string
-    }
+        error?: string;
+    };
 }
 
 export interface FeedAction extends GenericAction {
-    payload: {
-        error?: string
-    }
+    payload: Post | { error?: string };
 }
 
 export interface ProfileAction extends GenericAction {
@@ -40,18 +36,14 @@ export interface ProfileAction extends GenericAction {
             picture: {
                 data: {
                     url: string;
-                }
-            }
-        }
+                };
+            };
+        };
         error?: string;
-    }
+    };
 }
 
-const loginRecord = Record(initialState.login);
-const profileRecord = Record(initialState.profile);
-const feedRecord = Record(initialState.feed);
-
-export class LoginState extends loginRecord {
+export class LoginState {
     fbUserId: string;
     isRehydrated: boolean;
     loginStatus: LoginStatus;
@@ -63,7 +55,7 @@ export class LoginState extends loginRecord {
     error: string;
 }
 
-export class ProfileState extends profileRecord {
+export class ProfileState {
     name: string;
     firstName: string;
     lastName: string;
@@ -74,7 +66,7 @@ export class ProfileState extends profileRecord {
     error: string;
 }
 
-export class FeedState extends feedRecord {
+export class FeedState {
     posts: Array<Post>;
     isFetchingPosts: boolean;
     isCreatingPost: boolean;

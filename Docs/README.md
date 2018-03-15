@@ -15,7 +15,6 @@ This app is built with a lot of beta technologies which will undoubtably require
 - [React](https://reactjs.org/)
 - [Redux](https://redux.js.org)
 - [Redux Saga](https://redux-saga.js.org/)
-- [Immutable](https://facebook.github.io/immutable-js)
 - [React Navigation](https://reactnavigation.org)
 - [GraphQL](http://graphql.org/)
 - [Prisma](https://www.prismagraphql.com/)

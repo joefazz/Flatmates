@@ -12,7 +12,7 @@
         "curly": true,
         "no-switch-case-fall-through": true,
         "prefer-conditional-expression": true,
-        "quotemark": [true, "single"],
+        "quotemark": [true, "double"],
         "variable-name": [true, "allow-pascal-case", "check-format", "allow-leading-underscore"],
         "trailing-comma": false,
         "space-within-parens": true,
@@ -28,7 +28,8 @@
         "member-access": false,
         "jsx-no-lambda": false,
         "no-empty-interface": false,
-        "max-classes-per-file": false
+        "max-classes-per-file": false,
+        "ordered-imports": false
     },
     "rulesDirectory": []
 }

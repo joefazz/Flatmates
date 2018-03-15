@@ -13,37 +13,37 @@ import { User } from '../../types/Types';
 import { toConstantFontSize } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
 
-interface Props  {
-    navigation: {pop: () => void, state: {params: {fbUserId: string}}},
-    user: User,
-    login: LoginState,
-    loading: boolean,
-    createPost: ({description, createdBy}) => void
-};
+interface Props {
+    navigation: { pop: () => void; state: { params: { fbUserId: string } } };
+    user: User;
+    login: LoginState;
+    loading: boolean;
+    createPost: ({ description, createdBy }) => void;
+}
 
 interface State {
-    data: { house: {spaces: number, road: string, shortID: number} },
-    isLoading: boolean,
-    description: string
-};
+    data: { house: { spaces: number; road: string; shortID: number } };
+    isLoading: boolean;
+    description: string;
+}
 
 export class CreatePost extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Create Post',
         tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-home' : 'ios-home-outline' : 'md-home'} color={tintColor} size={32} />
-        ),
+            <Icon
+                name={Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home'}
+                color={tintColor}
+                size={32}
+            />
+        )
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            data: props.user,
-            isLoading: props.loading,
-            description: ''
-        };
-    }
+    readonly state: State = {
+        data: this.props.user,
+        isLoading: this.props.loading,
+        description: ''
+    };
 
     componentWillReceiveProps(newProps) {
         if (newProps.loading !== this.state.isLoading) {
@@ -61,39 +61,66 @@ export class CreatePost extends React.Component<Props, State> {
         });
 
         this.props.navigation.pop();
-    }
+    };
 
     render() {
         if (this.state.isLoading) {
             return <ActivityIndicator />;
         }
-        
+
         return (
-            <View style={[ base.wholePage, {alignItems: 'center', justifyContent: 'center'} ]}>
-                <View style={ base.headingWrapper }>
-                    <Text style={[ base.headingText, {fontSize: toConstantFontSize(2.3)} ]}>Enter the title of the post and a description of the room{this.state.data.house.spaces > 0 ? 's' : ''} and we'll take care of the rest using the information you entered when you signed up</Text>
+            <View style={[base.wholePage, { alignItems: 'center', justifyContent: 'center' }]}>
+                <View style={base.headingWrapper}>
+                    <Text style={[base.headingText, { fontSize: toConstantFontSize(2.3) }]}>
+                        Enter the title of the post and a description of the room{this.state.data.house.spaces > 0 ? 's' : ''} and
+                        we'll take care of the rest using the information you entered when you signed up
+                    </Text>
                 </View>
-                <View style={{ flex: 4, alignItems: 'center', justifyContent: 'space-around'}}>
+                <View
+                    style={{
+                        flex: 4,
+                        alignItems: 'center',
+                        justifyContent: 'space-around'
+                    }}
+                >
                     <View>
-                        <Text style={ base.labelText }>Description</Text>
-                        <TextInput onChangeText={(text) => this.setState({ description: text })} underlineColorAndroid={Colors.transparent} style={ feed.descriptionInput } multiline={true} defaultValue={(this.state.data.house.spaces > 0 ? 'Looking to fill ' + this.state.data.house.spaces + ' rooms ' : 'a room ') + 'on ' + this.state.data.house.road + '. '} />
+                        <Text style={base.labelText}>Description</Text>
+                        <TextInput
+                            onChangeText={(text) => this.setState({ description: text })}
+                            underlineColorAndroid={Colors.transparent}
+                            style={feed.descriptionInput}
+                            multiline={true}
+                            defaultValue={
+                                (this.state.data.house.spaces > 0
+                                    ? 'Looking to fill ' + this.state.data.house.spaces + ' rooms '
+                                    : 'a room ') +
+                                'on ' +
+                                this.state.data.house.road +
+                                '. '
+                            }
+                        />
                     </View>
 
-                    <TouchableRect title={'Create'} buttonStyle={ base.buttonStyle } backgroundColor={Colors.brandSecondaryColor} onPress={this.createPostTrigger} />
+                    <TouchableRect
+                        title={'Create'}
+                        buttonStyle={base.buttonStyle}
+                        backgroundColor={Colors.brandSecondaryColor}
+                        onPress={this.createPostTrigger}
+                    />
                 </View>
             </View>
         );
     }
 }
 
-const getUserInfo = graphql(USER_POST_QUERY, {
+const getUserInfo = graphql<Response, Props>(USER_POST_QUERY, {
     options(props: Props) {
         return {
-            variables: {facebookUserId: props.login.get('fbUserId')}
+            variables: { facebookUserId: props.login.fbUserId }
         };
     },
     // @ts-ignore
-    props({ data: {user, loading} }) {
+    props({ data: { user, loading } }) {
         return {
             user,
             loading
@@ -102,16 +129,13 @@ const getUserInfo = graphql(USER_POST_QUERY, {
 });
 
 const mapStateToProps = (state) => ({
-    login: state.get('login')
+    login: state.login
 });
 
 const bindActions = (dispatch) => {
     return {
-        createPost: ({description, createdBy}) => dispatch(createPost({description, createdBy}))
+        createPost: ({ description, createdBy }) => dispatch(createPost({ description, createdBy }))
     };
 };
 
-export default compose(
-    connect(mapStateToProps, bindActions),
-    getUserInfo
-)(CreatePost);
+export default compose(connect<{}, {}, Props>(mapStateToProps, bindActions), getUserInfo)(CreatePost);

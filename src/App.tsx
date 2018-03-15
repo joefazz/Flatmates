@@ -5,7 +5,7 @@ import { ApolloProvider } from 'react-apollo';
 import { AsyncStorage, BackHandler, Image } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Provider } from 'react-redux';
-import { persistStore } from 'redux-persist-immutable';
+import { persistStore } from 'redux-persist';
 
 import Splash from '../Assets/splash_screen.png';
 import client from './Client';
@@ -23,24 +23,21 @@ function persistentStore(onComplete) {
         store,
         {
             storage: AsyncStorage
-        }, onComplete
+        },
+        onComplete
     );
 }
 
-interface Props {};
-
-interface State {
-    isRehydrated: boolean
+const initialState = {
+    isRehydrated: false
 };
 
-export default class Root extends React.Component<Props, State> {
-    constructor(props) {
-        super(props);
+interface Props {}
 
-        this.state = {
-            isRehydrated: false,
-        }
-    }
+type State = Readonly<typeof initialState>;
+
+export default class Root extends React.Component<Props, State> {
+    readonly state: State = initialState;
 
     componentDidMount() {
         // AsyncStorage.clear().catch((error) => console.log(error));
@@ -48,16 +45,26 @@ export default class Root extends React.Component<Props, State> {
         persistentStore(() => {
             this.setState({ isRehydrated: true });
         });
-        BackHandler.addEventListener('hardwareBackPress', () => store.dispatch(NavigationActions.back()));
+        BackHandler.addEventListener('hardwareBackPress', () =>
+            store.dispatch(NavigationActions.back())
+        );
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', () => store.dispatch(NavigationActions.back()));
+        BackHandler.removeEventListener('hardwareBackPress', () =>
+            store.dispatch(NavigationActions.back())
+        );
     }
 
     render() {
         if (!this.state.isRehydrated) {
-            return <Image source={Splash} resizeMode={'stretch'} style={ base.fullScreen } />
+            return (
+                <Image
+                    source={Splash}
+                    resizeMode={'stretch'}
+                    style={base.fullScreen}
+                />
+            );
         }
 
         return (

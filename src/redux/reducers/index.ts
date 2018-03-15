@@ -1,5 +1,5 @@
 // Modules
-import { combineReducers } from 'redux-immutablejs';
+import { combineReducers } from 'redux';
 
 import feed from './feedReducer';
 import login from './loginReducer';

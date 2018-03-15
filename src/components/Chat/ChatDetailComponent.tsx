@@ -6,23 +6,19 @@ import { Message } from './MessageComponent';
 import { MessageInput } from './MessageInputComponent';
 
 interface Props {
-    data: Array<object>,
-    id: number,
-    createMessage: (object) => void
+    data: Array<object>;
+    id: number;
+    createMessage: (object) => void;
 }
 
-interface State {
-    usernameColors: any
-}
+const initialState = {
+    usernameColors: {}
+};
+
+type State = Readonly<typeof initialState>;
 
 export class ChatDetailComponent extends React.Component<Props, State> {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            usernameColors: {}
-        }
-    }
+    readonly state: State = initialState;
 
     componentWillReceiveProps(nextProps) {
         const usernameColors: object = {};
@@ -46,26 +42,29 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                 keyboardVerticalOffset={64}
                 style={chat.detailWrapper}
             >
-                    <FlatList
-                        data={this.props.data}
-                        inverted={true}
-                        renderItem={this.renderItem}
-                        keyExtractor={(item) => item.id}
-                    />
-                    <MessageInput send={(text) => this.send(text)}/>
+                <FlatList
+                    data={this.props.data}
+                    inverted={true}
+                    renderItem={this.renderItem}
+                    keyExtractor={(item) => item.id}
+                />
+                <MessageInput send={(text) => this.send(text)} />
             </KeyboardAvoidingView>
-        )
+        );
     }
 
     private renderItem = ({ item }) => {
         const message = item.message;
         return (
-            <Message color={this.state.usernameColors[message.from.username]} isCurrentUser={message.from.id === 1} message={message} />
+            <Message
+                color={this.state.usernameColors[message.from.username]}
+                isCurrentUser={message.from.id === 1}
+                message={message}
+            />
         );
-    }
+    };
 
     private send(text) {
-        this.props.createMessage({groupId: this.props.id, userId: 1, text});
+        this.props.createMessage({ groupId: this.props.id, userId: 1, text });
     }
-
 }
