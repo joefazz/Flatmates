@@ -1,8 +1,7 @@
-import { ProfileAction, ProfileState } from '../../types/ReduxTypes';
-import _ from '../../utils/localdash';
-import initialState from '../InitialState';
-import * as Types from '../Types';
-
+import { ProfileAction, ProfileState } from "../../types/ReduxTypes";
+import _ from "../../utils/localdash";
+import initialState from "../InitialState";
+import { GetUserData } from "../Types";
 // Modules
 // File References
 const INITIAL_STATE = initialState.profile;
@@ -10,9 +9,9 @@ const INITIAL_STATE = initialState.profile;
 export default function profileReducer(state: ProfileState = INITIAL_STATE, action: ProfileAction) {
     switch (action.type) {
         // Facebook Login Auth
-        case Types.GET_USER_DATA_REQUEST:
+        case GetUserData.REQUEST:
             return state;
-        case Types.GET_USER_DATA_SUCCESS:
+        case GetUserData.SUCCESS:
             return Object.assign({}, state, {
                 name: action.payload.response.name,
                 firstName: action.payload.response.first_name,
@@ -25,11 +24,11 @@ export default function profileReducer(state: ProfileState = INITIAL_STATE, acti
                 email: action.payload.response.email,
                 imageUrl: action.payload.response.picture.data.url
             });
-        case Types.GET_USER_DATA_FAILURE:
+        case GetUserData.FAILURE:
             return Object.assign({}, state, {
                 error: action.payload
             });
-        case Types.GET_USER_DATA_FULFILL:
+        case GetUserData.FULFILL:
             return state;
         default:
             return state;

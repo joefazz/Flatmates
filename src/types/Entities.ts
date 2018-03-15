@@ -26,7 +26,7 @@ export interface User {
     facebookUserId: string;
     createdAt: Date;
     updatedAt: Date;
-  
+
     email: string;
     name: string;
     firstName: string;

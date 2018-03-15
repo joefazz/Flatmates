@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { PostListComponent } from "../../components/Feed/PostListComponent";
 import { getPosts } from "../../redux/Routines";
 import { FeedState, LoginState } from "../../types/ReduxTypes";
-import { Post } from "../../types/Types";
+import { Post } from "../../types/Entities";
 
 interface Props {
     feed: FeedState;

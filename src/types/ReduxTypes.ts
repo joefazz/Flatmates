@@ -1,10 +1,8 @@
-import { Course, LoginStatus, Post, StudyYear } from './Types';
+import { CreatePost, FacebookLogin, FacebookSignup, GetPosts, GetUserData } from "../redux/Types";
+import { Course, LoginStatus, Post, StudyYear } from "./Entities";
 
-interface GenericAction {
-    type: string;
-}
-
-export interface LoginAction extends GenericAction {
+export interface LoginAction {
+    type: FacebookLogin | FacebookSignup;
     payload: {
         token: string;
         expiryDate: number;
@@ -17,11 +15,13 @@ export interface LoginAction extends GenericAction {
     };
 }
 
-export interface FeedAction extends GenericAction {
+export interface FeedAction {
+    type: GetPosts | CreatePost;
     payload: Post | { error?: string };
 }
 
-export interface ProfileAction extends GenericAction {
+export interface ProfileAction {
+    type: GetUserData;
     payload: {
         response: {
             name: string;

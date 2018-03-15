@@ -14,7 +14,7 @@ import {
     UpdatePostMutationVariables
 } from "../../graphql/Types";
 import { ProfileState } from "../../types/ReduxTypes";
-import { House } from "../../types/Types";
+import { House } from "../../types/Entities";
 
 interface Props {
     navigation: {

@@ -4,6 +4,7 @@ import { call, put, takeEvery } from "redux-saga/effects";
 import client from "../../Client";
 import { facebookPermissions } from "../../containers/Login";
 import { CREATE_USER_MUTATION } from "../../graphql/mutations";
+import { UserLoginQuery } from "../../graphql/Types";
 import { USER_LOGIN_QUERY } from "../../graphql/queries";
 import { getUserDataFacebook, loginWithFacebook, readOnlyLogin, signupWithFacebook } from "../Routines";
 
@@ -42,7 +43,7 @@ function facebookRequest(accessToken) {
 function doesUserExist(facebookUserId) {
     return new Promise((resolve) => {
         client
-            .query({
+            .query<UserLoginQuery>({
                 variables: { facebookUserId },
                 query: USER_LOGIN_QUERY
                 // @ts-ignore

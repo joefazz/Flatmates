@@ -1,28 +1,38 @@
-import * as Routines from './Routines';
+import * as Routines from "./Routines";
 
-export const FACEBOOK_SIGNUP_REQUEST = Routines.signupWithFacebook.REQUEST;
-export const FACEBOOK_SIGNUP_SUCCESS = Routines.signupWithFacebook.SUCCESS;
-export const FACEBOOK_SIGNUP_FAILURE = Routines.signupWithFacebook.FAILURE;
-export const FACEBOOK_SIGNUP_FULFILL = Routines.signupWithFacebook.FULFILL;
+export enum FacebookSignup {
+    REQUEST = Routines.signupWithFacebook.REQUEST,
+    SUCCESS = Routines.signupWithFacebook.SUCCESS,
+    FAILURE = Routines.signupWithFacebook.FAILURE,
+    FULFILL = Routines.signupWithFacebook.FULFILL
+}
 
-export const FACEBOOK_LOGIN_REQUEST = Routines.loginWithFacebook.REQUEST;
-export const FACEBOOK_LOGIN_SUCCESS = Routines.loginWithFacebook.SUCCESS;
-export const FACEBOOK_LOGIN_FAILURE = Routines.loginWithFacebook.FAILURE;
-export const FACEBOOK_LOGIN_FULFILL = Routines.loginWithFacebook.FULFILL;
+export enum FacebookLogin {
+    REQUEST = Routines.loginWithFacebook.REQUEST,
+    SUCCESS = Routines.loginWithFacebook.SUCCESS,
+    FAILURE = Routines.loginWithFacebook.FAILURE,
+    FULFILL = Routines.loginWithFacebook.FULFILL
+}
+
+export enum GetUserData {
+    REQUEST = Routines.getUserDataFacebook.REQUEST,
+    SUCCESS = Routines.getUserDataFacebook.SUCCESS,
+    FAILURE = Routines.getUserDataFacebook.FAILURE,
+    FULFILL = Routines.getUserDataFacebook.FULFILL
+}
+
+export enum GetPosts {
+    REQUEST = Routines.getPosts.REQUEST,
+    SUCCESS = Routines.getPosts.SUCCESS,
+    FAILURE = Routines.getPosts.FAILURE,
+    FULFILL = Routines.getPosts.FULFILL
+}
+
+export enum CreatePost {
+    REQUEST = Routines.createPost.REQUEST,
+    SUCCESS = Routines.createPost.SUCCESS,
+    FAILURE = Routines.createPost.FAILURE,
+    FULFILL = Routines.createPost.FULFILL
+}
 
 export const READ_ONLY_LOGIN_SUCCESS = Routines.readOnlyLogin.SUCCESS;
-
-export const GET_USER_DATA_REQUEST = Routines.getUserDataFacebook.REQUEST;
-export const GET_USER_DATA_SUCCESS = Routines.getUserDataFacebook.SUCCESS;
-export const GET_USER_DATA_FAILURE = Routines.getUserDataFacebook.FAILURE;
-export const GET_USER_DATA_FULFILL = Routines.getUserDataFacebook.FULFILL;
-
-export const GET_POSTS_REQUEST = Routines.getPosts.REQUEST;
-export const GET_POSTS_SUCCESS = Routines.getPosts.SUCCESS;
-export const GET_POSTS_FAILURE = Routines.getPosts.FAILURE;
-export const GET_POSTS_FULFILL = Routines.getPosts.FULFILL;
-
-export const CREATE_POST_REQUEST = Routines.createPost.REQUEST;
-export const CREATE_POST_SUCCESS = Routines.createPost.SUCCESS;
-export const CREATE_POST_FAILURE = Routines.createPost.FAILURE;
-export const CREATE_POST_FULFILL = Routines.createPost.FULFILL;

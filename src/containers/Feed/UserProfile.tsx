@@ -3,7 +3,7 @@ import { graphql, QueryProps } from "react-apollo";
 import { ActivityIndicator } from "react-native";
 import { ProfileComponent } from "../../components/Profile/ProfileComponent";
 import { USER_DETAILS_QUERY } from "../../graphql/queries";
-import { User } from "../../types/Types";
+import { User } from "../../types/Entities";
 
 type Props = Response & QueryProps & InputProps;
 

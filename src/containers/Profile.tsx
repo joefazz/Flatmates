@@ -7,7 +7,7 @@ import { ProfileComponent } from "../components/Profile/ProfileComponent";
 import { USER_DETAILS_QUERY } from "../graphql/queries";
 import { LoginState, ProfileState } from "../types/ReduxTypes";
 import { Profile as ProfileType } from "../types/State";
-import { User } from "../types/Types";
+import { User } from "../types/Entities";
 import { EditButton } from "../widgets";
 
 interface Props {

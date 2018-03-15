@@ -1,7 +1,7 @@
-import { LoginAction, LoginState } from '../../types/ReduxTypes';
-import { LoginStatus } from '../../types/Types';
-import initialState from '../InitialState';
-import * as Types from '../Types';
+import { LoginAction, LoginState } from "../../types/ReduxTypes";
+import { LoginStatus } from "../../types/Entities";
+import initialState from "../InitialState";
+import { FacebookLogin, FacebookSignup } from "../Types";
 
 // Modules
 // File References
@@ -10,16 +10,16 @@ const INITIAL_STATE = initialState.login;
 export default function loginReducer(state: LoginState = INITIAL_STATE, action: LoginAction) {
     switch (action.type) {
         // Read only login
-        case Types.READ_ONLY_LOGIN_SUCCESS:
-            return Object.assign({}, state, {
-                isReadOnlyEnabled: true
-            });
+        // case Types.READ_ONLY_LOGIN_SUCCESS:
+        //     return Object.assign({}, state, {
+        //         isReadOnlyEnabled: true
+        //     });
         // Facebook Login Auth
-        case Types.FACEBOOK_LOGIN_REQUEST:
+        case FacebookLogin.REQUEST:
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.STARTED
             });
-        case Types.FACEBOOK_LOGIN_SUCCESS:
+        case FacebookLogin.SUCCESS:
             return Object.assign({}, state, {
                 fbAccessToken: action.payload.token,
                 fbTokenExpiryDate: action.payload.expiryDate,
@@ -29,21 +29,21 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });
-        case Types.FACEBOOK_LOGIN_FAILURE:
+        case FacebookLogin.FAILURE:
             return Object.assign({}, state, {
                 error: action.payload,
                 loginStatus: LoginStatus.FAILED
             });
-        case Types.FACEBOOK_LOGIN_FULFILL:
+        case FacebookLogin.FULFILL:
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.ENDED
             });
 
-        case Types.FACEBOOK_SIGNUP_REQUEST:
+        case FacebookSignup.REQUEST:
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.STARTED
             });
-        case Types.FACEBOOK_SIGNUP_SUCCESS:
+        case FacebookSignup.SUCCESS:
             return Object.assign({}, state, {
                 fbAccessToken: action.payload.token,
                 fbTokenExpiryDate: action.payload.expiryDate,
@@ -53,12 +53,12 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });
-        case Types.FACEBOOK_SIGNUP_FAILURE:
+        case FacebookSignup.FAILURE:
             return Object.assign({}, state, {
                 error: action.payload,
                 loginStatus: LoginStatus.FAILED
             });
-        case Types.FACEBOOK_SIGNUP_FULFILL:
+        case FacebookSignup.FULFILL:
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.ENDED
             });

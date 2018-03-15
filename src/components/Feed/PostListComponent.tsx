@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { Colors, Font } from '../../consts';
 import { feed } from '../../styles';
 import { toConstantFontSize } from '../../utils/PercentageConversion';
-import { Post } from '../../types/Types';
+import { Post } from '../../types/Entities';
 import { PostCard } from '../../widgets';
 
 interface Props {

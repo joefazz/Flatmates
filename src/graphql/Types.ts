@@ -302,6 +302,7 @@ export interface UserLoginQuery {
     isSmoker: boolean | null,
     course: string | null,
     studyYear: string | null,
+    isVerified: boolean,
   } | null,
 };
 

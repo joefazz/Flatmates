@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { ChatListComponent } from '../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY } from '../../graphql/queries';
 import { LoginState } from '../../types/ReduxTypes';
-import { Group } from '../../types/Types';
+import { Group } from '../../types/Entities';
 
 interface Props {
     loading: boolean;

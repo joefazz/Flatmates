@@ -367,9 +367,9 @@
   version "9.4.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
-"@types/react-native@^0.52.16":
-  version "0.52.16"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.52.16.tgz#d474cdba5b44e4b695e4c918c88d3e171772c298"
+"@types/react-native@^0.52.18":
+  version "0.52.18"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.52.18.tgz#082fada6fdddc6c745a4c1a6234e4aa3b104176b"
   dependencies:
     "@types/react" "*"
 
@@ -1842,9 +1842,9 @@ detox-server@^7.0.0:
     npmlog "^4.0.2"
     ws "^1.1.0"
 
-detox@^7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/detox/-/detox-7.1.0.tgz#74f4c750bab3e502b8c86b5217a0ef2de55aee94"
+detox@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/detox/-/detox-7.2.0.tgz#fa2c0c4a1c9daf114b5d017d154d9db398545f55"
   dependencies:
     child-process-promise "^2.2.0"
     commander "^2.9.0"
@@ -4603,15 +4603,19 @@ react-devtools-core@3.1.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-lifecycles-compat@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-1.0.2.tgz#551d8b1d156346e5fcf30ffac9b32ce3f78b8850"
+
 react-native-animatable@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.2.4.tgz#b5fb7657e8f6edadbc26697057a327fb920b3039"
   dependencies:
     prop-types "^15.5.10"
 
-react-native-calendars@^1.17.3:
-  version "1.17.3"
-  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.17.3.tgz#27737086082602c1ba29c3450333ddbb4f28c77d"
+react-native-calendars@^1.17.4:
+  version "1.17.4"
+  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.17.4.tgz#5a3b53264d9ea7ca9292d827bc92eb8083bc5dcc"
   dependencies:
     prop-types "^15.5.10"
     xdate "^0.8.0"
@@ -4689,9 +4693,9 @@ react-native-safe-area-view@^0.7.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
-react-native-shine-button@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/react-native-shine-button/-/react-native-shine-button-0.0.4.tgz#da83d0b08b7cd3425c5b13ff9c755e3fe6ef2bbb"
+react-native-shine-button@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-shine-button/-/react-native-shine-button-0.0.5.tgz#823edff703e49256e068f5a3f9598754541694c5"
 
 react-native-swiper@^1.5.13:
   version "1.5.13"
@@ -4722,9 +4726,9 @@ react-native-vector-icons@^4.5.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@0.54.0:
-  version "0.54.0"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.54.0.tgz#1582cc2b2a639d46e39c44bcc50e051d0061820a"
+react-native@0.54.2:
+  version "0.54.2"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.54.2.tgz#73786e7bf3f80b0b060ca0bfe5b192f9c2f253da"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -4785,20 +4789,15 @@ react-native@0.54.0:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
-react-navigation-redux-helpers@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-navigation-redux-helpers/-/react-navigation-redux-helpers-1.0.1.tgz#1d98cb6364ebdf98a90d34aa7b4592b9073d76e2"
-  dependencies:
-    invariant "^2.2.2"
-
-react-navigation@1.5.1:
-  version "1.5.1"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.1.tgz#3fc2efa76c773b9dd4a148d45cab3abbe864dbae"
+react-navigation@1.5.6:
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-1.5.6.tgz#99d0afc7607190dbc6a338f03af92b291ccbb11e"
   dependencies:
     clamp "^1.0.1"
     hoist-non-react-statics "^2.2.0"
     path-to-regexp "^1.7.0"
     prop-types "^15.5.10"
+    react-lifecycles-compat "^1.0.2"
     react-native-drawer-layout-polyfill "^1.3.2"
     react-native-safe-area-view "^0.7.0"
     react-native-tab-view "^0.0.74"

@@ -9,7 +9,7 @@ import { USER_POST_QUERY } from '../../graphql/queries';
 import { createPost } from '../../redux/Routines';
 import { base, feed } from '../../styles';
 import { LoginState } from '../../types/ReduxTypes';
-import { User } from '../../types/Types';
+import { User } from '../../types/Entities';
 import { toConstantFontSize } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
 

@@ -14,7 +14,7 @@ import { Colors } from "../../consts";
 import { FontFactory } from "../../consts/font";
 import { feed } from "../../styles";
 import { ProfileState } from "../../types/ReduxTypes";
-import { House } from "../../types/Types";
+import { House } from "../../types/Entities";
 import { toConstantFontSize, toConstantHeight, toConstantWidth } from "../../utils/PercentageConversion";
 import { compareUsers } from "../../utils/UserComparison";
 import { TouchableRect } from "../../widgets/TouchableRect";

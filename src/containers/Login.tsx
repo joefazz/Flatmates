@@ -33,13 +33,13 @@ import { HOUSE_DETAILS_QUERY } from "../graphql/queries";
 import { UpdateUserMutation, UpdateUserMutationVariables } from "../graphql/Types";
 import { loginWithFacebook, signupWithFacebook } from "../redux/Routines";
 import { base, login } from "../styles";
+import { LoginStatus } from "../types/Entities";
 import { LoginState, ProfileState } from "../types/ReduxTypes";
-import { LoginStatus } from "../types/Types";
+import { Profile } from "../types/State";
 import { ConvertBirthdayToAge } from "../utils/BirthdayToAge";
 import { toConstantFontSize, toConstantWidth } from "../utils/PercentageConversion";
 import { Checkbox } from "../widgets";
 import { TouchableRect } from "../widgets/TouchableRect";
-import { Profile } from "../types/State";
 
 export let facebookPermissions: Array<string> = [];
 

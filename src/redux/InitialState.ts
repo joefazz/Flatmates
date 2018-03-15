@@ -1,5 +1,5 @@
 import { FeedState, LoginState, ProfileState } from '../types/ReduxTypes';
-import { LoginStatus } from '../types/Types';
+import { LoginStatus } from '../types/Entities';
 
 type State = Readonly<{ login: LoginState; profile: ProfileState; feed: FeedState }>;
 
