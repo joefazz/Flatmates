@@ -19,7 +19,7 @@ const navConfig: any = {
     navigationOptions: {
         headerTintColor: Colors.white,
         headerTitleStyle: { color: Colors.white, ...Font.FontFactory({ family: "Nunito" }) },
-        headerStyle: { backgroundColor: Colors.brandSecondaryColor }
+        headerStyle: { backgroundColor: Colors.brandPrimaryColor }
     }
 };
 

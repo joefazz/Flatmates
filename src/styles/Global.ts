@@ -24,7 +24,7 @@ export const base = StyleSheet.create({
 
     buttonStyle: {
         width: 250,
-        backgroundColor: Colors.brandSecondaryColor,
+        backgroundColor: Colors.brandPrimaryColor,
         borderWidth: 1,
         borderRadius: 3,
         borderColor: Colors.transparent

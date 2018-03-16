@@ -13,7 +13,7 @@ import {
     UpdatePostMutation,
     UpdatePostMutationVariables
 } from "../../graphql/Types";
-import { ProfileState } from "../../types/ReduxTypes";
+import { ProfileState, ReduxState } from "../../types/ReduxTypes";
 import { House } from "../../types/Entities";
 
 interface Props {
@@ -68,7 +68,6 @@ export class PostDetail extends React.Component<Props, State> {
 
     getPostDetails = async () => {
         try {
-            console.log(this.props.navigation.state.params.data.id, new Date().toISOString());
             const { data: { updatePost } } = await this.props.updatePost(
                 this.props.navigation.state.params.data.id,
                 new Date().toISOString()
@@ -153,7 +152,7 @@ const unstarPostMutation = graphql(UNSTAR_POST_MUTATION, {
     })
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: ReduxState) => ({
     profile: state.profile,
     userId: state.login.fbUserId
 });

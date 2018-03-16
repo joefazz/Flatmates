@@ -34,7 +34,7 @@ class AuthLoadingScreen extends React.Component<Props> {
         if (data.user === null) {
             this.props.navigation.navigate("Login");
         } else if (this.props.login.fbAccessToken && this.props.login.fbAccessToken !== "") {
-            if (data.user.isVerified) {
+            if (!data.user.isVerified) {
                 this.props.navigation.navigate("Home");
             } else {
                 this.props.navigation.navigate("ReadOnly");

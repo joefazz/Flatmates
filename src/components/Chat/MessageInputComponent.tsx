@@ -35,7 +35,7 @@ export class MessageInput extends React.Component<Props, State> {
                     iconStyle={chat.iconStyle}
                     name={"send"}
                     size={Platform.OS === 'ios' ? 20 : 26}
-                    color={Platform.OS === 'ios' ? Colors.white : Colors.brandSecondaryColor}
+                    color={Platform.OS === 'ios' ? Colors.white : Colors.brandPrimaryColor}
                     style={chat.sendButton}
                     />
             </TouchableHighlight>

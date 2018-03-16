@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
-import { Colors } from '../consts';
-import { FontFactory } from '../consts/font';
-import { toConstantFontSize, toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
+import { Colors } from "../consts";
+import { FontFactory } from "../consts/font";
+import { toConstantFontSize, toConstantHeight, toConstantWidth } from "../utils/PercentageConversion";
 
 export const feed = StyleSheet.create({
     // Create Styles
@@ -22,7 +22,7 @@ export const feed = StyleSheet.create({
     card: {
         height: toConstantHeight(36),
         width: toConstantWidth(90),
-        marginVertical: 10,
+        marginVertical: 10
     },
 
     filterWrapper: {
@@ -34,7 +34,7 @@ export const feed = StyleSheet.create({
         shadowRadius: 4,
         shadowColor: Colors.grey,
         elevation: 2,
-        alignItems: 'center',
+        alignItems: "center",
         backgroundColor: Colors.offWhite
     },
 
@@ -42,33 +42,33 @@ export const feed = StyleSheet.create({
     filterContainer: {
         backgroundColor: Colors.offWhite,
         paddingVertical: 5,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        alignSelf: 'stretch',
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignSelf: "stretch",
         marginHorizontal: toConstantWidth(5)
     },
 
     filterItem: {
-        borderColor: Colors.airbnbRed,
+        borderColor: Colors.definetelyNotAirbnbRed,
         borderRadius: 20,
         borderWidth: 1.5,
         width: toConstantWidth(28),
         height: toConstantHeight(5),
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         paddingHorizontal: toConstantWidth(3)
     },
 
     expandBar: {
-        alignSelf: 'stretch',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: Colors.airbnbRed,
+        alignSelf: "stretch",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: Colors.definetelyNotAirbnbRed,
         shadowOffset: {
             height: 1,
             width: 0
         },
-        flexDirection: 'row',
+        flexDirection: "row",
         shadowOpacity: 0.3,
         shadowRadius: 4,
         shadowColor: Colors.grey,
@@ -79,19 +79,19 @@ export const feed = StyleSheet.create({
         color: Colors.highlightWhite,
         marginLeft: toConstantWidth(2),
         fontSize: toConstantFontSize(2),
-        ...FontFactory({weight: 'Bold', family: 'Nunito'})
+        ...FontFactory({ weight: "Bold", family: "Nunito" })
     },
 
     filterItemText: {
-        color: Colors.airbnbRed,
-        ...FontFactory({weight: 'Bold', family: 'Nunito'})
+        color: Colors.definetelyNotAirbnbRed,
+        ...FontFactory({ weight: "Bold", family: "Nunito" })
     },
 
     createCard: {
         width: toConstantWidth(90),
         marginVertical: 10,
         marginTop: 10,
-        alignItems: 'center',
+        alignItems: "center",
         backgroundColor: Colors.highlightWhite,
         shadowOffset: {
             width: 2,
@@ -101,14 +101,15 @@ export const feed = StyleSheet.create({
         shadowRadius: 2,
         shadowOpacity: 0.7,
         height: toConstantHeight(30),
-        justifyContent: 'center',
+        justifyContent: "center",
         borderWidth: 2,
         borderRadius: 5,
-        borderColor: Colors.brandSecondaryColor, borderStyle: 'dashed'
+        borderColor: Colors.brandPrimaryColor,
+        borderStyle: "dashed"
     },
 
     swiper: {
-        width: toConstantWidth(90),
+        width: toConstantWidth(90)
     },
 
     image: {
@@ -126,21 +127,21 @@ export const feed = StyleSheet.create({
     },
 
     swiperButtonWrapperStyle: {
-        flexDirection: 'row',
-        position: 'absolute',
+        flexDirection: "row",
+        position: "absolute",
         top: 0,
         left: 0,
         flex: 1,
         paddingHorizontal: 10,
         paddingVertical: 10,
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        justifyContent: "space-between",
+        alignItems: "center"
     },
 
     leftRightButtonStyle: {
-        ...FontFactory({weight: 'Light'}),
+        ...FontFactory({ weight: "Light" }),
         fontSize: toConstantFontSize(9),
-        color: Colors.brandSecondaryColor
+        color: Colors.brandPrimaryColor
     },
 
     magnifierWrapper: {
@@ -148,8 +149,8 @@ export const feed = StyleSheet.create({
         height: 40,
         backgroundColor: Colors.offWhite,
         borderRadius: 3,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
         marginVertical: 5,
         shadowOffset: {
             height: 2,
@@ -162,7 +163,7 @@ export const feed = StyleSheet.create({
     },
 
     detailContentWrapper: {
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white
     },
 
     roadDateWrapper: {
@@ -170,7 +171,7 @@ export const feed = StyleSheet.create({
     },
 
     roadText: {
-        ...FontFactory({ weight: 'Light' }),
+        ...FontFactory({ weight: "Light" }),
         fontSize: toConstantFontSize(3.5),
         color: Colors.brandTertiaryColor
     },
@@ -184,7 +185,7 @@ export const feed = StyleSheet.create({
     spacesText: {
         ...FontFactory(),
         fontSize: toConstantFontSize(2),
-        color: Colors.black,
+        color: Colors.black
     },
 
     descriptionWrapper: {
@@ -202,33 +203,33 @@ export const feed = StyleSheet.create({
     },
 
     descriptionText: {
-        ...FontFactory({ weight: 'Bold' }),
+        ...FontFactory({ weight: "Bold" }),
         color: Colors.black,
         fontSize: toConstantFontSize(2)
     },
 
     priceWrapper: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center'
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center"
     },
 
     priceItem: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
         paddingVertical: 4,
-        backgroundColor: Colors.brandSecondaryColor
+        backgroundColor: Colors.brandPrimaryColor
     },
 
     priceText: {
-        ...FontFactory({ weight: 'Bold' }),
+        ...FontFactory({ weight: "Bold" }),
         color: Colors.highlightWhite,
         fontSize: toConstantFontSize(2.3)
     },
 
     userRow: {
-        flexDirection: 'row',
+        flexDirection: "row",
         paddingVertical: toConstantHeight(1),
         backgroundColor: Colors.white,
         width: toConstantWidth(100),
@@ -239,31 +240,31 @@ export const feed = StyleSheet.create({
         shadowColor: Colors.grey,
         shadowRadius: 5,
         shadowOpacity: 0.7,
-        elevation: 2,
+        elevation: 2
     },
 
     avatarWrapper: {
         flex: 1,
         paddingHorizontal: toConstantWidth(2),
-        alignItems: 'center',
-        justifyContent: 'center'
+        alignItems: "center",
+        justifyContent: "center"
     },
 
     userDetailsWrapper: {
         flex: 5,
-        justifyContent: 'center',
+        justifyContent: "center",
         paddingRight: toConstantWidth(2)
     },
 
     labelText: {
-        ...FontFactory({ weight: 'Bold'}),
-        color: Colors.brandSecondaryColor,
+        ...FontFactory({ weight: "Bold" }),
+        color: Colors.brandPrimaryColor,
         fontSize: toConstantFontSize(2.5),
         paddingHorizontal: toConstantFontSize(1)
     },
 
     userNameText: {
-        ...FontFactory({ weight: 'Bold' }),
+        ...FontFactory({ weight: "Bold" }),
         fontSize: toConstantFontSize(2.2),
         color: Colors.black
     },
@@ -273,5 +274,4 @@ export const feed = StyleSheet.create({
         fontSize: toConstantFontSize(1.7),
         color: Colors.black
     }
-
 });

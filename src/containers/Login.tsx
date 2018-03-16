@@ -34,7 +34,7 @@ import { UpdateUserMutation, UpdateUserMutationVariables } from "../graphql/Type
 import { loginWithFacebook, signupWithFacebook } from "../redux/Routines";
 import { base, login } from "../styles";
 import { LoginStatus } from "../types/Entities";
-import { LoginState, ProfileState } from "../types/ReduxTypes";
+import { LoginState, ProfileState, ReduxState } from "../types/ReduxTypes";
 import { Profile } from "../types/State";
 import { ConvertBirthdayToAge } from "../utils/BirthdayToAge";
 import { toConstantFontSize, toConstantWidth } from "../utils/PercentageConversion";
@@ -224,7 +224,7 @@ export class Login extends React.Component<Props, State> {
                             onPress={() =>
                                 this.state.isLoggedIn ? this.props.navigation.navigate("Home") : this.homeSwiper.scrollBy(1, true)
                             }
-                            backgroundColor={this.state.isLoggedIn ? Colors.brandSuccessColor : Colors.brandSecondaryColor}
+                            backgroundColor={this.state.isLoggedIn ? Colors.brandSuccessColor : Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
                         <TouchableOpacity testID={"LoginButton"} onPress={this.loginWithFacebook}>
@@ -248,14 +248,14 @@ export class Login extends React.Component<Props, State> {
                             onPress={() =>
                                 this.setState({ isLookingForHouse: true }, (): void => this.homeSwiper.scrollBy(1, true))
                             }
-                            backgroundColor={Colors.brandSecondaryColor}
+                            backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                             wrapperStyle={{ marginBottom: 10 }}
                         />
                         <TouchableRect
                             title={"Looking for People"}
                             onPress={() => this.setState({ isLookingForHouse: false }, () => this.homeSwiper.scrollBy(1, true))}
-                            backgroundColor={Colors.brandSecondaryColor}
+                            backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
                     </View>
@@ -436,7 +436,7 @@ export class Login extends React.Component<Props, State> {
                         >
                             <Text style={[base.labelText, { alignSelf: "center" }]}>Smoker</Text>
                             <Switch
-                                onTintColor={Colors.brandSecondaryColor}
+                                onTintColor={Colors.brandPrimaryColor}
                                 thumbTintColor={Colors.brandPrimaryColor}
                                 tintColor={Colors.grey}
                                 onValueChange={(val) => this.setState({ isSmoker: val })}
@@ -458,7 +458,7 @@ export class Login extends React.Component<Props, State> {
                 {this.renderHouseOrProfileSetup()}
                 {!this.state.isLookingForHouse && this.state.isCreatingHouse ? this.renderHouseDetail() : null}
 
-                <View style={[login.page, { backgroundColor: Colors.brandSecondaryColor }]}>
+                <View style={[login.page, { backgroundColor: Colors.brandPrimaryColor }]}>
                     <ImageBackground
                         source={OpenBox}
                         style={{
@@ -492,7 +492,7 @@ export class Login extends React.Component<Props, State> {
                             buttonStyle={[base.buttonStyle, { backgroundColor: Colors.backgroundWhite }]}
                             fontFamily={Font.FONT_FAMILY}
                             fontSize={20}
-                            textStyle={{ color: Colors.brandSecondaryColor }}
+                            textStyle={{ color: Colors.brandPrimaryColor }}
                         />
                     </View>
                 </View>
@@ -717,7 +717,7 @@ export class Login extends React.Component<Props, State> {
                                         width: 70,
                                         height: 70,
                                         borderWidth: 1,
-                                        borderColor: Colors.brandSecondaryColor,
+                                        borderColor: Colors.brandPrimaryColor,
                                         borderStyle: "dashed",
                                         borderRadius: 3,
                                         alignItems: "center",
@@ -728,7 +728,7 @@ export class Login extends React.Component<Props, State> {
                                     <Icon
                                         name={"ios-add"}
                                         size={toConstantFontSize(4)}
-                                        style={{ color: Colors.brandSecondaryColor }}
+                                        style={{ color: Colors.brandPrimaryColor }}
                                     />
                                 </TouchableOpacity>
                             ) : (
@@ -750,7 +750,7 @@ export class Login extends React.Component<Props, State> {
                     ) : (
                         <TouchableRect
                             title={"Confirm"}
-                            backgroundColor={Colors.brandSecondaryColor}
+                            backgroundColor={Colors.brandPrimaryColor}
                             onPress={() => this.uploadImages()}
                             buttonStyle={base.buttonStyle}
                         />
@@ -1025,7 +1025,7 @@ const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
     })
 });
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: ReduxState) => ({
     login: state.login,
     profile: state.profile
 });
@@ -1033,7 +1033,7 @@ const mapStateToProps = (state) => ({
 const bindActions = (dispatch) => {
     return {
         signupWithFacebook: () => dispatch(signupWithFacebook()),
-        loginWithFacebook: () => dispatch(loginWithFacebook())
+        loginWithFacebook: () => dispatch(loginWithFacebook()),
     };
 };
 

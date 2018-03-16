@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View } from 'react-native';
-import { FloatingAction } from 'react-native-floating-action';
-import Icon from 'react-native-vector-icons/Ionicons';
+import * as React from "react";
+import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View } from "react-native";
+import { FloatingAction } from "react-native-floating-action";
+import Icon from "react-native-vector-icons/Ionicons";
 
-import { Colors, Font } from '../../consts';
-import { feed } from '../../styles';
-import { toConstantFontSize } from '../../utils/PercentageConversion';
-import { Post } from '../../types/Entities';
-import { PostCard } from '../../widgets';
+import { Colors, Font } from "../../consts";
+import { feed } from "../../styles";
+import { toConstantFontSize } from "../../utils/PercentageConversion";
+import { Post } from "../../types/Entities";
+import { PostCard } from "../../widgets";
 
 interface Props {
     navigation: {
@@ -16,6 +16,7 @@ interface Props {
     data: Array<Post>;
     isLoading: boolean;
     fbUserId: string;
+    hasCreatedPost: boolean;
     refreshPostList: () => void;
     loadMorePosts: () => any;
 }
@@ -69,24 +70,24 @@ export class PostListComponent extends React.Component<Props> {
 
                     <View style={feed.filterContainer}>
                         <TouchableHighlight
-                            onPress={() => alert('Price pressed')}
-                            underlayColor={Colors.translucentAirBnbRed}
-                            style={[feed.filterItem, { backgroundColor: Colors.airbnbRed }]}
+                            onPress={() => alert("Price pressed")}
+                            underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
+                            style={[feed.filterItem, { backgroundColor: Colors.definetelyNotAirbnbRed }]}
                         >
                             <Text style={[feed.filterItemText, { color: Colors.white }]}>All</Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                            onPress={() => alert('Spaces pressed')}
-                            underlayColor={Colors.translucentAirBnbRed}
+                            onPress={() => alert("Spaces pressed")}
+                            underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
                             style={feed.filterItem}
                         >
                             <Text style={feed.filterItemText}>Starred</Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                            onPress={() => alert('Other options pressed')}
-                            underlayColor={Colors.translucentAirBnbRed}
+                            onPress={() => alert("Other options pressed")}
+                            underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
                             style={feed.filterItem}
                         >
                             <Text style={feed.filterItemText}>My Posts</Text>
@@ -97,8 +98,8 @@ export class PostListComponent extends React.Component<Props> {
                 <FlatList
                     data={this.props.data}
                     contentContainerStyle={{
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                        alignItems: "center",
+                        justifyContent: "center"
                     }}
                     renderItem={this.renderCard}
                     ListHeaderComponent={this.renderCreateHeader}
@@ -107,13 +108,13 @@ export class PostListComponent extends React.Component<Props> {
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
-                {Platform.OS === 'android' ? (
+                {Platform.OS === "android" ? (
                     <FloatingAction
-                        buttonColor={Colors.brandSecondaryColor}
+                        buttonColor={Colors.brandPrimaryColor}
                         showBackground={false}
-                        floatingIcon={<Icon name={'md-add'} size={26} color={Colors.white} />}
+                        floatingIcon={<Icon name={"md-add"} size={26} color={Colors.white} />}
                         onPressMain={() =>
-                            this.props.navigation.push('CreatePost', {
+                            this.props.navigation.push("CreatePost", {
                                 fbUserId: this.props.fbUserId
                             })
                         }
@@ -141,7 +142,7 @@ export class PostListComponent extends React.Component<Props> {
         return (
             <View style={feed.card}>
                 <PostCard
-                    onPress={() => this.props.navigation.push('PostDetail', { data: item })}
+                    onPress={() => this.props.navigation.push("PostDetail", { data: item })}
                     title={item.createdBy.road}
                     spaces={item.createdBy.spaces}
                     price={item.createdBy.billsPrice + item.createdBy.rentPrice}
@@ -153,13 +154,16 @@ export class PostListComponent extends React.Component<Props> {
     };
 
     private renderCreateHeader = () => {
+        if (!this.props.hasCreatedPost) {
+            return <View />;
+        }
         // return <View />;
-        if (Platform.OS === 'ios') {
+        if (Platform.OS === "ios") {
             return (
                 <TouchableHighlight
                     underlayColor={Colors.grey}
                     onPress={() =>
-                        this.props.navigation.push('CreatePost', {
+                        this.props.navigation.push("CreatePost", {
                             fbUserId: this.props.fbUserId
                         })
                     }
@@ -169,8 +173,8 @@ export class PostListComponent extends React.Component<Props> {
                         style={[
                             {
                                 fontSize: toConstantFontSize(8),
-                                color: Colors.brandSecondaryColor,
-                                ...Font.FontFactory({ weight: 'Light' })
+                                color: Colors.brandPrimaryColor,
+                                ...Font.FontFactory({ weight: "Light" })
                             }
                         ]}
                     >

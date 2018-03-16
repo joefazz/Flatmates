@@ -134,7 +134,7 @@ const login = function*() {
                 const serverData = Object.assign({}, response, doesExist);
 
                 yield* getLocalData(serverData);
-                console.log(token);
+
                 yield put(loginWithFacebook.success({ response, token, expiryDate }));
             } else {
                 throw new Error("User does not exist");

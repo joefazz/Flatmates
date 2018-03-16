@@ -47,7 +47,7 @@ export const login = StyleSheet.create({
     profileName: {
         ...Font.FontFactory({ weight: 'Bold' }),
         fontSize: 32,
-        color: Colors.brandSecondaryColor
+        color: Colors.brandPrimaryColor
     },
 
     profileHeading: {

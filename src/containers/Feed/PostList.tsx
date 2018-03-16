@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 import { PostListComponent } from "../../components/Feed/PostListComponent";
 import { getPosts } from "../../redux/Routines";
-import { FeedState, LoginState } from "../../types/ReduxTypes";
+import { FeedState, LoginState, ReduxState } from "../../types/ReduxTypes";
 import { Post } from "../../types/Entities";
 
 interface Props {
@@ -19,6 +19,7 @@ interface Props {
 interface State {
     data: Array<Post>;
     isLoading: boolean;
+    hasCreatedPost: boolean;
     fbUserId: string;
 }
 
@@ -38,13 +39,14 @@ export class PostList extends React.Component<Props, State> {
         )
     });
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
             data: props.feed.posts,
             isLoading: props.feed.isFetchingPosts,
-            fbUserId: ""
+            fbUserId: "",
+            hasCreatedPost: props.login.hasCreatedPost
         };
     }
 
@@ -52,7 +54,7 @@ export class PostList extends React.Component<Props, State> {
         this.props.getPosts();
     }
 
-    componentWillReceiveProps(newProps) {
+    componentWillReceiveProps(newProps: Props) {
         if (newProps.feed.isFetchingPosts !== this.state.isLoading) {
             this.setState({ isLoading: newProps.feed.isFetchingPosts });
 
@@ -89,7 +91,7 @@ export class PostList extends React.Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: ReduxState) => ({
     login: state.login,
     feed: state.feed
 });

@@ -75,10 +75,10 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         prevButton={<Text style={feed.leftRightButtonStyle}>‹</Text>}
                         showsButtons={true}
                         paginationStyle={{ bottom: 0 }}
-                        activeDotColor={Colors.brandSecondaryColor}
+                        activeDotColor={Colors.brandPrimaryColor}
                         dotStyle={{
                             borderWidth: 1,
-                            borderColor: Colors.brandSecondaryColor,
+                            borderColor: Colors.brandPrimaryColor,
                             backgroundColor: Colors.transparent
                         }}
                     >
@@ -241,7 +241,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         onPress={() => console.log("Chat join pressed")}
                         title={"Send Application"}
                         iconName={"bullhorn"}
-                        backgroundColor={Colors.brandSecondaryColor}
+                        backgroundColor={Colors.brandPrimaryColor}
                         wrapperStyle={{ borderRadius: 0 }}
                         buttonStyle={{
                             width: toConstantWidth(100),

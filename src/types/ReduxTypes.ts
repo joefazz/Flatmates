@@ -2,7 +2,7 @@ import { CreatePost, FacebookLogin, FacebookSignup, GetPosts, GetUserData } from
 import { Course, LoginStatus, Post, StudyYear } from "./Entities";
 
 export interface LoginAction {
-    type: FacebookLogin | FacebookSignup;
+    type: FacebookLogin | FacebookSignup | CreatePost;
     payload: {
         token: string;
         expiryDate: number;
@@ -43,7 +43,7 @@ export interface ProfileAction {
     };
 }
 
-export class LoginState {
+export interface LoginState {
     fbUserId: string;
     isRehydrated: boolean;
     loginStatus: LoginStatus;
@@ -53,9 +53,10 @@ export class LoginState {
     isLoggedIn: boolean;
     isReadOnly: boolean;
     error: string;
+    hasCreatedPost: boolean;
 }
 
-export class ProfileState {
+export interface ProfileState {
     name: string;
     firstName: string;
     lastName: string;
@@ -66,11 +67,17 @@ export class ProfileState {
     error: string;
 }
 
-export class FeedState {
+export interface FeedState {
     posts: Array<Post>;
     isFetchingPosts: boolean;
     isCreatingPost: boolean;
     isErrorFetchingPosts: boolean;
     isErrorCreatingPost: boolean;
     error: string;
+}
+
+export interface ReduxState {
+    profile: ProfileState;
+    feed: FeedState;
+    login: LoginState;
 }

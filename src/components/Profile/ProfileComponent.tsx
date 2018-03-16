@@ -190,7 +190,7 @@ export class ProfileComponent extends React.Component<Props> {
                                 </View>
                             ) : (
                                 <View style={profile.contentWrapper}>
-                                    <Text style={[profile.aboutText, { color: Colors.brandSecondaryColor }]}>
+                                    <Text style={[profile.aboutText, { color: Colors.brandPrimaryColor }]}>
                                         House Preferences
                                     </Text>
                                     <View style={profile.ageGenderWrapper}>

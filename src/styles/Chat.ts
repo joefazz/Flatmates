@@ -102,7 +102,7 @@ export const chat = StyleSheet.create({
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderColor: Colors.transparent,
-                backgroundColor: Colors.brandSecondaryColor,
+                backgroundColor: Colors.brandPrimaryColor,
             },
         })
     },

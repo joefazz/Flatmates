@@ -1,7 +1,7 @@
 import { LoginAction, LoginState } from "../../types/ReduxTypes";
 import { LoginStatus } from "../../types/Entities";
 import initialState from "../InitialState";
-import { FacebookLogin, FacebookSignup } from "../Types";
+import { FacebookLogin, FacebookSignup, CreatePost } from "../Types";
 
 // Modules
 // File References
@@ -62,6 +62,12 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.ENDED
             });
+
+        case CreatePost.SUCCESS:
+            return Object.assign({}, state, {
+                hasCreatedPost: true
+            });
+
         default:
             return state;
     }
