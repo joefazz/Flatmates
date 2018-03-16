@@ -1,109 +1,127 @@
-import * as React from 'react';
-import { Animated, Easing, FlatList, Platform, RefreshControl, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import { FloatingAction } from 'react-native-floating-action';
-import Icon from 'react-native-vector-icons/Ionicons';
+import * as React from "react";
+import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View } from "react-native";
+import { FloatingAction } from "react-native-floating-action";
+import Icon from "react-native-vector-icons/Ionicons";
 
-import { Colors, Font } from '../../consts';
-import { feed } from '../../styles';
-import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
-import { PostCard } from '../../widgets';
+import { Colors, Font } from "../../consts";
+import { feed } from "../../styles";
+import { toConstantFontSize } from "../../utils/PercentageConversion";
+import { Post } from "../../types/Entities";
+import { PostCard } from "../../widgets";
 
 interface Props {
-    navigation: {push: (route: string, params: {fbUserId?: string, data?: object}) => void},
-    data: { toJS: () => Array<object> },
-    isLoading: boolean,
-    fbUserId: string,
-    refreshPostList: () => void,
-    loadMorePosts: () => any,
-};
-
-interface State {
-    isFilterOpen: boolean
+    navigation: {
+        push: (route: string, params: { fbUserId?: string; data?: object }) => void;
+    };
+    data: Array<Post>;
+    isLoading: boolean;
+    fbUserId: string;
+    hasCreatedPost: boolean;
+    refreshPostList: () => void;
+    loadMorePosts: () => any;
 }
 
-export class PostListComponent extends React.Component<Props, State> {
-    private _animationValue: Animated.Value = new Animated.Value(0);
-    private _ANIMATION_DURATION_CONSTANT: number = 500;
+export class PostListComponent extends React.Component<Props> {
+    // private _animationValue: Animated.Value = new Animated.Value(0);
+    // private _ANIMATION_DURATION_CONSTANT: number = 500;
 
-    private heightAnimation = {
-        height: this._animationValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [toConstantHeight(10.5), toConstantHeight(22)]
-        })
-    };
+    // private heightAnimation = {
+    //     height: this._animationValue.interpolate({
+    //         inputRange: [0, 1],
+    //         outputRange: [toConstantHeight(10.5), toConstantHeight(22)]
+    //     })
+    // };
 
-    private opacityAnimation = {
-        opacity: this._animationValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: [0, 1]
-        })
-    };
+    // private shrinkGrowAnimation = {
+    //     width: this._animationValue.interpolate({
+    //         inputRange: [0, 1],
+    //         outputRange: [toConstantWidth(27), toConstantWidth(90)]
+    //     }),
+    //     // backgroundColor: 'red'
+    // }
 
-    private rotateAnimation = {
-        transform: [
-            {
-                rotate: this._animationValue.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0deg', '180deg']
-                })
-            }
-        ]
-    }
+    // private opacityAnimation = {
+    //     opacity: this._animationValue.interpolate({
+    //         inputRange: [0, 1],
+    //         outputRange: [0, 1]
+    //     })
+    // };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isFilterOpen: false
-        };
-    }
+    // private rotateAnimation = {
+    //     transform: [
+    //         {
+    //             rotate: this._animationValue.interpolate({
+    //                 inputRange: [0, 1],
+    //                 outputRange: ['0deg', '180deg']
+    //             })
+    //         }
+    //     ]
+    // }
 
     render() {
         return (
             <>
-                <Animated.View style={[ feed.filterWrapper, this.heightAnimation ]}>
-                    <TouchableOpacity onPress={this.animateFilter} activeOpacity={0.7} style={ feed.expandBar }>
+                <View style={feed.filterWrapper}>
+                    {/*<TouchableOpacity onPress={this.animateFilter} activeOpacity={0.7} style={ feed.expandBar }>
                         <Animated.View style={this.rotateAnimation}>
                             <Icon name={'ios-arrow-up'} size={toConstantFontSize(3)} style={{color: Colors.highlightWhite}} />
                         </Animated.View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>*/}
 
-                    <TouchableHighlight onPress={() => alert('Price pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
-                        <Text style={ feed.filterItemText }>Price (Low to High)</Text>
-                    </TouchableHighlight>
-
-                    <Animated.View style={ this.opacityAnimation }>
-                        <TouchableHighlight onPress={() => alert('Spaces pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
-                            <Text style={ feed.filterItemText }>Spaces</Text>
+                    <View style={feed.filterContainer}>
+                        <TouchableHighlight
+                            onPress={() => alert("Price pressed")}
+                            underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
+                            style={[feed.filterItem, { backgroundColor: Colors.definetelyNotAirbnbRed }]}
+                        >
+                            <Text style={[feed.filterItemText, { color: Colors.white }]}>All</Text>
                         </TouchableHighlight>
 
-                        <TouchableHighlight onPress={() => alert('Other options pressed')} underlayColor={Colors.translucentAirBnbRed} style={ feed.filterItem }>
-                            <Text style={ feed.filterItemText }>Other option</Text>
+                        <TouchableHighlight
+                            onPress={() => alert("Spaces pressed")}
+                            underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
+                            style={feed.filterItem}
+                        >
+                            <Text style={feed.filterItemText}>Starred</Text>
                         </TouchableHighlight>
-                    </Animated.View>
-                </Animated.View>
+
+                        <TouchableHighlight
+                            onPress={() => alert("Other options pressed")}
+                            underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
+                            style={feed.filterItem}
+                        >
+                            <Text style={feed.filterItemText}>My Posts</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
 
                 <FlatList
-                    data={this.props.data.toJS()}
-                    contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}
+                    data={this.props.data}
+                    contentContainerStyle={{
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
                     renderItem={this.renderCard}
                     ListHeaderComponent={this.renderCreateHeader}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={this.props.isLoading}
-                            onRefresh={() => this.refreshPostList}
-                        />
-                    }
+                    refreshControl={<RefreshControl refreshing={this.props.isLoading} onRefresh={() => this.refreshPostList} />}
                     ListFooterComponent={this.renderHeaderFooter}
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
-                {Platform.OS === 'android' ? <FloatingAction
-                    buttonColor={Colors.brandSecondaryColor}
-                    showBackground={false}
-                    floatingIcon={<Icon name={'md-add'} size={26} color={Colors.white} />}
-                    onPressMain={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})}
-                /> : <React.Fragment />}
+                {Platform.OS === "android" ? (
+                    <FloatingAction
+                        buttonColor={Colors.brandPrimaryColor}
+                        showBackground={false}
+                        floatingIcon={<Icon name={"md-add"} size={26} color={Colors.white} />}
+                        onPressMain={() =>
+                            this.props.navigation.push("CreatePost", {
+                                fbUserId: this.props.fbUserId
+                            })
+                        }
+                    />
+                ) : (
+                    <React.Fragment />
+                )}
             </>
         );
     }
@@ -113,22 +131,18 @@ export class PostListComponent extends React.Component<Props, State> {
     }
 
     private renderHeaderFooter = () => {
-        return (
-            <View style={{ height: 10 }} />
-        );
-    }
+        return <View style={{ height: 10 }} />;
+    };
 
     private renderEmpty = () => {
-        return (
-            <Text>No posts</Text>
-        );
-    }
+        return <Text>No posts</Text>;
+    };
 
     private renderCard = ({ item }) => {
         return (
-            <View style={ feed.card }>
+            <View style={feed.card}>
                 <PostCard
-                    onPress={() => this.props.navigation.push('PostDetail', {data: item})}
+                    onPress={() => this.props.navigation.push("PostDetail", { data: item })}
                     title={item.createdBy.road}
                     spaces={item.createdBy.spaces}
                     price={item.createdBy.billsPrice + item.createdBy.rentPrice}
@@ -137,33 +151,54 @@ export class PostListComponent extends React.Component<Props, State> {
                 />
             </View>
         );
-    }
+    };
 
     private renderCreateHeader = () => {
+        if (!this.props.hasCreatedPost) {
+            return <View />;
+        }
         // return <View />;
-        if (Platform.OS === 'ios') {
+        if (Platform.OS === "ios") {
             return (
-                <TouchableHighlight underlayColor={Colors.grey} onPress={() => this.props.navigation.push('CreatePost', {fbUserId: this.props.fbUserId})} style={ feed.createCard } >
-                    <Text style={[{fontSize: toConstantFontSize(8), color: Colors.brandSecondaryColor, ...Font.FontFactory({weight: 'Light'})} ]}>+</Text>
+                <TouchableHighlight
+                    underlayColor={Colors.grey}
+                    onPress={() =>
+                        this.props.navigation.push("CreatePost", {
+                            fbUserId: this.props.fbUserId
+                        })
+                    }
+                    style={feed.createCard}
+                >
+                    <Text
+                        style={[
+                            {
+                                fontSize: toConstantFontSize(8),
+                                color: Colors.brandPrimaryColor,
+                                ...Font.FontFactory({ weight: "Light" })
+                            }
+                        ]}
+                    >
+                        +
+                    </Text>
                 </TouchableHighlight>
             );
         }
-        return <View />
-    }
+        return <View />;
+    };
 
-    private animateFilter = () => {
-        if (this.state.isFilterOpen) {
-            Animated.timing(this._animationValue, {
-                toValue: 0,
-                duration: this._ANIMATION_DURATION_CONSTANT,
-                easing: Easing.elastic(0.7)
-            }).start(() => this.setState({ isFilterOpen: false }));
-        } else {
-            Animated.timing(this._animationValue, {
-                toValue: 1,
-                duration: this._ANIMATION_DURATION_CONSTANT,
-                easing: Easing.elastic(1)
-            }).start(() => this.setState({ isFilterOpen: true }));
-        }
-    }
+    // private animateFilter = () => {
+    //     if (this.state.isFilterOpen) {
+    //         Animated.timing(this._animationValue, {
+    //             toValue: 0,
+    //             duration: this._ANIMATION_DURATION_CONSTANT,
+    //             easing: Easing.elastic(0.7)
+    //         }).start(() => this.setState({ isFilterOpen: false }));
+    //     } else {
+    //         Animated.timing(this._animationValue, {
+    //             toValue: 1,
+    //             duration: this._ANIMATION_DURATION_CONSTANT,
+    //             easing: Easing.elastic(1)
+    //         }).start(() => this.setState({ isFilterOpen: true }));
+    //     }
+    // }
 }

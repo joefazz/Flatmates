@@ -1,29 +1,30 @@
-import { AccessToken, GraphRequest, GraphRequestManager, LoginManager } from 'react-native-fbsdk';
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { AccessToken, GraphRequest, GraphRequestManager, LoginManager } from "react-native-fbsdk";
+import { call, put, takeEvery } from "redux-saga/effects";
 
-import client from '../../Client';
-import { facebookPermissions } from '../../containers/Login';
-import { CREATE_USER_MUTATION } from '../../graphql/mutations';
-import { USER_LOGIN_QUERY } from '../../graphql/queries';
-import { getUserDataFacebook, loginWithFacebook, signupWithFacebook } from '../Routines';
+import client from "../../Client";
+import { facebookPermissions } from "../../containers/Login";
+import { CREATE_USER_MUTATION } from "../../graphql/mutations";
+import { UserLoginQuery } from "../../graphql/Types";
+import { USER_LOGIN_QUERY } from "../../graphql/queries";
+import { getUserDataFacebook, loginWithFacebook, readOnlyLogin, signupWithFacebook } from "../Routines";
 
-let token: { accessToken?: string, expiryDate?: string } = {};
+let token: { accessToken?: string; expiryDate?: string } = {};
 
-export const loginSaga = function *() {
+export const loginSaga = function*() {
     yield takeEvery(signupWithFacebook.TRIGGER, signup);
-    yield takeEvery(loginWithFacebook.TRIGGER, login)
+    yield takeEvery(loginWithFacebook.TRIGGER, login);
+    yield takeEvery(readOnlyLogin.TRIGGER, readOnly);
 };
 
 function facebookRequest(accessToken) {
     return new Promise((resolve) => {
-
         const infoRequest = new GraphRequest(
-            '/me',
+            "/me",
             {
                 accessToken,
                 parameters: {
                     fields: {
-                        string: 'email,name,about,picture.height(961),birthday,gender,first_name,last_name'
+                        string: "email,name,about,picture.height(961),birthday,gender,first_name,last_name"
                     }
                 }
             },
@@ -35,17 +36,19 @@ function facebookRequest(accessToken) {
                 }
             }
         );
-        new GraphRequestManager().addRequest(infoRequest).start()
-    })
+        new GraphRequestManager().addRequest(infoRequest).start();
+    });
 }
 
 function doesUserExist(facebookUserId) {
     return new Promise((resolve) => {
-        client.query({
-            variables: {facebookUserId},
-            query: USER_LOGIN_QUERY,
-            // @ts-ignore
-        }).then(({data}) => data.User === null ? resolve(false) : resolve(true));
+        client
+            .query<UserLoginQuery>({
+                variables: { facebookUserId },
+                query: USER_LOGIN_QUERY
+                // @ts-ignore
+            })
+            .then(({ data }) => (data.user === null ? resolve(false) : resolve(data.user)));
     });
 }
 
@@ -73,7 +76,7 @@ function* GET_TOKEN() {
     return yield token.accessToken;
 }
 
-const signup = function *() {
+const signup = function*() {
     // Trigger request action
     yield put(signupWithFacebook.request());
     // Wait for response from API and assign it to response
@@ -84,26 +87,28 @@ const signup = function *() {
         });
 
         if (response.isCancelled) {
-            yield put(signupWithFacebook.failure('Login Process Cancelled'));
+            yield put(signupWithFacebook.failure("Login Process Cancelled"));
         } else {
             yield AccessToken.getCurrentAccessToken().then((data) => {
                 token.accessToken = data.accessToken;
                 token.expiryDate = data.expirationTime;
                 response.userID = data.userID;
             });
-            yield put(signupWithFacebook.success({response, token}));
+
+            const { expiryDate } = token;
+            const access = token.accessToken;
+
+            yield put(signupWithFacebook.success({ response, token: access, expiryDate }));
             yield* getData();
         }
-
     } catch (error) {
         yield put(signupWithFacebook.failure(error));
-
     } finally {
         yield put(signupWithFacebook.fulfill());
     }
-}
+};
 
-const login = function *() {
+const login = function*() {
     yield put(loginWithFacebook.request());
 
     try {
@@ -113,7 +118,7 @@ const login = function *() {
         });
 
         if (response.isCancelled) {
-            yield put(loginWithFacebook.failure('Login Process Cancelled'));
+            yield put(loginWithFacebook.failure("Login Process Cancelled"));
         } else {
             yield AccessToken.getCurrentAccessToken().then((data) => {
                 token.accessToken = data.accessToken;
@@ -121,24 +126,32 @@ const login = function *() {
                 response.userID = data.userID;
             });
 
+            const { expiryDate } = token;
+
             const doesExist = yield call(doesUserExist, response.userID);
 
             if (doesExist) {
-                yield* getLocalData();
-                yield put(loginWithFacebook.success({response, token}));
+                const serverData = Object.assign({}, response, doesExist);
+
+                yield* getLocalData(serverData);
+
+                yield put(loginWithFacebook.success({ response, token, expiryDate }));
             } else {
-                throw new Error('User does not exist');
+                throw new Error("User does not exist");
             }
         }
     } catch (error) {
         yield put(loginWithFacebook.failure(error.message));
-
     } finally {
         yield put(loginWithFacebook.fulfill());
     }
-}
+};
 
-function *getData() {
+const readOnly = function*() {
+    yield put(readOnlyLogin.success());
+};
+
+function* getData() {
     yield put(getUserDataFacebook.request());
 
     try {
@@ -159,7 +172,7 @@ function *getData() {
     }
 }
 
-function *getLocalData() {
+function* getLocalData(serverData) {
     yield put(getUserDataFacebook.request());
 
     try {
@@ -170,7 +183,7 @@ function *getLocalData() {
         if (response.isError) {
             yield put(getUserDataFacebook.failure({ response: response.error }));
         } else {
-            yield put(getUserDataFacebook.success({ response: response.result }));
+            yield put(getUserDataFacebook.success({ response: Object.assign({}, response.result, serverData) }));
         }
     } catch (error) {
         yield put(getUserDataFacebook.failure({ error }));

@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export const POST_LIST_QUERY = gql`
     query AllPosts($take: Int!, $skip: Int) {
@@ -8,6 +8,7 @@ export const POST_LIST_QUERY = gql`
             createdAt
             lastSeen
             createdBy {
+                shortID
                 road
                 coords
                 billsPrice

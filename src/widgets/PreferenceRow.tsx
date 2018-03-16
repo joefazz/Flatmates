@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 
     label: {
         fontSize: 22,
-        color: Colors.brandSecondaryColor,
+        color: Colors.brandPrimaryColor,
         ...Font.FontFactory({ weight: 'Light' })
     },
 

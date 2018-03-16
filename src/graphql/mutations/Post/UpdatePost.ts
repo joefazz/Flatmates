@@ -6,6 +6,7 @@ export const UPDATE_POST_MUTATION = gql`
             id
             description
             createdBy {
+                shortID
                 coords
                 road
                 billsPrice
@@ -13,8 +14,12 @@ export const UPDATE_POST_MUTATION = gql`
                 spaces
                 houseImages
                 users {
+                    facebookUserId
                     name
                     studyYear
+                    birthday
+                    gender
+                    isSmoker
                     imageUrl
                     course
                 }

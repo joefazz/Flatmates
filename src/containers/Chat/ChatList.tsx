@@ -6,26 +6,32 @@ import { connect } from 'react-redux';
 
 import { ChatListComponent } from '../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY } from '../../graphql/queries';
+import { LoginState } from '../../types/ReduxTypes';
+import { Group } from '../../types/Entities';
 
-interface Props  {
-    loading: boolean,
-    groups: Array<object>,
-    navigation: { navigate: (route: string) => void },
-    login: any
-};
+interface Props {
+    loading: boolean;
+    groups: Array<Group>;
+    navigation: { navigate: (route: string) => void };
+    login: LoginState;
+}
 
 interface State {
-    isLoading: boolean,
-    groups: Array<object>
-};
+    isLoading: boolean;
+    groups: Array<Group>;
+}
 
 export class ChatList extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Chat',
         tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-text' : 'ios-text-outline' : 'md-text'} color={tintColor} size={32} />
+            <Icon
+                name={Platform.OS === 'ios' ? (focused ? 'ios-text' : 'ios-text-outline') : 'md-text'}
+                color={tintColor}
+                size={32}
+            />
         )
-    }
+    };
 
     isDummy: boolean;
     dummyGroups: Array<object>;
@@ -42,21 +48,21 @@ export class ChatList extends React.Component<Props, State> {
                     id: i,
                     name: 'Real Fake Street',
                     lastMessageText: 'Lorem ipsum doler set amet',
-                    users: [{name: 'Joe Fazzino'}, {name: 'Ben Buckley'}]
+                    users: [{ name: 'Joe Fazzino' }, { name: 'Ben Buckley' }]
                 });
             }
         }
 
-        this.state = {
-            isLoading: props.loading,
-            groups: this.isDummy ? this.dummyGroups : []
-        };
+        // this.state = {
+        //     isLoading: props.loading,
+        //     groups: this.isDummy ? this.dummyGroups : []
+        // };
     }
 
     componentWillReceiveProps(newProps) {
         if (this.props.loading !== newProps.loading) {
             this.setState({
-                isLoading: newProps.loading,
+                isLoading: newProps.loading
                 // groups: newProps.data.User.group
             });
         }
@@ -75,14 +81,12 @@ export class ChatList extends React.Component<Props, State> {
             );
         }
 
-        return (
-            <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />
-        );
+        return <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />;
     }
 }
 
 const mapStateToProps = (state) => ({
-    login: state.get('login')
+    login: state.login
 });
 
 const bindActions = () => {
@@ -90,15 +94,14 @@ const bindActions = () => {
 };
 
 const userChatQuery = graphql(USER_CHAT_QUERY, {
-    options: (ownProps: Props) => ({ variables: { facebookUserId: ownProps.login.get('fbUserId') } }),
+    options: (ownProps: Props) => ({
+        variables: { facebookUserId: ownProps.login.fbUserId }
+    }),
     // @ts-ignore
-    props: ({ data: {loading, groups} }) => ({
+    props: ({ data: { loading, groups } }) => ({
         loading,
         groups
-    }),
+    })
 });
 
-export default compose(
-    connect(mapStateToProps, bindActions),
-    userChatQuery,
-)(ChatList);
+export default compose(connect(mapStateToProps, bindActions), userChatQuery)(ChatList);

@@ -1,10 +1,10 @@
-import { Metrics } from '../consts';
+import { Metrics } from "../consts";
 
 enum TYPES {
-    Width = 'width',
-    Height = 'height',
-    Font = 'fontSize'
-};
+    Width = "width",
+    Height = "height",
+    Font = "fontSize"
+}
 
 export function toConstantWidth(percentage: number): number {
     return toConstant(percentage, TYPES.Width);
@@ -33,13 +33,13 @@ export function toPercentageFontSize(constant: number): number {
 function toPercentage(constant: number, type: TYPES): number {
     switch (type) {
         case TYPES.Width:
-            return (constant * 100) / Metrics.screenWidth;
+            return constant * 100 / Metrics.screenWidth;
 
         case TYPES.Height:
-            return (constant * 100) / Metrics.screenHeight;
+            return constant * 100 / Metrics.screenHeight;
 
         case TYPES.Font:
-            return (constant * 100) / Metrics.totalSize;
+            return constant * 100 / Metrics.totalSize;
     }
 }
 

@@ -1,6 +1,9 @@
-import { LoginStatus } from './ReduxTypes';
+import { FeedState, LoginState, ProfileState } from '../types/ReduxTypes';
+import { LoginStatus } from '../types/Entities';
 
-const initialState = {
+type State = Readonly<{ login: LoginState; profile: ProfileState; feed: FeedState }>;
+
+const initialState: State = {
     login: {
         fbUserId: '',
         isRehydrated: false,
@@ -8,7 +11,9 @@ const initialState = {
         grantedPermissions: [],
         deniedPermissions: [],
         fbAccessToken: '',
-        isLoggedIn: false
+        isLoggedIn: false,
+        isReadOnly: false,
+        error: ''
     },
     profile: {
         name: '',
@@ -17,7 +22,8 @@ const initialState = {
         gender: '',
         birthday: '',
         email: '',
-        imageUrl: ''
+        imageUrl: '',
+        error: ''
     },
     feed: {
         posts: [],
@@ -25,7 +31,7 @@ const initialState = {
         isCreatingPost: false,
         isErrorFetchingPosts: false,
         isErrorCreatingPost: false,
-        error: '',
+        error: ''
     }
 };
 

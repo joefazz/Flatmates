@@ -41,6 +41,7 @@ export interface UpdatePostMutation {
     id: string,
     description: string,
     createdBy:  {
+      shortID: number,
       coords: Array< number > | null,
       road: string,
       billsPrice: number,
@@ -48,8 +49,12 @@ export interface UpdatePostMutation {
       spaces: number,
       houseImages: Array< string > | null,
       users:  Array< {
+        facebookUserId: string,
         name: string,
         studyYear: string | null,
+        birthday: string,
+        gender: string,
+        isSmoker: boolean | null,
         imageUrl: string,
         course: string | null,
       } > | null,
@@ -84,13 +89,34 @@ export interface DeleteUserMutation {
   } | null,
 };
 
+export interface StarPostMutationVariables {
+  facebookUserId: string,
+  postID: string,
+};
+
+export interface StarPostMutation {
+  starPost:  {
+    facebookUserId: string,
+  } | null,
+};
+
+export interface UnstarPostMutationVariables {
+  facebookUserId: string,
+  postID: string,
+};
+
+export interface UnstarPostMutation {
+  unstarPost:  {
+    facebookUserId: string,
+  } | null,
+};
+
 export interface UpdateUserMutationVariables {
   facebookUserId: string,
   bio: string,
   course: string,
   studyYear: string,
   isSmoker: boolean,
-  socialScore: number,
   minPrice: number,
   maxPrice: number,
   genderPreference: string,
@@ -108,7 +134,6 @@ export interface UpdateUserCreateHouseMutationVariables {
   course: string,
   studyYear: string,
   isSmoker: boolean,
-  socialScore: number,
   shortID: number,
   road: string,
   coords: Array< number >,
@@ -133,7 +158,6 @@ export interface UpdateUserUpdateHouseMutationVariables {
   course: string,
   studyYear: string,
   isSmoker: boolean,
-  socialScore: number,
   houseId: number,
 };
 
@@ -177,6 +201,7 @@ export interface PostDetailQuery {
       spaces: number,
       houseImages: Array< string > | null,
       users:  Array< {
+        facebookUserId: string,
         name: string,
         gender: string,
         bio: string | null,
@@ -192,7 +217,7 @@ export interface PostDetailQuery {
 
 export interface AllPostsQueryVariables {
   take: number,
-  skip: number,
+  skip?: number | null,
 };
 
 export interface AllPostsQuery {
@@ -200,7 +225,7 @@ export interface AllPostsQuery {
     id: string,
     description: string,
     createdAt: string,
-    lastSeen: string,
+    lastSeen: string | null,
     createdBy:  {
       road: string,
       coords: Array< number > | null,
@@ -250,7 +275,6 @@ export interface UserDetailQuery {
     bio: string | null,
     studyYear: string | null,
     isSmoker: boolean | null,
-    socialScore: number | null,
     genderPreference: string | null,
     maxPrice: number | null,
     minPrice: number | null,
@@ -275,5 +299,33 @@ export interface UserLoginQueryVariables {
 export interface UserLoginQuery {
   user:  {
     facebookUserId: string,
+    isSmoker: boolean | null,
+    course: string | null,
+    studyYear: string | null,
+    isVerified: boolean,
+  } | null,
+};
+
+export interface UserStarredQueryVariables {
+  facebookUserId: string,
+};
+
+export interface UserStarredQuery {
+  user:  {
+    facebookUserId: string,
+    starredPosts:  Array< {
+      id: string,
+      description: string,
+      createdAt: string,
+      lastSeen: string | null,
+      createdBy:  {
+        road: string,
+        coords: Array< number > | null,
+        billsPrice: number,
+        rentPrice: number,
+        spaces: number,
+        houseImages: Array< string > | null,
+      },
+    } > | null,
   } | null,
 };

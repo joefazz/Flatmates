@@ -1,80 +1,67 @@
-import * as Immutable from 'immutable';
+import { FeedAction, FeedState } from "../../types/ReduxTypes";
+import { Post } from "../../types/Entities";
+import initialState from "../InitialState";
+import { GetPosts, CreatePost } from "../Types";
 
-import initialState from '../InitialState';
-import { Action, State } from '../ReduxTypes';
-import { createPost, deletePost, getPosts } from '../Routines';
-
-const INITIAL_STATE = Immutable.fromJS(initialState.feed)
+const INITIAL_STATE = initialState.feed;
 let posts;
 
-export default function feedReducer(state: State = INITIAL_STATE, action: Action) {
+export default function feedReducer(state: FeedState = INITIAL_STATE, action: FeedAction) {
     switch (action.type) {
         // Get Posts
-        case getPosts.REQUEST:
-            return state.merge({
+        case GetPosts.REQUEST:
+            return Object.assign({}, state, {
                 isFetchingPosts: true,
                 isErrorFetchingPosts: false
             });
-        case getPosts.SUCCESS:
-            return state.merge({
-                posts: action.payload
-            });
-        case getPosts.FAILURE:
-            return state.merge({
+        case GetPosts.SUCCESS:
+            return Object.assign({}, state, { posts: action.payload });
+        case GetPosts.FAILURE:
+            return Object.assign({}, state, {
                 isErrorFetchingPosts: true,
-                error: action.payload.error
+                error: action.payload
             });
-        case getPosts.FULFILL:
-            return state.merge({
-                isFetchingPosts: false
-            });
+        case GetPosts.FULFILL:
+            return Object.assign({}, state, { isFetchingPosts: false });
 
         // Create Post
-        case createPost.REQUEST:
-            return state.merge({
+        case CreatePost.REQUEST:
+            return Object.assign({}, state, {
                 isCreatingPost: true,
                 isErrorCreatingPost: false
             });
-        case createPost.SUCCESS:
-            posts = state.get('posts').set(state.get('posts').size, action.payload);
+        case CreatePost.SUCCESS:
+            posts = state.posts.concat(action.payload as Post);
 
-            return state.merge({
-                posts
-            });
-        case createPost.FAILURE:
-            return state.merge({
+            return Object.assign({}, state, posts);
+        case CreatePost.FAILURE:
+            return Object.assign({}, state, {
                 isErrorCreatingPost: true,
-                error: action.payload.error
+                error: action.payload
             });
-        case createPost.FULFILL:
-            return state.merge({
-                isCreatingPost: false
-            });
+        case CreatePost.FULFILL:
+            return Object.assign({}, state, { isCreatingPost: false });
 
         // Delete Post
-        case deletePost.REQUEST:
-            return state.merge({
-                isDeletingPost: true,
-                isErrorDeletingPost: false
-            })
-        case deletePost.SUCCESS:
-            posts = state.get('posts');
-            const postIndex = posts.findIndex((post) => post.get('id') === action.payload);
+        // case deletePost.REQUEST:
+        //     return Object.assign({}, state, {
+        //         isDeletingPost: true,
+        //         isErrorDeletingPost: false
+        //     });
+        // case deletePost.SUCCESS:
+        //     posts = state.posts;
+        //     const postIndex = posts.findIndex((post) => post.id === action.payload);
 
-            posts = posts.delete(postIndex);
+        //     posts = posts.filter(({}, index) => index !== postIndex);
 
-            return state.merge({
-                posts
-            });
-        case deletePost.FAILURE:
-            return state.merge({
-                isErrorDeletingPost: true,
-                error: action.payload.error
-            });
-        case deletePost.FULFILL:
-            return state.merge({
-                isDeletingPost: false,
-            })
+        //     return Object.assign({}, state, { posts });
+        // case deletePost.FAILURE:
+        //     return Object.assign({}, state, {
+        //         isErrorDeletingPost: true,
+        //         error: action.payload
+        //     });
+        // case deletePost.FULFILL:
+        //     return Object.assign({}, state, { isDeletingPost: false });
         default:
             return state;
     }

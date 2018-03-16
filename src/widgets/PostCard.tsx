@@ -41,7 +41,7 @@ export class PostCard extends React.PureComponent<Props> {
 
     renderPostPictures() {
         return(
-            <Swiper paginationStyle={{bottom: 0}} activeDotColor={ Colors.brandSecondaryColor } dotStyle={{ borderWidth: 1, borderColor: Colors.brandSecondaryColor, backgroundColor: Colors.transparent }}>
+            <Swiper paginationStyle={{bottom: 0}} activeDotColor={ Colors.brandPrimaryColor } dotStyle={{ borderWidth: 1, borderColor: Colors.brandPrimaryColor, backgroundColor: Colors.transparent }}>
                 {this.props.images.map((image, index) => {
                     return (
                         <View style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, overflow: 'hidden' }} key={index}>

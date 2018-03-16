@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { View, StyleSheet, TouchableHighlight, Slider } from 'react-native';
-import Mapbox from '@mapbox/react-native-mapbox-gl';
+import * as React from "react";
+import { View, StyleSheet, TouchableHighlight, Slider } from "react-native";
+import Mapbox from "@mapbox/react-native-mapbox-gl";
 
-import { Colors } from '../consts';
-import PulseCircleLayer from './PulseCircleLayer';
+import { Colors } from "../consts";
+import PulseCircleLayer from "./PulseCircleLayer";
 
 const ANNOTATION_SIZE = 20;
 
@@ -12,8 +12,8 @@ export class MapView extends React.Component {
         super(props);
 
         this.state = {
-            coordinates: [-0.9430, 51.4412],
-            circleRadius: 100,
+            coordinates: [-0.943, 51.4412],
+            circleRadius: 100
         };
     }
 
@@ -24,36 +24,36 @@ export class MapView extends React.Component {
     renderCircleLayer() {
         return (
             <Mapbox.ShapeSource
-                id={'circleShape'}
-                shape={{type: 'Feature', geometry: {type: 'Point', coordinates: this.state.coordinates}}}>
+                id={"circleShape"}
+                shape={{ type: "Feature", geometry: { type: "Point", coordinates: this.state.coordinates } }}
+            >
                 <Mapbox.CircleLayer
-                    id={'circleLayer'}
-                    style={[ MapboxStyles.circleStyle, {circleRadius: this.state.circleRadius }]}>
-
-                </Mapbox.CircleLayer>
+                    id={"circleLayer"}
+                    style={[MapboxStyles.circleStyle, { circleRadius: this.state.circleRadius }]}
+                />
             </Mapbox.ShapeSource>
-        )
+        );
     }
 
     renderAnnotation() {
         return (
-            <Mapbox.PointAnnotation
-                id={'chosen'}
-                coordinate={this.state.coordinates}>
-
-                <View style={ styles.annotationContainer }>
-                    <View style={ styles.annotationFill } />
+            <Mapbox.PointAnnotation id={"chosen"} coordinate={this.state.coordinates}>
+                <View style={styles.annotationContainer}>
+                    <View style={styles.annotationFill} />
                 </View>
-
             </Mapbox.PointAnnotation>
-
         );
     }
 
     renderRadiusSlider() {
-        return(
-            <View style={{ position: 'absolute', bottom: 0, left: 10, right: 40 }}>
-                <Slider value={this.state.circleRadius / 10} maximumValue={20} minimumValue={5} onValueChange={(value) => this.setState({ circleRadius: value * 10 })} />
+        return (
+            <View style={{ position: "absolute", bottom: 0, left: 10, right: 40 }}>
+                <Slider
+                    value={this.state.circleRadius / 10}
+                    maximumValue={20}
+                    minimumValue={5}
+                    onValueChange={(value) => this.setState({ circleRadius: value * 10 })}
+                />
             </View>
         );
     }
@@ -67,14 +67,13 @@ export class MapView extends React.Component {
                 styleURL={Mapbox.StyleURL.Street}
                 logoEnabled={false}
                 onPress={(feature) => this.placeAnnotation(feature)}
-                centerCoordinate={this.state.coordinates}>
-
+                centerCoordinate={this.state.coordinates}
+            >
                 {this.renderCircleLayer()}
                 {this.renderAnnotation()}
                 {this.renderRadiusSlider()}
-
             </Mapbox.MapView>
-        )
+        );
     }
 }
 
@@ -82,24 +81,24 @@ const styles = StyleSheet.create({
     annotationContainer: {
         width: ANNOTATION_SIZE,
         height: ANNOTATION_SIZE,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'white',
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
         borderRadius: ANNOTATION_SIZE / 2,
         borderWidth: StyleSheet.hairlineWidth,
-        borderColor: 'rgba(0, 0, 0, 0.45)',
+        borderColor: "rgba(0, 0, 0, 0.45)"
     },
     annotationFill: {
         width: ANNOTATION_SIZE - 3,
         height: ANNOTATION_SIZE - 3,
         borderRadius: (ANNOTATION_SIZE - 3) / 2,
-        backgroundColor: Colors.brandSecondaryColor,
+        backgroundColor: Colors.brandPrimaryColor
     }
-  });
+});
 
-  const MapboxStyles = Mapbox.StyleSheet.create({
+const MapboxStyles = Mapbox.StyleSheet.create({
     circleStyle: {
-            circleColor: Colors.brandSecondaryColor,
-            circleOpacity: 0.2,
+        circleColor: Colors.brandPrimaryColor,
+        circleOpacity: 0.2
     }
-  });
+});

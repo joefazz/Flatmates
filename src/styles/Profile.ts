@@ -59,7 +59,7 @@ export const profile = StyleSheet.create({
 
     aboutLabel: {
         fontSize: 15,
-        color: Colors.brandSecondaryColor,
+        color: Colors.brandPrimaryColor,
         ...Font.FontFactory({ weight: 'Light' }),
         alignSelf: 'flex-start'
     },
@@ -78,7 +78,8 @@ export const profile = StyleSheet.create({
 
     preferencesWrapper: {
         marginTop: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        flexDirection: 'row'
     },
 
     preference: {

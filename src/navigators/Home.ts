@@ -20,7 +20,7 @@ const navConfig = {
     lazy: true,
     tabBarPosition: 'bottom',
     tabBarOptions: {
-        activeTintColor: Colors.brandSecondaryColor,
+        activeTintColor: Colors.brandPrimaryColor,
         inactiveTintColor: Colors.grey,
         labelStyle: { ...Font.FontFactory({ family: 'Nunito' }) },
         ...Platform.select({
@@ -31,9 +31,9 @@ const navConfig = {
                     backgroundColor: Colors.white
                 },
                 indicatorStyle: {
-                    backgroundColor: Colors.brandSecondaryColor
+                    backgroundColor: Colors.brandPrimaryColor
                 },
-                pressColor: Colors.brandSecondaryColor,
+                pressColor: Colors.brandPrimaryColor,
             }
         })
     }

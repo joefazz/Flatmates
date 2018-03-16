@@ -1,56 +1,74 @@
-import * as Immutable from 'immutable';
-
-import initialState from '../InitialState';
-import { Action, LoginStatus, State } from '../ReduxTypes';
-import * as Types from '../Types';
+import { LoginAction, LoginState } from "../../types/ReduxTypes";
+import { LoginStatus } from "../../types/Entities";
+import initialState from "../InitialState";
+import { FacebookLogin, FacebookSignup, CreatePost } from "../Types";
 
 // Modules
 // File References
-const INITIAL_STATE = Immutable.fromJS(initialState.login);
+const INITIAL_STATE = initialState.login;
 
-export default function loginReducer(state: State = INITIAL_STATE, action: Action) {
+export default function loginReducer(state: LoginState = INITIAL_STATE, action: LoginAction) {
     switch (action.type) {
-    // Facebook Login Auth
-    case Types.FACEBOOK_LOGIN_REQUEST:
-        return state.merge({
-            loginStatus: LoginStatus.STARTED
-        });
-    case Types.FACEBOOK_LOGIN_SUCCESS:
-        return state.merge({
-            fbAccessToken: action.payload.token.accessToken,
-            fbTokenExpiryDate: action.payload.token.expiryDate,
-            fbUserId: action.payload.response.userID,
-            deniedPermissions: action.payload.response.deniedPermissions,
-            grantedPermissions: action.payload.response.grantedPermissions,
-            isLoggedIn: true,
-            loginStatus: LoginStatus.ENDED
-        });
-    case Types.FACEBOOK_LOGIN_FAILURE:
-        return state.merge({
-            error: action.payload,
-            loginStatus: LoginStatus.FAILED
-        });
+        // Read only login
+        // case Types.READ_ONLY_LOGIN_SUCCESS:
+        //     return Object.assign({}, state, {
+        //         isReadOnlyEnabled: true
+        //     });
+        // Facebook Login Auth
+        case FacebookLogin.REQUEST:
+            return Object.assign({}, state, {
+                loginStatus: LoginStatus.STARTED
+            });
+        case FacebookLogin.SUCCESS:
+            return Object.assign({}, state, {
+                fbAccessToken: action.payload.token,
+                fbTokenExpiryDate: action.payload.expiryDate,
+                fbUserId: action.payload.response.userID,
+                deniedPermissions: action.payload.response.deniedPermissions,
+                grantedPermissions: action.payload.response.grantedPermissions,
+                isLoggedIn: true,
+                loginStatus: LoginStatus.SUCCEED
+            });
+        case FacebookLogin.FAILURE:
+            return Object.assign({}, state, {
+                error: action.payload,
+                loginStatus: LoginStatus.FAILED
+            });
+        case FacebookLogin.FULFILL:
+            return Object.assign({}, state, {
+                loginStatus: LoginStatus.ENDED
+            });
 
-    case Types.FACEBOOK_SIGNUP_REQUEST:
-        return state.merge({
-            loginStatus: LoginStatus.STARTED
-        });
-    case Types.FACEBOOK_SIGNUP_SUCCESS:
-        return state.merge({
-            fbAccessToken: action.payload.token.accessToken,
-            fbTokenExpiryDate: action.payload.token.expiryDate,
-            fbUserId: action.payload.response.userID,
-            deniedPermissions: action.payload.response.deniedPermissions,
-            grantedPermissions: action.payload.response.grantedPermissions,
-            isLoggedIn: true,
-            loginStatus: LoginStatus.ENDED,
-        });
-    case Types.FACEBOOK_SIGNUP_FAILURE:
-        return state.merge({
-            error: action.payload,
-            loginStatus: LoginStatus.FAILED,
-        });
-    default:
-        return state;
+        case FacebookSignup.REQUEST:
+            return Object.assign({}, state, {
+                loginStatus: LoginStatus.STARTED
+            });
+        case FacebookSignup.SUCCESS:
+            return Object.assign({}, state, {
+                fbAccessToken: action.payload.token,
+                fbTokenExpiryDate: action.payload.expiryDate,
+                fbUserId: action.payload.response.userID,
+                deniedPermissions: action.payload.response.deniedPermissions,
+                grantedPermissions: action.payload.response.grantedPermissions,
+                isLoggedIn: true,
+                loginStatus: LoginStatus.SUCCEED
+            });
+        case FacebookSignup.FAILURE:
+            return Object.assign({}, state, {
+                error: action.payload,
+                loginStatus: LoginStatus.FAILED
+            });
+        case FacebookSignup.FULFILL:
+            return Object.assign({}, state, {
+                loginStatus: LoginStatus.ENDED
+            });
+
+        case CreatePost.SUCCESS:
+            return Object.assign({}, state, {
+                hasCreatedPost: true
+            });
+
+        default:
+            return state;
     }
 }
