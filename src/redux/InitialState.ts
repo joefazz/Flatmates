@@ -1,29 +1,30 @@
-import { FeedState, LoginState, ProfileState } from '../types/ReduxTypes';
-import { LoginStatus } from '../types/Entities';
+import { FeedState, LoginState, ProfileState } from "../types/ReduxTypes";
+import { LoginStatus } from "../types/Entities";
 
 type State = Readonly<{ login: LoginState; profile: ProfileState; feed: FeedState }>;
 
 const initialState: State = {
     login: {
-        fbUserId: '',
+        fbUserId: "",
         isRehydrated: false,
         loginStatus: LoginStatus.NOT_STARTED,
         grantedPermissions: [],
         deniedPermissions: [],
-        fbAccessToken: '',
+        fbAccessToken: "",
         isLoggedIn: false,
         isReadOnly: false,
-        error: ''
+        error: "",
+        hasCreatedPost: false
     },
     profile: {
-        name: '',
-        firstName: '',
-        lastName: '',
-        gender: '',
-        birthday: '',
-        email: '',
-        imageUrl: '',
-        error: ''
+        name: "",
+        firstName: "",
+        lastName: "",
+        gender: "",
+        birthday: "",
+        email: "",
+        imageUrl: "",
+        error: ""
     },
     feed: {
         posts: [],
@@ -31,7 +32,10 @@ const initialState: State = {
         isCreatingPost: false,
         isErrorFetchingPosts: false,
         isErrorCreatingPost: false,
-        error: ''
+        error: "",
+        isAllFilterActive: true,
+        isMineFilterActive: false,
+        isStarredFilterActive: false
     }
 };
 

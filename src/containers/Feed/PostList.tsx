@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { connect } from "react-redux";
 
 import { PostListComponent } from "../../components/Feed/PostListComponent";
-import { getPosts } from "../../redux/Routines";
+import { getPosts, toggleFilter } from "../../redux/Routines";
 import { FeedState, LoginState, ReduxState } from "../../types/ReduxTypes";
 import { Post } from "../../types/Entities";
 
@@ -14,6 +14,7 @@ interface Props {
     login: LoginState;
     navigation: { push: (route: string, params: { fbUserId?: string; data?: object }) => void };
     getPosts: (take?: number, skip?: number) => void;
+    toggleFilter: (Filters) => void;
 }
 
 interface State {
@@ -21,6 +22,15 @@ interface State {
     isLoading: boolean;
     hasCreatedPost: boolean;
     fbUserId: string;
+    isAllFilterActive: boolean;
+    isMineFilterActive: boolean;
+    isStarredFilterActive: boolean;
+}
+
+export enum Filters {
+    ALL,
+    MINE,
+    STARRED
 }
 
 export class PostList extends React.Component<Props, State> {
@@ -46,6 +56,9 @@ export class PostList extends React.Component<Props, State> {
             data: props.feed.posts,
             isLoading: props.feed.isFetchingPosts,
             fbUserId: "",
+            isAllFilterActive: props.feed.isAllFilterActive,
+            isStarredFilterActive: props.feed.isStarredFilterActive,
+            isMineFilterActive: props.feed.isMineFilterActive,
             hasCreatedPost: props.login.hasCreatedPost
         };
     }
@@ -63,6 +76,18 @@ export class PostList extends React.Component<Props, State> {
             }
         }
 
+        if (newProps.feed.isAllFilterActive !== this.state.isAllFilterActive) {
+            this.setState({ isAllFilterActive: newProps.feed.isAllFilterActive });
+        }
+
+        if (newProps.feed.isStarredFilterActive !== this.state.isStarredFilterActive) {
+            this.setState({ isStarredFilterActive: newProps.feed.isStarredFilterActive });
+        }
+
+        if (newProps.feed.isMineFilterActive !== this.state.isMineFilterActive) {
+            this.setState({ isMineFilterActive: newProps.feed.isMineFilterActive });
+        }
+
         if (newProps.login.fbUserId !== null) {
             this.setState({ fbUserId: newProps.login.fbUserId });
         }
@@ -75,12 +100,24 @@ export class PostList extends React.Component<Props, State> {
                 <PostListComponent
                     navigation={this.props.navigation}
                     loadMorePosts={this.loadMorePosts}
+                    changeFilters={this.changeFilters}
                     refreshPostList={() => this.refreshPostList}
                     {...this.state}
                 />
             </>
         );
     }
+
+    private changeFilters = (filterSelected: Filters): void => {
+        if (filterSelected === Filters.ALL && (!this.state.isStarredFilterActive && !this.state.isMineFilterActive)) {
+            return;
+        } else if (filterSelected === Filters.STARRED && (!this.state.isAllFilterActive && !this.state.isMineFilterActive)) {
+            return;
+        } else if (filterSelected === Filters.MINE && (!this.state.isStarredFilterActive && !this.state.isAllFilterActive)) {
+            return;
+        }
+        this.props.toggleFilter(filterSelected);
+    };
 
     private loadMorePosts = () => {
         return;
@@ -98,7 +135,8 @@ const mapStateToProps = (state: ReduxState) => ({
 
 const bindActions = (dispatch) => {
     return {
-        getPosts: (take, skip) => dispatch(getPosts(take, skip))
+        getPosts: (take, skip) => dispatch(getPosts(take, skip)),
+        toggleFilter: (filter) => dispatch(toggleFilter(filter))
     };
 };
 

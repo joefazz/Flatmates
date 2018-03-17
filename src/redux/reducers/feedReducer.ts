@@ -1,7 +1,8 @@
 import { FeedAction, FeedState } from "../../types/ReduxTypes";
 import { Post } from "../../types/Entities";
 import initialState from "../InitialState";
-import { GetPosts, CreatePost } from "../Types";
+import { GetPosts, CreatePost, ToggleFilter } from "../Types";
+import { Filters } from "../../containers/Feed/PostList";
 
 const INITIAL_STATE = initialState.feed;
 let posts;
@@ -42,6 +43,15 @@ export default function feedReducer(state: FeedState = INITIAL_STATE, action: Fe
         case CreatePost.FULFILL:
             return Object.assign({}, state, { isCreatingPost: false });
 
+        case ToggleFilter.SUCCESS:
+            if (action.payload === Filters.ALL) {
+                return Object.assign({}, state, { isAllFilterActive: !state.isAllFilterActive });
+            } else if (action.payload === Filters.MINE) {
+                return Object.assign({}, state, { isMineFilterActive: !state.isMineFilterActive });
+            } else if (action.payload === Filters.STARRED) {
+                return Object.assign({}, state, { isStarredFilterActive: !state.isStarredFilterActive });
+            }
+            break;
         // Delete Post
         // case deletePost.REQUEST:
         //     return Object.assign({}, state, {

@@ -35,4 +35,8 @@ export enum CreatePost {
     FULFILL = Routines.createPost.FULFILL
 }
 
+export enum ToggleFilter {
+    SUCCESS = Routines.toggleFilter.SUCCESS
+}
+
 export const READ_ONLY_LOGIN_SUCCESS = Routines.readOnlyLogin.SUCCESS;

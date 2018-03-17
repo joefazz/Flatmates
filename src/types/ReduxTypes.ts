@@ -1,5 +1,6 @@
-import { CreatePost, FacebookLogin, FacebookSignup, GetPosts, GetUserData } from "../redux/Types";
+import { CreatePost, FacebookLogin, FacebookSignup, GetPosts, GetUserData, ToggleFilter } from "../redux/Types";
 import { Course, LoginStatus, Post, StudyYear } from "./Entities";
+import { Filters } from "../containers/Feed/PostList";
 
 export interface LoginAction {
     type: FacebookLogin | FacebookSignup | CreatePost;
@@ -16,8 +17,8 @@ export interface LoginAction {
 }
 
 export interface FeedAction {
-    type: GetPosts | CreatePost;
-    payload: Post | { error?: string };
+    type: GetPosts | CreatePost | ToggleFilter;
+    payload: Post | Filters | { error?: string };
 }
 
 export interface ProfileAction {
@@ -73,6 +74,9 @@ export interface FeedState {
     isCreatingPost: boolean;
     isErrorFetchingPosts: boolean;
     isErrorCreatingPost: boolean;
+    isAllFilterActive: boolean;
+    isStarredFilterActive: boolean;
+    isMineFilterActive: boolean;
     error: string;
 }
 

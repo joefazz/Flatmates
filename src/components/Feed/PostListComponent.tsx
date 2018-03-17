@@ -8,6 +8,7 @@ import { feed } from "../../styles";
 import { toConstantFontSize } from "../../utils/PercentageConversion";
 import { Post } from "../../types/Entities";
 import { PostCard } from "../../widgets";
+import { Filters } from "../../containers/Feed/PostList";
 
 interface Props {
     navigation: {
@@ -17,6 +18,10 @@ interface Props {
     isLoading: boolean;
     fbUserId: string;
     hasCreatedPost: boolean;
+    isAllFilterActive: boolean;
+    isStarredFilterActive: boolean;
+    isMineFilterActive: boolean;
+    changeFilters: (Filters) => void;
     refreshPostList: () => void;
     loadMorePosts: () => any;
 }
@@ -70,27 +75,42 @@ export class PostListComponent extends React.Component<Props> {
 
                     <View style={feed.filterContainer}>
                         <TouchableHighlight
-                            onPress={() => alert("Price pressed")}
+                            onPress={() => this.props.changeFilters(Filters.ALL)}
                             underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
-                            style={[feed.filterItem, { backgroundColor: Colors.definetelyNotAirbnbRed }]}
+                            style={[
+                                feed.filterItem,
+                                this.props.isAllFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
+                            ]}
                         >
-                            <Text style={[feed.filterItemText, { color: Colors.white }]}>All</Text>
+                            <Text style={[feed.filterItemText, this.props.isAllFilterActive && { color: Colors.white }]}>
+                                All
+                            </Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                            onPress={() => alert("Spaces pressed")}
+                            onPress={() => this.props.changeFilters(Filters.STARRED)}
                             underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
-                            style={feed.filterItem}
+                            style={[
+                                feed.filterItem,
+                                this.props.isStarredFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
+                            ]}
                         >
-                            <Text style={feed.filterItemText}>Starred</Text>
+                            <Text style={[feed.filterItemText, this.props.isStarredFilterActive && { color: Colors.white }]}>
+                                Starred
+                            </Text>
                         </TouchableHighlight>
 
                         <TouchableHighlight
-                            onPress={() => alert("Other options pressed")}
+                            onPress={() => this.props.changeFilters(Filters.MINE)}
                             underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
-                            style={feed.filterItem}
+                            style={[
+                                feed.filterItem,
+                                this.props.isMineFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
+                            ]}
                         >
-                            <Text style={feed.filterItemText}>My Posts</Text>
+                            <Text style={[feed.filterItemText, this.props.isMineFilterActive && { color: Colors.white }]}>
+                                My Posts
+                            </Text>
                         </TouchableHighlight>
                     </View>
                 </View>

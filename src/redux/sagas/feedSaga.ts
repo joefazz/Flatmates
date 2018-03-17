@@ -1,26 +1,25 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from "redux-saga/effects";
 
-import Client from '../../Client';
-import { CREATE_POST_MUTATION, DELETE_POST_MUTATION } from '../../graphql/mutations';
-import { POST_LIST_QUERY } from '../../graphql/queries';
-import { createPost, deletePost, getPosts } from '../Routines';
+import Client from "../../Client";
+import { CREATE_POST_MUTATION, DELETE_POST_MUTATION } from "../../graphql/mutations";
+import { POST_LIST_QUERY } from "../../graphql/queries";
+import { createPost, deletePost, getPosts, toggleFilter } from "../Routines";
 
-export const postSaga = function *() {
+export const postSaga = function*() {
     yield takeEvery(getPosts.TRIGGER, posts);
     yield takeEvery(createPost.TRIGGER, create);
     yield takeEvery(deletePost.TRIGGER, remove);
-}
+    yield takeEvery(toggleFilter.TRIGGER, toggleFilters);
+};
 
-function *posts() {
+function* posts() {
     yield put(getPosts.request());
 
     try {
-        const { data: { allPosts } } = yield call (Client.query, {
+        const { data: { allPosts } } = yield call(Client.query, {
             query: POST_LIST_QUERY,
-            variables: {take: 10}
+            variables: { take: 10 }
         });
-
-        console.log(allPosts);
 
         yield put(getPosts.success(allPosts));
     } catch (error) {
@@ -30,7 +29,11 @@ function *posts() {
     }
 }
 
-function *create({payload}) {
+function* toggleFilters({ payload }) {
+    yield put(toggleFilter.success(payload));
+}
+
+function* create({ payload }) {
     const { description, createdBy } = payload;
 
     yield put(createPost.request());
@@ -38,7 +41,7 @@ function *create({payload}) {
     try {
         const { data } = yield call(Client.mutate, {
             mutation: CREATE_POST_MUTATION,
-            variables: {description, createdBy}
+            variables: { description, createdBy }
         });
 
         const post = data.createPost;
@@ -47,11 +50,11 @@ function *create({payload}) {
     } catch (error) {
         yield put(createPost.failure(error));
     } finally {
-        yield put(createPost.fulfill())
+        yield put(createPost.fulfill());
     }
 }
 
-function *remove({payload}) {
+function* remove({ payload }) {
     const { id } = payload;
 
     yield put(deletePost.request());
