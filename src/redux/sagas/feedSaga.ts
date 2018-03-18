@@ -1,9 +1,11 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery, select } from "redux-saga/effects";
 
 import Client from "../../Client";
 import { CREATE_POST_MUTATION, DELETE_POST_MUTATION } from "../../graphql/mutations";
-import { POST_LIST_QUERY } from "../../graphql/queries";
+import { POST_LIST_QUERY, USER_STARRED_POSTS_QUERY } from "../../graphql/queries";
 import { createPost, deletePost, getPosts, toggleFilter } from "../Routines";
+import { Filters } from "../../containers/Feed/PostList";
+import { ReduxState } from "../../types/ReduxTypes";
 
 export const postSaga = function*() {
     yield takeEvery(getPosts.TRIGGER, posts);
@@ -11,6 +13,10 @@ export const postSaga = function*() {
     yield takeEvery(deletePost.TRIGGER, remove);
     yield takeEvery(toggleFilter.TRIGGER, toggleFilters);
 };
+
+async function starredQuery(facebookUserId) {
+    return await Client.query({ query: USER_STARRED_POSTS_QUERY, variables: { facebookUserId } });
+}
 
 function* posts() {
     yield put(getPosts.request());
@@ -30,6 +36,9 @@ function* posts() {
 }
 
 function* toggleFilters({ payload }) {
+    const facebookUserId = yield select((state: ReduxState) => state.login.fbUserId);
+    const dataToBeAppended = yield call(starredQuery, facebookUserId);
+
     yield put(toggleFilter.success(payload));
 }
 
