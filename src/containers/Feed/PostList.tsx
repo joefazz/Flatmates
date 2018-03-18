@@ -101,7 +101,7 @@ export class PostList extends React.Component<Props, State> {
                     navigation={this.props.navigation}
                     loadMorePosts={this.loadMorePosts}
                     changeFilters={this.changeFilters}
-                    refreshPostList={() => this.refreshPostList}
+                    refreshPostList={this.refreshPostList}
                     {...this.state}
                 />
             </>
@@ -123,7 +123,7 @@ export class PostList extends React.Component<Props, State> {
         return;
     };
 
-    private refreshPostList() {
+    private refreshPostList = () => {
         return this.props.getPosts();
     }
 }
