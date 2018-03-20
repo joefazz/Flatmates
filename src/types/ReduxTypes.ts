@@ -1,4 +1,12 @@
-import { CreatePost, FacebookLogin, FacebookSignup, GetPosts, GetUserData, ToggleFilter } from "../redux/Types";
+import {
+    CreatePost,
+    FacebookLogin,
+    FacebookSignup,
+    GetPosts,
+    GetUserData,
+    ToggleFilter,
+    HouseLogin
+} from "../redux/Types";
 import { Course, LoginStatus, Post, StudyYear } from "./Entities";
 import { Filters } from "../containers/Feed/PostList";
 
@@ -12,7 +20,7 @@ export interface LoginAction {
             deniedPermissions: Array<string>;
             grantedPermissions: Array<string>;
         };
-        error?: string;
+        error: string;
     };
 }
 
@@ -22,7 +30,7 @@ export interface FeedAction {
 }
 
 export interface ProfileAction {
-    type: GetUserData;
+    type: GetUserData | HouseLogin;
     payload: {
         response: {
             name: string;
@@ -40,7 +48,8 @@ export interface ProfileAction {
                 };
             };
         };
-        error?: string;
+        error: string;
+        houseID: number;
     };
 }
 
@@ -66,6 +75,7 @@ export interface ProfileState {
     email: string;
     imageUrl: string;
     error: string;
+    houseId?: number;
 }
 
 export interface FeedState {
@@ -76,7 +86,7 @@ export interface FeedState {
     isErrorCreatingPost: boolean;
     isAllFilterActive: boolean;
     isStarredFilterActive: boolean;
-    isMineFilterActive: boolean;
+    isPriceFilterActive: boolean;
     error: string;
 }
 

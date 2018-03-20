@@ -14,6 +14,11 @@ export enum FacebookLogin {
     FULFILL = Routines.loginWithFacebook.FULFILL
 }
 
+export enum HouseLogin {
+    SUCCESS = Routines.completeHouseLogin.SUCCESS,
+    FAILURE = Routines.completeHouseLogin.FAILURE
+}
+
 export enum GetUserData {
     REQUEST = Routines.getUserDataFacebook.REQUEST,
     SUCCESS = Routines.getUserDataFacebook.SUCCESS,

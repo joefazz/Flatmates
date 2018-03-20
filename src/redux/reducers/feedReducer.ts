@@ -47,7 +47,7 @@ export default function feedReducer(state: FeedState = INITIAL_STATE, action: Fe
             if (action.payload === Filters.ALL) {
                 return Object.assign({}, state, { isAllFilterActive: !state.isAllFilterActive });
             } else if (action.payload === Filters.MINE) {
-                return Object.assign({}, state, { isMineFilterActive: !state.isMineFilterActive });
+                return Object.assign({}, state, { isPriceFilterActive: !state.isPriceFilterActive });
             } else if (action.payload === Filters.STARRED) {
                 return Object.assign({}, state, { isStarredFilterActive: !state.isStarredFilterActive });
             }

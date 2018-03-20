@@ -1,7 +1,7 @@
 import { ProfileAction, ProfileState } from "../../types/ReduxTypes";
 import _ from "../../utils/localdash";
 import initialState from "../InitialState";
-import { GetUserData } from "../Types";
+import { GetUserData, HouseLogin } from "../Types";
 // Modules
 // File References
 const INITIAL_STATE = initialState.profile;
@@ -30,6 +30,11 @@ export default function profileReducer(state: ProfileState = INITIAL_STATE, acti
             });
         case GetUserData.FULFILL:
             return state;
+
+        case HouseLogin.SUCCESS:
+            return Object.assign({}, state, {
+                houseID: action.payload
+            });
         default:
             return state;
     }

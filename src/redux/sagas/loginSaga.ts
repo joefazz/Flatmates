@@ -6,7 +6,13 @@ import { facebookPermissions } from "../../containers/Login";
 import { CREATE_USER_MUTATION } from "../../graphql/mutations";
 import { UserLoginQuery } from "../../graphql/Types";
 import { USER_LOGIN_QUERY } from "../../graphql/queries";
-import { getUserDataFacebook, loginWithFacebook, readOnlyLogin, signupWithFacebook } from "../Routines";
+import {
+    getUserDataFacebook,
+    loginWithFacebook,
+    readOnlyLogin,
+    signupWithFacebook,
+    completeHouseLogin
+} from "../Routines";
 
 let token: { accessToken?: string; expiryDate?: string } = {};
 
@@ -14,6 +20,7 @@ export const loginSaga = function*() {
     yield takeEvery(signupWithFacebook.TRIGGER, signup);
     yield takeEvery(loginWithFacebook.TRIGGER, login);
     yield takeEvery(readOnlyLogin.TRIGGER, readOnly);
+    yield takeEvery(completeHouseLogin, house);
 };
 
 function facebookRequest(accessToken) {
@@ -24,7 +31,8 @@ function facebookRequest(accessToken) {
                 accessToken,
                 parameters: {
                     fields: {
-                        string: "email,name,about,picture.height(961),birthday,gender,first_name,last_name"
+                        string:
+                            "email,name,about,picture.height(961),birthday,gender,first_name,last_name"
                     }
                 }
             },
@@ -147,6 +155,10 @@ const login = function*() {
     }
 };
 
+const house = function*({ payload }) {
+    yield put(completeHouseLogin.success(payload));
+};
+
 const readOnly = function*() {
     yield put(readOnlyLogin.success());
 };
@@ -183,7 +195,11 @@ function* getLocalData(serverData) {
         if (response.isError) {
             yield put(getUserDataFacebook.failure({ response: response.error }));
         } else {
-            yield put(getUserDataFacebook.success({ response: Object.assign({}, response.result, serverData) }));
+            yield put(
+                getUserDataFacebook.success({
+                    response: Object.assign({}, response.result, serverData)
+                })
+            );
         }
     } catch (error) {
         yield put(getUserDataFacebook.failure({ error }));

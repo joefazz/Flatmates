@@ -24,7 +24,8 @@ const initialState: State = {
         birthday: "",
         email: "",
         imageUrl: "",
-        error: ""
+        error: "",
+        houseId: undefined
     },
     feed: {
         posts: [],
@@ -34,7 +35,7 @@ const initialState: State = {
         isErrorCreatingPost: false,
         error: "",
         isAllFilterActive: true,
-        isMineFilterActive: false,
+        isPriceFilterActive: false,
         isStarredFilterActive: false
     }
 };

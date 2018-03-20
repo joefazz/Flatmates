@@ -23,7 +23,7 @@ interface State {
     hasCreatedPost: boolean;
     fbUserId: string;
     isAllFilterActive: boolean;
-    isMineFilterActive: boolean;
+    isPriceFilterActive: boolean;
     isStarredFilterActive: boolean;
 }
 
@@ -58,7 +58,7 @@ export class PostList extends React.Component<Props, State> {
             fbUserId: "",
             isAllFilterActive: props.feed.isAllFilterActive,
             isStarredFilterActive: props.feed.isStarredFilterActive,
-            isMineFilterActive: props.feed.isMineFilterActive,
+            isPriceFilterActive: props.feed.isPriceFilterActive,
             hasCreatedPost: props.login.hasCreatedPost
         };
     }
@@ -84,8 +84,8 @@ export class PostList extends React.Component<Props, State> {
             this.setState({ isStarredFilterActive: newProps.feed.isStarredFilterActive });
         }
 
-        if (newProps.feed.isMineFilterActive !== this.state.isMineFilterActive) {
-            this.setState({ isMineFilterActive: newProps.feed.isMineFilterActive });
+        if (newProps.feed.isPriceFilterActive !== this.state.isPriceFilterActive) {
+            this.setState({ isPriceFilterActive: newProps.feed.isPriceFilterActive });
         }
 
         if (newProps.login.fbUserId !== null) {
@@ -109,9 +109,9 @@ export class PostList extends React.Component<Props, State> {
     }
 
     private changeFilters = (filterSelected: Filters): void => {
-        if (filterSelected === Filters.ALL && (!this.state.isStarredFilterActive && !this.state.isMineFilterActive)) {
+        if (filterSelected === Filters.ALL && (!this.state.isStarredFilterActive && !this.state.isPriceFilterActive)) {
             return;
-        } else if (filterSelected === Filters.STARRED && (!this.state.isAllFilterActive && !this.state.isMineFilterActive)) {
+        } else if (filterSelected === Filters.STARRED && (!this.state.isAllFilterActive && !this.state.isPriceFilterActive)) {
             return;
         } else if (filterSelected === Filters.MINE && (!this.state.isStarredFilterActive && !this.state.isAllFilterActive)) {
             return;

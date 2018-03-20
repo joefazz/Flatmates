@@ -26,7 +26,7 @@
         "url": "^0.11.0"
     },
     "scripts": {
-        "ios": "react-native run-ios --simulator=\"iPhone X\"",
+        "ios": "react-native run-ios --simulator=\"iPhone 8\"",
         "android": "react-native run-android",
         "emulator": "cd ~ && ./RunAndEmulate",
         "start": "react-native start --transformer node_modules/react-native-typescript-transformer/index.js --sourceExts ts,tsx",
@@ -40,7 +40,7 @@
     "prettier": {
         "arrowParens": "always",
         "tabWidth": 4,
-        "printWidth": 130,
+        "printWidth": 100,
         "parser": "typescript",
         "singleQuote": false,
         "bracketSpacing": true

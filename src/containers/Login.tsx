@@ -28,10 +28,14 @@ import facebook_template from "../../Assets/Man_Silhouette.png";
 import { MapboxSDK } from "../App";
 import Client from "../Client";
 import { Colors, Font, Metrics } from "../consts";
-import { UPDATE_USER_CREATE_HOUSE_MUTATION, UPDATE_USER_MUTATION, UPDATE_USER_UPDATE_HOUSE_MUTATION } from "../graphql/mutations";
+import {
+    UPDATE_USER_CREATE_HOUSE_MUTATION,
+    UPDATE_USER_MUTATION,
+    UPDATE_USER_UPDATE_HOUSE_MUTATION
+} from "../graphql/mutations";
 import { HOUSE_DETAILS_QUERY } from "../graphql/queries";
 import { UpdateUserMutation, UpdateUserMutationVariables } from "../graphql/Types";
-import { loginWithFacebook, signupWithFacebook } from "../redux/Routines";
+import { loginWithFacebook, signupWithFacebook, completeHouseLogin } from "../redux/Routines";
 import { base, login } from "../styles";
 import { LoginStatus } from "../types/Entities";
 import { LoginState, ProfileState, ReduxState } from "../types/ReduxTypes";
@@ -48,6 +52,7 @@ interface Props {
     profile: ProfileState;
     loginWithFacebook: () => void;
     signupWithFacebook: () => void;
+    completeHouseLogin: (houseID: number) => void;
     updateUser: (
         fbUserId: string,
         bio: string,
@@ -163,7 +168,10 @@ export class Login extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.login.loginStatus === LoginStatus.SUCCEED || newProps.login.loginStatus === LoginStatus.FAILED) {
+        if (
+            newProps.login.loginStatus === LoginStatus.SUCCEED ||
+            newProps.login.loginStatus === LoginStatus.FAILED
+        ) {
             if (this.state.isLoggingIn && newProps.login.loginStatus === LoginStatus.SUCCEED) {
                 this.setState({ isLoggingIn: false });
                 if (newProps.login.isLoggedIn) {
@@ -208,37 +216,63 @@ export class Login extends React.Component<Props, State> {
                         <Text
                             style={[
                                 base.headingText,
-                                { fontSize: toConstantFontSize(3.9), ...Font.FontFactory({ weight: "Bold" }) }
+                                {
+                                    fontSize: toConstantFontSize(3.9),
+                                    ...Font.FontFactory({ weight: "Bold" })
+                                }
                             ]}
                         >
                             Welcome to Flatmates
                         </Text>
-                        <Text style={[base.headingText, { fontSize: toConstantFontSize(2.9) }]}>Student living made simple</Text>
+                        <Text style={[base.headingText, { fontSize: toConstantFontSize(2.9) }]}>
+                            Student living made simple
+                        </Text>
                     </View>
                     <View style={[login.mainContent, { flex: 2 }]}>
                         <Image style={{ width: 250, height: 250 }} source={Box} />
                     </View>
                     <View style={login.pageFooter}>
                         <TouchableRect
-                            title={this.state.isLoggingIn ? "Logging In..." : this.state.isLoggedIn ? "Finish" : "Sign Up"}
-                            onPress={() =>
-                                this.state.isLoggedIn ? this.props.navigation.navigate("Home") : this.homeSwiper.scrollBy(1, true)
+                            title={
+                                this.state.isLoggingIn
+                                    ? "Logging In..."
+                                    : this.state.isLoggedIn ? "Finish" : "Sign Up"
                             }
-                            backgroundColor={this.state.isLoggedIn ? Colors.brandSuccessColor : Colors.brandPrimaryColor}
+                            onPress={() =>
+                                this.state.isLoggedIn
+                                    ? this.props.navigation.navigate("Home")
+                                    : this.homeSwiper.scrollBy(1, true)
+                            }
+                            backgroundColor={
+                                this.state.isLoggedIn
+                                    ? Colors.brandSuccessColor
+                                    : Colors.brandPrimaryColor
+                            }
                             buttonStyle={base.buttonStyle}
                         />
                         <TouchableOpacity testID={"LoginButton"} onPress={this.loginWithFacebook}>
-                            <Text style={[login.hyperlink, { marginTop: 10 }]}>Already Got an Account? Login</Text>
+                            <Text style={[login.hyperlink, { marginTop: 10 }]}>
+                                Already Got an Account? Login
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
 
                 <View style={[login.page, { justifyContent: "space-around" }]}>
-                    <View style={[login.mainContent, { alignItems: "center", justifyContent: "center" }]}>
+                    <View
+                        style={[
+                            login.mainContent,
+                            { alignItems: "center", justifyContent: "center" }
+                        ]}
+                    >
                         <Text
                             style={[
                                 base.headingText,
-                                { fontSize: 24, ...Font.FontFactory({ weight: "Bold" }), marginBottom: 20 }
+                                {
+                                    fontSize: 24,
+                                    ...Font.FontFactory({ weight: "Bold" }),
+                                    marginBottom: 20
+                                }
                             ]}
                         >
                             Are you...
@@ -246,7 +280,9 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             title={"Looking for a House"}
                             onPress={() =>
-                                this.setState({ isLookingForHouse: true }, (): void => this.homeSwiper.scrollBy(1, true))
+                                this.setState({ isLookingForHouse: true }, (): void =>
+                                    this.homeSwiper.scrollBy(1, true)
+                                )
                             }
                             backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
@@ -254,7 +290,11 @@ export class Login extends React.Component<Props, State> {
                         />
                         <TouchableRect
                             title={"Looking for People"}
-                            onPress={() => this.setState({ isLookingForHouse: false }, () => this.homeSwiper.scrollBy(1, true))}
+                            onPress={() =>
+                                this.setState({ isLookingForHouse: false }, () =>
+                                    this.homeSwiper.scrollBy(1, true)
+                                )
+                            }
                             backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
@@ -266,7 +306,10 @@ export class Login extends React.Component<Props, State> {
                         <Text
                             style={[
                                 base.headingText,
-                                { ...Font.FontFactory({ weight: "Bold", family: "Nunito" }), fontSize: 24 }
+                                {
+                                    ...Font.FontFactory({ weight: "Bold", family: "Nunito" }),
+                                    fontSize: 24
+                                }
                             ]}
                         >
                             What would you like to share?
@@ -274,7 +317,10 @@ export class Login extends React.Component<Props, State> {
                         <Text
                             style={[
                                 base.headingText,
-                                { fontSize: 16, ...Font.FontFactory({ weight: "Light", family: "Nunito" }) }
+                                {
+                                    fontSize: 16,
+                                    ...Font.FontFactory({ weight: "Light", family: "Nunito" })
+                                }
                             ]}
                         >
                             This helps us find the right Flatmates for you
@@ -285,7 +331,9 @@ export class Login extends React.Component<Props, State> {
                             <Checkbox
                                 title={"About Me"}
                                 color={Colors.textHighlightColor}
-                                onIconPress={() => this.setState({ aboutCheck: !this.state.aboutCheck })}
+                                onIconPress={() =>
+                                    this.setState({ aboutCheck: !this.state.aboutCheck })
+                                }
                                 isChecked={this.state.aboutCheck}
                             />
                         </View>
@@ -293,7 +341,9 @@ export class Login extends React.Component<Props, State> {
                             <Checkbox
                                 title={"Activities"}
                                 color={Colors.textHighlightColor}
-                                onIconPress={() => this.setState({ activityCheck: !this.state.activityCheck })}
+                                onIconPress={() =>
+                                    this.setState({ activityCheck: !this.state.activityCheck })
+                                }
                                 isChecked={this.state.activityCheck}
                             />
                         </View>
@@ -301,7 +351,11 @@ export class Login extends React.Component<Props, State> {
                             <Checkbox
                                 title={"Friends List"}
                                 color={Colors.textHighlightColor}
-                                onIconPress={() => this.setState({ friendsListCheck: !this.state.friendsListCheck })}
+                                onIconPress={() =>
+                                    this.setState({
+                                        friendsListCheck: !this.state.friendsListCheck
+                                    })
+                                }
                                 isChecked={this.state.friendsListCheck}
                             />
                         </View>
@@ -309,7 +363,9 @@ export class Login extends React.Component<Props, State> {
                             <Checkbox
                                 title={"Liked Pages"}
                                 color={Colors.textHighlightColor}
-                                onIconPress={() => this.setState({ likesCheck: !this.state.likesCheck })}
+                                onIconPress={() =>
+                                    this.setState({ likesCheck: !this.state.likesCheck })
+                                }
                                 isChecked={this.state.likesCheck}
                             />
                         </View>
@@ -317,11 +373,21 @@ export class Login extends React.Component<Props, State> {
                     <View style={login.pageFooter}>
                         <TouchableRect
                             iconName={this.state.isLoggedIn ? "check" : "facebook-square"}
-                            onPress={this.state.isLoggedIn ? () => this.homeSwiper.scrollBy(1, true) : this.signupWithFacebook}
-                            title={
-                                this.state.isLoggingIn ? "Logging In..." : this.state.isLoggedIn ? "Next" : "Login with Facebook"
+                            onPress={
+                                this.state.isLoggedIn
+                                    ? () => this.homeSwiper.scrollBy(1, true)
+                                    : this.signupWithFacebook
                             }
-                            backgroundColor={this.state.isLoggedIn ? Colors.brandSuccessColor : Colors.facebookBlue}
+                            title={
+                                this.state.isLoggingIn
+                                    ? "Logging In..."
+                                    : this.state.isLoggedIn ? "Next" : "Login with Facebook"
+                            }
+                            backgroundColor={
+                                this.state.isLoggedIn
+                                    ? Colors.brandSuccessColor
+                                    : Colors.facebookBlue
+                            }
                             buttonStyle={base.buttonStyle}
                         />
                     </View>
@@ -339,11 +405,13 @@ export class Login extends React.Component<Props, State> {
                             }
                         ]}
                     >
-                        <Text style={login.profileName}>{this.state.hasGotProfile ? this.state.profile.name : "John Smith"}</Text>
+                        <Text style={login.profileName}>
+                            {this.state.hasGotProfile ? this.state.profile.name : "John Smith"}
+                        </Text>
                         {this.state.hasGotProfile ? (
                             <Text style={login.profileHeading}>
-                                {ConvertBirthdayToAge(this.state.profile.birthday)} / {this.state.profile.gender} / University of
-                                Reading
+                                {ConvertBirthdayToAge(this.state.profile.birthday)} /{" "}
+                                {this.state.profile.gender} / University of Reading
                             </Text>
                         ) : (
                             <View />
@@ -372,7 +440,10 @@ export class Login extends React.Component<Props, State> {
                                     enablesReturnKeyAutomatically={true}
                                     onChangeText={(text) => this.setState({ bio: text })}
                                     underlineColorAndroid={Colors.grey}
-                                    style={[login.profileInput, { borderBottomWidth: Platform.OS === "android" ? 0 : 1 }]}
+                                    style={[
+                                        login.profileInput,
+                                        { borderBottomWidth: Platform.OS === "android" ? 0 : 1 }
+                                    ]}
                                 />
                             </View>
                             <View style={login.marginTop}>
@@ -384,7 +455,10 @@ export class Login extends React.Component<Props, State> {
                                     onSubmitEditing={() => this.homeSwiper.scrollBy(1, true)}
                                     onChangeText={(text) => this.setState({ course: text })}
                                     underlineColorAndroid={Colors.grey}
-                                    style={[login.profileInput, { borderBottomWidth: Platform.OS === "android" ? 0 : 1 }]}
+                                    style={[
+                                        login.profileInput,
+                                        { borderBottomWidth: Platform.OS === "android" ? 0 : 1 }
+                                    ]}
                                 />
                             </View>
                         </KeyboardAvoidingView>
@@ -405,13 +479,23 @@ export class Login extends React.Component<Props, State> {
                     <View style={base.headingWrapper}>
                         <Text style={base.headingText}>Enter additional information</Text>
                     </View>
-                    <View style={[login.mainContent, { alignItems: "stretch", justifyContent: "flex-start", flex: 3 }]}>
+                    <View
+                        style={[
+                            login.mainContent,
+                            { alignItems: "stretch", justifyContent: "flex-start", flex: 3 }
+                        ]}
+                    >
                         <View style={{ flex: 1, alignItems: "center" }}>
                             <View>
-                                <Text style={[base.labelText, { alignSelf: "center" }]}>Study Year</Text>
+                                <Text style={[base.labelText, { alignSelf: "center" }]}>
+                                    Study Year
+                                </Text>
                                 <Pickerise
                                     items={[
-                                        { section: false, label: "Select the year you're currently in" },
+                                        {
+                                            section: false,
+                                            label: "Select the year you're currently in"
+                                        },
                                         { label: "First Year" },
                                         { label: "Second Year" },
                                         { label: "Third Year" },
@@ -456,7 +540,9 @@ export class Login extends React.Component<Props, State> {
                 </View>
 
                 {this.renderHouseOrProfileSetup()}
-                {!this.state.isLookingForHouse && this.state.isCreatingHouse ? this.renderHouseDetail() : null}
+                {!this.state.isLookingForHouse && this.state.isCreatingHouse
+                    ? this.renderHouseDetail()
+                    : null}
 
                 <View style={[login.page, { backgroundColor: Colors.brandPrimaryColor }]}>
                     <ImageBackground
@@ -479,7 +565,9 @@ export class Login extends React.Component<Props, State> {
                     ) : (
                         <View style={[login.mainContent, { marginBottom: 50, flex: 2 }]}>
                             <Text style={login.congratsText}>Congrats!</Text>
-                            <Text style={login.congratsSubtitleText}>You're ready to find your new Flatmates!</Text>
+                            <Text style={login.congratsSubtitleText}>
+                                You're ready to find your new Flatmates!
+                            </Text>
                         </View>
                     )}
 
@@ -489,7 +577,10 @@ export class Login extends React.Component<Props, State> {
                         <Button
                             title={"Continue"}
                             onPress={() => this.props.navigation.navigate("Home")}
-                            buttonStyle={[base.buttonStyle, { backgroundColor: Colors.backgroundWhite }]}
+                            buttonStyle={[
+                                base.buttonStyle,
+                                { backgroundColor: Colors.backgroundWhite }
+                            ]}
                             fontFamily={Font.FONT_FAMILY}
                             fontSize={20}
                             textStyle={{ color: Colors.brandPrimaryColor }}
@@ -512,7 +603,10 @@ export class Login extends React.Component<Props, State> {
                             <Text style={base.labelText}>Minimum Price (incl. bills)</Text>
                             <Pickerise
                                 items={[
-                                    { section: false, label: "Minimum price you're willing to pay monthly" },
+                                    {
+                                        section: false,
+                                        label: "Minimum price you're willing to pay monthly"
+                                    },
                                     { label: "£150" },
                                     { label: "£200" },
                                     { label: "£250" },
@@ -524,7 +618,9 @@ export class Login extends React.Component<Props, State> {
                                 ]}
                                 initValue={"£300"}
                                 cancelText={"Cancel"}
-                                onChange={({ label }) => this.setState({ genderPreference: label.replace("£", "") })}
+                                onChange={({ label }) =>
+                                    this.setState({ genderPreference: label.replace("£", "") })
+                                }
                             />
                         </View>
 
@@ -532,7 +628,10 @@ export class Login extends React.Component<Props, State> {
                             <Text style={base.labelText}>Maximum Price (incl. bills)</Text>
                             <Pickerise
                                 items={[
-                                    { section: false, label: "Maximum price you're willing to pay monthly" },
+                                    {
+                                        section: false,
+                                        label: "Maximum price you're willing to pay monthly"
+                                    },
                                     { label: "£250" },
                                     { label: "£300" },
                                     { label: "£350" },
@@ -544,7 +643,9 @@ export class Login extends React.Component<Props, State> {
                                 ]}
                                 initValue={"£500"}
                                 cancelText={"Cancel"}
-                                onChange={({ label }) => this.setState({ maxPrice: label.replace("£", "") })}
+                                onChange={({ label }) =>
+                                    this.setState({ maxPrice: label.replace("£", "") })
+                                }
                             />
                         </View>
 
@@ -552,7 +653,10 @@ export class Login extends React.Component<Props, State> {
                             <Text style={base.labelText}>Gender Majority</Text>
                             <Pickerise
                                 items={[
-                                    { section: false, label: "Select the gender you would prefer to live with" },
+                                    {
+                                        section: false,
+                                        label: "Select the gender you would prefer to live with"
+                                    },
                                     { label: "Male" },
                                     { label: "Female" },
                                     { label: "LGBT" },
@@ -580,7 +684,9 @@ export class Login extends React.Component<Props, State> {
             return (
                 <View style={login.page}>
                     <View style={base.headingWrapper}>
-                        <Text style={base.headingText}>Enter your House ID or if you don't have one press 'Create House'</Text>
+                        <Text style={base.headingText}>
+                            Enter your House ID or if you don't have one press 'Create House'
+                        </Text>
                     </View>
                     <View style={login.mainContent}>
                         <TextInput
@@ -600,7 +706,11 @@ export class Login extends React.Component<Props, State> {
                             fontSize={20}
                             buttonStyle={[base.buttonStyle, { marginBottom: 10 }]}
                         />
-                        <TouchableOpacity onPress={() => this.setState({ isCreatingHouse: true }, this.generateShortID)}>
+                        <TouchableOpacity
+                            onPress={() =>
+                                this.setState({ isCreatingHouse: true }, this.generateShortID)
+                            }
+                        >
                             <Text style={login.hyperlink}>Create House</Text>
                         </TouchableOpacity>
                     </View>
@@ -613,7 +723,9 @@ export class Login extends React.Component<Props, State> {
         return (
             <View style={login.page}>
                 <View style={base.headingWrapper}>
-                    <Text style={[base.headingText, { fontSize: 20 }]}>Enter your house details</Text>
+                    <Text style={[base.headingText, { fontSize: 20 }]}>
+                        Enter your house details
+                    </Text>
                 </View>
                 <View style={[login.mainContent, { justifyContent: "flex-start", flex: 4 }]}>
                     <View style={[login.marginBottom, { alignSelf: "center" }]}>
@@ -628,14 +740,21 @@ export class Login extends React.Component<Props, State> {
                         />
                     </View>
 
-                    <View style={[login.marginVertical, { flexDirection: "row", alignSelf: "center" }]}>
+                    <View
+                        style={[
+                            login.marginVertical,
+                            { flexDirection: "row", alignSelf: "center" }
+                        ]}
+                    >
                         <View style={{ marginRight: 30 }}>
                             <Text style={base.labelText}>Rent Per Month</Text>
                             <View style={login.priceInputWrapper}>
                                 <Text
                                     style={[
                                         login.poundStyle,
-                                        Number(this.state.rentPrice as string) > 0 ? { color: Colors.textHighlightColor } : {}
+                                        Number(this.state.rentPrice as string) > 0
+                                            ? { color: Colors.textHighlightColor }
+                                            : {}
                                     ]}
                                 >
                                     £
@@ -655,7 +774,9 @@ export class Login extends React.Component<Props, State> {
                                 <Text
                                     style={[
                                         login.poundStyle,
-                                        Number(this.state.billsPrice as string) > 0 ? { color: Colors.textHighlightColor } : {}
+                                        Number(this.state.billsPrice as string) > 0
+                                            ? { color: Colors.textHighlightColor }
+                                            : {}
                                     ]}
                                 >
                                     £
@@ -681,18 +802,32 @@ export class Login extends React.Component<Props, State> {
                         />
                     </View>
                     <View style={[login.marginTop, { alignSelf: "flex-start" }]}>
-                        {this.state.tempImages.length > 0 ? <Text style={base.labelText}>Images</Text> : <React.Fragment />}
+                        {this.state.tempImages.length > 0 ? (
+                            <Text style={base.labelText}>Images</Text>
+                        ) : (
+                            <React.Fragment />
+                        )}
                         {/* Probably want to make this a horizontal scroll view in the future */}
-                        <ScrollView style={{ flexDirection: "row", width: toConstantWidth(80) }} horizontal={true}>
+                        <ScrollView
+                            style={{ flexDirection: "row", width: toConstantWidth(80) }}
+                            horizontal={true}
+                        >
                             {this.state.tempImages.map((image, index) => {
                                 return (
                                     <View key={index}>
                                         <TouchableOpacity
                                             activeOpacity={0.7}
                                             style={{ marginRight: 4 }}
-                                            onPress={() => this.setState({ removeImageToggle: !this.state.removeImageToggle })}
+                                            onPress={() =>
+                                                this.setState({
+                                                    removeImageToggle: !this.state.removeImageToggle
+                                                })
+                                            }
                                         >
-                                            <Image source={{ uri: image.path }} style={{ width: 70, height: 70 }} />
+                                            <Image
+                                                source={{ uri: image.path }}
+                                                style={{ width: 70, height: 70 }}
+                                            />
                                         </TouchableOpacity>
                                         {this.state.removeImageToggle ? (
                                             <TouchableOpacity
@@ -791,7 +926,12 @@ export class Login extends React.Component<Props, State> {
         }
 
         if (this.state.activityCheck) {
-            facebookPermissions.push("user_actions.books", "user_actions.fitness", "user_actions.music", "user_actions.news");
+            facebookPermissions.push(
+                "user_actions.books",
+                "user_actions.fitness",
+                "user_actions.music",
+                "user_actions.news"
+            );
         }
 
         if (this.state.likesCheck) {
@@ -806,14 +946,21 @@ export class Login extends React.Component<Props, State> {
         let res: any;
 
         try {
-            res = await MapboxSDK.geocodeForward(address, { country: "gb", proximity: { latitude: 51.4412, longitude: -0.943 } });
+            res = await MapboxSDK.geocodeForward(address, {
+                country: "gb",
+                proximity: { latitude: 51.4412, longitude: -0.943 }
+            });
         } catch (err) {
-            alert("There was a problem with the road name you entered, please check it and try again");
+            alert(
+                "There was a problem with the road name you entered, please check it and try again"
+            );
             return "Error";
         }
 
         if (res.status !== 200 || res.entity.features.length === 0) {
-            alert("There was a problem with the road name you entered, please check it and try again.");
+            alert(
+                "There was a problem with the road name you entered, please check it and try again."
+            );
             return "Error";
         } else {
             return res.entity.features[0].center;
@@ -858,6 +1005,8 @@ export class Login extends React.Component<Props, State> {
         );
 
         this.homeSwiper.scrollBy(1, true);
+
+        this.props.completeHouseLogin(this.state.shortID as number);
     };
 
     private completeJoiningHouseSetup = (): void => {
@@ -866,23 +1015,30 @@ export class Login extends React.Component<Props, State> {
             query: HOUSE_DETAILS_QUERY
         }).then((res: any) => {
             if (res.data.House !== null) {
-                Alert.alert("Confirmation", "Are you sure you belong to the house on " + res.data.House.road + "?", [
-                    {
-                        text: "Confirm",
-                        onPress: (): void => {
-                            this.props.updateUserUpdateHouse(
-                                this.state.fbUserId,
-                                this.state.bio,
-                                this.state.course,
-                                this.state.studyYear,
-                                this.state.isSmoker,
-                                this.state.shortID as number
-                            );
-                            this.homeSwiper.scrollBy(2, true);
-                        }
-                    },
-                    { text: "Cancel", style: "cancel" }
-                ]);
+                Alert.alert(
+                    "Confirmation",
+                    "Are you sure you belong to the house on " + res.data.House.road + "?",
+                    [
+                        {
+                            text: "Confirm",
+                            onPress: (): void => {
+                                this.props.updateUserUpdateHouse(
+                                    this.state.fbUserId,
+                                    this.state.bio,
+                                    this.state.course,
+                                    this.state.studyYear,
+                                    this.state.isSmoker,
+                                    this.state.shortID as number
+                                );
+
+                                this.props.completeHouseLogin(this.state.shortID as number);
+
+                                this.homeSwiper.scrollBy(2, true);
+                            }
+                        },
+                        { text: "Cancel", style: "cancel" }
+                    ]
+                );
             } else {
                 alert("ID does not exist");
             }
@@ -933,13 +1089,15 @@ export class Login extends React.Component<Props, State> {
                         method: "POST",
                         body: formData,
                         headers: {
-                            "Accept": "application/json",
+                            Accept: "application/json",
                             "Content-Type": "application/json"
                         }
                     };
 
                     const response = await fetch(
-                        Platform.OS === "ios" ? "http://localhost:4000/upload" : "http://10.0.2.2:4000/upload",
+                        Platform.OS === "ios"
+                            ? "http://localhost:4000/upload"
+                            : "http://10.0.2.2:4000/upload",
                         options
                     );
                     if (response.ok) {
@@ -958,7 +1116,16 @@ export class Login extends React.Component<Props, State> {
 
 const updateUser = graphql<UpdateUserMutation, UpdateUserMutationVariables>(UPDATE_USER_MUTATION, {
     props: ({ mutate }) => ({
-        updateUser: (facebookUserId, bio, course, studyYear, isSmoker, minPrice, maxPrice, genderPreference) =>
+        updateUser: (
+            facebookUserId,
+            bio,
+            course,
+            studyYear,
+            isSmoker,
+            minPrice,
+            maxPrice,
+            genderPreference
+        ) =>
             mutate({
                 variables: {
                     facebookUserId,
@@ -1034,7 +1201,13 @@ const bindActions = (dispatch) => {
     return {
         signupWithFacebook: () => dispatch(signupWithFacebook()),
         loginWithFacebook: () => dispatch(loginWithFacebook()),
+        completeHouseLogin: (houseID: number) => dispatch(completeHouseLogin(houseID))
     };
 };
 
-export default compose(connect(mapStateToProps, bindActions), updateUser, updateUserCreateHouse, updateUserUpdateHouse)(Login);
+export default compose(
+    connect(mapStateToProps, bindActions),
+    updateUser,
+    updateUserCreateHouse,
+    updateUserUpdateHouse
+)(Login);

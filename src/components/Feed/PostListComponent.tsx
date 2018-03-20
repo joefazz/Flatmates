@@ -2,6 +2,7 @@ import * as React from "react";
 import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View } from "react-native";
 import { FloatingAction } from "react-native-floating-action";
 import Icon from "react-native-vector-icons/Ionicons";
+import Pickerise from "react-native-pickerise";
 
 import { Colors, Font } from "../../consts";
 import { feed } from "../../styles";
@@ -20,59 +21,17 @@ interface Props {
     hasCreatedPost: boolean;
     isAllFilterActive: boolean;
     isStarredFilterActive: boolean;
-    isMineFilterActive: boolean;
+    isPriceFilterActive: boolean;
     changeFilters: (Filters) => void;
     refreshPostList: () => void;
     loadMorePosts: () => any;
 }
 
 export class PostListComponent extends React.Component<Props> {
-    // private _animationValue: Animated.Value = new Animated.Value(0);
-    // private _ANIMATION_DURATION_CONSTANT: number = 500;
-
-    // private heightAnimation = {
-    //     height: this._animationValue.interpolate({
-    //         inputRange: [0, 1],
-    //         outputRange: [toConstantHeight(10.5), toConstantHeight(22)]
-    //     })
-    // };
-
-    // private shrinkGrowAnimation = {
-    //     width: this._animationValue.interpolate({
-    //         inputRange: [0, 1],
-    //         outputRange: [toConstantWidth(27), toConstantWidth(90)]
-    //     }),
-    //     // backgroundColor: 'red'
-    // }
-
-    // private opacityAnimation = {
-    //     opacity: this._animationValue.interpolate({
-    //         inputRange: [0, 1],
-    //         outputRange: [0, 1]
-    //     })
-    // };
-
-    // private rotateAnimation = {
-    //     transform: [
-    //         {
-    //             rotate: this._animationValue.interpolate({
-    //                 inputRange: [0, 1],
-    //                 outputRange: ['0deg', '180deg']
-    //             })
-    //         }
-    //     ]
-    // }
-
     render() {
         return (
             <>
                 <View style={feed.filterWrapper}>
-                    {/*<TouchableOpacity onPress={this.animateFilter} activeOpacity={0.7} style={ feed.expandBar }>
-                        <Animated.View style={this.rotateAnimation}>
-                            <Icon name={'ios-arrow-up'} size={toConstantFontSize(3)} style={{color: Colors.highlightWhite}} />
-                        </Animated.View>
-                    </TouchableOpacity>*/}
-
                     <View style={feed.filterContainer}>
                         <TouchableHighlight
                             onPress={() => this.props.changeFilters(Filters.ALL)}
@@ -100,18 +59,28 @@ export class PostListComponent extends React.Component<Props> {
                             </Text>
                         </TouchableHighlight>
 
-                        <TouchableHighlight
+                        <Pickerise
+                            selectStyle={[
+                                feed.filterItem,
+                                this.props.isPriceFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
+                            ]}
+                            initValue={"Filter"}
+                            selectTextStyle={[feed.filterItemText, this.props.isPriceFilterActive && { color: Colors.white }]}
+                            onChange={(val) => console.log(val + "selected")}
+                            items={[{ section: true, label: "Price" }, { label: "Low to High" }, { label: "High to Low" }]}
+                        />
+                        {/*<TouchableHighlight
                             onPress={() => this.props.changeFilters(Filters.MINE)}
                             underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
                             style={[
                                 feed.filterItem,
-                                this.props.isMineFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
+                                this.props.isPriceFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
                             ]}
                         >
-                            <Text style={[feed.filterItemText, this.props.isMineFilterActive && { color: Colors.white }]}>
+                            <Text style={[feed.filterItemText, this.props.isPriceFilterActive && { color: Colors.white }]}>
                                 My Posts
                             </Text>
-                        </TouchableHighlight>
+                        </TouchableHighlight>*/}
                     </View>
                 </View>
 
@@ -205,20 +174,4 @@ export class PostListComponent extends React.Component<Props> {
         }
         return <View />;
     };
-
-    // private animateFilter = () => {
-    //     if (this.state.isFilterOpen) {
-    //         Animated.timing(this._animationValue, {
-    //             toValue: 0,
-    //             duration: this._ANIMATION_DURATION_CONSTANT,
-    //             easing: Easing.elastic(0.7)
-    //         }).start(() => this.setState({ isFilterOpen: false }));
-    //     } else {
-    //         Animated.timing(this._animationValue, {
-    //             toValue: 1,
-    //             duration: this._ANIMATION_DURATION_CONSTANT,
-    //             easing: Easing.elastic(1)
-    //         }).start(() => this.setState({ isFilterOpen: true }));
-    //     }
-    // }
 }
