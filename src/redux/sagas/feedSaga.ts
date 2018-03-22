@@ -19,13 +19,13 @@ async function starredQuery(facebookUserId) {
     return await Client.query({ query: USER_STARRED_POSTS_QUERY, variables: { facebookUserId } });
 }
 
-function* posts() {
+function* posts({ payload }) {
     yield put(getPosts.request());
 
     try {
         const { data: { allPosts } } = yield call(Client.query, {
             query: POST_LIST_QUERY,
-            variables: { take: 10 }
+            variables: { take: payload }
         });
 
         yield put(getPosts.success(allPosts));
@@ -41,7 +41,9 @@ function* toggleFilters({ payload }) {
     const currentPosts = yield select((state: ReduxState) => state.feed.posts);
     const isAllFilterActive = yield select((state: ReduxState) => state.feed.isAllFilterActive);
     const isPriceFilterActive = yield select((state: ReduxState) => state.feed.isPriceFilterActive);
-    const isStarredFilterActive = yield select((state: ReduxState) => state.feed.isStarredFilterActive);
+    const isStarredFilterActive = yield select(
+        (state: ReduxState) => state.feed.isStarredFilterActive
+    );
 
     if (payload === Filters.STARRED && !isStarredFilterActive) {
         const { data: { user: { starredPosts } } } = yield call(starredQuery, facebookUserId);

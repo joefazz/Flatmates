@@ -38,10 +38,17 @@ export class PostListComponent extends React.Component<Props> {
                             underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
                             style={[
                                 feed.filterItem,
-                                this.props.isAllFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
+                                this.props.isAllFilterActive && {
+                                    backgroundColor: Colors.definetelyNotAirbnbRed
+                                }
                             ]}
                         >
-                            <Text style={[feed.filterItemText, this.props.isAllFilterActive && { color: Colors.white }]}>
+                            <Text
+                                style={[
+                                    feed.filterItemText,
+                                    this.props.isAllFilterActive && { color: Colors.white }
+                                ]}
+                            >
                                 All
                             </Text>
                         </TouchableHighlight>
@@ -51,10 +58,17 @@ export class PostListComponent extends React.Component<Props> {
                             underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
                             style={[
                                 feed.filterItem,
-                                this.props.isStarredFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
+                                this.props.isStarredFilterActive && {
+                                    backgroundColor: Colors.definetelyNotAirbnbRed
+                                }
                             ]}
                         >
-                            <Text style={[feed.filterItemText, this.props.isStarredFilterActive && { color: Colors.white }]}>
+                            <Text
+                                style={[
+                                    feed.filterItemText,
+                                    this.props.isStarredFilterActive && { color: Colors.white }
+                                ]}
+                            >
                                 Starred
                             </Text>
                         </TouchableHighlight>
@@ -62,12 +76,21 @@ export class PostListComponent extends React.Component<Props> {
                         <Pickerise
                             selectStyle={[
                                 feed.filterItem,
-                                this.props.isPriceFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
+                                this.props.isPriceFilterActive && {
+                                    backgroundColor: Colors.definetelyNotAirbnbRed
+                                }
                             ]}
                             initValue={"Filter"}
-                            selectTextStyle={[feed.filterItemText, this.props.isPriceFilterActive && { color: Colors.white }]}
+                            selectTextStyle={[
+                                feed.filterItemText,
+                                this.props.isPriceFilterActive && { color: Colors.white }
+                            ]}
                             onChange={(val) => console.log(val + "selected")}
-                            items={[{ section: true, label: "Price" }, { label: "Low to High" }, { label: "High to Low" }]}
+                            items={[
+                                { section: true, label: "Price" },
+                                { label: "Low to High" },
+                                { label: "High to Low" }
+                            ]}
                         />
                         {/*<TouchableHighlight
                             onPress={() => this.props.changeFilters(Filters.MINE)}
@@ -92,7 +115,12 @@ export class PostListComponent extends React.Component<Props> {
                     }}
                     renderItem={this.renderCard}
                     ListHeaderComponent={this.renderCreateHeader}
-                    refreshControl={<RefreshControl refreshing={this.props.isLoading} onRefresh={() => this.refreshPostList} />}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.isLoading}
+                            onRefresh={this.refreshPostList}
+                        />
+                    }
                     ListFooterComponent={this.renderHeaderFooter}
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
@@ -115,7 +143,7 @@ export class PostListComponent extends React.Component<Props> {
         );
     }
 
-    private refreshPostList() {
+    private refreshPostList = () => {
         this.props.refreshPostList();
     }
 
@@ -143,7 +171,7 @@ export class PostListComponent extends React.Component<Props> {
     };
 
     private renderCreateHeader = () => {
-        if (!this.props.hasCreatedPost) {
+        if (this.props.hasCreatedPost) {
             return <View />;
         }
         // return <View />;

@@ -13,7 +13,7 @@ interface Props {
     feed: FeedState;
     login: LoginState;
     navigation: { push: (route: string, params: { fbUserId?: string; data?: object }) => void };
-    getPosts: (take?: number, skip?: number) => void;
+    getPosts: (take: number) => void;
     toggleFilter: (Filters) => void;
 }
 
@@ -64,7 +64,7 @@ export class PostList extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        this.props.getPosts();
+        this.props.getPosts(5);
     }
 
     componentWillReceiveProps(newProps: Props) {
@@ -124,7 +124,7 @@ export class PostList extends React.Component<Props, State> {
     };
 
     private refreshPostList = () => {
-        return this.props.getPosts();
+        return this.props.getPosts(5);
     }
 }
 
@@ -135,7 +135,7 @@ const mapStateToProps = (state: ReduxState) => ({
 
 const bindActions = (dispatch) => {
     return {
-        getPosts: (take, skip) => dispatch(getPosts(take, skip)),
+        getPosts: (take) => dispatch(getPosts(take)),
         toggleFilter: (filter) => dispatch(toggleFilter(filter))
     };
 };
