@@ -6,10 +6,15 @@ import Pickerise from "react-native-pickerise";
 
 import { Colors, Font } from "../../consts";
 import { feed } from "../../styles";
-import { toConstantFontSize } from "../../utils/PercentageConversion";
+import {
+    toConstantFontSize,
+    toConstantWidth,
+    toConstantHeight
+} from "../../utils/PercentageConversion";
 import { Post } from "../../types/Entities";
 import { PostCard } from "../../widgets";
 import { Filters } from "../../containers/Feed/PostList";
+import { FontFactory } from "../../consts/font";
 
 interface Props {
     navigation: {
@@ -80,6 +85,41 @@ export class PostListComponent extends React.Component<Props> {
                                     backgroundColor: Colors.definetelyNotAirbnbRed
                                 }
                             ]}
+                            sectionStyle={{
+                                alignSelf: "flex-start",
+                                alignItems: "flex-start",
+                                borderBottomWidth: 0,
+                                padding: 0,
+                                marginTop: toConstantHeight(1.5)
+                            }}
+                            sectionTextStyle={{
+                                color: Colors.brandSecondaryColor,
+                                ...FontFactory({ weight: "Bold" }),
+                                fontSize: toConstantFontSize(3.5)
+                            }}
+                            itemStyle={{
+                                marginTop: toConstantHeight(0.8),
+                                borderBottomWidth: 0,
+                                padding: 0,
+                                paddingVertical: toConstantHeight(1),
+                                alignSelf: "flex-start"
+                            }}
+                            itemTextStyle={{
+                                alignSelf: "flex-start",
+                                color: Colors.brandSecondaryColor,
+                                fontSize: toConstantFontSize(2.5),
+                                ...FontFactory({ weight: "Light" })
+                            }}
+                            overlayStyle={{
+                                backgroundColor: Colors.white,
+                                alignItems: "flex-start"
+                            }}
+                            cancelTextStyle={{
+                                color: Colors.brandSecondaryColor,
+                                ...FontFactory(),
+                                fontSize: toConstantFontSize(3),
+                                height: toConstantHeight(5)
+                            }}
                             initValue={"Filter"}
                             selectTextStyle={[
                                 feed.filterItemText,
@@ -89,7 +129,12 @@ export class PostListComponent extends React.Component<Props> {
                             items={[
                                 { section: true, label: "Price" },
                                 { label: "Low to High" },
-                                { label: "High to Low" }
+                                { label: "High to Low" },
+                                { section: true, label: "Spaces Available" },
+                                { label: "1" },
+                                { label: "2" },
+                                { label: "3" },
+                                { label: "4" }
                             ]}
                         />
                         {/*<TouchableHighlight
@@ -145,7 +190,7 @@ export class PostListComponent extends React.Component<Props> {
 
     private refreshPostList = () => {
         this.props.refreshPostList();
-    }
+    };
 
     private renderHeaderFooter = () => {
         return <View style={{ height: 10 }} />;

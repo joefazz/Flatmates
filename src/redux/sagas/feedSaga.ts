@@ -7,6 +7,8 @@ import { createPost, deletePost, getPosts, toggleFilter } from "../Routines";
 import { Filters } from "../../containers/Feed/PostList";
 import { ReduxState } from "../../types/ReduxTypes";
 import { Post } from "../../types/Entities";
+import { ApolloQueryResult } from "apollo-client";
+import { AllPostsQuery, UserStarredQuery } from "../../graphql/Types";
 
 export const postSaga = function*() {
     yield takeEvery(getPosts.TRIGGER, posts);
@@ -15,18 +17,19 @@ export const postSaga = function*() {
     yield takeEvery(toggleFilter.TRIGGER, toggleFilters);
 };
 
-async function starredQuery(facebookUserId) {
+async function starredQuery(facebookUserId: string): ApolloQueryResult<UserStarredQuery> {
     return await Client.query({ query: USER_STARRED_POSTS_QUERY, variables: { facebookUserId } });
+}
+
+async function allQuery(take: number): ApolloQueryResult<AllPostsQuery> {
+    return await Client.query({ query: POST_LIST_QUERY, variables: { take } });
 }
 
 function* posts({ payload }) {
     yield put(getPosts.request());
 
     try {
-        const { data: { allPosts } } = yield call(Client.query, {
-            query: POST_LIST_QUERY,
-            variables: { take: payload }
-        });
+        const { data: { allPosts } } = yield call(allQuery, payload);
 
         yield put(getPosts.success(allPosts));
     } catch (error) {
@@ -48,19 +51,31 @@ function* toggleFilters({ payload }) {
     if (payload === Filters.STARRED && !isStarredFilterActive) {
         const { data: { user: { starredPosts } } } = yield call(starredQuery, facebookUserId);
 
-        if (starredPosts.length > 0) {
-            let postsToBeAppended = [];
-            starredPosts.forEach((post: Post) => {
-                const existingPost = currentPosts.filter((curPost: Post) => {
-                    return curPost.id === post.id;
-                });
+        // if (starredPosts.length > 0) {
+        // let postsToBeAppended = [];
+        // starredPosts.forEach((post: Post) => {
+        //     const existingPost = currentPosts.filter((curPost: Post) => {
+        //         return curPost.id === post.id;
+        //     });
 
-                if (existingPost.length === 0) {
-                    postsToBeAppended = postsToBeAppended.concat(post);
-                }
-            });
-            // yield action to append data to feed list
-        }
+        //     if (existingPost.length === 0) {
+        //         postsToBeAppended = postsToBeAppended.concat(post);
+        //     }
+        // });
+        yield put(toggleFilter.success({ filterSelected: payload, posts: starredPosts }));
+        // } else {
+        //     yield put(toggleFilter.success({ filterSelected: payload, posts: [] }));
+        // }
+    } else if (payload === Filters.STARRED && isStarredFilterActive) {
+        yield put(toggleFilter.success({ filterSelected: payload }));
+    }
+
+    if (payload === Filters.ALL && !isAllFilterActive) {
+        const { data: { allPosts } } = yield call(allQuery, 5);
+
+        yield put(toggleFilter.success({ filterSelected: payload, posts: allPosts }));
+    } else if (payload === Filters.ALL && isAllFilterActive) {
+        yield put(toggleFilter.success({ filterSelected: payload }));
     }
 
     if (payload === Filters.MINE && !isPriceFilterActive) {
@@ -68,7 +83,7 @@ function* toggleFilters({ payload }) {
         // call action to attach data to lost
     }
 
-    yield put(toggleFilter.success(payload));
+    // yield put(toggleFilter.success(payload));
 }
 
 function* create({ payload }) {

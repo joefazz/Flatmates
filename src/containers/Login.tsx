@@ -1114,7 +1114,7 @@ export class Login extends React.Component<Props, State> {
     }
 }
 
-const updateUser = graphql<UpdateUserMutation, UpdateUserMutationVariables>(UPDATE_USER_MUTATION, {
+const updateUser = graphql(UPDATE_USER_MUTATION, {
     props: ({ mutate }) => ({
         updateUser: (
             facebookUserId,

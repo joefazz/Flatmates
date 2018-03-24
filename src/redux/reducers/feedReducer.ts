@@ -1,4 +1,4 @@
-import { FeedAction, FeedState } from "../../types/ReduxTypes";
+import { FeedAction, FeedState, ToggleFilterAction } from "../../types/ReduxTypes";
 import { Post } from "../../types/Entities";
 import initialState from "../InitialState";
 import { GetPosts, CreatePost, ToggleFilter } from "../Types";
@@ -44,12 +44,35 @@ export default function feedReducer(state: FeedState = INITIAL_STATE, action: Fe
             return Object.assign({}, state, { isCreatingPost: false });
 
         case ToggleFilter.SUCCESS:
-            if (action.payload === Filters.ALL) {
-                return Object.assign({}, state, { isAllFilterActive: !state.isAllFilterActive });
-            } else if (action.payload === Filters.MINE) {
-                return Object.assign({}, state, { isPriceFilterActive: !state.isPriceFilterActive });
-            } else if (action.payload === Filters.STARRED) {
-                return Object.assign({}, state, { isStarredFilterActive: !state.isStarredFilterActive });
+            action.payload = action.payload as ToggleFilterAction;
+            if (action.payload.filterSelected === Filters.ALL) {
+                if (!state.isAllFilterActive) {
+                    return Object.assign({}, state, {
+                        isAllFilterActive: !state.isAllFilterActive,
+                        isStarredFilterActive: false,
+                        posts: action.payload.posts
+                    });
+                } else {
+                    return Object.assign({}, state, {
+                        isAllFilterActive: false
+                    });
+                }
+            } else if (action.payload.filterSelected === Filters.MINE) {
+                return Object.assign({}, state, {
+                    isPriceFilterActive: !state.isPriceFilterActive
+                });
+            } else if (action.payload.filterSelected === Filters.STARRED) {
+                if (!state.isStarredFilterActive) {
+                    return Object.assign({}, state, {
+                        isStarredFilterActive: !state.isStarredFilterActive,
+                        isAllFilterActive: false,
+                        posts: action.payload.posts
+                    });
+                } else {
+                    return Object.assign({}, state, {
+                        isStarredFilterActive: !state.isStarredFilterActive
+                    });
+                }
             }
             break;
         // Delete Post

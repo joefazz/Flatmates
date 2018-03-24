@@ -26,7 +26,12 @@ export interface LoginAction {
 
 export interface FeedAction {
     type: GetPosts | CreatePost | ToggleFilter;
-    payload: Post | Filters | { error?: string };
+    payload: Post | { error: string } | { filterSelected?: Filters; posts?: Array<Post> };
+}
+
+export interface ToggleFilterAction {
+    filterSelected?: Filters;
+    posts: Array<Post>;
 }
 
 export interface ProfileAction {

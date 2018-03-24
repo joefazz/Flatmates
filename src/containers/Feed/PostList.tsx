@@ -42,7 +42,9 @@ export class PostList extends React.Component<Props, State> {
         title: "Home",
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon
-                name={Platform.OS === "ios" ? (focused ? "ios-home" : "ios-home-outline") : "md-home"}
+                name={
+                    Platform.OS === "ios" ? (focused ? "ios-home" : "ios-home-outline") : "md-home"
+                }
                 color={tintColor}
                 size={32}
             />
@@ -70,10 +72,6 @@ export class PostList extends React.Component<Props, State> {
     componentWillReceiveProps(newProps: Props) {
         if (newProps.feed.isFetchingPosts !== this.state.isLoading) {
             this.setState({ isLoading: newProps.feed.isFetchingPosts });
-
-            if (newProps.feed.posts !== this.state.data) {
-                this.setState({ data: newProps.feed.posts });
-            }
         }
 
         if (newProps.feed.isAllFilterActive !== this.state.isAllFilterActive) {
@@ -90,6 +88,10 @@ export class PostList extends React.Component<Props, State> {
 
         if (newProps.login.fbUserId !== null) {
             this.setState({ fbUserId: newProps.login.fbUserId });
+        }
+
+        if (newProps.feed.posts.length !== this.state.data.length) {
+            this.setState({ data: newProps.feed.posts });
         }
     }
 
@@ -109,11 +111,20 @@ export class PostList extends React.Component<Props, State> {
     }
 
     private changeFilters = (filterSelected: Filters): void => {
-        if (filterSelected === Filters.ALL && (!this.state.isStarredFilterActive && !this.state.isPriceFilterActive)) {
+        if (
+            filterSelected === Filters.ALL &&
+            (!this.state.isStarredFilterActive && !this.state.isPriceFilterActive)
+        ) {
             return;
-        } else if (filterSelected === Filters.STARRED && (!this.state.isAllFilterActive && !this.state.isPriceFilterActive)) {
+        } else if (
+            filterSelected === Filters.STARRED &&
+            (!this.state.isAllFilterActive && !this.state.isPriceFilterActive)
+        ) {
             return;
-        } else if (filterSelected === Filters.MINE && (!this.state.isStarredFilterActive && !this.state.isAllFilterActive)) {
+        } else if (
+            filterSelected === Filters.MINE &&
+            (!this.state.isStarredFilterActive && !this.state.isAllFilterActive)
+        ) {
             return;
         }
         this.props.toggleFilter(filterSelected);
@@ -125,7 +136,7 @@ export class PostList extends React.Component<Props, State> {
 
     private refreshPostList = () => {
         return this.props.getPosts(5);
-    }
+    };
 }
 
 const mapStateToProps = (state: ReduxState) => ({
