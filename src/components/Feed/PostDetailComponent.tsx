@@ -2,7 +2,15 @@ import Mapbox from "@mapbox/react-native-mapbox-gl";
 // @ts-ignore
 import moment from "moment";
 import * as React from "react";
-import { ActivityIndicator, Image, ScrollView, Text, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import {
+    ActivityIndicator,
+    Image,
+    ScrollView,
+    Text,
+    TouchableHighlight,
+    Alert,
+    View
+} from "react-native";
 import { Avatar } from "react-native-elements";
 import { RectButton } from "react-native-gesture-handler";
 import { isIphoneX } from "react-native-iphone-x-helper";
@@ -15,13 +23,17 @@ import { FontFactory } from "../../consts/font";
 import { feed } from "../../styles";
 import { ProfileState } from "../../types/ReduxTypes";
 import { House } from "../../types/Entities";
-import { toConstantFontSize, toConstantHeight, toConstantWidth } from "../../utils/PercentageConversion";
+import {
+    toConstantFontSize,
+    toConstantHeight,
+    toConstantWidth
+} from "../../utils/PercentageConversion";
 import { compareUsers } from "../../utils/UserComparison";
 import { TouchableRect } from "../../widgets/TouchableRect";
 
 interface Props {
     house: House;
-
+    isStarred: boolean;
     createdAt: string;
     lastSeen: string;
 
@@ -83,7 +95,13 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         }}
                     >
                         {this.props.house.houseImages.map((image, index) => {
-                            return <Image style={feed.detailImage} source={{ uri: image }} key={index} />;
+                            return (
+                                <Image
+                                    style={feed.detailImage}
+                                    source={{ uri: image }}
+                                    key={index}
+                                />
+                            );
                         })}
                     </Swiper>
                     <View style={[feed.detailContentWrapper]}>
@@ -99,6 +117,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                 <View style={{ marginRight: 10, marginBottom: 3 }}>
                                     <RNShineButton
                                         size={toConstantFontSize(3.5)}
+                                        value={this.props.isStarred}
                                         color={Colors.grey}
                                         fillColor={Colors.brandWarningColor}
                                         shape={"star"}
@@ -125,7 +144,9 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                           .utc()
                                           .format("HH:MM")}
                             </Text>
-                            <Text style={feed.spacesText}>{this.props.house.spaces} Spaces Remaining</Text>
+                            <Text style={feed.spacesText}>
+                                {this.props.house.spaces} Spaces Remaining
+                            </Text>
                         </View>
                         <View style={feed.descriptionWrapper}>
                             <Text style={feed.descriptionText}>{this.props.description}</Text>
@@ -192,7 +213,10 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             logoEnabled={false}
                             centerCoordinate={this.props.house.coords}
                         >
-                            <Mapbox.PointAnnotation id={"chosen"} coordinate={this.props.house.coords} />
+                            <Mapbox.PointAnnotation
+                                id={"chosen"}
+                                coordinate={this.props.house.coords}
+                            />
                         </Mapbox.MapView>
                         <View
                             style={{
@@ -227,7 +251,9 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     </View>
                     <View>
                         <Text style={[feed.userRow, feed.labelText]}>Flatmates</Text>
-                        {this.props.house.users.map((user, index) => this.renderFlatmateRow(user, index))}
+                        {this.props.house.users.map((user, index) =>
+                            this.renderFlatmateRow(user, index)
+                        )}
                     </View>
                 </ScrollView>
                 <View
@@ -238,7 +264,20 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     }}
                 >
                     <TouchableRect
-                        onPress={() => console.log("Chat join pressed")}
+                        onPress={() =>
+                            Alert.alert(
+                                "Send Application",
+                                "Are you sure you want to apply to " + this.props.house.road + "?",
+                                [
+                                    {
+                                        text: "Cancel",
+                                        onPress: () => console.log("Cancelled"),
+                                        style: "cancel"
+                                    },
+                                    { text: "Send", onPress: () => console.log("Send Pressed") }
+                                ]
+                            )
+                        }
                         title={"Send Application"}
                         iconName={"bullhorn"}
                         backgroundColor={Colors.brandPrimaryColor}
@@ -268,7 +307,12 @@ export class PostDetailComponent extends React.Component<Props, State> {
                 style={feed.userRow}
             >
                 <View style={feed.avatarWrapper}>
-                    <Avatar medium={true} source={{ uri: user.imageUrl }} rounded={true} title={user.firstName} />
+                    <Avatar
+                        medium={true}
+                        source={{ uri: user.imageUrl }}
+                        rounded={true}
+                        title={user.firstName}
+                    />
                 </View>
                 <View style={feed.userDetailsWrapper}>
                     <View
@@ -278,7 +322,9 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         }}
                     >
                         <Text style={feed.userNameText}>{user.name}</Text>
-                        <Text style={feed.userNameText}>{compareUsers(this.props.profile, user)}% Match</Text>
+                        <Text style={feed.userNameText}>
+                            {compareUsers(this.props.profile, user)}% Match
+                        </Text>
                     </View>
                     <Text style={feed.userInfoText}>
                         {user.studyYear} student studying {user.course}

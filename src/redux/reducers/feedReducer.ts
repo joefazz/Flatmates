@@ -34,7 +34,7 @@ export default function feedReducer(state: FeedState = INITIAL_STATE, action: Fe
         case CreatePost.SUCCESS:
             posts = state.posts.concat(action.payload as Post);
 
-            return Object.assign({}, state, posts);
+            return Object.assign({}, state, { posts });
         case CreatePost.FAILURE:
             return Object.assign({}, state, {
                 isErrorCreatingPost: true,

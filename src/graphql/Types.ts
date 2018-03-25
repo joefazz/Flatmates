@@ -217,7 +217,6 @@ export interface PostDetailQuery {
 
 export interface AllPostsQueryVariables {
   take: number,
-  skip?: number | null,
 };
 
 export interface AllPostsQuery {
@@ -227,6 +226,7 @@ export interface AllPostsQuery {
     createdAt: string,
     lastSeen: string | null,
     createdBy:  {
+      shortID: number,
       road: string,
       coords: Array< number > | null,
       billsPrice: number,
@@ -235,6 +235,19 @@ export interface AllPostsQuery {
       houseImages: Array< string > | null,
     },
   } | null > | null,
+};
+
+export interface BasicStarredQueryVariables {
+  facebookUserId: string,
+};
+
+export interface BasicStarredQuery {
+  user:  {
+    facebookUserId: string,
+    starredPosts:  Array< {
+      id: string,
+    } > | null,
+  } | null,
 };
 
 export interface UserChatQueryVariables {
@@ -303,6 +316,9 @@ export interface UserLoginQuery {
     course: string | null,
     studyYear: string | null,
     isVerified: boolean,
+    house:  {
+      shortID: number,
+    } | null,
   } | null,
 };
 

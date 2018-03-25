@@ -1,5 +1,12 @@
 import * as React from "react";
-import { ActivityIndicator, ImageBackground, StatusBar, StyleSheet, View } from "react-native";
+import {
+    ActivityIndicator,
+    ImageBackground,
+    StatusBar,
+    StyleSheet,
+    View,
+    AsyncStorage
+} from "react-native";
 import { connect } from "react-redux";
 import splash_screen from "../../Assets/splash_screen.png";
 import { LoginState } from "../types/ReduxTypes";
@@ -32,7 +39,9 @@ class AuthLoadingScreen extends React.Component<Props> {
         });
 
         if (data.user === null) {
-            this.props.navigation.navigate("Login");
+            AsyncStorage.clear()
+                .then(() => this.props.navigation.navigate("Login"))
+                .catch((error) => console.log(error));
         } else if (this.props.login.fbAccessToken && this.props.login.fbAccessToken !== "") {
             if (!data.user.isVerified) {
                 this.props.navigation.navigate("Home");

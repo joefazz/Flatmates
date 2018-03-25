@@ -17,12 +17,20 @@ export const postSaga = function*() {
     yield takeEvery(toggleFilter.TRIGGER, toggleFilters);
 };
 
-async function starredQuery(facebookUserId: string): ApolloQueryResult<UserStarredQuery> {
-    return await Client.query({ query: USER_STARRED_POSTS_QUERY, variables: { facebookUserId } });
+async function starredQuery(facebookUserId: string): Promise<ApolloQueryResult<UserStarredQuery>> {
+    return await Client.query<UserStarredQuery>({
+        query: USER_STARRED_POSTS_QUERY,
+        variables: { facebookUserId },
+        fetchPolicy: "network-only"
+    });
 }
 
-async function allQuery(take: number): ApolloQueryResult<AllPostsQuery> {
-    return await Client.query({ query: POST_LIST_QUERY, variables: { take } });
+async function allQuery(take: number): Promise<ApolloQueryResult<AllPostsQuery>> {
+    return await Client.query<AllPostsQuery>({
+        query: POST_LIST_QUERY,
+        variables: { take },
+        fetchPolicy: "network-only"
+    });
 }
 
 function* posts({ payload }) {
@@ -50,7 +58,7 @@ function* toggleFilters({ payload }) {
 
     if (payload === Filters.STARRED && !isStarredFilterActive) {
         const { data: { user: { starredPosts } } } = yield call(starredQuery, facebookUserId);
-
+        console.log(starredPosts);
         // if (starredPosts.length > 0) {
         // let postsToBeAppended = [];
         // starredPosts.forEach((post: Post) => {

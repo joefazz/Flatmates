@@ -8,7 +8,6 @@ import { Colors, Font } from "../../consts";
 import { feed } from "../../styles";
 import {
     toConstantFontSize,
-    toConstantWidth,
     toConstantHeight
 } from "../../utils/PercentageConversion";
 import { Post } from "../../types/Entities";
