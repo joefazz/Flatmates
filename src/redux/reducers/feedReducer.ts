@@ -74,6 +74,7 @@ export default function feedReducer(state: FeedState = INITIAL_STATE, action: Fe
                     });
                 }
             }
+            return state;
             break;
         // Delete Post
         // case deletePost.REQUEST:
