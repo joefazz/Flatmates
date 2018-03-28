@@ -1,19 +1,17 @@
-import * as React from "react";
-import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View } from "react-native";
-import { FloatingAction } from "react-native-floating-action";
-import Icon from "react-native-vector-icons/Ionicons";
-import Pickerise from "react-native-pickerise";
+import * as React from 'react';
+import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View } from 'react-native';
+import { FloatingAction } from 'react-native-floating-action';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Pickerise from 'react-native-pickerise';
 
-import { Colors, Font } from "../../consts";
-import { feed } from "../../styles";
-import {
-    toConstantFontSize,
-    toConstantHeight
-} from "../../utils/PercentageConversion";
-import { Post } from "../../types/Entities";
-import { PostCard } from "../../widgets";
-import { Filters } from "../../containers/Feed/PostList";
-import { FontFactory } from "../../consts/font";
+import { Colors, Font } from '../../consts';
+import { feed } from '../../styles';
+import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
+import { Post } from '../../types/Entities';
+import { PostCard } from '../../widgets';
+import { Filters } from '../../containers/Feed/PostList';
+import { FontFactory } from '../../consts/font';
+import { FlatPicker } from '../../widgets/FlatPicker';
 
 interface Props {
     navigation: {
@@ -77,63 +75,28 @@ export class PostListComponent extends React.Component<Props> {
                             </Text>
                         </TouchableHighlight>
 
-                        <Pickerise
+                        <FlatPicker
+                            initialValue={'Filter'}
                             selectStyle={[
                                 feed.filterItem,
                                 this.props.isPriceFilterActive && {
                                     backgroundColor: Colors.definetelyNotAirbnbRed
                                 }
                             ]}
-                            sectionStyle={{
-                                alignSelf: "flex-start",
-                                alignItems: "flex-start",
-                                borderBottomWidth: 0,
-                                padding: 0,
-                                marginTop: toConstantHeight(1.5)
-                            }}
-                            sectionTextStyle={{
-                                color: Colors.brandSecondaryColor,
-                                ...FontFactory({ weight: "Bold" }),
-                                fontSize: toConstantFontSize(3.5)
-                            }}
-                            itemStyle={{
-                                marginTop: toConstantHeight(0.8),
-                                borderBottomWidth: 0,
-                                padding: 0,
-                                paddingVertical: toConstantHeight(1),
-                                alignSelf: "flex-start"
-                            }}
-                            itemTextStyle={{
-                                alignSelf: "flex-start",
-                                color: Colors.brandSecondaryColor,
-                                fontSize: toConstantFontSize(2.5),
-                                ...FontFactory({ weight: "Light" })
-                            }}
-                            overlayStyle={{
-                                backgroundColor: Colors.white,
-                                alignItems: "flex-start"
-                            }}
-                            cancelTextStyle={{
-                                color: Colors.brandSecondaryColor,
-                                ...FontFactory(),
-                                fontSize: toConstantFontSize(3),
-                                height: toConstantHeight(5)
-                            }}
-                            initValue={"Filter"}
                             selectTextStyle={[
                                 feed.filterItemText,
                                 this.props.isPriceFilterActive && { color: Colors.white }
                             ]}
-                            onChange={(val) => console.log(val + "selected")}
+                            onChange={(val) => console.log(val + 'selected')}
                             items={[
-                                { section: true, label: "Price" },
-                                { label: "Low to High" },
-                                { label: "High to Low" },
-                                { section: true, label: "Spaces Available" },
-                                { label: "1" },
-                                { label: "2" },
-                                { label: "3" },
-                                { label: "4" }
+                                { section: true, label: 'Price' },
+                                { label: 'Low to High' },
+                                { label: 'High to Low' },
+                                { section: true, label: 'Spaces Available' },
+                                { label: '1' },
+                                { label: '2' },
+                                { label: '3' },
+                                { label: '4' }
                             ]}
                         />
                         {/*<TouchableHighlight
@@ -154,8 +117,8 @@ export class PostListComponent extends React.Component<Props> {
                 <FlatList
                     data={this.props.data}
                     contentContainerStyle={{
-                        alignItems: "center",
-                        justifyContent: "center"
+                        alignItems: 'center',
+                        justifyContent: 'center'
                     }}
                     renderItem={this.renderCard}
                     ListHeaderComponent={this.renderCreateHeader}
@@ -169,13 +132,13 @@ export class PostListComponent extends React.Component<Props> {
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
-                {Platform.OS === "android" ? (
+                {Platform.OS === 'android' ? (
                     <FloatingAction
                         buttonColor={Colors.brandPrimaryColor}
                         showBackground={false}
-                        floatingIcon={<Icon name={"md-add"} size={26} color={Colors.white} />}
+                        floatingIcon={<Icon name={'md-add'} size={26} color={Colors.white} />}
                         onPressMain={() =>
-                            this.props.navigation.push("CreatePost", {
+                            this.props.navigation.push('CreatePost', {
                                 fbUserId: this.props.fbUserId
                             })
                         }
@@ -203,7 +166,7 @@ export class PostListComponent extends React.Component<Props> {
         return (
             <View style={feed.card}>
                 <PostCard
-                    onPress={() => this.props.navigation.push("PostDetail", { data: item })}
+                    onPress={() => this.props.navigation.push('PostDetail', { data: item })}
                     title={item.createdBy.road}
                     spaces={item.createdBy.spaces}
                     price={item.createdBy.billsPrice + item.createdBy.rentPrice}
@@ -219,12 +182,12 @@ export class PostListComponent extends React.Component<Props> {
             return <View />;
         }
         // return <View />;
-        if (Platform.OS === "ios") {
+        if (Platform.OS === 'ios') {
             return (
                 <TouchableHighlight
                     underlayColor={Colors.grey}
                     onPress={() =>
-                        this.props.navigation.push("CreatePost", {
+                        this.props.navigation.push('CreatePost', {
                             fbUserId: this.props.fbUserId
                         })
                     }
@@ -235,7 +198,7 @@ export class PostListComponent extends React.Component<Props> {
                             {
                                 fontSize: toConstantFontSize(8),
                                 color: Colors.brandPrimaryColor,
-                                ...Font.FontFactory({ weight: "Light" })
+                                ...Font.FontFactory({ weight: 'Light' })
                             }
                         ]}
                     >
