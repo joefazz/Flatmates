@@ -35,7 +35,6 @@ import {
     UPDATE_USER_UPDATE_HOUSE_MUTATION
 } from '../graphql/mutations';
 import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
-import { UpdateUserMutation, UpdateUserMutationVariables } from '../graphql/Types';
 import { loginWithFacebook, signupWithFacebook, completeHouseLogin } from '../redux/Routines';
 import { base, login } from '../styles';
 import { LoginStatus } from '../types/Entities';
@@ -449,15 +448,36 @@ export class Login extends React.Component<Props, State> {
                                 <Text style={[base.labelText]}>Course</Text>
                                 <FlatPicker
                                     items={[
-                                        { section: true, label: 'Sciences' },
+                                        {
+                                            section: true,
+                                            label: 'General Subject Areas (from UCAS)'
+                                        },
+                                        { label: 'Administration' },
+                                        { label: 'Area Studies' },
+                                        { label: 'Arts' },
+                                        { label: 'Biology' },
+                                        { label: 'Business Studies' },
                                         { label: 'Computer Science' },
+                                        { label: 'Economics' },
+                                        { label: 'Educational Studies' },
+                                        { label: 'Engineering' },
+                                        { label: 'Health Studies' },
+                                        { label: 'History' },
+                                        { label: 'Languages' },
+                                        { label: 'Law' },
+                                        { label: 'Literature' },
+                                        { label: 'Management' },
+                                        { label: 'Mathematics' },
+                                        { label: 'Medicine' },
+                                        { label: 'Performing Arts' },
+                                        { label: 'Philosophy' },
                                         { label: 'Physics' },
-                                        { label: 'Aerospace' }
+                                        { label: 'Politics' }
                                     ]}
                                     selectTextStyle={login.profileInput}
                                     selectStyle={login.modalInput}
                                     onChange={(val) => this.setState({ course: val.label })}
-                                    initialValue={'Select Course'}
+                                    initialValue={'Select Your Course Area'}
                                 />
                             </View>
                         </View>
