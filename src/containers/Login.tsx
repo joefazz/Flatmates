@@ -18,7 +18,6 @@ import {
 } from 'react-native';
 import { Avatar, Button } from 'react-native-elements';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
-import Pickerise from 'react-native-pickerise';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
@@ -506,9 +505,7 @@ export class Login extends React.Component<Props, State> {
                     >
                         <View style={{ flex: 1, alignItems: 'center' }}>
                             <View>
-                                <Text style={[base.labelText, { alignSelf: 'center' }]}>
-                                    Study Year
-                                </Text>
+                                <Text style={base.labelText}>Study Year</Text>
                                 <FlatPicker
                                     items={[
                                         {
@@ -522,7 +519,7 @@ export class Login extends React.Component<Props, State> {
                                         { label: 'Placement Year' },
                                         { label: 'PHd' }
                                     ]}
-                                    initialValue={'Study Year'}
+                                    initialValue={'Select your Year of Study'}
                                     selectTextStyle={login.profileInput}
                                     selectStyle={login.modalInput}
                                     onChange={(item) => this.setState({ studyYear: item.label })}
@@ -611,7 +608,7 @@ export class Login extends React.Component<Props, State> {
         );
     }
 
-    public renderHouseOrProfileSetup() {
+    renderHouseOrProfileSetup = () => {
         if (this.state.isLookingForHouse) {
             return (
                 <View style={login.page}>
@@ -638,7 +635,7 @@ export class Login extends React.Component<Props, State> {
                                 ]}
                                 initialValue={'£300'}
                                 onChange={({ label }) =>
-                                    this.setState({ genderPreference: label.replace('£', '') })
+                                    this.setState({ minPrice: label.replace('£', '') })
                                 }
                                 selectTextStyle={login.profileInput}
                                 selectStyle={login.modalInput}
@@ -740,9 +737,9 @@ export class Login extends React.Component<Props, State> {
                 </View>
             );
         }
-    }
+    };
 
-    renderHouseDetail() {
+    renderHouseDetail = () => {
         return (
             <View style={login.page}>
                 <View style={base.headingWrapper}>
@@ -916,7 +913,8 @@ export class Login extends React.Component<Props, State> {
                 </View>
             </View>
         );
-    }
+    };
+
     // Let the record show I have tested this works
     private generateShortID = function GenerateID(): void {
         const shortID = Math.floor(1000 + (10000 - 1000) * Math.random());

@@ -2,15 +2,13 @@ import * as React from 'react';
 import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View } from 'react-native';
 import { FloatingAction } from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Pickerise from 'react-native-pickerise';
 
 import { Colors, Font } from '../../consts';
 import { feed } from '../../styles';
-import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
+import { toConstantFontSize } from '../../utils/PercentageConversion';
 import { Post } from '../../types/Entities';
 import { PostCard } from '../../widgets';
 import { Filters } from '../../containers/Feed/PostList';
-import { FontFactory } from '../../consts/font';
 import { FlatPicker } from '../../widgets/FlatPicker';
 
 interface Props {
