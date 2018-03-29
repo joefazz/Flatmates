@@ -13,13 +13,13 @@ export const login = StyleSheet.create({
     pageFooter: {
         flex: 1,
         justifyContent: 'flex-start',
-        alignItems: 'center',
+        alignItems: 'center'
     },
 
     mainContent: {
         flex: 2,
         alignItems: 'flex-start',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
 
     congratsText: {
@@ -27,7 +27,7 @@ export const login = StyleSheet.create({
         fontSize: 60,
         color: Colors.white,
         backgroundColor: Colors.transparent,
-        alignSelf: 'center',
+        alignSelf: 'center'
     },
 
     congratsSubtitleText: {
@@ -35,7 +35,7 @@ export const login = StyleSheet.create({
         fontSize: 16,
         color: Colors.white,
         backgroundColor: Colors.transparent,
-        alignSelf: 'center',
+        alignSelf: 'center'
     },
 
     dotStyle: {
@@ -67,16 +67,24 @@ export const login = StyleSheet.create({
         borderColor: Colors.grey
     },
 
+    modalInput: {
+        width: 300,
+        borderBottomWidth: 1,
+        borderColor: Colors.grey,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
     marginTop: {
-        marginTop: 20,
+        marginTop: 20
     },
 
     marginBottom: {
-        marginBottom: 20,
+        marginBottom: 20
     },
 
     marginVertical: {
-        marginVertical: 20,
+        marginVertical: 20
     },
 
     shortIDStyle: {

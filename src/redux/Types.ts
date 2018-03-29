@@ -14,6 +14,11 @@ export enum FacebookLogin {
     FULFILL = Routines.loginWithFacebook.FULFILL
 }
 
+export enum HouseLogin {
+    SUCCESS = Routines.completeHouseLogin.SUCCESS,
+    FAILURE = Routines.completeHouseLogin.FAILURE
+}
+
 export enum GetUserData {
     REQUEST = Routines.getUserDataFacebook.REQUEST,
     SUCCESS = Routines.getUserDataFacebook.SUCCESS,
@@ -33,6 +38,10 @@ export enum CreatePost {
     SUCCESS = Routines.createPost.SUCCESS,
     FAILURE = Routines.createPost.FAILURE,
     FULFILL = Routines.createPost.FULFILL
+}
+
+export enum ToggleFilter {
+    SUCCESS = Routines.toggleFilter.SUCCESS
 }
 
 export const READ_ONLY_LOGIN_SUCCESS = Routines.readOnlyLogin.SUCCESS;

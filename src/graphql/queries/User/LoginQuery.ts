@@ -9,6 +9,9 @@ export const USER_LOGIN_QUERY = gql`
             course
             studyYear
             isVerified
+            house {
+                shortID
+            }
         }
     }
 `;

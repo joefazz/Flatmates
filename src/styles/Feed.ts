@@ -54,6 +54,7 @@ export const feed = StyleSheet.create({
         borderWidth: 1.5,
         width: toConstantWidth(28),
         height: toConstantHeight(5),
+        paddingVertical: 0,
         justifyContent: "center",
         alignItems: "center",
         paddingHorizontal: toConstantWidth(3)
@@ -84,6 +85,7 @@ export const feed = StyleSheet.create({
 
     filterItemText: {
         color: Colors.definetelyNotAirbnbRed,
+        fontSize: 14,
         ...FontFactory({ weight: "Bold", family: "Nunito" })
     },
 

@@ -4,17 +4,25 @@ import { StatusBar } from "react-native";
 import { connect } from "react-redux";
 
 import { PostDetailComponent } from "../../components/Feed/PostDetailComponent";
-import { STAR_POST_MUTATION, UNSTAR_POST_MUTATION, UPDATE_POST_MUTATION } from "../../graphql/mutations";
+import {
+    STAR_POST_MUTATION,
+    UNSTAR_POST_MUTATION,
+    UPDATE_POST_MUTATION
+} from "../../graphql/mutations";
 import {
     StarPostMutation,
     StarPostMutationVariables,
     UnstarPostMutation,
     UnstarPostMutationVariables,
     UpdatePostMutation,
-    UpdatePostMutationVariables
+    UpdatePostMutationVariables,
+    BasicStarredQuery
 } from "../../graphql/Types";
 import { ProfileState, ReduxState } from "../../types/ReduxTypes";
 import { House } from "../../types/Entities";
+import Client from "../../Client";
+import { USER_BASIC_STARRED_POSTS_QUERY } from "../../graphql/queries";
+import { ApolloQueryResult } from "apollo-client";
 
 interface Props {
     navigation: {
@@ -23,6 +31,7 @@ interface Props {
                 data: {
                     id: string;
                 };
+                isStarred: boolean;
             };
         };
         push: (route: string, params: { fbUserId?: string; data?: object }) => void;
@@ -44,6 +53,7 @@ interface State {
         title: string;
     };
     isLoading: boolean;
+    isStarred: boolean;
 }
 
 export class PostDetail extends React.Component<Props, State> {
@@ -54,45 +64,22 @@ export class PostDetail extends React.Component<Props, State> {
 
     isStarred: boolean;
 
-    // TODO: FIND A WAY TO CONNECT THIS SCREEN TO STATE SO I CAN USE PROFILE TO COMPARE AND GET PERCENTAGE
     constructor(props) {
         super(props);
 
-        this.isStarred = false;
-
         this.state = {
             data: props.navigation.state.params.data,
-            isLoading: true
+            isLoading: true,
+            isStarred: props.navigation.state.params.isStarred
         };
     }
 
-    getPostDetails = async () => {
-        try {
-            const { data: { updatePost } } = await this.props.updatePost(
-                this.props.navigation.state.params.data.id,
-                new Date().toISOString()
-            );
-
-            const combinedData = Object.assign({}, this.state.data, updatePost);
-
-            this.setState({ isLoading: false, data: combinedData });
-        } catch (error) {
-            console.log("There was an error: " + error + "... This will turn into a ui element eventually...");
-        }
-    };
-
-    starPost = () => {
-        if (!this.isStarred) {
-            this.props.starPost(this.props.userId, this.props.navigation.state.params.data.id);
-            this.isStarred = true;
-        } else {
-            this.props.unstarPost(this.props.userId, this.props.navigation.state.params.data.id);
-            this.isStarred = false;
-        }
-    };
-
     componentDidMount() {
         this.getPostDetails();
+
+        if (!this.state.isStarred) {
+            this.hasStarredPost;
+        }
     }
 
     render() {
@@ -110,10 +97,63 @@ export class PostDetail extends React.Component<Props, State> {
                     isLoading={this.state.isLoading}
                     navigation={this.props.navigation}
                     starPost={this.starPost}
+                    isStarred={this.state.isStarred}
                 />
             </>
         );
     }
+
+    private hasStarredPost = async () => {
+        try {
+            const {
+                data: { user: { starredPosts } }
+            }: ApolloQueryResult<BasicStarredQuery> = await Client.query<BasicStarredQuery>({
+                query: USER_BASIC_STARRED_POSTS_QUERY,
+                variables: { facebookUserId: this.props.userId }
+            });
+
+            console.log(starredPosts);
+
+            this.setState({
+                isStarred: starredPosts.some((element) => {
+                    return element.id === this.state.data.id;
+                })
+            });
+            return true;
+        } catch (error) {
+            console.log("Error executing query");
+            return false;
+        }
+    };
+
+    private getPostDetails = async () => {
+        try {
+            const { data: { updatePost } } = await this.props.updatePost(
+                this.props.navigation.state.params.data.id,
+                new Date().toISOString()
+            );
+
+            const combinedData = Object.assign({}, this.state.data, updatePost);
+
+            this.setState({ isLoading: false, data: combinedData });
+        } catch (error) {
+            console.log(
+                "There was an error: " +
+                    error +
+                    "... This will turn into a ui element eventually..."
+            );
+        }
+    };
+
+    private starPost = () => {
+        if (!this.state.isStarred) {
+            this.props.starPost(this.props.userId, this.props.navigation.state.params.data.id);
+            this.isStarred = true;
+        } else {
+            this.props.unstarPost(this.props.userId, this.props.navigation.state.params.data.id);
+            this.isStarred = false;
+        }
+    };
 }
 
 const updatePostMutation = graphql(UPDATE_POST_MUTATION, {
@@ -157,6 +197,9 @@ const mapStateToProps = (state: ReduxState) => ({
     userId: state.login.fbUserId
 });
 
-export default compose(connect<{}, {}, Props>(mapStateToProps), updatePostMutation, starPostMutation, unstarPostMutation)(
-    PostDetail
-);
+export default compose(
+    connect<{}, {}, Props>(mapStateToProps),
+    updatePostMutation,
+    starPostMutation,
+    unstarPostMutation
+)(PostDetail);

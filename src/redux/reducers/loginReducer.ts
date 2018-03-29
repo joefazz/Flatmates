@@ -1,7 +1,7 @@
 import { LoginAction, LoginState } from "../../types/ReduxTypes";
 import { LoginStatus } from "../../types/Entities";
 import initialState from "../InitialState";
-import { FacebookLogin, FacebookSignup, CreatePost } from "../Types";
+import { FacebookLogin, FacebookSignup, CreatePost, HouseLogin } from "../Types";
 
 // Modules
 // File References
