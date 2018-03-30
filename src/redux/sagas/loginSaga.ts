@@ -1,4 +1,3 @@
-import { AccessToken, GraphRequest, GraphRequestManager, LoginManager } from "react-native-fbsdk";
 import { call, put, takeEvery } from "redux-saga/effects";
 
 import client from "../../Client";
@@ -25,26 +24,26 @@ export const loginSaga = function*() {
 
 function facebookRequest(accessToken) {
     return new Promise((resolve) => {
-        const infoRequest = new GraphRequest(
-            "/me",
-            {
-                accessToken,
-                parameters: {
-                    fields: {
-                        string:
-                            "email,name,about,picture.height(961),birthday,gender,first_name,last_name"
-                    }
-                }
-            },
-            function callback(error, result) {
-                if (error) {
-                    resolve({ isError: true, error });
-                } else {
-                    resolve({ isError: false, result });
-                }
-            }
-        );
-        new GraphRequestManager().addRequest(infoRequest).start();
+        // const infoRequest = new GraphRequest(
+        //     "/me",
+        //     {
+        //         accessToken,
+        //         parameters: {
+        //             fields: {
+        //                 string:
+        //                     "email,name,about,picture.height(961),birthday,gender,first_name,last_name"
+        //             }
+        //         }
+        //     },
+        //     function callback(error, result) {
+        //         if (error) {
+        //             resolve({ isError: true, error });
+        //         } else {
+        //             resolve({ isError: false, result });
+        //         }
+        //     }
+        // );
+        // new GraphRequestManager().addRequest(infoRequest).start();
     });
 }
 
@@ -78,10 +77,10 @@ async function updateDatabase(response) {
 }
 
 function* GET_TOKEN() {
-    yield AccessToken.getCurrentAccessToken().then((data) => {
-        token.accessToken = data.accessToken;
-    });
-    return yield token.accessToken;
+    // yield AccessToken.getCurrentAccessToken().then((data) => {
+    //     token.accessToken = data.accessToken;
+    // });
+    // return yield token.accessToken;
 }
 
 const signup = function*() {
@@ -90,18 +89,18 @@ const signup = function*() {
     // Wait for response from API and assign it to response
     try {
         let response;
-        yield LoginManager.logInWithReadPermissions(facebookPermissions).then((data) => {
-            response = data;
-        });
+        // yield LoginManager.logInWithReadPermissions(facebookPermissions).then((data) => {
+        //     response = data;
+        // });
 
         if (response.isCancelled) {
             yield put(signupWithFacebook.failure("Login Process Cancelled"));
         } else {
-            yield AccessToken.getCurrentAccessToken().then((data) => {
-                token.accessToken = data.accessToken;
-                token.expiryDate = data.expirationTime;
-                response.userID = data.userID;
-            });
+            // yield AccessToken.getCurrentAccessToken().then((data) => {
+            //     token.accessToken = data.accessToken;
+            //     token.expiryDate = data.expirationTime;
+            //     response.userID = data.userID;
+            // });
 
             const { expiryDate } = token;
             const access = token.accessToken;
@@ -121,18 +120,18 @@ const login = function*() {
 
     try {
         let response;
-        yield LoginManager.logInWithReadPermissions(facebookPermissions).then((data) => {
-            response = data;
-        });
+        // yield LoginManager.logInWithReadPermissions(facebookPermissions).then((data) => {
+        //     response = data;
+        // });
 
         if (response.isCancelled) {
             yield put(loginWithFacebook.failure("Login Process Cancelled"));
         } else {
-            yield AccessToken.getCurrentAccessToken().then((data) => {
-                token.accessToken = data.accessToken;
-                token.expiryDate = data.expirationTime;
-                response.userID = data.userID;
-            });
+            // yield AccessToken.getCurrentAccessToken().then((data) => {
+            //     token.accessToken = data.accessToken;
+            //     token.expiryDate = data.expirationTime;
+            //     response.userID = data.userID;
+            // });
 
             const { expiryDate } = token;
 

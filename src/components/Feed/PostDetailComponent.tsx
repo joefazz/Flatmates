@@ -14,7 +14,6 @@ import {
 import { Avatar } from "react-native-elements";
 import { RectButton } from "react-native-gesture-handler";
 import { isIphoneX } from "react-native-iphone-x-helper";
-import RNShineButton from "react-native-shine-button";
 import Swiper from "react-native-swiper";
 import Icon from "react-native-vector-icons/SimpleLineIcons";
 
@@ -115,14 +114,14 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             >
                                 <Text style={feed.roadText}>{this.props.house.road}</Text>
                                 <View style={{ marginRight: 10, marginBottom: 3 }}>
-                                    <RNShineButton
+                                    {/*<RNShineButton
                                         size={toConstantFontSize(3.5)}
                                         value={this.props.isStarred}
                                         color={Colors.grey}
                                         fillColor={Colors.brandWarningColor}
                                         shape={"star"}
                                         onChange={() => this.props.starPost()}
-                                    />
+                                    />*/}
                                 </View>
                             </View>
                             <Text style={feed.dateText}>
