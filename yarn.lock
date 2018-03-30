@@ -367,9 +367,9 @@
   version "9.4.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.6.tgz#d8176d864ee48753d053783e4e463aec86b8d82e"
 
-"@types/react-native@^0.52.20":
-  version "0.52.20"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.52.20.tgz#ab47fd2de3fd81c398da1253ddf7cea5f798e17d"
+"@types/react-native@^0.52.21":
+  version "0.52.21"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.52.21.tgz#132bded2b9251b0a7f5c6562f1cf8976122be163"
   dependencies:
     "@types/react" "*"
 
@@ -4613,9 +4613,9 @@ react-native-animatable@^1.2.4:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-calendars@^1.17.6:
-  version "1.17.6"
-  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.17.6.tgz#7b4396348088e10f00a5e8d880428f6581a80c6b"
+react-native-calendars@^1.17.7:
+  version "1.17.7"
+  resolved "https://registry.yarnpkg.com/react-native-calendars/-/react-native-calendars-1.17.7.tgz#91b76c6157d688de1b73559edadfcae6dd51b1a9"
   dependencies:
     prop-types "^15.5.10"
     xdate "^0.8.0"
@@ -4724,9 +4724,9 @@ react-native-vector-icons@^4.5.0:
     prop-types "^15.5.10"
     yargs "^8.0.2"
 
-react-native@0.54.3:
-  version "0.54.3"
-  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.54.3.tgz#e32807ab7ddc70811418101b73a482639d09ccca"
+react-native@0.54.4:
+  version "0.54.4"
+  resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.54.4.tgz#19c6c598f6acf04f1c032fe9a1812f0c640fa8b7"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"

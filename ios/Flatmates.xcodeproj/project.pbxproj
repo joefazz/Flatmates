@@ -23,7 +23,6 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		13BEBC24755C455ABF68CF91 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D7AD86767F564D35A98ECC06 /* libRCTFBSDK.a */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		15577E34FB464AEB9B6CF0B2 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 411F8BFA4C0B452DB0152F91 /* Feather.ttf */; };
@@ -60,17 +59,12 @@
 		8984374BD95549F0AD6CE3DB /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3048F3E3DE0A4F7A8BAA8898 /* FontAwesome.ttf */; };
 		9848123C409F4791A1DC4B5E /* Nunito SemiBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B712D49E1C8045EA9695E4F0 /* Nunito SemiBold Italic.ttf */; };
 		9C49CB85C04C4D73917C9D1B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02743E41C3B445FF98098195 /* Foundation.ttf */; };
-		A0766A10C22B4C2F91FC4CF4 /* libRNShineButton.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 247F28FB6EC0408CB3FBE322 /* libRNShineButton.a */; };
 		A187D8B921594ED290DA9DC9 /* Nunito SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */; };
 		A24895B42054A9B80029EE11 /* WCLShineButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24895B12054A9A00029EE11 /* WCLShineButton.framework */; };
 		A24895B52054A9B80029EE11 /* WCLShineButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24895B12054A9A00029EE11 /* WCLShineButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26DBE031FFBE62300FE1330 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; };
 		A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */; };
-		A2FBD7561FD46312005C1561 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FBD7521FD46312005C1561 /* FBSDKLoginKit.framework */; };
-		A2FBD7571FD46312005C1561 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FBD7531FD46312005C1561 /* FBSDKCoreKit.framework */; };
-		A2FBD7581FD46312005C1561 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FBD7541FD46312005C1561 /* FBSDKShareKit.framework */; };
-		A2FBD7591FD46312005C1561 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2FBD7551FD46312005C1561 /* Bolts.framework */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B0A72F9DE27E4B1F970D4162 /* Nunito Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF584EDC622941B39C566EDA /* Nunito Bold.ttf */; };
 		BAF5874BEB2E4783B027E9E3 /* Nunito Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F130619A78745C2A9B259D4 /* Nunito Black.ttf */; };
@@ -286,13 +280,6 @@
 			remoteGlobalIDString = 3DBE0D0D1F3B181C0099AA32;
 			remoteInfo = "fishhook-tvOS";
 		};
-		A20D48B91FCD64AB00059AAE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1F17232BC14643A1A1542816 /* RCTFBSDK.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
-			remoteInfo = RCTFBSDK;
-		};
 		A20D48F91FCD6AEE00059AAE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -334,13 +321,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
-		};
-		A248959C2054A88B0029EE11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EDEE9F13F01940EAB65D2164 /* RNShineButton.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNShineButton;
 		};
 		A24895B02054A9A00029EE11 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -462,8 +442,6 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		17F1E5A6AF49430597BE1D5E /* Nunito Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Light.ttf"; path = "../Assets/Fonts/Nunito/Nunito Light.ttf"; sourceTree = "<group>"; };
 		1DC076EA845244790C2ADE34 /* libPods-Flatmates-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Flatmates-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F17232BC14643A1A1542816 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
-		247F28FB6EC0408CB3FBE322 /* libRNShineButton.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNShineButton.a; sourceTree = "<group>"; };
 		2607C2442A2046528B6AD78E /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Flatmates-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flatmates-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Flatmates-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Flatmates-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -492,10 +470,6 @@
 		A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WCLShineButton.xcodeproj; path = "../node_modules/react-native-shine-button/ios/WCLShineButton/WCLShineButton.xcodeproj"; sourceTree = "<group>"; };
 		A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
 		A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
-		A2FBD7521FD46312005C1561 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		A2FBD7531FD46312005C1561 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		A2FBD7541FD46312005C1561 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
-		A2FBD7551FD46312005C1561 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = ../../FacebookSDK/Bolts.framework; sourceTree = SOURCE_ROOT; };
 		A42DCEAE826546B6A730396A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AEF31C6EDD5E4A21ABACA30B /* Nunito ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito ExtraLight.ttf"; path = "../Assets/Fonts/Nunito/Nunito ExtraLight.ttf"; sourceTree = "<group>"; };
@@ -507,13 +481,11 @@
 		CF584EDC622941B39C566EDA /* Nunito Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Bold.ttf"; path = "../Assets/Fonts/Nunito/Nunito Bold.ttf"; sourceTree = "<group>"; };
 		D01FA0CDB9804D9D94C51FA1 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		D02747B8652952F22A096003 /* Pods-Flatmates.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates/Pods-Flatmates.debug.xcconfig"; sourceTree = "<group>"; };
-		D7AD86767F564D35A98ECC06 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		D7D71D43C7F94C6E9886EF02 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		DB7F0980C6A1432D90CEEBB9 /* Nunito Black Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Black Italic.ttf"; path = "../Assets/Fonts/Nunito/Nunito Black Italic.ttf"; sourceTree = "<group>"; };
 		DE24A7EEFB3E41F39B85A8C6 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		E3C2BD9D16A92E28025D5DA5 /* libPods-Flatmates.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Flatmates.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECE0628D1CBDE33419625255 /* libPods-FlatmatesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlatmatesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EDEE9F13F01940EAB65D2164 /* RNShineButton.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNShineButton.xcodeproj; path = "../node_modules/react-native-shine-button/ios/RNShineButton.xcodeproj"; sourceTree = "<group>"; };
 		EED8BC209733A9881B7389AC /* Pods-FlatmatesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlatmatesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlatmatesTests/Pods-FlatmatesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		FE050012E176E4E0BC1260A0 /* Pods-Flatmates-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOSTests/Pods-Flatmates-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -536,9 +508,7 @@
 				A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */,
 				A24895B42054A9B80029EE11 /* WCLShineButton.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
-				A2FBD7591FD46312005C1561 /* Bolts.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
-				A2FBD7571FD46312005C1561 /* FBSDKCoreKit.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -550,15 +520,11 @@
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
-				13BEBC24755C455ABF68CF91 /* libRCTFBSDK.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				A2FBD7581FD46312005C1561 /* FBSDKShareKit.framework in Frameworks */,
-				A2FBD7561FD46312005C1561 /* FBSDKLoginKit.framework in Frameworks */,
 				2AFBB2EC62A941F0AEE17B41 /* libInteractable.a in Frameworks */,
 				04584EC7E0C0425891D25624 /* libimageCropPicker.a in Frameworks */,
 				683E2CF9B527A4B0E7542073 /* libPods-Flatmates.a in Frameworks */,
 				2D54E1CEB2EE4CC48802FDE1 /* libRNGestureHandler.a in Frameworks */,
-				A0766A10C22B4C2F91FC4CF4 /* libRNShineButton.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,11 +753,9 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				1F17232BC14643A1A1542816 /* RCTFBSDK.xcodeproj */,
 				6F2FD57FE18F42D482774450 /* Interactable.xcodeproj */,
 				420EB64209FE478CAA768E7A /* imageCropPicker.xcodeproj */,
 				1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */,
-				EDEE9F13F01940EAB65D2164 /* RNShineButton.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -837,30 +801,16 @@
 		A20D48981FCD64A600059AAE /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				D7AD86767F564D35A98ECC06 /* libRCTFBSDK.a */,
 				5BF855C967F34A8FA3AC0DCE /* libInteractable.a */,
 				7BD128C1EBFC4AB0BF889D6D /* libimageCropPicker.a */,
 				FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */,
-				247F28FB6EC0408CB3FBE322 /* libRNShineButton.a */,
 			);
 			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		A20D48B61FCD64AB00059AAE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A20D48BA1FCD64AB00059AAE /* libRCTFBSDK.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		A20D49391FCD6DA000059AAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				A2FBD7551FD46312005C1561 /* Bolts.framework */,
-				A2FBD7531FD46312005C1561 /* FBSDKCoreKit.framework */,
-				A2FBD7521FD46312005C1561 /* FBSDKLoginKit.framework */,
-				A2FBD7541FD46312005C1561 /* FBSDKShareKit.framework */,
 				E3C2BD9D16A92E28025D5DA5 /* libPods-Flatmates.a */,
 				1DC076EA845244790C2ADE34 /* libPods-Flatmates-tvOS.a */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
@@ -868,14 +818,6 @@
 				ECE0628D1CBDE33419625255 /* libPods-FlatmatesTests.a */,
 			);
 			path = Frameworks;
-			sourceTree = "<group>";
-		};
-		A24895992054A88B0029EE11 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A248959D2054A88B0029EE11 /* libRNShineButton.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		A24895AC2054A9A00029EE11 /* Products */ = {
@@ -1075,10 +1017,6 @@
 					ProjectRef = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
 				},
 				{
-					ProductGroup = A20D48B61FCD64AB00059AAE /* Products */;
-					ProjectRef = 1F17232BC14643A1A1542816 /* RCTFBSDK.xcodeproj */;
-				},
-				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
 				},
@@ -1121,10 +1059,6 @@
 				{
 					ProductGroup = A2D150B32048B10600C4DD57 /* Products */;
 					ProjectRef = 1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */;
-				},
-				{
-					ProductGroup = A24895992054A88B0029EE11 /* Products */;
-					ProjectRef = EDEE9F13F01940EAB65D2164 /* RNShineButton.xcodeproj */;
 				},
 				{
 					ProductGroup = A24895AC2054A9A00029EE11 /* Products */;
@@ -1331,13 +1265,6 @@
 			remoteRef = A20D48B21FCD64AA00059AAE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A20D48BA1FCD64AB00059AAE /* libRCTFBSDK.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTFBSDK.a;
-			remoteRef = A20D48B91FCD64AB00059AAE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		A20D48FA1FCD6AEE00059AAE /* libthird-party.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1378,13 +1305,6 @@
 			fileType = archive.ar;
 			path = "libprivatedata-tvOS.a";
 			remoteRef = A20D49031FCD6AEE00059AAE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		A248959D2054A88B0029EE11 /* libRNShineButton.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNShineButton.a;
-			remoteRef = A248959C2054A88B0029EE11 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A24895B12054A9A00029EE11 /* WCLShineButton.framework */ = {
@@ -1837,19 +1757,14 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1867,19 +1782,14 @@
 				COPY_PHASE_STRIP = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1903,11 +1813,9 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = Flatmates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1939,11 +1847,9 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = Flatmates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1977,18 +1883,13 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2016,18 +1917,13 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
-					"$(SRCROOT)/../node_modules/react-native-shine-button/ios",
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -2054,10 +1950,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Flatmates-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -2080,10 +1973,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Flatmates-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
