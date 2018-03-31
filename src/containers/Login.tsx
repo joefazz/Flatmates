@@ -40,10 +40,14 @@ import { LoginStatus } from '../types/Entities';
 import { LoginState, ProfileState, ReduxState } from '../types/ReduxTypes';
 import { Profile } from '../types/State';
 import { ConvertBirthdayToAge } from '../utils/BirthdayToAge';
-import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
-import { Checkbox } from '../widgets';
+import {
+    toConstantFontSize,
+    toConstantWidth,
+    toConstantHeight
+} from '../utils/PercentageConversion';
 import { TouchableRect } from '../widgets/TouchableRect';
 import { FlatPicker } from '../widgets/FlatPicker';
+import { FontFactory } from '../consts/font';
 
 interface Props {
     login: LoginState;
@@ -91,8 +95,13 @@ interface State {
     isLoggedIn: boolean;
     hasGotProfile: boolean;
     tempImages: Array<any>;
+    tempProfilePic: any;
     removeImageToggle: boolean;
 
+    name: string;
+    gender: string;
+    age: number | string;
+    profilePicture: string;
     aboutCheck: boolean;
     friendsListCheck: boolean;
     activityCheck: boolean;
@@ -100,8 +109,6 @@ interface State {
     isLookingForHouse: boolean;
     isCreatingHouse: boolean;
 
-    fbUserId: string;
-    profile?: Profile;
     bio: string;
     isSmoker: boolean;
     studyYear: string;
@@ -121,6 +128,7 @@ interface State {
 export class Login extends React.Component<Props, State> {
     homeSwiper: any;
     courseInput: any;
+    ageInput: any;
 
     constructor(props) {
         super(props);
@@ -132,8 +140,12 @@ export class Login extends React.Component<Props, State> {
             hasGotProfile: false,
             removeImageToggle: false,
             tempImages: [],
+            tempProfilePic: '',
 
-            fbUserId: '',
+            name: '',
+            age: '',
+            profilePicture: '',
+            gender: '',
             bio: '',
             isSmoker: false,
             course: '',
@@ -178,16 +190,6 @@ export class Login extends React.Component<Props, State> {
                 this.setState({ isLoggedIn: false, hasLoginFailed: true });
             }
         }
-
-        if (this.props.login.userId && newProps.login.userId !== '') {
-            this.setState({ fbUserId: newProps.login.fbUserId });
-        }
-
-        if (this.state.profile !== newProps.profile) {
-            if (newProps.profile.name !== '') {
-                this.setState({ profile: newProps.profile, hasGotProfile: true });
-            }
-        }
     }
 
     render() {
@@ -230,26 +232,17 @@ export class Login extends React.Component<Props, State> {
                     </View>
                     <View style={login.pageFooter}>
                         <TouchableRect
-                            title={
-                                this.state.isLoggingIn
-                                    ? 'Logging In...'
-                                    : this.state.isLoggedIn ? 'Finish' : 'Sign Up'
-                            }
-                            onPress={() =>
-                                this.state.isLoggedIn
-                                    ? this.props.navigation.navigate('Home')
-                                    : this.props.loginWithAuth0()
-                            }
-                            backgroundColor={
-                                this.state.isLoggedIn
-                                    ? Colors.brandSuccessColor
-                                    : Colors.brandPrimaryColor
-                            }
+                            title={'Get Started'}
+                            onPress={() => this.homeSwiper.scrollBy(1, true)}
+                            backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
-                        <TouchableOpacity testID={'LoginButton'} onPress={this.loginWithAuth0}>
+                        <TouchableOpacity
+                            testID={'LoginButton'}
+                            onPress={() => alert('looking around')}
+                        >
                             <Text style={[login.hyperlink, { marginTop: 10 }]}>
-                                Already Got an Account? Login
+                                I just want to look around
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -298,7 +291,7 @@ export class Login extends React.Component<Props, State> {
                     </View>
                 </View>
 
-                <View style={[login.page]}>
+                <View style={login.page}>
                     <View style={base.headingWrapper}>
                         <Text
                             style={[
@@ -320,32 +313,136 @@ export class Login extends React.Component<Props, State> {
                                 }
                             ]}
                         >
-                            This helps us find the right Flatmates for you
+                            We store your information securely
                         </Text>
                     </View>
-                    <View style={login.mainContent}>
-                        <View style={{ marginVertical: 10 }}>
-                            <Text>Name</Text>
-                        </View>
-                        <View style={{ marginVertical: 10 }}>
-                            <Text>Profile Picture</Text>
-                        </View>
-                        <View style={{ marginVertical: 10 }}>
-                            <Text>Age</Text>
-                        </View>
-                        <View style={{ marginVertical: 10 }}>
-                            <Text>Gender</Text>
+                    <View
+                        style={[
+                            login.mainContent,
+                            { alignItems: 'center', justifyContent: 'flex-start' }
+                        ]}
+                    >
+                        {this.state.tempProfilePic ?
+                        <Avatar
+                            xlarge={true}
+                            source={{ uri: this.state.tempProfilePic.path }}
+                            onPress={() => this.selectProfilePicture()}
+                            activeOpacity={0.7}
+                            containerStyle={{ alignSelf: 'center' }}
+                            rounded={true}
+                        /> :
+                        <Avatar
+                            xlarge={true}
+                            icon={{ name: 'person' }}
+                            onPress={() => this.selectProfilePicture()}
+                            activeOpacity={0.7}
+                            containerStyle={{ alignSelf: 'center' }}
+                            rounded={true}
+                        /> }
+                        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+                            <View style={login.marginTop}>
+                                <Text style={[base.labelText]}>Full Name</Text>
+                                <TextInput
+                                    placeholder={'Enter your full name'}
+                                    maxLength={60}
+                                    returnKeyType={'next'}
+                                    blurOnSubmit={false}
+                                    onSubmitEditing={() => this.ageInput.focus()}
+                                    enablesReturnKeyAutomatically={true}
+                                    onChangeText={(text) => this.setState({ name: text })}
+                                    underlineColorAndroid={Colors.grey}
+                                    style={[
+                                        base.fullWidthInput,
+                                        { borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }
+                                    ]}
+                                />
+                            </View>
+                            <View
+                                style={[
+                                    login.marginTop,
+                                    { flexDirection: 'row', alignSelf: 'flex-start' }
+                                ]}
+                            >
+                                <View style={{ marginRight: 20 }}>
+                                    <Text style={base.labelText}>Age</Text>
+                                    <TextInput
+                                        ref={(component) => (this.ageInput = component)}
+                                        placeholder={'Enter your age'}
+                                        maxLength={60}
+                                        returnKeyType={'next'}
+                                        blurOnSubmit={false}
+                                        keyboardType={'numeric'}
+                                        onSubmitEditing={() => Keyboard.dismiss()}
+                                        enablesReturnKeyAutomatically={true}
+                                        onChangeText={(text) => this.setState({ age: text })}
+                                        underlineColorAndroid={Colors.grey}
+                                        style={base.halfWidthInput}
+                                    />
+                                </View>
+                                <View>
+                                    <Text style={base.labelText}>Gender</Text>
+                                    <FlatPicker
+                                        initialValue={'Select Gender'}
+                                        onChange={({ label }) => this.setState({ gender: label })}
+                                        selectStyle={[
+                                            {
+                                                borderWidth: 0,
+                                                borderBottomWidth: 1,
+                                                margin: 0,
+                                                padding: 0,
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                borderRadius: 0
+                                            },
+                                            base.halfWidthInput
+                                        ]}
+                                        selectTextStyle={[
+                                            {
+                                                fontSize: 18,
+                                                ...FontFactory({ family: 'Nunito' })
+                                            },
+                                            this.state.gender === ''
+                                                ? { color: Colors.grey }
+                                                : { color: Colors.textHighlightColor }
+                                        ]}
+                                        items={[
+                                            {
+                                                section: true,
+                                                label: 'Select your gender from the list below'
+                                            },
+                                            { label: 'Male' },
+                                            { label: 'Female' },
+                                            { label: 'Non Binary' },
+                                            { label: 'Other' }
+                                        ]}
+                                    />
+                                </View>
+                            </View>
                         </View>
                     </View>
                     <View style={login.pageFooter}>
                         <TouchableRect
-                            onPress={
-                                    () => this.homeSwiper.scrollBy(1, true)
+                            onPress={() =>
+                                this.state.gender === '' ||
+                                this.state.name === '' ||
+                                !this.state.name.includes(' ') ||
+                                !this.state.tempProfilePic ||
+                                this.state.age === ''
+                                    ? alert(
+                                          'You need to enter your information correctly to proceed'
+                                      )
+                                    : this.uploadProfilePicture().then(this.homeSwiper.scrollBy(1, true))
                             }
-                            title={
-                                'Next'
+                            title={'Next'}
+                            backgroundColor={
+                                this.state.gender === '' ||
+                                this.state.name === '' ||
+                                !this.state.name.includes(' ') ||
+                                !this.state.tempProfilePic ||
+                                this.state.age === ''
+                                    ? Colors.grey
+                                    : Colors.brandSecondaryColor
                             }
-                            backgroundColor={Colors.brandSecondaryColor}
                             buttonStyle={base.buttonStyle}
                         />
                     </View>
@@ -363,26 +460,6 @@ export class Login extends React.Component<Props, State> {
                             }
                         ]}
                     >
-                        <Text style={login.profileName}>
-                            {this.state.hasGotProfile ? this.state.profile.name : 'John Smith'}
-                        </Text>
-                        {this.state.hasGotProfile ? (
-                            <Text style={login.profileHeading}>
-                                {ConvertBirthdayToAge(this.state.profile.birthday)} /{' '}
-                                {this.state.profile.gender} / University of Reading
-                            </Text>
-                        ) : (
-                            <View />
-                        )}
-                        <Avatar
-                            xlarge={true}
-                            rounded={true}
-                            source={
-                                this.state.hasGotProfile
-                                    ? { uri: this.state.profile.imageUrl }
-                                    : (facebook_template as ImageURISource)
-                            }
-                        />
                         <View>
                             <View style={login.marginTop}>
                                 <Text style={[base.labelText]}>About Me</Text>
@@ -893,10 +970,6 @@ export class Login extends React.Component<Props, State> {
         this.setState({ isLoggingIn: true }, () => this.props.loginWithAuth0());
     };
 
-    private signupWithAuth0 = (): void => {
-        this.setState({ isLoggingIn: true }, () => this.props.signupWithAuth0());
-    };
-
     private async getCoordsFromAddress(road: string): Promise<string | Array<number>> {
         const address: string = road + ', Reading';
         let res: any;
@@ -1001,6 +1074,66 @@ export class Login extends React.Component<Props, State> {
         });
     };
 
+    private async selectProfilePicture(): Promise<void> {
+        let image: Array<ImageType> | ImageType | void;
+
+        image = await ImagePicker.openPicker({
+            multiple: false,
+            compressImageMaxHeight: 500,
+            compressImageMaxWidth: 500,
+            cropperCircleOverlay: true,
+            cropping: true,
+            mediaType: 'photo',
+            loadingLabelText: 'Processing photo...'
+        }).catch(() => alert('Image upload cancelled'));
+
+        this.setState({ tempProfilePic: image })
+    }
+
+    private async uploadProfilePicture(): Promise<{} | void> {
+        if (this.state.tempProfilePic) {
+
+            return new Promise(async () => {
+                const formData = new FormData();
+
+                const lastIndex = this.state.tempProfilePic.path.lastIndexOf('/') + 1;
+
+                const data = {
+                    uri: this.state.tempProfilePic.path,
+                    name: this.state.tempProfilePic.path.slice(lastIndex),
+                    type: this.state.tempProfilePic.mime
+                };
+
+                // @ts-ignore
+                formData.append('data', data);
+
+                const options = {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                };
+
+                const response = await fetch(
+                    Platform.OS === 'ios'
+                        ? 'http://localhost:4000/upload'
+                        : 'http://10.0.2.2:4000/upload',
+                    options
+                );
+                if (response.ok) {
+                    const json = await response.json();
+                    this.setState({ profilePicture: json.url })
+                } else {
+                    alert('Problem with fetch: ' + response.status);
+                }
+            })
+        } else {
+            alert('No profile pic selected');
+        }
+    }
+
     private async selectImages(): Promise<void> {
         let images: Array<ImageType> | ImageType | void;
 
@@ -1045,7 +1178,7 @@ export class Login extends React.Component<Props, State> {
                         method: 'POST',
                         body: formData,
                         headers: {
-                            Accept: 'application/json',
+                            'Accept': 'application/json',
                             'Content-Type': 'application/json'
                         }
                     };

@@ -12,14 +12,14 @@ export const base = StyleSheet.create({
     headingWrapper: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
 
     headingText: {
         ...Font.FontFactory({ family: 'Nunito' }),
         fontSize: toConstantFontSize(3),
         color: Colors.textHighlightColor,
-        margin: 5,
+        margin: 5
     },
 
     buttonStyle: {
@@ -32,7 +32,7 @@ export const base = StyleSheet.create({
 
     buttonTextStyle: {
         ...Font.FontFactory({ family: 'Nunito' }),
-        fontSize: 24,
+        fontSize: 24
     },
 
     labelText: {
@@ -40,13 +40,13 @@ export const base = StyleSheet.create({
         fontSize: 16,
         color: Colors.textHighlightColor,
         alignSelf: 'flex-start',
-        marginVertical: 5,
+        marginVertical: 5
     },
 
     fullWidthInput: {
         ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor,
-        width: 270,
+        width: toConstantWidth(75),
         fontSize: 18,
         borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
         borderColor: Colors.grey
@@ -55,7 +55,9 @@ export const base = StyleSheet.create({
     halfWidthInput: {
         ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor,
-        width: 110,
+        width: toConstantWidth(35),
+        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
+        borderColor: Colors.grey,
         fontSize: 18
     },
 
@@ -64,7 +66,7 @@ export const base = StyleSheet.create({
         flexGrow: 1,
         flexDirection: 'column',
         padding: 5,
-        alignItems: 'center',
+        alignItems: 'center'
     },
 
     wholePage: {

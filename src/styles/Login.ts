@@ -2,6 +2,7 @@ import { Platform, StyleSheet } from 'react-native';
 
 import { Colors, Metrics } from '../consts';
 import { Font } from '../consts';
+import { toConstantWidth } from '../utils/PercentageConversion';
 
 export const login = StyleSheet.create({
     page: {
@@ -17,7 +18,7 @@ export const login = StyleSheet.create({
     },
 
     mainContent: {
-        flex: 2,
+        flex: 3,
         alignItems: 'flex-start',
         justifyContent: 'center'
     },
@@ -61,14 +62,14 @@ export const login = StyleSheet.create({
     profileInput: {
         ...Font.FontFactory(),
         color: Colors.textHighlightColor,
-        width: 300,
+        width: toConstantWidth(70),
         fontSize: 18,
         borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
         borderColor: Colors.grey
     },
 
     modalInput: {
-        width: 300,
+        width: toConstantWidth(70),
         borderBottomWidth: 1,
         borderColor: Colors.grey,
         alignItems: 'center',

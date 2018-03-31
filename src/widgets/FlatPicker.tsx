@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import Pickerise from 'react-native-pickerise';
-import { RegisteredStyle, ViewStyle, TextStyle, ImageStyle } from 'react-native';
 import { feed } from '../styles';
 import { Colors } from '../consts';
 import { FontFactory } from '../consts/font';
@@ -15,18 +14,8 @@ interface Item {
 interface Props {
     items: Array<Item>;
     onChange: (Item) => void;
-    selectStyle?:
-        | Array<
-              | RegisteredStyle<ViewStyle | TextStyle | ImageStyle>
-              | { backgroundColor?: string; borderBottomWidth?: number }
-          >
-        | RegisteredStyle<ViewStyle | TextStyle | ImageStyle>;
-    selectTextStyle?:
-        | Array<
-              | RegisteredStyle<ViewStyle | TextStyle | ImageStyle>
-              | { color?: string; borderBottomWidth?: number }
-          >
-        | RegisteredStyle<ViewStyle | TextStyle | ImageStyle>;
+    selectStyle?: any;
+    selectTextStyle?: any;
     initialValue: string;
 }
 
