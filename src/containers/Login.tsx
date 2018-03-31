@@ -34,7 +34,7 @@ import {
     UPDATE_USER_UPDATE_HOUSE_MUTATION
 } from '../graphql/mutations';
 import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
-import { loginWithFacebook, signupWithFacebook, completeHouseLogin } from '../redux/Routines';
+import { loginWithAuth0, completeHouseLogin } from '../redux/Routines';
 import { base, login } from '../styles';
 import { LoginStatus } from '../types/Entities';
 import { LoginState, ProfileState, ReduxState } from '../types/ReduxTypes';
@@ -45,13 +45,10 @@ import { Checkbox } from '../widgets';
 import { TouchableRect } from '../widgets/TouchableRect';
 import { FlatPicker } from '../widgets/FlatPicker';
 
-export let facebookPermissions: Array<string> = [];
-
 interface Props {
     login: LoginState;
     profile: ProfileState;
-    loginWithFacebook: () => void;
-    signupWithFacebook: () => void;
+    loginWithAuth0: () => void;
     completeHouseLogin: (houseID: number) => void;
     updateUser: (
         fbUserId: string,
@@ -182,7 +179,7 @@ export class Login extends React.Component<Props, State> {
             }
         }
 
-        if (this.props.login.fbUserId && newProps.login.fbUserId !== '') {
+        if (this.props.login.userId && newProps.login.userId !== '') {
             this.setState({ fbUserId: newProps.login.fbUserId });
         }
 
@@ -241,7 +238,7 @@ export class Login extends React.Component<Props, State> {
                             onPress={() =>
                                 this.state.isLoggedIn
                                     ? this.props.navigation.navigate('Home')
-                                    : this.homeSwiper.scrollBy(1, true)
+                                    : this.props.loginWithAuth0()
                             }
                             backgroundColor={
                                 this.state.isLoggedIn
@@ -250,7 +247,7 @@ export class Login extends React.Component<Props, State> {
                             }
                             buttonStyle={base.buttonStyle}
                         />
-                        <TouchableOpacity testID={'LoginButton'} onPress={this.loginWithFacebook}>
+                        <TouchableOpacity testID={'LoginButton'} onPress={this.loginWithAuth0}>
                             <Text style={[login.hyperlink, { marginTop: 10 }]}>
                                 Already Got an Account? Login
                             </Text>
@@ -312,7 +309,7 @@ export class Login extends React.Component<Props, State> {
                                 }
                             ]}
                         >
-                            What would you like to share?
+                            Basic Information
                         </Text>
                         <Text
                             style={[
@@ -328,66 +325,27 @@ export class Login extends React.Component<Props, State> {
                     </View>
                     <View style={login.mainContent}>
                         <View style={{ marginVertical: 10 }}>
-                            <Checkbox
-                                title={'About Me'}
-                                color={Colors.textHighlightColor}
-                                onIconPress={() =>
-                                    this.setState({ aboutCheck: !this.state.aboutCheck })
-                                }
-                                isChecked={this.state.aboutCheck}
-                            />
+                            <Text>Name</Text>
                         </View>
                         <View style={{ marginVertical: 10 }}>
-                            <Checkbox
-                                title={'Activities'}
-                                color={Colors.textHighlightColor}
-                                onIconPress={() =>
-                                    this.setState({ activityCheck: !this.state.activityCheck })
-                                }
-                                isChecked={this.state.activityCheck}
-                            />
+                            <Text>Profile Picture</Text>
                         </View>
                         <View style={{ marginVertical: 10 }}>
-                            <Checkbox
-                                title={'Friends List'}
-                                color={Colors.textHighlightColor}
-                                onIconPress={() =>
-                                    this.setState({
-                                        friendsListCheck: !this.state.friendsListCheck
-                                    })
-                                }
-                                isChecked={this.state.friendsListCheck}
-                            />
+                            <Text>Age</Text>
                         </View>
                         <View style={{ marginVertical: 10 }}>
-                            <Checkbox
-                                title={'Liked Pages'}
-                                color={Colors.textHighlightColor}
-                                onIconPress={() =>
-                                    this.setState({ likesCheck: !this.state.likesCheck })
-                                }
-                                isChecked={this.state.likesCheck}
-                            />
+                            <Text>Gender</Text>
                         </View>
                     </View>
                     <View style={login.pageFooter}>
                         <TouchableRect
-                            iconName={this.state.isLoggedIn ? 'check' : 'facebook-square'}
                             onPress={
-                                this.state.isLoggedIn
-                                    ? () => this.homeSwiper.scrollBy(1, true)
-                                    : this.signupWithFacebook
+                                    () => this.homeSwiper.scrollBy(1, true)
                             }
                             title={
-                                this.state.isLoggingIn
-                                    ? 'Logging In...'
-                                    : this.state.isLoggedIn ? 'Next' : 'Login with Facebook'
+                                'Next'
                             }
-                            backgroundColor={
-                                this.state.isLoggedIn
-                                    ? Colors.brandSuccessColor
-                                    : Colors.facebookBlue
-                            }
+                            backgroundColor={Colors.brandSecondaryColor}
                             buttonStyle={base.buttonStyle}
                         />
                     </View>
@@ -931,35 +889,12 @@ export class Login extends React.Component<Props, State> {
         this.setState({ shortID }, () => this.homeSwiper.scrollBy(1, true));
     };
 
-    private loginWithFacebook = (): void => {
-        this.setState({ isLoggingIn: true }, () => this.props.loginWithFacebook());
+    private loginWithAuth0 = (): void => {
+        this.setState({ isLoggingIn: true }, () => this.props.loginWithAuth0());
     };
 
-    private signupWithFacebook = (): void => {
-        facebookPermissions = ['public_profile', 'email'];
-
-        if (this.state.friendsListCheck) {
-            facebookPermissions.push('user_friends');
-        }
-
-        if (this.state.aboutCheck) {
-            facebookPermissions.push('user_about_me', 'user_birthday');
-        }
-
-        if (this.state.activityCheck) {
-            facebookPermissions.push(
-                'user_actions.books',
-                'user_actions.fitness',
-                'user_actions.music',
-                'user_actions.news'
-            );
-        }
-
-        if (this.state.likesCheck) {
-            facebookPermissions.push('user_likes');
-        }
-
-        this.setState({ isLoggingIn: true }, () => this.props.signupWithFacebook());
+    private signupWithAuth0 = (): void => {
+        this.setState({ isLoggingIn: true }, () => this.props.signupWithAuth0());
     };
 
     private async getCoordsFromAddress(road: string): Promise<string | Array<number>> {
@@ -1220,8 +1155,7 @@ const mapStateToProps = (state: ReduxState) => ({
 
 const bindActions = (dispatch) => {
     return {
-        signupWithFacebook: () => dispatch(signupWithFacebook()),
-        loginWithFacebook: () => dispatch(loginWithFacebook()),
+        loginWithAuth0: () => dispatch(loginWithAuth0()),
         completeHouseLogin: (houseID: number) => dispatch(completeHouseLogin(houseID))
     };
 };

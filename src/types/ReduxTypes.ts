@@ -1,24 +1,23 @@
 import {
     CreatePost,
-    FacebookLogin,
-    FacebookSignup,
-    GetPosts,
+    Auth0Login,
     GetUserData,
+    GetPosts,
     ToggleFilter,
     HouseLogin
-} from "../redux/Types";
-import { Course, LoginStatus, Post, StudyYear } from "./Entities";
-import { Filters } from "../containers/Feed/PostList";
+} from '../redux/Types';
+import { Course, LoginStatus, Post, StudyYear } from './Entities';
+import { Filters } from '../containers/Feed/PostList';
 
 export interface LoginAction {
-    type: FacebookLogin | FacebookSignup | CreatePost;
+    type: Auth0Login | CreatePost;
     payload: {
-        token: string;
-        expiryDate: number;
-        response: {
-            userID: string;
-            deniedPermissions: Array<string>;
-            grantedPermissions: Array<string>;
+        creds: {
+            accessToken: string;
+            refreshToken: string;
+            idToken: string;
+            expiresIn: number;
+            tokenType: string;
         };
         error: string;
     };
@@ -59,12 +58,14 @@ export interface ProfileAction {
 }
 
 export interface LoginState {
-    fbUserId: string;
+    auth_access_token: string;
+    auth_refresh_token: string;
+    auth_access_expiry: number;
+    auth_id_token: string;
+    token_type: string;
+    userId: string;
     isRehydrated: boolean;
     loginStatus: LoginStatus;
-    grantedPermissions: Array<string>;
-    deniedPermissions: Array<string>;
-    fbAccessToken: string;
     isLoggedIn: boolean;
     isReadOnly: boolean;
     error: string;

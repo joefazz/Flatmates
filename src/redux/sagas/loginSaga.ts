@@ -1,156 +1,71 @@
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery } from 'redux-saga/effects';
 
-import client from "../../Client";
-import { facebookPermissions } from "../../containers/Login";
-import { CREATE_USER_MUTATION } from "../../graphql/mutations";
-import { UserLoginQuery } from "../../graphql/Types";
-import { USER_LOGIN_QUERY } from "../../graphql/queries";
-import {
-    getUserDataFacebook,
-    loginWithFacebook,
-    readOnlyLogin,
-    signupWithFacebook,
-    completeHouseLogin
-} from "../Routines";
+import Auth0 from 'react-native-auth0';
+import client from '../../Client';
+import { CREATE_USER_MUTATION } from '../../graphql/mutations';
+import { UserLoginQuery } from '../../graphql/Types';
+import { USER_LOGIN_QUERY } from '../../graphql/queries';
+import { loginWithAuth0, readOnlyLogin, completeHouseLogin } from '../Routines';
 
 let token: { accessToken?: string; expiryDate?: string } = {};
 
+const auth0 = new Auth0({
+    domain: 'flatmates-auth.eu.auth0.com',
+    clientId: '16eejgqqPJR1L1jzVRfLxEakufJ47sW6'
+});
+
 export const loginSaga = function*() {
-    yield takeEvery(signupWithFacebook.TRIGGER, signup);
-    yield takeEvery(loginWithFacebook.TRIGGER, login);
+    yield takeEvery(loginWithAuth0.TRIGGER, login);
     yield takeEvery(readOnlyLogin.TRIGGER, readOnly);
     yield takeEvery(completeHouseLogin, house);
 };
 
-function facebookRequest(accessToken) {
-    return new Promise((resolve) => {
-        // const infoRequest = new GraphRequest(
-        //     "/me",
-        //     {
-        //         accessToken,
-        //         parameters: {
-        //             fields: {
-        //                 string:
-        //                     "email,name,about,picture.height(961),birthday,gender,first_name,last_name"
-        //             }
-        //         }
-        //     },
-        //     function callback(error, result) {
-        //         if (error) {
-        //             resolve({ isError: true, error });
-        //         } else {
-        //             resolve({ isError: false, result });
-        //         }
-        //     }
-        // );
-        // new GraphRequestManager().addRequest(infoRequest).start();
-    });
-}
-
-function doesUserExist(facebookUserId) {
+function doesUserExist(userId) {
     return new Promise((resolve) => {
         client
             .query<UserLoginQuery>({
-                variables: { facebookUserId },
+                variables: { userId },
                 query: USER_LOGIN_QUERY
-                // @ts-ignore
             })
             .then(({ data }) => (data.user === null ? resolve(false) : resolve(data.user)));
     });
 }
 
-async function updateDatabase(response) {
+async function updateDatabase(idToken) {
     const { data } = await client.mutate({
         mutation: CREATE_USER_MUTATION,
         variables: {
-            name: response.result.name,
-            firstName: response.result.first_name,
-            lastName: response.result.last_name,
-            email: response.result.email,
-            facebookUserId: response.result.id,
-            imageUrl: response.result.picture.data.url,
-            gender: response.result.gender,
-            birthday: response.result.birthday
+            name: 'Joe Fazzino',
+            firstName: 'Joe',
+            lastName: 'Fazzino',
+            imageUrl: 'https://whatever.com',
+            gender: 'male',
+            birthday: '21/10/1996',
+            isSmoker: true,
+            idToken,
+            bio: 'Founder of Flatmates',
+            course: 'Computer Science',
+            studyYear: 'First'
         }
     });
     return data.createUser;
 }
 
-function* GET_TOKEN() {
-    // yield AccessToken.getCurrentAccessToken().then((data) => {
-    //     token.accessToken = data.accessToken;
-    // });
-    // return yield token.accessToken;
-}
-
-const signup = function*() {
+const login = function*() {
     // Trigger request action
-    yield put(signupWithFacebook.request());
+    yield put(loginWithAuth0.request());
     // Wait for response from API and assign it to response
     try {
-        let response;
-        // yield LoginManager.logInWithReadPermissions(facebookPermissions).then((data) => {
-        //     response = data;
-        // });
+        const creds = yield auth0.webAuth.authorize({
+            scope: 'openid profile email offline_access',
+            audience: 'https://flatmates-auth.eu.auth0.com/userinfo'
+        });
 
-        if (response.isCancelled) {
-            yield put(signupWithFacebook.failure("Login Process Cancelled"));
-        } else {
-            // yield AccessToken.getCurrentAccessToken().then((data) => {
-            //     token.accessToken = data.accessToken;
-            //     token.expiryDate = data.expirationTime;
-            //     response.userID = data.userID;
-            // });
+        // updateDatabase(creds.idToken);
 
-            const { expiryDate } = token;
-            const access = token.accessToken;
-
-            yield put(signupWithFacebook.success({ response, token: access, expiryDate }));
-            yield* getData();
-        }
-    } catch (error) {
-        yield put(signupWithFacebook.failure(error));
-    } finally {
-        yield put(signupWithFacebook.fulfill());
-    }
-};
-
-const login = function*() {
-    yield put(loginWithFacebook.request());
-
-    try {
-        let response;
-        // yield LoginManager.logInWithReadPermissions(facebookPermissions).then((data) => {
-        //     response = data;
-        // });
-
-        if (response.isCancelled) {
-            yield put(loginWithFacebook.failure("Login Process Cancelled"));
-        } else {
-            // yield AccessToken.getCurrentAccessToken().then((data) => {
-            //     token.accessToken = data.accessToken;
-            //     token.expiryDate = data.expirationTime;
-            //     response.userID = data.userID;
-            // });
-
-            const { expiryDate } = token;
-
-            const doesExist = yield call(doesUserExist, response.userID);
-
-            if (doesExist) {
-                const serverData = Object.assign({}, response, doesExist);
-
-                yield* getLocalData(serverData);
-
-                yield put(loginWithFacebook.success({ response, token, expiryDate }));
-            } else {
-                throw new Error("User does not exist");
-            }
-        }
-    } catch (error) {
-        yield put(loginWithFacebook.failure(error.message));
-    } finally {
-        yield put(loginWithFacebook.fulfill());
+        yield put(loginWithAuth0.success({ creds }));
+    } catch ({ error_description }) {
+        yield put(loginWithAuth0.failure(error_description));
     }
 };
 
@@ -162,47 +77,47 @@ const readOnly = function*() {
     yield put(readOnlyLogin.success());
 };
 
-function* getData() {
-    yield put(getUserDataFacebook.request());
+// function* getData() {
+//     yield put(getUserDataAuth0.request());
 
-    try {
-        token = yield GET_TOKEN();
+//     try {
+//         token = yield GET_TOKEN();
 
-        const response = yield call(facebookRequest, token);
+//         const response = {};
 
-        if (response.isError) {
-            yield put(getUserDataFacebook.failure({ response: response.error }));
-        } else {
-            yield call(updateDatabase, response);
-            yield put(getUserDataFacebook.success({ response: response.result }));
-        }
-    } catch (error) {
-        yield put(getUserDataFacebook.failure({ error }));
-    } finally {
-        yield put(getUserDataFacebook.fulfill());
-    }
-}
+//         if (response.isError) {
+//             yield put(getUserDataAuth0.failure({ response: response.error }));
+//         } else {
+//             yield call(updateDatabase, response);
+//             yield put(getUserDataAuth0.success({ response: response.result }));
+//         }
+//     } catch (error) {
+//         yield put(getUserDataAuth0.failure({ error }));
+//     } finally {
+//         yield put(getUserDataAuth0.fulfill());
+//     }
+// }
 
-function* getLocalData(serverData) {
-    yield put(getUserDataFacebook.request());
+// function* getLocalData(serverData) {
+//     yield put(getUserDataAuth0.request());
 
-    try {
-        token = yield GET_TOKEN();
+//     try {
+//         token = yield GET_TOKEN();
 
-        const response = yield call(facebookRequest, token);
+//         const response = {};
 
-        if (response.isError) {
-            yield put(getUserDataFacebook.failure({ response: response.error }));
-        } else {
-            yield put(
-                getUserDataFacebook.success({
-                    response: Object.assign({}, response.result, serverData)
-                })
-            );
-        }
-    } catch (error) {
-        yield put(getUserDataFacebook.failure({ error }));
-    } finally {
-        yield put(getUserDataFacebook.fulfill());
-    }
-}
+//         if (response.isError) {
+//             yield put(getUserDataAuth0.failure({ response: response.error }));
+//         } else {
+//             yield put(
+//                 getUserDataAuth0.success({
+//                     response: Object.assign({}, response.result, serverData)
+//                 })
+//             );
+//         }
+//     } catch (error) {
+//         yield put(getUserDataAuth0.failure({ error }));
+//     } finally {
+//         yield put(getUserDataAuth0.fulfill());
+//     }
+// }

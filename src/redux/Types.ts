@@ -1,29 +1,29 @@
-import * as Routines from "./Routines";
+import * as Routines from './Routines';
 
-export enum FacebookSignup {
-    REQUEST = Routines.signupWithFacebook.REQUEST,
-    SUCCESS = Routines.signupWithFacebook.SUCCESS,
-    FAILURE = Routines.signupWithFacebook.FAILURE,
-    FULFILL = Routines.signupWithFacebook.FULFILL
+// export enum Auth0Signup {
+//     REQUEST = Routines.signupWithAuth0.REQUEST,
+//     SUCCESS = Routines.signupWithAuth0.SUCCESS,
+//     FAILURE = Routines.signupWithAuth0.FAILURE,
+//     FULFILL = Routines.signupWithAuth0.FULFILL
+// }
+
+export enum Auth0Login {
+    REQUEST = Routines.loginWithAuth0.REQUEST,
+    SUCCESS = Routines.loginWithAuth0.SUCCESS,
+    FAILURE = Routines.loginWithAuth0.FAILURE,
+    FULFILL = Routines.loginWithAuth0.FULFILL
 }
 
-export enum FacebookLogin {
-    REQUEST = Routines.loginWithFacebook.REQUEST,
-    SUCCESS = Routines.loginWithFacebook.SUCCESS,
-    FAILURE = Routines.loginWithFacebook.FAILURE,
-    FULFILL = Routines.loginWithFacebook.FULFILL
+export enum GetUserData {
+    REQUEST = Routines.getUserData.REQUEST,
+    SUCCESS = Routines.getUserData.SUCCESS,
+    FAILURE = Routines.getUserData.FAILURE,
+    FULFILL = Routines.getUserData.FULFILL
 }
 
 export enum HouseLogin {
     SUCCESS = Routines.completeHouseLogin.SUCCESS,
     FAILURE = Routines.completeHouseLogin.FAILURE
-}
-
-export enum GetUserData {
-    REQUEST = Routines.getUserDataFacebook.REQUEST,
-    SUCCESS = Routines.getUserDataFacebook.SUCCESS,
-    FAILURE = Routines.getUserDataFacebook.FAILURE,
-    FULFILL = Routines.getUserDataFacebook.FULFILL
 }
 
 export enum GetPosts {

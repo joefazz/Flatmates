@@ -1334,6 +1334,10 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
+base-64@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
+
 base64-js@0.0.8:
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-0.0.8.tgz#1101e9544f4a76b1bc3b26d452ca96d7a35e7978"
@@ -4493,6 +4497,13 @@ react-native-animatable@^1.2.4:
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.2.4.tgz#b5fb7657e8f6edadbc26697057a327fb920b3039"
   dependencies:
     prop-types "^15.5.10"
+
+react-native-auth0@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-auth0/-/react-native-auth0-1.2.2.tgz#c92e4cdcc4ad7e948323e0dedddab1ecd9dc1622"
+  dependencies:
+    base-64 "^0.1.0"
+    url "^0.11.0"
 
 react-native-calendars@1.17.7:
   version "1.17.7"

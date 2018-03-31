@@ -85,6 +85,7 @@
         "react-apollo": "2.1.1",
         "react-native": "0.54.4",
         "react-native-animatable": "^1.2.4",
+        "react-native-auth0": "^1.2.2",
         "react-native-calendars": "1.17.7",
         "react-native-elements": "0.19.0",
         "react-native-floating-action": "1.10.1",
