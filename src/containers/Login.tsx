@@ -98,14 +98,11 @@ interface State {
     tempProfilePic: any;
     removeImageToggle: boolean;
 
-    name: string;
+    firstName: string;
+    lastName: string;
     gender: string;
     age: number | string;
     profilePicture: string;
-    aboutCheck: boolean;
-    friendsListCheck: boolean;
-    activityCheck: boolean;
-    likesCheck: boolean;
     isLookingForHouse: boolean;
     isCreatingHouse: boolean;
 
@@ -128,6 +125,7 @@ interface State {
 export class Login extends React.Component<Props, State> {
     homeSwiper: any;
     courseInput: any;
+    lastNameInput: any;
     ageInput: any;
 
     constructor(props) {
@@ -142,7 +140,8 @@ export class Login extends React.Component<Props, State> {
             tempImages: [],
             tempProfilePic: '',
 
-            name: '',
+            firstName: '',
+            lastName: '',
             age: '',
             profilePicture: '',
             gender: '',
@@ -161,10 +160,6 @@ export class Login extends React.Component<Props, State> {
             spaces: 0,
             houseImages: [],
 
-            aboutCheck: false,
-            friendsListCheck: false,
-            activityCheck: false,
-            likesCheck: false,
             isLookingForHouse: false,
             isCreatingHouse: false
         };
@@ -340,22 +335,42 @@ export class Login extends React.Component<Props, State> {
                             rounded={true}
                         /> }
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <View style={login.marginTop}>
-                                <Text style={[base.labelText]}>Full Name</Text>
-                                <TextInput
-                                    placeholder={'Enter your full name'}
-                                    maxLength={60}
-                                    returnKeyType={'next'}
-                                    blurOnSubmit={false}
-                                    onSubmitEditing={() => this.ageInput.focus()}
-                                    enablesReturnKeyAutomatically={true}
-                                    onChangeText={(text) => this.setState({ name: text })}
-                                    underlineColorAndroid={Colors.grey}
-                                    style={[
-                                        base.fullWidthInput,
-                                        { borderBottomWidth: Platform.OS === 'android' ? 0 : 1 }
-                                    ]}
-                                />
+                            <View style={[login.marginTop, { flexDirection: 'row', alignSelf: 'flex-start' }]}>
+                                <View style={{ marginRight: 20 }}>
+                                    <Text style={[base.labelText]}>First Name</Text>
+                                    <TextInput
+                                        placeholder={'Enter first name'}
+                                        maxLength={60}
+                                        autoCorrect={false}
+                                        returnKeyType={'next'}
+                                        blurOnSubmit={false}
+                                        onSubmitEditing={() => this.lastNameInput.focus()}
+                                        enablesReturnKeyAutomatically={true}
+                                        onChangeText={(text) => this.setState({ firstName: text })}
+                                        underlineColorAndroid={Colors.grey}
+                                        style={
+                                            base.halfWidthInput
+                                        }
+                                    />
+                                </View>
+                                <View>
+                                    <Text style={[base.labelText]}>Last Name</Text>
+                                    <TextInput
+                                        ref={(component) => this.lastNameInput = component}
+                                        placeholder={'Enter last name'}
+                                        maxLength={60}
+                                        autoCorrect={false}
+                                        returnKeyType={'next'}
+                                        blurOnSubmit={false}
+                                        onSubmitEditing={() => this.ageInput.focus()}
+                                        enablesReturnKeyAutomatically={true}
+                                        onChangeText={(text) => this.setState({ lastName: text })}
+                                        underlineColorAndroid={Colors.grey}
+                                        style={
+                                            base.halfWidthInput
+                                        }
+                                    />
+                                </View>
                             </View>
                             <View
                                 style={[
@@ -424,8 +439,8 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             onPress={() =>
                                 this.state.gender === '' ||
-                                this.state.name === '' ||
-                                !this.state.name.includes(' ') ||
+                                this.state.firstName === '' ||
+                                this.state.lastName === '' ||
                                 !this.state.tempProfilePic ||
                                 this.state.age === ''
                                     ? alert(
@@ -436,8 +451,8 @@ export class Login extends React.Component<Props, State> {
                             title={'Next'}
                             backgroundColor={
                                 this.state.gender === '' ||
-                                this.state.name === '' ||
-                                !this.state.name.includes(' ') ||
+                                this.state.firstName === '' ||
+                                this.state.lastName === '' ||
                                 !this.state.tempProfilePic ||
                                 this.state.age === ''
                                     ? Colors.grey
@@ -448,7 +463,31 @@ export class Login extends React.Component<Props, State> {
                     </View>
                 </View>
 
-                <View style={login.page}>
+                <View style={[login.page, { justifyContent: 'space-around' }]}>
+                    <View style={base.headingWrapper}>
+                        <Text
+                            style={[
+                                base.headingText,
+                                {
+                                    ...Font.FontFactory({ weight: 'Bold', family: 'Nunito' }),
+                                    fontSize: 24
+                                }
+                            ]}
+                        >
+                            Profile Information
+                        </Text>
+                        <Text
+                            style={[
+                                base.headingText,
+                                {
+                                    fontSize: 16,
+                                    ...Font.FontFactory({ weight: 'Light', family: 'Nunito' })
+                                }
+                            ]}
+                        >
+                            This information helps us find the best Flatmates for you
+                        </Text>
+                    </View>
                     <View
                         style={[
                             login.mainContent,
@@ -479,40 +518,101 @@ export class Login extends React.Component<Props, State> {
                                 />
                             </View>
                             <View style={login.marginTop}>
-                                <Text style={[base.labelText]}>Course</Text>
-                                <FlatPicker
-                                    items={[
-                                        {
-                                            section: true,
-                                            label: 'General Subject Areas (from UCAS)'
-                                        },
-                                        { label: 'Administration' },
-                                        { label: 'Area Studies' },
-                                        { label: 'Arts' },
-                                        { label: 'Biology' },
-                                        { label: 'Business Studies' },
-                                        { label: 'Computer Science' },
-                                        { label: 'Economics' },
-                                        { label: 'Educational Studies' },
-                                        { label: 'Engineering' },
-                                        { label: 'Health Studies' },
-                                        { label: 'History' },
-                                        { label: 'Languages' },
-                                        { label: 'Law' },
-                                        { label: 'Literature' },
-                                        { label: 'Management' },
-                                        { label: 'Mathematics' },
-                                        { label: 'Medicine' },
-                                        { label: 'Performing Arts' },
-                                        { label: 'Philosophy' },
-                                        { label: 'Physics' },
-                                        { label: 'Politics' }
-                                    ]}
-                                    selectTextStyle={login.profileInput}
-                                    selectStyle={login.modalInput}
-                                    onChange={(val) => this.setState({ course: val.label })}
-                                    initialValue={'Select Your Course Area'}
-                                />
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Text style={[base.labelText]}>General Course</Text>
+                                    <FlatPicker
+                                        items={[
+                                            {
+                                                section: true,
+                                                label: 'General Subject Areas (from UCAS)'
+                                            },
+                                            { label: 'Administration' },
+                                            { label: 'Area Studies' },
+                                            { label: 'Arts' },
+                                            { label: 'Biology' },
+                                            { label: 'Business Studies' },
+                                            { label: 'Computer Science' },
+                                            { label: 'Economics' },
+                                            { label: 'Educational Studies' },
+                                            { label: 'Engineering' },
+                                            { label: 'Health Studies' },
+                                            { label: 'History' },
+                                            { label: 'Languages' },
+                                            { label: 'Law' },
+                                            { label: 'Literature' },
+                                            { label: 'Management' },
+                                            { label: 'Mathematics' },
+                                            { label: 'Medicine' },
+                                            { label: 'Performing Arts' },
+                                            { label: 'Philosophy' },
+                                            { label: 'Physics' },
+                                            { label: 'Politics' }
+                                        ]}
+                                        selectStyle={[
+                                            {
+                                                borderWidth: 0,
+                                                borderBottomWidth: 1,
+                                                margin: 0,
+                                                padding: 0,
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                borderRadius: 0
+                                            },
+                                            base.halfWidthInput
+                                        ]}
+                                        selectTextStyle={[
+                                            {
+                                                fontSize: 18,
+                                                ...FontFactory({ family: 'Nunito' })
+                                            },
+                                            this.state.course === ''
+                                                ? { color: Colors.grey }
+                                                : { color: Colors.textHighlightColor }
+                                        ]}
+                                        onChange={(val) => this.setState({ course: val.label })}
+                                        initialValue={'Select Course'}
+                                    />
+                                </View>
+                                <View>
+                                    <Text style={base.labelText}>Study Year</Text>
+                                    <FlatPicker
+                                        items={[
+                                            {
+                                                section: false,
+                                                label: "Select the year you're currently in"
+                                            },
+                                            { label: 'First Year' },
+                                            { label: 'Second Year' },
+                                            { label: 'Third Year' },
+                                            { label: 'Masters' },
+                                            { label: 'Placement Year' },
+                                            { label: 'PHd' }
+                                        ]}
+                                        initialValue={'Select Study Year'}
+                                        selectStyle={[
+                                            {
+                                                borderWidth: 0,
+                                                borderBottomWidth: 1,
+                                                margin: 0,
+                                                padding: 0,
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                borderRadius: 0
+                                            },
+                                            base.halfWidthInput
+                                        ]}
+                                        selectTextStyle={[
+                                            {
+                                                fontSize: 18,
+                                                ...FontFactory({ family: 'Nunito' })
+                                            },
+                                            this.state.studyYear === ''
+                                                ? { color: Colors.grey }
+                                                : { color: Colors.textHighlightColor }
+                                        ]}
+                                        onChange={(item) => this.setState({ studyYear: item.label })}
+                                    />
+                                </View>
                             </View>
                         </View>
                     </View>
@@ -539,27 +639,7 @@ export class Login extends React.Component<Props, State> {
                         ]}
                     >
                         <View style={{ flex: 1, alignItems: 'center' }}>
-                            <View>
-                                <Text style={base.labelText}>Study Year</Text>
-                                <FlatPicker
-                                    items={[
-                                        {
-                                            section: false,
-                                            label: "Select the year you're currently in"
-                                        },
-                                        { label: 'First Year' },
-                                        { label: 'Second Year' },
-                                        { label: 'Third Year' },
-                                        { label: 'Masters' },
-                                        { label: 'Placement Year' },
-                                        { label: 'PHd' }
-                                    ]}
-                                    initialValue={'Select your Year of Study'}
-                                    selectTextStyle={login.profileInput}
-                                    selectStyle={login.modalInput}
-                                    onChange={(item) => this.setState({ studyYear: item.label })}
-                                />
-                            </View>
+                            
                         </View>
                         <View
                             style={{

@@ -46,7 +46,7 @@ export const base = StyleSheet.create({
     fullWidthInput: {
         ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor,
-        width: toConstantWidth(75),
+        width: toConstantWidth(80),
         fontSize: 18,
         borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
         borderColor: Colors.grey
@@ -55,7 +55,7 @@ export const base = StyleSheet.create({
     halfWidthInput: {
         ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor,
-        width: toConstantWidth(35),
+        width: toConstantWidth(40),
         borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
         borderColor: Colors.grey,
         fontSize: 18
