@@ -19,16 +19,22 @@
               "description": "",
               "args": [
                 {
-                  "name": "facebookUserId",
+                  "name": "id",
                   "description": "",
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "email",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
                   },
                   "defaultValue": null
                 }
@@ -211,6 +217,16 @@
         },
         {
           "kind": "SCALAR",
+          "name": "ID",
+          "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
           "name": "String",
           "description": "The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.",
           "fields": null,
@@ -225,7 +241,23 @@
           "description": "",
           "fields": [
             {
-              "name": "facebookUserId",
+              "name": "id",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "email",
               "description": "",
               "args": [],
               "type": {
@@ -241,7 +273,7 @@
               "deprecationReason": null
             },
             {
-              "name": "isVerified",
+              "name": "email_verified",
               "description": "",
               "args": [],
               "type": {
@@ -282,22 +314,6 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "DateTime",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "email",
-              "description": "",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
                   "ofType": null
                 }
               },
@@ -353,7 +369,23 @@
               "deprecationReason": null
             },
             {
-              "name": "birthday",
+              "name": "age",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "authId",
               "description": "",
               "args": [],
               "type": {
@@ -389,9 +421,13 @@
               "description": "",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -401,9 +437,13 @@
               "description": "",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -413,9 +453,13 @@
               "description": "",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -425,9 +469,45 @@
               "description": "",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "Boolean",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isDruggie",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isDrinker",
+              "description": "",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Boolean",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -765,7 +845,7 @@
               "deprecationReason": null
             },
             {
-              "name": "imageUrl",
+              "name": "profilePicture",
               "description": "",
               "args": [],
               "type": {
@@ -782,9 +862,68 @@
             }
           ],
           "inputFields": null,
-          "interfaces": [],
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
           "enumValues": null,
           "possibleTypes": null
+        },
+        {
+          "kind": "INTERFACE",
+          "name": "Node",
+          "description": "An object with an ID",
+          "fields": [
+            {
+              "name": "id",
+              "description": "The id of the object.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Post",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Group",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "Message",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "File",
+              "ofType": null
+            }
+          ]
         },
         {
           "kind": "SCALAR",
@@ -1373,16 +1512,6 @@
               "defaultValue": null
             }
           ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "ID",
-          "description": "The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `\"4\"`) or integer (such as `4`) input value will be accepted as an ID.",
-          "fields": null,
-          "inputFields": null,
           "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
@@ -2249,7 +2378,163 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId",
+              "name": "id",
+              "description": "",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_not",
+              "description": "All values that are not equal to given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_in",
+              "description": "All values that are contained in given list.",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_not_in",
+              "description": "All values that are not contained in given list.",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "ID",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_lt",
+              "description": "All values less than the given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_lte",
+              "description": "All values less than or equal the given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_gt",
+              "description": "All values greater than the given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_gte",
+              "description": "All values greater than or equal the given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_contains",
+              "description": "All values containing the given string.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_not_contains",
+              "description": "All values not containing the given string.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_starts_with",
+              "description": "All values starting with the given string.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_not_starts_with",
+              "description": "All values not starting with the given string.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_ends_with",
+              "description": "All values ending with the given string.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id_not_ends_with",
+              "description": "All values not ending with the given string.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "email",
               "description": "",
               "type": {
                 "kind": "SCALAR",
@@ -2259,7 +2544,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_not",
+              "name": "email_not",
               "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
@@ -2269,7 +2554,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_in",
+              "name": "email_in",
               "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
@@ -2287,7 +2572,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_not_in",
+              "name": "email_not_in",
               "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
@@ -2305,7 +2590,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_lt",
+              "name": "email_lt",
               "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -2315,7 +2600,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_lte",
+              "name": "email_lte",
               "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -2325,7 +2610,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_gt",
+              "name": "email_gt",
               "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -2335,7 +2620,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_gte",
+              "name": "email_gte",
               "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -2345,7 +2630,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_contains",
+              "name": "email_contains",
               "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -2355,7 +2640,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_not_contains",
+              "name": "email_not_contains",
               "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -2365,7 +2650,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_starts_with",
+              "name": "email_starts_with",
               "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -2375,7 +2660,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_not_starts_with",
+              "name": "email_not_starts_with",
               "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -2385,7 +2670,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_ends_with",
+              "name": "email_ends_with",
               "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -2395,7 +2680,7 @@
               "defaultValue": null
             },
             {
-              "name": "facebookUserId_not_ends_with",
+              "name": "email_not_ends_with",
               "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -2405,7 +2690,7 @@
               "defaultValue": null
             },
             {
-              "name": "isVerified",
+              "name": "email_verified",
               "description": "",
               "type": {
                 "kind": "SCALAR",
@@ -2415,7 +2700,7 @@
               "defaultValue": null
             },
             {
-              "name": "isVerified_not",
+              "name": "email_verified_not",
               "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
@@ -2612,162 +2897,6 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email",
-              "description": "",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_not",
-              "description": "All values that are not equal to given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_in",
-              "description": "All values that are contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_not_in",
-              "description": "All values that are not contained in given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_lt",
-              "description": "All values less than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_lte",
-              "description": "All values less than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_gt",
-              "description": "All values greater than the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_gte",
-              "description": "All values greater than or equal the given value.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_contains",
-              "description": "All values containing the given string.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_not_contains",
-              "description": "All values not containing the given string.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_starts_with",
-              "description": "All values starting with the given string.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_not_starts_with",
-              "description": "All values not starting with the given string.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_ends_with",
-              "description": "All values ending with the given string.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "email_not_ends_with",
-              "description": "All values not ending with the given string.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
                 "ofType": null
               },
               "defaultValue": null
@@ -3241,7 +3370,103 @@
               "defaultValue": null
             },
             {
-              "name": "birthday",
+              "name": "age",
+              "description": "",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "age_not",
+              "description": "All values that are not equal to given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "age_in",
+              "description": "All values that are contained in given list.",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "age_not_in",
+              "description": "All values that are not contained in given list.",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "age_lt",
+              "description": "All values less than the given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "age_lte",
+              "description": "All values less than or equal the given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "age_gt",
+              "description": "All values greater than the given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "age_gte",
+              "description": "All values greater than or equal the given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "authId",
               "description": "",
               "type": {
                 "kind": "SCALAR",
@@ -3251,7 +3476,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_not",
+              "name": "authId_not",
               "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
@@ -3261,7 +3486,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_in",
+              "name": "authId_in",
               "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
@@ -3279,7 +3504,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_not_in",
+              "name": "authId_not_in",
               "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
@@ -3297,7 +3522,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_lt",
+              "name": "authId_lt",
               "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -3307,7 +3532,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_lte",
+              "name": "authId_lte",
               "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -3317,7 +3542,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_gt",
+              "name": "authId_gt",
               "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -3327,7 +3552,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_gte",
+              "name": "authId_gte",
               "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -3337,7 +3562,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_contains",
+              "name": "authId_contains",
               "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -3347,7 +3572,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_not_contains",
+              "name": "authId_not_contains",
               "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -3357,7 +3582,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_starts_with",
+              "name": "authId_starts_with",
               "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -3367,7 +3592,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_not_starts_with",
+              "name": "authId_not_starts_with",
               "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -3377,7 +3602,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_ends_with",
+              "name": "authId_ends_with",
               "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -3387,7 +3612,7 @@
               "defaultValue": null
             },
             {
-              "name": "birthday_not_ends_with",
+              "name": "authId_not_ends_with",
               "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -4041,6 +4266,46 @@
               "defaultValue": null
             },
             {
+              "name": "isDruggie",
+              "description": "",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "isDruggie_not",
+              "description": "All values that are not equal to given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "isDrinker",
+              "description": "",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "isDrinker_not",
+              "description": "All values that are not equal to given value.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "minPrice",
               "description": "",
               "type": {
@@ -4389,7 +4654,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl",
+              "name": "profilePicture",
               "description": "",
               "type": {
                 "kind": "SCALAR",
@@ -4399,7 +4664,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_not",
+              "name": "profilePicture_not",
               "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
@@ -4409,7 +4674,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_in",
+              "name": "profilePicture_in",
               "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
@@ -4427,7 +4692,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_not_in",
+              "name": "profilePicture_not_in",
               "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
@@ -4445,7 +4710,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_lt",
+              "name": "profilePicture_lt",
               "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -4455,7 +4720,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_lte",
+              "name": "profilePicture_lte",
               "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -4465,7 +4730,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_gt",
+              "name": "profilePicture_gt",
               "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -4475,7 +4740,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_gte",
+              "name": "profilePicture_gte",
               "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -4485,7 +4750,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_contains",
+              "name": "profilePicture_contains",
               "description": "All values containing the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -4495,7 +4760,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_not_contains",
+              "name": "profilePicture_not_contains",
               "description": "All values not containing the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -4505,7 +4770,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_starts_with",
+              "name": "profilePicture_starts_with",
               "description": "All values starting with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -4515,7 +4780,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_not_starts_with",
+              "name": "profilePicture_not_starts_with",
               "description": "All values not starting with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -4525,7 +4790,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_ends_with",
+              "name": "profilePicture_ends_with",
               "description": "All values ending with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -4535,7 +4800,7 @@
               "defaultValue": null
             },
             {
-              "name": "imageUrl_not_ends_with",
+              "name": "profilePicture_not_ends_with",
               "description": "All values not ending with the given string.",
               "type": {
                 "kind": "SCALAR",
@@ -5911,54 +6176,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "INTERFACE",
-          "name": "Node",
-          "description": "An object with an ID",
-          "fields": [
-            {
-              "name": "id",
-              "description": "The id of the object.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": [
-            {
-              "kind": "OBJECT",
-              "name": "Post",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Group",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "Message",
-              "ofType": null
-            },
-            {
-              "kind": "OBJECT",
-              "name": "File",
-              "ofType": null
-            }
-          ]
-        },
-        {
           "kind": "OBJECT",
           "name": "House",
           "description": "",
@@ -6254,25 +6471,37 @@
           "interfaces": null,
           "enumValues": [
             {
-              "name": "facebookUserId_ASC",
+              "name": "id_ASC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "facebookUserId_DESC",
+              "name": "id_DESC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "isVerified_ASC",
+              "name": "email_ASC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "isVerified_DESC",
+              "name": "email_DESC",
+              "description": "",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "email_verified_ASC",
+              "description": "",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "email_verified_DESC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
@@ -6297,18 +6526,6 @@
             },
             {
               "name": "updatedAt_DESC",
-              "description": "",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "email_ASC",
-              "description": "",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "email_DESC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
@@ -6350,13 +6567,25 @@
               "deprecationReason": null
             },
             {
-              "name": "birthday_ASC",
+              "name": "age_ASC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "birthday_DESC",
+              "name": "age_DESC",
+              "description": "",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "authId_ASC",
+              "description": "",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "authId_DESC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
@@ -6422,6 +6651,30 @@
               "deprecationReason": null
             },
             {
+              "name": "isDruggie_ASC",
+              "description": "",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isDruggie_DESC",
+              "description": "",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isDrinker_ASC",
+              "description": "",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "isDrinker_DESC",
+              "description": "",
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "minPrice_ASC",
               "description": "",
               "isDeprecated": false,
@@ -6458,25 +6711,13 @@
               "deprecationReason": null
             },
             {
-              "name": "imageUrl_ASC",
+              "name": "profilePicture_ASC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "imageUrl_DESC",
-              "description": "",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "id_ASC",
-              "description": "",
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "id_DESC",
+              "name": "profilePicture_DESC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
@@ -7207,20 +7448,6 @@
               "description": "",
               "args": [
                 {
-                  "name": "facebookUserId",
-                  "description": "",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "name",
                   "description": "",
                   "type": {
@@ -7243,6 +7470,34 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "authId",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "email_verified",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Boolean",
                       "ofType": null
                     }
                   },
@@ -7277,14 +7532,14 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "birthday",
+                  "name": "age",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "String",
+                      "name": "Int",
                       "ofType": null
                     }
                   },
@@ -7305,48 +7560,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "imageUrl",
-                  "description": "",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "updateUser",
-              "description": "",
-              "args": [
-                {
-                  "name": "facebookUserId",
-                  "description": "",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "bio",
+                  "name": "profilePicture",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
@@ -7396,6 +7610,48 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "isDruggie",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "isDrinker",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "bio",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
                       "ofType": null
                     }
                   },
@@ -7405,13 +7661,9 @@
                   "name": "maxPrice",
                   "description": "",
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
                   },
                   "defaultValue": null
                 },
@@ -7419,13 +7671,9 @@
                   "name": "minPrice",
                   "description": "",
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Int",
-                      "ofType": null
-                    }
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
                   },
                   "defaultValue": null
                 },
@@ -7433,13 +7681,9 @@
                   "name": "genderPreference",
                   "description": "",
                   "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "String",
-                      "ofType": null
-                    }
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
                   },
                   "defaultValue": null
                 }
@@ -7453,11 +7697,11 @@
               "deprecationReason": null
             },
             {
-              "name": "updateUserCreateHouse",
+              "name": "createUserCreateHouse",
               "description": "",
               "args": [
                 {
-                  "name": "facebookUserId",
+                  "name": "name",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
@@ -7471,7 +7715,105 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "bio",
+                  "name": "email",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "authId",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "email_verified",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "firstName",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "lastName",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "age",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "gender",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "profilePicture",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
@@ -7521,6 +7863,48 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "isDruggie",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "isDrinker",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "bio",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
                       "ofType": null
                     }
                   },
@@ -7650,11 +8034,11 @@
               "deprecationReason": null
             },
             {
-              "name": "updateUserUpdateHouse",
+              "name": "createUserUpdateHouse",
               "description": "",
               "args": [
                 {
-                  "name": "facebookUserId",
+                  "name": "name",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
@@ -7668,7 +8052,105 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "bio",
+                  "name": "email",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "authId",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "email_verified",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "firstName",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "lastName",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "age",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "gender",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "profilePicture",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
@@ -7724,6 +8206,48 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "isDruggie",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "isDrinker",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Boolean",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "bio",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "houseId",
                   "description": "",
                   "type": {
@@ -7751,14 +8275,14 @@
               "description": "",
               "args": [
                 {
-                  "name": "facebookUserId",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "String",
+                      "name": "ID",
                       "ofType": null
                     }
                   },
@@ -7778,14 +8302,14 @@
               "description": "",
               "args": [
                 {
-                  "name": "facebookUserId",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "String",
+                      "name": "ID",
                       "ofType": null
                     }
                   },
@@ -7819,14 +8343,14 @@
               "description": "",
               "args": [
                 {
-                  "name": "facebookUserId",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "String",
+                      "name": "ID",
                       "ofType": null
                     }
                   },

@@ -3,30 +3,45 @@ import gql from 'graphql-tag';
 export const CREATE_USER_MUTATION = gql`
     mutation CreateUser(
         $name: String!
+        $email: String!
+        $authId: String!
+        $email_verified: Boolean!
         $firstName: String!
         $lastName: String!
-        $imageUrl: String!
+        $age: Int!
         $gender: String!
-        $birthday: String!
-        $isSmoker: Boolean!
-        $idToken: String!
-        $bio: String!
+        $profilePicture: String!
         $course: String!
         $studyYear: String!
+        $isSmoker: Boolean!
+        $isDruggie: Boolean!
+        $isDrinker: Boolean!
+        $bio: String!
+        $maxPrice: Int
+        $minPrice: Int
+        $genderPreference: String
     ) {
         createUser(
             name: $name
+            email: $email
+            authId: $authId
+            email_verified: $email_verified
             firstName: $firstName
             lastName: $lastName
-            imageUrl: $imageUrl
-            birthday: $birthday
+            age: $age
             gender: $gender
-            isSmoker: $isSmoker
-            idToken: $idToken
-            bio: $bio
+            profilePicture: $profilePicture
             course: $course
             studyYear: $studyYear
+            isSmoker: $isSmoker
+            isDruggie: $isDruggie
+            isDrinker: $isDrinker
+            bio: $bio
+            maxPrice: $maxPrice
+            minPrice: $minPrice
+            genderPreference: $genderPreference
         ) {
+            id
             name
         }
     }

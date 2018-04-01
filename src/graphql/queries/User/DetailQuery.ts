@@ -2,8 +2,9 @@ import gql from 'graphql-tag';
 
 // Get the user and all user's groups
 export const USER_DETAILS_QUERY = gql`
-    query UserDetail($facebookUserId: String!) {
-        user(facebookUserId: $facebookUserId) {
+    query UserDetail($id: ID!) {
+        user(id: $id) {
+            name
             course
             bio
             studyYear
@@ -17,7 +18,7 @@ export const USER_DETAILS_QUERY = gql`
                 billsPrice
                 rentPrice
                 spaces
-                users(where: {facebookUserId_not: $facebookUserId}) {
+                users(where: { id_not: $id }) {
                     name
                 }
                 houseImages

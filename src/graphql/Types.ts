@@ -49,14 +49,16 @@ export interface UpdatePostMutation {
       spaces: number,
       houseImages: Array< string > | null,
       users:  Array< {
-        facebookUserId: string,
+        id: string,
         name: string,
-        studyYear: string | null,
-        birthday: string,
+        studyYear: string,
+        age: number,
         gender: string,
-        isSmoker: boolean | null,
-        imageUrl: string,
-        course: string | null,
+        isSmoker: boolean,
+        isDruggie: boolean,
+        isDrinker: boolean,
+        profilePicture: string,
+        course: string,
       } > | null,
     },
   } | null,
@@ -64,75 +66,47 @@ export interface UpdatePostMutation {
 
 export interface CreateUserMutationVariables {
   name: string,
+  email: string,
+  authId: string,
+  email_verified: boolean,
   firstName: string,
   lastName: string,
-  facebookUserId: string,
-  email: string,
-  imageUrl: string,
-  birthday: string,
+  age: number,
   gender: string,
+  profilePicture: string,
+  course: string,
+  studyYear: string,
+  isSmoker: boolean,
+  isDruggie: boolean,
+  isDrinker: boolean,
+  bio: string,
+  maxPrice?: number | null,
+  minPrice?: number | null,
+  genderPreference?: string | null,
 };
 
 export interface CreateUserMutation {
   createUser:  {
-    facebookUserId: string,
+    id: string,
+    name: string,
   } | null,
 };
 
-export interface DeleteUserMutationVariables {
-  facebookUserId: string,
-};
-
-export interface DeleteUserMutation {
-  deleteUser:  {
-    facebookUserId: string,
-  } | null,
-};
-
-export interface StarPostMutationVariables {
-  facebookUserId: string,
-  postID: string,
-};
-
-export interface StarPostMutation {
-  starPost:  {
-    facebookUserId: string,
-  } | null,
-};
-
-export interface UnstarPostMutationVariables {
-  facebookUserId: string,
-  postID: string,
-};
-
-export interface UnstarPostMutation {
-  unstarPost:  {
-    facebookUserId: string,
-  } | null,
-};
-
-export interface UpdateUserMutationVariables {
-  facebookUserId: string,
+export interface CreateUserCreateHouseMutationVariables {
+  email: string,
+  authId: string,
+  firstName: string,
+  lastName: string,
+  name: string,
+  age: number,
   bio: string,
+  gender: string,
   course: string,
   studyYear: string,
-  isSmoker: boolean,
-  minPrice: number,
-  maxPrice: number,
-  genderPreference: string,
-};
-
-export interface UpdateUserMutation {
-  updateUser:  {
-    facebookUserId: string,
-  } | null,
-};
-
-export interface UpdateUserCreateHouseMutationVariables {
-  facebookUserId: string,
-  bio: string,
-  course: string,
-  studyYear: string,
+  email_verified: boolean,
+  profilePicture: string,
+  isDrinker: boolean,
+  isDruggie: boolean,
   isSmoker: boolean,
   shortID: number,
   road: string,
@@ -143,30 +117,72 @@ export interface UpdateUserCreateHouseMutationVariables {
   houseImages: Array< string >,
 };
 
-export interface UpdateUserCreateHouseMutation {
-  updateUserCreateHouse:  {
-    facebookUserId: string,
+export interface CreateUserCreateHouseMutation {
+  createUserCreateHouse:  {
+    id: string,
     house:  {
       shortID: number,
     } | null,
   } | null,
 };
 
-export interface UpdateUserUpdateHouseMutationVariables {
-  facebookUserId: string,
-  bio: string,
+export interface CreateUserUpdateHouseMutationVariables {
+  name: string,
+  email: string,
+  authId: string,
+  email_verified: boolean,
+  firstName: string,
+  lastName: string,
+  age: number,
+  gender: string,
+  profilePicture: string,
   course: string,
   studyYear: string,
   isSmoker: boolean,
+  isDruggie: boolean,
+  isDrinker: boolean,
+  bio: string,
   houseId: number,
 };
 
-export interface UpdateUserUpdateHouseMutation {
-  updateUserUpdateHouse:  {
-    facebookUserId: string,
+export interface CreateUserUpdateHouseMutation {
+  createUserUpdateHouse:  {
+    id: string,
     house:  {
       shortID: number,
     } | null,
+  } | null,
+};
+
+export interface DeleteUserMutationVariables {
+  id: string,
+};
+
+export interface DeleteUserMutation {
+  deleteUser:  {
+    id: string,
+  } | null,
+};
+
+export interface StarPostMutationVariables {
+  id: string,
+  postID: string,
+};
+
+export interface StarPostMutation {
+  starPost:  {
+    id: string,
+  } | null,
+};
+
+export interface UnstarPostMutationVariables {
+  id: string,
+  postID: string,
+};
+
+export interface UnstarPostMutation {
+  unstarPost:  {
+    id: string,
   } | null,
 };
 
@@ -201,15 +217,17 @@ export interface PostDetailQuery {
       spaces: number,
       houseImages: Array< string > | null,
       users:  Array< {
-        facebookUserId: string,
+        id: string,
         name: string,
         gender: string,
-        bio: string | null,
-        studyYear: string | null,
-        isSmoker: boolean | null,
-        imageUrl: string,
-        course: string | null,
-        birthday: string,
+        age: number,
+        bio: string,
+        studyYear: string,
+        isSmoker: boolean,
+        isDrinker: boolean,
+        isDruggie: boolean,
+        profilePicture: string,
+        course: string,
       } > | null,
     },
   } | null,
@@ -238,12 +256,12 @@ export interface AllPostsQuery {
 };
 
 export interface BasicStarredQueryVariables {
-  facebookUserId: string,
+  id: string,
 };
 
 export interface BasicStarredQuery {
   user:  {
-    facebookUserId: string,
+    id: string,
     starredPosts:  Array< {
       id: string,
     } > | null,
@@ -251,11 +269,12 @@ export interface BasicStarredQuery {
 };
 
 export interface UserChatQueryVariables {
-  facebookUserId: string,
+  id: string,
 };
 
 export interface UserChatQuery {
   user:  {
+    id: string,
     name: string,
     group:  Array< {
       id: string,
@@ -265,11 +284,12 @@ export interface UserChatQuery {
 };
 
 export interface UserPostQueryVariables {
-  facebookUserId: string,
+  id: string,
 };
 
 export interface UserPostQuery {
   user:  {
+    id: string,
     house:  {
       shortID: number,
       spaces: number,
@@ -279,15 +299,16 @@ export interface UserPostQuery {
 };
 
 export interface UserDetailQueryVariables {
-  facebookUserId: string,
+  id: string,
 };
 
 export interface UserDetailQuery {
   user:  {
-    course: string | null,
-    bio: string | null,
-    studyYear: string | null,
-    isSmoker: boolean | null,
+    name: string,
+    course: string,
+    bio: string,
+    studyYear: string,
+    isSmoker: boolean,
     genderPreference: string | null,
     maxPrice: number | null,
     minPrice: number | null,
@@ -306,16 +327,30 @@ export interface UserDetailQuery {
 };
 
 export interface UserLoginQueryVariables {
-  facebookUserId: string,
+  email: string,
 };
 
 export interface UserLoginQuery {
   user:  {
-    facebookUserId: string,
-    isSmoker: boolean | null,
-    course: string | null,
-    studyYear: string | null,
-    isVerified: boolean,
+    id: string,
+    email: string,
+    authId: string,
+    firstName: string,
+    lastName: string,
+    name: string,
+    age: number,
+    bio: string,
+    gender: string,
+    course: string,
+    studyYear: string,
+    email_verified: boolean,
+    profilePicture: string,
+    isDrinker: boolean,
+    isDruggie: boolean,
+    isSmoker: boolean,
+    maxPrice: number | null,
+    minPrice: number | null,
+    genderPreference: string | null,
     house:  {
       shortID: number,
     } | null,
@@ -323,12 +358,12 @@ export interface UserLoginQuery {
 };
 
 export interface UserStarredQueryVariables {
-  facebookUserId: string,
+  id: string,
 };
 
 export interface UserStarredQuery {
   user:  {
-    facebookUserId: string,
+    id: string,
     starredPosts:  Array< {
       id: string,
       description: string,

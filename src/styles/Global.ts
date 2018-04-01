@@ -40,7 +40,8 @@ export const base = StyleSheet.create({
         fontSize: 16,
         color: Colors.textHighlightColor,
         alignSelf: 'flex-start',
-        marginVertical: 5
+        marginTop: 5,
+        marginLeft: Platform.OS === 'android' ? 4 : 0
     },
 
     fullWidthInput: {
@@ -62,8 +63,9 @@ export const base = StyleSheet.create({
     },
 
     halfWidthWrapper: {
+        marginTop: Platform.OS === 'android' ? 13.1 : 0,
         width: toConstantWidth(40),
-        borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
+        borderBottomWidth: 1,
         borderColor: Colors.grey
     },
 

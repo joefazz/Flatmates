@@ -14,15 +14,18 @@ export const POST_DETAILS_QUERY = gql`
                 spaces
                 houseImages
                 users {
-                    facebookUserId
+                    id
                     name
                     gender
+                    age
                     bio
                     studyYear
                     isSmoker
-                    imageUrl
+                    isDrinker
+                    isDruggie
+                    profilePicture
                     course
-                    birthday
+                    age
                 }
             }
         }

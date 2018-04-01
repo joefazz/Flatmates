@@ -2,8 +2,9 @@ import gql from 'graphql-tag';
 
 // Get the user and all user's groups
 export const USER_CHAT_QUERY = gql`
-    query UserChat($facebookUserId: String!) {
-        user(facebookUserId: $facebookUserId) {
+    query UserChat($id: ID!) {
+        user(id: $id) {
+            id
             name
             group {
                 id

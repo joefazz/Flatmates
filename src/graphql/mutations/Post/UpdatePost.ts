@@ -14,13 +14,15 @@ export const UPDATE_POST_MUTATION = gql`
                 spaces
                 houseImages
                 users {
-                    facebookUserId
+                    id
                     name
                     studyYear
-                    birthday
+                    age
                     gender
                     isSmoker
-                    imageUrl
+                    isDruggie
+                    isDrinker
+                    profilePicture
                     course
                 }
             }

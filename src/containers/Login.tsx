@@ -11,6 +11,7 @@ import {
     StatusBar,
     Switch,
     Text,
+    BackHandler,
     TextInput,
     TouchableOpacity,
     View,
@@ -46,17 +47,8 @@ interface Props {
     login: LoginState;
     profile: ProfileState;
     loginWithAuth0: () => void;
+    doesUserExist: () => void;
     completeHouseLogin: (houseID: number) => void;
-    updateUser: (
-        fbUserId: string,
-        bio: string,
-        course: string,
-        studyYear: string,
-        isSmoker: boolean,
-        minPrice: number,
-        maxPrice: number,
-        genderPreference: string
-    ) => void;
     updateUserCreateHouse: (
         fbUserId: string,
         bio: string,
@@ -220,12 +212,15 @@ export class Login extends React.Component<Props, State> {
                         </Text>
                     </View>
                     <View style={[login.mainContent, { flex: 2 }]}>
-                        <Image style={{ width: 250, height: 250 }} source={Box} />
+                        <Image
+                            style={{ width: toConstantWidth(80), height: toConstantWidth(80) }}
+                            source={Box}
+                        />
                     </View>
                     <View style={login.pageFooter}>
                         <TouchableRect
                             title={'Get Started'}
-                            onPress={() => this.homeSwiper.scrollBy(1, true)}
+                            onPress={() => this.props.doesUserExist()}
                             backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
@@ -308,7 +303,8 @@ export class Login extends React.Component<Props, State> {
                             We store your information securely
                         </Text>
                     </View>
-                    <View
+                    <KeyboardAvoidingView
+                        behavior={'padding'}
                         style={[
                             login.mainContent,
                             { alignItems: 'center', justifyContent: 'flex-start' }
@@ -316,7 +312,8 @@ export class Login extends React.Component<Props, State> {
                     >
                         {this.state.tempProfilePic ? (
                             <Avatar
-                                xlarge={true}
+                                width={toConstantWidth(50)}
+                                height={toConstantWidth(50)}
                                 source={{ uri: this.state.tempProfilePic.path }}
                                 onPress={() => this.selectProfilePicture()}
                                 activeOpacity={0.7}
@@ -325,7 +322,8 @@ export class Login extends React.Component<Props, State> {
                             />
                         ) : (
                             <Avatar
-                                xlarge={true}
+                                width={toConstantWidth(50)}
+                                height={toConstantWidth(50)}
                                 icon={{ name: 'person' }}
                                 onPress={() => this.selectProfilePicture()}
                                 activeOpacity={0.7}
@@ -346,6 +344,7 @@ export class Login extends React.Component<Props, State> {
                                         placeholder={'Enter first name'}
                                         maxLength={60}
                                         autoCorrect={false}
+                                        placeholderTextColor={Colors.grey}
                                         returnKeyType={'next'}
                                         blurOnSubmit={false}
                                         onSubmitEditing={() => this.lastNameInput.focus()}
@@ -361,6 +360,7 @@ export class Login extends React.Component<Props, State> {
                                         ref={(component) => (this.lastNameInput = component)}
                                         placeholder={'Enter last name'}
                                         maxLength={60}
+                                        placeholderTextColor={Colors.grey}
                                         autoCorrect={false}
                                         returnKeyType={'next'}
                                         blurOnSubmit={false}
@@ -386,6 +386,7 @@ export class Login extends React.Component<Props, State> {
                                         maxLength={60}
                                         returnKeyType={'next'}
                                         blurOnSubmit={false}
+                                        placeholderTextColor={Colors.grey}
                                         keyboardType={'numeric'}
                                         onSubmitEditing={() => Keyboard.dismiss()}
                                         enablesReturnKeyAutomatically={true}
@@ -395,7 +396,7 @@ export class Login extends React.Component<Props, State> {
                                     />
                                 </View>
                                 <View>
-                                    <Text style={base.labelText}>Gender</Text>
+                                    <Text style={[base.labelText, { marginLeft: 0 }]}>Gender</Text>
                                     <FlatPicker
                                         initialValue={'Select Gender'}
                                         onChange={({ label }) => this.setState({ gender: label })}
@@ -414,7 +415,8 @@ export class Login extends React.Component<Props, State> {
                                         selectTextStyle={[
                                             {
                                                 fontSize: 18,
-                                                ...FontFactory({ family: 'Nunito' })
+                                                ...FontFactory({ family: 'Nunito' }),
+                                                marginBottom: Platform.OS === 'android' ? 2 : 0
                                             },
                                             this.state.gender === ''
                                                 ? { color: Colors.grey }
@@ -434,7 +436,7 @@ export class Login extends React.Component<Props, State> {
                                 </View>
                             </View>
                         </View>
-                    </View>
+                    </KeyboardAvoidingView>
                     <View style={login.pageFooter}>
                         <TouchableRect
                             onPress={() =>
@@ -494,184 +496,177 @@ export class Login extends React.Component<Props, State> {
                             login.mainContent,
                             {
                                 alignItems: 'center',
-                                justifyContent: 'flex-start'
+                                justifyContent: 'space-evenly'
                             }
                         ]}
                     >
                         <View>
-                            <View style={login.marginTop}>
-                                <Text style={[base.labelText]}>About Me</Text>
-                                <TextInput
-                                    placeholder={'Enter a short description of yourself'}
-                                    maxLength={60}
-                                    returnKeyType={'next'}
-                                    blurOnSubmit={false}
-                                    onSubmitEditing={() => Keyboard.dismiss()}
-                                    enablesReturnKeyAutomatically={true}
-                                    onChangeText={(text) => this.setState({ bio: text })}
-                                    underlineColorAndroid={Colors.grey}
-                                    style={base.fullWidthInput}
-                                />
-                            </View>
-                            <View style={login.marginTop}>
-                                <View style={{ flexDirection: 'row' }}>
-                                    <View style={{ marginRight: 20 }}>
-                                        <Text style={[base.labelText]}>General Course</Text>
-                                        <FlatPicker
-                                            items={[
-                                                {
-                                                    section: true,
-                                                    label: 'General Subject Areas (from UCAS)'
-                                                },
-                                                { label: 'Administration' },
-                                                { label: 'Area Studies' },
-                                                { label: 'Arts' },
-                                                { label: 'Biology' },
-                                                { label: 'Business Studies' },
-                                                { label: 'Computer Science' },
-                                                { label: 'Economics' },
-                                                { label: 'Educational Studies' },
-                                                { label: 'Engineering' },
-                                                { label: 'Health Studies' },
-                                                { label: 'History' },
-                                                { label: 'Languages' },
-                                                { label: 'Law' },
-                                                { label: 'Literature' },
-                                                { label: 'Management' },
-                                                { label: 'Mathematics' },
-                                                { label: 'Medicine' },
-                                                { label: 'Performing Arts' },
-                                                { label: 'Philosophy' },
-                                                { label: 'Physics' },
-                                                { label: 'Politics' }
-                                            ]}
-                                            selectStyle={[
-                                                {
-                                                    borderWidth: 0,
-                                                    borderBottomWidth: 1,
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    alignItems: 'flex-start',
-                                                    justifyContent: 'flex-start',
-                                                    borderRadius: 0
-                                                },
-                                                base.halfWidthWrapper
-                                            ]}
-                                            selectTextStyle={[
-                                                {
-                                                    fontSize: 18,
-                                                    ...FontFactory({ family: 'Nunito' })
-                                                },
-                                                this.state.course === ''
-                                                    ? { color: Colors.grey }
-                                                    : { color: Colors.textHighlightColor }
-                                            ]}
-                                            onChange={(val) => this.setState({ course: val.label })}
-                                            initialValue={'Select Course'}
-                                        />
-                                    </View>
-                                    <View>
-                                        <Text style={base.labelText}>Study Year</Text>
-                                        <FlatPicker
-                                            items={[
-                                                {
-                                                    section: false,
-                                                    label: "Select the year you're currently in"
-                                                },
-                                                { label: 'First Year' },
-                                                { label: 'Second Year' },
-                                                { label: 'Third Year' },
-                                                { label: 'Masters' },
-                                                { label: 'Placement Year' },
-                                                { label: 'PHd' }
-                                            ]}
-                                            initialValue={'Select Study Year'}
-                                            selectStyle={[
-                                                {
-                                                    borderWidth: 0,
-                                                    borderBottomWidth: 1,
-                                                    margin: 0,
-                                                    padding: 0,
-                                                    alignItems: 'flex-start',
-                                                    justifyContent: 'flex-start',
-                                                    borderRadius: 0
-                                                },
-                                                base.halfWidthWrapper
-                                            ]}
-                                            selectTextStyle={[
-                                                {
-                                                    fontSize: 18,
-                                                    ...FontFactory({ family: 'Nunito' })
-                                                },
-                                                this.state.studyYear === ''
-                                                    ? { color: Colors.grey }
-                                                    : { color: Colors.textHighlightColor }
-                                            ]}
-                                            onChange={(item) =>
-                                                this.setState({ studyYear: item.label })
-                                            }
-                                        />
-                                    </View>
+                            <Text style={[base.labelText]}>About Me</Text>
+                            <TextInput
+                                placeholder={'Enter a short description of yourself'}
+                                maxLength={60}
+                                returnKeyType={'next'}
+                                blurOnSubmit={false}
+                                onSubmitEditing={() => Keyboard.dismiss()}
+                                enablesReturnKeyAutomatically={true}
+                                onChangeText={(text) => this.setState({ bio: text })}
+                                underlineColorAndroid={Colors.grey}
+                                style={base.fullWidthInput}
+                            />
+                        </View>
+                        <View style={login.marginTop}>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ marginRight: 20 }}>
+                                    <Text style={[base.labelText]}>General Course</Text>
+                                    <FlatPicker
+                                        items={[
+                                            {
+                                                section: true,
+                                                label: 'General Subject Areas (from UCAS)'
+                                            },
+                                            { label: 'Administration' },
+                                            { label: 'Area Studies' },
+                                            { label: 'Arts' },
+                                            { label: 'Biology' },
+                                            { label: 'Business Studies' },
+                                            { label: 'Computer Science' },
+                                            { label: 'Economics' },
+                                            { label: 'Educational Studies' },
+                                            { label: 'Engineering' },
+                                            { label: 'Health Studies' },
+                                            { label: 'History' },
+                                            { label: 'Languages' },
+                                            { label: 'Law' },
+                                            { label: 'Literature' },
+                                            { label: 'Management' },
+                                            { label: 'Mathematics' },
+                                            { label: 'Medicine' },
+                                            { label: 'Performing Arts' },
+                                            { label: 'Philosophy' },
+                                            { label: 'Physics' },
+                                            { label: 'Politics' }
+                                        ]}
+                                        selectStyle={[
+                                            {
+                                                borderWidth: 0,
+                                                borderBottomWidth: 1,
+                                                margin: 0,
+                                                padding: 0,
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                borderRadius: 0
+                                            },
+                                            base.halfWidthWrapper
+                                        ]}
+                                        selectTextStyle={[
+                                            {
+                                                fontSize: 18,
+                                                ...FontFactory({ family: 'Nunito' })
+                                            },
+                                            this.state.course === ''
+                                                ? { color: Colors.grey }
+                                                : { color: Colors.textHighlightColor }
+                                        ]}
+                                        onChange={(val) => this.setState({ course: val.label })}
+                                        initialValue={'Select Course'}
+                                    />
+                                </View>
+                                <View>
+                                    <Text style={base.labelText}>Study Year</Text>
+                                    <FlatPicker
+                                        items={[
+                                            {
+                                                section: false,
+                                                label: "Select the year you're currently in"
+                                            },
+                                            { label: 'First Year' },
+                                            { label: 'Second Year' },
+                                            { label: 'Third Year' },
+                                            { label: 'Masters' },
+                                            { label: 'Placement Year' },
+                                            { label: 'PHd' }
+                                        ]}
+                                        initialValue={'Select Study Year'}
+                                        selectStyle={[
+                                            {
+                                                borderWidth: 0,
+                                                borderBottomWidth: 1,
+                                                margin: 0,
+                                                padding: 0,
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                borderRadius: 0
+                                            },
+                                            base.halfWidthWrapper
+                                        ]}
+                                        selectTextStyle={[
+                                            {
+                                                fontSize: 18,
+                                                ...FontFactory({ family: 'Nunito' })
+                                            },
+                                            this.state.studyYear === ''
+                                                ? { color: Colors.grey }
+                                                : { color: Colors.textHighlightColor }
+                                        ]}
+                                        onChange={(item) =>
+                                            this.setState({ studyYear: item.label })
+                                        }
+                                    />
                                 </View>
                             </View>
-                            <View style={{ marginTop: 20 }}>
-                                <Text
-                                    style={[
-                                        base.labelText,
-                                        { alignSelf: 'center', textAlign: 'center' }
-                                    ]}
-                                >
-                                    None of the following information is displayed publically, this
-                                    is only for matching with other flatmates
-                                </Text>
-                                <View
-                                    style={{
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between'
-                                    }}
-                                >
-                                    <View>
-                                        <Text style={[base.labelText, { alignSelf: 'center' }]}>
-                                            Smoke?
-                                        </Text>
-                                        <Switch
-                                            onTintColor={Colors.brandPrimaryColor}
-                                            thumbTintColor={Colors.definetelyNotAirbnbRed}
-                                            tintColor={Colors.grey}
-                                            onValueChange={(val) =>
-                                                this.setState({ isSmoker: val })
-                                            }
-                                            value={this.state.isSmoker}
-                                        />
-                                    </View>
-                                    <View>
-                                        <Text style={[base.labelText, { alignSelf: 'center' }]}>
-                                            Drink?
-                                        </Text>
-                                        <Switch
-                                            onTintColor={Colors.brandPrimaryColor}
-                                            thumbTintColor={Colors.definetelyNotAirbnbRed}
-                                            tintColor={Colors.grey}
-                                            onValueChange={(val) =>
-                                                this.setState({ isDrinker: val })
-                                            }
-                                            value={this.state.isDrinker}
-                                        />
-                                    </View>
-                                    <View>
-                                        <Text style={[base.labelText, { alignSelf: 'center' }]}>
-                                            Drugs?
-                                        </Text>
-                                        <Switch
-                                            onTintColor={Colors.brandPrimaryColor}
-                                            thumbTintColor={Colors.definetelyNotAirbnbRed}
-                                            tintColor={Colors.grey}
-                                            onValueChange={(val) =>
-                                                this.setState({ isDruggie: val })
-                                            }
-                                            value={this.state.isDruggie}
-                                        />
-                                    </View>
+                        </View>
+                        <View style={{ marginTop: 20 }}>
+                            <Text
+                                style={[
+                                    base.labelText,
+                                    { alignSelf: 'center', textAlign: 'center' }
+                                ]}
+                            >
+                                None of the following information is displayed publically, this is
+                                only for matching with other flatmates
+                            </Text>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'space-between',
+                                    marginHorizontal: 20
+                                }}
+                            >
+                                <View>
+                                    <Text style={[base.labelText, { alignSelf: 'center' }]}>
+                                        Smoke?
+                                    </Text>
+                                    <Switch
+                                        onTintColor={Colors.brandPrimaryColor}
+                                        thumbTintColor={Colors.definetelyNotAirbnbRed}
+                                        tintColor={Colors.grey}
+                                        onValueChange={(val) => this.setState({ isSmoker: val })}
+                                        value={this.state.isSmoker}
+                                    />
+                                </View>
+                                <View>
+                                    <Text style={[base.labelText, { alignSelf: 'center' }]}>
+                                        Drink?
+                                    </Text>
+                                    <Switch
+                                        onTintColor={Colors.brandPrimaryColor}
+                                        thumbTintColor={Colors.definetelyNotAirbnbRed}
+                                        tintColor={Colors.grey}
+                                        onValueChange={(val) => this.setState({ isDrinker: val })}
+                                        value={this.state.isDrinker}
+                                    />
+                                </View>
+                                <View>
+                                    <Text style={[base.labelText, { alignSelf: 'center' }]}>
+                                        Drugs?
+                                    </Text>
+                                    <Switch
+                                        onTintColor={Colors.brandPrimaryColor}
+                                        thumbTintColor={Colors.definetelyNotAirbnbRed}
+                                        tintColor={Colors.grey}
+                                        onValueChange={(val) => this.setState({ isDruggie: val })}
+                                        value={this.state.isDruggie}
+                                    />
                                 </View>
                             </View>
                         </View>
@@ -1189,10 +1184,11 @@ export class Login extends React.Component<Props, State> {
 
         image = await ImagePicker.openPicker({
             multiple: false,
-            compressImageMaxHeight: 500,
-            compressImageMaxWidth: 500,
-            cropperCircleOverlay: true,
             cropping: true,
+            height: 500,
+            width: 500,
+            compressImageQuality: 1,
+            cropperCircleOverlay: true,
             mediaType: 'photo',
             loadingLabelText: 'Processing photo...'
         }).catch(() => alert('Image upload cancelled'));
@@ -1229,7 +1225,7 @@ export class Login extends React.Component<Props, State> {
                     const response = await fetch(
                         Platform.OS === 'ios'
                             ? 'http://localhost:4000/upload'
-                            : 'http://10.0.2.2:4000/upload',
+                            : 'http://192.168.0.10:4000/upload',
                         options
                     );
                     if (response.ok) {
@@ -1240,7 +1236,7 @@ export class Login extends React.Component<Props, State> {
                         alert('Problem with fetch: ' + response.status);
                     }
                 } catch (error) {
-                    console.log(error)
+                    console.log(error);
                     alert('There was a problem uploading your profile picture');
                 }
             });
@@ -1293,7 +1289,7 @@ export class Login extends React.Component<Props, State> {
                         method: 'POST',
                         body: formData,
                         headers: {
-                            'Accept': 'application/json',
+                            Accept: 'application/json',
                             'Content-Type': 'multipart/form-data'
                         }
                     };
