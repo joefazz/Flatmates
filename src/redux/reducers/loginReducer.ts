@@ -1,7 +1,7 @@
-import { LoginAction, LoginState } from '../../types/ReduxTypes';
+import { LoginAction, LoginState, DataPayload, CreatePayload } from '../../types/ReduxTypes';
 import { LoginStatus } from '../../types/Entities';
 import initialState from '../InitialState';
-import { Auth0Login, CreatePost, HouseLogin } from '../Types';
+import { CreateUser, CreatePost, GetUserData } from '../Types';
 
 // Modules
 // File References
@@ -15,57 +15,72 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
         //         isReadOnlyEnabled: true
         //     });
         // Auth0 Login Auth
-        case Auth0Login.REQUEST:
+        case CreateUser.REQUEST:
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.STARTED
             });
-        case Auth0Login.SUCCESS:
+        case CreateUser.SUCCESS:
+            action.payload = action.payload as CreatePayload;
             return Object.assign({}, state, {
-                auth_access_token: action.payload.creds.accessToken,
-                auth_refresh_token: action.payload.creds.refreshToken,
-                auth_access_expiry: action.payload.creds.expiresIn,
-                auth_id_token: action.payload.creds.idToken,
-                token_type: action.payload.creds.tokenType,
+                ...action.payload.user,
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });
-        case Auth0Login.FAILURE:
+        case CreateUser.FAILURE:
             return Object.assign({}, state, {
                 error: action.payload,
                 loginStatus: LoginStatus.FAILED
             });
-        case Auth0Login.FULFILL:
+        case CreateUser.FULFILL:
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.ENDED
             });
 
-        // case Auth0Signup.REQUEST:
-        //     return Object.assign({}, state, {
-        //         loginStatus: LoginStatus.STARTED
-        //     });
-        // case Auth0Signup.SUCCESS:
-        //     return Object.assign({}, state, {
-        //         fbAccessToken: action.payload.token,
-        //         fbTokenExpiryDate: action.payload.expiryDate,
-        //         fbUserId: action.payload.response.userID,
-        //         deniedPermissions: action.payload.response.deniedPermissions,
-        //         grantedPermissions: action.payload.response.grantedPermissions,
-        //         isLoggedIn: true,
-        //         loginStatus: LoginStatus.SUCCEED
-        //     });
-        // case Auth0Signup.FAILURE:
-        //     return Object.assign({}, state, {
-        //         error: action.payload,
-        //         loginStatus: LoginStatus.FAILED
-        //     });
-        // case Auth0Signup.FULFILL:
-        //     return Object.assign({}, state, {
-        //         loginStatus: LoginStatus.ENDED
-        //     });
-
         case CreatePost.SUCCESS:
             return Object.assign({}, state, {
                 hasCreatedPost: true
+            });
+
+        case GetUserData.SUCCESS:
+            const {
+                id,
+                name,
+                firstName,
+                lastName,
+                profilePicture,
+                age,
+                gender,
+                email,
+                email_validated,
+                isDruggie,
+                isDrinker,
+                isSmoker,
+                bio,
+                course,
+                studyYear
+            } = action.payload as DataPayload;
+
+            return Object.assign({}, state, {
+                id,
+                name,
+                profile: {
+                    name,
+                    firstName,
+                    lastName,
+                    profilePicture,
+                    age,
+                    gender,
+                    email,
+                    email_validated,
+                    isDruggie,
+                    isDrinker,
+                    isSmoker,
+                    bio,
+                    course,
+                    studyYear
+                },
+                isLoggedIn: true,
+                loginStatus: LoginStatus.ENDED
             });
 
         default:

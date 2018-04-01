@@ -7,11 +7,11 @@ import * as Routines from './Routines';
 //     FULFILL = Routines.signupWithAuth0.FULFILL
 // }
 
-export enum Auth0Login {
-    REQUEST = Routines.loginWithAuth0.REQUEST,
-    SUCCESS = Routines.loginWithAuth0.SUCCESS,
-    FAILURE = Routines.loginWithAuth0.FAILURE,
-    FULFILL = Routines.loginWithAuth0.FULFILL
+export enum CreateUser {
+    REQUEST = Routines.createUser.REQUEST,
+    SUCCESS = Routines.createUser.SUCCESS,
+    FAILURE = Routines.createUser.FAILURE,
+    FULFILL = Routines.createUser.FULFILL
 }
 
 export enum GetUserData {

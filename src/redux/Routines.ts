@@ -1,7 +1,7 @@
 import { createRoutine } from 'redux-saga-routines';
 
 export const readOnlyLogin = createRoutine('READ_ONLY_LOGIN');
-export const loginWithAuth0 = createRoutine('LOGIN_WITH_AUTH0');
+export const createUser = createRoutine('CREATE_USER');
 export const getUserData = createRoutine('GET_USER_DATA');
 export const completeHouseLogin = createRoutine('HOUSE_LOGIN');
 

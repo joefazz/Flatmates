@@ -17,6 +17,7 @@ import {
     View,
     Keyboard
 } from 'react-native';
+import Auth0 from 'react-native-auth0';
 import { Avatar, Button } from 'react-native-elements';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
 import Swiper from 'react-native-swiper';
@@ -29,12 +30,11 @@ import { MapboxSDK } from '../App';
 import Client from '../Client';
 import { Colors, Font, Metrics } from '../consts';
 import {
-    UPDATE_USER_CREATE_HOUSE_MUTATION,
-    UPDATE_USER_MUTATION,
-    UPDATE_USER_UPDATE_HOUSE_MUTATION
+    CREATE_USER_CREATE_HOUSE_MUTATION,
+    CREATE_USER_UPDATE_HOUSE_MUTATION
 } from '../graphql/mutations';
-import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
-import { loginWithAuth0, completeHouseLogin } from '../redux/Routines';
+import { HOUSE_DETAILS_QUERY, USER_LOGIN_QUERY } from '../graphql/queries';
+import { completeHouseLogin, createUser, getUserData } from '../redux/Routines';
 import { base, login } from '../styles';
 import { LoginStatus } from '../types/Entities';
 import { LoginState, ProfileState, ReduxState } from '../types/ReduxTypes';
@@ -42,12 +42,19 @@ import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversi
 import { TouchableRect } from '../widgets/TouchableRect';
 import { FlatPicker } from '../widgets/FlatPicker';
 import { FontFactory } from '../consts/font';
+import client from '../Client';
+import { UserLoginQuery, CreateUserMutationVariables } from '../graphql/Types';
+
+const auth0 = new Auth0({
+    domain: 'flatmates-auth.eu.auth0.com',
+    clientId: '16eejgqqPJR1L1jzVRfLxEakufJ47sW6'
+});
 
 interface Props {
     login: LoginState;
     profile: ProfileState;
-    loginWithAuth0: () => void;
-    doesUserExist: () => void;
+    createUser: (user: CreateUserMutationVariables) => void;
+    getUserData: (user: any) => void
     completeHouseLogin: (houseID: number) => void;
     updateUserCreateHouse: (
         fbUserId: string,
@@ -114,6 +121,9 @@ export class Login extends React.Component<Props, State> {
     courseInput: any;
     lastNameInput: any;
     ageInput: any;
+    email: string;
+    isVerifiedUser: boolean;
+    authId: string;
 
     constructor(props) {
         super(props);
@@ -220,7 +230,7 @@ export class Login extends React.Component<Props, State> {
                     <View style={login.pageFooter}>
                         <TouchableRect
                             title={'Get Started'}
-                            onPress={() => this.props.doesUserExist()}
+                            onPress={this.loginWithAuth0}
                             backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
@@ -1072,8 +1082,40 @@ export class Login extends React.Component<Props, State> {
     };
 
     private loginWithAuth0 = (): void => {
-        this.setState({ isLoggingIn: true }, () => this.props.loginWithAuth0());
+        this.setState({ isLoggingIn: true }, () => {
+            const creds = auth0.webAuth.authorize({
+                scope: 'openid profile email offline_access',
+                audience: 'https://flatmates-auth.eu.auth0.com/userinfo'
+            }).then((res) => this.doesUserExist(res.idToken)).catch((error) => console.log(error));
+        });
     };
+
+    private doesUserExist = async (identityToken: string): Promise<void> => {
+        try {
+            const decodedJSON: { email: string; email_verified: boolean, sub: string; } = await fetch(`http://localhost:4000/verify?token=${identityToken}`).then(
+                (res) => res.json()
+            );
+
+            this.authId = decodedJSON.sub;
+
+            const { data: { user } } = await client.query<UserLoginQuery>({
+                query: USER_LOGIN_QUERY,
+                variables: { email: decodedJSON.email }
+            });
+
+            if (!!user) {
+                this.props.getUserData(user);
+                this.props.navigation.navigate('Home');
+            } else {
+                this.email = decodedJSON.email;
+                this.isVerifiedUser = decodedJSON.email_verified;
+                this.homeSwiper.scrollBy(1, true);
+            }
+
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     private async getCoordsFromAddress(road: string): Promise<string | Array<number>> {
         const address: string = road + ', Reading';
@@ -1102,82 +1144,93 @@ export class Login extends React.Component<Props, State> {
     }
 
     private completeUserSetup = (): void => {
-        this.props.updateUser(
-            this.state.fbUserId,
-            this.state.bio,
-            this.state.course,
-            this.state.studyYear,
-            this.state.isSmoker,
-            Number(this.state.minPrice),
-            Number(this.state.maxPrice),
-            this.state.genderPreference
-        );
+        const fullName = `${this.state.firstName} ${this.state.lastName}`;
+        this.props.createUser({
+            email: this.email,
+            profilePicture: this.state.profilePicture,
+            authId: this.authId,
+            email_verified: this.isVerifiedUser,
+            name: fullName,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            gender: this.state.gender,
+            age: Number(this.state.age),
+            bio: this.state.bio,
+            course: this.state.course,
+            studyYear: this.state.studyYear,
+            isSmoker: this.state.isSmoker,
+            isDrinker: this.state.isDrinker,
+            isDruggie: this.state.isDruggie,
+            minPrice: Number(this.state.minPrice),
+            maxPrice: Number(this.state.maxPrice),
+            genderPreference: this.state.genderPreference
+        });
 
         this.homeSwiper.scrollBy(2, true);
     };
 
-    private completeNewHouseSetup = async () => {
-        // for short id what should happen is should query all houses for their ids and then generate a number that isn't in the array
-        const coords = await this.getCoordsFromAddress(this.state.road);
-        if (coords === 'Error') {
-            return;
-        }
+    // private completeNewHouseSetup = async () => {
+    //     // for short id what should happen is should query all houses for their ids and then generate a number that isn't in the array
+    //     const coords = await this.getCoordsFromAddress(this.state.road);
+    //     if (coords === 'Error') {
+    //         return;
+    //     }
 
-        this.props.updateUserCreateHouse(
-            this.state.fbUserId,
-            this.state.bio,
-            this.state.course,
-            this.state.studyYear,
-            this.state.isSmoker,
-            this.state.shortID as number,
-            this.state.road,
-            coords as Array<number>,
-            Math.round(Number(this.state.rentPrice as string)),
-            Math.round(Number(this.state.billsPrice as string)),
-            Number(this.state.spaces as string),
-            this.state.houseImages
-        );
+    //     this.props.updateUserCreateHouse(
+    //         this.state.fbUserId,
+    //         this.state.bio,
+    //         this.state.course,
+    //         this.state.studyYear,
+    //         this.state.isSmoker,
+    //         this.state.shortID as number,
+    //         this.state.road,
+    //         coords as Array<number>,
+    //         Math.round(Number(this.state.rentPrice as string)),
+    //         Math.round(Number(this.state.billsPrice as string)),
+    //         Number(this.state.spaces as string),
+    //         this.state.houseImages
+    //     );
 
-        this.homeSwiper.scrollBy(1, true);
+    //     this.homeSwiper.scrollBy(1, true);
 
-        this.props.completeHouseLogin(this.state.shortID as number);
-    };
+    //     this.props.completeHouseLogin(this.state.shortID as number);
+    // };
 
-    private completeJoiningHouseSetup = (): void => {
-        Client.query({
-            variables: { shortID: Number(this.state.shortID as string) },
-            query: HOUSE_DETAILS_QUERY
-        }).then((res: any) => {
-            if (res.data.House !== null) {
-                Alert.alert(
-                    'Confirmation',
-                    'Are you sure you belong to the house on ' + res.data.House.road + '?',
-                    [
-                        {
-                            text: 'Confirm',
-                            onPress: (): void => {
-                                this.props.updateUserUpdateHouse(
-                                    this.state.fbUserId,
-                                    this.state.bio,
-                                    this.state.course,
-                                    this.state.studyYear,
-                                    this.state.isSmoker,
-                                    this.state.shortID as number
-                                );
+    // private completeJoiningHouseSetup = (): void => {
+    //     Client.query({
+    //         variables: { shortID: Number(this.state.shortID as string) },
+    //         query: HOUSE_DETAILS_QUERY
+    //     }).then((res: any) => {
+    //         if (res.data.House !== null) {
+    //             Alert.alert(
+    //                 'Confirmation',
+    //                 'Are you sure you belong to the house on ' + res.data.House.road + '?',
+    //                 [
+    //                     {
+    //                         text: 'Confirm',
+    //                         onPress: (): void => {
+    //                             this.props.updateUserUpdateHouse(
+    //                                 this.state.fbUserId,
+    //                                 this.state.bio,
+    //                                 this.state.course,
+    //                                 this.state.studyYear,
+    //                                 this.state.isSmoker,
+    //                                 this.state.shortID as number
+    //                             );
 
-                                this.props.completeHouseLogin(this.state.shortID as number);
+    //                             this.props.completeHouseLogin(this.state.shortID as number);
 
-                                this.homeSwiper.scrollBy(2, true);
-                            }
-                        },
-                        { text: 'Cancel', style: 'cancel' }
-                    ]
-                );
-            } else {
-                alert('ID does not exist');
-            }
-        });
-    };
+    //                             this.homeSwiper.scrollBy(2, true);
+    //                         }
+    //                     },
+    //                     { text: 'Cancel', style: 'cancel' }
+    //                 ]
+    //             );
+    //         } else {
+    //             alert('ID does not exist');
+    //         }
+    //     });
+    // };
 
     private async selectProfilePicture(): Promise<void> {
         let image: Array<ImageType> | ImageType | void;
@@ -1309,41 +1362,14 @@ export class Login extends React.Component<Props, State> {
                 })
             );
 
-            this.setState({ houseImages: imageUrls }, this.completeNewHouseSetup);
+            // this.setState({ houseImages: imageUrls }, this.completeNewHouseSetup);
         }
     }
 }
 
-const updateUser = graphql(UPDATE_USER_MUTATION, {
+const createUserCreateHouse = graphql(CREATE_USER_CREATE_HOUSE_MUTATION, {
     props: ({ mutate }) => ({
-        updateUser: (
-            facebookUserId,
-            bio,
-            course,
-            studyYear,
-            isSmoker,
-            minPrice,
-            maxPrice,
-            genderPreference
-        ) =>
-            mutate({
-                variables: {
-                    facebookUserId,
-                    bio,
-                    course,
-                    studyYear,
-                    isSmoker,
-                    minPrice,
-                    maxPrice,
-                    genderPreference
-                }
-            })
-    })
-});
-
-const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
-    props: ({ mutate }) => ({
-        updateUserCreateHouse: (
+        createUserCreateHouse: (
             facebookUserId,
             bio,
             course,
@@ -1376,9 +1402,9 @@ const updateUserCreateHouse = graphql(UPDATE_USER_CREATE_HOUSE_MUTATION, {
     })
 });
 
-const updateUserUpdateHouse = graphql(UPDATE_USER_UPDATE_HOUSE_MUTATION, {
+const createUserUpdateHouse = graphql(CREATE_USER_UPDATE_HOUSE_MUTATION, {
     props: ({ mutate }) => ({
-        updateUserUpdateHouse: (facebookUserId, bio, course, studyYear, isSmoker, shortID) =>
+        createUserUpdateHouse: (facebookUserId, bio, course, studyYear, isSmoker, shortID) =>
             mutate({
                 variables: {
                     facebookUserId,
@@ -1399,14 +1425,14 @@ const mapStateToProps = (state: ReduxState) => ({
 
 const bindActions = (dispatch) => {
     return {
-        loginWithAuth0: () => dispatch(loginWithAuth0()),
+        createUser: (user) => dispatch(createUser(user)),
+        getUserData: (user) => dispatch(getUserData(user)),
         completeHouseLogin: (houseID: number) => dispatch(completeHouseLogin(houseID))
     };
 };
 
 export default compose(
     connect(mapStateToProps, bindActions),
-    updateUser,
-    updateUserCreateHouse,
-    updateUserUpdateHouse
+    createUserCreateHouse,
+    createUserUpdateHouse
 )(Login);

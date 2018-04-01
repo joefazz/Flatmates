@@ -1,72 +1,46 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 
-import Auth0 from 'react-native-auth0';
 import client from '../../Client';
 import { CREATE_USER_MUTATION } from '../../graphql/mutations';
-import { UserLoginQuery } from '../../graphql/Types';
+import { CreateUserMutation } from '../../graphql/Types';
 import { USER_LOGIN_QUERY } from '../../graphql/queries';
-import { loginWithAuth0, readOnlyLogin, completeHouseLogin } from '../Routines';
-
-let token: { accessToken?: string; expiryDate?: string } = {};
-
-const auth0 = new Auth0({
-    domain: 'flatmates-auth.eu.auth0.com',
-    clientId: '16eejgqqPJR1L1jzVRfLxEakufJ47sW6'
-});
+import { getUserData, createUser, readOnlyLogin, completeHouseLogin } from '../Routines';
 
 export const loginSaga = function*() {
-    yield takeEvery(loginWithAuth0.TRIGGER, login);
+    yield takeEvery(createUser.TRIGGER, login);
+    yield takeEvery(getUserData.TRIGGER, saveData);
     yield takeEvery(readOnlyLogin.TRIGGER, readOnly);
     yield takeEvery(completeHouseLogin, house);
 };
 
-function doesUserExist(userId) {
-    return new Promise((resolve) => {
-        client
-            .query<UserLoginQuery>({
-                variables: { userId },
-                query: USER_LOGIN_QUERY
-            })
-            .then(({ data }) => (data.user === null ? resolve(false) : resolve(data.user)));
-    });
-}
-
-async function updateDatabase(idToken) {
-    const { data } = await client.mutate({
+async function updateDatabase(user): Promise<CreateUserMutation> {
+    const { data: { createUser: userData } } = await client.mutate<CreateUserMutation>({
         mutation: CREATE_USER_MUTATION,
-        variables: {
-            name: 'Joe Fazzino',
-            firstName: 'Joe',
-            lastName: 'Fazzino',
-            imageUrl: 'https://whatever.com',
-            gender: 'male',
-            birthday: '21/10/1996',
-            isSmoker: true,
-            idToken,
-            bio: 'Founder of Flatmates',
-            course: 'Computer Science',
-            studyYear: 'First'
-        }
+        variables: { ...user }
     });
-    return data.createUser;
+
+    return userData;
 }
 
-const login = function*() {
+const login = function*({ payload }) {
     // Trigger request action
-    yield put(loginWithAuth0.request());
+    yield put(createUser.request());
     // Wait for response from API and assign it to response
     try {
-        const creds = yield auth0.webAuth.authorize({
-            scope: 'openid profile email offline_access',
-            audience: 'https://flatmates-auth.eu.auth0.com/userinfo'
-        });
+        const result = yield updateDatabase(payload);
 
-        // updateDatabase(creds.idToken);
+        const user = Object.assign({}, result, { profile: payload });
 
-        yield put(loginWithAuth0.success({ creds }));
-    } catch ({ error_description }) {
-        yield put(loginWithAuth0.failure(error_description));
+        yield put(createUser.success({ user }));
+    } catch (error) {
+        yield put(createUser.failure(error));
+    } finally {
+        createUser.fulfill();
     }
+};
+
+const saveData = function*({ payload }) {
+    yield put(getUserData.success(payload));
 };
 
 const house = function*({ payload }) {
@@ -76,48 +50,3 @@ const house = function*({ payload }) {
 const readOnly = function*() {
     yield put(readOnlyLogin.success());
 };
-
-// function* getData() {
-//     yield put(getUserDataAuth0.request());
-
-//     try {
-//         token = yield GET_TOKEN();
-
-//         const response = {};
-
-//         if (response.isError) {
-//             yield put(getUserDataAuth0.failure({ response: response.error }));
-//         } else {
-//             yield call(updateDatabase, response);
-//             yield put(getUserDataAuth0.success({ response: response.result }));
-//         }
-//     } catch (error) {
-//         yield put(getUserDataAuth0.failure({ error }));
-//     } finally {
-//         yield put(getUserDataAuth0.fulfill());
-//     }
-// }
-
-// function* getLocalData(serverData) {
-//     yield put(getUserDataAuth0.request());
-
-//     try {
-//         token = yield GET_TOKEN();
-
-//         const response = {};
-
-//         if (response.isError) {
-//             yield put(getUserDataAuth0.failure({ response: response.error }));
-//         } else {
-//             yield put(
-//                 getUserDataAuth0.success({
-//                     response: Object.assign({}, response.result, serverData)
-//                 })
-//             );
-//         }
-//     } catch (error) {
-//         yield put(getUserDataAuth0.failure({ error }));
-//     } finally {
-//         yield put(getUserDataAuth0.fulfill());
-//     }
-// }

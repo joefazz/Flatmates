@@ -1,33 +1,34 @@
-import { FeedState, LoginState, ProfileState } from '../types/ReduxTypes';
+import { FeedState, LoginState } from '../types/ReduxTypes';
 import { LoginStatus } from '../types/Entities';
 
-type State = Readonly<{ login: LoginState; profile: ProfileState; feed: FeedState }>;
+type State = Readonly<{ login: LoginState; feed: FeedState }>;
 
 const initialState: State = {
     login: {
-        userId: '',
+        id: '',
+        name: '',
+        profile: {
+            name: '',
+            email: '',
+            email_validated: false,
+            firstName: '',
+            lastName: '',
+            age: 0,
+            profilePicture: '',
+            gender: '',
+            studyYear: '',
+            course: '',
+            bio: '',
+            isDrinker: false,
+            isDruggie: false,
+            isSmoker: false
+        },
         isRehydrated: false,
         loginStatus: LoginStatus.NOT_STARTED,
         isLoggedIn: false,
         isReadOnly: false,
         error: '',
-        hasCreatedPost: false,
-        auth_access_expiry: 0,
-        auth_access_token: '',
-        auth_id_token: '',
-        auth_refresh_token: '',
-        token_type: ''
-    },
-    profile: {
-        name: '',
-        firstName: '',
-        lastName: '',
-        gender: '',
-        birthday: '',
-        email: '',
-        imageUrl: '',
-        error: '',
-        houseId: undefined
+        hasCreatedPost: false
     },
     feed: {
         posts: [],

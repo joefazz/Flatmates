@@ -1,6 +1,6 @@
 import {
     CreatePost,
-    Auth0Login,
+    CreateUser,
     GetUserData,
     GetPosts,
     ToggleFilter,
@@ -8,19 +8,21 @@ import {
 } from '../redux/Types';
 import { Course, LoginStatus, Post, StudyYear } from './Entities';
 import { Filters } from '../containers/Feed/PostList';
+import { CreateUserMutation } from '../graphql/Types';
 
 export interface LoginAction {
-    type: Auth0Login | CreatePost;
-    payload: {
-        creds: {
-            accessToken: string;
-            refreshToken: string;
-            idToken: string;
-            expiresIn: number;
-            tokenType: string;
-        };
-        error: string;
-    };
+    type: CreateUser | CreatePost | GetUserData;
+    payload: DataPayload | CreatePayload;
+}
+
+export interface DataPayload extends ProfileState {
+    id: string;
+    name: string;
+}
+
+export interface CreatePayload {
+    user: CreateUserMutation;
+    error: string;
 }
 
 export interface FeedAction {
@@ -58,12 +60,9 @@ export interface ProfileAction {
 }
 
 export interface LoginState {
-    auth_access_token: string;
-    auth_refresh_token: string;
-    auth_access_expiry: number;
-    auth_id_token: string;
-    token_type: string;
-    userId: string;
+    id: string;
+    name: string;
+    profile: ProfileState;
     isRehydrated: boolean;
     loginStatus: LoginStatus;
     isLoggedIn: boolean;
@@ -76,11 +75,17 @@ export interface ProfileState {
     name: string;
     firstName: string;
     lastName: string;
+    profilePicture: string;
+    age: number;
     gender: string;
-    birthday: string;
     email: string;
-    imageUrl: string;
-    error: string;
+    email_validated: boolean;
+    isDruggie: boolean;
+    isDrinker: boolean;
+    isSmoker: boolean;
+    bio: string;
+    course: string;
+    studyYear: string;
     houseId?: number;
 }
 
