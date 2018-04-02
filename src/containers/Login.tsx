@@ -31,7 +31,12 @@ import Client from '../Client';
 import { Colors, Font, Metrics } from '../consts';
 import { CREATE_USER_UPDATE_HOUSE_MUTATION } from '../graphql/mutations';
 import { HOUSE_DETAILS_QUERY, USER_LOGIN_QUERY } from '../graphql/queries';
-import { createUserWithHouse, createUser, getUserData } from '../redux/Routines';
+import {
+    createUserWithHouse,
+    createUser,
+    getUserData,
+    createUserJoinHouse
+} from '../redux/Routines';
 import { base, login } from '../styles';
 import { LoginStatus } from '../types/Entities';
 import { LoginState, ProfileState, ReduxState } from '../types/ReduxTypes';
@@ -43,7 +48,8 @@ import client from '../Client';
 import {
     UserLoginQuery,
     CreateUserMutationVariables,
-    CreateUserCreateHouseMutationVariables
+    CreateUserCreateHouseMutationVariables,
+    CreateUserUpdateHouseMutationVariables
 } from '../graphql/Types';
 
 const auth0 = new Auth0({
@@ -56,29 +62,8 @@ interface Props {
     profile: ProfileState;
     createUser: (user: CreateUserMutationVariables) => void;
     createUserWithHouse: (mutationVars: CreateUserCreateHouseMutationVariables) => void;
+    createUserJoinHouse: (mutationVars: CreateUserUpdateHouseMutationVariables) => void;
     getUserData: (user: any) => void;
-    updateUserCreateHouse: (
-        fbUserId: string,
-        bio: string,
-        course: string,
-        studyYear: string,
-        isSmoker: boolean,
-        shortID: number,
-        road: string,
-        coords: Array<number>,
-        rentPrice: number,
-        billsPrice: number,
-        spaces: number,
-        houseImages: Array<string>
-    ) => void;
-    updateUserUpdateHouse: (
-        fbUserId: string,
-        bio: string,
-        course: string,
-        studyYear: string,
-        isSmoker: boolean,
-        shortID: number
-    ) => void;
     navigation: { navigate: (route: string) => void };
 }
 
@@ -507,7 +492,8 @@ export class Login extends React.Component<Props, State> {
                             login.mainContent,
                             {
                                 alignItems: 'center',
-                                justifyContent: 'space-evenly'
+                                justifyContent: 'space-between',
+                                marginBottom: 20
                             }
                         ]}
                     >
@@ -525,7 +511,7 @@ export class Login extends React.Component<Props, State> {
                                 style={base.fullWidthInput}
                             />
                         </View>
-                        <View style={login.marginTop}>
+                        <View>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ marginRight: 20 }}>
                                     <Text style={[base.labelText]}>General Course</Text>
@@ -626,7 +612,7 @@ export class Login extends React.Component<Props, State> {
                                 </View>
                             </View>
                         </View>
-                        <View style={{ marginTop: 20 }}>
+                        <View style={{ marginBottom: 20 }}>
                             <Text
                                 style={[
                                     base.labelText,
@@ -640,7 +626,8 @@ export class Login extends React.Component<Props, State> {
                                 style={{
                                     flexDirection: 'row',
                                     justifyContent: 'space-between',
-                                    marginHorizontal: 20
+                                    marginHorizontal: 20,
+                                    marginVertical: 5,
                                 }}
                             >
                                 <View>
@@ -911,25 +898,10 @@ export class Login extends React.Component<Props, State> {
                         />
                     </View>
 
-                    <View
-                        style={[
-                            login.marginVertical,
-                            { flexDirection: 'row', alignSelf: 'center' }
-                        ]}
-                    >
-                        <View style={{ marginRight: 30 }}>
-                            <Text style={base.labelText}>Rent Per Month</Text>
+                    <View style={[login.marginVertical, { flexDirection: 'row' }]}>
+                        <View style={{ marginRight: 20 }}>
+                            <Text style={base.labelText}>Rent Per Month (£)</Text>
                             <View style={login.priceInputWrapper}>
-                                <Text
-                                    style={[
-                                        login.poundStyle,
-                                        Number(this.state.rentPrice as string) > 0
-                                            ? { color: Colors.textHighlightColor }
-                                            : {}
-                                    ]}
-                                >
-                                    £
-                                </Text>
                                 <TextInput
                                     placeholder={'430.00'}
                                     keyboardType={'numeric'}
@@ -940,18 +912,8 @@ export class Login extends React.Component<Props, State> {
                             </View>
                         </View>
                         <View>
-                            <Text style={base.labelText}>Bills Per Month</Text>
+                            <Text style={base.labelText}>Bills Per Month (£)</Text>
                             <View style={[login.priceInputWrapper]}>
-                                <Text
-                                    style={[
-                                        login.poundStyle,
-                                        Number(this.state.billsPrice as string) > 0
-                                            ? { color: Colors.textHighlightColor }
-                                            : {}
-                                    ]}
-                                >
-                                    £
-                                </Text>
                                 <TextInput
                                     placeholder={'23.00'}
                                     keyboardType={'numeric'}
@@ -1057,7 +1019,7 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             title={'Confirm'}
                             backgroundColor={Colors.brandPrimaryColor}
-                            onPress={this.completeHouseSetup}
+                            onPress={() => this.uploadImages()}
                             buttonStyle={base.buttonStyle}
                         />
                     )}
@@ -1214,41 +1176,51 @@ export class Login extends React.Component<Props, State> {
         this.homeSwiper.scrollBy(1, true);
     };
 
-    // private completeJoiningHouseSetup = (): void => {
-    //     Client.query({
-    //         variables: { shortID: Number(this.state.shortID as string) },
-    //         query: HOUSE_DETAILS_QUERY
-    //     }).then((res: any) => {
-    //         if (res.data.House !== null) {
-    //             Alert.alert(
-    //                 'Confirmation',
-    //                 'Are you sure you belong to the house on ' + res.data.House.road + '?',
-    //                 [
-    //                     {
-    //                         text: 'Confirm',
-    //                         onPress: (): void => {
-    //                             this.props.updateUserUpdateHouse(
-    //                                 this.state.fbUserId,
-    //                                 this.state.bio,
-    //                                 this.state.course,
-    //                                 this.state.studyYear,
-    //                                 this.state.isSmoker,
-    //                                 this.state.shortID as number
-    //                             );
+    private completeJoiningHouseSetup = (): void => {
+        Client.query({
+            variables: { shortID: Number(this.state.shortID as string) },
+            query: HOUSE_DETAILS_QUERY
+        }).then((res: any) => {
+            console.log(res)
+            if (res.data.house !== null) {
+                Alert.alert(
+                    'Confirmation',
+                    'Are you sure you belong to the house on ' + res.data.house.road + '?',
+                    [
+                        {
+                            text: 'Confirm',
+                            onPress: (): void => {
+                                const fullName = `${this.state.firstName} ${this.state.lastName}`;
+                                this.props.createUserJoinHouse({
+                                    email: this.email,
+                                    profilePicture: this.state.profilePicture,
+                                    authId: this.authId,
+                                    email_verified: this.isVerifiedUser,
+                                    name: fullName,
+                                    firstName: this.state.firstName,
+                                    lastName: this.state.lastName,
+                                    gender: this.state.gender,
+                                    age: Number(this.state.age),
+                                    bio: this.state.bio,
+                                    course: this.state.course,
+                                    studyYear: this.state.studyYear,
+                                    isSmoker: this.state.isSmoker,
+                                    isDrinker: this.state.isDrinker,
+                                    isDruggie: this.state.isDruggie,
+                                    houseId: this.state.shortID as number
+                                });
 
-    //                             this.props.completeHouseLogin(this.state.shortID as number);
-
-    //                             this.homeSwiper.scrollBy(2, true);
-    //                         }
-    //                     },
-    //                     { text: 'Cancel', style: 'cancel' }
-    //                 ]
-    //             );
-    //         } else {
-    //             alert('ID does not exist');
-    //         }
-    //     });
-    // };
+                                this.homeSwiper.scrollBy(2, true);
+                            }
+                        },
+                        { text: 'Cancel', style: 'cancel' }
+                    ]
+                );
+            } else {
+                alert('ID does not exist');
+            }
+        }).catch(error => console.log(error));
+    };
 
     private async selectProfilePicture(): Promise<void> {
         let image: Array<ImageType> | ImageType | void;
@@ -1380,7 +1352,7 @@ export class Login extends React.Component<Props, State> {
                 })
             );
 
-            // this.setState({ houseImages: imageUrls }, this.completeNewHouseSetup);
+            this.setState({ houseImages: imageUrls }, this.completeHouseSetup);
         }
     }
 }
@@ -1394,6 +1366,7 @@ const bindActions = (dispatch) => {
     return {
         createUser: (user) => dispatch(createUser(user)),
         createUserWithHouse: (mutationVars) => dispatch(createUserWithHouse(mutationVars)),
+        createUserJoinHouse: (mutationVars) => dispatch(createUserJoinHouse(mutationVars)),
         getUserData: (user) => dispatch(getUserData(user))
     };
 };

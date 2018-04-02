@@ -23,7 +23,6 @@ export const USER_LOGIN_QUERY = gql`
             maxPrice
             minPrice
             genderPreference
-
             house {
                 shortID
             }

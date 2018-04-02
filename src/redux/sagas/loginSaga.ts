@@ -1,16 +1,30 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { put, takeEvery } from 'redux-saga/effects';
 
 import client from '../../Client';
-import { CREATE_USER_MUTATION, CREATE_USER_CREATE_HOUSE_MUTATION } from '../../graphql/mutations';
-import { CreateUserMutation, CreateUserCreateHouseMutation } from '../../graphql/Types';
-import { USER_LOGIN_QUERY } from '../../graphql/queries';
-import { getUserData, createUser, readOnlyLogin, createUserWithHouse } from '../Routines';
+import {
+    CREATE_USER_MUTATION,
+    CREATE_USER_CREATE_HOUSE_MUTATION,
+    CREATE_USER_UPDATE_HOUSE_MUTATION
+} from '../../graphql/mutations';
+import {
+    CreateUserMutation,
+    CreateUserCreateHouseMutation,
+    CreateUserUpdateHouseMutation
+} from '../../graphql/Types';
+import {
+    getUserData,
+    createUser,
+    readOnlyLogin,
+    createUserWithHouse,
+    createUserJoinHouse
+} from '../Routines';
 
 export const loginSaga = function*() {
     yield takeEvery(createUser.TRIGGER, login);
     yield takeEvery(getUserData.TRIGGER, saveData);
     yield takeEvery(readOnlyLogin.TRIGGER, readOnly);
     yield takeEvery(createUserWithHouse.TRIGGER, houseLogin);
+    yield takeEvery(createUserJoinHouse.TRIGGER, joinHouse);
 };
 
 async function createUserMutation(user): Promise<CreateUserMutation> {
@@ -23,8 +37,21 @@ async function createUserMutation(user): Promise<CreateUserMutation> {
 }
 
 async function createUserCreateHouseMutation(user): Promise<CreateUserCreateHouseMutation> {
-    const { data: { createUser: userData } } = await client.mutate<CreateUserCreateHouseMutation>({
+    const { data: { createUserCreateHouse: userData } } = await client.mutate<
+        CreateUserCreateHouseMutation
+    >({
         mutation: CREATE_USER_CREATE_HOUSE_MUTATION,
+        variables: { ...user }
+    });
+
+    return userData;
+}
+
+async function createUserUpdateHouseMutation(user): Promise<CreateUserUpdateHouseMutation> {
+    const { data: { createUserUpdateHouse: userData } } = await client.mutate<
+        CreateUserUpdateHouseMutation
+    >({
+        mutation: CREATE_USER_UPDATE_HOUSE_MUTATION,
         variables: { ...user }
     });
 
@@ -43,9 +70,9 @@ const login = function*({ payload }) {
         yield put(createUser.success({ user }));
     } catch (error) {
         yield put(createUser.failure(error));
-    } finally {
-        createUser.fulfill();
     }
+
+    createUser.fulfill();
 };
 
 const saveData = function*({ payload }) {
@@ -54,21 +81,35 @@ const saveData = function*({ payload }) {
 
 const houseLogin = function*({ payload }) {
     // Trigger request action
-    console.log(payload);
     yield put(createUserWithHouse.request());
     // Wait for response from API and assign it to response
     try {
         const result = yield createUserCreateHouseMutation(payload);
-
-        console.log(result);
 
         const user = Object.assign({}, result, { profile: payload });
 
         yield put(createUserWithHouse.success({ user }));
     } catch (error) {
         yield put(createUserWithHouse.failure(error));
+    }
+
+    createUserWithHouse.fulfill();
+};
+
+const joinHouse = function*({ payload }) {
+    // Trigger request action
+    yield put(createUserJoinHouse.request());
+    // Wait for response from API and assign it to response
+    try {
+        const result = yield createUserUpdateHouseMutation(payload);
+
+        const user = Object.assign({}, result, { profile: payload });
+
+        yield put(createUserJoinHouse.success({ user }));
+    } catch (error) {
+        yield put(createUserJoinHouse.failure(error));
     } finally {
-        createUserWithHouse.fulfill();
+        createUserJoinHouse.fulfill();
     }
 };
 

@@ -140,12 +140,11 @@ export const login = StyleSheet.create({
         ...Font.FontFactory(),
         color: Colors.grey,
         fontSize: 18,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        marginBottom: 1
     },
 
     priceInputWrapper: {
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderColor: Colors.grey
+        flexDirection: 'row'
     }
 });

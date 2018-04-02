@@ -5,24 +5,26 @@ import {
     GetPosts,
     ToggleFilter,
     HouseLogin,
-    CreateUserWithHouse
+    CreateUserWithHouse,
+    CreateUserJoinHouse
 } from '../redux/Types';
 import { Course, LoginStatus, Post, StudyYear } from './Entities';
 import { Filters } from '../containers/Feed/PostList';
 import { CreateUserMutation } from '../graphql/Types';
 
 export interface LoginAction {
-    type: CreateUser | CreateUserWithHouse | CreatePost | GetUserData;
+    type: CreateUser | CreateUserWithHouse | CreateUserJoinHouse | CreatePost | GetUserData;
     payload: DataPayload | CreatePayload;
 }
 
 export interface DataPayload extends ProfileState {
     id: string;
     name: string;
+    authId: string;
 }
 
 export interface CreatePayload {
-    user: CreateUserMutation;
+    user: any;
     error: string;
 }
 
@@ -37,24 +39,9 @@ export interface ToggleFilterAction {
 }
 
 export interface ProfileAction {
-    type: GetUserData | HouseLogin;
+    type: GetUserData | HouseLogin | CreateUserWithHouse | CreateUser | CreateUserJoinHouse;
     payload: {
-        response: {
-            name: string;
-            first_name: string;
-            last_name: string;
-            gender: string;
-            birthday: string;
-            studyYear: StudyYear;
-            course: Course;
-            isSmoker: boolean;
-            email: string;
-            picture: {
-                data: {
-                    url: string;
-                };
-            };
-        };
+        user: any;
         error: string;
         houseID: number;
     };
@@ -87,7 +74,16 @@ export interface ProfileState {
     bio: string;
     course: string;
     studyYear: string;
-    houseId?: number;
+    house: {
+        shortId: number;
+        road: string;
+        billsPrice: number;
+        rentPrice: number;
+        coords: Array<number>;
+        houseImages: Array<string>;
+        rentDue?: number;
+        billsDue?: number;
+    };
 }
 
 export interface FeedState {

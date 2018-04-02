@@ -24,6 +24,8 @@ export const CREATE_USER_CREATE_HOUSE_MUTATION = gql`
         $billsPrice: Int!
         $spaces: Int!
         $houseImages: [String!]!
+        $rentDue: Int
+        $billsDue: Int
     ) {
         createUserCreateHouse(
             email: $email
@@ -48,11 +50,11 @@ export const CREATE_USER_CREATE_HOUSE_MUTATION = gql`
             billsPrice: $billsPrice
             spaces: $spaces
             houseImages: $houseImages
+            rentDue: $rentDue
+            billsDue: $billsDue
         ) {
             id
-            house {
-                shortID
-            }
+            name
         }
     }
 `;

@@ -22,7 +22,9 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
         case CreateUser.SUCCESS:
             action.payload = action.payload as CreatePayload;
             return Object.assign({}, state, {
-                ...action.payload.user,
+                id: action.payload.user.id,
+                name: action.payload.user.name,
+                authId: action.payload.user.profile.authId,
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });
@@ -42,43 +44,12 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
             });
 
         case GetUserData.SUCCESS:
-            const {
-                id,
-                name,
-                firstName,
-                lastName,
-                profilePicture,
-                age,
-                gender,
-                email,
-                email_validated,
-                isDruggie,
-                isDrinker,
-                isSmoker,
-                bio,
-                course,
-                studyYear
-            } = action.payload as DataPayload;
+            const { id, name, authId } = action.payload as DataPayload;
 
             return Object.assign({}, state, {
                 id,
                 name,
-                profile: {
-                    name,
-                    firstName,
-                    lastName,
-                    profilePicture,
-                    age,
-                    gender,
-                    email,
-                    email_validated,
-                    isDruggie,
-                    isDrinker,
-                    isSmoker,
-                    bio,
-                    course,
-                    studyYear
-                },
+                authId,
                 isLoggedIn: true,
                 loginStatus: LoginStatus.ENDED
             });
@@ -89,8 +60,11 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
             });
         case CreateUserWithHouse.SUCCESS:
             action.payload = action.payload as CreatePayload;
+
             return Object.assign({}, state, {
-                ...action.payload.user,
+                id: action.payload.user.id,
+                name: action.payload.user.name,
+                authId: action.payload.user.profile.authId,
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });
