@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from 'apollo-client-preset';
 import { Platform } from 'react-native';
 import { WebSocketLink } from 'apollo-link-ws';
-import { split } from 'apollo-link'
+import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { getMainDefinition } from 'apollo-utilities';
 
@@ -12,7 +12,9 @@ import { getMainDefinition } from 'apollo-utilities';
 //     }
 // });
 
-const httpLink = new HttpLink({ uri: Platform.OS === 'ios' ? 'http://localhost:4000' : 'http://10.0.2.2:4000' });
+const httpLink = new HttpLink({
+    uri: Platform.OS === 'ios' ? 'http://localhost:4000' : 'http://192.168.0.10:4000'
+});
 
 // const link = split(
 //     ({ query }) => {
@@ -25,7 +27,7 @@ const httpLink = new HttpLink({ uri: Platform.OS === 'ios' ? 'http://localhost:4
 
 const client = new ApolloClient({
     link: httpLink,
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache()
 });
 
 export default client;

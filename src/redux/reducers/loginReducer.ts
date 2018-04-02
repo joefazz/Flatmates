@@ -1,7 +1,7 @@
 import { LoginAction, LoginState, DataPayload, CreatePayload } from '../../types/ReduxTypes';
 import { LoginStatus } from '../../types/Entities';
 import initialState from '../InitialState';
-import { CreateUser, CreatePost, GetUserData } from '../Types';
+import { CreateUser, CreatePost, CreateUserWithHouse, GetUserData } from '../Types';
 
 // Modules
 // File References
@@ -81,6 +81,32 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
                 },
                 isLoggedIn: true,
                 loginStatus: LoginStatus.ENDED
+            });
+
+        case CreateUserWithHouse.REQUEST:
+            return Object.assign({}, state, {
+                loginStatus: LoginStatus.STARTED
+            });
+        case CreateUserWithHouse.SUCCESS:
+            action.payload = action.payload as CreatePayload;
+            return Object.assign({}, state, {
+                ...action.payload.user,
+                isLoggedIn: true,
+                loginStatus: LoginStatus.SUCCEED
+            });
+        case CreateUserWithHouse.FAILURE:
+            return Object.assign({}, state, {
+                error: action.payload,
+                loginStatus: LoginStatus.FAILED
+            });
+        case CreateUserWithHouse.FULFILL:
+            return Object.assign({}, state, {
+                loginStatus: LoginStatus.ENDED
+            });
+
+        case CreatePost.SUCCESS:
+            return Object.assign({}, state, {
+                hasCreatedPost: true
             });
 
         default:

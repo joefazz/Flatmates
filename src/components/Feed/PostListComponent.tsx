@@ -130,7 +130,7 @@ export class PostListComponent extends React.Component<Props> {
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
-                {Platform.OS === 'android' ? (
+                {/*Platform.OS === 'android' ? (
                     <FloatingAction
                         buttonColor={Colors.brandPrimaryColor}
                         showBackground={false}
@@ -143,7 +143,7 @@ export class PostListComponent extends React.Component<Props> {
                     />
                 ) : (
                     <React.Fragment />
-                )}
+                )*/}
             </>
         );
     }

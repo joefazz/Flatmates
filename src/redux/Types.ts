@@ -14,6 +14,13 @@ export enum CreateUser {
     FULFILL = Routines.createUser.FULFILL
 }
 
+export enum CreateUserWithHouse {
+    REQUEST = Routines.createUserWithHouse.REQUEST,
+    SUCCESS = Routines.createUserWithHouse.SUCCESS,
+    FAILURE = Routines.createUserWithHouse.FAILURE,
+    FULFILL = Routines.createUserWithHouse.FULFILL
+}
+
 export enum GetUserData {
     REQUEST = Routines.getUserData.REQUEST,
     SUCCESS = Routines.getUserData.SUCCESS,

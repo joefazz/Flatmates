@@ -2,7 +2,7 @@ import Mapbox from '@mapbox/react-native-mapbox-gl';
 import MapboxClient from 'mapbox/lib/services/geocoding';
 import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
-import { AsyncStorage, BackHandler, Image } from 'react-native';
+import { AsyncStorage, BackHandler, StatusBar } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';

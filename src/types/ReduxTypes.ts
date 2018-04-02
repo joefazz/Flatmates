@@ -4,14 +4,15 @@ import {
     GetUserData,
     GetPosts,
     ToggleFilter,
-    HouseLogin
+    HouseLogin,
+    CreateUserWithHouse
 } from '../redux/Types';
 import { Course, LoginStatus, Post, StudyYear } from './Entities';
 import { Filters } from '../containers/Feed/PostList';
 import { CreateUserMutation } from '../graphql/Types';
 
 export interface LoginAction {
-    type: CreateUser | CreatePost | GetUserData;
+    type: CreateUser | CreateUserWithHouse | CreatePost | GetUserData;
     payload: DataPayload | CreatePayload;
 }
 

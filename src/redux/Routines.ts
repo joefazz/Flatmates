@@ -2,6 +2,7 @@ import { createRoutine } from 'redux-saga-routines';
 
 export const readOnlyLogin = createRoutine('READ_ONLY_LOGIN');
 export const createUser = createRoutine('CREATE_USER');
+export const createUserWithHouse = createRoutine('CREATE_USER_WITH_HOUSE');
 export const getUserData = createRoutine('GET_USER_DATA');
 export const completeHouseLogin = createRoutine('HOUSE_LOGIN');
 
