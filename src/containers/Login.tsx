@@ -1,17 +1,15 @@
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
 import {
     Alert,
     Image,
-    ImageBackground,
-    ImageURISource,
     KeyboardAvoidingView,
+    DatePickerAndroid,
+    DatePickerIOS,
     Platform,
     ScrollView,
     StatusBar,
     Switch,
     Text,
-    BackHandler,
     TextInput,
     TouchableOpacity,
     View,
@@ -627,7 +625,7 @@ export class Login extends React.Component<Props, State> {
                                     flexDirection: 'row',
                                     justifyContent: 'space-between',
                                     marginHorizontal: 20,
-                                    marginVertical: 5,
+                                    marginVertical: 5
                                 }}
                             >
                                 <View>
@@ -700,33 +698,39 @@ export class Login extends React.Component<Props, State> {
                     : null}
 
                 <View style={[login.page, { backgroundColor: Colors.brandPrimaryColor }]}>
-                    <ImageBackground
-                        source={OpenBox}
-                        style={{
-                            position: 'absolute',
-                            left: Metrics.screenWidth * 0.03,
-                            bottom: Metrics.screenHeight * 0.3,
-                            width: 350,
-                            height: 350
-                        }}
-                    />
+                    <View style={base.headingWrapper}>
+                        {this.state.isCreatingHouse ? (
+                            <View style={[login.mainContent, { marginBottom: 170, flex: 2 }]}>
+                                <Text style={login.congratsText}>Congrats!</Text>
+                                <Text style={login.congratsSubtitleText}>
+                                    Your unique House ID is
+                                </Text>
+                                <Text style={login.shortIDStyle}>{this.state.shortID}</Text>
+                            </View>
+                        ) : (
+                            <View style={[login.mainContent, { marginBottom: 50, flex: 2 }]}>
+                                <Text style={login.congratsText}>Congrats!</Text>
+                                <Text style={login.congratsSubtitleText}>
+                                    You're ready to find your new Flatmates!
+                                </Text>
+                            </View>
+                        )}
+                    </View>
 
-                    {this.state.isCreatingHouse ? (
-                        <View style={[login.mainContent, { marginBottom: 170, flex: 2 }]}>
-                            <Text style={login.congratsText}>Congrats!</Text>
-                            <Text style={login.congratsSubtitleText}>Your unique House ID is</Text>
-                            <Text style={login.shortIDStyle}>{this.state.shortID}</Text>
-                        </View>
-                    ) : (
-                        <View style={[login.mainContent, { marginBottom: 50, flex: 2 }]}>
-                            <Text style={login.congratsText}>Congrats!</Text>
-                            <Text style={login.congratsSubtitleText}>
-                                You're ready to find your new Flatmates!
-                            </Text>
-                        </View>
-                    )}
-
-                    <View style={{ flex: this.state.isCreatingHouse ? 0.8 : 2 }} />
+                    <View
+                        style={[
+                            login.mainContent,
+                            {
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }
+                        ]}
+                    >
+                        <Image
+                            source={OpenBox}
+                            style={{ width: toConstantWidth(80), height: toConstantWidth(80) }}
+                        />
+                    </View>
 
                     <View style={[login.pageFooter, { justifyContent: 'flex-start' }]}>
                         <Button
@@ -807,7 +811,7 @@ export class Login extends React.Component<Props, State> {
                         </View>
 
                         <View style={login.marginTop}>
-                            <Text style={base.labelText}>Gender Majority</Text>
+                            <Text style={base.labelText}>Gender Preference</Text>
                             <FlatPicker
                                 items={[
                                     {
@@ -816,7 +820,7 @@ export class Login extends React.Component<Props, State> {
                                     },
                                     { label: 'Male' },
                                     { label: 'Female' },
-                                    { label: 'LGBT' },
+                                    { label: 'Non Binary' },
                                     { label: 'No Preference' }
                                 ]}
                                 initialValue={'No Preference'}
@@ -824,6 +828,128 @@ export class Login extends React.Component<Props, State> {
                                 selectTextStyle={login.profileInput}
                                 selectStyle={login.modalInput}
                             />
+                        </View>
+                        <View style={login.marginTop}>
+                            <Text style={[base.labelText, { alignSelf: 'center' }]}>Would you prefer to live with?</Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <View>
+                                    <Text>Drug users</Text>
+                                    <FlatPicker
+                                        items={[
+                                            {
+                                                section: true,
+                                                label: "Would you prefer to live with drug users?"
+                                            },
+                                            { label: 'Yes' },
+                                            { label: 'No' },
+                                            { label: 'No Preference' },
+                                        ]}
+                                        initialValue={'Select Preference'}
+                                        selectStyle={[
+                                            {
+                                                borderWidth: 0,
+                                                borderBottomWidth: 1,
+                                                margin: 0,
+                                                padding: 0,
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                borderRadius: 0
+                                            },
+                                            base.halfWidthWrapper
+                                        ]}
+                                        selectTextStyle={[
+                                            {
+                                                fontSize: 18,
+                                                ...FontFactory({ family: 'Nunito' })
+                                            },
+                                            this.state.studyYear === ''
+                                                ? { color: Colors.grey }
+                                                : { color: Colors.textHighlightColor }
+                                        ]}
+                                        onChange={(item) =>
+                                            this.setState({ studyYear: item.label })
+                                        }
+                                    />
+                                </View>
+                                <View>
+                                    <Text>People who drink</Text>
+                                    <FlatPicker
+                                        items={[
+                                            {
+                                                section: true,
+                                                label: "Would you prefer to live with people who drink?"
+                                            },
+                                            { label: 'Yes' },
+                                            { label: 'No' },
+                                            { label: 'No Preference' },
+                                        ]}
+                                        initialValue={'Select Preference'}
+                                        selectStyle={[
+                                            {
+                                                borderWidth: 0,
+                                                borderBottomWidth: 1,
+                                                margin: 0,
+                                                padding: 0,
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                borderRadius: 0
+                                            },
+                                            base.halfWidthWrapper
+                                        ]}
+                                        selectTextStyle={[
+                                            {
+                                                fontSize: 18,
+                                                ...FontFactory({ family: 'Nunito' })
+                                            },
+                                            this.state.studyYear === ''
+                                                ? { color: Colors.grey }
+                                                : { color: Colors.textHighlightColor }
+                                        ]}
+                                        onChange={(item) =>
+                                            this.setState({ studyYear: item.label })
+                                        }
+                                    />
+                                </View>
+                                <View>
+                                    <Text>Smokers</Text>
+                                    <FlatPicker
+                                        items={[
+                                            {
+                                                section: true,
+                                                label: "Would you prefer to live with smokers?"
+                                            },
+                                            { label: 'Yes' },
+                                            { label: 'No' },
+                                            { label: 'No Preference' },
+                                        ]}
+                                        initialValue={'Select Preference'}
+                                        selectStyle={[
+                                            {
+                                                borderWidth: 0,
+                                                borderBottomWidth: 1,
+                                                margin: 0,
+                                                padding: 0,
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                borderRadius: 0
+                                            },
+                                            base.halfWidthWrapper
+                                        ]}
+                                        selectTextStyle={[
+                                            {
+                                                fontSize: 18,
+                                                ...FontFactory({ family: 'Nunito' })
+                                            },
+                                            this.state.studyYear === ''
+                                                ? { color: Colors.grey }
+                                                : { color: Colors.textHighlightColor }
+                                        ]}
+                                        onChange={(item) =>
+                                            this.setState({ studyYear: item.label })
+                                        }
+                                    />
+                                </View>
+                            </View>
                         </View>
                         {/* location would be good with with defaulting to university location */}
                     </View>
@@ -1180,46 +1306,50 @@ export class Login extends React.Component<Props, State> {
         Client.query({
             variables: { shortID: Number(this.state.shortID as string) },
             query: HOUSE_DETAILS_QUERY
-        }).then((res: any) => {
-            console.log(res)
-            if (res.data.house !== null) {
-                Alert.alert(
-                    'Confirmation',
-                    'Are you sure you belong to the house on ' + res.data.house.road + '?',
-                    [
-                        {
-                            text: 'Confirm',
-                            onPress: (): void => {
-                                const fullName = `${this.state.firstName} ${this.state.lastName}`;
-                                this.props.createUserJoinHouse({
-                                    email: this.email,
-                                    profilePicture: this.state.profilePicture,
-                                    authId: this.authId,
-                                    email_verified: this.isVerifiedUser,
-                                    name: fullName,
-                                    firstName: this.state.firstName,
-                                    lastName: this.state.lastName,
-                                    gender: this.state.gender,
-                                    age: Number(this.state.age),
-                                    bio: this.state.bio,
-                                    course: this.state.course,
-                                    studyYear: this.state.studyYear,
-                                    isSmoker: this.state.isSmoker,
-                                    isDrinker: this.state.isDrinker,
-                                    isDruggie: this.state.isDruggie,
-                                    houseId: this.state.shortID as number
-                                });
+        })
+            .then((res: any) => {
+                if (res.data.house !== null) {
+                    console.log(res.data.house);
+                    Alert.alert(
+                        'Confirmation',
+                        'Are you sure you belong to the house on ' + res.data.house.road + '?',
+                        [
+                            {
+                                text: 'Confirm',
+                                onPress: (): void => {
+                                    const fullName = `${this.state.firstName} ${
+                                        this.state.lastName
+                                    }`;
+                                    this.props.createUserJoinHouse({
+                                        email: this.email,
+                                        profilePicture: this.state.profilePicture,
+                                        authId: this.authId,
+                                        email_verified: this.isVerifiedUser,
+                                        name: fullName,
+                                        firstName: this.state.firstName,
+                                        lastName: this.state.lastName,
+                                        gender: this.state.gender,
+                                        age: Number(this.state.age),
+                                        bio: this.state.bio,
+                                        course: this.state.course,
+                                        studyYear: this.state.studyYear,
+                                        isSmoker: this.state.isSmoker,
+                                        isDrinker: this.state.isDrinker,
+                                        isDruggie: this.state.isDruggie,
+                                        houseId: this.state.shortID as number
+                                    });
 
-                                this.homeSwiper.scrollBy(2, true);
-                            }
-                        },
-                        { text: 'Cancel', style: 'cancel' }
-                    ]
-                );
-            } else {
-                alert('ID does not exist');
-            }
-        }).catch(error => console.log(error));
+                                    this.homeSwiper.scrollBy(2, true);
+                                }
+                            },
+                            { text: 'Cancel', style: 'cancel' }
+                        ]
+                    );
+                } else {
+                    alert('ID does not exist');
+                }
+            })
+            .catch((error) => console.log(error));
     };
 
     private async selectProfilePicture(): Promise<void> {
@@ -1371,7 +1501,4 @@ const bindActions = (dispatch) => {
     };
 };
 
-export default compose(
-    connect(mapStateToProps, bindActions)
-    // createUserUpdateHouse
-)(Login);
+export default connect(mapStateToProps, bindActions)(Login);

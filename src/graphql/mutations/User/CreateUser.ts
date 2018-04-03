@@ -20,6 +20,9 @@ export const CREATE_USER_MUTATION = gql`
         $maxPrice: Int
         $minPrice: Int
         $genderPreference: String
+        $drugPreference: String
+        $drinkPreference: String
+        $smokerPreference: String
     ) {
         createUser(
             name: $name
@@ -40,6 +43,9 @@ export const CREATE_USER_MUTATION = gql`
             maxPrice: $maxPrice
             minPrice: $minPrice
             genderPreference: $genderPreference
+            drugPreference: $drugPreference
+            drinkPreference: $drinkPreference
+            smokerPreference: $smokerPreference
         ) {
             id
             name

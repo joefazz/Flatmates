@@ -83,6 +83,9 @@ export interface CreateUserMutationVariables {
   maxPrice?: number | null,
   minPrice?: number | null,
   genderPreference?: string | null,
+  drugPreference?: string | null,
+  drinkPreference?: string | null,
+  smokerPreference?: string | null,
 };
 
 export interface CreateUserMutation {
@@ -115,14 +118,14 @@ export interface CreateUserCreateHouseMutationVariables {
   billsPrice: number,
   spaces: number,
   houseImages: Array< string >,
+  rentDue?: number | null,
+  billsDue?: number | null,
 };
 
 export interface CreateUserCreateHouseMutation {
   createUserCreateHouse:  {
     id: string,
-    house:  {
-      shortID: number,
-    } | null,
+    name: string,
   } | null,
 };
 
