@@ -1287,14 +1287,11 @@ export class Login extends React.Component<Props, State> {
 
     private doesUserExist = async (identityToken: string): Promise<void> => {
         try {
-            const decodedJSON: {
-                email: string;
-                email_verified: boolean;
-                sub: string;
-            } = await fetch(
+            const decodedJSON: { email: string; email_verified: boolean; sub: string } = await fetch(
                 `http://${
                     Platform.OS === 'android' ? '192.168.0.10' : 'localhost'
-                }:4000/verify?token=${identityToken}`
+                }:4000/verify`,
+                { method: 'POST', body: JSON.stringify({ token: identityToken }) }
             ).then((res) => res.json());
 
             this.authId = decodedJSON.sub;
