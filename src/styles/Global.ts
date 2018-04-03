@@ -22,6 +22,18 @@ export const base = StyleSheet.create({
         margin: 5
     },
 
+    headingTitle: {
+        ...Font.FontFactory({ weight: 'Bold', family: 'Nunito' }),
+        color: Colors.textHighlightColor,
+        fontSize: 24
+    },
+
+    headingSubtitle: {
+        ...Font.FontFactory({ weight: 'Light', family: 'Nunito' }),
+        color: Colors.textHighlightColor,
+        fontSize: 18
+    },
+
     buttonStyle: {
         width: 250,
         backgroundColor: Colors.brandPrimaryColor,
@@ -40,8 +52,18 @@ export const base = StyleSheet.create({
         fontSize: 16,
         color: Colors.textHighlightColor,
         alignSelf: 'flex-start',
+
         marginTop: 5,
         marginLeft: Platform.OS === 'android' ? 4 : 0
+    },
+
+    pickerLabelText: {
+        ...Font.FontFactory({ weight: 'Light' }),
+        fontSize: 16,
+        color: Colors.textHighlightColor,
+        alignSelf: 'flex-start',
+
+        marginTop: 5
     },
 
     fullWidthInput: {
@@ -64,7 +86,7 @@ export const base = StyleSheet.create({
 
     halfWidthWrapper: {
         marginTop: Platform.OS === 'android' ? 13.1 : 0,
-        width: toConstantWidth(40),
+        width: toConstantWidth(39),
         borderBottomWidth: 1,
         borderColor: Colors.grey
     },

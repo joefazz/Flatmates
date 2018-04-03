@@ -112,9 +112,7 @@ export const login = StyleSheet.create({
     pickerWrapper: {
         position: 'absolute',
         bottom: 0,
-        right: 0,
-        left: 0,
-        width: Metrics.screenWidth,
+        width: toConstantWidth(100),
         height: Metrics.screenHeight * 0.4,
         backgroundColor: Colors.backgroundWhite
     },

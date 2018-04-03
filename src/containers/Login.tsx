@@ -15,6 +15,8 @@ import {
     View,
     Keyboard
 } from 'react-native';
+// @ts-ignore
+import moment from 'moment';
 import Auth0 from 'react-native-auth0';
 import { Avatar, Button } from 'react-native-elements';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
@@ -152,8 +154,8 @@ export class Login extends React.Component<Props, State> {
             billsPrice: 0,
             spaces: 0,
             houseImages: [],
-            billsDue: new Date(),
-            rentDue: new Date(),
+            billsDue: moment(new Date()).toDate(),
+            rentDue: moment(new Date()).toDate(),
             isRentDueDatePickerVisible: false,
             isBillsDueDatePickerVisible: false,
 
@@ -260,10 +262,10 @@ export class Login extends React.Component<Props, State> {
                                 }
                             ]}
                         >
-                            Are you...
+                            Do you...
                         </Text>
                         <TouchableRect
-                            title={'Looking for a House'}
+                            title={'Need a House'}
                             onPress={() =>
                                 this.setState({ isLookingForHouse: true }, (): void =>
                                     this.homeSwiper.scrollBy(1, true)
@@ -274,7 +276,7 @@ export class Login extends React.Component<Props, State> {
                             wrapperStyle={{ marginBottom: 10 }}
                         />
                         <TouchableRect
-                            title={'Looking for People'}
+                            title={'Have a House'}
                             onPress={() =>
                                 this.setState({ isLookingForHouse: false }, () =>
                                     this.homeSwiper.scrollBy(1, true)
@@ -288,28 +290,8 @@ export class Login extends React.Component<Props, State> {
 
                 <View style={login.page}>
                     <View style={base.headingWrapper}>
-                        <Text
-                            style={[
-                                base.headingText,
-                                {
-                                    ...Font.FontFactory({ weight: 'Bold', family: 'Nunito' }),
-                                    fontSize: 24
-                                }
-                            ]}
-                        >
-                            Basic Information
-                        </Text>
-                        <Text
-                            style={[
-                                base.headingText,
-                                {
-                                    fontSize: 16,
-                                    ...Font.FontFactory({ weight: 'Light', family: 'Nunito' })
-                                }
-                            ]}
-                        >
-                            We store your information securely
-                        </Text>
+                        <Text style={base.headingTitle}>Basic Information</Text>
+                        <Text style={base.headingSubtitle}>We store your information securely</Text>
                     </View>
                     <KeyboardAvoidingView
                         behavior={'padding'}
@@ -456,7 +438,7 @@ export class Login extends React.Component<Props, State> {
                                     ? alert(
                                           'You need to enter your information correctly to proceed'
                                       )
-                                    : this.uploadProfilePicture()
+                                    : this.homeSwiper.scrollBy(1, true)
                             }
                             title={'Next'}
                             backgroundColor={
@@ -526,7 +508,7 @@ export class Login extends React.Component<Props, State> {
                         <View>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ marginRight: 20 }}>
-                                    <Text style={[base.labelText]}>General Course</Text>
+                                    <Text style={[base.pickerLabelText]}>General Course</Text>
                                     <FlatPicker
                                         items={[
                                             {
@@ -581,7 +563,7 @@ export class Login extends React.Component<Props, State> {
                                     />
                                 </View>
                                 <View>
-                                    <Text style={base.labelText}>Study Year</Text>
+                                    <Text style={base.pickerLabelText}>Study Year</Text>
                                     <FlatPicker
                                         items={[
                                             {
@@ -638,7 +620,9 @@ export class Login extends React.Component<Props, State> {
                                 style={{
                                     flexDirection: 'row',
                                     justifyContent: 'space-between',
-                                    marginHorizontal: 20,
+                                    alignItems: 'center',
+                                    alignSelf: 'center',
+                                    width: toConstantWidth(80),
                                     marginVertical: 5
                                 }}
                             >
@@ -769,98 +753,134 @@ export class Login extends React.Component<Props, State> {
             return (
                 <View style={login.page}>
                     <View style={base.headingWrapper}>
-                        <Text style={base.headingText}>Enter your preferences for a house</Text>
+                        <Text
+                            style={[
+                                base.headingText,
+                                { fontSize: 18, ...FontFactory({ weight: 'Bold' }) }
+                            ]}
+                        >
+                            Enter your preferences for a house
+                        </Text>
                     </View>
-                    <View style={[login.mainContent, { justifyContent: 'flex-start' }]}>
-                        <View style={login.marginBottom}>
-                            <Text style={base.labelText}>Minimum Price (incl. bills)</Text>
-                            <FlatPicker
-                                items={[
-                                    {
-                                        section: false,
-                                        label: "Minimum price you're willing to pay monthly"
-                                    },
-                                    { label: '£150' },
-                                    { label: '£200' },
-                                    { label: '£250' },
-                                    { label: '£300' },
-                                    { label: '£350' },
-                                    { label: '£400' },
-                                    { label: '£450' },
-                                    { label: '£500' }
-                                ]}
-                                initialValue={'£300'}
-                                onChange={({ label }) =>
-                                    this.setState({ minPrice: label.replace('£', '') })
-                                }
-                                selectTextStyle={login.profileInput}
-                                selectStyle={login.modalInput}
-                            />
+                    <View
+                        style={[
+                            login.mainContent,
+                            { justifyContent: 'space-evenly', alignItems: 'center' }
+                        ]}
+                    >
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{ marginRight: 20 }}>
+                                <Text style={base.pickerLabelText}>Min Price (incl. bills)</Text>
+                                <FlatPicker
+                                    items={[
+                                        {
+                                            section: false,
+                                            label: "Minimum price you're willing to pay monthly"
+                                        },
+                                        { label: '£150' },
+                                        { label: '£200' },
+                                        { label: '£250' },
+                                        { label: '£300' },
+                                        { label: '£350' },
+                                        { label: '£400' },
+                                        { label: '£450' },
+                                        { label: '£500' }
+                                    ]}
+                                    initialValue={'£300'}
+                                    onChange={({ label }) =>
+                                        this.setState({ minPrice: label.replace('£', '') })
+                                    }
+                                    selectStyle={[
+                                        {
+                                            borderWidth: 0,
+                                            borderBottomWidth: 1,
+                                            margin: 0,
+                                            padding: 0,
+                                            alignItems: 'flex-start',
+                                            justifyContent: 'flex-start',
+                                            marginRight: 20,
+                                            borderRadius: 0
+                                        },
+                                        base.halfWidthWrapper
+                                    ]}
+                                    selectTextStyle={[
+                                        {
+                                            fontSize: 18,
+                                            ...FontFactory({ family: 'Nunito' })
+                                        },
+                                        this.state.studyYear === ''
+                                            ? { color: Colors.grey }
+                                            : { color: Colors.textHighlightColor }
+                                    ]}
+                                />
+                            </View>
+
+                            <View>
+                                <Text style={base.pickerLabelText}>Max Price (incl. bills)</Text>
+                                <FlatPicker
+                                    items={[
+                                        {
+                                            section: false,
+                                            label: "Maximum price you're willing to pay monthly"
+                                        },
+                                        { label: '£250' },
+                                        { label: '£300' },
+                                        { label: '£350' },
+                                        { label: '£400' },
+                                        { label: '£450' },
+                                        { label: '£500' },
+                                        { label: '£550' },
+                                        { label: '£600' }
+                                    ]}
+                                    initialValue={'£500'}
+                                    onChange={({ label }) =>
+                                        this.setState({ maxPrice: label.replace('£', '') })
+                                    }
+                                    selectStyle={[
+                                        {
+                                            borderWidth: 0,
+                                            borderBottomWidth: 1,
+                                            margin: 0,
+                                            padding: 0,
+                                            alignItems: 'flex-start',
+                                            justifyContent: 'flex-start',
+                                            borderRadius: 0
+                                        },
+                                        base.halfWidthWrapper
+                                    ]}
+                                    selectTextStyle={[
+                                        {
+                                            fontSize: 18,
+                                            ...FontFactory({ family: 'Nunito' })
+                                        },
+                                        this.state.studyYear === ''
+                                            ? { color: Colors.grey }
+                                            : { color: Colors.textHighlightColor }
+                                    ]}
+                                />
+                            </View>
                         </View>
 
-                        <View style={login.marginVertical}>
-                            <Text style={base.labelText}>Maximum Price (incl. bills)</Text>
-                            <FlatPicker
-                                items={[
-                                    {
-                                        section: false,
-                                        label: "Maximum price you're willing to pay monthly"
-                                    },
-                                    { label: '£250' },
-                                    { label: '£300' },
-                                    { label: '£350' },
-                                    { label: '£400' },
-                                    { label: '£450' },
-                                    { label: '£500' },
-                                    { label: '£550' },
-                                    { label: '£600' }
-                                ]}
-                                initialValue={'£500'}
-                                onChange={({ label }) =>
-                                    this.setState({ maxPrice: label.replace('£', '') })
-                                }
-                                selectTextStyle={login.profileInput}
-                                selectStyle={login.modalInput}
-                            />
-                        </View>
-
-                        <View style={login.marginTop}>
-                            <Text style={base.labelText}>Gender Preference</Text>
-                            <FlatPicker
-                                items={[
-                                    {
-                                        section: false,
-                                        label: 'Select the gender you would prefer to live with'
-                                    },
-                                    { label: 'Male' },
-                                    { label: 'Female' },
-                                    { label: 'Non Binary' },
-                                    { label: 'No Preference' }
-                                ]}
-                                initialValue={'No Preference'}
-                                onChange={({ label }) => this.setState({ genderPreference: label })}
-                                selectTextStyle={login.profileInput}
-                                selectStyle={login.modalInput}
-                            />
-                        </View>
-                        <View style={login.marginTop}>
-                            <Text style={[base.labelText, { alignSelf: 'center' }]}>
+                        <View>
+                            <Text style={[base.labelText, { alignSelf: 'center', marginBottom: 20, ...FontFactory({ weight: 'Bold' }) }]}>
                                 Would you prefer to live with?
                             </Text>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <View>
-                                    <Text>Drug users</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ marginRight: 20 }}>
+                                    <Text style={base.pickerLabelText}>Gender Preference</Text>
                                     <FlatPicker
                                         items={[
                                             {
-                                                section: true,
-                                                label: 'Would you prefer to live with drug users?'
+                                                section: false,
+                                                label: 'Select the gender you would prefer to live with'
                                             },
-                                            { label: 'Yes' },
-                                            { label: 'No' },
+                                            { label: 'Male' },
+                                            { label: 'Female' },
+                                            { label: 'Non Binary' },
                                             { label: 'No Preference' }
                                         ]}
-                                        initialValue={'Select Preference'}
+                                        initialValue={'No Preference'}
+                                        onChange={({ label }) => this.setState({ genderPreference: label })}
                                         selectStyle={[
                                             {
                                                 borderWidth: 0,
@@ -882,13 +902,10 @@ export class Login extends React.Component<Props, State> {
                                                 ? { color: Colors.grey }
                                                 : { color: Colors.textHighlightColor }
                                         ]}
-                                        onChange={(item) =>
-                                            this.setState({ drugPreference: item.label })
-                                        }
                                     />
                                 </View>
                                 <View>
-                                    <Text>People who drink</Text>
+                                    <Text style={base.pickerLabelText}>People who drink</Text>
                                     <FlatPicker
                                         items={[
                                             {
@@ -927,8 +944,50 @@ export class Login extends React.Component<Props, State> {
                                         }
                                     />
                                 </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginTop: 40 }}>
                                 <View>
-                                    <Text>Smokers</Text>
+                                    <Text style={base.pickerLabelText}>Drug users</Text>
+                                    <FlatPicker
+                                        items={[
+                                            {
+                                                section: true,
+                                                label: 'Would you prefer to live with drug users?'
+                                            },
+                                            { label: 'Yes' },
+                                            { label: 'No' },
+                                            { label: 'No Preference' }
+                                        ]}
+                                        initialValue={'Select Preference'}
+                                        selectStyle={[
+                                            {
+                                                borderWidth: 0,
+                                                borderBottomWidth: 1,
+                                                margin: 0,
+                                                padding: 0,
+                                                alignItems: 'flex-start',
+                                                justifyContent: 'flex-start',
+                                                borderRadius: 0,
+                                                marginRight: 20
+                                            },
+                                            base.halfWidthWrapper
+                                        ]}
+                                        selectTextStyle={[
+                                            {
+                                                fontSize: 18,
+                                                ...FontFactory({ family: 'Nunito' })
+                                            },
+                                            this.state.studyYear === ''
+                                                ? { color: Colors.grey }
+                                                : { color: Colors.textHighlightColor }
+                                        ]}
+                                        onChange={(item) =>
+                                            this.setState({ drugPreference: item.label })
+                                        }
+                                    />
+                                </View>
+                                <View>
+                                    <Text style={base.pickerLabelText}>Smokers</Text>
                                     <FlatPicker
                                         items={[
                                             {
@@ -971,10 +1030,9 @@ export class Login extends React.Component<Props, State> {
                         {/* location would be good with with defaulting to university location */}
                     </View>
                     <View style={login.pageFooter}>
-                        <Button
+                        <TouchableRect
                             title={'Confirm'}
-                            fontFamily={Font.FONT_FAMILY}
-                            fontSize={20}
+                            backgroundColor={Colors.brandPrimaryColor}
                             onPress={this.completeUserSetup}
                             buttonStyle={base.buttonStyle}
                         />
@@ -985,7 +1043,7 @@ export class Login extends React.Component<Props, State> {
             return (
                 <View style={login.page}>
                     <View style={base.headingWrapper}>
-                        <Text style={base.headingText}>
+                        <Text style={[base.headingText, { textAlign: 'center', fontSize: 18 }]}>
                             Enter your House ID or if you don't have one press 'Create House'
                         </Text>
                     </View>
@@ -1028,8 +1086,13 @@ export class Login extends React.Component<Props, State> {
                         Enter your house details
                     </Text>
                 </View>
-                <View style={[login.mainContent, { justifyContent: 'flex-start', flex: 4 }]}>
-                    <View style={[login.marginBottom, { alignSelf: 'center' }]}>
+                <View
+                    style={[
+                        login.mainContent,
+                        { justifyContent: 'space-between', alignItems: 'center', flex: 4 }
+                    ]}
+                >
+                    <View style={{ alignSelf: 'center' }}>
                         <Text style={base.labelText}>Road Name</Text>
                         <TextInput
                             placeholder={'Fake Street'}
@@ -1041,61 +1104,69 @@ export class Login extends React.Component<Props, State> {
                         />
                     </View>
 
-                    <View style={[login.marginVertical, { flexDirection: 'row' }]}>
+                    <View style={{ flexDirection: 'row' }}>
                         <View style={{ marginRight: 20 }}>
                             <Text style={base.labelText}>Rent Per Month (£)</Text>
-                            <View style={login.priceInputWrapper}>
-                                <TextInput
-                                    placeholder={'Enter rent price'}
-                                    keyboardType={'numeric'}
-                                    onChangeText={(text) => this.setState({ rentPrice: text })}
-                                    underlineColorAndroid={Colors.transparent}
-                                    style={base.halfWidthInput}
-                                />
-                            </View>
+                            <TextInput
+                                placeholder={'Enter rent price'}
+                                keyboardType={'numeric'}
+                                onChangeText={(text) => this.setState({ rentPrice: text })}
+                                underlineColorAndroid={Colors.grey}
+                                style={base.halfWidthInput}
+                            />
                         </View>
                         <View>
                             <Text style={base.labelText}>Bills Per Month (£)</Text>
-                            <View style={[login.priceInputWrapper]}>
-                                <TextInput
-                                    placeholder={'Enter bills price'}
-                                    keyboardType={'numeric'}
-                                    onChangeText={(text) => this.setState({ billsPrice: text })}
-                                    underlineColorAndroid={Colors.transparent}
-                                    style={base.halfWidthInput}
-                                />
-                            </View>
+                            <TextInput
+                                placeholder={'Enter bills price'}
+                                keyboardType={'numeric'}
+                                onChangeText={(text) => this.setState({ billsPrice: text })}
+                                underlineColorAndroid={Colors.grey}
+                                style={base.halfWidthInput}
+                            />
                         </View>
                     </View>
-                    <View style={[login.marginVertical, { flexDirection: 'row' }]}>
+                    <View style={{ flexDirection: 'row' }}>
                         <View style={{ marginRight: 20 }}>
-                            <Text style={base.labelText}>Rent Due Date</Text>
+                            <Text style={base.pickerLabelText}>Rent Due Date</Text>
                             <TouchableOpacity
-                                onPress={() =>
-                                    this.setState({
-                                        isRentDueDatePickerVisible: true
-                                    })
-                                }
-                                style={login.priceInputWrapper}
+                                onPress={() => this.selectRentDueDate()}
+                                style={base.halfWidthWrapper}
                             >
-                                <Text style={base.halfWidthInput}>Select rent date</Text>
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        ...FontFactory({ family: 'Nunito' }),
+                                        color: Colors.brandPrimaryColor
+                                    }}
+                                >
+                                    {this.state.rentDue === ''
+                                        ? 'Select next rent date'
+                                        : moment(this.state.rentDue).format('Do') + ' every month'}
+                                </Text>
                             </TouchableOpacity>
                         </View>
                         <View>
-                            <Text style={base.labelText}>Bills Due Date</Text>
+                            <Text style={base.pickerLabelText}>Bills Due Date</Text>
                             <TouchableOpacity
-                                onPress={() =>
-                                    this.setState({
-                                        isBillsDueDatePickerVisible: true
-                                    })
-                                }
-                                style={[login.priceInputWrapper]}
+                                onPress={() => this.selectBillsDueDate()}
+                                style={base.halfWidthWrapper}
                             >
-                                <Text style={base.halfWidthInput}>Select bills date</Text>
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        ...FontFactory({ family: 'Nunito' }),
+                                        color: Colors.brandPrimaryColor
+                                    }}
+                                >
+                                    {this.state.billsDue === ''
+                                        ? 'Select next bills date'
+                                        : moment(this.state.billsDue).format('Do') + ' every month'}
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={[login.marginTop, { alignSelf: 'center' }]}>
+                    <View style={{ alignSelf: 'center' }}>
                         <Text style={base.labelText}>Available Rooms</Text>
                         <TextInput
                             placeholder={'How many free rooms are there?'}
@@ -1105,15 +1176,16 @@ export class Login extends React.Component<Props, State> {
                             style={base.fullWidthInput}
                         />
                     </View>
-                    <View style={[login.marginTop, { alignSelf: 'flex-start' }]}>
-                        {this.state.tempImages.length > 0 ? (
-                            <Text style={base.labelText}>Images</Text>
-                        ) : (
-                            <React.Fragment />
-                        )}
+                    <View style={{ alignSelf: 'flex-start' }}>
+                        <Text style={base.pickerLabelText}>Images</Text>
                         {/* Probably want to make this a horizontal scroll view in the future */}
                         <ScrollView
-                            style={{ flexDirection: 'row', width: toConstantWidth(80) }}
+                            style={{
+                                flexDirection: 'row',
+                                width: toConstantWidth(80),
+                                marginTop: Platform.OS === 'android' ? 13.1 : 0,
+                                maxHeight: 80
+                            }}
                             horizontal={true}
                         >
                             {this.state.tempImages.map((image, index) => {
@@ -1150,29 +1222,25 @@ export class Login extends React.Component<Props, State> {
                                     </View>
                                 );
                             })}
-                            {this.state.tempImages.length > 0 ? (
-                                <TouchableOpacity
-                                    style={{
-                                        width: 70,
-                                        height: 70,
-                                        borderWidth: 1,
-                                        borderColor: Colors.brandPrimaryColor,
-                                        borderStyle: 'dashed',
-                                        borderRadius: 3,
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}
-                                    onPress={() => this.selectImages()}
-                                >
-                                    <Icon
-                                        name={'ios-add'}
-                                        size={toConstantFontSize(4)}
-                                        style={{ color: Colors.brandPrimaryColor }}
-                                    />
-                                </TouchableOpacity>
-                            ) : (
-                                <React.Fragment />
-                            )}
+                            <TouchableOpacity
+                                style={{
+                                    width: 70,
+                                    height: 70,
+                                    borderWidth: 1,
+                                    borderColor: Colors.brandPrimaryColor,
+                                    borderStyle: 'dashed',
+                                    borderRadius: 3,
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                                onPress={() => this.selectImages()}
+                            >
+                                <Icon
+                                    name={'ios-add'}
+                                    size={toConstantFontSize(4)}
+                                    style={{ color: Colors.brandPrimaryColor }}
+                                />
+                            </TouchableOpacity>
                         </ScrollView>
                     </View>
                 </View>
@@ -1199,7 +1267,17 @@ export class Login extends React.Component<Props, State> {
                             <DatePickerIOS
                                 mode={'date'}
                                 date={this.state.rentDue as Date}
-                                onDateChange={(newDate) => this.setState({ rentDue: newDate }, () => setTimeout(() => this.setState({ isRentDueDatePickerVisible: false }), 300))}
+                                onDateChange={(newDate) =>
+                                    this.setState({ rentDue: newDate }, () =>
+                                        setTimeout(
+                                            () =>
+                                                this.setState({
+                                                    isRentDueDatePickerVisible: false
+                                                }),
+                                            300
+                                        )
+                                    )
+                                }
                             />
                         </View>
                     ) : (
@@ -1210,7 +1288,17 @@ export class Login extends React.Component<Props, State> {
                             <DatePickerIOS
                                 mode={'date'}
                                 date={this.state.billsDue as Date}
-                                onDateChange={(newDate) => this.setState({ billsDue: newDate }, () => setTimeout(() => this.setState({ isBillsDueDatePickerVisible: false }), 300))}
+                                onDateChange={(newDate) =>
+                                    this.setState({ billsDue: newDate }, () =>
+                                        setTimeout(
+                                            () =>
+                                                this.setState({
+                                                    isBillsDueDatePickerVisible: false
+                                                }),
+                                            300
+                                        )
+                                    )
+                                }
                             />
                         </View>
                     ) : (
@@ -1287,11 +1375,17 @@ export class Login extends React.Component<Props, State> {
 
     private doesUserExist = async (identityToken: string): Promise<void> => {
         try {
-            const decodedJSON: { email: string; email_verified: boolean; sub: string } = await fetch(
-                `http://${
-                    Platform.OS === 'android' ? '192.168.0.10' : 'localhost'
-                }:4000/verify`,
-                { method: 'POST', body: JSON.stringify({ token: identityToken }) }
+            const decodedJSON: {
+                email: string;
+                email_verified: boolean;
+                sub: string;
+            } = await fetch(
+                `http://${Platform.OS === 'android' ? '192.168.0.10' : 'localhost'}:4000/verify`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify({ token: identityToken }),
+                    headers: { 'Content-Type': 'application/json' }
+                }
             ).then((res) => res.json());
 
             this.authId = decodedJSON.sub;
@@ -1509,7 +1603,6 @@ export class Login extends React.Component<Props, State> {
                     if (response.ok) {
                         const json = await response.json();
                         this.setState({ profilePicture: json.url });
-                        this.homeSwiper.scrollBy(1, true);
                     } else {
                         alert('Problem with fetch: ' + response.status);
                     }
@@ -1545,6 +1638,12 @@ export class Login extends React.Component<Props, State> {
     }
 
     private async uploadImages(): Promise<void> {
+        try {
+            await this.uploadProfilePicture();
+        } catch (error) {
+            console.log('Could not upload profile picture', error);
+        }
+
         if (this.state.tempImages && this.state.tempImages.length > 0) {
             let imageUrls: Array<string>;
 

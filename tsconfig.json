@@ -10,7 +10,7 @@
       "noImplicitAny": false,
       "allowUnusedLabels": true,
       "noUnusedLocals": true,
-      "noUnusedParameters": true
+      "noUnusedParameters": true,
     },
     "exclude": [
       "node_modules"
