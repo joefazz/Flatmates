@@ -91,6 +91,9 @@ interface State {
     minPrice: number;
     maxPrice: number;
     genderPreference: string;
+    drugPreference: string;
+    drinkPreference: string;
+    smokerPreference: string;
 
     shortID: string | number;
     road: string;
@@ -98,6 +101,10 @@ interface State {
     billsPrice: string | number;
     spaces: string | number;
     houseImages: Array<string>;
+    rentDue: string | Date;
+    billsDue: string | Date;
+    isRentDueDatePickerVisible: boolean;
+    isBillsDueDatePickerVisible: boolean;
 }
 
 export class Login extends React.Component<Props, State> {
@@ -135,6 +142,9 @@ export class Login extends React.Component<Props, State> {
             minPrice: 0,
             maxPrice: 0,
             genderPreference: '',
+            drinkPreference: '',
+            drugPreference: '',
+            smokerPreference: '',
 
             shortID: 0 as number,
             road: '',
@@ -142,6 +152,10 @@ export class Login extends React.Component<Props, State> {
             billsPrice: 0,
             spaces: 0,
             houseImages: [],
+            billsDue: new Date(),
+            rentDue: new Date(),
+            isRentDueDatePickerVisible: false,
+            isBillsDueDatePickerVisible: false,
 
             isLookingForHouse: false,
             isCreatingHouse: false
@@ -223,7 +237,7 @@ export class Login extends React.Component<Props, State> {
                             onPress={() => alert('looking around')}
                         >
                             <Text style={[login.hyperlink, { marginTop: 10 }]}>
-                                I just want to look around
+                                I don't have a student email address yet
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -830,7 +844,9 @@ export class Login extends React.Component<Props, State> {
                             />
                         </View>
                         <View style={login.marginTop}>
-                            <Text style={[base.labelText, { alignSelf: 'center' }]}>Would you prefer to live with?</Text>
+                            <Text style={[base.labelText, { alignSelf: 'center' }]}>
+                                Would you prefer to live with?
+                            </Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <View>
                                     <Text>Drug users</Text>
@@ -838,11 +854,11 @@ export class Login extends React.Component<Props, State> {
                                         items={[
                                             {
                                                 section: true,
-                                                label: "Would you prefer to live with drug users?"
+                                                label: 'Would you prefer to live with drug users?'
                                             },
                                             { label: 'Yes' },
                                             { label: 'No' },
-                                            { label: 'No Preference' },
+                                            { label: 'No Preference' }
                                         ]}
                                         initialValue={'Select Preference'}
                                         selectStyle={[
@@ -867,7 +883,7 @@ export class Login extends React.Component<Props, State> {
                                                 : { color: Colors.textHighlightColor }
                                         ]}
                                         onChange={(item) =>
-                                            this.setState({ studyYear: item.label })
+                                            this.setState({ drugPreference: item.label })
                                         }
                                     />
                                 </View>
@@ -877,11 +893,12 @@ export class Login extends React.Component<Props, State> {
                                         items={[
                                             {
                                                 section: true,
-                                                label: "Would you prefer to live with people who drink?"
+                                                label:
+                                                    'Would you prefer to live with people who drink?'
                                             },
                                             { label: 'Yes' },
                                             { label: 'No' },
-                                            { label: 'No Preference' },
+                                            { label: 'No Preference' }
                                         ]}
                                         initialValue={'Select Preference'}
                                         selectStyle={[
@@ -906,7 +923,7 @@ export class Login extends React.Component<Props, State> {
                                                 : { color: Colors.textHighlightColor }
                                         ]}
                                         onChange={(item) =>
-                                            this.setState({ studyYear: item.label })
+                                            this.setState({ drinkPreference: item.label })
                                         }
                                     />
                                 </View>
@@ -916,11 +933,11 @@ export class Login extends React.Component<Props, State> {
                                         items={[
                                             {
                                                 section: true,
-                                                label: "Would you prefer to live with smokers?"
+                                                label: 'Would you prefer to live with smokers?'
                                             },
                                             { label: 'Yes' },
                                             { label: 'No' },
-                                            { label: 'No Preference' },
+                                            { label: 'No Preference' }
                                         ]}
                                         initialValue={'Select Preference'}
                                         selectStyle={[
@@ -945,7 +962,7 @@ export class Login extends React.Component<Props, State> {
                                                 : { color: Colors.textHighlightColor }
                                         ]}
                                         onChange={(item) =>
-                                            this.setState({ studyYear: item.label })
+                                            this.setState({ smokerPreference: item.label })
                                         }
                                     />
                                 </View>
@@ -1029,7 +1046,7 @@ export class Login extends React.Component<Props, State> {
                             <Text style={base.labelText}>Rent Per Month (£)</Text>
                             <View style={login.priceInputWrapper}>
                                 <TextInput
-                                    placeholder={'430.00'}
+                                    placeholder={'Enter rent price'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({ rentPrice: text })}
                                     underlineColorAndroid={Colors.transparent}
@@ -1041,13 +1058,41 @@ export class Login extends React.Component<Props, State> {
                             <Text style={base.labelText}>Bills Per Month (£)</Text>
                             <View style={[login.priceInputWrapper]}>
                                 <TextInput
-                                    placeholder={'23.00'}
+                                    placeholder={'Enter bills price'}
                                     keyboardType={'numeric'}
                                     onChangeText={(text) => this.setState({ billsPrice: text })}
                                     underlineColorAndroid={Colors.transparent}
                                     style={base.halfWidthInput}
                                 />
                             </View>
+                        </View>
+                    </View>
+                    <View style={[login.marginVertical, { flexDirection: 'row' }]}>
+                        <View style={{ marginRight: 20 }}>
+                            <Text style={base.labelText}>Rent Due Date</Text>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    this.setState({
+                                        isRentDueDatePickerVisible: true
+                                    })
+                                }
+                                style={login.priceInputWrapper}
+                            >
+                                <Text style={base.halfWidthInput}>Select rent date</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <Text style={base.labelText}>Bills Due Date</Text>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    this.setState({
+                                        isBillsDueDatePickerVisible: true
+                                    })
+                                }
+                                style={[login.priceInputWrapper]}
+                            >
+                                <Text style={base.halfWidthInput}>Select bills date</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={[login.marginTop, { alignSelf: 'center' }]}>
@@ -1149,9 +1194,67 @@ export class Login extends React.Component<Props, State> {
                             buttonStyle={base.buttonStyle}
                         />
                     )}
+                    {this.state.isRentDueDatePickerVisible ? (
+                        <View style={login.pickerWrapper}>
+                            <DatePickerIOS
+                                mode={'date'}
+                                date={this.state.rentDue as Date}
+                                onDateChange={(newDate) => this.setState({ rentDue: newDate }, () => setTimeout(() => this.setState({ isRentDueDatePickerVisible: false }), 300))}
+                            />
+                        </View>
+                    ) : (
+                        <View />
+                    )}
+                    {this.state.isBillsDueDatePickerVisible ? (
+                        <View style={login.pickerWrapper}>
+                            <DatePickerIOS
+                                mode={'date'}
+                                date={this.state.billsDue as Date}
+                                onDateChange={(newDate) => this.setState({ billsDue: newDate }, () => setTimeout(() => this.setState({ isBillsDueDatePickerVisible: false }), 300))}
+                            />
+                        </View>
+                    ) : (
+                        <View />
+                    )}
                 </View>
             </View>
         );
+    };
+
+    private selectBillsDueDate = async () => {
+        if (Platform.OS === 'android') {
+            try {
+                const { action, year, month, day } = await DatePickerAndroid.open({
+                    date: new Date()
+                });
+
+                if (action !== DatePickerAndroid.dismissedAction) {
+                    this.setState({ billsDue: `${year}-${month + 1}-${day}` });
+                }
+            } catch ({ code, message }) {
+                console.warn('Cannot open date picker ', message);
+            }
+        } else {
+            this.setState({ isBillsDueDatePickerVisible: true });
+        }
+    };
+
+    private selectRentDueDate = async () => {
+        if (Platform.OS === 'android') {
+            try {
+                const { action, year, month, day } = await DatePickerAndroid.open({
+                    date: new Date()
+                });
+
+                if (action !== DatePickerAndroid.dismissedAction) {
+                    this.setState({ rentDue: `${year}-${month + 1}-${day}` });
+                }
+            } catch ({ code, message }) {
+                console.warn('Cannot open date picker ', message);
+            }
+        } else {
+            this.setState({ isRentDueDatePickerVisible: true });
+        }
     };
 
     // Let the record show I have tested this works
@@ -1260,7 +1363,10 @@ export class Login extends React.Component<Props, State> {
             isDruggie: this.state.isDruggie,
             minPrice: Number(this.state.minPrice),
             maxPrice: Number(this.state.maxPrice),
-            genderPreference: this.state.genderPreference
+            genderPreference: this.state.genderPreference,
+            drugPreference: this.state.drugPreference,
+            drinkPreference: this.state.drinkPreference,
+            smokerPreference: this.state.smokerPreference
         });
 
         this.homeSwiper.scrollBy(2, true);
@@ -1296,7 +1402,9 @@ export class Login extends React.Component<Props, State> {
             rentPrice: Math.round(Number(this.state.rentPrice as string)),
             billsPrice: Math.round(Number(this.state.billsPrice as string)),
             spaces: Number(this.state.spaces as string),
-            houseImages: this.state.houseImages
+            houseImages: this.state.houseImages,
+            rentDue: String(this.state.rentDue),
+            billsDue: String(this.state.billsDue)
         });
 
         this.homeSwiper.scrollBy(1, true);

@@ -118,8 +118,8 @@ export interface CreateUserCreateHouseMutationVariables {
   billsPrice: number,
   spaces: number,
   houseImages: Array< string >,
-  rentDue?: number | null,
-  billsDue?: number | null,
+  rentDue?: string | null,
+  billsDue?: string | null,
 };
 
 export interface CreateUserCreateHouseMutation {

@@ -24,8 +24,8 @@ export const CREATE_USER_CREATE_HOUSE_MUTATION = gql`
         $billsPrice: Int!
         $spaces: Int!
         $houseImages: [String!]!
-        $rentDue: Int
-        $billsDue: Int
+        $rentDue: String
+        $billsDue: String
     ) {
         createUserCreateHouse(
             email: $email
