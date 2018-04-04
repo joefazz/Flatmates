@@ -4561,6 +4561,12 @@ react-native-iphone-x-helper@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.0.2.tgz#7dbca530930f7c1ce8633cc8fd13ba94102992e1"
 
+react-native-onesignal@^3.1.4:
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-3.1.4.tgz#ecaa4c22597d2d76420b922110d28cdaf76ffe7d"
+  dependencies:
+    invariant "^2.2.2"
+
 react-native-pickerise@1.3.2:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/react-native-pickerise/-/react-native-pickerise-1.3.2.tgz#bcd748187398a600d9aa84b601960ddc75316f4b"

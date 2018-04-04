@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -13,6 +14,7 @@
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* FlatmatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* FlatmatesTests.m */; };
 		04584EC7E0C0425891D25624 /* libimageCropPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BD128C1EBFC4AB0BF889D6D /* libimageCropPicker.a */; };
+		0772CF767A404D848DF30E67 /* libRCTOneSignal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EA1C164505E438BA674488D /* libRCTOneSignal.a */; };
 		0BEAD587C64D4DCAB49724ED /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D7D71D43C7F94C6E9886EF02 /* MaterialIcons.ttf */; };
 		11EEA504D93A32ACB80F15B5 /* libPods-FlatmatesTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE0628D1CBDE33419625255 /* libPods-FlatmatesTests.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -43,6 +45,7 @@
 		2DCD954D1E0B4F2C00145EB5 /* FlatmatesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* FlatmatesTests.m */; };
 		310B668CFE904CDD885BEB32 /* Nunito ExtraLight Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 490D6927F28C41CEAADCE7F4 /* Nunito ExtraLight Italic.ttf */; };
 		3B040ED2338144B899375660 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2607C2442A2046528B6AD78E /* EvilIcons.ttf */; };
+		3C7C4406A87C474591F7CCB2 /* libA0Auth0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F872B3C0815744A3A4182DF6 /* libA0Auth0.a */; };
 		48A68B14AD084E8A85B64BBD /* Nunito ExtraBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 417338B77CCE4680812E3E29 /* Nunito ExtraBold Italic.ttf */; };
 		49A53C5CAE7E42F1A07C26F2 /* Nunito Bold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32891D3A2A954433A38D00B9 /* Nunito Bold Italic.ttf */; };
 		4F879B4AADC9478E818A049B /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B87650C14A2144F7970CD088 /* Octicons.ttf */; };
@@ -59,8 +62,6 @@
 		9848123C409F4791A1DC4B5E /* Nunito SemiBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B712D49E1C8045EA9695E4F0 /* Nunito SemiBold Italic.ttf */; };
 		9C49CB85C04C4D73917C9D1B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02743E41C3B445FF98098195 /* Foundation.ttf */; };
 		A187D8B921594ED290DA9DC9 /* Nunito SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */; };
-		A24895B42054A9B80029EE11 /* WCLShineButton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A24895B12054A9A00029EE11 /* WCLShineButton.framework */; };
-		A24895B52054A9B80029EE11 /* WCLShineButton.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A24895B12054A9A00029EE11 /* WCLShineButton.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26DBE031FFBE62300FE1330 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; };
 		A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */; };
@@ -73,7 +74,6 @@
 		D697E743465A4D55913B8D3A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A42DCEAE826546B6A730396A /* SimpleLineIcons.ttf */; };
 		D867C993DA9C40B5AC63B5C6 /* Nunito Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B751948C591E40CAAA56BC99 /* Nunito Regular.ttf */; };
 		F47907D01C631E9D4A3F33D0 /* libPods-Flatmates-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DC076EA845244790C2ADE34 /* libPods-Flatmates-tvOS.a */; };
-		3C7C4406A87C474591F7CCB2 /* libA0Auth0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F872B3C0815744A3A4182DF6 /* libA0Auth0.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -322,26 +322,19 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
-		A24895B02054A9A00029EE11 /* PBXContainerItemProxy */ = {
+		A23B3C5420755D4100214125 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */;
+			containerPortal = BD556DEAC7AD4407A1A51FEB /* A0Auth0.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9773F93C1E547C060011CBEF;
-			remoteInfo = WCLShineButton;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = A0Auth0;
 		};
-		A24895B22054A9A00029EE11 /* PBXContainerItemProxy */ = {
+		A23B3C5720755D4100214125 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */;
+			containerPortal = 6CFE04E05B1046DF89B76ECE /* RCTOneSignal.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9721D6151E5576D8003C31EF;
-			remoteInfo = Demo;
-		};
-		A24895B62054A9B80029EE11 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 9773F93B1E547C060011CBEF;
-			remoteInfo = WCLShineButton;
+			remoteGlobalIDString = 3245CDED1BFEE35C00EABF68;
+			remoteInfo = RCTOneSignal;
 		};
 		A26DBE0A1FFBE64E00FE1330 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -409,7 +402,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */,
-				A24895B52054A9B80029EE11 /* WCLShineButton.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +434,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		17F1E5A6AF49430597BE1D5E /* Nunito Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Light.ttf"; path = "../Assets/Fonts/Nunito/Nunito Light.ttf"; sourceTree = "<group>"; };
 		1DC076EA845244790C2ADE34 /* libPods-Flatmates-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Flatmates-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1EA1C164505E438BA674488D /* libRCTOneSignal.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOneSignal.a; sourceTree = "<group>"; };
 		2607C2442A2046528B6AD78E /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Flatmates-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flatmates-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Flatmates-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Flatmates-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -456,6 +449,7 @@
 		5BF855C967F34A8FA3AC0DCE /* libInteractable.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libInteractable.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6464E1A75799FF86BBC32B85 /* Pods-FlatmatesTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlatmatesTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlatmatesTests/Pods-FlatmatesTests.release.xcconfig"; sourceTree = "<group>"; };
+		6CFE04E05B1046DF89B76ECE /* RCTOneSignal.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTOneSignal.xcodeproj; path = "../node_modules/react-native-onesignal/ios/RCTOneSignal.xcodeproj"; sourceTree = "<group>"; };
 		6F2FD57FE18F42D482774450 /* Interactable.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Interactable.xcodeproj; path = "../node_modules/react-native-interactable/ios/Interactable.xcodeproj"; sourceTree = "<group>"; };
 		75FEE6A0D98713138F1BE0CA /* Pods-Flatmates-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOS/Pods-Flatmates-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		781B99A806011EB79CD5A47F /* libPods-Flatmates-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Flatmates-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -467,7 +461,7 @@
 		8F130619A78745C2A9B259D4 /* Nunito Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Black.ttf"; path = "../Assets/Fonts/Nunito/Nunito Black.ttf"; sourceTree = "<group>"; };
 		92666A5AC50E103D720121A4 /* Pods-Flatmates-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOS/Pods-Flatmates-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito SemiBold.ttf"; path = "../Assets/Fonts/Nunito/Nunito SemiBold.ttf"; sourceTree = "<group>"; };
-		A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WCLShineButton.xcodeproj; path = "../node_modules/react-native-shine-button/ios/WCLShineButton/WCLShineButton.xcodeproj"; sourceTree = "<group>"; };
+		A23B3C5920755D5900214125 /* Flatmates.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Flatmates.entitlements; path = Flatmates/Flatmates.entitlements; sourceTree = "<group>"; };
 		A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
 		A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
 		A42DCEAE826546B6A730396A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
@@ -477,6 +471,7 @@
 		B712D49E1C8045EA9695E4F0 /* Nunito SemiBold Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito SemiBold Italic.ttf"; path = "../Assets/Fonts/Nunito/Nunito SemiBold Italic.ttf"; sourceTree = "<group>"; };
 		B751948C591E40CAAA56BC99 /* Nunito Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Regular.ttf"; path = "../Assets/Fonts/Nunito/Nunito Regular.ttf"; sourceTree = "<group>"; };
 		B87650C14A2144F7970CD088 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		BD556DEAC7AD4407A1A51FEB /* A0Auth0.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = A0Auth0.xcodeproj; path = "../node_modules/react-native-auth0/ios/A0Auth0.xcodeproj"; sourceTree = "<group>"; };
 		CCD26172338273C9A4EF6102 /* Pods-Flatmates.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates.release.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates/Pods-Flatmates.release.xcconfig"; sourceTree = "<group>"; };
 		CF584EDC622941B39C566EDA /* Nunito Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Bold.ttf"; path = "../Assets/Fonts/Nunito/Nunito Bold.ttf"; sourceTree = "<group>"; };
 		D01FA0CDB9804D9D94C51FA1 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -487,10 +482,9 @@
 		E3C2BD9D16A92E28025D5DA5 /* libPods-Flatmates.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Flatmates.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ECE0628D1CBDE33419625255 /* libPods-FlatmatesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlatmatesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EED8BC209733A9881B7389AC /* Pods-FlatmatesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlatmatesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlatmatesTests/Pods-FlatmatesTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F872B3C0815744A3A4182DF6 /* libA0Auth0.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libA0Auth0.a; sourceTree = "<group>"; };
 		FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		FE050012E176E4E0BC1260A0 /* Pods-Flatmates-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOSTests/Pods-Flatmates-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BD556DEAC7AD4407A1A51FEB /* A0Auth0.xcodeproj */ = {isa = PBXFileReference; name = "A0Auth0.xcodeproj"; path = "../node_modules/react-native-auth0/ios/A0Auth0.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		F872B3C0815744A3A4182DF6 /* libA0Auth0.a */ = {isa = PBXFileReference; name = "libA0Auth0.a"; path = "libA0Auth0.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -508,7 +502,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */,
-				A24895B42054A9B80029EE11 /* WCLShineButton.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -528,6 +521,7 @@
 				683E2CF9B527A4B0E7542073 /* libPods-Flatmates.a in Frameworks */,
 				2D54E1CEB2EE4CC48802FDE1 /* libRNGestureHandler.a in Frameworks */,
 				3C7C4406A87C474591F7CCB2 /* libA0Auth0.a in Frameworks */,
+				0772CF767A404D848DF30E67 /* libRCTOneSignal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +634,7 @@
 		13B07FAE1A68108700A75B9A /* Flatmates */ = {
 			isa = PBXGroup;
 			children = (
+				A23B3C5920755D5900214125 /* Flatmates.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -742,7 +737,6 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */,
 				A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -760,6 +754,7 @@
 				420EB64209FE478CAA768E7A /* imageCropPicker.xcodeproj */,
 				1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */,
 				BD556DEAC7AD4407A1A51FEB /* A0Auth0.xcodeproj */,
+				6CFE04E05B1046DF89B76ECE /* RCTOneSignal.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -808,6 +803,8 @@
 				5BF855C967F34A8FA3AC0DCE /* libInteractable.a */,
 				7BD128C1EBFC4AB0BF889D6D /* libimageCropPicker.a */,
 				FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */,
+				F872B3C0815744A3A4182DF6 /* libA0Auth0.a */,
+				1EA1C164505E438BA674488D /* libRCTOneSignal.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -824,11 +821,18 @@
 			path = Frameworks;
 			sourceTree = "<group>";
 		};
-		A24895AC2054A9A00029EE11 /* Products */ = {
+		A23B3C4F20755D4100214125 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A24895B12054A9A00029EE11 /* WCLShineButton.framework */,
-				A24895B32054A9A00029EE11 /* Demo.app */,
+				A23B3C5520755D4100214125 /* libA0Auth0.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A23B3C5120755D4100214125 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A23B3C5820755D4100214125 /* libRCTOneSignal.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -915,7 +919,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				A24895B72054A9B80029EE11 /* PBXTargetDependency */,
 			);
 			name = Flatmates;
 			productName = "Hello World";
@@ -975,7 +978,19 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 3FC5KELS79;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 3FC5KELS79;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1000,6 +1015,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = A23B3C4F20755D4100214125 /* Products */;
+					ProjectRef = BD556DEAC7AD4407A1A51FEB /* A0Auth0.xcodeproj */;
+				},
 				{
 					ProductGroup = A2D3D608200A5C2F006F2355 /* Products */;
 					ProjectRef = 420EB64209FE478CAA768E7A /* imageCropPicker.xcodeproj */;
@@ -1041,6 +1060,10 @@
 					ProjectRef = 00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */;
 				},
 				{
+					ProductGroup = A23B3C5120755D4100214125 /* Products */;
+					ProjectRef = 6CFE04E05B1046DF89B76ECE /* RCTOneSignal.xcodeproj */;
+				},
+				{
 					ProductGroup = 139105B71AF99BAD00B5F7CC /* Products */;
 					ProjectRef = 139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */;
 				},
@@ -1063,10 +1086,6 @@
 				{
 					ProductGroup = A2D150B32048B10600C4DD57 /* Products */;
 					ProjectRef = 1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */;
-				},
-				{
-					ProductGroup = A24895AC2054A9A00029EE11 /* Products */;
-					ProjectRef = A24895AB2054A9A00029EE11 /* WCLShineButton.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1311,18 +1330,18 @@
 			remoteRef = A20D49031FCD6AEE00059AAE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A24895B12054A9A00029EE11 /* WCLShineButton.framework */ = {
+		A23B3C5520755D4100214125 /* libA0Auth0.a */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = WCLShineButton.framework;
-			remoteRef = A24895B02054A9A00029EE11 /* PBXContainerItemProxy */;
+			fileType = archive.ar;
+			path = libA0Auth0.a;
+			remoteRef = A23B3C5420755D4100214125 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A24895B32054A9A00029EE11 /* Demo.app */ = {
+		A23B3C5820755D4100214125 /* libRCTOneSignal.a */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Demo.app;
-			remoteRef = A24895B22054A9A00029EE11 /* PBXContainerItemProxy */;
+			fileType = archive.ar;
+			path = libRCTOneSignal.a;
+			remoteRef = A23B3C5720755D4100214125 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */ = {
@@ -1730,11 +1749,6 @@
 			target = 2D02E47A1E0B4A5D006451C7 /* Flatmates-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
 		};
-		A24895B72054A9B80029EE11 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = WCLShineButton;
-			targetProxy = A24895B62054A9B80029EE11 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1755,6 +1769,7 @@
 			baseConfigurationReference = EED8BC209733A9881B7389AC /* Pods-FlatmatesTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 3FC5KELS79;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1765,12 +1780,14 @@
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-auth0/ios",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1788,18 +1805,21 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 3FC5KELS79;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-auth0/ios",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1817,18 +1837,18 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Flatmates/Flatmates.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"~/Documents/FacebookSDK",
-					"$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios",
-				);
+				DEVELOPMENT_TEAM = 3FC5KELS79;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-auth0/ios",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = Flatmates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1853,17 +1873,17 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Flatmates/Flatmates.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = (
-					"~/Documents/FacebookSDK",
-					"$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios",
-				);
+				DEVELOPMENT_TEAM = 3FC5KELS79;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-interactable/lib/ios/Interactable",
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-auth0/ios",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = Flatmates/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1901,11 +1921,13 @@
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-auth0/ios",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1939,11 +1961,13 @@
 					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-auth0/ios",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1975,6 +1999,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2000,6 +2025,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOSTests";
