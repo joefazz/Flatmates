@@ -13,11 +13,11 @@ import { FlatPicker } from '../../widgets/FlatPicker';
 
 interface Props {
     navigation: {
-        push: (route: string, params: { fbUserId?: string; data?: object }) => void;
+        push: (route: string, params?: { data?: object }) => void;
     };
     data: Array<Post>;
     isLoading: boolean;
-    fbUserId: string;
+    userId: string;
     hasCreatedPost: boolean;
     isAllFilterActive: boolean;
     isStarredFilterActive: boolean;
@@ -97,18 +97,6 @@ export class PostListComponent extends React.Component<Props> {
                                 { label: '4' }
                             ]}
                         />
-                        {/*<TouchableHighlight
-                            onPress={() => this.props.changeFilters(Filters.MINE)}
-                            underlayColor={Colors.translucentDefinetelyNotAirbnbRed}
-                            style={[
-                                feed.filterItem,
-                                this.props.isPriceFilterActive && { backgroundColor: Colors.definetelyNotAirbnbRed }
-                            ]}
-                        >
-                            <Text style={[feed.filterItemText, this.props.isPriceFilterActive && { color: Colors.white }]}>
-                                My Posts
-                            </Text>
-                        </TouchableHighlight>*/}
                     </View>
                 </View>
 
@@ -130,20 +118,25 @@ export class PostListComponent extends React.Component<Props> {
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
-                {/*Platform.OS === 'android' ? (
+                {Platform.OS === 'android' ? (
                     <FloatingAction
-                        buttonColor={Colors.brandPrimaryColor}
+                        color={Colors.brandPrimaryColor}
+                        overrideWithAction={true}
+                        actions={[
+                            {
+                                name: 'create_action',
+                                text: 'Create',
+                                position: 1,
+                                icon: <Icon name={'md-add'} size={26} color={Colors.white} />
+                            }
+                        ]}
                         showBackground={false}
                         floatingIcon={<Icon name={'md-add'} size={26} color={Colors.white} />}
-                        onPressMain={() =>
-                            this.props.navigation.push('CreatePost', {
-                                fbUserId: this.props.fbUserId
-                            })
-                        }
+                        onPressItem={() => this.props.navigation.push('CreatePost')}
                     />
                 ) : (
                     <React.Fragment />
-                )*/}
+                )}
             </>
         );
     }
@@ -184,11 +177,7 @@ export class PostListComponent extends React.Component<Props> {
             return (
                 <TouchableHighlight
                     underlayColor={Colors.grey}
-                    onPress={() =>
-                        this.props.navigation.push('CreatePost', {
-                            fbUserId: this.props.fbUserId
-                        })
-                    }
+                    onPress={() => this.props.navigation.push('CreatePost')}
                     style={feed.createCard}
                 >
                     <Text

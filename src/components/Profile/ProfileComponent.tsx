@@ -39,7 +39,10 @@ export class ProfileComponent extends React.Component<Props> {
                         profile.headerPanel,
                         {
                             height: this._deltaY.interpolate({
-                                inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
+                                inputRange: [
+                                    Metrics.screenHeight * 0.08,
+                                    Metrics.screenHeight * 0.3699
+                                ],
                                 outputRange: [20, 100],
                                 extrapolateRight: 'clamp'
                             })
@@ -51,7 +54,10 @@ export class ProfileComponent extends React.Component<Props> {
                             profile.headerTextWrapper,
                             {
                                 maxHeight: this._deltaY.interpolate({
-                                    inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
+                                    inputRange: [
+                                        Metrics.screenHeight * 0.08,
+                                        Metrics.screenHeight * 0.3699
+                                    ],
                                     outputRange: [50, 180],
                                     extrapolateLeft: 'clamp',
                                     extrapolateRight: 'clamp'
@@ -59,8 +65,14 @@ export class ProfileComponent extends React.Component<Props> {
                             },
                             {
                                 paddingTop: this._deltaY.interpolate({
-                                    inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
-                                    outputRange: [Metrics.screenHeight * 0.013, Metrics.screenHeight * 0.01],
+                                    inputRange: [
+                                        Metrics.screenHeight * 0.08,
+                                        Metrics.screenHeight * 0.3699
+                                    ],
+                                    outputRange: [
+                                        Metrics.screenHeight * 0.013,
+                                        Metrics.screenHeight * 0.01
+                                    ],
                                     extrapolateLeft: 'clamp',
                                     extrapolateRight: 'clamp'
                                 })
@@ -72,7 +84,10 @@ export class ProfileComponent extends React.Component<Props> {
                                 profile.headerText,
                                 {
                                     fontSize: this._deltaY.interpolate({
-                                        inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
+                                        inputRange: [
+                                            Metrics.screenHeight * 0.08,
+                                            Metrics.screenHeight * 0.3699
+                                        ],
                                         outputRange: [26, 45],
                                         extrapolateLeft: 'clamp',
                                         extrapolateRight: 'clamp'
@@ -88,7 +103,10 @@ export class ProfileComponent extends React.Component<Props> {
                                 { fontSize: 24, paddingLeft: 10 },
                                 {
                                     opacity: this._deltaY.interpolate({
-                                        inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
+                                        inputRange: [
+                                            Metrics.screenHeight * 0.08,
+                                            Metrics.screenHeight * 0.3699
+                                        ],
                                         outputRange: [0, 1],
                                         extrapolate: 'clamp'
                                     })
@@ -104,7 +122,10 @@ export class ProfileComponent extends React.Component<Props> {
                             profile.headerAvatar,
                             {
                                 opacity: this._deltaY.interpolate({
-                                    inputRange: [Metrics.screenHeight * 0.08, Metrics.screenHeight * 0.3699],
+                                    inputRange: [
+                                        Metrics.screenHeight * 0.08,
+                                        Metrics.screenHeight * 0.3699
+                                    ],
                                     outputRange: [0, 1],
                                     extrapolateLeft: 'clamp',
                                     extrapolateRight: 'clamp'
@@ -112,13 +133,20 @@ export class ProfileComponent extends React.Component<Props> {
                             }
                         ]}
                     >
-                        <Avatar xlarge={true} rounded={true} source={{ uri: this.props.profile.imageUrl }} />
+                        <Avatar
+                            xlarge={true}
+                            rounded={true}
+                            source={{ uri: this.props.profile.profilePicture }}
+                        />
                     </Animated.View>
                 </Animated.View>
 
                 <Interactable.View
                     verticalOnly={true}
-                    snapPoints={[{ y: Metrics.screenHeight * 0.3699 }, { y: Metrics.screenHeight * 0.08 }]}
+                    snapPoints={[
+                        { y: Metrics.screenHeight * 0.3699 },
+                        { y: Metrics.screenHeight * 0.08 }
+                    ]}
                     boundaries={{ top: Metrics.screenHeight * 0.062 }}
                     initialPosition={{ y: Metrics.screenHeight * 0.3699 }}
                     style={profile.interactableWrapper}
@@ -134,21 +162,29 @@ export class ProfileComponent extends React.Component<Props> {
                                 <View style={profile.ageGenderWrapper}>
                                     <View>
                                         <Text style={profile.aboutLabel}>Age</Text>
-                                        <Text style={profile.aboutText}>{ConvertBirthdayToAge(this.props.profile.birthday)}</Text>
+                                        <Text style={profile.aboutText}>
+                                            {ConvertBirthdayToAge(this.props.profile.birthday)}
+                                        </Text>
                                     </View>
                                     <View>
                                         <Text style={profile.aboutLabel}>Study Year</Text>
-                                        <Text style={profile.aboutText}>{this.props.profile.studyYear}</Text>
+                                        <Text style={profile.aboutText}>
+                                            {this.props.profile.studyYear}
+                                        </Text>
                                     </View>
                                     <View>
                                         <Text style={profile.aboutLabel}>Gender</Text>
-                                        <Text style={profile.aboutText}>{_.capitalize(this.props.profile.gender)}</Text>
+                                        <Text style={profile.aboutText}>
+                                            {_.capitalize(this.props.profile.gender)}
+                                        </Text>
                                     </View>
                                 </View>
                                 <View style={profile.preferencesWrapper}>
                                     <View>
                                         <Text style={profile.aboutLabel}>Smoker?</Text>
-                                        <Text style={profile.aboutText}>{this.props.profile.isSmoker ? 'Yes' : 'No'}</Text>
+                                        <Text style={profile.aboutText}>
+                                            {this.props.profile.isSmoker ? 'Yes' : 'No'}
+                                        </Text>
                                     </View>
                                 </View>
                             </View>
@@ -156,29 +192,41 @@ export class ProfileComponent extends React.Component<Props> {
                             {this.props.profile.house ? (
                                 <View style={profile.contentWrapper}>
                                     <Text style={profile.aboutLabel}>Road Name</Text>
-                                    <Text style={profile.aboutText}>{this.props.profile.house.road}</Text>
+                                    <Text style={profile.aboutText}>
+                                        {this.props.profile.house.road}
+                                    </Text>
                                     <View style={profile.ageGenderWrapper}>
                                         <View>
                                             <Text style={profile.aboutLabel}>House ID</Text>
-                                            <Text style={profile.aboutText}>{this.props.profile.house.shortID}</Text>
+                                            <Text style={profile.aboutText}>
+                                                {this.props.profile.house.shortID}
+                                            </Text>
                                         </View>
                                         <View>
                                             <Text style={profile.aboutLabel}>Free Spaces</Text>
-                                            <Text style={profile.aboutText}>{this.props.profile.house.spaces}</Text>
+                                            <Text style={profile.aboutText}>
+                                                {this.props.profile.house.spaces}
+                                            </Text>
                                         </View>
                                         <View>
                                             <Text style={profile.aboutLabel}>Cost Per Month</Text>
                                             <Text style={profile.aboutText}>
-                                                £{this.props.profile.house.rentPrice + this.props.profile.house.billsPrice}
+                                                £{this.props.profile.house.rentPrice +
+                                                    this.props.profile.house.billsPrice}
                                             </Text>
                                         </View>
                                     </View>
                                     {this.props.profile.house.users.length > 1 ? (
-                                        <ScrollView contentContainerStyle={profile.preferencesWrapper}>
+                                        <ScrollView
+                                            contentContainerStyle={profile.preferencesWrapper}
+                                        >
                                             <Text style={profile.aboutLabel}>Flatmates</Text>
                                             {this.props.profile.house.users.map((flatmate) => {
                                                 return (
-                                                    <Text key={flatmate.name} style={profile.aboutText}>
+                                                    <Text
+                                                        key={flatmate.name}
+                                                        style={profile.aboutText}
+                                                    >
                                                         {flatmate.name}
                                                     </Text>
                                                 );
@@ -190,22 +238,37 @@ export class ProfileComponent extends React.Component<Props> {
                                 </View>
                             ) : (
                                 <View style={profile.contentWrapper}>
-                                    <Text style={[profile.aboutText, { color: Colors.brandPrimaryColor }]}>
+                                    <Text
+                                        style={[
+                                            profile.aboutText,
+                                            { color: Colors.brandPrimaryColor }
+                                        ]}
+                                    >
                                         House Preferences
                                     </Text>
                                     <View style={profile.ageGenderWrapper}>
                                         <View>
                                             <Text style={profile.aboutLabel}>Minimum Price</Text>
-                                            <Text style={profile.aboutText}>£{this.props.profile.minPrice}</Text>
+                                            <Text style={profile.aboutText}>
+                                                £{this.props.profile.minPrice}
+                                            </Text>
                                         </View>
                                         <View>
                                             <Text style={profile.aboutLabel}>Maximum Price</Text>
-                                            <Text style={profile.aboutText}>£{this.props.profile.maxPrice}</Text>
+                                            <Text style={profile.aboutText}>
+                                                £{this.props.profile.maxPrice}
+                                            </Text>
                                         </View>
                                     </View>
-                                    <Text style={[profile.aboutLabel, { marginTop: 10 }]}>Preferred Gender</Text>
-                                    <Text style={profile.aboutText}>{this.props.profile.genderPreference}</Text>
-                                    <Text style={[profile.aboutLabel, { marginTop: 10 }]}>Preferred Location</Text>
+                                    <Text style={[profile.aboutLabel, { marginTop: 10 }]}>
+                                        Preferred Gender
+                                    </Text>
+                                    <Text style={profile.aboutText}>
+                                        {this.props.profile.genderPreference}
+                                    </Text>
+                                    <Text style={[profile.aboutLabel, { marginTop: 10 }]}>
+                                        Preferred Location
+                                    </Text>
                                     <Mapbox.MapView
                                         styleURL={Mapbox.StyleURL.Street}
                                         zoomLevel={15}

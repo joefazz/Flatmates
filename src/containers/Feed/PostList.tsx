@@ -1,13 +1,13 @@
-import * as React from "react";
-import { compose } from "react-apollo";
-import { Platform, StatusBar } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-import { connect } from "react-redux";
+import * as React from 'react';
+import { compose } from 'react-apollo';
+import { Platform, StatusBar } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
-import { PostListComponent } from "../../components/Feed/PostListComponent";
-import { getPosts, toggleFilter } from "../../redux/Routines";
-import { FeedState, LoginState, ReduxState } from "../../types/ReduxTypes";
-import { Post } from "../../types/Entities";
+import { PostListComponent } from '../../components/Feed/PostListComponent';
+import { getPosts, toggleFilter } from '../../redux/Routines';
+import { FeedState, LoginState, ReduxState } from '../../types/ReduxTypes';
+import { Post } from '../../types/Entities';
 
 interface Props {
     feed: FeedState;
@@ -21,7 +21,7 @@ interface State {
     data: Array<Post>;
     isLoading: boolean;
     hasCreatedPost: boolean;
-    fbUserId: string;
+    userId: string;
     isAllFilterActive: boolean;
     isPriceFilterActive: boolean;
     isStarredFilterActive: boolean;
@@ -39,11 +39,11 @@ export class PostList extends React.Component<Props, State> {
     };
 
     protected static navigationOptions = () => ({
-        title: "Home",
+        title: 'Home',
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon
                 name={
-                    Platform.OS === "ios" ? (focused ? "ios-home" : "ios-home-outline") : "md-home"
+                    Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home'
                 }
                 color={tintColor}
                 size={32}
@@ -57,7 +57,7 @@ export class PostList extends React.Component<Props, State> {
         this.state = {
             data: props.feed.posts,
             isLoading: props.feed.isFetchingPosts,
-            fbUserId: "",
+            userId: props.login.id,
             isAllFilterActive: props.feed.isAllFilterActive,
             isStarredFilterActive: props.feed.isStarredFilterActive,
             isPriceFilterActive: props.feed.isPriceFilterActive,
@@ -86,10 +86,6 @@ export class PostList extends React.Component<Props, State> {
             this.setState({ isPriceFilterActive: newProps.feed.isPriceFilterActive });
         }
 
-        if (newProps.login.fbUserId !== null) {
-            this.setState({ fbUserId: newProps.login.fbUserId });
-        }
-
         if (newProps.feed.posts.length !== this.state.data.length) {
             this.setState({ data: newProps.feed.posts });
         }
@@ -98,7 +94,7 @@ export class PostList extends React.Component<Props, State> {
     render() {
         return (
             <>
-                <StatusBar barStyle={"light-content"} />
+                <StatusBar barStyle={'light-content'} />
                 <PostListComponent
                     navigation={this.props.navigation}
                     loadMorePosts={this.loadMorePosts}

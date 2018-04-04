@@ -1,7 +1,7 @@
-import Mapbox from "@mapbox/react-native-mapbox-gl";
+import Mapbox from '@mapbox/react-native-mapbox-gl';
 // @ts-ignore
-import moment from "moment";
-import * as React from "react";
+import moment from 'moment';
+import * as React from 'react';
 import {
     ActivityIndicator,
     Image,
@@ -10,25 +10,25 @@ import {
     TouchableHighlight,
     Alert,
     View
-} from "react-native";
-import { Avatar } from "react-native-elements";
-import { RectButton } from "react-native-gesture-handler";
-import { isIphoneX } from "react-native-iphone-x-helper";
-import Swiper from "react-native-swiper";
-import Icon from "react-native-vector-icons/SimpleLineIcons";
+} from 'react-native';
+import { Avatar } from 'react-native-elements';
+import { RectButton } from 'react-native-gesture-handler';
+import { isIphoneX } from 'react-native-iphone-x-helper';
+import Swiper from 'react-native-swiper';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
-import { Colors } from "../../consts";
-import { FontFactory } from "../../consts/font";
-import { feed } from "../../styles";
-import { ProfileState } from "../../types/ReduxTypes";
-import { House } from "../../types/Entities";
+import { Colors } from '../../consts';
+import { FontFactory } from '../../consts/font';
+import { feed } from '../../styles';
+import { ProfileState } from '../../types/ReduxTypes';
+import { House } from '../../types/Entities';
 import {
     toConstantFontSize,
     toConstantHeight,
     toConstantWidth
-} from "../../utils/PercentageConversion";
-import { compareUsers } from "../../utils/UserComparison";
-import { TouchableRect } from "../../widgets/TouchableRect";
+} from '../../utils/PercentageConversion';
+import { compareUsers } from '../../utils/UserComparison';
+import { TouchableRect } from '../../widgets/TouchableRect';
 
 interface Props {
     house: House;
@@ -107,9 +107,9 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         <View style={feed.roadDateWrapper}>
                             <View
                                 style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "space-between"
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between'
                                 }}
                             >
                                 <Text style={feed.roadText}>{this.props.house.road}</Text>
@@ -126,22 +126,22 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             </View>
                             <Text style={feed.dateText}>
                                 {this.props.lastSeen
-                                    ? "Last Viewed: " +
+                                    ? 'Last Viewed: ' +
                                       moment(this.props.lastSeen)
                                           .utc()
-                                          .format("DD MMMM") +
-                                      " at " +
+                                          .format('DD MMMM') +
+                                      ' at ' +
                                       moment(this.props.lastSeen)
                                           .utc()
-                                          .format("HH:MM")
-                                    : "Created On: " +
+                                          .format('HH:MM')
+                                    : 'Created On: ' +
                                       moment(this.props.createdAt)
                                           .utc()
-                                          .format("DD MMM") +
-                                      " at " +
+                                          .format('DD MMM') +
+                                      ' at ' +
                                       moment(this.props.createdAt)
                                           .utc()
-                                          .format("HH:MM")}
+                                          .format('HH:MM')}
                             </Text>
                             <Text style={feed.spacesText}>
                                 {this.props.house.spaces} Spaces Remaining
@@ -157,7 +157,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                         feed.priceText,
                                         {
                                             ...FontFactory({
-                                                weight: "SemiBold"
+                                                weight: 'SemiBold'
                                             })
                                         }
                                     ]}
@@ -180,7 +180,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                         feed.priceText,
                                         {
                                             ...FontFactory({
-                                                weight: "SemiBold"
+                                                weight: 'SemiBold'
                                             })
                                         }
                                     ]}
@@ -195,7 +195,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         <Mapbox.MapView
                             style={{
                                 flex: 2,
-                                justifyContent: "center",
+                                justifyContent: 'center',
                                 paddingLeft: 20
                             }}
                             zoomLevel={this.state.zoomLevel}
@@ -204,7 +204,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             pitchEnabled={false}
                             rotateEnabled={false}
                             onPress={() =>
-                                this.props.navigation.push("MapView", {
+                                this.props.navigation.push('MapView', {
                                     data: { coords: this.props.house.coords }
                                 })
                             }
@@ -213,13 +213,13 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             centerCoordinate={this.props.house.coords}
                         >
                             <Mapbox.PointAnnotation
-                                id={"chosen"}
+                                id={'chosen'}
                                 coordinate={this.props.house.coords}
                             />
                         </Mapbox.MapView>
                         <View
                             style={{
-                                position: "absolute",
+                                position: 'absolute',
                                 top: toConstantHeight(7),
                                 left: toConstantWidth(7)
                             }}
@@ -233,7 +233,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                     })
                                 }
                             >
-                                <Icon name={"magnifier-add"} size={24} />
+                                <Icon name={'magnifier-add'} size={24} />
                             </TouchableHighlight>
                             <TouchableHighlight
                                 underlayColor={Colors.grey}
@@ -244,7 +244,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                     })
                                 }
                             >
-                                <Icon name={"magnifier-remove"} size={24} />
+                                <Icon name={'magnifier-remove'} size={24} />
                             </TouchableHighlight>
                         </View>
                     </View>
@@ -258,27 +258,27 @@ export class PostDetailComponent extends React.Component<Props, State> {
                 <View
                     style={{
                         height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
-                        position: "absolute",
+                        position: 'absolute',
                         bottom: 0
                     }}
                 >
                     <TouchableRect
                         onPress={() =>
                             Alert.alert(
-                                "Send Application",
-                                "Are you sure you want to apply to " + this.props.house.road + "?",
+                                'Send Application',
+                                'Are you sure you want to apply to ' + this.props.house.road + '?',
                                 [
                                     {
-                                        text: "Cancel",
-                                        onPress: () => console.log("Cancelled"),
-                                        style: "cancel"
+                                        text: 'Cancel',
+                                        onPress: () => console.log('Cancelled'),
+                                        style: 'cancel'
                                     },
-                                    { text: "Send", onPress: () => console.log("Send Pressed") }
+                                    { text: 'Send', onPress: () => console.log('Send Pressed') }
                                 ]
                             )
                         }
-                        title={"Send Application"}
-                        iconName={"bullhorn"}
+                        title={'Send Application'}
+                        iconName={'bullhorn'}
                         backgroundColor={Colors.brandPrimaryColor}
                         wrapperStyle={{ borderRadius: 0 }}
                         buttonStyle={{
@@ -298,7 +298,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                 key={index}
                 underlayColor={Colors.grey}
                 onPress={() =>
-                    this.props.navigation.push("UserProfile", {
+                    this.props.navigation.push('UserProfile', {
                         fbUserId: user.facebookUserId,
                         data: user
                     })
@@ -308,7 +308,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                 <View style={feed.avatarWrapper}>
                     <Avatar
                         medium={true}
-                        source={{ uri: user.imageUrl }}
+                        source={{ uri: user.profilePicture }}
                         rounded={true}
                         title={user.firstName}
                     />
@@ -316,8 +316,8 @@ export class PostDetailComponent extends React.Component<Props, State> {
                 <View style={feed.userDetailsWrapper}>
                     <View
                         style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between"
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
                         }}
                     >
                         <Text style={feed.userNameText}>{user.name}</Text>

@@ -1,5 +1,5 @@
-import * as React from "react";
-import { compose, graphql } from "react-apollo";
+import * as React from 'react';
+import { compose, graphql } from 'react-apollo';
 import {
     ActivityIndicator,
     Platform,
@@ -7,21 +7,21 @@ import {
     TextInput,
     View,
     KeyboardAvoidingView
-} from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-import { connect } from "react-redux";
+} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
-import { Colors } from "../../consts";
-import { USER_POST_QUERY } from "../../graphql/queries";
-import { createPost } from "../../redux/Routines";
-import { base, feed } from "../../styles";
-import { LoginState } from "../../types/ReduxTypes";
-import { User } from "../../types/Entities";
-import { toConstantFontSize, toConstantHeight } from "../../utils/PercentageConversion";
-import { TouchableRect } from "../../widgets/TouchableRect";
+import { Colors } from '../../consts';
+import { USER_POST_QUERY } from '../../graphql/queries';
+import { createPost } from '../../redux/Routines';
+import { base, feed } from '../../styles';
+import { LoginState } from '../../types/ReduxTypes';
+import { User } from '../../types/Entities';
+import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
+import { TouchableRect } from '../../widgets/TouchableRect';
 
 interface Props {
-    navigation: { pop: () => void; state: { params: { fbUserId: string } } };
+    navigation: { pop: () => void };
     user: User;
     login: LoginState;
     loading: boolean;
@@ -36,11 +36,11 @@ interface State {
 
 export class CreatePost extends React.Component<Props, State> {
     static navigationOptions = {
-        title: "Create Post",
+        title: 'Create Post',
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon
                 name={
-                    Platform.OS === "ios" ? (focused ? "ios-home" : "ios-home-outline") : "md-home"
+                    Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home'
                 }
                 color={tintColor}
                 size={32}
@@ -48,17 +48,21 @@ export class CreatePost extends React.Component<Props, State> {
         )
     };
 
-    readonly state: State = {
-        data: this.props.user,
-        isLoading: this.props.loading,
-        description: ""
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: this.props.data.user,
+            isLoading: true,
+            description: ''
+        };
+    }
 
     componentWillReceiveProps(newProps) {
+        console.log(newProps);
         if (newProps.loading !== this.state.isLoading) {
             this.setState({
-                data: newProps.user,
-                isLoading: newProps.loading
+                data: newProps.data.user,
+                isLoading: newProps.data.loading
             });
         }
     }
@@ -78,12 +82,12 @@ export class CreatePost extends React.Component<Props, State> {
         }
 
         return (
-            <View style={[base.wholePage, { alignItems: "center", justifyContent: "center" }]}>
+            <View style={[base.wholePage, { alignItems: 'center', justifyContent: 'center' }]}>
                 <View
                     style={{
                         flex: 4,
-                        alignItems: "center",
-                        justifyContent: "flex-start"
+                        alignItems: 'center',
+                        justifyContent: 'flex-start'
                     }}
                 >
                     <View style={{ marginVertical: toConstantHeight(4) }}>
@@ -94,20 +98,20 @@ export class CreatePost extends React.Component<Props, State> {
                             enablesReturnKeyAutomatically={true}
                             style={feed.descriptionInput}
                             multiline={true}
-                            returnKeyType={"done"}
+                            returnKeyType={'done'}
                             defaultValue={
                                 (this.state.data.house.spaces > 0
-                                    ? "Looking to fill " + this.state.data.house.spaces + " rooms "
-                                    : "a room ") +
-                                "on " +
+                                    ? 'Looking to fill ' + this.state.data.house.spaces + ' rooms '
+                                    : 'a room ') +
+                                'on ' +
                                 this.state.data.house.road +
-                                ". "
+                                '. '
                             }
                         />
                     </View>
 
                     <TouchableRect
-                        title={"Create"}
+                        title={'Create'}
                         buttonStyle={base.buttonStyle}
                         backgroundColor={Colors.brandPrimaryColor}
                         onPress={this.createPostTrigger}
@@ -119,16 +123,15 @@ export class CreatePost extends React.Component<Props, State> {
 }
 
 const getUserInfo = graphql<Response, Props>(USER_POST_QUERY, {
-    options(props: Props) {
+    options(props) {
         return {
-            variables: { facebookUserId: props.login.fbUserId }
+            variables: { id: props.login.id }
         };
     },
     // @ts-ignore
-    props({ data: { user, loading } }) {
+    props({ data }) {
         return {
-            user,
-            loading
+            data
         };
     }
 });

@@ -1,5 +1,5 @@
-import { LoginStatus, StudyYear, House, Course } from "./Types";
-import { Post } from "./Types";
+import { LoginStatus, StudyYear, House, Course } from './Types';
+import { Post } from './Types';
 
 export interface Login {
     fbUserId: string;
@@ -21,7 +21,7 @@ export interface Profile {
     gender: string;
     birthday: string;
     email: string;
-    imageUrl: string;
+    profilePicture: string;
     studyYear: string;
     house: House;
     isSmoker: boolean;
