@@ -696,9 +696,9 @@ export class Login extends React.Component<Props, State> {
                     : null}
 
                 <View style={[login.page, { backgroundColor: Colors.brandPrimaryColor }]}>
-                    <View style={base.headingWrapper}>
+                    <View style={[base.headingWrapper, {flex: 2}]}>
                         {this.state.isCreatingHouse ? (
-                            <View style={[login.mainContent, { marginBottom: 170, flex: 2 }]}>
+                            <View>
                                 <Text style={login.congratsText}>Congrats!</Text>
                                 <Text style={login.congratsSubtitleText}>
                                     Your unique House ID is
@@ -706,7 +706,7 @@ export class Login extends React.Component<Props, State> {
                                 <Text style={login.shortIDStyle}>{this.state.shortID}</Text>
                             </View>
                         ) : (
-                            <View style={[login.mainContent, { marginBottom: 50, flex: 2 }]}>
+                            <View>
                                 <Text style={login.congratsText}>Congrats!</Text>
                                 <Text style={login.congratsSubtitleText}>
                                     You're ready to find your new Flatmates!
@@ -731,16 +731,14 @@ export class Login extends React.Component<Props, State> {
                     </View>
 
                     <View style={[login.pageFooter, { justifyContent: 'flex-start' }]}>
-                        <Button
+                        <TouchableRect
                             title={'Continue'}
                             onPress={() => this.props.navigation.navigate('Home')}
-                            buttonStyle={[
-                                base.buttonStyle,
-                                { backgroundColor: Colors.backgroundWhite }
-                            ]}
-                            fontFamily={Font.FONT_FAMILY}
-                            fontSize={20}
-                            textStyle={{ color: Colors.brandPrimaryColor }}
+                            buttonStyle={
+                                base.buttonStyle
+                            }
+                            backgroundColor={Colors.white}
+                            textColor={ Colors.brandPrimaryColor }
                         />
                     </View>
                 </View>
@@ -1058,12 +1056,11 @@ export class Login extends React.Component<Props, State> {
                         />
                     </View>
                     <View style={login.pageFooter}>
-                        <Button
+                        <TouchableRect
                             title={'Confirm'}
                             onPress={this.completeJoiningHouseSetup}
-                            fontFamily={Font.FONT_FAMILY}
-                            fontSize={20}
-                            buttonStyle={[base.buttonStyle, { marginBottom: 10 }]}
+                            backgroundColor={this.state.shortID === 0 ? Colors.grey : Colors.brandPrimaryColor}
+                            buttonStyle={base.buttonStyle}
                         />
                         <TouchableOpacity
                             onPress={() =>
@@ -1316,8 +1313,13 @@ export class Login extends React.Component<Props, State> {
                     date: new Date()
                 });
 
+                const isoMonth = (month + 1) < 10 ? `0${month + 1}` : month + 1;
+                const isoDay = day < 10 ? `0${day}` : day;
+
                 if (action !== DatePickerAndroid.dismissedAction) {
-                    this.setState({ billsDue: `${year}-${month + 1}-${day}` });
+                    const date = `${year}-${isoMonth}-${isoDay}`;
+                    console.log(date);
+                    this.setState({ billsDue: date });
                 }
             } catch ({ code, message }) {
                 console.warn('Cannot open date picker ', message);
@@ -1334,8 +1336,13 @@ export class Login extends React.Component<Props, State> {
                     date: new Date()
                 });
 
+                const isoMonth = (month + 1) < 10 ? `0${month + 1}` : month + 1;
+                const isoDay = day < 10 ? `0${day}` : day;
+
                 if (action !== DatePickerAndroid.dismissedAction) {
-                    this.setState({ rentDue: `${year}-${month + 1}-${day}` });
+                    const date = `${year}-${isoMonth}-${isoDay}`;
+                    console.log(date);
+                    this.setState({ rentDue: date });
                 }
             } catch ({ code, message }) {
                 console.warn('Cannot open date picker ', message);
@@ -1638,12 +1645,8 @@ export class Login extends React.Component<Props, State> {
     }
 
     private async uploadImages(): Promise<void> {
-        try {
-            await this.uploadProfilePicture();
-        } catch (error) {
-            console.log('Could not upload profile picture', error);
-        }
-
+        this.uploadProfilePicture().catch(error => console.log(error));
+        console.log('here', this.state.tempImages);
         if (this.state.tempImages && this.state.tempImages.length > 0) {
             let imageUrls: Array<string>;
 
@@ -1674,7 +1677,7 @@ export class Login extends React.Component<Props, State> {
                     const response = await fetch(
                         Platform.OS === 'ios'
                             ? 'http://localhost:4000/upload'
-                            : 'http://10.0.2.2:4000/upload',
+                            : 'http://192.168.0.10:4000/upload',
                         options
                     );
                     if (response.ok) {

@@ -6,30 +6,58 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors, Font } from '../consts';
 import { toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
 
-interface Props  {
-    buttonStyle?: RegisteredStyle<ViewStyle> | {},
-    wrapperStyle?: RegisteredStyle<ViewStyle> | {},
-    title?: string,
-    onPress: () => void,
-    iconName?: string,
-    backgroundColor: string,
-    underlayColor?: string
+interface Props {
+    buttonStyle?: RegisteredStyle<ViewStyle> | {};
+    wrapperStyle?: RegisteredStyle<ViewStyle> | {};
+    title?: string;
+    onPress: () => void;
+    iconName?: string;
+    backgroundColor: string;
+    underlayColor?: string;
+    textColor?: string;
 }
 
 export class TouchableRect extends React.Component<Props> {
-
     public render() {
         // The wrapping view is neccessary otherwise border radius doesn't work on android for some reason, issue submitted
         return (
-            <View style={[styles.borderWrapper, this.props.wrapperStyle, {backgroundColor: this.props.backgroundColor}]}>
-                <RectButton underlayColor={this.props.underlayColor} style={[ styles.buttonContentWrapper, this.props.buttonStyle, {backgroundColor: this.props.backgroundColor}]} onPress={this.props.onPress}>
-                    {this.props.iconName ?
-                        <Icon name={this.props.iconName} style={[styles.iconStyle, this.props.title ? {marginRight: 10} : {}]} size={26}/> :
+            <View
+                style={[
+                    styles.borderWrapper,
+                    this.props.wrapperStyle,
+                    { backgroundColor: this.props.backgroundColor }
+                ]}
+            >
+                <RectButton
+                    underlayColor={this.props.underlayColor}
+                    style={[
+                        styles.buttonContentWrapper,
+                        this.props.buttonStyle,
+                        { backgroundColor: this.props.backgroundColor }
+                    ]}
+                    onPress={this.props.onPress}
+                >
+                    {this.props.iconName ? (
+                        <Icon
+                            name={this.props.iconName}
+                            style={[styles.iconStyle, this.props.title ? { marginRight: 10 } : {}]}
+                            size={26}
+                        />
+                    ) : (
                         <React.Fragment />
-                    }
-                    {this.props.title ?
-                        <Text style={styles.textStyle}>{this.props.title}</Text>
-                    : <React.Fragment /> }
+                    )}
+                    {this.props.title ? (
+                        <Text
+                            style={[
+                                styles.textStyle,
+                                this.props.textColor && { color: this.props.textColor }
+                            ]}
+                        >
+                            {this.props.title}
+                        </Text>
+                    ) : (
+                        <React.Fragment />
+                    )}
                 </RectButton>
             </View>
         );
@@ -39,7 +67,7 @@ export class TouchableRect extends React.Component<Props> {
 const styles = StyleSheet.create({
     borderWrapper: {
         padding: 1,
-        borderRadius: 3,
+        borderRadius: 3
     },
 
     buttonContentWrapper: {
@@ -57,7 +85,6 @@ const styles = StyleSheet.create({
     textStyle: {
         color: Colors.white,
         fontSize: 20,
-        ...Font.FontFactory({ family: 'Nunito' }),
+        ...Font.FontFactory({ family: 'Nunito' })
     }
-
 });
