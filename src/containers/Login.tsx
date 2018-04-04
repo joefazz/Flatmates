@@ -763,7 +763,7 @@ export class Login extends React.Component<Props, State> {
                     <View
                         style={[
                             login.mainContent,
-                            { justifyContent: 'space-evenly', alignItems: 'center' }
+                            { justifyContent: 'space-around', alignItems: 'center' }
                         ]}
                     >
                         <View style={{ flexDirection: 'row' }}>
