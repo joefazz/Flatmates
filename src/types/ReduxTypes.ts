@@ -50,7 +50,8 @@ export interface ProfileAction {
 export interface LoginState {
     id: string;
     name: string;
-    profile: ProfileState;
+    email: string;
+    authId: string;
     isRehydrated: boolean;
     loginStatus: LoginStatus;
     isLoggedIn: boolean;

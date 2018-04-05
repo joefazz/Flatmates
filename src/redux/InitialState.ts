@@ -8,6 +8,7 @@ const initialState: State = {
         id: '',
         name: '',
         authId: '',
+        email: '',
         isRehydrated: false,
         loginStatus: LoginStatus.NOT_STARTED,
         isLoggedIn: false,

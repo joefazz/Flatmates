@@ -19,16 +19,19 @@ export interface Profile {
     lastName: string;
     bio: string;
     gender: string;
-    birthday: string;
+    age: string;
     email: string;
+    email_validated: boolean;
     profilePicture: string;
     studyYear: string;
     house: House;
-    isSmoker: boolean;
     minPrice: number;
     maxPrice: number;
     genderPreference: string;
     course: string;
+    isDrinker: boolean;
+    isDruggie: false;
+    isSmoker: false;
 }
 
 export interface Feed {

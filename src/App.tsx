@@ -40,7 +40,6 @@ export default class Root extends React.Component<Props, State> {
     readonly state: State = initialState;
 
     componentDidMount() {
-        AsyncStorage.clear().catch((error) => console.log(error));
         console.disableYellowBox = true;
         persistentStore(() => {
             this.setState({ isRehydrated: true });
@@ -60,7 +59,7 @@ export default class Root extends React.Component<Props, State> {
         return (
             <ApolloProvider client={client}>
                 <Provider store={store}>
-                    <RootNavigation />
+                    <RootNavigation screenProps={this.state.isRehydrated} />
                 </Provider>
             </ApolloProvider>
         );

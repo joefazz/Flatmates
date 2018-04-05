@@ -19,29 +19,38 @@ interface Props {
 class AuthLoadingScreen extends React.Component<Props> {
     constructor(props) {
         super(props);
-        this._bootstrap();
+    }
+
+    componentWillReceiveProps(newProps) {
+        if (newProps.screenProps) {
+            this._bootstrap();
+        }
     }
 
     // Fetch the token from storage then navigate to our appropriate place
     _bootstrap = async () => {
         // This will switch to the App screen or Auth screen and this loading
         // screen will be unmounted and thrown away.
-        // const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
-        //     variables: { facebookUserId: this.props.login.fbUserId },
-        //     query: USER_LOGIN_QUERY
-        // });
+        // AsyncStorage.clear();
 
-        // if (data.user === null) {
-        AsyncStorage.clear()
-            .then(() => this.props.navigation.navigate('Login'))
-            .catch((error) => console.log(error));
-        // } else if (this.props.login.fbAccessToken && this.props.login.fbAccessToken !== "") {
-        //     if (!data.user.isVerified) {
-        //         this.props.navigation.navigate("Home");
-        //     } else {
-        //         this.props.navigation.navigate("ReadOnly");
-        //     }
-        // }
+        if (this.props.login.email) {
+            const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
+                variables: { email: this.props.login.email },
+                query: USER_LOGIN_QUERY
+            });
+
+            if (data.user === null) {
+                // dispatch action to delete all local user data
+            } else if (this.props.login.id && this.props.login.id !== '') {
+                if (data.user.email_verified) {
+                    this.props.navigation.navigate('Home');
+                } else {
+                    this.props.navigation.navigate('ReadOnly');
+                }
+            }
+        } else {
+            this.props.navigation.navigate('Login');
+        }
     };
 
     // Render any loading content that you like here

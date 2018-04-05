@@ -6,7 +6,6 @@ import * as Interactable from 'react-native-interactable';
 import { Colors, Metrics } from '../../consts';
 import { profile } from '../../styles';
 import { Profile } from '../../types/State';
-import { ConvertBirthdayToAge } from '../../utils/BirthdayToAge';
 import _ from '../../utils/localdash';
 
 interface Props {
@@ -163,7 +162,7 @@ export class ProfileComponent extends React.Component<Props> {
                                     <View>
                                         <Text style={profile.aboutLabel}>Age</Text>
                                         <Text style={profile.aboutText}>
-                                            {ConvertBirthdayToAge(this.props.profile.birthday)}
+                                            {this.props.profile.age}
                                         </Text>
                                     </View>
                                     <View>
@@ -180,10 +179,22 @@ export class ProfileComponent extends React.Component<Props> {
                                     </View>
                                 </View>
                                 <View style={profile.preferencesWrapper}>
-                                    <View>
+                                    <View style={{ alignItems: 'center' }}>
                                         <Text style={profile.aboutLabel}>Smoker?</Text>
                                         <Text style={profile.aboutText}>
                                             {this.props.profile.isSmoker ? 'Yes' : 'No'}
+                                        </Text>
+                                    </View>
+                                    <View style={{ alignItems: 'center' }}>
+                                        <Text style={profile.aboutLabel}>Drinks?</Text>
+                                        <Text style={profile.aboutText}>
+                                            {this.props.profile.isDrinker ? 'Yes' : 'No'}
+                                        </Text>
+                                    </View>
+                                    <View style={{ alignItems: 'center' }}>
+                                        <Text style={profile.aboutLabel}>Drugs?</Text>
+                                        <Text style={profile.aboutText}>
+                                            {this.props.profile.isDruggie ? 'Yes' : 'No'}
                                         </Text>
                                     </View>
                                 </View>

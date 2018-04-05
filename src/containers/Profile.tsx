@@ -1,14 +1,14 @@
-import * as React from "react";
-import { compose, graphql } from "react-apollo";
-import { Platform, StatusBar, View } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-import { connect } from "react-redux";
-import { ProfileComponent } from "../components/Profile/ProfileComponent";
-import { USER_DETAILS_QUERY } from "../graphql/queries";
-import { LoginState, ProfileState } from "../types/ReduxTypes";
-import { Profile as ProfileType } from "../types/State";
-import { User } from "../types/Entities";
-import { EditButton } from "../widgets";
+import * as React from 'react';
+import { compose, graphql } from 'react-apollo';
+import { Platform, StatusBar, View } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
+import { ProfileComponent } from '../components/Profile/ProfileComponent';
+import { USER_DETAILS_QUERY } from '../graphql/queries';
+import { LoginState, ProfileState } from '../types/ReduxTypes';
+import { Profile as ProfileType } from '../types/State';
+import { User } from '../types/Entities';
+import { EditButton } from '../widgets';
 
 interface Props {
     profile: ProfileState;
@@ -24,11 +24,18 @@ interface State {
 
 export class Profile extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
-        title: "Profile",
-        headerRight: Platform.OS === "ios" ? <EditButton onPress={() => navigation.navigate("EditProfile")} /> : null,
+        title: 'Profile',
+        headerRight:
+            Platform.OS === 'ios' ? (
+                <EditButton onPress={() => navigation.navigate('EditProfile')} />
+            ) : null,
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon
-                name={Platform.OS === "ios" ? (focused ? "ios-person" : "ios-person-outline") : "md-person"}
+                name={
+                    Platform.OS === 'ios'
+                        ? focused ? 'ios-person' : 'ios-person-outline'
+                        : 'md-person'
+                }
                 color={tintColor}
                 size={32}
             />
@@ -62,7 +69,8 @@ export class Profile extends React.Component<Props, State> {
 
                 const tempHouse: { users?: Array<any> } = {};
                 Object.keys(trimmedData.house).map((property) => {
-                    tempHouse[property] = property === "users" ? trimmedusers : trimmedData.house[property];
+                    tempHouse[property] =
+                        property === 'users' ? trimmedusers : trimmedData.house[property];
                 });
                 trimmedData.house = tempHouse as { users: Array<User> };
             }
@@ -77,7 +85,7 @@ export class Profile extends React.Component<Props, State> {
     render() {
         return (
             <View style={{ flex: 1 }}>
-                <StatusBar barStyle={"light-content"} />
+                <StatusBar barStyle={'light-content'} />
                 <ProfileComponent {...this.state} />
             </View>
         );
@@ -94,7 +102,7 @@ const bindActions = () => {
 };
 
 const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
-    options: (ownProps: Props) => ({ variables: { facebookUserId: ownProps.login.fbUserId } }),
+    options: (ownProps: Props) => ({ variables: { id: ownProps.login.id } }),
 
     // @ts-ignore
     props: ({ data: { loading, user } }) => ({
