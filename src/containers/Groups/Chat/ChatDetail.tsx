@@ -2,8 +2,8 @@ import randomColor from 'randomcolor';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { ChatDetailComponent } from '../../components/Chat/ChatDetailComponent';
-import { Message } from '../../components/Chat/MessageComponent';
+import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
+import { Message } from '../../../components/Chat/MessageComponent';
 
 // const fakeData = _.times(100, (i) => ({
 //     // every message will have a different color
@@ -20,12 +20,12 @@ import { Message } from '../../components/Chat/MessageComponent';
 //     },
 // }));
 
-interface Props  {
-    createMessage: () => void
-};
+interface Props {
+    createMessage: () => void;
+}
 
 interface State {
-    messages: Array<Message>
+    messages: Array<Message>;
 }
 
 export class ChatDetail extends React.Component<Props, State> {
@@ -33,7 +33,7 @@ export class ChatDetail extends React.Component<Props, State> {
         const { state } = navigation;
         return {
             title: state.params.title,
-            tabBarVisible: false,
+            tabBarVisible: false
         };
     };
 
@@ -47,19 +47,19 @@ export class ChatDetail extends React.Component<Props, State> {
 
     render() {
         return (
-            <ChatDetailComponent id={123} data={this.state.messages} createMessage={this.props.createMessage} />
+            <ChatDetailComponent
+                id={123}
+                data={this.state.messages}
+                createMessage={this.props.createMessage}
+            />
         );
     }
 }
 
-const mapStateToProps = () => ({
-
-});
+const mapStateToProps = () => ({});
 
 const bindActions = () => {
-    return {
-
-    };
+    return {};
 };
 
 export default connect(mapStateToProps, bindActions)(ChatDetail);

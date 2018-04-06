@@ -2,15 +2,15 @@ import { Platform } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
 import { Colors, Font } from '../consts';
-import { ChatNavigator } from './Chat';
 import { FeedNavigator } from './Feed';
 import { ProfileNavigator } from './Profile';
 import { SettingsNavigator } from './Settings';
+import { GroupNavigator } from './Groups';
 
 const routeConfig = {
     Feed: { screen: FeedNavigator },
-    Profile: {screen: ProfileNavigator },
-    Chat: { screen: ChatNavigator },
+    Profile: { screen: ProfileNavigator },
+    Group: { screen: GroupNavigator },
     Settings: { screen: SettingsNavigator }
 };
 
@@ -33,7 +33,7 @@ const navConfig = {
                 indicatorStyle: {
                     backgroundColor: Colors.brandPrimaryColor
                 },
-                pressColor: Colors.brandPrimaryColor,
+                pressColor: Colors.brandPrimaryColor
             }
         })
     }

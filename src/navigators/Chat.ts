@@ -1,20 +1,15 @@
 import { StackNavigator } from 'react-navigation';
 
-import { Colors, Font } from '../consts';
-import ChatDetail from '../containers/Chat/ChatDetail';
-import ChatList from '../containers/Chat/ChatList';
+import ChatList from '../containers/Groups/Chat/ChatList';
+import ChatDetail from '../containers/Groups/Chat/ChatDetail';
 
 const routeConfig = {
-    ChatList: {screen: ChatList},
-    ChatDetail: {screen: ChatDetail},
+    ChatList: { screen: ChatList },
+    ChatDetail: { screen: ChatDetail }
 };
 
 const navConfig = {
-    navigationOptions: {
-        headerTintColor: Colors.white,
-        headerTitleStyle: {color: Colors.white, ...Font.FontFactory({ family: 'Nunito' })},
-        headerStyle: {backgroundColor: Colors.brandPrimaryColor},
-    }
+    headerMode: 'none'
 };
 
 export const ChatNavigator = StackNavigator(routeConfig, navConfig);

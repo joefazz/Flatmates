@@ -4,10 +4,10 @@ import { ActivityIndicator, Platform, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
-import { ChatListComponent } from '../../components/Chat/ChatListComponent';
-import { USER_CHAT_QUERY } from '../../graphql/queries';
-import { LoginState } from '../../types/ReduxTypes';
-import { Group } from '../../types/Entities';
+import { ChatListComponent } from '../../../components/Chat/ChatListComponent';
+import { USER_CHAT_QUERY } from '../../../graphql/queries';
+import { LoginState } from '../../../types/ReduxTypes';
+import { Group } from '../../../types/Entities';
 
 interface Props {
     loading: boolean;
@@ -26,44 +26,29 @@ export class ChatList extends React.Component<Props, State> {
         title: 'Chat',
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon
-                name={Platform.OS === 'ios' ? (focused ? 'ios-text' : 'ios-text-outline') : 'md-text'}
+                name={
+                    Platform.OS === 'ios' ? (focused ? 'ios-text' : 'ios-text-outline') : 'md-text'
+                }
                 color={tintColor}
                 size={32}
             />
         )
     };
 
-    isDummy: boolean;
-    dummyGroups: Array<object>;
-
     constructor(props) {
         super(props);
 
-        this.isDummy = true;
-
-        if (this.isDummy) {
-            this.dummyGroups = [];
-            for (let i = 0; i < 10; i++) {
-                this.dummyGroups.push({
-                    id: i,
-                    name: 'Real Fake Street',
-                    lastMessageText: 'Lorem ipsum doler set amet',
-                    users: [{ name: 'Joe Fazzino' }, { name: 'Ben Buckley' }]
-                });
-            }
-        }
-
-        // this.state = {
-        //     isLoading: props.loading,
-        //     groups: this.isDummy ? this.dummyGroups : []
-        // };
+        this.state = {
+            isLoading: props.loading,
+            groups: []
+        };
     }
 
     componentWillReceiveProps(newProps) {
         if (this.props.loading !== newProps.loading) {
             this.setState({
-                isLoading: newProps.loading
-                // groups: newProps.data.User.group
+                isLoading: newProps.loading,
+                groups: newProps.user.group
             });
         }
     }
@@ -95,12 +80,12 @@ const bindActions = () => {
 
 const userChatQuery = graphql(USER_CHAT_QUERY, {
     options: (ownProps: Props) => ({
-        variables: { facebookUserId: ownProps.login.fbUserId }
+        variables: { id: ownProps.login.id }
     }),
     // @ts-ignore
-    props: ({ data: { loading, groups } }) => ({
+    props: ({ data: { loading, user } }) => ({
         loading,
-        groups
+        user
     })
 });
 

@@ -1,32 +1,33 @@
-const highlightColor = "#E44D26";
+const highlightColor = '#E44D26';
 
 const colors = {
     brandPrimaryColor: highlightColor,
     brandSecondaryColor: highlightColor,
-    brandTertiaryColor: "#f83600",
-    brandWarningColor: "#f4d142",
-    brandErrorColor: "#bc341c",
-    brandSuccessColor: "#14CC49",
-    facebookBlue: "#4267B2",
-    backgroundWhite: "#E6E6ED",
+    brandTertiaryColor: '#f83600',
+    brandWarningColor: '#ffcc41',
+    brandErrorColor: '#bc341c',
+    brandSuccessColor: '#14CC49',
+    facebookBlue: '#4267B2',
+    backgroundWhite: '#E6E6ED',
 
-    purple: "#7474BF",
+    purple: '#7474BF',
     textHighlightColor: highlightColor,
-    white: "#FFFFFF",
-    reallyLight: "#FAFAFA",
-    highlightWhite: "#F5F5F5",
-    offWhite: "#fbfbfb",
-    black: "#000000",
-    grey: "#C0C0C0",
-    textGrey: "#373737",
-    lineSeperatorColor: "#CED0CE",
-    transparent: "transparent",
-    definetelyNotAirbnbRed: "#ff5a5f",
-    translucentDefinetelyNotAirbnbRed: "rgba(255, 90, 95, 0.2)",
+    white: '#FFFFFF',
+    reallyLight: '#FAFAFA',
+    highlightWhite: '#F5F5F5',
+    offWhite: '#fbfbfb',
+    defaultWhite: '#efeff4',
+    black: '#000000',
+    grey: '#C0C0C0',
+    textGrey: '#373737',
+    lineSeperatorColor: '#CED0CE',
+    transparent: 'transparent',
+    definetelyNotAirbnbRed: '#ff5a5f',
+    translucentDefinetelyNotAirbnbRed: 'rgba(255, 90, 95, 0.2)',
     // Useful for getting rgbs https://www.webpagefx.com/web-design/hex-to-rgb/
     // NIGHTHAWK
-    gradientStart: "rgb(41,128,185)",
-    gradientStop: "rgb(44,62,80)"
+    gradientStart: 'rgb(41,128,185)',
+    gradientStop: 'rgb(44,62,80)'
 };
 
 export default colors;
