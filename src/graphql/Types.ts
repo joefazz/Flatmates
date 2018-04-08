@@ -1,6 +1,18 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export interface CreateApplicationMutationVariables {
+  fromUser: string,
+  toHouse: number,
+  message?: string | null,
+};
+
+export interface CreateApplicationMutation {
+  createApplication:  {
+    id: string,
+  } | null,
+};
+
 export interface CreatePostMutationVariables {
   description: string,
   createdBy: number,
@@ -186,6 +198,27 @@ export interface UnstarPostMutationVariables {
 export interface UnstarPostMutation {
   unstarPost:  {
     id: string,
+  } | null,
+};
+
+export interface HouseApplicationsQueryVariables {
+  shortID: number,
+};
+
+export interface HouseApplicationsQuery {
+  house:  {
+    applications:  Array< {
+      id: string,
+      from:  {
+        id: string,
+        name: string,
+        course: string,
+        age: number,
+        studyYear: string,
+        profilePicture: string,
+      },
+      createdAt: string,
+    } > | null,
   } | null,
 };
 

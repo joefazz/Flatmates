@@ -1,8 +1,20 @@
 import * as React from 'react';
-import { Text, Platform } from 'react-native';
+import { Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
+import { ApplicationListComponent } from '../../../components/Applications/ApplicationListComponent';
+import { Application } from '../../../types/Entities';
+import { ApplicationState } from '../../../types/ReduxTypes';
 
-export class ApplicationList extends React.Component {
+interface Props {
+    applications: ApplicationState;
+}
+
+interface State {
+    applications: Array<Application>;
+}
+
+export class ApplicationList extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Applications',
         tabBarIcon: ({ focused, tintColor }) => (
@@ -18,7 +30,25 @@ export class ApplicationList extends React.Component {
         )
     };
 
+    constructor(props) {
+        super(props);
+    }
+
     render() {
-        return <Text>No Applications</Text>;
+        return (
+            <ApplicationListComponent
+                applications={[{ title: 'Hello', data: this.props.applications }]}
+            />
+        );
     }
 }
+
+const mapStateToProps = (state) => ({
+    applications: state.applications
+});
+
+const bindActions = () => {
+    return {};
+};
+
+export default connect(mapStateToProps, bindActions)(ApplicationList);

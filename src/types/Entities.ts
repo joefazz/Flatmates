@@ -22,6 +22,25 @@ export interface House {
     users: Array<User>;
 }
 
+export interface Application {
+    id: string;
+    from: User;
+    to: House;
+    message: string;
+    createdAt: DateConstructor;
+}
+
+export interface ChatGroup {
+    id: string;
+    lastMessage: string;
+    lastSender: string;
+    unread: number;
+    updatedAt: DateConstructor;
+    title: string;
+    image: string;
+    messages?: Array<Message>;
+}
+
 export interface User {
     facebookUserId: string;
     createdAt: Date;
@@ -67,8 +86,8 @@ export interface Message {
     createdAt: Date;
 
     text: string;
-    from: User
-    to: Group
+    from: User;
+    to: Group;
 }
 
 export enum StudyYear {
@@ -85,7 +104,7 @@ export enum LoginStatus {
     STARTED,
     SUCCEED,
     FAILED,
-    ENDED,
+    ENDED
 }
 
 export enum Course {

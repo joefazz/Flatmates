@@ -1,20 +1,31 @@
 import * as React from 'react';
-import { FlatList, View, Text } from 'react-native';
+import { SectionList, SectionListData, Text, View } from 'react-native';
+import { Application } from '../../types/Entities';
 
 interface Props {
-    data: Array<any>;
+    applications: Array<SectionListData<{ title: string; data: Array<Application> }>>;
 }
 
 export class ApplicationListComponent extends React.PureComponent<Props> {
     render() {
-        return <FlatList data={this.props.data} renderItem={this.renderItem} />;
+        return (
+            <SectionList
+                sections={this.props.applications}
+                renderItem={this.renderItem}
+                renderSectionHeader={this.renderSection}
+            />
+        );
     }
 
-    renderItem = ({ item }) => {
+    renderItem = ({ item }: { item: Application }) => {
         return (
             <View>
-                <Text>Applciation {item}</Text>
+                <Text>Application {item.message}</Text>
             </View>
         );
+    };
+
+    renderSection = ({ section }) => {
+        return <Text>{section.title}</Text>;
     };
 }

@@ -1,7 +1,19 @@
-import { FeedState, LoginState, ProfileState } from '../types/ReduxTypes';
+import {
+    FeedState,
+    LoginState,
+    ProfileState,
+    ApplicationState,
+    ChatState
+} from '../types/ReduxTypes';
 import { LoginStatus } from '../types/Entities';
 
-type State = Readonly<{ login: LoginState; profile: ProfileState; feed: FeedState }>;
+type State = Readonly<{
+    login: LoginState;
+    profile: ProfileState;
+    feed: FeedState;
+    applications: ApplicationState;
+    chat: ChatState;
+}>;
 
 const initialState: State = {
     login: {
@@ -30,7 +42,15 @@ const initialState: State = {
         bio: '',
         isDrinker: false,
         isDruggie: false,
-        isSmoker: false
+        isSmoker: false,
+        house: {
+            shortId: 0,
+            road: '',
+            billsPrice: 0,
+            rentPrice: 0,
+            coords: [],
+            houseImages: []
+        }
     },
     feed: {
         posts: [],
@@ -42,7 +62,9 @@ const initialState: State = {
         isAllFilterActive: true,
         isPriceFilterActive: false,
         isStarredFilterActive: false
-    }
+    },
+    applications: [],
+    chat: []
 };
 
 export default initialState;

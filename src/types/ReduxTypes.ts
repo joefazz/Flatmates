@@ -8,7 +8,16 @@ import {
     CreateUserWithHouse,
     CreateUserJoinHouse
 } from '../redux/Types';
-import { Course, LoginStatus, Post, StudyYear } from './Entities';
+import {
+    Course,
+    ChatGroup,
+    LoginStatus,
+    Post,
+    StudyYear,
+    User,
+    Message,
+    Application
+} from './Entities';
 import { Filters } from '../containers/Feed/PostList';
 import { CreateUserMutation } from '../graphql/Types';
 
@@ -46,6 +55,10 @@ export interface ProfileAction {
         houseID: number;
     };
 }
+
+export type ApplicationState = Array<Application>;
+
+export type ChatState = Array<ChatGroup>;
 
 export interface LoginState {
     id: string;

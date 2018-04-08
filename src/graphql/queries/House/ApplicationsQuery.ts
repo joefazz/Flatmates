@@ -5,7 +5,14 @@ export const HOUSE_APPLICATIONS_QUERY = gql`
         house(shortID: $shortID) {
             applications {
                 id
-                from
+                from {
+                    id
+                    name
+                    course
+                    age
+                    studyYear
+                    profilePicture
+                }
                 createdAt
             }
         }
