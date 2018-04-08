@@ -40,7 +40,8 @@ class AuthLoadingScreen extends React.Component<Props> {
             });
 
             if (data.user === null) {
-                // dispatch action to delete all local user data
+                AsyncStorage.clear();
+                this.props.navigation.navigate('Login');
             } else if (this.props.login.id && this.props.login.id !== '') {
                 if (data.user.email_verified) {
                     this.props.navigation.navigate('Home');

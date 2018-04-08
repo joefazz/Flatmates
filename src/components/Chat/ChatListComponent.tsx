@@ -10,6 +10,42 @@ interface Props {
 }
 
 export class ChatListComponent extends React.PureComponent<Props> {
+    renderHeader = () => {
+        return (
+            <TouchableOpacity
+                style={chat.row}
+                onPress={() =>
+                    this.props.navigation.navigate('ChatDetail', {
+                        title: 'De Beauvoir',
+                        groupId: '123'
+                    })
+                }
+            >
+                <View style={chat.groupRowWrapper}>
+                    <View style={chat.groupAvatarWrapper}>
+                        <Avatar
+                            rounded={true}
+                            source={{
+                                uri:
+                                    'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
+                            }}
+                        />
+                    </View>
+                    <View style={chat.groupTextWrapper}>
+                        <View style={chat.groupTitleWrapper}>
+                            <Text style={chat.groupTitle}>De Beauvoir Road</Text>
+                        </View>
+                        <View style={chat.groupSubtitleWrapper}>
+                            <Text style={chat.groupSubtitle}>
+                                If you can send the bills that'd be sound
+                            </Text>
+                        </View>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        );
+    };
+
     renderItem = ({ item }) => {
         return (
             <TouchableOpacity
@@ -36,9 +72,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                             <Text style={chat.groupTitle}>{item.name}</Text>
                         </View>
                         <View style={chat.groupSubtitleWrapper}>
-                            <Text style={chat.groupSubtitle}>
-                                {item.lastMessageText}
-                            </Text>
+                            <Text style={chat.groupSubtitle}>{item.lastMessageText}</Text>
                         </View>
                     </View>
                 </View>
@@ -56,8 +90,10 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 <FlatList
                     data={this.props.data}
                     renderItem={this.renderItem}
+                    ListHeaderComponent={this.renderHeader}
+                    ListEmptyComponent={() => <Text>No Groups</Text>}
                     ItemSeparatorComponent={this.renderSeperator}
-                    keyExtractor={item => item.id}
+                    keyExtractor={(item) => item.id}
                 />
             </View>
         );

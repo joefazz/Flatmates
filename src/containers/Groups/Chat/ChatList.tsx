@@ -27,7 +27,9 @@ export class ChatList extends React.Component<Props, State> {
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon
                 name={
-                    Platform.OS === 'ios' ? (focused ? 'ios-text' : 'ios-text-outline') : 'md-text'
+                    Platform.OS === 'ios'
+                        ? focused ? 'ios-notifications' : 'ios-notifications-outline'
+                        : 'md-notifications'
                 }
                 color={tintColor}
                 size={32}
@@ -56,14 +58,6 @@ export class ChatList extends React.Component<Props, State> {
     render() {
         if (this.state.isLoading) {
             return <ActivityIndicator />;
-        }
-
-        if (!this.state.isLoading && this.state.groups.length === 0) {
-            return (
-                <View>
-                    <Text>No Groups Found</Text>
-                </View>
-            );
         }
 
         return <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />;

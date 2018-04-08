@@ -3,7 +3,6 @@ import { TabNavigator, TabBarTop, StackNavigator } from 'react-navigation';
 import { ChatNavigator } from './Chat';
 import { ApplicationNavigator } from './Applications';
 import { Colors, Font } from '../consts';
-import { toConstantFontSize } from '../utils/PercentageConversion';
 
 const routeConfig = {
     ChatNavigator: { screen: ChatNavigator },
@@ -27,6 +26,7 @@ const stackConfig = {
     navigationOptions: {
         title: 'Group',
         headerStyle: {
+            height: 0,
             backgroundColor: Colors.brandPrimaryColor,
             borderBottomWidth: 0
         },

@@ -2,21 +2,21 @@ import * as React from 'react';
 import { Platform, StatusBar, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-interface Props  {
+interface Props {}
 
-};
-
-interface State {
-
-};
+interface State {}
 
 export default class Settings extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Settings',
         tabBarIcon: ({ focused, tintColor }) => (
-            <Icon name={Platform.OS === 'ios' ? focused ? 'ios-settings' : 'ios-settings-outline' : 'md-settings'} color={tintColor} size={29} />
+            <Icon
+                name={Platform.OS === 'ios' ? (focused ? 'ios-key' : 'ios-key-outline') : 'md-key'}
+                color={tintColor}
+                size={29}
+            />
         )
-    }
+    };
     render() {
         return (
             <View>

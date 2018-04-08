@@ -22,6 +22,7 @@ const navConfig = {
     tabBarOptions: {
         activeTintColor: Colors.brandPrimaryColor,
         inactiveTintColor: Colors.grey,
+        showLabel: false,
         labelStyle: { ...Font.FontFactory({ family: 'Nunito' }) },
         ...Platform.select({
             android: {

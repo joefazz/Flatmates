@@ -29,13 +29,10 @@ interface State {
 }
 
 export class ChatDetail extends React.Component<Props, State> {
-    static navigationOptions = ({ navigation }) => {
-        const { state } = navigation;
-        return {
-            title: state.params.title,
-            tabBarVisible: false
-        };
-    };
+    static navigationOptions = ({ navigation }) => ({
+        title: navigation.state.params.title,
+        tabBarVisible: false
+    });
 
     constructor(props) {
         super(props);
