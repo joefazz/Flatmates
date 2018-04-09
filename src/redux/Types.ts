@@ -1,12 +1,5 @@
 import * as Routines from './Routines';
 
-// export enum Auth0Signup {
-//     REQUEST = Routines.signupWithAuth0.REQUEST,
-//     SUCCESS = Routines.signupWithAuth0.SUCCESS,
-//     FAILURE = Routines.signupWithAuth0.FAILURE,
-//     FULFILL = Routines.signupWithAuth0.FULFILL
-// }
-
 export enum CreateUser {
     REQUEST = Routines.createUser.REQUEST,
     SUCCESS = Routines.createUser.SUCCESS,
@@ -55,7 +48,20 @@ export enum CreatePost {
 }
 
 export enum ToggleFilter {
-    SUCCESS = Routines.toggleFilter.SUCCESS
+    SUCCESS = Routines.toggleFilter.SUCCESS,
+    FAILURE = Routines.toggleFilter.FAILURE
+}
+
+export enum GetApplications {
+    REQUEST = Routines.getApplications.REQUEST,
+    SUCCESS = Routines.getApplications.SUCCESS,
+    FAILURE = Routines.getApplications.FAILURE,
+    FULFILL = Routines.getApplications.FULFILL
+}
+
+export enum CreateApplication {
+    SUCCESS = Routines.createApplication.SUCCESS,
+    FAILURE = Routines.createApplication.FAILURE
 }
 
 export const READ_ONLY_LOGIN_SUCCESS = Routines.readOnlyLogin.SUCCESS;

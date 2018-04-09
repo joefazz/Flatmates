@@ -6,7 +6,9 @@ import {
     ToggleFilter,
     HouseLogin,
     CreateUserWithHouse,
-    CreateUserJoinHouse
+    CreateUserJoinHouse,
+    CreateApplication,
+    GetApplications
 } from '../redux/Types';
 import {
     Course,
@@ -56,7 +58,10 @@ export interface ProfileAction {
     };
 }
 
-export type ApplicationState = Array<Application>;
+export interface ApplicationAction {
+    type: CreateApplication | GetApplications;
+    payload: any;
+}
 
 export type ChatState = Array<ChatGroup>;
 
@@ -112,8 +117,14 @@ export interface FeedState {
     error: string;
 }
 
+export interface ApplicationState {
+    sent: Array<Application>;
+    recieved: Array<Application>;
+}
+
 export interface ReduxState {
     profile: ProfileState;
     feed: FeedState;
     login: LoginState;
+    application: ApplicationState;
 }

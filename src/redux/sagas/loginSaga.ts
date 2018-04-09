@@ -9,7 +9,10 @@ import {
 import {
     CreateUserMutation,
     CreateUserCreateHouseMutation,
-    CreateUserUpdateHouseMutation
+    CreateUserUpdateHouseMutation,
+    CreateUserCreateHouseMutationVariables,
+    CreateUserMutationVariables,
+    CreateUserUpdateHouseMutationVariables
 } from '../../graphql/Types';
 import {
     getUserData,
@@ -27,32 +30,38 @@ export const loginSaga = function*() {
     yield takeEvery(createUserJoinHouse.TRIGGER, joinHouse);
 };
 
-async function createUserMutation(user): Promise<CreateUserMutation> {
+async function createUserMutation(
+    params: CreateUserMutationVariables
+): Promise<CreateUserMutation> {
     const { data: { createUser: userData } } = await client.mutate<CreateUserMutation>({
         mutation: CREATE_USER_MUTATION,
-        variables: { ...user }
+        variables: { ...params }
     });
 
     return userData;
 }
 
-async function createUserCreateHouseMutation(user): Promise<CreateUserCreateHouseMutation> {
+async function createUserCreateHouseMutation(
+    params: CreateUserCreateHouseMutationVariables
+): Promise<CreateUserCreateHouseMutation> {
     const { data: { createUserCreateHouse: userData } } = await client.mutate<
         CreateUserCreateHouseMutation
     >({
         mutation: CREATE_USER_CREATE_HOUSE_MUTATION,
-        variables: { ...user }
+        variables: { ...params }
     });
 
     return userData;
 }
 
-async function createUserUpdateHouseMutation(user): Promise<CreateUserUpdateHouseMutation> {
+async function createUserUpdateHouseMutation(
+    params: CreateUserUpdateHouseMutationVariables
+): Promise<CreateUserUpdateHouseMutation> {
     const { data: { createUserUpdateHouse: userData } } = await client.mutate<
         CreateUserUpdateHouseMutation
     >({
         mutation: CREATE_USER_UPDATE_HOUSE_MUTATION,
-        variables: { ...user }
+        variables: { ...params }
     });
 
     return userData;

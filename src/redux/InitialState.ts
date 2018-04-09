@@ -63,7 +63,7 @@ const initialState: State = {
         isPriceFilterActive: false,
         isStarredFilterActive: false
     },
-    applications: [],
+    applications: { sent: [], recieved: [] },
     chat: []
 };
 

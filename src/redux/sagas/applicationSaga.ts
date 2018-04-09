@@ -1,13 +1,18 @@
 import { put, takeEvery } from 'redux-saga/effects';
 
 import client from '../../Client';
-import { getApplications } from '../Routines';
-import { HouseApplicationsQuery } from '../../graphql/Types';
+import { getApplications, createApplication } from '../Routines';
+import {
+    HouseApplicationsQuery,
+    CreateApplicationMutation,
+    CreateApplicationMutationVariables
+} from '../../graphql/Types';
 import { HOUSE_APPLICATIONS_QUERY } from '../../graphql/queries';
+import { CREATE_APPLICATION_MUTATION } from '../../graphql/mutations';
 
 export const applicationSaga = function*() {
     yield takeEvery(getApplications.TRIGGER, get);
-    // yield takeEvery(createApplication.TRIGGER, create);
+    yield takeEvery(createApplication.TRIGGER, create);
 };
 
 async function getApplicationQuery(shortID: number): Promise<HouseApplicationsQuery> {
@@ -17,6 +22,19 @@ async function getApplicationQuery(shortID: number): Promise<HouseApplicationsQu
     });
 
     return house;
+}
+
+async function createApplicationMutation(
+    params: CreateApplicationMutationVariables
+): Promise<CreateApplicationMutation> {
+    const { data: { createApplication: applicationData } } = await client.mutate<
+        CreateApplicationMutation
+    >({
+        mutation: CREATE_APPLICATION_MUTATION,
+        variables: { ...params }
+    });
+
+    return applicationData;
 }
 
 const get = function*({ payload }) {
@@ -32,4 +50,13 @@ const get = function*({ payload }) {
     }
 
     getApplications.fulfill();
+};
+
+const create = function*({ payload }) {
+    try {
+        const result = yield createApplicationMutation(payload);
+        yield put(createApplication.success({ result }));
+    } catch (error) {
+        yield put(createApplication.failure({ error }));
+    }
 };
