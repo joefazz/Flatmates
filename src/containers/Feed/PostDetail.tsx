@@ -36,10 +36,10 @@ interface Props {
                 isStarred: boolean;
             };
         };
-        push: (route: string, params: { fbUserId?: string; data?: object }) => void;
+        push: (route: string, params: { id?: string; data?: object }) => void;
     };
     profile: ProfileState;
-    userId: string;
+    id: string;
     createApplication: (params: CreateApplicationMutationVariables) => void;
     updatePost: (...UpdatePostMutationVariables) => { data: UpdatePostMutation } & QueryProps;
     starPost: (...StarPostMutationVariables) => StarPostMutation;
@@ -90,6 +90,7 @@ export class PostDetail extends React.Component<Props, State> {
             <>
                 <StatusBar barStyle={'light-content'} />
                 <PostDetailComponent
+                    userId={this.props.id}
                     title={this.state.data.title}
                     description={this.state.data.description}
                     house={this.state.data.createdBy}

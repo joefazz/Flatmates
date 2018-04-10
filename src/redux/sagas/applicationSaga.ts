@@ -21,8 +21,6 @@ async function getApplicationQuery(shortID: number): Promise<HouseApplicationsQu
         variables: { shortID }
     });
 
-    console.log(house);
-
     return house;
 }
 
@@ -55,7 +53,6 @@ function* get({ payload }) {
 }
 
 function* create({ payload }) {
-    yield put(createApplication.request());
     try {
         const result = yield createApplicationMutation(payload);
         yield put(createApplication.success({ result }));

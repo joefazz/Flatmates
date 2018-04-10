@@ -52,6 +52,7 @@ interface Props {
         push: (route: string, params: { fbUserId?: string; data?: object }) => void;
     };
     id: string;
+    userId: string;
     isLoading: boolean;
     profile: ProfileState;
     starPost: () => void;
@@ -279,7 +280,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                         text: 'Send',
                                         onPress: () =>
                                             this.props.createApplication({
-                                                fromUser: this.props.id,
+                                                fromUser: this.props.userId,
                                                 toHouse: this.props.house.shortID,
                                                 message: 'hello world'
                                             })
