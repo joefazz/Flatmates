@@ -34,7 +34,6 @@
         "haste": "rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf $TMPDIR/haste-map-react-native-packager-*",
         "shake": "adb shell input keyevent 82",
         "test": "jest",
-        "postinstall": "rm ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json",
         "update-api-types": "apollo-codegen introspect-schema http://localhost:4000 --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts"
     },
     "prettier": {
@@ -81,12 +80,11 @@
         "mapbox": "1.0.0-beta9",
         "moment": "2.21.0",
         "randomcolor": "^0.5.3",
-        "react": "16.3.0-alpha.1",
+        "react": "16.3.1",
         "react-apollo": "2.1.1",
-        "react-native": "0.54.4",
+        "react-native": "0.55.2",
         "react-native-animatable": "^1.2.4",
         "react-native-auth0": "^1.2.2",
-        "react-native-calendars": "1.17.7",
         "react-native-elements": "0.19.0",
         "react-native-floating-action": "1.10.1",
         "react-native-gesture-handler": "1.0.0-alpha.41",
