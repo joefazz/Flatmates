@@ -12,7 +12,6 @@ type State = Readonly<{
     profile: ProfileState;
     feed: FeedState;
     applications: ApplicationState;
-    chat: ChatState;
 }>;
 
 const initialState: State = {
@@ -63,8 +62,7 @@ const initialState: State = {
         isPriceFilterActive: false,
         isStarredFilterActive: false
     },
-    applications: { sent: [], recieved: [] },
-    chat: []
+    applications: { sent: [], recieved: [] }
 };
 
 export default initialState;

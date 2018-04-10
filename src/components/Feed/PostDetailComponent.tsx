@@ -29,12 +29,14 @@ import {
 } from '../../utils/PercentageConversion';
 import { compareUsers } from '../../utils/UserComparison';
 import { TouchableRect } from '../../widgets/TouchableRect';
+import { CreateApplicationMutationVariables } from '../../graphql/Types';
 
 interface Props {
     house: House;
     isStarred: boolean;
     createdAt: string;
     lastSeen: string;
+    createApplication: (params: CreateApplicationMutationVariables) => void;
 
     description: string;
     title: string;
@@ -273,7 +275,15 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                         onPress: () => console.log('Cancelled'),
                                         style: 'cancel'
                                     },
-                                    { text: 'Send', onPress: () => console.log('Send Pressed') }
+                                    {
+                                        text: 'Send',
+                                        onPress: () =>
+                                            this.props.createApplication({
+                                                fromUser: this.props.id,
+                                                toHouse: this.props.house.shortID,
+                                                message: 'hello world'
+                                            })
+                                    }
                                 ]
                             )
                         }

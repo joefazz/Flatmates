@@ -21,6 +21,8 @@ async function getApplicationQuery(shortID: number): Promise<HouseApplicationsQu
         variables: { shortID }
     });
 
+    console.log(house);
+
     return house;
 }
 
@@ -37,7 +39,7 @@ async function createApplicationMutation(
     return applicationData;
 }
 
-const get = function*({ payload }) {
+function* get({ payload }) {
     // Trigger request action
     yield put(getApplications.request());
     // Wait for response from API and assign it to response
@@ -50,13 +52,14 @@ const get = function*({ payload }) {
     }
 
     getApplications.fulfill();
-};
+}
 
-const create = function*({ payload }) {
+function* create({ payload }) {
+    yield put(createApplication.request());
     try {
         const result = yield createApplicationMutation(payload);
         yield put(createApplication.success({ result }));
     } catch (error) {
         yield put(createApplication.failure({ error }));
     }
-};
+}

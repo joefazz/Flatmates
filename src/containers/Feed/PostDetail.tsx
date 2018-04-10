@@ -1,14 +1,14 @@
-import * as React from "react";
-import { compose, graphql, QueryProps } from "react-apollo";
-import { StatusBar } from "react-native";
-import { connect } from "react-redux";
+import * as React from 'react';
+import { compose, graphql, QueryProps } from 'react-apollo';
+import { StatusBar } from 'react-native';
+import { connect } from 'react-redux';
 
-import { PostDetailComponent } from "../../components/Feed/PostDetailComponent";
+import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import {
     STAR_POST_MUTATION,
     UNSTAR_POST_MUTATION,
     UPDATE_POST_MUTATION
-} from "../../graphql/mutations";
+} from '../../graphql/mutations';
 import {
     StarPostMutation,
     StarPostMutationVariables,
@@ -16,13 +16,15 @@ import {
     UnstarPostMutationVariables,
     UpdatePostMutation,
     UpdatePostMutationVariables,
-    BasicStarredQuery
-} from "../../graphql/Types";
-import { ProfileState, ReduxState } from "../../types/ReduxTypes";
-import { House } from "../../types/Entities";
-import Client from "../../Client";
-import { USER_BASIC_STARRED_POSTS_QUERY } from "../../graphql/queries";
-import { ApolloQueryResult } from "apollo-client";
+    BasicStarredQuery,
+    CreateApplicationMutationVariables
+} from '../../graphql/Types';
+import { ProfileState, ReduxState } from '../../types/ReduxTypes';
+import { House } from '../../types/Entities';
+import Client from '../../Client';
+import { USER_BASIC_STARRED_POSTS_QUERY } from '../../graphql/queries';
+import { ApolloQueryResult } from 'apollo-client';
+import { createApplication } from '../../redux/Routines';
 
 interface Props {
     navigation: {
@@ -38,6 +40,7 @@ interface Props {
     };
     profile: ProfileState;
     userId: string;
+    createApplication: (params: CreateApplicationMutationVariables) => void;
     updatePost: (...UpdatePostMutationVariables) => { data: UpdatePostMutation } & QueryProps;
     starPost: (...StarPostMutationVariables) => StarPostMutation;
     unstarPost: (...UnstarPostMutationVariables) => UnstarPostMutation;
@@ -85,7 +88,7 @@ export class PostDetail extends React.Component<Props, State> {
     render() {
         return (
             <>
-                <StatusBar barStyle={"light-content"} />
+                <StatusBar barStyle={'light-content'} />
                 <PostDetailComponent
                     title={this.state.data.title}
                     description={this.state.data.description}
@@ -98,6 +101,7 @@ export class PostDetail extends React.Component<Props, State> {
                     navigation={this.props.navigation}
                     starPost={this.starPost}
                     isStarred={this.state.isStarred}
+                    createApplication={this.props.createApplication}
                 />
             </>
         );
@@ -121,7 +125,7 @@ export class PostDetail extends React.Component<Props, State> {
             });
             return true;
         } catch (error) {
-            console.log("Error executing query");
+            console.log('Error executing query');
             return false;
         }
     };
@@ -138,9 +142,9 @@ export class PostDetail extends React.Component<Props, State> {
             this.setState({ isLoading: false, data: combinedData });
         } catch (error) {
             console.log(
-                "There was an error: " +
+                'There was an error: ' +
                     error +
-                    "... This will turn into a ui element eventually..."
+                    '... This will turn into a ui element eventually...'
             );
         }
     };
@@ -194,11 +198,16 @@ const unstarPostMutation = graphql(UNSTAR_POST_MUTATION, {
 
 const mapStateToProps = (state: ReduxState) => ({
     profile: state.profile,
-    userId: state.login.fbUserId
+    id: state.login.id
+});
+
+const bindActions = (dispatch) => ({
+    createApplication: (params: CreateApplicationMutationVariables) =>
+        dispatch(createApplication(params))
 });
 
 export default compose(
-    connect<{}, {}, Props>(mapStateToProps),
+    connect<{}, {}, Props>(mapStateToProps, bindActions),
     updatePostMutation,
     starPostMutation,
     unstarPostMutation
