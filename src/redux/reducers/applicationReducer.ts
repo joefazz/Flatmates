@@ -1,5 +1,5 @@
 import { ApplicationState, ApplicationAction } from '../../types/ReduxTypes';
-import { GetApplications, CreateApplication } from '../Types';
+import { GetReceivedApplications, CreateApplication } from '../Types';
 import initialState from '../InitialState';
 import { createUserJoinHouse } from '../Routines';
 
@@ -15,19 +15,19 @@ export default function applicationReducer(
                 sent: action.payload
             });
 
-        case GetApplications.REQUEST:
+        case GetReceivedApplications.REQUEST:
             return Object.assign({}, state, {
                 /* state goes here */
             });
-        case GetApplications.SUCCESS:
+        case GetReceivedApplications.SUCCESS:
             return Object.assign({}, state, {
                 /* state goes here */
             });
-        case GetApplications.FAILURE:
+        case GetReceivedApplications.FAILURE:
             return Object.assign({}, state, {
                 /* state goes here */
             });
-        case GetApplications.FULFILL:
+        case GetReceivedApplications.FULFILL:
             return Object.assign({}, state, {
                 /* state goes here */
             });

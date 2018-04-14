@@ -42,31 +42,39 @@ export interface ChatGroup {
 }
 
 export interface User {
-    facebookUserId: string;
+    id: string;
+    email: string;
+    email_verified: boolean;
     createdAt: Date;
     updatedAt: Date;
-
-    email: string;
     name: string;
     firstName: string;
     lastName: string;
-    birthday: string;
+    age: number;
+    authId: string;
+    playerId: string;
 
     gender: string;
     bio: string;
     course: string;
     studyYear: string;
     isSmoker: boolean;
+    isDruggie: boolean;
+    isDrinker: boolean;
 
     minPrice: number;
     maxPrice: number;
 
     genderPreference: string;
+    drugPreference: string;
+    drinkPreference: string;
+    smokerPreference: string;
 
+    starredPosts: Array<Post>;
     group: Group;
     house: House;
     messages: Array<Message>;
-    imageUrl: string;
+    profilePicture: string;
 }
 
 export interface Group {

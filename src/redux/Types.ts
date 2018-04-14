@@ -52,11 +52,11 @@ export enum ToggleFilter {
     FAILURE = Routines.toggleFilter.FAILURE
 }
 
-export enum GetApplications {
-    REQUEST = Routines.getApplications.REQUEST,
-    SUCCESS = Routines.getApplications.SUCCESS,
-    FAILURE = Routines.getApplications.FAILURE,
-    FULFILL = Routines.getApplications.FULFILL
+export enum GetReceivedApplications {
+    REQUEST = Routines.getReceivedApplications.REQUEST,
+    SUCCESS = Routines.getReceivedApplications.SUCCESS,
+    FAILURE = Routines.getReceivedApplications.FAILURE,
+    FULFILL = Routines.getReceivedApplications.FULFILL
 }
 
 export enum CreateApplication {

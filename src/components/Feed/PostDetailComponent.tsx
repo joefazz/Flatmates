@@ -21,7 +21,7 @@ import { Colors } from '../../consts';
 import { FontFactory } from '../../consts/font';
 import { feed } from '../../styles';
 import { ProfileState } from '../../types/ReduxTypes';
-import { House } from '../../types/Entities';
+import { House, User } from '../../types/Entities';
 import {
     toConstantFontSize,
     toConstantHeight,
@@ -30,6 +30,7 @@ import {
 import { compareUsers } from '../../utils/UserComparison';
 import { TouchableRect } from '../../widgets/TouchableRect';
 import { CreateApplicationMutationVariables } from '../../graphql/Types';
+import { AnyAction } from 'redux';
 
 interface Props {
     house: House;
@@ -49,10 +50,11 @@ interface Props {
                 };
             };
         };
-        push: (route: string, params: { fbUserId?: string; data?: object }) => void;
+        push: (route: string, params: { id?: string; data?: object }) => void;
     };
     id: string;
     userId: string;
+    firstName: string;
     isLoading: boolean;
     profile: ProfileState;
     starPost: () => void;
@@ -280,9 +282,13 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                         text: 'Send',
                                         onPress: () =>
                                             this.props.createApplication({
-                                                fromUser: this.props.userId,
-                                                toHouse: this.props.house.shortID,
-                                                message: 'hello world'
+                                                userID: this.props.userId,
+                                                houseID: this.props.house.shortID,
+                                                from: this.props.firstName,
+                                                playerIDs: this.props.house.users.map(
+                                                    (user: User) => user.playerId
+                                                ),
+                                                message: ''
                                             })
                                     }
                                 ]
@@ -310,7 +316,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                 underlayColor={Colors.grey}
                 onPress={() =>
                     this.props.navigation.push('UserProfile', {
-                        fbUserId: user.facebookUserId,
+                        id: user.id,
                         data: user
                     })
                 }

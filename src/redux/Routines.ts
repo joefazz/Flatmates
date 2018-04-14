@@ -12,5 +12,6 @@ export const createPost = createRoutine('CREATE_POST');
 export const deletePost = createRoutine('DELETE_POST');
 export const toggleFilter = createRoutine('TOGGLE_FILTER');
 
-export const getApplications = createRoutine('GET_APPLICATIONS');
+export const getReceivedApplications = createRoutine('GET_RECEIVED_APPLICATIONS');
+export const getSentApplications = createRoutine('GET_SENT_APPLICATIONS');
 export const createApplication = createRoutine('CREATE_APPLICATION');

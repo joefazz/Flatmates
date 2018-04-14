@@ -4,10 +4,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ApplicationListComponent } from '../../../components/Applications/ApplicationListComponent';
 import { Application } from '../../../types/Entities';
-import { ApplicationState } from '../../../types/ReduxTypes';
+import { ApplicationState, ReduxState, ProfileState } from '../../../types/ReduxTypes';
+import { getReceivedApplications } from '../../../redux/Routines';
 
 interface Props {
     applications: ApplicationState;
+    profile: ProfileState;
 }
 
 interface State {
@@ -21,7 +23,9 @@ export class ApplicationList extends React.Component<Props, State> {
             <Icon
                 name={
                     Platform.OS === 'ios'
-                        ? focused ? 'ios-filing' : 'ios-filing-outline'
+                        ? focused
+                            ? 'ios-filing'
+                            : 'ios-filing-outline'
                         : 'md-filing'
                 }
                 color={tintColor}
@@ -32,6 +36,10 @@ export class ApplicationList extends React.Component<Props, State> {
 
     constructor(props) {
         super(props);
+
+        if (props.profile.house) {
+            props.getReceivedApplications(props.profile.house.shortId);
+        }
     }
 
     render() {
@@ -43,12 +51,13 @@ export class ApplicationList extends React.Component<Props, State> {
     }
 }
 
-const mapStateToProps = (state) => ({
-    applications: state.applications
+const mapStateToProps = (state: ReduxState) => ({
+    applications: state.application,
+    profile: state.profile
 });
 
-const bindActions = () => {
-    return {};
-};
+const bindActions = (dispatch) => ({
+    getReceivedApplications: (houseID: number) => dispatch(getReceivedApplications(houseID))
+});
 
 export default connect(mapStateToProps, bindActions)(ApplicationList);

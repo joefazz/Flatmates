@@ -2,8 +2,10 @@
 //  This file was automatically generated and should not be edited.
 
 export interface CreateApplicationMutationVariables {
-  fromUser: string,
-  toHouse: number,
+  userID: string,
+  houseID: number,
+  playerIDs: Array< string >,
+  from: string,
   message?: string | null,
 };
 

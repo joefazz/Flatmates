@@ -91,6 +91,7 @@ export class PostDetail extends React.Component<Props, State> {
                 <StatusBar barStyle={'light-content'} />
                 <PostDetailComponent
                     userId={this.props.id}
+                    firstName={this.props.profile.firstName}
                     title={this.state.data.title}
                     description={this.state.data.description}
                     house={this.state.data.createdBy}
@@ -111,7 +112,9 @@ export class PostDetail extends React.Component<Props, State> {
     private hasStarredPost = async () => {
         try {
             const {
-                data: { user: { starredPosts } }
+                data: {
+                    user: { starredPosts }
+                }
             }: ApolloQueryResult<BasicStarredQuery> = await Client.query<BasicStarredQuery>({
                 query: USER_BASIC_STARRED_POSTS_QUERY,
                 variables: { facebookUserId: this.props.userId }
@@ -133,7 +136,9 @@ export class PostDetail extends React.Component<Props, State> {
 
     private getPostDetails = async () => {
         try {
-            const { data: { updatePost } } = await this.props.updatePost(
+            const {
+                data: { updatePost }
+            } = await this.props.updatePost(
                 this.props.navigation.state.params.data.id,
                 new Date().toISOString()
             );

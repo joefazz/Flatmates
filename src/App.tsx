@@ -47,6 +47,8 @@ export default class Root extends React.Component<Props, State> {
             store.dispatch(NavigationActions.back())
         );
 
+        OneSignal.inFocusDisplaying(2);
+
         OneSignal.addEventListener('received', this.onReceivePush);
         OneSignal.addEventListener('opened', this.onOpenPush);
         OneSignal.addEventListener('ids', this.saveIds);

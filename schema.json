@@ -10298,7 +10298,7 @@
               "description": "",
               "args": [
                 {
-                  "name": "from",
+                  "name": "userID",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
@@ -10312,7 +10312,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "to",
+                  "name": "houseID",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
@@ -10320,6 +10320,42 @@
                     "ofType": {
                       "kind": "SCALAR",
                       "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "playerIDs",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "LIST",
+                      "name": null,
+                      "ofType": {
+                        "kind": "NON_NULL",
+                        "name": null,
+                        "ofType": {
+                          "kind": "SCALAR",
+                          "name": "ID",
+                          "ofType": null
+                        }
+                      }
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "from",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
                       "ofType": null
                     }
                   },

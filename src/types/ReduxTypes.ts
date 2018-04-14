@@ -8,7 +8,7 @@ import {
     CreateUserWithHouse,
     CreateUserJoinHouse,
     CreateApplication,
-    GetApplications
+    GetReceivedApplications
 } from '../redux/Types';
 import {
     Course,
@@ -59,7 +59,7 @@ export interface ProfileAction {
 }
 
 export interface ApplicationAction {
-    type: CreateApplication | GetApplications;
+    type: CreateApplication | GetReceivedApplications;
     payload: any;
 }
 
