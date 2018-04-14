@@ -5,6 +5,7 @@ export const CREATE_USER_UPDATE_HOUSE_MUTATION = gql`
         $name: String!
         $email: String!
         $authId: String!
+        $playerId: String
         $email_verified: Boolean!
         $firstName: String!
         $lastName: String!
@@ -23,6 +24,7 @@ export const CREATE_USER_UPDATE_HOUSE_MUTATION = gql`
             name: $name
             email: $email
             authId: $authId
+            playerId: $playerId
             email_verified: $email_verified
             firstName: $firstName
             lastName: $lastName

@@ -64,7 +64,7 @@ interface Props {
     createUserWithHouse: (mutationVars: CreateUserCreateHouseMutationVariables) => void;
     createUserJoinHouse: (mutationVars: CreateUserUpdateHouseMutationVariables) => void;
     getUserData: (user: any) => void;
-    navigation: { navigate: (route: string) => void };
+    navigation: { navigate: (route: string) => void; state: { params: { playerId: string } } };
 }
 
 interface State {
@@ -110,6 +110,26 @@ interface State {
 }
 
 export class Login extends React.Component<Props, State> {
+    static getDerivedStateFromProps(newProps: Props, prevState: State) {
+        let newState: State | {} = {};
+        if (
+            newProps.login.loginStatus === LoginStatus.SUCCEED ||
+            newProps.login.loginStatus === LoginStatus.FAILED
+        ) {
+            if (prevState.isLoggingIn && newProps.login.loginStatus === LoginStatus.SUCCEED) {
+                (newState as State).isLoggingIn = false;
+                if (newProps.login.isLoggedIn) {
+                    (newState as State).isLoggedIn = true;
+                }
+            } else if (newProps.login.loginStatus === LoginStatus.FAILED) {
+                (newState as State).isLoggedIn = false;
+                (newState as State).hasLoginFailed = true;
+            }
+        }
+
+        return newState;
+    }
+
     homeSwiper: any;
     courseInput: any;
     lastNameInput: any;
@@ -164,25 +184,9 @@ export class Login extends React.Component<Props, State> {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (Platform.OS === 'ios') {
             StatusBar.setBarStyle('dark-content');
-        }
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (
-            newProps.login.loginStatus === LoginStatus.SUCCEED ||
-            newProps.login.loginStatus === LoginStatus.FAILED
-        ) {
-            if (this.state.isLoggingIn && newProps.login.loginStatus === LoginStatus.SUCCEED) {
-                this.setState({ isLoggingIn: false });
-                if (newProps.login.isLoggedIn) {
-                    this.setState({ isLoggedIn: true });
-                }
-            } else if (newProps.login.loginStatus === LoginStatus.FAILED) {
-                this.setState({ isLoggedIn: false, hasLoginFailed: true });
-            }
         }
     }
 
@@ -696,7 +700,7 @@ export class Login extends React.Component<Props, State> {
                     : null}
 
                 <View style={[login.page, { backgroundColor: Colors.brandPrimaryColor }]}>
-                    <View style={[base.headingWrapper, {flex: 2}]}>
+                    <View style={[base.headingWrapper, { flex: 2 }]}>
                         {this.state.isCreatingHouse ? (
                             <View>
                                 <Text style={login.congratsText}>Congrats!</Text>
@@ -734,11 +738,9 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             title={'Continue'}
                             onPress={() => this.props.navigation.navigate('Home')}
-                            buttonStyle={
-                                base.buttonStyle
-                            }
+                            buttonStyle={base.buttonStyle}
                             backgroundColor={Colors.white}
-                            textColor={ Colors.brandPrimaryColor }
+                            textColor={Colors.brandPrimaryColor}
                         />
                     </View>
                 </View>
@@ -860,7 +862,16 @@ export class Login extends React.Component<Props, State> {
                         </View>
 
                         <View>
-                            <Text style={[base.labelText, { alignSelf: 'center', marginBottom: 20, ...FontFactory({ weight: 'Bold' }) }]}>
+                            <Text
+                                style={[
+                                    base.labelText,
+                                    {
+                                        alignSelf: 'center',
+                                        marginBottom: 20,
+                                        ...FontFactory({ weight: 'Bold' })
+                                    }
+                                ]}
+                            >
                                 Would you prefer to live with?
                             </Text>
                             <View style={{ flexDirection: 'row' }}>
@@ -870,7 +881,8 @@ export class Login extends React.Component<Props, State> {
                                         items={[
                                             {
                                                 section: false,
-                                                label: 'Select the gender you would prefer to live with'
+                                                label:
+                                                    'Select the gender you would prefer to live with'
                                             },
                                             { label: 'Male' },
                                             { label: 'Female' },
@@ -878,7 +890,9 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'No Preference' }
                                         ]}
                                         initialValue={'No Preference'}
-                                        onChange={({ label }) => this.setState({ genderPreference: label })}
+                                        onChange={({ label }) =>
+                                            this.setState({ genderPreference: label })
+                                        }
                                         selectStyle={[
                                             {
                                                 borderWidth: 0,
@@ -1059,7 +1073,9 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             title={'Confirm'}
                             onPress={this.completeJoiningHouseSetup}
-                            backgroundColor={this.state.shortID === 0 ? Colors.grey : Colors.brandPrimaryColor}
+                            backgroundColor={
+                                this.state.shortID === 0 ? Colors.grey : Colors.brandPrimaryColor
+                            }
                             buttonStyle={base.buttonStyle}
                         />
                         <TouchableOpacity
@@ -1313,7 +1329,7 @@ export class Login extends React.Component<Props, State> {
                     date: new Date()
                 });
 
-                const isoMonth = (month + 1) < 10 ? `0${month + 1}` : month + 1;
+                const isoMonth = month + 1 < 10 ? `0${month + 1}` : month + 1;
                 const isoDay = day < 10 ? `0${day}` : day;
 
                 if (action !== DatePickerAndroid.dismissedAction) {
@@ -1336,7 +1352,7 @@ export class Login extends React.Component<Props, State> {
                     date: new Date()
                 });
 
-                const isoMonth = (month + 1) < 10 ? `0${month + 1}` : month + 1;
+                const isoMonth = month + 1 < 10 ? `0${month + 1}` : month + 1;
                 const isoDay = day < 10 ? `0${day}` : day;
 
                 if (action !== DatePickerAndroid.dismissedAction) {
@@ -1397,7 +1413,9 @@ export class Login extends React.Component<Props, State> {
 
             this.authId = decodedJSON.sub;
 
-            const { data: { user } } = await client.query<UserLoginQuery>({
+            const {
+                data: { user }
+            } = await client.query<UserLoginQuery>({
                 query: USER_LOGIN_QUERY,
                 variables: { email: decodedJSON.email }
             });
@@ -1447,6 +1465,7 @@ export class Login extends React.Component<Props, State> {
             email: this.email,
             profilePicture: this.state.profilePicture,
             authId: this.authId,
+            playerId: this.props.navigation.state.params.playerId,
             email_verified: this.isVerifiedUser,
             name: fullName,
             firstName: this.state.firstName,
@@ -1482,6 +1501,7 @@ export class Login extends React.Component<Props, State> {
             email: this.email,
             profilePicture: this.state.profilePicture,
             authId: this.authId,
+            playerId: this.props.navigation.state.params.playerId,
             email_verified: this.isVerifiedUser,
             name: fullName,
             firstName: this.state.firstName,
@@ -1530,6 +1550,7 @@ export class Login extends React.Component<Props, State> {
                                         email: this.email,
                                         profilePicture: this.state.profilePicture,
                                         authId: this.authId,
+                                        playerId: this.props.navigation.state.params.playerId,
                                         email_verified: this.isVerifiedUser,
                                         name: fullName,
                                         firstName: this.state.firstName,
@@ -1645,7 +1666,7 @@ export class Login extends React.Component<Props, State> {
     }
 
     private async uploadImages(): Promise<void> {
-        this.uploadProfilePicture().catch(error => console.log(error));
+        this.uploadProfilePicture().catch((error) => console.log(error));
         console.log('here', this.state.tempImages);
         if (this.state.tempImages && this.state.tempImages.length > 0) {
             let imageUrls: Array<string>;

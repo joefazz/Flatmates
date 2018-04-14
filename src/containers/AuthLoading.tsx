@@ -10,19 +10,22 @@ import { UserLoginQuery } from '../graphql/Types';
 import { ApolloQueryResult } from 'apollo-client';
 
 interface Props {
+    screenProps: { isRehydrated: boolean; playerId: string };
     login: LoginState;
     navigation: {
-        navigate: (route) => void;
+        navigate: (route, params?) => void;
     };
 }
 
-class AuthLoadingScreen extends React.Component<Props> {
+interface State {}
+
+class AuthLoadingScreen extends React.Component<Props, State> {
     constructor(props) {
         super(props);
     }
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.screenProps) {
+    componentDidUpdate() {
+        if (this.props.screenProps.isRehydrated && this.props.screenProps.playerId !== '') {
             this._bootstrap();
         }
     }
@@ -41,7 +44,9 @@ class AuthLoadingScreen extends React.Component<Props> {
 
             if (data.user === null) {
                 AsyncStorage.clear();
-                this.props.navigation.navigate('Login');
+                this.props.navigation.navigate('Login', {
+                    playerId: this.props.screenProps.playerId
+                });
             } else if (this.props.login.id && this.props.login.id !== '') {
                 if (data.user.email_verified) {
                     this.props.navigation.navigate('Home');
@@ -50,7 +55,9 @@ class AuthLoadingScreen extends React.Component<Props> {
                 }
             }
         } else {
-            this.props.navigation.navigate('Login');
+            this.props.navigation.navigate('Login', {
+                playerId: this.props.screenProps.playerId
+            });
         }
     };
 

@@ -80,6 +80,7 @@ export interface CreateUserMutationVariables {
   name: string,
   email: string,
   authId: string,
+  playerId?: string | null,
   email_verified: boolean,
   firstName: string,
   lastName: string,
@@ -110,6 +111,7 @@ export interface CreateUserMutation {
 export interface CreateUserCreateHouseMutationVariables {
   email: string,
   authId: string,
+  playerId?: string | null,
   firstName: string,
   lastName: string,
   name: string,
@@ -145,6 +147,7 @@ export interface CreateUserUpdateHouseMutationVariables {
   name: string,
   email: string,
   authId: string,
+  playerId?: string | null,
   email_verified: boolean,
   firstName: string,
   lastName: string,

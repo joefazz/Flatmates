@@ -27,7 +27,8 @@ function persistentStore(onComplete) {
 }
 
 const initialState = {
-    isRehydrated: false
+    isRehydrated: false,
+    playerId: ''
 };
 
 interface Props {}
@@ -71,13 +72,19 @@ export default class Root extends React.Component<Props, State> {
 
     saveIds = (device) => {
         console.log('Device info: ', device);
+        this.setState({ playerId: device.userId });
     };
 
     render() {
         return (
             <ApolloProvider client={client}>
                 <Provider store={store}>
-                    <RootNavigation screenProps={this.state.isRehydrated} />
+                    <RootNavigation
+                        screenProps={{
+                            isRehydrated: this.state.isRehydrated,
+                            playerId: this.state.playerId
+                        }}
+                    />
                 </Provider>
             </ApolloProvider>
         );

@@ -29,7 +29,8 @@
         "jsx-no-lambda": false,
         "no-empty-interface": false,
         "max-classes-per-file": false,
-        "ordered-imports": false
+        "ordered-imports": false,
+        "prefer-const": false,
     },
     "rulesDirectory": []
 }
