@@ -1,7 +1,6 @@
 import { ApplicationState, ApplicationAction } from '../../types/ReduxTypes';
-import { GetReceivedApplications, CreateApplication } from '../Types';
+import { GetReceivedApplications, GetSentApplications, CreateApplication } from '../Types';
 import initialState from '../InitialState';
-import { createUserJoinHouse } from '../Routines';
 
 const INITIAL_STATE = initialState.applications;
 
@@ -17,11 +16,11 @@ export default function applicationReducer(
 
         case GetReceivedApplications.REQUEST:
             return Object.assign({}, state, {
-                /* state goes here */
+                isFetchingReceivedApplications: true
             });
         case GetReceivedApplications.SUCCESS:
             return Object.assign({}, state, {
-                /* state goes here */
+                received: action.payload.applications
             });
         case GetReceivedApplications.FAILURE:
             return Object.assign({}, state, {
@@ -29,7 +28,24 @@ export default function applicationReducer(
             });
         case GetReceivedApplications.FULFILL:
             return Object.assign({}, state, {
+                isFetchingReceivedApplications: false
+            });
+
+        case GetSentApplications.REQUEST:
+            return Object.assign({}, state, {
+                isFetchingSentApplications: true
+            });
+        case GetSentApplications.SUCCESS:
+            return Object.assign({}, state, {
+                sent: action.payload.applications
+            });
+        case GetSentApplications.FAILURE:
+            return Object.assign({}, state, {
                 /* state goes here */
+            });
+        case GetSentApplications.FULFILL:
+            return Object.assign({}, state, {
+                isFetchingSentApplications: false
             });
 
         default:

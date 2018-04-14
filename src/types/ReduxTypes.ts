@@ -8,7 +8,8 @@ import {
     CreateUserWithHouse,
     CreateUserJoinHouse,
     CreateApplication,
-    GetReceivedApplications
+    GetReceivedApplications,
+    GetSentApplications
 } from '../redux/Types';
 import {
     Course,
@@ -59,7 +60,7 @@ export interface ProfileAction {
 }
 
 export interface ApplicationAction {
-    type: CreateApplication | GetReceivedApplications;
+    type: CreateApplication | GetReceivedApplications | GetSentApplications;
     payload: any;
 }
 
@@ -119,12 +120,14 @@ export interface FeedState {
 
 export interface ApplicationState {
     sent: Array<Application>;
-    recieved: Array<Application>;
+    received: Array<Application>;
+    isFetchingSentApplications: boolean;
+    isFetchingReceivedApplications: boolean;
 }
 
 export interface ReduxState {
     profile: ProfileState;
     feed: FeedState;
     login: LoginState;
-    application: ApplicationState;
+    applications: ApplicationState;
 }

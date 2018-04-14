@@ -44,14 +44,14 @@ function* get({ payload }) {
     try {
         const {
             house: { applications }
-        } = yield getApplicationQuery(payload.shortID);
+        } = yield getApplicationQuery(payload);
 
         yield put(getReceivedApplications.success({ applications }));
     } catch (error) {
         yield put(getReceivedApplications.failure(error));
     }
 
-    getReceivedApplications.fulfill();
+    yield put(getReceivedApplications.fulfill());
 }
 
 function* create({ payload }) {

@@ -3,20 +3,16 @@ import { Platform } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ApplicationListComponent } from '../../../components/Applications/ApplicationListComponent';
-import { Application } from '../../../types/Entities';
 import { ApplicationState, ReduxState, ProfileState } from '../../../types/ReduxTypes';
 import { getReceivedApplications } from '../../../redux/Routines';
 
 interface Props {
     applications: ApplicationState;
     profile: ProfileState;
+    navigation: { navigate: (route: string, params: { id: string }) => void };
 }
 
-interface State {
-    applications: Array<Application>;
-}
-
-export class ApplicationList extends React.Component<Props, State> {
+export class ApplicationList extends React.Component<Props> {
     static navigationOptions = {
         title: 'Applications',
         tabBarIcon: ({ focused, tintColor }) => (
@@ -24,35 +20,41 @@ export class ApplicationList extends React.Component<Props, State> {
                 name={
                     Platform.OS === 'ios'
                         ? focused
-                            ? 'ios-filing'
-                            : 'ios-filing-outline'
-                        : 'md-filing'
+                            ? 'ios-notifications'
+                            : 'ios-notifications-outline'
+                        : 'md-notifications'
                 }
                 color={tintColor}
                 size={32}
             />
-        )
+        ),
+        header: null
     };
 
     constructor(props) {
         super(props);
 
         if (props.profile.house) {
-            props.getReceivedApplications(props.profile.house.shortId);
+            props.getReceivedApplications(props.profile.house.shortID);
         }
     }
 
     render() {
+        console.log(this.props.navigation);
         return (
             <ApplicationListComponent
-                applications={[{ title: 'Hello', data: this.props.applications }]}
+                receivedApplications={this.props.applications.received}
+                sentApplications={this.props.applications.sent}
+                isFetchingSent={this.props.applications.isFetchingSentApplications}
+                isFetchingReceived={this.props.applications.isFetchingReceivedApplications}
+                navigation={this.props.navigation}
             />
         );
     }
 }
 
 const mapStateToProps = (state: ReduxState) => ({
-    applications: state.application,
+    applications: state.applications,
     profile: state.profile
 });
 

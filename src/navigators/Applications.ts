@@ -1,15 +1,20 @@
 import { StackNavigator } from 'react-navigation';
 
-import { ApplicationList } from '../containers/Groups/Applications/ApplicationList';
+import ApplicationList from '../containers/Groups/Applications/ApplicationList';
 import { ApplicationDetail } from '../containers/Groups/Applications/ApplicationDetail';
+import { Colors, Font } from '../consts';
 
 const routeConfig = {
     ApplicationsList: { screen: ApplicationList },
-    ApplicationsDetail: { screen: ApplicationDetail }
+    ApplicationDetail: { screen: ApplicationDetail }
 };
 
-const navConfig = {
-    headerMode: 'none'
+const navConfig: any = {
+    navigationOptions: {
+        headerTintColor: Colors.white,
+        headerTitleStyle: { color: Colors.white, ...Font.FontFactory({ family: 'Nunito' }) },
+        headerStyle: { backgroundColor: Colors.brandPrimaryColor }
+    }
 };
 
 export const ApplicationNavigator = StackNavigator(routeConfig, navConfig);

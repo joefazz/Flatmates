@@ -10,6 +10,7 @@ export const HOUSE_APPLICATIONS_QUERY = gql`
                     name
                     course
                     age
+                    bio
                     studyYear
                     profilePicture
                 }
