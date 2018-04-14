@@ -43,9 +43,6 @@ export default class Root extends React.Component<Props, State> {
         persistentStore(() => {
             this.setState({ isRehydrated: true });
         });
-        BackHandler.addEventListener('hardwareBackPress', () =>
-            store.dispatch(NavigationActions.back())
-        );
 
         OneSignal.inFocusDisplaying(2);
 
@@ -55,10 +52,6 @@ export default class Root extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        BackHandler.removeEventListener('hardwareBackPress', () =>
-            store.dispatch(NavigationActions.back())
-        );
-
         OneSignal.removeEventListener('received', this.onReceivePush);
         OneSignal.removeEventListener('opened', this.onOpenPush);
         OneSignal.removeEventListener('ids', this.saveIds);
