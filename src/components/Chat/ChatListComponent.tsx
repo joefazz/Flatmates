@@ -2,7 +2,10 @@ import * as React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
-import { base, chat } from '../../styles';
+import { base } from '../../styles';
+import { RectButton } from 'react-native-gesture-handler';
+import { group } from '../../styles/Group';
+import { toConstantHeight, toConstantFontSize } from '../../utils/PercentageConversion';
 
 interface Props {
     navigation: { navigate: (string, object) => void };
@@ -12,8 +15,8 @@ interface Props {
 export class ChatListComponent extends React.PureComponent<Props> {
     renderHeader = () => {
         return (
-            <TouchableOpacity
-                style={chat.row}
+            <RectButton
+                style={[group.listItem, { height: toConstantHeight(12) }]}
                 onPress={() =>
                     this.props.navigation.navigate('ChatDetail', {
                         title: 'De Beauvoir',
@@ -21,28 +24,21 @@ export class ChatListComponent extends React.PureComponent<Props> {
                     })
                 }
             >
-                <View style={chat.groupRowWrapper}>
-                    <View style={chat.groupAvatarWrapper}>
-                        <Avatar
-                            rounded={true}
-                            source={{
-                                uri:
-                                    'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
-                            }}
-                        />
-                    </View>
-                    <View style={chat.groupTextWrapper}>
-                        <View style={chat.groupTitleWrapper}>
-                            <Text style={chat.groupTitle}>De Beauvoir Road</Text>
-                        </View>
-                        <View style={chat.groupSubtitleWrapper}>
-                            <Text style={chat.groupSubtitle}>
-                                If you can send the bills that'd be sound
-                            </Text>
-                        </View>
-                    </View>
+                <Avatar
+                    rounded={true}
+                    source={{
+                        uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
+                    }}
+                    large={true}
+                />
+                <View style={group.descWrapper}>
+                    <Text style={group.title}>De Beauvoir Road</Text>
+                    <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
+                        If you can send the bills that'd be sound
+                    </Text>
                 </View>
-            </TouchableOpacity>
+                <View style={true && group.unreadMarker} />
+            </RectButton>
         );
     };
 

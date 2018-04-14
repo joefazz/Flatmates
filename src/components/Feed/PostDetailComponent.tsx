@@ -200,8 +200,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         <Mapbox.MapView
                             style={{
                                 flex: 2,
-                                justifyContent: 'center',
-                                paddingLeft: 20
+                                justifyContent: 'center'
                             }}
                             zoomLevel={this.state.zoomLevel}
                             zoomEnabled={false}
