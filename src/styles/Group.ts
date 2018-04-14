@@ -1,45 +1,49 @@
+// @ts-nocheck
+
 import { StyleSheet, Platform } from 'react-native';
 
 import { Colors } from '../consts';
+import {
+    toConstantHeight,
+    toConstantWidth,
+    toConstantFontSize
+} from '../utils/PercentageConversion';
+import { FontFactory } from '../consts/font';
 
-export const chat = StyleSheet.create({
+export const group = StyleSheet.create({
     // GROUP STYLES
-    row: {
-        marginVertical: 5,
-    },
-        
-    groupTextWrapper: {
-        flex: 5,
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-    },
-
-    groupRowWrapper: {
-        flex: 1,
+    listItem: {
+        height: toConstantHeight(10),
+        width: toConstantWidth(100),
+        backgroundColor: Colors.white,
+        alignItems: 'center',
         flexDirection: 'row'
     },
-    
-    groupAvatarWrapper: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+
+    descWrapper: {
+        width: toConstantWidth(70),
+        paddingHorizontal: 10,
+        justifyContent: 'space-evenly'
     },
 
-    groupTitleWrapper: {
-        flex: 3,
+    title: {
+        fontSize: toConstantFontSize(2.3),
+        ...FontFactory(),
+        color: Colors.black
     },
 
-    groupSubtitleWrapper: {
-        flex: 1,
+    subtitle: {
+        fontSize: toConstantFontSize(2),
+        ...FontFactory({ weight: 'Light' })
     },
 
-    groupTitle: {
-        fontSize: 20
-    },
-
-    groupSubtitle: {
-        fontSize: 16,
-        fontWeight: '300'
+    unreadMarker: {
+        height: 20,
+        width: 20,
+        borderRadius: 10,
+        backgroundColor: Colors.definetelyNotAirbnbRed,
+        borderWidth: 1,
+        borderColor: Colors.translucentDefinetelyNotAirbnbRed
     },
 
     // DETAIL STYLES
@@ -47,7 +51,7 @@ export const chat = StyleSheet.create({
         alignItems: 'stretch',
         backgroundColor: '#e5ddd5',
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
 
     // MESSAGE STYLES
@@ -67,24 +71,24 @@ export const chat = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 1,
         shadowOffset: {
-            height: 1,
-        },
+            height: 1
+        }
     },
 
     myMessage: {
-        backgroundColor: '#dcf8c6',
+        backgroundColor: '#dcf8c6'
     },
 
     messageUsername: {
         color: 'red',
         fontWeight: 'bold',
-        paddingBottom: 12,
+        paddingBottom: 12
     },
 
     messageTime: {
         color: '#8c8c8c',
         fontSize: 11,
-        textAlign: 'right',
+        textAlign: 'right'
     },
 
     // MESSAGE INPUT STYLE
@@ -102,8 +106,8 @@ export const chat = StyleSheet.create({
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderColor: Colors.transparent,
-                backgroundColor: Colors.brandPrimaryColor,
-            },
+                backgroundColor: Colors.brandPrimaryColor
+            }
         })
     },
 
@@ -119,7 +123,7 @@ export const chat = StyleSheet.create({
     inputContainer: {
         flex: 1,
         paddingHorizontal: 12,
-        paddingVertical: 6,
+        paddingVertical: 6
     },
 
     input: {
@@ -131,7 +135,7 @@ export const chat = StyleSheet.create({
                 borderWidth: 1,
                 color: 'black',
                 height: 32,
-                paddingHorizontal: 8,
+                paddingHorizontal: 8
             },
             android: {
                 fontSize: 18,
@@ -146,6 +150,6 @@ export const chat = StyleSheet.create({
 
     sendButtonContainer: {
         paddingRight: 12,
-        alignSelf: 'center',
-    },
-})
+        alignSelf: 'center'
+    }
+});

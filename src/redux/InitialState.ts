@@ -62,7 +62,12 @@ const initialState: State = {
         isPriceFilterActive: false,
         isStarredFilterActive: false
     },
-    applications: { sent: [], recieved: [] }
+    applications: {
+        sent: [],
+        received: [],
+        isFetchingReceivedApplications: false,
+        isFetchingSentApplications: false
+    }
 };
 
 export default initialState;

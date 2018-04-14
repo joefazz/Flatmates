@@ -59,6 +59,13 @@ export enum GetReceivedApplications {
     FULFILL = Routines.getReceivedApplications.FULFILL
 }
 
+export enum GetSentApplications {
+    REQUEST = Routines.getSentApplications.REQUEST,
+    SUCCESS = Routines.getSentApplications.SUCCESS,
+    FAILURE = Routines.getSentApplications.FAILURE,
+    FULFILL = Routines.getSentApplications.FULFILL
+}
+
 export enum CreateApplication {
     SUCCESS = Routines.createApplication.SUCCESS,
     FAILURE = Routines.createApplication.FAILURE

@@ -24,11 +24,14 @@ interface State {
 export class ChatList extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Chat',
+        header: null,
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon
                 name={
                     Platform.OS === 'ios'
-                        ? focused ? 'ios-notifications' : 'ios-notifications-outline'
+                        ? focused
+                            ? 'ios-notifications'
+                            : 'ios-notifications-outline'
                         : 'md-notifications'
                 }
                 color={tintColor}
