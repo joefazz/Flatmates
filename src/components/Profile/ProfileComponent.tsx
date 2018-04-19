@@ -5,11 +5,11 @@ import { Avatar } from 'react-native-elements';
 import * as Interactable from 'react-native-interactable';
 import { Colors, Metrics } from '../../consts';
 import { profile } from '../../styles';
-import { Profile } from '../../types/State';
 import _ from '../../utils/localdash';
+import { User } from '../../types/Entities';
 
 interface Props {
-    profile: Profile;
+    profile: User;
     isLoading: boolean;
 }
 

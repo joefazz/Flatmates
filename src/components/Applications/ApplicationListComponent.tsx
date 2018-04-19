@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SectionList, Text, View, ActivityIndicator, StyleSheet, Image } from 'react-native';
-import { Application } from '../../types/Entities';
+import { Application, User } from '../../types/Entities';
 import {
     toConstantFontSize,
     toConstantHeight,
@@ -16,7 +16,7 @@ interface Props {
     sentApplications: Array<Application>;
     isFetchingSent: boolean;
     isFetchingReceived: boolean;
-    navigation: { navigate: (route: string, params: { id: string }) => void };
+    navigation: { navigate: (route: string, params: { id: string; data: User }) => void };
 }
 
 export class ApplicationListComponent extends React.PureComponent<Props> {
@@ -56,7 +56,12 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
             <RectButton
                 style={group.listItem}
                 underlayColor={Colors.brandPrimaryColor}
-                onPress={() => this.props.navigation.navigate('ApplicationDetail', { id: item.id })}
+                onPress={() =>
+                    this.props.navigation.navigate('ApplicationDetail', {
+                        id: item.id,
+                        data: item.from
+                    })
+                }
             >
                 <Image
                     source={{ uri: item.from.profilePicture }}

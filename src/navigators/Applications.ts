@@ -1,7 +1,7 @@
 import { StackNavigator } from 'react-navigation';
 
 import ApplicationList from '../containers/Groups/Applications/ApplicationList';
-import { ApplicationDetail } from '../containers/Groups/Applications/ApplicationDetail';
+import ApplicationDetail from '../containers/Groups/Applications/ApplicationDetail';
 import { Colors, Font } from '../consts';
 
 const routeConfig = {

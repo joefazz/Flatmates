@@ -27,7 +27,7 @@ import { connect } from 'react-redux';
 import Box from '../../Assets/box.png';
 import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
 import { MapboxSDK } from '../App';
-import Client from '../Client';
+import Client, { AUTH_HEADER } from '../Client';
 import { Colors, Font, Metrics } from '../consts';
 import { CREATE_USER_UPDATE_HOUSE_MUTATION } from '../graphql/mutations';
 import { HOUSE_DETAILS_QUERY, USER_LOGIN_QUERY } from '../graphql/queries';
@@ -1401,15 +1401,13 @@ export class Login extends React.Component<Props, State> {
             const decodedJSON: {
                 email: string;
                 email_verified: boolean;
+
                 sub: string;
-            } = await fetch(
-                `http://${Platform.OS === 'android' ? '192.168.0.10' : 'localhost'}:4000/verify`,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({ token: identityToken }),
-                    headers: { 'Content-Type': 'application/json' }
-                }
-            ).then((res) => res.json());
+            } = await fetch('https://flatmates-server.azurewebsites.net/verify', {
+                method: 'POST',
+                body: JSON.stringify({ token: identityToken }),
+                headers: { 'Content-Type': 'application/json' }
+            }).then((res) => res.json());
 
             this.authId = decodedJSON.sub;
 
@@ -1623,9 +1621,7 @@ export class Login extends React.Component<Props, State> {
 
                 try {
                     const response = await fetch(
-                        Platform.OS === 'ios'
-                            ? 'http://localhost:4000/upload'
-                            : 'http://192.168.0.10:4000/upload',
+                        'https://flatmates-ser1ver.azurewebsites.net/upload',
                         options
                     );
                     if (response.ok) {
@@ -1667,9 +1663,8 @@ export class Login extends React.Component<Props, State> {
 
     private async uploadImages(): Promise<void> {
         this.uploadProfilePicture().catch((error) => console.log(error));
-        console.log('here', this.state.tempImages);
         if (this.state.tempImages && this.state.tempImages.length > 0) {
-            let imageUrls: Array<string>;
+            let imageUrls: Array<string> | void;
 
             imageUrls = await Promise.all(
                 this.state.tempImages.map(async (image) => {
@@ -1696,9 +1691,7 @@ export class Login extends React.Component<Props, State> {
                     };
 
                     const response = await fetch(
-                        Platform.OS === 'ios'
-                            ? 'http://localhost:4000/upload'
-                            : 'http://192.168.0.10:4000/upload',
+                        'https://flatmates-server.azurewebsites.net/upload',
                         options
                     );
                     if (response.ok) {
@@ -1708,9 +1701,9 @@ export class Login extends React.Component<Props, State> {
                         alert('Problem with fetch: ' + response.status);
                     }
                 })
-            );
+            ).catch((error) => console.log(error));
 
-            this.setState({ houseImages: imageUrls }, this.completeHouseSetup);
+            imageUrls && this.setState({ houseImages: imageUrls }, this.completeHouseSetup);
         }
     }
 }
