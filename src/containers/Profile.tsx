@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
 import { LoginState, ProfileState } from '../types/ReduxTypes';
-import { Profile as ProfileType } from '../types/State';
 import { User } from '../types/Entities';
 import { EditButton } from '../widgets';
 
@@ -19,7 +18,7 @@ interface Props {
 
 interface State {
     isLoading: boolean;
-    profile: ProfileType;
+    profile: User;
 }
 
 export class Profile extends React.Component<Props, State> {
@@ -33,7 +32,9 @@ export class Profile extends React.Component<Props, State> {
             <Icon
                 name={
                     Platform.OS === 'ios'
-                        ? focused ? 'ios-person' : 'ios-person-outline'
+                        ? focused
+                            ? 'ios-person'
+                            : 'ios-person-outline'
                         : 'md-person'
                 }
                 color={tintColor}
@@ -86,7 +87,7 @@ export class Profile extends React.Component<Props, State> {
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar barStyle={'light-content'} />
-                <ProfileComponent {...this.state} />
+                <ProfileComponent isLoading={this.state.isLoading} profile={this.state.profile} />
             </View>
         );
     }

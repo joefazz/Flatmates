@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import { StyleSheet, Platform } from 'react-native';
 
 import { Colors } from '../consts';
@@ -38,8 +36,8 @@ export const group = StyleSheet.create({
     },
 
     unreadMarker: {
-        height: 20,
-        width: 20,
+        height: 15,
+        width: 15,
         borderRadius: 10,
         backgroundColor: Colors.definetelyNotAirbnbRed,
         borderWidth: 1,
@@ -71,7 +69,8 @@ export const group = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 1,
         shadowOffset: {
-            height: 1
+            height: 1,
+            width: 0
         }
     },
 

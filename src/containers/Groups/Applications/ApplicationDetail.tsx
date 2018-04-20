@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { ProfileComponent } from '../../../components/Profile/ProfileComponent';
 import { User } from '../../../types/Entities';
 import { USER_DETAILS_QUERY } from '../../../graphql/queries';
@@ -25,7 +25,6 @@ export class ApplicationDetail extends React.Component<Props> {
     });
 
     render() {
-        console.log(this.props);
         if (this.props.loading) {
             return <ActivityIndicator />;
         }
