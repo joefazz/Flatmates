@@ -88,7 +88,7 @@ export class PostDetail extends React.Component<Props, State> {
     render() {
         return (
             <>
-                <StatusBar barStyle={'light-content'} />
+                <StatusBar barStyle={'dark-content'} />
                 <PostDetailComponent
                     userId={this.props.id}
                     firstName={this.props.profile.firstName}
@@ -117,7 +117,7 @@ export class PostDetail extends React.Component<Props, State> {
                 }
             }: ApolloQueryResult<BasicStarredQuery> = await Client.query<BasicStarredQuery>({
                 query: USER_BASIC_STARRED_POSTS_QUERY,
-                variables: { facebookUserId: this.props.userId }
+                variables: { id: this.props.userId }
             });
 
             console.log(starredPosts);
@@ -180,10 +180,10 @@ const updatePostMutation = graphql(UPDATE_POST_MUTATION, {
 
 const starPostMutation = graphql(STAR_POST_MUTATION, {
     props: ({ mutate }) => ({
-        starPost: (facebookUserId, postID) =>
+        starPost: (id, postID) =>
             mutate({
                 variables: {
-                    facebookUserId,
+                    id,
                     postID
                 }
             })
@@ -192,10 +192,10 @@ const starPostMutation = graphql(STAR_POST_MUTATION, {
 
 const unstarPostMutation = graphql(UNSTAR_POST_MUTATION, {
     props: ({ mutate }) => ({
-        unstarPost: (facebookUserId, postID) =>
+        unstarPost: (id, postID) =>
             mutate({
                 variables: {
-                    facebookUserId,
+                    id,
                     postID
                 }
             })

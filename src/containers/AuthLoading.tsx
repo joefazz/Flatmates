@@ -64,7 +64,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar translucent={true} barStyle={'default'} />
+                <StatusBar barStyle={'dark-content'} />
                 <Image
                     style={{ width: toConstantWidth(100), height: toConstantHeight(100) }}
                     source={splash_screen}

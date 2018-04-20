@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
-import { Platform, StatusBar, View } from 'react-native';
+import { Platform, StatusBar, View, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
@@ -84,9 +84,12 @@ export class Profile extends React.Component<Props, State> {
     }
 
     render() {
+        if (this.state.isLoading) {
+            return <ActivityIndicator />;
+        }
         return (
             <View style={{ flex: 1 }}>
-                <StatusBar barStyle={'light-content'} />
+                <StatusBar barStyle={'dark-content'} />
                 <ProfileComponent isLoading={this.state.isLoading} profile={this.state.profile} />
             </View>
         );

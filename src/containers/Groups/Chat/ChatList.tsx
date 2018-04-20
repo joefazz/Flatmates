@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { compose, graphql } from 'react-apollo';
-import { ActivityIndicator, Platform, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
@@ -63,7 +63,12 @@ export class ChatList extends React.Component<Props, State> {
             return <ActivityIndicator />;
         }
 
-        return <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />;
+        return (
+            <>
+                <StatusBar barStyle={'dark-content'} />
+                <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />;
+            </>
+        );
     }
 }
 

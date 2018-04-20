@@ -40,7 +40,10 @@ export class TouchableRect extends React.Component<Props> {
                     {this.props.iconName ? (
                         <Icon
                             name={this.props.iconName}
-                            style={[styles.iconStyle, this.props.title ? { marginRight: 10 } : {}]}
+                            style={[
+                                styles.iconStyle,
+                                this.props.title ? { marginRight: 10, marginBottom: 5 } : {}
+                            ]}
                             size={26}
                         />
                     ) : (

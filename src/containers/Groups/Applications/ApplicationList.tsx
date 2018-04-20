@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform } from 'react-native';
+import { Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ApplicationListComponent } from '../../../components/Applications/ApplicationListComponent';
@@ -42,13 +42,16 @@ export class ApplicationList extends React.Component<Props> {
     render() {
         console.log(this.props.navigation);
         return (
-            <ApplicationListComponent
-                receivedApplications={this.props.applications.received}
-                sentApplications={this.props.applications.sent}
-                isFetchingSent={this.props.applications.isFetchingSentApplications}
-                isFetchingReceived={this.props.applications.isFetchingReceivedApplications}
-                navigation={this.props.navigation}
-            />
+            <>
+                <StatusBar barStyle={'dark-content'} />
+                <ApplicationListComponent
+                    receivedApplications={this.props.applications.received}
+                    sentApplications={this.props.applications.sent}
+                    isFetchingSent={this.props.applications.isFetchingSentApplications}
+                    isFetchingReceived={this.props.applications.isFetchingReceivedApplications}
+                    navigation={this.props.navigation}
+                />
+            </>
         );
     }
 }

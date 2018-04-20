@@ -94,7 +94,7 @@ export class PostList extends React.Component<Props, State> {
     render() {
         return (
             <>
-                <StatusBar barStyle={'light-content'} />
+                <StatusBar barStyle={'dark-content'} />
                 <PostListComponent
                     navigation={this.props.navigation}
                     loadMorePosts={this.loadMorePosts}

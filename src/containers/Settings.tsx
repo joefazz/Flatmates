@@ -20,7 +20,7 @@ export default class Settings extends React.Component<Props, State> {
     render() {
         return (
             <View>
-                <StatusBar barStyle={'light-content'} />
+                <StatusBar barStyle={'dark-content'} />
                 <Text>Settings Screen</Text>
             </View>
         );

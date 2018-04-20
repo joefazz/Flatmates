@@ -6,6 +6,7 @@ export const USER_DETAILS_QUERY = gql`
         user(id: $id) {
             id
             name
+            firstName
             course
             bio
             age
