@@ -57,7 +57,7 @@ const getUserDetail = graphql(USER_DETAILS_QUERY, {
     }) => ({
         variables: { id: navigation.state.params.id }
     }),
-    props: ({ data }) => ({ ...data })
+    props: ({ data }) => console.log(data)
 });
 
 // @ts-ignore

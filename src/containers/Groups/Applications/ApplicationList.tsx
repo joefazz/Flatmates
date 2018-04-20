@@ -27,8 +27,7 @@ export class ApplicationList extends React.Component<Props> {
                 color={tintColor}
                 size={32}
             />
-        ),
-        header: null
+        )
     };
 
     constructor(props) {

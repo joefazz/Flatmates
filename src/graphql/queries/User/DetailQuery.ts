@@ -4,12 +4,18 @@ import gql from 'graphql-tag';
 export const USER_DETAILS_QUERY = gql`
     query UserDetail($id: ID!) {
         user(id: $id) {
+            id
             name
             course
             bio
+            age
+            gender
             studyYear
             isSmoker
+            isDrinker
+            isDruggie
             genderPreference
+            profilePicture
             maxPrice
             minPrice
             house {

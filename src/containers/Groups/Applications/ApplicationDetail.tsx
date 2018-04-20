@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { ProfileComponent } from '../../../components/Profile/ProfileComponent';
 import { User } from '../../../types/Entities';
 import { USER_DETAILS_QUERY } from '../../../graphql/queries';
@@ -18,13 +18,14 @@ interface Props {
     };
 }
 
-class ApplicationDetail extends React.Component<Props> {
+export class ApplicationDetail extends React.Component<Props> {
     static navigationOptions = () => ({
         tabBarVisible: false,
         title: 'Application Detail'
     });
 
     render() {
+        console.log(this.props);
         if (this.props.loading) {
             return <ActivityIndicator />;
         }
@@ -55,7 +56,7 @@ const getUserDetail = graphql(USER_DETAILS_QUERY, {
             };
         };
     }) => ({
-        variables: { id: navigation.state.params.id }
+        variables: { id: navigation.state.params.data.id }
     }),
     props: ({ data }) => ({ ...data })
 });
