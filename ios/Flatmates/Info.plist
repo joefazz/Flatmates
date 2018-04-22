@@ -51,7 +51,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We require access to your photos in order to let you upload pictures of your house for potential flatmates to see</string>
+	<string>Flatmates requires access to your images to upload profile pictures and images of your house</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

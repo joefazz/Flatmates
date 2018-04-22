@@ -454,9 +454,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@mapbox/react-native-mapbox-gl@6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@mapbox/react-native-mapbox-gl/-/react-native-mapbox-gl-6.1.1.tgz#d4a791d5ba51f25c837991b5c7a48ede9d5b5f49"
+"@mapbox/react-native-mapbox-gl@6.1.2-beta":
+  version "6.1.2-beta"
+  resolved "https://registry.yarnpkg.com/@mapbox/react-native-mapbox-gl/-/react-native-mapbox-gl-6.1.2-beta.tgz#3960904e81d9cb80488603886274c39d8dd85db7"
   dependencies:
     "@turf/helpers" "4.6.0"
     underscore "^1.8.3"
@@ -494,9 +494,9 @@
   version "16.0.38"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.38.tgz#76617433ea10274505f60bb86eddfdd0476ffdc2"
 
-"@types/react@^16.3.11":
-  version "16.3.11"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.11.tgz#345a17f1c96420f10b9f0dc696c31091ff9d66ea"
+"@types/react@^16.3.12":
+  version "16.3.12"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.12.tgz#68d9146f3e9797e38ffbf22f7ed1dde91a2cfd2e"
   dependencies:
     csstype "^2.2.0"
 
@@ -2626,9 +2626,9 @@ graphql-tag@^2.4.2:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.6.1.tgz#4788d509f6e29607d947fc47a40c4e18f736d34a"
 
-graphql-tag@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.8.0.tgz#52cdea07a842154ec11a2e840c11b977f9b835ce"
+graphql-tag@^2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.9.1.tgz#1ab090ef7d3518b06d8c97d1393672145fe91587"
 
 graphql@^0.13.2:
   version "0.13.2"
@@ -5535,9 +5535,9 @@ strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
-subscriptions-transport-ws@^0.9.7:
-  version "0.9.7"
-  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.7.tgz#9be456d6e188c96a53c91f570850e59bee5840ac"
+subscriptions-transport-ws@^0.9.8:
+  version "0.9.8"
+  resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.8.tgz#3a26ab96e06f78cf4ace8d083f6227fa55970947"
   dependencies:
     backo2 "^1.0.2"
     eventemitter3 "^2.0.3"
@@ -5732,9 +5732,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.8.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.1.tgz#6160e4f8f195d5ba81d4876f9c0cc1fbc0820624"
+typescript@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.8.3.tgz#5d817f9b6f31bb871835f4edf0089f21abe6c170"
 
 ua-parser-js@^0.7.9:
   version "0.7.17"

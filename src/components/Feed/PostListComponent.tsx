@@ -169,9 +169,9 @@ export class PostListComponent extends React.Component<Props> {
     };
 
     private renderCreateHeader = () => {
-        if (this.props.hasCreatedPost) {
-            return <View />;
-        }
+        // if (this.props.hasCreatedPost) {
+        //     return <View />;
+        // }
         // return <View />;
         if (Platform.OS === 'ios') {
             return (

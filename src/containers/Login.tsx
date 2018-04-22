@@ -1533,7 +1533,6 @@ export class Login extends React.Component<Props, State> {
         })
             .then((res: any) => {
                 if (res.data.house !== null) {
-                    console.log(res.data.house);
                     Alert.alert(
                         'Confirmation',
                         'Are you sure you belong to the house on ' + res.data.house.road + '?',
@@ -1621,7 +1620,7 @@ export class Login extends React.Component<Props, State> {
 
                 try {
                     const response = await fetch(
-                        'https://flatmates-ser1ver.azurewebsites.net/upload',
+                        'https://flatmates-server.azurewebsites.net/upload',
                         options
                     );
                     if (response.ok) {
@@ -1662,7 +1661,7 @@ export class Login extends React.Component<Props, State> {
     }
 
     private async uploadImages(): Promise<void> {
-        this.uploadProfilePicture().catch((error) => console.log(error));
+        await this.uploadProfilePicture().catch((error) => console.log(error));
         if (this.state.tempImages && this.state.tempImages.length > 0) {
             let imageUrls: Array<string> | void;
 

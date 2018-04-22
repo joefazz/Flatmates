@@ -8,11 +8,25 @@ export const HOUSE_APPLICATIONS_QUERY = gql`
                 from {
                     id
                     name
+                    firstName
+                    lastName
                     course
                     age
                     bio
                     studyYear
                     profilePicture
+                    gender
+                    isSmoker
+                    isDruggie
+                    isDrinker
+                    minPrice
+                    maxPrice
+                    genderPreference
+                }
+                to {
+                    users {
+                        id
+                    }
                 }
                 createdAt
             }

@@ -1,4 +1,4 @@
-import { TabNavigator, TabBarTop, StackNavigator } from 'react-navigation';
+import { TabNavigator, TabBarTop } from 'react-navigation';
 
 import { ChatNavigator } from './Chat';
 import { ApplicationNavigator } from './Applications';
@@ -22,20 +22,4 @@ const navConfig = {
     }
 };
 
-const stackConfig = {
-    navigationOptions: {
-        title: 'Group',
-        headerStyle: {
-            height: 0,
-            backgroundColor: Colors.brandPrimaryColor,
-            borderBottomWidth: 0
-        },
-        headerTintColor: Colors.white,
-        headerTitleStyle: { color: Colors.white, ...Font.FontFactory({ family: 'Nunito' }) }
-    }
-};
-
-export const GroupNavigator = StackNavigator(
-    { root: TabNavigator(routeConfig, navConfig) },
-    stackConfig
-);
+export const GroupNavigator = TabNavigator(routeConfig, navConfig);

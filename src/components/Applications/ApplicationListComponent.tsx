@@ -16,7 +16,12 @@ interface Props {
     sentApplications: Array<Application>;
     isFetchingSent: boolean;
     isFetchingReceived: boolean;
-    navigation: { navigate: (route: string, params: { id: string; data: User }) => void };
+    navigation: {
+        navigate: (
+            route: string,
+            params: { id: string; userData: User; houseUserIDs: Array<string> }
+        ) => void;
+    };
 }
 
 export class ApplicationListComponent extends React.PureComponent<Props> {
@@ -59,7 +64,8 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                 onPress={() =>
                     this.props.navigation.navigate('ApplicationDetail', {
                         id: item.id,
-                        data: item.from
+                        userData: item.from,
+                        houseUserIDs: item.to.users.map((user) => user.id)
                     })
                 }
             >

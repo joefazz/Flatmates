@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "devDependencies": {
-        "@types/react": "^16.3.11",
+        "@types/react": "^16.3.12",
         "@types/react-native": "^0.55.4",
         "@types/react-redux": "^5.0.16",
         "apollo-client-preset": "^1.0.3",
@@ -14,15 +14,15 @@
         "eslint-plugin-react": "^7.7.0",
         "eslint-plugin-react-native": "^3.2.1",
         "graphql": "^0.13.2",
-        "graphql-tag": "^2.8.0",
+        "graphql-tag": "^2.9.1",
         "jest": "^22.4.3",
         "react-addons-test-utils": "^15.6.2",
         "react-native-typescript-transformer": "^1.2.4",
         "react-test-renderer": "16.3.2",
-        "subscriptions-transport-ws": "^0.9.7",
+        "subscriptions-transport-ws": "^0.9.8",
         "tslint": "^5.9.1",
         "tslint-react": "^3.4.0",
-        "typescript": "^2.8.1",
+        "typescript": "^2.8.3",
         "url": "^0.11.0"
     },
     "scripts": {
@@ -75,7 +75,7 @@
         ]
     },
     "dependencies": {
-        "@mapbox/react-native-mapbox-gl": "6.1.1",
+        "@mapbox/react-native-mapbox-gl": "6.1.2-beta",
         "apollo-link-context": "^1.0.8",
         "apollo-link-ws": "1.0.8",
         "mapbox": "1.0.0-beta9",

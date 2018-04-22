@@ -68,10 +68,22 @@ export class CreatePost extends React.Component<Props, State> {
     }
 
     createPostTrigger = () => {
-        this.props.createPost({
-            description: this.state.description,
-            createdBy: this.state.data.house.shortID
-        });
+        if (this.state.description === '') {
+            this.props.createPost({
+                description:
+                    this.state.data.house.spaces > 1
+                        ? `Looking to fill ${this.state.data.house.spaces} rooms on ${
+                              this.state.data.house.road
+                          }.`
+                        : `Looking to fill a room on ${this.state.data.house.road}.`,
+                createdBy: this.state.data.house.shortID
+            });
+        } else {
+            this.props.createPost({
+                description: this.state.description,
+                createdBy: this.state.data.house.shortID
+            });
+        }
 
         this.props.navigation.pop();
     };

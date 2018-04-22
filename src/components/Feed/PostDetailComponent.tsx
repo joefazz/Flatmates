@@ -89,7 +89,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         buttonWrapperStyle={feed.swiperButtonWrapperStyle}
                         nextButton={<Text style={feed.leftRightButtonStyle}>›</Text>}
                         prevButton={<Text style={feed.leftRightButtonStyle}>‹</Text>}
-                        showsButtons={true}
+                        showsButtons={this.props.house.houseImages.length > 1}
                         paginationStyle={{ bottom: 0 }}
                         activeDotColor={Colors.brandPrimaryColor}
                         dotStyle={{
@@ -175,7 +175,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                 style={[
                                     feed.priceItem,
                                     {
-                                        borderLeftWidth: 0.7,
+                                        borderLeftWidth: 1,
                                         borderLeftColor: Colors.white
                                     }
                                 ]}
