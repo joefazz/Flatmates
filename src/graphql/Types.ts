@@ -15,6 +15,19 @@ export interface CreateApplicationMutation {
   } | null,
 };
 
+export interface CreateGroupDeleteApplicationMutationVariables {
+  applicationID: string,
+  applicantID: string,
+  houseUserIDs: Array< string >,
+  name: string,
+};
+
+export interface CreateGroupDeleteApplicationMutation {
+  createGroupDeleteApplication:  {
+    id: string,
+  } | null,
+};
+
 export interface CreatePostMutationVariables {
   description: string,
   createdBy: number,
@@ -65,6 +78,7 @@ export interface UpdatePostMutation {
       users:  Array< {
         id: string,
         name: string,
+        playerId: string | null,
         studyYear: string,
         age: number,
         gender: string,
@@ -219,6 +233,7 @@ export interface HouseApplicationsQuery {
         name: string,
         course: string,
         age: number,
+        bio: string,
         studyYear: string,
         profilePicture: string,
       },
@@ -345,12 +360,19 @@ export interface UserDetailQueryVariables {
 
 export interface UserDetailQuery {
   user:  {
+    id: string,
     name: string,
+    firstName: string,
     course: string,
     bio: string,
+    age: number,
+    gender: string,
     studyYear: string,
     isSmoker: boolean,
+    isDrinker: boolean,
+    isDruggie: boolean,
     genderPreference: string | null,
+    profilePicture: string,
     maxPrice: number | null,
     minPrice: number | null,
     house:  {

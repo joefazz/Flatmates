@@ -1,18 +1,24 @@
 import { put, takeEvery } from 'redux-saga/effects';
 
 import client from '../../Client';
-import { getReceivedApplications, createApplication } from '../Routines';
+import { getReceivedApplications, createApplication, createGroup } from '../Routines';
 import {
     HouseApplicationsQuery,
     CreateApplicationMutation,
-    CreateApplicationMutationVariables
+    CreateApplicationMutationVariables,
+    CreateGroupDeleteApplicationMutationVariables,
+    CreateGroupDeleteApplicationMutation
 } from '../../graphql/Types';
 import { HOUSE_APPLICATIONS_QUERY } from '../../graphql/queries';
-import { CREATE_APPLICATION_MUTATION } from '../../graphql/mutations';
+import {
+    CREATE_APPLICATION_MUTATION,
+    CREATE_GROUP_DELETE_APPLICATION_MUTATION
+} from '../../graphql/mutations';
 
 export const applicationSaga = function*() {
     yield takeEvery(getReceivedApplications.TRIGGER, get);
     yield takeEvery(createApplication.TRIGGER, create);
+    yield takeEvery(createGroup.TRIGGER, group);
 };
 
 async function getApplicationQuery(shortID: number): Promise<HouseApplicationsQuery> {
@@ -35,6 +41,19 @@ async function createApplicationMutation(
     });
 
     return applicationData;
+}
+
+async function createGroupMutation(
+    params: CreateGroupDeleteApplicationMutationVariables
+): Promise<CreateGroupDeleteApplicationMutation> {
+    const {
+        data: { createGroupDeleteApplication: groupData }
+    } = await client.mutate({
+        mutation: CREATE_GROUP_DELETE_APPLICATION_MUTATION,
+        variables: { ...params }
+    });
+
+    return groupData;
 }
 
 function* get({ payload }) {
@@ -60,5 +79,14 @@ function* create({ payload }) {
         yield put(createApplication.success({ result }));
     } catch (error) {
         yield put(createApplication.failure({ error }));
+    }
+}
+
+function* group({ payload }) {
+    try {
+        const result = yield createGroupMutation(payload);
+        yield put(createGroup.success({ result }));
+    } catch (error) {
+        yield put(createGroup.failure({ error }));
     }
 }

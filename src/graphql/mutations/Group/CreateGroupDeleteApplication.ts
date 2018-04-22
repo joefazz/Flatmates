@@ -2,9 +2,9 @@ import gql from 'graphql-tag';
 
 export const CREATE_GROUP_DELETE_APPLICATION_MUTATION = gql`
     mutation CreateGroupDeleteApplication(
-        $applicationID: String!
-        $applicantID: String!
-        $houseUserIDs: Int!
+        $applicationID: ID!
+        $applicantID: ID!
+        $houseUserIDs: [ID!]!
         $name: String!
     ) {
         createGroupDeleteApplication(

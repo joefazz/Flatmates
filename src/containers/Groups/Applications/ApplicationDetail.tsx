@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { ActivityIndicator, View, Alert } from 'react-native';
-import { ProfileComponent } from '../../../components/Profile/ProfileComponent';
-import { User } from '../../../types/Entities';
+import { compose, graphql } from 'react-apollo';
+import { ActivityIndicator, Alert, View } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { USER_DETAILS_QUERY } from '../../../graphql/queries';
-import { graphql } from 'react-apollo';
-import { TouchableRect } from '../../../widgets/TouchableRect';
-import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
+import { ProfileComponent } from '../../../components/Profile/ProfileComponent';
 import { Colors } from '../../../consts';
+import { CreateGroupDeleteApplicationMutationVariables } from '../../../graphql/Types';
+import { USER_DETAILS_QUERY } from '../../../graphql/queries';
+import { createGroup } from '../../../redux/Routines';
+import { User } from '../../../types/Entities';
+import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
+import { TouchableRect } from '../../../widgets/TouchableRect';
 
 interface Props {
     loading: boolean;
@@ -20,6 +22,7 @@ interface Props {
             };
         };
     };
+    createGroup: (params: CreateGroupDeleteApplicationMutationVariables) => void;
 }
 
 export class ApplicationDetail extends React.Component<Props> {
@@ -63,7 +66,13 @@ export class ApplicationDetail extends React.Component<Props> {
                                     },
                                     {
                                         text: 'Confirm',
-                                        onPress: () => console.log('GO TO CHAT')
+                                        onPress: () =>
+                                            this.props.createGroup({
+                                                applicationID: 'id here',
+                                                applicantID: this.props.user.id,
+                                                houseUserIDs: ['arry of ids'],
+                                                name: `Group Chat with ${this.props.user.name}`
+                                            })
                                     }
                                 ]
                             )
@@ -102,5 +111,10 @@ const getUserDetail = graphql(USER_DETAILS_QUERY, {
     props: ({ data }) => ({ ...data })
 });
 
+const bindActions = (dispatch) => ({
+    createGroup: (params: CreateGroupDeleteApplicationMutationVariables) =>
+        dispatch(createGroup(params))
+});
+
 // @ts-ignore
-export default getUserDetail(ApplicationDetail);
+export default compose(connect({}, bindActions), getUserDetail)(ApplicationDetail);
