@@ -39,11 +39,15 @@ export class PostList extends React.Component<Props, State> {
     };
 
     protected static navigationOptions = () => ({
-        title: 'Home',
+        title: 'Flatmates',
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon
                 name={
-                    Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home'
+                    Platform.OS === 'ios'
+                        ? focused
+                            ? 'ios-paper'
+                            : 'ios-paper-outline'
+                        : 'md-paper'
                 }
                 color={tintColor}
                 size={32}

@@ -11,7 +11,9 @@ export default class Settings extends React.Component<Props, State> {
         title: 'Settings',
         tabBarIcon: ({ focused, tintColor }) => (
             <Icon
-                name={Platform.OS === 'ios' ? (focused ? 'ios-key' : 'ios-key-outline') : 'md-key'}
+                name={
+                    Platform.OS === 'ios' ? (focused ? 'ios-home' : 'ios-home-outline') : 'md-home'
+                }
                 color={tintColor}
                 size={29}
             />
