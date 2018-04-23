@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RegisteredStyle, StyleSheet, Text, View, ViewStyle } from 'react-native';
+import { RegisteredStyle, StyleSheet, Text, View, ViewStyle, Platform } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -42,7 +42,10 @@ export class TouchableRect extends React.Component<Props> {
                             name={this.props.iconName}
                             style={[
                                 styles.iconStyle,
-                                this.props.title ? { marginRight: 10, marginBottom: 5 } : {}
+                                this.props.title && {
+                                    marginRight: 10,
+                                    marginBottom: Platform.OS === 'ios' ? 5 : 0
+                                }
                             ]}
                             size={26}
                         />

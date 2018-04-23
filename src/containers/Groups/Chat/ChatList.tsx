@@ -66,7 +66,7 @@ export class ChatList extends React.Component<Props, State> {
         return (
             <>
                 <StatusBar barStyle={'dark-content'} />
-                <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />;
+                <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />
             </>
         );
     }
