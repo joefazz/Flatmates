@@ -12,7 +12,8 @@ import { CREATE_USER_MUTATION } from './User/CreateUser';
 import { CREATE_USER_CREATE_HOUSE_MUTATION } from './User/CreateUserCreateHouse';
 import { CREATE_USER_UPDATE_HOUSE_MUTATION } from './User/CreateUserUpdateHouse';
 import { CREATE_APPLICATION_MUTATION } from './Application/CreateApplication';
-import { CREATE_GROUP_DELETE_APPLICATION_MUTATION } from './Group/CreateGroupDeleteApplication';
+import { CREATE_GROUP_MUTATION } from './Group/CreateGroup';
+import { DELETE_APPLICATION_MUTATION } from './Application/DeleteApplication';
 
 export {
     // CREATE_MESSAGE_MUTATION,
@@ -29,5 +30,6 @@ export {
     UPDATE_POST_MUTATION,
     DELETE_POST_MUTATION,
     CREATE_APPLICATION_MUTATION,
-    CREATE_GROUP_DELETE_APPLICATION_MUTATION
+    CREATE_GROUP_MUTATION,
+    DELETE_APPLICATION_MUTATION
 };

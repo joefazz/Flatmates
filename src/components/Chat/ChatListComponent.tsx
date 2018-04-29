@@ -15,12 +15,45 @@ interface Props {
 export class ChatListComponent extends React.PureComponent<Props> {
     renderHeader = () => {
         return (
+            <>
+                <RectButton
+                    style={[group.listItem, { height: toConstantHeight(12) }]}
+                    onPress={() =>
+                        this.props.navigation.navigate('ChatDetail', {
+                            title: 'De Beauvoir',
+                            groupId: '123'
+                        })
+                    }
+                >
+                    <Avatar
+                        rounded={true}
+                        source={{
+                            uri:
+                                'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
+                        }}
+                        large={true}
+                    />
+                    <View style={group.descWrapper}>
+                        <Text style={group.title}>De Beauvoir Road</Text>
+                        <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
+                            If you can send the bills that'd be sound
+                        </Text>
+                    </View>
+                    <View style={true && group.unreadMarker} />
+                </RectButton>
+                {this.renderSeperator()}
+            </>
+        );
+    };
+
+    renderItem = ({ item }) => {
+        return (
             <RectButton
                 style={[group.listItem, { height: toConstantHeight(12) }]}
                 onPress={() =>
                     this.props.navigation.navigate('ChatDetail', {
-                        title: 'De Beauvoir',
-                        groupId: '123'
+                        title: item.name,
+                        groupId: item.id
                     })
                 }
             >
@@ -32,47 +65,13 @@ export class ChatListComponent extends React.PureComponent<Props> {
                     large={true}
                 />
                 <View style={group.descWrapper}>
-                    <Text style={group.title}>De Beauvoir Road</Text>
+                    <Text style={group.title}>{item.name}</Text>
                     <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
-                        If you can send the bills that'd be sound
+                        {item.lastMessage || 'New group created.'}
                     </Text>
                 </View>
                 <View style={true && group.unreadMarker} />
             </RectButton>
-        );
-    };
-
-    renderItem = ({ item }) => {
-        return (
-            <TouchableOpacity
-                style={chat.row}
-                onPress={() =>
-                    this.props.navigation.navigate('ChatDetail', {
-                        title: item.name,
-                        groupId: item.id
-                    })
-                }
-            >
-                <View style={chat.groupRowWrapper}>
-                    <View style={chat.groupAvatarWrapper}>
-                        <Avatar
-                            rounded={true}
-                            source={{
-                                uri:
-                                    'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
-                            }}
-                        />
-                    </View>
-                    <View style={chat.groupTextWrapper}>
-                        <View style={chat.groupTitleWrapper}>
-                            <Text style={chat.groupTitle}>{item.name}</Text>
-                        </View>
-                        <View style={chat.groupSubtitleWrapper}>
-                            <Text style={chat.groupSubtitle}>{item.lastMessageText}</Text>
-                        </View>
-                    </View>
-                </View>
-            </TouchableOpacity>
         );
     };
 

@@ -34,7 +34,7 @@
         "haste": "rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf $TMPDIR/haste-map-react-native-packager-*",
         "shake": "adb shell input keyevent 82",
         "test": "jest",
-        "update-api-types": "apollo-codegen introspect-schema http://localhost:4000 --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts"
+        "update-api-types": "apollo-codegen introspect-schema https://flatmates-server.azurewebsites.net --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts"
     },
     "prettier": {
         "arrowParens": "always",

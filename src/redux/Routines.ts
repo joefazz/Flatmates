@@ -15,5 +15,6 @@ export const toggleFilter = createRoutine('TOGGLE_FILTER');
 export const getReceivedApplications = createRoutine('GET_RECEIVED_APPLICATIONS');
 export const getSentApplications = createRoutine('GET_SENT_APPLICATIONS');
 export const createApplication = createRoutine('CREATE_APPLICATION');
+export const deleteApplication = createRoutine('DELETE_APPLICATION');
 
 export const createGroup = createRoutine('CREATE_GROUP');

@@ -15,15 +15,24 @@ export interface CreateApplicationMutation {
   } | null,
 };
 
-export interface CreateGroupDeleteApplicationMutationVariables {
-  applicationID: string,
+export interface DeleteApplicationMutationVariables {
+  id: string,
+};
+
+export interface DeleteApplicationMutation {
+  deleteApplication:  {
+    id: string,
+  } | null,
+};
+
+export interface CreateGroupMutationVariables {
   applicantID: string,
   houseUserIDs: Array< string >,
   name: string,
 };
 
-export interface CreateGroupDeleteApplicationMutation {
-  createGroupDeleteApplication:  {
+export interface CreateGroupMutation {
+  createGroup:  {
     id: string,
   } | null,
 };
@@ -231,11 +240,25 @@ export interface HouseApplicationsQuery {
       from:  {
         id: string,
         name: string,
+        firstName: string,
+        lastName: string,
         course: string,
         age: number,
         bio: string,
         studyYear: string,
         profilePicture: string,
+        gender: string,
+        isSmoker: boolean,
+        isDruggie: boolean,
+        isDrinker: boolean,
+        minPrice: number | null,
+        maxPrice: number | null,
+        genderPreference: string | null,
+      },
+      to:  {
+        users:  Array< {
+          id: string,
+        } > | null,
       },
       createdAt: string,
     } > | null,

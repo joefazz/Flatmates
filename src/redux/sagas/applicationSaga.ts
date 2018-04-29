@@ -1,18 +1,25 @@
 import { put, takeEvery } from 'redux-saga/effects';
 
 import client from '../../Client';
-import { getReceivedApplications, createApplication, createGroup } from '../Routines';
+import {
+    getReceivedApplications,
+    createApplication,
+    createGroup,
+    deleteApplication
+} from '../Routines';
 import {
     HouseApplicationsQuery,
     CreateApplicationMutation,
     CreateApplicationMutationVariables,
-    CreateGroupDeleteApplicationMutationVariables,
-    CreateGroupDeleteApplicationMutation
+    CreateGroupMutationVariables,
+    CreateGroupMutation,
+    DeleteApplicationMutation
 } from '../../graphql/Types';
 import { HOUSE_APPLICATIONS_QUERY } from '../../graphql/queries';
 import {
     CREATE_APPLICATION_MUTATION,
-    CREATE_GROUP_DELETE_APPLICATION_MUTATION
+    CREATE_GROUP_MUTATION,
+    DELETE_APPLICATION_MUTATION
 } from '../../graphql/mutations';
 
 export const applicationSaga = function*() {
@@ -44,16 +51,29 @@ async function createApplicationMutation(
 }
 
 async function createGroupMutation(
-    params: CreateGroupDeleteApplicationMutationVariables
-): Promise<CreateGroupDeleteApplicationMutation> {
+    params: CreateGroupMutationVariables
+): Promise<CreateGroupMutation> {
     const {
         data: { createGroupDeleteApplication: groupData }
     } = await client.mutate({
-        mutation: CREATE_GROUP_DELETE_APPLICATION_MUTATION,
+        mutation: CREATE_GROUP_MUTATION,
         variables: { ...params }
     });
 
     return groupData;
+}
+
+async function deleteApplicationMutation(
+    applicationID: string
+): Promise<DeleteApplicationMutation> {
+    const {
+        data: { deleteApplicationMutation: id }
+    } = await client.mutate({
+        mutation: DELETE_APPLICATION_MUTATION,
+        variables: { id: applicationID }
+    });
+
+    return id;
 }
 
 function* get({ payload }) {
@@ -82,10 +102,22 @@ function* create({ payload }) {
     }
 }
 
-function* group({ payload }) {
+function* remove(id: string) {
     try {
-        const result = yield createGroupMutation(payload);
+        const appID = yield deleteApplicationMutation(id);
+        yield put(deleteApplication.success({ appID }));
+    } catch (error) {
+        yield put(deleteApplication.failure({ error }));
+    }
+}
+
+function* group({ payload }) {
+    const { applicationID, applicantID, houseUserIDs, name } = payload;
+    try {
+        const result = yield createGroupMutation({ applicantID, houseUserIDs, name });
         yield put(createGroup.success({ result }));
+
+        yield remove(applicationID);
     } catch (error) {
         yield put(createGroup.failure({ error }));
     }
