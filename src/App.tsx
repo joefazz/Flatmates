@@ -39,6 +39,8 @@ export default class Root extends React.Component<Props, State> {
     readonly state: State = initialState;
 
     componentDidMount() {
+        // AsyncStorage.clear();
+
         console.disableYellowBox = true;
         persistentStore(() => {
             this.setState({ isRehydrated: true });

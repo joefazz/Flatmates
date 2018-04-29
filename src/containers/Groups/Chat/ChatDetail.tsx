@@ -1,9 +1,12 @@
-import randomColor from 'randomcolor';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
 import { Message } from '../../../components/Chat/MessageComponent';
+import { ReduxState } from '../../../types/ReduxTypes';
+import { getChatMessages } from '../../../redux/Routines';
+import { ActivityIndicator } from 'react-native';
+import { ChatMessagesQueryVariables } from '../../../graphql/Types';
 
 // const fakeData = _.times(100, (i) => ({
 //     // every message will have a different color
@@ -22,6 +25,14 @@ import { Message } from '../../../components/Chat/MessageComponent';
 
 interface Props {
     createMessage: () => void;
+    getMessages: (params: ChatMessagesQueryVariables) => void;
+    navigation: {
+        state: {
+            params: {
+                messages: Array<string>;
+            };
+        };
+    };
 }
 
 interface State {
@@ -40,23 +51,22 @@ export class ChatDetail extends React.Component<Props, State> {
         this.state = {
             messages: []
         };
+
+        this.props.getMessages({ id: props.navigation.state.params.groupId });
     }
 
     render() {
-        return (
-            <ChatDetailComponent
-                id={123}
-                data={this.state.messages}
-                createMessage={this.props.createMessage}
-            />
-        );
+        return <ActivityIndicator />;
+        // return <ChatDetailComponent id={123} createMessage={this.props.createMessage} />;
     }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state: ReduxState) => ({
+    chat: state.chat
+});
 
-const bindActions = () => {
-    return {};
-};
+const bindActions = (dispatch) => ({
+    getMessages: (params: ChatMessagesQueryVariables) => dispatch(getChatMessages(params))
+});
 
 export default connect(mapStateToProps, bindActions)(ChatDetail);

@@ -71,4 +71,16 @@ export enum CreateApplication {
     FAILURE = Routines.createApplication.FAILURE
 }
 
+export enum DeleteApplication {
+    SUCCESS = Routines.deleteApplication.SUCCESS,
+    FAILURE = Routines.deleteApplication.FAILURE
+}
+
+export enum GetMessages {
+    REQUEST = Routines.getChatMessages.REQUEST,
+    SUCCESS = Routines.getChatMessages.SUCCESS,
+    FAILURE = Routines.getChatMessages.FAILURE,
+    FULFILL = Routines.getChatMessages.FULFILL
+}
+
 export const READ_ONLY_LOGIN_SUCCESS = Routines.readOnlyLogin.SUCCESS;

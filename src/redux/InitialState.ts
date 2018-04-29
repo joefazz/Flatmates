@@ -12,6 +12,7 @@ type State = Readonly<{
     profile: ProfileState;
     feed: FeedState;
     applications: ApplicationState;
+    chat: ChatState;
 }>;
 
 const initialState: State = {
@@ -67,6 +68,11 @@ const initialState: State = {
         received: [],
         isFetchingReceivedApplications: false,
         isFetchingSentApplications: false
+    },
+    chat: {
+        name: '',
+        users: [],
+        messages: []
     }
 };
 

@@ -17,4 +17,6 @@ export const getSentApplications = createRoutine('GET_SENT_APPLICATIONS');
 export const createApplication = createRoutine('CREATE_APPLICATION');
 export const deleteApplication = createRoutine('DELETE_APPLICATION');
 
+export const getChatMessages = createRoutine('GET_CHAT_MESSAGES');
+
 export const createGroup = createRoutine('CREATE_GROUP');

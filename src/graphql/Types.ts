@@ -229,6 +229,25 @@ export interface UnstarPostMutation {
   } | null,
 };
 
+export interface ChatMessagesQueryVariables {
+  id: string,
+};
+
+export interface ChatMessagesQuery {
+  group:  {
+    messages:  Array< {
+      id: string,
+      createdAt: string,
+      text: string,
+      from:  {
+        id: string,
+        name: string,
+        profilePicture: string,
+      },
+    } > | null,
+  } | null,
+};
+
 export interface HouseApplicationsQueryVariables {
   shortID: number,
 };

@@ -9,18 +9,10 @@ import {
     CreateUserJoinHouse,
     CreateApplication,
     GetReceivedApplications,
-    GetSentApplications
+    GetSentApplications,
+    GetMessages
 } from '../redux/Types';
-import {
-    Course,
-    ChatGroup,
-    LoginStatus,
-    Post,
-    StudyYear,
-    User,
-    Message,
-    Application
-} from './Entities';
+import { Course, LoginStatus, Post, StudyYear, User, Message, Application } from './Entities';
 import { Filters } from '../containers/Feed/PostList';
 import { CreateUserMutation } from '../graphql/Types';
 
@@ -64,7 +56,10 @@ export interface ApplicationAction {
     payload: any;
 }
 
-export type ChatState = Array<ChatGroup>;
+export interface ChatAction {
+    type: GetMessages;
+    payload: Array<Message>;
+}
 
 export interface LoginState {
     id: string;
@@ -125,9 +120,17 @@ export interface ApplicationState {
     isFetchingReceivedApplications: boolean;
 }
 
+export interface ChatState {
+    id: string;
+    messages: Array<Message>;
+    users: Array<User>;
+    name: string;
+}
+
 export interface ReduxState {
     profile: ProfileState;
     feed: FeedState;
     login: LoginState;
     applications: ApplicationState;
+    chat: ChatState;
 }

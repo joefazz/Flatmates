@@ -30,17 +30,6 @@ export interface Application {
     createdAt: DateConstructor;
 }
 
-export interface ChatGroup {
-    id: string;
-    lastMessage: string;
-    lastSender: string;
-    unread: number;
-    updatedAt: DateConstructor;
-    title: string;
-    image: string;
-    messages?: Array<Message>;
-}
-
 export interface User {
     id: string;
     email: string;
@@ -93,6 +82,7 @@ export interface Message {
 
     createdAt: Date;
 
+    pictureAttachment?: string;
     text: string;
     from: User;
     to: Group;
