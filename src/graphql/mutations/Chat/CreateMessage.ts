@@ -1,12 +1,25 @@
-// import gql from 'graphql-tag';
+import gql from 'graphql-tag';
 
-// import { MESSAGE_FRAGMENT } from '../../Fragments';
-
-// export const CREATE_MESSAGE_MUTATION = gql`
-//     mutation createMessage($text: String!, $createdById: Int!, $toId: Int!) {
-//         createMessage(text: $text, createdById: $createdById, toId: $toId) {
-//             ... MessageFragment
-//         }
-//     }
-//     ${MESSAGE_FRAGMENT}
-// `;
+export const CREATE_MESSAGE_MUTATION = gql`
+    mutation createMessage(
+        $playerIDs: [String!]!
+        $text: String!
+        $senderID: ID!
+        $senderName: String!
+        $groupID: ID!
+        $images: [String!]!
+        $groupName: String!
+    ) {
+        createMessage(
+            playerIDs: $playerIDs
+            text: $text
+            senderID: $senderID
+            senderName: $senderName
+            groupID: $groupID
+            images: $images
+            groupName: $groupName
+        ) {
+            id
+        }
+    }
+`;

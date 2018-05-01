@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { FlatList, KeyboardAvoidingView } from 'react-native';
+import { FlatList, KeyboardAvoidingView, Text } from 'react-native';
+import randomColor from 'randomcolor';
 
-import { chat } from '../../styles';
+import { group } from '../../styles';
 import { Message } from './MessageComponent';
 import { MessageInput } from './MessageInputComponent';
 
@@ -23,30 +24,32 @@ export class ChatDetailComponent extends React.Component<Props, State> {
     componentWillReceiveProps(nextProps) {
         const usernameColors: object = {};
 
-        // if (nextProps.data.group) {
-        //     if (nextProps.data.group.users) {
-        //         nextProps.data.group.users.forEach(user =>{
-        //             usernameColors[user.username] = this.state.usernameColors[user.username] || randomColor()
-        //         });
-        //     }
+        if (nextProps.data.group) {
+            if (nextProps.data.group.users) {
+                nextProps.data.group.users.forEach((user) => {
+                    usernameColors[user.username] =
+                        this.state.usernameColors[user.username] || randomColor();
+                });
+            }
 
-        //     this.setState({ usernameColors })
-        // }
+            this.setState({ usernameColors });
+        }
     }
 
     render() {
         return (
             <KeyboardAvoidingView
                 behavior={'position'}
-                contentContainerStyle={chat.detailWrapper}
+                contentContainerStyle={group.detailWrapper}
                 keyboardVerticalOffset={64}
-                style={chat.detailWrapper}
+                style={group.detailWrapper}
             >
                 <FlatList
                     data={this.props.data}
                     inverted={true}
                     renderItem={this.renderItem}
                     keyExtractor={(item) => item.id}
+                    ListEmptyComponent={() => <Text>No Messages in Group</Text>}
                 />
                 <MessageInput send={(text) => this.send(text)} />
             </KeyboardAvoidingView>

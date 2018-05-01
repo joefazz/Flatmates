@@ -25,7 +25,25 @@ export interface DeleteApplicationMutation {
   } | null,
 };
 
+export interface createMessageMutationVariables {
+  playerIDs: Array< string >,
+  text: string,
+  senderID: string,
+  senderName: string,
+  groupID: string,
+  images: Array< string >,
+  groupName: string,
+};
+
+export interface createMessageMutation {
+  createMessage:  {
+    id: string,
+  } | null,
+};
+
 export interface CreateGroupMutationVariables {
+  playerID?: string | null,
+  approverName: string,
   applicantID: string,
   houseUserIDs: Array< string >,
   name: string,

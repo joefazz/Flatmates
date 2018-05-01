@@ -3,14 +3,14 @@ import { Platform, TextInput, TouchableHighlight, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Colors } from '../../consts';
-import { chat } from '../../styles';
+import { group } from '../../styles';
 
 interface Props {
-    send: (string) => void
+    send: (string) => void;
 }
 
 interface State {
-    text: string
+    text: string;
 }
 
 export class MessageInput extends React.Component<Props, State> {
@@ -28,39 +28,37 @@ export class MessageInput extends React.Component<Props, State> {
         this.textInput.blur();
     }
 
-    sendButton = send => {
+    sendButton = (send) => {
         return (
-            <TouchableHighlight style={chat.sendButtonWrapper} onPress={send}>
+            <TouchableHighlight style={group.sendButtonWrapper} onPress={send}>
                 <Icon
-                    iconStyle={chat.iconStyle}
-                    name={"send"}
+                    iconStyle={group.iconStyle}
+                    name={'send'}
                     size={Platform.OS === 'ios' ? 20 : 26}
                     color={Platform.OS === 'ios' ? Colors.white : Colors.brandPrimaryColor}
-                    style={chat.sendButton}
-                    />
+                    style={group.sendButton}
+                />
             </TouchableHighlight>
-        )
-    }
+        );
+    };
 
     render() {
         return (
-            <View style={chat.messageInputContainer}>
-                <View style={chat.inputContainer}>
+            <View style={group.messageInputContainer}>
+                <View style={group.inputContainer}>
                     <TextInput
-                        ref={ref => this.textInput = ref}
+                        ref={(ref) => (this.textInput = ref)}
                         onChangeText={(text) => this.setState({ text })}
                         multiline={true}
-                        style={chat.input}
+                        style={group.input}
                         placeholder={'Type your message here'}
                         returnKeyType={'send'}
                         underlineColorAndroid={Colors.transparent}
                         onSubmitEditing={() => this.send()}
                     />
                 </View>
-                <View style={chat.sendButtonContainer}>
-                    {this.sendButton(this.send)}
-                </View>
+                <View style={group.sendButtonContainer}>{this.sendButton(this.send)}</View>
             </View>
-        )
+        );
     }
 }
