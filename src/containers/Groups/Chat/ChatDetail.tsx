@@ -5,6 +5,7 @@ import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponen
 import { ReduxState, ChatState } from '../../../types/ReduxTypes';
 import { getChatMessages, createMessage } from '../../../redux/Routines';
 import { ChatMessagesQueryVariables, CreateMessageMutationVariables } from '../../../graphql/Types';
+import { Group } from '../../../types/Entities';
 
 interface Props {
     createMessage: (params: CreateMessageMutationVariables) => void;
@@ -13,6 +14,7 @@ interface Props {
         state: {
             params: {
                 messages: Array<string>;
+                groupData: Group;
                 userID: string;
             };
         };
@@ -29,13 +31,13 @@ export class ChatDetail extends React.Component<Props> {
     constructor(props) {
         super(props);
 
-        this.props.getMessages({ id: props.navigation.state.params.groupId });
+        console.log(props);
+        this.props.getMessages({ id: props.navigation.state.params.groupData.id });
     }
 
     render() {
         return (
             <ChatDetailComponent
-                id={123}
                 data={{
                     groupInfo: this.props.navigation.state.params.groupData,
                     messages: this.props.chat.messages

@@ -30,8 +30,8 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         if (nextProps.data.groupInfo) {
             if (nextProps.data.groupInfo.users) {
                 nextProps.data.groupInfo.users.forEach((user) => {
-                    usernameColors[user.username] =
-                        this.state.usernameColors[user.username] || randomColor();
+                    usernameColors[user.name] =
+                        this.state.usernameColors[user.name] || randomColor({ luminosity: 'dark' });
                 });
             }
 
@@ -60,13 +60,13 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         );
     }
 
-    private renderItem = ({ item }) => {
-        const message = item.message;
+    private renderItem = ({ item }: { item: Message }) => {
+        const { from } = item;
         return (
             <MessageComponent
-                color={this.state.usernameColors[message.from.username]}
-                isCurrentUser={message.from.id === 1}
-                message={message}
+                color={this.state.usernameColors[from.name]}
+                isCurrentUser={from.id === this.props.userID}
+                message={item}
             />
         );
     };
