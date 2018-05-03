@@ -4,15 +4,16 @@ import { connect } from 'react-redux';
 import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
 import { ReduxState, ChatState } from '../../../types/ReduxTypes';
 import { getChatMessages, createMessage } from '../../../redux/Routines';
-import { ChatMessagesQueryVariables } from '../../../graphql/Types';
+import { ChatMessagesQueryVariables, CreateMessageMutationVariables } from '../../../graphql/Types';
 
 interface Props {
-    createMessage: () => void;
+    createMessage: (params: CreateMessageMutationVariables) => void;
     getMessages: (params: ChatMessagesQueryVariables) => void;
     navigation: {
         state: {
             params: {
                 messages: Array<string>;
+                userID: string;
             };
         };
     };
@@ -35,7 +36,11 @@ export class ChatDetail extends React.Component<Props> {
         return (
             <ChatDetailComponent
                 id={123}
-                data={this.props.chat.messages}
+                data={{
+                    groupInfo: this.props.navigation.state.params.groupData,
+                    messages: this.props.chat.messages
+                }}
+                userID={this.props.navigation.state.params.userID}
                 createMessage={this.props.createMessage}
             />
         );
@@ -48,7 +53,7 @@ const mapStateToProps = (state: ReduxState) => ({
 
 const bindActions = (dispatch) => ({
     getMessages: (params: ChatMessagesQueryVariables) => dispatch(getChatMessages(params)),
-    createMessage: (params) => dispatch(createMessage(params))
+    createMessage: (params: CreateMessageMutationVariables) => dispatch(createMessage(params))
 });
 
 export default connect(mapStateToProps, bindActions)(ChatDetail);

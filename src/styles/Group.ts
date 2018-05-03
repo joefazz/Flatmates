@@ -1,5 +1,6 @@
 import { StyleSheet, Platform } from 'react-native';
 
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import { Colors } from '../consts';
 import {
     toConstantHeight,
@@ -102,12 +103,12 @@ export const group = StyleSheet.create({
                 height: 34,
                 borderRadius: 17,
                 borderWidth: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
                 borderColor: Colors.transparent,
                 backgroundColor: Colors.brandPrimaryColor
             }
-        })
+        }),
+        alignItems: 'center',
+        justifyContent: 'center'
     },
 
     messageInputContainer: {
@@ -116,7 +117,7 @@ export const group = StyleSheet.create({
         borderColor: '#dbdbdb',
         borderTopWidth: 1,
         flexDirection: 'row',
-        paddingBottom: 20 // iPhone X padding required
+        ...ifIphoneX({ paddingBottom: 20 }) // iPhone X padding required
     },
 
     inputContainer: {
@@ -133,8 +134,10 @@ export const group = StyleSheet.create({
                 borderRadius: 15,
                 borderWidth: 1,
                 color: 'black',
-                height: 32,
-                paddingHorizontal: 8
+                paddingBottom: 4,
+                paddingHorizontal: 8,
+                fontSize: 17,
+                maxHeight: 200
             },
             android: {
                 fontSize: 18,

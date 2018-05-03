@@ -802,7 +802,7 @@
               "deprecationReason": null
             },
             {
-              "name": "group",
+              "name": "groups",
               "description": "",
               "args": [
                 {
@@ -4888,7 +4888,7 @@
               "defaultValue": null
             },
             {
-              "name": "group_every",
+              "name": "groups_every",
               "description": "",
               "type": {
                 "kind": "INPUT_OBJECT",
@@ -4898,7 +4898,7 @@
               "defaultValue": null
             },
             {
-              "name": "group_some",
+              "name": "groups_some",
               "description": "",
               "type": {
                 "kind": "INPUT_OBJECT",
@@ -4908,7 +4908,7 @@
               "defaultValue": null
             },
             {
-              "name": "group_none",
+              "name": "groups_none",
               "description": "",
               "type": {
                 "kind": "INPUT_OBJECT",

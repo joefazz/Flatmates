@@ -30,13 +30,16 @@ export class MessageInput extends React.Component<Props, State> {
 
     sendButton = (send) => {
         return (
-            <TouchableHighlight style={group.sendButtonWrapper} onPress={send}>
+            <TouchableHighlight
+                style={group.sendButtonWrapper}
+                onPress={send}
+                underlayColor={Colors.definetelyNotAirbnbRed}
+            >
                 <Icon
                     iconStyle={group.iconStyle}
                     name={'send'}
                     size={Platform.OS === 'ios' ? 20 : 26}
                     color={Platform.OS === 'ios' ? Colors.white : Colors.brandPrimaryColor}
-                    style={group.sendButton}
                 />
             </TouchableHighlight>
         );

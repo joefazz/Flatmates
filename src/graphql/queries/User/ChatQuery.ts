@@ -5,10 +5,15 @@ export const USER_CHAT_QUERY = gql`
     query UserChat($id: ID!) {
         user(id: $id) {
             id
-            name
-            group {
+            groups {
                 id
                 name
+                users {
+                    id
+                    playerId
+                    name
+                    profilePicture
+                }
             }
         }
     }

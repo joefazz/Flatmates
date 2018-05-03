@@ -1,12 +1,19 @@
 import { put, takeEvery } from 'redux-saga/effects';
 
 import client from '../../Client';
-import { getChatMessages } from '../Routines';
-import { ChatMessagesQuery, ChatMessagesQueryVariables } from '../../graphql/Types';
+import { getChatMessages, createMessage } from '../Routines';
+import {
+    ChatMessagesQuery,
+    ChatMessagesQueryVariables,
+    CreateMessageMutationVariables,
+    CreateMessageMutation
+} from '../../graphql/Types';
 import { GET_CHAT_MESSAGES_QUERY } from '../../graphql/queries';
+import { CREATE_MESSAGE_MUTATION } from '../../graphql/mutations/Chat/CreateMessage';
 
 export const chatSaga = function*() {
     yield takeEvery(getChatMessages.TRIGGER, get);
+    yield takeEvery(createMessage.TRIGGER, create);
 };
 
 async function getChatMessagesQuery(
@@ -18,6 +25,19 @@ async function getChatMessagesQuery(
     });
 
     return data;
+}
+
+async function createMessageMutation(
+    params: CreateMessageMutationVariables
+): Promise<CreateMessageMutation> {
+    const {
+        data: { createMessage }
+    } = await client.mutate({
+        mutation: CREATE_MESSAGE_MUTATION,
+        variables: { ...params }
+    });
+
+    return createMessage;
 }
 
 function* get({ payload }) {
@@ -38,14 +58,19 @@ function* get({ payload }) {
     yield put(getChatMessages.fulfill());
 }
 
-// function* create({ payload }) {
-//     try {
-//         const result = yield createApplicationMutation(payload);
-//         yield put(createApplication.success({ result }));
-//     } catch (error) {
-//         yield put(createApplication.failure({ error }));
-//     }
-// }
+function* create({ payload }) {
+    try {
+        const result = yield createMessageMutation(payload);
+
+        if (result) {
+            yield put(createMessage.success({ result }));
+        } else {
+            throw new Error('Problem sending message');
+        }
+    } catch (error) {
+        yield put(createMessage.failure({ error }));
+    }
+}
 
 // function* remove(id: string) {
 //     try {

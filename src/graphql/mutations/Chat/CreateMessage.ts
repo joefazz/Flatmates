@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const CREATE_MESSAGE_MUTATION = gql`
-    mutation createMessage(
+    mutation CreateMessage(
         $playerIDs: [String!]!
         $text: String!
         $senderID: ID!

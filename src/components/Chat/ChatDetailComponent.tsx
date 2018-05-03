@@ -3,13 +3,16 @@ import { FlatList, KeyboardAvoidingView, Text } from 'react-native';
 import randomColor from 'randomcolor';
 
 import { group } from '../../styles';
-import { Message } from './MessageComponent';
+import { Message, Group } from '../../types/Entities';
+
+import { MessageComponent } from './MessageComponent';
 import { MessageInput } from './MessageInputComponent';
+import { CreateMessageMutationVariables } from '../../graphql/Types';
 
 interface Props {
-    data: Array<object>;
-    id: number;
-    createMessage: (object) => void;
+    data: { messages: Array<Message>; groupInfo: Group };
+    userID: string;
+    createMessage: (params: CreateMessageMutationVariables) => void;
 }
 
 const initialState = {
@@ -24,9 +27,9 @@ export class ChatDetailComponent extends React.Component<Props, State> {
     componentWillReceiveProps(nextProps) {
         const usernameColors: object = {};
 
-        if (nextProps.data.group) {
-            if (nextProps.data.group.users) {
-                nextProps.data.group.users.forEach((user) => {
+        if (nextProps.data.groupInfo) {
+            if (nextProps.data.groupInfo.users) {
+                nextProps.data.groupInfo.users.forEach((user) => {
                     usernameColors[user.username] =
                         this.state.usernameColors[user.username] || randomColor();
                 });
@@ -37,6 +40,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
     }
 
     render() {
+        console.log(this.props);
         return (
             <KeyboardAvoidingView
                 behavior={'position'}
@@ -45,13 +49,13 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                 style={group.detailWrapper}
             >
                 <FlatList
-                    data={this.props.data}
+                    data={this.props.data.messages}
                     inverted={true}
                     renderItem={this.renderItem}
                     keyExtractor={(item) => item.id}
                     ListEmptyComponent={() => <Text>No Messages in Group</Text>}
                 />
-                <MessageInput send={(text) => this.send(text)} />
+                <MessageInput send={this.send} />
             </KeyboardAvoidingView>
         );
     }
@@ -59,7 +63,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
     private renderItem = ({ item }) => {
         const message = item.message;
         return (
-            <Message
+            <MessageComponent
                 color={this.state.usernameColors[message.from.username]}
                 isCurrentUser={message.from.id === 1}
                 message={message}
@@ -67,7 +71,17 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         );
     };
 
-    private send(text) {
-        this.props.createMessage({ groupId: this.props.id, userId: 1, text });
-    }
+    private send = (text) => {
+        this.props.createMessage({
+            playerIDs: this.props.data.groupInfo.users.map((user) => user.playerId),
+            senderID: this.props.userID,
+            text,
+            senderName: this.props.data.groupInfo.users.find(
+                (user) => user.id === this.props.userID
+            ).name,
+            groupID: this.props.data.groupInfo.id,
+            images: [],
+            groupName: this.props.data.groupInfo.name
+        });
+    };
 }

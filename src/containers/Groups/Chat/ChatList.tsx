@@ -40,33 +40,19 @@ export class ChatList extends React.Component<Props, State> {
         )
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isLoading: props.loading,
-            groups: []
-        };
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (this.props.loading !== newProps.loading) {
-            this.setState({
-                isLoading: newProps.loading,
-                groups: newProps.user.group
-            });
-        }
-    }
-
     render() {
-        if (this.state.isLoading) {
+        if (this.props.loading) {
             return <ActivityIndicator />;
         }
 
         return (
             <>
                 <StatusBar barStyle={'dark-content'} />
-                <ChatListComponent navigation={this.props.navigation} data={this.state.groups} />
+                <ChatListComponent
+                    navigation={this.props.navigation}
+                    data={this.props.groups}
+                    userID={this.props.login.id}
+                />
             </>
         );
     }
@@ -85,10 +71,9 @@ const userChatQuery = graphql(USER_CHAT_QUERY, {
         variables: { id: ownProps.login.id }
     }),
     // @ts-ignore
-    props: ({ data: { loading, user } }) => ({
-        loading,
-        user
-    })
+    props: ({ data: { loading, user, error } }) => {
+        return loading ? { loading } : { loading, groups: user.groups, error };
+    }
 });
 
 export default compose(connect(mapStateToProps, bindActions), userChatQuery)(ChatList);

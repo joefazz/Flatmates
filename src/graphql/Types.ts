@@ -25,7 +25,7 @@ export interface DeleteApplicationMutation {
   } | null,
 };
 
-export interface createMessageMutationVariables {
+export interface CreateMessageMutationVariables {
   playerIDs: Array< string >,
   text: string,
   senderID: string,
@@ -35,7 +35,7 @@ export interface createMessageMutationVariables {
   groupName: string,
 };
 
-export interface createMessageMutation {
+export interface CreateMessageMutation {
   createMessage:  {
     id: string,
   } | null,
@@ -391,10 +391,15 @@ export interface UserChatQueryVariables {
 export interface UserChatQuery {
   user:  {
     id: string,
-    name: string,
-    group:  Array< {
+    groups:  Array< {
       id: string,
       name: string,
+      users:  Array< {
+        id: string,
+        playerId: string | null,
+        name: string,
+        profilePicture: string,
+      } > | null,
     } > | null,
   } | null,
 };

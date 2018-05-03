@@ -10,6 +10,7 @@ import { toConstantHeight, toConstantFontSize } from '../../utils/PercentageConv
 interface Props {
     navigation: { navigate: (string, object) => void };
     data: ReadonlyArray<object>;
+    userID: string;
 }
 
 export class ChatListComponent extends React.PureComponent<Props> {
@@ -53,7 +54,8 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 onPress={() =>
                     this.props.navigation.navigate('ChatDetail', {
                         title: item.name,
-                        groupId: item.id
+                        groupData: item,
+                        userID: this.props.userID
                     })
                 }
             >
