@@ -69,6 +69,7 @@ export const group = StyleSheet.create({
         shadowColor: 'black',
         shadowOpacity: 0.5,
         shadowRadius: 1,
+        elevation: 1,
         shadowOffset: {
             height: 1,
             width: 0
@@ -76,7 +77,11 @@ export const group = StyleSheet.create({
     },
 
     myMessage: {
-        backgroundColor: '#dcf8c6'
+        backgroundColor: '#FF7A53'
+    },
+
+    messageText: {
+        fontSize: 15
     },
 
     messageUsername: {
@@ -86,8 +91,9 @@ export const group = StyleSheet.create({
     },
 
     messageTime: {
-        color: '#8c8c8c',
-        fontSize: 11,
+        marginTop: 5,
+        color: Colors.highlightWhite,
+        fontSize: 12,
         textAlign: 'right'
     },
 

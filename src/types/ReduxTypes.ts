@@ -10,11 +10,11 @@ import {
     CreateApplication,
     GetReceivedApplications,
     GetSentApplications,
-    GetMessages
+    GetMessages,
+    CreateMessage
 } from '../redux/Types';
 import { Course, LoginStatus, Post, StudyYear, User, Message, Application } from './Entities';
 import { Filters } from '../containers/Feed/PostList';
-import { CreateUserMutation } from '../graphql/Types';
 
 export interface LoginAction {
     type: CreateUser | CreateUserWithHouse | CreateUserJoinHouse | CreatePost | GetUserData;
@@ -57,8 +57,8 @@ export interface ApplicationAction {
 }
 
 export interface ChatAction {
-    type: GetMessages;
-    payload: Array<Message>;
+    type: GetMessages | CreateMessage;
+    payload: Array<Message> | Message;
 }
 
 export interface LoginState {

@@ -38,6 +38,13 @@ export interface CreateMessageMutationVariables {
 export interface CreateMessageMutation {
   createMessage:  {
     id: string,
+    createdAt: string,
+    text: string,
+    from:  {
+      id: string,
+      name: string,
+      profilePicture: string,
+    },
   } | null,
 };
 

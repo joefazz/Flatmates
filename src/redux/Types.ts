@@ -83,4 +83,9 @@ export enum GetMessages {
     FULFILL = Routines.getChatMessages.FULFILL
 }
 
+export enum CreateMessage {
+    SUCCESS = Routines.createMessage.SUCCESS,
+    FAILURE = Routines.createMessage.FAILURE
+}
+
 export const READ_ONLY_LOGIN_SUCCESS = Routines.readOnlyLogin.SUCCESS;

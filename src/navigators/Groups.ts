@@ -12,6 +12,7 @@ const routeConfig = {
 const navConfig = {
     tabBarComponent: TabBarTop,
     tabBarPosition: 'top',
+    swipeEnabled: false,
     tabBarOptions: {
         activeTintColor: Colors.brandPrimaryColor,
         inactiveTintColor: Colors.textGrey,

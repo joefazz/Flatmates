@@ -20,6 +20,13 @@ export const CREATE_MESSAGE_MUTATION = gql`
             groupName: $groupName
         ) {
             id
+            createdAt
+            text
+            from {
+                id
+                name
+                profilePicture
+            }
         }
     }
 `;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList, KeyboardAvoidingView, Text } from 'react-native';
+import { FlatList, KeyboardAvoidingView, Text, Platform, View } from 'react-native';
 import randomColor from 'randomcolor';
 
 import { group } from '../../styles';
@@ -23,6 +23,11 @@ type State = Readonly<typeof initialState>;
 
 export class ChatDetailComponent extends React.Component<Props, State> {
     readonly state: State = initialState;
+    messageList: any;
+
+    constructor(props) {
+        super(props);
+    }
 
     componentWillReceiveProps(nextProps) {
         const usernameColors: object = {};
@@ -40,8 +45,8 @@ export class ChatDetailComponent extends React.Component<Props, State> {
     }
 
     render() {
-        console.log(this.props);
-        return (
+        const messages = this.props.data.messages.slice().reverse();
+        return Platform.OS === 'ios' ? (
             <KeyboardAvoidingView
                 behavior={'position'}
                 contentContainerStyle={group.detailWrapper}
@@ -49,7 +54,8 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                 style={group.detailWrapper}
             >
                 <FlatList
-                    data={this.props.data.messages}
+                    ref={(ref) => (this.messageList = ref)}
+                    data={messages}
                     inverted={true}
                     renderItem={this.renderItem}
                     keyExtractor={(item) => item.id}
@@ -57,6 +63,18 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                 />
                 <MessageInput send={this.send} />
             </KeyboardAvoidingView>
+        ) : (
+            <View style={group.detailWrapper}>
+                <FlatList
+                    ref={(ref) => (this.messageList = ref)}
+                    data={messages}
+                    inverted={true}
+                    renderItem={this.renderItem}
+                    keyExtractor={(item) => item.id}
+                    ListEmptyComponent={() => <Text>No Messages in Group</Text>}
+                />
+                <MessageInput send={this.send} />
+            </View>
         );
     }
 
@@ -75,7 +93,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         this.props.createMessage({
             playerIDs: this.props.data.groupInfo.users.map((user) => user.playerId),
             senderID: this.props.userID,
-            text,
+            text: text.trim(),
             senderName: this.props.data.groupInfo.users.find(
                 (user) => user.id === this.props.userID
             ).name,

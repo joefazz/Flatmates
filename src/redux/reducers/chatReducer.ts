@@ -1,5 +1,5 @@
 import { ChatState, ChatAction } from '../../types/ReduxTypes';
-import { GetMessages } from '../Types';
+import { GetMessages, CreateMessage } from '../Types';
 import initialState from '../InitialState';
 
 const INITIAL_STATE = initialState.chat;
@@ -22,6 +22,14 @@ export default function applicationReducer(state: ChatState = INITIAL_STATE, act
             return Object.assign({}, state, {
                 isFetchingMessages: false
             });
+
+        case CreateMessage.SUCCESS:
+            return Object.assign({}, state, {
+                messages: state.messages.concat(action.payload)
+            });
+
+        case CreateMessage.FAILURE:
+            return Object.assign({}, state, { error: action.payload });
         default:
             return state;
     }

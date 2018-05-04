@@ -14,32 +14,42 @@ interface State {
 }
 
 export class MessageInput extends React.Component<Props, State> {
-    textInput: any;
-
     constructor(props) {
         super(props);
 
-        this.send = this.send.bind(this);
+        this.state = {
+            text: ''
+        };
     }
 
-    send() {
+    send = () => {
         this.props.send(this.state.text);
-        this.textInput.clear();
-        this.textInput.blur();
-    }
+        this.setState({ text: '' });
+    };
 
     sendButton = (send) => {
         return (
             <TouchableHighlight
-                style={group.sendButtonWrapper}
+                style={[
+                    group.sendButtonWrapper,
+                    this.state.text.length === 0 &&
+                        Platform.OS === 'ios' && { backgroundColor: Colors.grey }
+                ]}
                 onPress={send}
                 underlayColor={Colors.definetelyNotAirbnbRed}
+                disabled={this.state.text.length === 0}
             >
                 <Icon
                     iconStyle={group.iconStyle}
                     name={'send'}
                     size={Platform.OS === 'ios' ? 20 : 26}
-                    color={Platform.OS === 'ios' ? Colors.white : Colors.brandPrimaryColor}
+                    color={
+                        Platform.OS === 'ios'
+                            ? Colors.white
+                            : this.state.text.length === 0
+                                ? Colors.grey
+                                : Colors.brandPrimaryColor
+                    }
                 />
             </TouchableHighlight>
         );
@@ -50,14 +60,12 @@ export class MessageInput extends React.Component<Props, State> {
             <View style={group.messageInputContainer}>
                 <View style={group.inputContainer}>
                     <TextInput
-                        ref={(ref) => (this.textInput = ref)}
                         onChangeText={(text) => this.setState({ text })}
                         multiline={true}
                         style={group.input}
                         placeholder={'Type your message here'}
-                        returnKeyType={'send'}
                         underlineColorAndroid={Colors.transparent}
-                        onSubmitEditing={() => this.send()}
+                        value={this.state.text}
                     />
                 </View>
                 <View style={group.sendButtonContainer}>{this.sendButton(this.send)}</View>

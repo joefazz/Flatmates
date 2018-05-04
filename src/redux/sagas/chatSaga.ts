@@ -37,6 +37,8 @@ async function createMessageMutation(
         variables: { ...params }
     });
 
+    console.log(createMessage);
+
     return createMessage;
 }
 
@@ -63,7 +65,7 @@ function* create({ payload }) {
         const result = yield createMessageMutation(payload);
 
         if (result) {
-            yield put(createMessage.success({ result }));
+            yield put(createMessage.success(result));
         } else {
             throw new Error('Problem sending message');
         }
