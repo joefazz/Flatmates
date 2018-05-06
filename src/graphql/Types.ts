@@ -486,6 +486,7 @@ export interface UserLoginQuery {
     maxPrice: number | null,
     minPrice: number | null,
     genderPreference: string | null,
+    playerId: string | null,
     house:  {
       shortID: number,
     } | null,

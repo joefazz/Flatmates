@@ -68,7 +68,8 @@ const bindActions = () => {
 
 const userChatQuery = graphql(USER_CHAT_QUERY, {
     options: (ownProps: Props) => ({
-        variables: { id: ownProps.login.id }
+        variables: { id: ownProps.login.id },
+        fetchPolicy: 'network-only'
     }),
     // @ts-ignore
     props: ({ data: { loading, user, error } }) => {

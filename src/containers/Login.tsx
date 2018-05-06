@@ -7,18 +7,18 @@ import {
     DatePickerIOS,
     Platform,
     ScrollView,
-    StatusBar,
     Switch,
     Text,
     TextInput,
     TouchableOpacity,
     View,
-    Keyboard
+    Keyboard,
+    ActivityIndicator
 } from 'react-native';
 // @ts-ignore
 import moment from 'moment';
 import Auth0 from 'react-native-auth0';
-import { Avatar, Button } from 'react-native-elements';
+import { Avatar } from 'react-native-elements';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -27,9 +27,8 @@ import { connect } from 'react-redux';
 import Box from '../../Assets/box.png';
 import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
 import { MapboxSDK } from '../App';
-import Client, { AUTH_HEADER } from '../Client';
-import { Colors, Font, Metrics } from '../consts';
-import { CREATE_USER_UPDATE_HOUSE_MUTATION } from '../graphql/mutations';
+import Client from '../Client';
+import { Colors, Font } from '../consts';
 import { HOUSE_DETAILS_QUERY, USER_LOGIN_QUERY } from '../graphql/queries';
 import {
     createUserWithHouse,
@@ -40,7 +39,11 @@ import {
 import { base, login } from '../styles';
 import { LoginStatus } from '../types/Entities';
 import { LoginState, ProfileState, ReduxState } from '../types/ReduxTypes';
-import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
+import {
+    toConstantFontSize,
+    toConstantWidth,
+    toConstantHeight
+} from '../utils/PercentageConversion';
 import { TouchableRect } from '../widgets/TouchableRect';
 import { FlatPicker } from '../widgets/FlatPicker';
 import { FontFactory } from '../consts/font';
@@ -51,6 +54,7 @@ import {
     CreateUserCreateHouseMutationVariables,
     CreateUserUpdateHouseMutationVariables
 } from '../graphql/Types';
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -107,6 +111,8 @@ interface State {
     billsDue: string | Date;
     isRentDueDatePickerVisible: boolean;
     isBillsDueDatePickerVisible: boolean;
+
+    creatingDialogText: string;
 }
 
 export class Login extends React.Component<Props, State> {
@@ -180,13 +186,15 @@ export class Login extends React.Component<Props, State> {
             isBillsDueDatePickerVisible: false,
 
             isLookingForHouse: false,
-            isCreatingHouse: false
+            isCreatingHouse: false,
+
+            creatingDialogText: ''
         };
     }
 
     componentDidMount() {
-        if (Platform.OS === 'ios') {
-            StatusBar.setBarStyle('dark-content');
+        if (Platform.OS === 'android') {
+            AndroidKeyboardAdjust.setAdjustPan();
         }
     }
 
@@ -1318,6 +1326,35 @@ export class Login extends React.Component<Props, State> {
                         <View />
                     )}
                 </View>
+                {this.state.creatingDialogText !== '' && (
+                    <View
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            bottom: 0,
+                            right: 0,
+                            left: 0,
+                            alignSelf: 'center',
+                            width: toConstantWidth(60),
+                            height: toConstantHeight(30),
+                            backgroundColor: Colors.brandPrimaryColor,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: 'row'
+                        }}
+                    >
+                        <ActivityIndicator color={Colors.white} />
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                color: Colors.white,
+                                ...FontFactory({ weight: 'Bold' })
+                            }}
+                        >
+                            {this.state.creatingDialogText}
+                        </Text>
+                    </View>
+                )}
             </View>
         );
     };
@@ -1334,7 +1371,6 @@ export class Login extends React.Component<Props, State> {
 
                 if (action !== DatePickerAndroid.dismissedAction) {
                     const date = `${year}-${isoMonth}-${isoDay}`;
-                    console.log(date);
                     this.setState({ billsDue: date });
                 }
             } catch ({ code, message }) {
@@ -1357,7 +1393,6 @@ export class Login extends React.Component<Props, State> {
 
                 if (action !== DatePickerAndroid.dismissedAction) {
                     const date = `${year}-${isoMonth}-${isoDay}`;
-                    console.log(date);
                     this.setState({ rentDue: date });
                 }
             } catch ({ code, message }) {
@@ -1401,7 +1436,6 @@ export class Login extends React.Component<Props, State> {
             const decodedJSON: {
                 email: string;
                 email_verified: boolean;
-
                 sub: string;
             } = await fetch('https://flatmates-server.azurewebsites.net/verify', {
                 method: 'POST',
@@ -1415,7 +1449,8 @@ export class Login extends React.Component<Props, State> {
                 data: { user }
             } = await client.query<UserLoginQuery>({
                 query: USER_LOGIN_QUERY,
-                variables: { email: decodedJSON.email }
+                variables: { email: decodedJSON.email },
+                fetchPolicy: 'network-only'
             });
 
             if (!!user) {
@@ -1494,8 +1529,10 @@ export class Login extends React.Component<Props, State> {
             return;
         }
 
+        this.setState({ creatingDialogText: 'Creating your account' });
+
         const fullName = `${this.state.firstName} ${this.state.lastName}`;
-        this.props.createUserWithHouse({
+        await this.props.createUserWithHouse({
             email: this.email,
             profilePicture: this.state.profilePicture,
             authId: this.authId,
@@ -1522,6 +1559,8 @@ export class Login extends React.Component<Props, State> {
             rentDue: String(this.state.rentDue),
             billsDue: String(this.state.billsDue)
         });
+
+        this.setState({ creatingDialogText: '' });
 
         this.homeSwiper.scrollBy(1, true);
     };
@@ -1595,7 +1634,7 @@ export class Login extends React.Component<Props, State> {
 
     private async uploadProfilePicture(): Promise<{} | void> {
         if (this.state.tempProfilePic) {
-            return new Promise(async () => {
+            return new Promise(async (resolve) => {
                 const formData = new FormData();
 
                 const lastIndex = this.state.tempProfilePic.path.lastIndexOf('/') + 1;
@@ -1626,6 +1665,7 @@ export class Login extends React.Component<Props, State> {
                     if (response.ok) {
                         const json = await response.json();
                         this.setState({ profilePicture: json.url });
+                        resolve();
                     } else {
                         alert('Problem with fetch: ' + response.status);
                     }
@@ -1637,6 +1677,8 @@ export class Login extends React.Component<Props, State> {
         } else {
             alert('No profile pic selected');
         }
+
+        return null;
     }
 
     private async selectImages(): Promise<void> {
@@ -1660,50 +1702,58 @@ export class Login extends React.Component<Props, State> {
         this.setState({ tempImages: clone });
     }
 
-    private async uploadImages(): Promise<void> {
-        await this.uploadProfilePicture().catch((error) => console.log(error));
-        if (this.state.tempImages && this.state.tempImages.length > 0) {
-            let imageUrls: Array<string> | void;
+    private uploadImages(): void {
+        this.setState({ creatingDialogText: 'Uploading Profile Picture' });
+        this.uploadProfilePicture()
+            .then(async () => {
+                if (this.state.tempImages && this.state.tempImages.length > 0) {
+                    let imageUrls: Array<string> | void;
 
-            imageUrls = await Promise.all(
-                this.state.tempImages.map(async (image) => {
-                    const formData = new FormData();
+                    imageUrls = await Promise.all(
+                        this.state.tempImages.map(async (image, index) => {
+                            this.setState({
+                                creatingDialogText: `Uploading house image ${index + 1}`
+                            });
 
-                    const lastIndex = image.path.lastIndexOf('/') + 1;
+                            const formData = new FormData();
 
-                    const data = {
-                        uri: image.path,
-                        name: image.path.slice(lastIndex),
-                        type: image.mime
-                    };
+                            const lastIndex = image.path.lastIndexOf('/') + 1;
 
-                    // @ts-ignore
-                    formData.append('data', data);
+                            const data = {
+                                uri: image.path,
+                                name: image.path.slice(lastIndex),
+                                type: image.mime
+                            };
 
-                    const options = {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            Accept: 'application/json',
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    };
+                            // @ts-ignore
+                            formData.append('data', data);
 
-                    const response = await fetch(
-                        'https://flatmates-server.azurewebsites.net/upload',
-                        options
-                    );
-                    if (response.ok) {
-                        const json = await response.json();
-                        return json.url;
-                    } else {
-                        alert('Problem with fetch: ' + response.status);
-                    }
-                })
-            ).catch((error) => console.log(error));
+                            const options = {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    Accept: 'application/json',
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            };
 
-            imageUrls && this.setState({ houseImages: imageUrls }, this.completeHouseSetup);
-        }
+                            const response = await fetch(
+                                'https://flatmates-server.azurewebsites.net/upload',
+                                options
+                            );
+                            if (response.ok) {
+                                const json = await response.json();
+                                return json.url;
+                            } else {
+                                alert('Problem with fetch: ' + response.status);
+                            }
+                        })
+                    ).catch((error) => console.log(error));
+
+                    imageUrls && this.setState({ houseImages: imageUrls }, this.completeHouseSetup);
+                }
+            })
+            .catch((error) => console.log(error));
     }
 }
 

@@ -1,16 +1,20 @@
-import { ApolloClient, InMemoryCache } from 'apollo-client-preset';
+import { ApolloClient, split } from 'apollo-client-preset';
 import { WebSocketLink } from 'apollo-link-ws';
-import { split } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
-import { HttpLink } from 'apollo-link-http';
+import { createHttpLink } from 'apollo-link-http';
+import { onError } from 'apollo-link-error';
+import { ReduxLink } from 'apollo-link-redux';
+import { ReduxCache } from 'apollo-cache-redux';
+import { ApolloLink } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
+import store from './redux/store';
 
-// const wsLink = new WebSocketLink({
-//     uri: 'http://localhost:4000',
-//     options: {
-//         reconnect: true
-//     }
-// });
+const wsLink = new WebSocketLink({
+    uri: `ws://flatmates-server.azurewebsites.com`,
+    options: {
+        reconnect: true
+    }
+});
 
 export const AUTH_HEADER =
     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJmbGF0bWF0ZXMtcHJpc21hQGRldiIsInJvbGVzIjpbImFkbWluIl19LCJpYXQiOjE1MjQwODEzMjAsImV4cCI6MTUyNDY4NjEyMH0.epbYq65hc53elb1wQdXSSxtJmUsMQ1jiMRaHLKDu5uY';
@@ -25,22 +29,32 @@ const authLink = setContext((_, { headers }) => {
     };
 });
 
-const httpLink = new HttpLink({
+const cache = new ReduxCache({ store });
+
+const reduxLink = new ReduxLink(store);
+
+const errorLink = onError((errors) => {
+    console.log(errors);
+});
+
+const httpLink = createHttpLink({
     uri: 'https://flatmates-server.azurewebsites.net/'
 });
 
-// const link = split(
-//     ({ query }) => {
-//         const { kind, operation } = getMainDefinition(query)
-//         return kind === 'OperationDefinition' && operation === 'subscription'
-//     },
-//     wsLink,
-//     httpLink,
-// );
+const splitLink = split(
+    ({ query }) => {
+        const { kind, operation } = getMainDefinition(query);
+        return kind === 'OperationDefinition' && operation === 'subscription';
+    },
+    wsLink,
+    authLink.concat(httpLink)
+);
+
+const link = ApolloLink.from([reduxLink, errorLink, splitLink]);
 
 const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache()
+    link,
+    cache
 });
 
 export default client;

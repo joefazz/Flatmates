@@ -13,9 +13,10 @@ import {
     CreateApplicationMutationVariables,
     CreateGroupMutationVariables,
     CreateGroupMutation,
-    DeleteApplicationMutation
+    DeleteApplicationMutation,
+    UserChatQuery
 } from '../../graphql/Types';
-import { HOUSE_APPLICATIONS_QUERY } from '../../graphql/queries';
+import { HOUSE_APPLICATIONS_QUERY, USER_CHAT_QUERY } from '../../graphql/queries';
 import {
     CREATE_APPLICATION_MUTATION,
     CREATE_GROUP_MUTATION,
@@ -51,13 +52,31 @@ async function createApplicationMutation(
 }
 
 async function createGroupMutation(
-    params: CreateGroupMutationVariables
+    params: CreateGroupMutationVariables & { approverID: string }
 ): Promise<CreateGroupMutation> {
+    console.log(params);
     const {
-        data: { createGroupDeleteApplication: groupData }
+        data: { createGroup: groupData }
     } = await client.mutate({
         mutation: CREATE_GROUP_MUTATION,
-        variables: { ...params }
+        variables: { ...params },
+        update: (store, { data: { createGroup } }) => {
+            const groups: UserChatQuery = store.readQuery({
+                query: USER_CHAT_QUERY,
+                variables: {
+                    id: params.approverID
+                }
+            });
+
+            groups.user.groups.push(createGroup);
+
+            store.writeQuery({
+                query: USER_CHAT_QUERY,
+                variables: {
+                    id: params.approverID
+                }
+            });
+        }
     });
 
     return groupData;
@@ -112,12 +131,12 @@ function* remove(id: string) {
 }
 
 function* group({ payload }) {
-    const { applicationID, applicantID, houseUserIDs, name } = payload;
+    const { id, applicantID, houseUserIDs, name, approverName } = payload;
     try {
-        const result = yield createGroupMutation({ applicantID, houseUserIDs, name });
+        const result = yield createGroupMutation({ applicantID, houseUserIDs, name, approverName });
         yield put(createGroup.success({ result }));
 
-        yield remove(applicationID);
+        yield remove(id);
     } catch (error) {
         yield put(createGroup.failure({ error }));
     }

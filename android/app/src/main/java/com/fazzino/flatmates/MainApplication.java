@@ -16,6 +16,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import net.zubricky.AndroidKeyboardAdjust.AndroidKeyboardAdjustPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +39,8 @@ public class MainApplication extends Application implements ReactApplication {
             new VectorIconsPackage(),
             new PickerPackage(),
             new RCTMGLPackage(),
-            new Interactable()
+            new Interactable(),
+            new AndroidKeyboardAdjustPackage()
         );
     }
 

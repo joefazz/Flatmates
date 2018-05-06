@@ -1,19 +1,23 @@
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
-import { ActivityIndicator, Alert, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { ProfileComponent } from '../../../components/Profile/ProfileComponent';
 import { Colors } from '../../../consts';
-import { CreateGroupDeleteApplicationMutationVariables } from '../../../graphql/Types';
-import { USER_DETAILS_QUERY } from '../../../graphql/queries';
+import {
+    CreateGroupMutationVariables,
+    DeleteApplicationMutationVariables
+} from '../../../graphql/Types';
 import { createGroup } from '../../../redux/Routines';
 import { User } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
 import { TouchableRect } from '../../../widgets/TouchableRect';
+import { ReduxState } from '../../../types/ReduxTypes';
 
 interface Props {
     loading: boolean;
+    approverName: string;
+    approverID: string;
     user: User;
     navigation: {
         state: {
@@ -25,7 +29,10 @@ interface Props {
         };
         pop: () => void;
     };
-    createGroup: (params: CreateGroupDeleteApplicationMutationVariables) => void;
+    createGroup: (
+        params: CreateGroupMutationVariables &
+            DeleteApplicationMutationVariables & { approverID: string }
+    ) => void;
 }
 
 export class ApplicationDetail extends React.Component<Props> {
@@ -36,6 +43,7 @@ export class ApplicationDetail extends React.Component<Props> {
 
     render() {
         const { id, userData, houseUserIDs } = this.props.navigation.state.params;
+        console.log(this.props);
         return (
             <>
                 <ProfileComponent isLoading={this.props.loading} profile={userData} />
@@ -62,10 +70,13 @@ export class ApplicationDetail extends React.Component<Props> {
                                         onPress: () => {
                                             this.props.navigation.pop();
                                             this.props.createGroup({
-                                                applicationID: id,
+                                                playerID: userData.playerId,
                                                 applicantID: userData.id,
+                                                approverName: this.props.approverName,
                                                 houseUserIDs,
-                                                name: `Group Chat with ${userData.name}`
+                                                name: `Group Chat with ${userData.name}`,
+                                                id,
+                                                approverID: this.props.approverID
                                             });
                                         }
                                     }
@@ -89,9 +100,12 @@ export class ApplicationDetail extends React.Component<Props> {
 }
 
 const bindActions = (dispatch) => ({
-    createGroup: (params: CreateGroupDeleteApplicationMutationVariables) =>
+    createGroup: (params: CreateGroupMutationVariables & DeleteApplicationMutationVariables) =>
         dispatch(createGroup(params))
 });
 
 // @ts-ignore
-export default connect((state) => ({}), bindActions)(ApplicationDetail);
+export default connect(
+    (state: ReduxState) => ({ approverName: state.profile.name, approverID: state.login.id }),
+    bindActions
+)(ApplicationDetail);
