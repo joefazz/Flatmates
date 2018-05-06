@@ -1,13 +1,36 @@
 import * as React from 'react';
-import { Platform, StatusBar } from 'react-native';
+import { Platform } from 'react-native';
+import { ChildProps, compose } from 'react-apollo';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ApplicationListComponent } from '../../../components/Applications/ApplicationListComponent';
-import { ApplicationState, ReduxState, ProfileState } from '../../../types/ReduxTypes';
-import { getReceivedApplications } from '../../../redux/Routines';
+import { ReduxState, ProfileState } from '../../../types/ReduxTypes';
+import { graphql } from 'react-apollo';
+import {
+    HOUSE_APPLICATIONS_QUERY,
+    USER_APPLICATIONS_QUERY,
+    USER_CHAT_QUERY
+} from '../../../graphql/queries';
+import {
+    HouseApplicationsQuery,
+    HouseApplicationsQueryVariables,
+    UserApplicationsQuery,
+    UserApplicationsQueryVariables,
+    CreateGroupMutationVariables,
+    UserChatQuery,
+    DeleteApplicationMutationVariables
+} from '../../../graphql/Types';
+import { Application } from '../../../types/Entities';
 
 interface Props {
-    applications: ApplicationState;
+    house: {
+        applications: Application[];
+    };
+    user: {
+        applications: Application[];
+    };
+    sentLoading: boolean;
+    receivedLoading: boolean;
     profile: ProfileState;
     navigation: { navigate: (route: string, params: { id: string }) => void };
 }
@@ -31,24 +54,14 @@ export class ApplicationList extends React.Component<Props> {
         header: null
     };
 
-    constructor(props) {
-        super(props);
-
-        if (props.profile.house) {
-            props.getReceivedApplications(props.profile.house.shortID);
-        }
-    }
-
     render() {
-        console.log(this.props.navigation);
         return (
             <>
-                <StatusBar barStyle={'dark-content'} />
                 <ApplicationListComponent
-                    receivedApplications={this.props.applications.received}
-                    sentApplications={this.props.applications.sent}
-                    isFetchingSent={this.props.applications.isFetchingSentApplications}
-                    isFetchingReceived={this.props.applications.isFetchingReceivedApplications}
+                    receivedApplications={this.props.house.applications}
+                    sentApplications={this.props.user.applications}
+                    isFetchingSent={this.props.sentLoading}
+                    isFetchingReceived={this.props.receivedLoading}
                     navigation={this.props.navigation}
                 />
             </>
@@ -56,13 +69,56 @@ export class ApplicationList extends React.Component<Props> {
     }
 }
 
+interface InputProps {
+    profile: {
+        house: {
+            shortID: number;
+        };
+        id;
+    };
+}
+
 const mapStateToProps = (state: ReduxState) => ({
-    applications: state.applications,
     profile: state.profile
 });
 
-const bindActions = (dispatch) => ({
-    getReceivedApplications: (houseID: number) => dispatch(getReceivedApplications(houseID))
+const getReceivedApplications = graphql<
+    InputProps,
+    HouseApplicationsQuery,
+    HouseApplicationsQueryVariables,
+    ChildProps<HouseApplicationsQuery>
+>(HOUSE_APPLICATIONS_QUERY, {
+    options: (ownProps) => ({
+        variables: {
+            shortID: ownProps.profile.house.shortID
+        },
+        fetchPolicy: 'network-only'
+    }),
+    props: ({ data: { loading: receivedLoading, house, error: receivedError } }) => ({
+        receivedLoading,
+        house,
+        receivedError
+    })
 });
 
-export default connect(mapStateToProps, bindActions)(ApplicationList);
+const getSentApplications = graphql<
+    InputProps,
+    UserApplicationsQuery,
+    UserApplicationsQueryVariables,
+    ChildProps<UserApplicationsQuery>
+>(USER_APPLICATIONS_QUERY, {
+    options: (ownProps) => ({
+        variables: {
+            id: ownProps.profile.id
+        }
+    }),
+    props: ({ data: { loading: sentLoading, user, error: sentError } }) => ({
+        sentLoading,
+        user,
+        sentError
+    })
+});
+
+export default compose(connect(mapStateToProps), getReceivedApplications, getSentApplications)(
+    ApplicationList
+);

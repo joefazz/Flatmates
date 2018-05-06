@@ -1,18 +1,22 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { compose, graphql } from 'react-apollo';
 import { Alert, View } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { ProfileComponent } from '../../../components/Profile/ProfileComponent';
 import { Colors } from '../../../consts';
 import {
     CreateGroupMutationVariables,
-    DeleteApplicationMutationVariables
+    DeleteApplicationMutationVariables,
+    UserChatQuery,
+    HouseApplicationsQuery
 } from '../../../graphql/Types';
-import { createGroup } from '../../../redux/Routines';
 import { User } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
 import { TouchableRect } from '../../../widgets/TouchableRect';
 import { ReduxState } from '../../../types/ReduxTypes';
+import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../graphql/mutations';
+import { USER_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY } from '../../../graphql/queries';
 
 interface Props {
     loading: boolean;
@@ -99,13 +103,65 @@ export class ApplicationDetail extends React.Component<Props> {
     }
 }
 
-const bindActions = (dispatch) => ({
-    createGroup: (params: CreateGroupMutationVariables & DeleteApplicationMutationVariables) =>
-        dispatch(createGroup(params))
+const createGroup = graphql(CREATE_GROUP_MUTATION, {
+    props: ({ mutate }) => ({
+        createGroup: (params: CreateGroupMutationVariables & { approverID: string }) =>
+            mutate({
+                variables: { ...params },
+                update: (store, { data: { createGroup } }) => {
+                    const userData: UserChatQuery = store.readQuery({
+                        query: USER_CHAT_QUERY,
+                        variables: {
+                            id: params.approverID
+                        }
+                    });
+
+                    userData.user.groups.unshift(createGroup);
+
+                    store.writeQuery({
+                        query: USER_CHAT_QUERY,
+                        variables: {
+                            id: params.approverID
+                        },
+                        data: userData
+                    });
+                }
+            })
+    })
 });
 
-// @ts-ignore
-export default connect(
-    (state: ReduxState) => ({ approverName: state.profile.name, approverID: state.login.id }),
-    bindActions
+const removeApplication = graphql(DELETE_APPLICATION_MUTATION, {
+    props: ({ mutate }) => ({
+        removeApplication: (params: DeleteApplicationMutationVariables & { houseID: number }) =>
+            mutate({
+                variables: { ...params },
+                update: (store, { data: { removeApplication } }) => {
+                    const houseData: HouseApplicationsQuery = store.readQuery({
+                        query: HOUSE_APPLICATIONS_QUERY,
+                        variables: { shortID: params.houseID }
+                    });
+
+                    const index = houseData.house.applications.findIndex(
+                        (app) => app.id === removeApplication.id
+                    );
+
+                    houseData.house.applications.splice(index, 1);
+
+                    store.writeQuery({
+                        query: HOUSE_APPLICATIONS_QUERY,
+                        variables: { shortID: params.houseID },
+                        data: houseData
+                    });
+                }
+            })
+    })
+});
+
+export default compose(
+    connect((state: ReduxState) => ({
+        approverName: state.profile.name,
+        approverID: state.login.id
+    })),
+    createGroup,
+    removeApplication
 )(ApplicationDetail);

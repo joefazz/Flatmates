@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 export const HOUSE_APPLICATIONS_QUERY = gql`
     query HouseApplications($shortID: Int!) {
         house(shortID: $shortID) {
+            shortID
             applications {
                 id
                 from {

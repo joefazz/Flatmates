@@ -279,6 +279,7 @@ export interface HouseApplicationsQueryVariables {
 
 export interface HouseApplicationsQuery {
   house:  {
+    shortID: number,
     applications:  Array< {
       id: string,
       from:  {
@@ -376,6 +377,25 @@ export interface AllPostsQuery {
       houseImages: Array< string > | null,
     },
   } | null > | null,
+};
+
+export interface UserApplicationsQueryVariables {
+  id: string,
+};
+
+export interface UserApplicationsQuery {
+  user:  {
+    id: string,
+    applications:  Array< {
+      id: string,
+      to:  {
+        users:  Array< {
+          id: string,
+        } > | null,
+      },
+      createdAt: string,
+    } > | null,
+  } | null,
 };
 
 export interface BasicStarredQueryVariables {
