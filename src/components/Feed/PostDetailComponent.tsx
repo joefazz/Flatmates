@@ -38,7 +38,6 @@ interface Props {
     createdAt: string;
     lastSeen: string;
     createApplication: (params: CreateApplicationMutationVariables) => void;
-
     description: string;
     title: string;
 
@@ -76,6 +75,9 @@ export class PostDetailComponent extends React.Component<Props, State> {
         if (this.props.isLoading && !this.props.house.users) {
             return <ActivityIndicator />;
         }
+
+        const isUsersPost =
+            this.props.house.users.filter((user) => user.id === this.props.userId).length > 0;
 
         return (
             <>
@@ -259,51 +261,55 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         )}
                     </View>
                 </ScrollView>
-                <View
-                    style={{
-                        height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
-                        position: 'absolute',
-                        bottom: 0
-                    }}
-                >
-                    <TouchableRect
-                        onPress={() =>
-                            Alert.alert(
-                                'Send Application',
-                                'Are you sure you want to apply to ' + this.props.house.road + '?',
-                                [
-                                    {
-                                        text: 'Cancel',
-                                        onPress: () => console.log('Cancelled'),
-                                        style: 'cancel'
-                                    },
-                                    {
-                                        text: 'Send',
-                                        onPress: () =>
-                                            this.props.createApplication({
-                                                userID: this.props.userId,
-                                                houseID: this.props.house.shortID,
-                                                from: this.props.firstName,
-                                                playerIDs: this.props.house.users.map(
-                                                    (user: User) => user.playerId
-                                                ),
-                                                message: ''
-                                            })
-                                    }
-                                ]
-                            )
-                        }
-                        title={'Send Application'}
-                        iconName={'bullhorn'}
-                        backgroundColor={Colors.brandPrimaryColor}
-                        wrapperStyle={{ borderRadius: 0 }}
-                        buttonStyle={{
-                            width: toConstantWidth(100),
-                            paddingBottom: isIphoneX() ? 18 : 0,
-                            height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                {!isUsersPost && (
+                    <View
+                        style={{
+                            height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
+                            position: 'absolute',
+                            bottom: 0
                         }}
-                    />
-                </View>
+                    >
+                        <TouchableRect
+                            onPress={() =>
+                                Alert.alert(
+                                    'Send Application',
+                                    'Are you sure you want to apply to ' +
+                                        this.props.house.road +
+                                        '?',
+                                    [
+                                        {
+                                            text: 'Cancel',
+                                            onPress: () => console.log('Cancelled'),
+                                            style: 'cancel'
+                                        },
+                                        {
+                                            text: 'Send',
+                                            onPress: () =>
+                                                this.props.createApplication({
+                                                    userID: this.props.userId,
+                                                    houseID: this.props.house.shortID,
+                                                    from: this.props.firstName,
+                                                    playerIDs: this.props.house.users.map(
+                                                        (user: User) => user.playerId
+                                                    ),
+                                                    message: ''
+                                                })
+                                        }
+                                    ]
+                                )
+                            }
+                            title={'Send Application'}
+                            iconName={'bullhorn'}
+                            backgroundColor={Colors.brandPrimaryColor}
+                            wrapperStyle={{ borderRadius: 0 }}
+                            buttonStyle={{
+                                width: toConstantWidth(100),
+                                paddingBottom: isIphoneX() ? 18 : 0,
+                                height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                            }}
+                        />
+                    </View>
+                )}
             </>
         );
     }

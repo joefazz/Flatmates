@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose, graphql, ChildProps } from 'react-apollo';
 import {
     ActivityIndicator,
     Platform,
@@ -16,21 +16,20 @@ import { USER_POST_QUERY } from '../../graphql/queries';
 import { createPost } from '../../redux/Routines';
 import { base, feed } from '../../styles';
 import { LoginState } from '../../types/ReduxTypes';
-import { User } from '../../types/Entities';
-import { toConstantFontSize, toConstantHeight } from '../../utils/PercentageConversion';
+import { House } from '../../types/Entities';
+import { toConstantHeight } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
+import { UserPostQuery, UserPostQueryVariables } from '../../graphql/Types';
 
 interface Props {
     navigation: { pop: () => void };
-    user: User;
     login: LoginState;
-    loading: boolean;
     createPost: ({ description, createdBy }) => void;
+    loading: boolean;
+    user: { house: House };
 }
 
 interface State {
-    data: { house: { spaces: number; road: string; shortID: number } };
-    isLoading: boolean;
     description: string;
 }
 
@@ -51,37 +50,25 @@ export class CreatePost extends React.Component<Props, State> {
     constructor(props) {
         super(props);
         this.state = {
-            data: this.props.data.user,
-            isLoading: true,
             description: ''
         };
-    }
-
-    componentWillReceiveProps(newProps) {
-        console.log(newProps);
-        if (newProps.loading !== this.state.isLoading) {
-            this.setState({
-                data: newProps.data.user,
-                isLoading: newProps.data.loading
-            });
-        }
     }
 
     createPostTrigger = () => {
         if (this.state.description === '') {
             this.props.createPost({
                 description:
-                    this.state.data.house.spaces > 1
-                        ? `Looking to fill ${this.state.data.house.spaces} rooms on ${
-                              this.state.data.house.road
+                    this.props.user.house.spaces > 1
+                        ? `Looking to fill ${this.props.user.house.spaces} rooms on ${
+                              this.props.user.house.road
                           }.`
-                        : `Looking to fill a room on ${this.state.data.house.road}.`,
-                createdBy: this.state.data.house.shortID
+                        : `Looking to fill a room on ${this.props.user.house.road}.`,
+                createdBy: this.props.user.house.shortID
             });
         } else {
             this.props.createPost({
                 description: this.state.description,
-                createdBy: this.state.data.house.shortID
+                createdBy: this.props.user.house.shortID
             });
         }
 
@@ -89,7 +76,7 @@ export class CreatePost extends React.Component<Props, State> {
     };
 
     render() {
-        if (this.state.isLoading) {
+        if (this.props.loading) {
             return <ActivityIndicator />;
         }
 
@@ -112,11 +99,11 @@ export class CreatePost extends React.Component<Props, State> {
                             multiline={true}
                             returnKeyType={'done'}
                             defaultValue={
-                                (this.state.data.house.spaces > 0
-                                    ? 'Looking to fill ' + this.state.data.house.spaces + ' rooms '
+                                (this.props.user.house.spaces > 0
+                                    ? 'Looking to fill ' + this.props.user.house.spaces + ' rooms '
                                     : 'a room ') +
                                 'on ' +
-                                this.state.data.house.road +
+                                this.props.user.house.road +
                                 '. '
                             }
                         />
@@ -134,16 +121,27 @@ export class CreatePost extends React.Component<Props, State> {
     }
 }
 
-const getUserInfo = graphql<Response, Props>(USER_POST_QUERY, {
+interface InputProps {
+    login: { id: string };
+}
+
+const getUserInfo = graphql<
+    InputProps,
+    UserPostQuery,
+    UserPostQueryVariables,
+    ChildProps<UserPostQuery>
+>(USER_POST_QUERY, {
     options(props) {
         return {
-            variables: { id: props.login.id }
+            variables: { id: props.login.id },
+            fetchPolicy: 'no-cache'
         };
     },
     // @ts-ignore
-    props({ data }) {
+    props({ data: { loading, user } }) {
         return {
-            data
+            loading,
+            user
         };
     }
 });
