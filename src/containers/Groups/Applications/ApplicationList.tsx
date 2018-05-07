@@ -1,24 +1,16 @@
 import * as React from 'react';
 import { Platform } from 'react-native';
-import { ChildProps, compose } from 'react-apollo';
+import { ChildProps, compose, graphql } from 'react-apollo';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ApplicationListComponent } from '../../../components/Applications/ApplicationListComponent';
 import { ReduxState, ProfileState } from '../../../types/ReduxTypes';
-import { graphql } from 'react-apollo';
-import {
-    HOUSE_APPLICATIONS_QUERY,
-    USER_APPLICATIONS_QUERY,
-    USER_CHAT_QUERY
-} from '../../../graphql/queries';
+import { HOUSE_APPLICATIONS_QUERY, USER_APPLICATIONS_QUERY } from '../../../graphql/queries';
 import {
     HouseApplicationsQuery,
     HouseApplicationsQueryVariables,
     UserApplicationsQuery,
-    UserApplicationsQueryVariables,
-    CreateGroupMutationVariables,
-    UserChatQuery,
-    DeleteApplicationMutationVariables
+    UserApplicationsQueryVariables
 } from '../../../graphql/Types';
 import { Application } from '../../../types/Entities';
 

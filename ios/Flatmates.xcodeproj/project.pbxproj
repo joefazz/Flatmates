@@ -62,6 +62,7 @@
 		9848123C409F4791A1DC4B5E /* Nunito SemiBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B712D49E1C8045EA9695E4F0 /* Nunito SemiBold Italic.ttf */; };
 		9C49CB85C04C4D73917C9D1B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02743E41C3B445FF98098195 /* Foundation.ttf */; };
 		A187D8B921594ED290DA9DC9 /* Nunito SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */; };
+		A22199C320A0630B00DC99C2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A22199C220A0630B00DC99C2 /* StoreKit.framework */; };
 		A26DBE031FFBE62300FE1330 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; };
 		A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */; };
@@ -461,6 +462,7 @@
 		8F130619A78745C2A9B259D4 /* Nunito Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Black.ttf"; path = "../Assets/Fonts/Nunito/Nunito Black.ttf"; sourceTree = "<group>"; };
 		92666A5AC50E103D720121A4 /* Pods-Flatmates-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOS/Pods-Flatmates-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito SemiBold.ttf"; path = "../Assets/Fonts/Nunito/Nunito SemiBold.ttf"; sourceTree = "<group>"; };
+		A22199C220A0630B00DC99C2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A23B3C5920755D5900214125 /* Flatmates.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Flatmates.entitlements; path = Flatmates/Flatmates.entitlements; sourceTree = "<group>"; };
 		A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
 		A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
@@ -522,6 +524,7 @@
 				2D54E1CEB2EE4CC48802FDE1 /* libRNGestureHandler.a in Frameworks */,
 				3C7C4406A87C474591F7CCB2 /* libA0Auth0.a in Frameworks */,
 				0772CF767A404D848DF30E67 /* libRCTOneSignal.a in Frameworks */,
+				A22199C320A0630B00DC99C2 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -812,6 +815,7 @@
 		A20D49391FCD6DA000059AAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A22199C220A0630B00DC99C2 /* StoreKit.framework */,
 				E3C2BD9D16A92E28025D5DA5 /* libPods-Flatmates.a */,
 				1DC076EA845244790C2ADE34 /* libPods-Flatmates-tvOS.a */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
@@ -985,6 +989,9 @@
 						DevelopmentTeam = 3FC5KELS79;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
 							com.apple.Push = {

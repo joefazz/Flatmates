@@ -2,8 +2,7 @@ import Mapbox from '@mapbox/react-native-mapbox-gl';
 import MapboxClient from 'mapbox/lib/services/geocoding';
 import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
-import { AsyncStorage, BackHandler } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { Platform, AsyncStorage } from 'react-native';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import client from './Client';
@@ -11,6 +10,12 @@ import { MAPBOX_API_TOKEN } from './consts/strings';
 import RootNavigation from './navigators/Root';
 import store from './redux/store';
 import OneSignal from 'react-native-onesignal';
+import * as RNIap from 'react-native-iap';
+
+const iapSKUs = Platform.select({
+    ios: ['com.fazzino.15Applications'],
+    android: ['com.fazzino.15Applications']
+});
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 
@@ -51,7 +56,21 @@ export default class Root extends React.Component<Props, State> {
         OneSignal.addEventListener('received', this.onReceivePush);
         OneSignal.addEventListener('opened', this.onOpenPush);
         OneSignal.addEventListener('ids', this.saveIds);
+
+        // this.displayIAP();
     }
+
+    displayIAP = async () => {
+        try {
+            await RNIap.prepare();
+
+            const products = await RNIap.getProducts(iapSKUs);
+
+            console.log(products);
+        } catch (error) {
+            console.warn(error);
+        }
+    };
 
     componentWillUnmount() {
         OneSignal.removeEventListener('received', this.onReceivePush);

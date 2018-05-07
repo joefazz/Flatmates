@@ -254,6 +254,18 @@ export interface UnstarPostMutation {
   } | null,
 };
 
+export interface UserPlayerIDMutationVariables {
+  id: string,
+  playerID: string,
+};
+
+export interface UserPlayerIDMutation {
+  updateUserPlayerID:  {
+    id: string,
+    playerId: string | null,
+  } | null,
+};
+
 export interface ChatMessagesQueryVariables {
   id: string,
 };

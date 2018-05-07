@@ -52,9 +52,11 @@ import {
     UserLoginQuery,
     CreateUserMutationVariables,
     CreateUserCreateHouseMutationVariables,
-    CreateUserUpdateHouseMutationVariables
+    CreateUserUpdateHouseMutationVariables,
+    UserPlayerIDMutation
 } from '../graphql/Types';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
+import { UPDATE_USER_PLAYER_ID } from '../graphql/mutations';
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -1330,13 +1332,12 @@ export class Login extends React.Component<Props, State> {
                     <View
                         style={{
                             position: 'absolute',
-                            top: 0,
-                            bottom: 0,
-                            right: 0,
-                            left: 0,
+                            borderWidth: 1,
+                            borderRadius: 3,
+                            borderColor: Colors.white,
                             alignSelf: 'center',
-                            width: toConstantWidth(60),
-                            height: toConstantHeight(30),
+                            width: toConstantWidth(80),
+                            height: toConstantHeight(20),
                             backgroundColor: Colors.brandPrimaryColor,
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -1347,6 +1348,7 @@ export class Login extends React.Component<Props, State> {
                         <Text
                             style={{
                                 fontSize: 16,
+                                marginLeft: 5,
                                 color: Colors.white,
                                 ...FontFactory({ weight: 'Bold' })
                             }}
@@ -1456,6 +1458,17 @@ export class Login extends React.Component<Props, State> {
             if (!!user) {
                 this.props.getUserData(user);
                 this.props.navigation.navigate('Home');
+
+                // Update the users PlayerID if it changes between sessions (which it can)
+                if (user.playerId !== this.props.navigation.state.params.playerId) {
+                    client.mutate<UserPlayerIDMutation>({
+                        mutation: UPDATE_USER_PLAYER_ID,
+                        variables: {
+                            id: user.id,
+                            playerID: this.props.navigation.state.params.playerId
+                        }
+                    });
+                }
             } else {
                 this.email = decodedJSON.email;
                 this.isVerifiedUser = decodedJSON.email_verified;
@@ -1627,7 +1640,7 @@ export class Login extends React.Component<Props, State> {
             cropperCircleOverlay: true,
             mediaType: 'photo',
             loadingLabelText: 'Processing photo...'
-        }).catch(() => alert('Image upload cancelled'));
+        }).catch(() => console.log('Image upload cancelled'));
 
         this.setState({ tempProfilePic: image });
     }

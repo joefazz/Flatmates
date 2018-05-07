@@ -2101,6 +2101,12 @@ domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
+dooboolab-welcome@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/dooboolab-welcome/-/dooboolab-welcome-1.0.5.tgz#7b9a5e8db3cace4cc98764258830180c009d7e70"
+  dependencies:
+    chalk "^2.3.0"
+
 duplexer2@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/duplexer2/-/duplexer2-0.0.2.tgz#c614dcf67e2fb14995a91711e5a617e8a60a31db"
@@ -4790,6 +4796,12 @@ react-native-gesture-handler@1.0.0-alpha.43:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
     prop-types "^15.5.10"
+
+react-native-iap@^0.3.23:
+  version "0.3.23"
+  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-0.3.23.tgz#4732e209440138aa8727ad9e7fc4586620a82df6"
+  dependencies:
+    dooboolab-welcome "^1.0.5"
 
 react-native-image-crop-picker@0.20.1:
   version "0.20.1"

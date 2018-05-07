@@ -5,6 +5,7 @@
 import { CREATE_POST_MUTATION } from './Post/CreatePost';
 import { DELETE_POST_MUTATION } from './Post/DeletePost';
 import { UPDATE_POST_MUTATION } from './Post/UpdatePost';
+import { UPDATE_USER_PLAYER_ID } from './User/UpdateUserPlayerID';
 import { DELETE_USER_MUTATION } from './User/DeleteUser';
 import { STAR_POST_MUTATION } from './User/StarPostUser';
 import { UNSTAR_POST_MUTATION } from './User/UnstarPostUser';
@@ -29,6 +30,7 @@ export {
     CREATE_POST_MUTATION,
     UPDATE_POST_MUTATION,
     DELETE_POST_MUTATION,
+    UPDATE_USER_PLAYER_ID,
     CREATE_APPLICATION_MUTATION,
     CREATE_GROUP_MUTATION,
     DELETE_APPLICATION_MUTATION

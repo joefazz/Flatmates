@@ -35,11 +35,15 @@ class AuthLoadingScreen extends React.Component<Props, State> {
         // This will switch to the App screen or Auth screen and this loading
         // screen will be unmounted and thrown away.
 
+        console.log(this.props);
         if (this.props.login.email) {
             const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
                 variables: { email: this.props.login.email },
-                query: USER_LOGIN_QUERY
+                query: USER_LOGIN_QUERY,
+                fetchPolicy: 'no-cache'
             });
+
+            console.log(data);
 
             if (data.user === null) {
                 AsyncStorage.clear();
