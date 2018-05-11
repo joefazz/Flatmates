@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { FlatList, KeyboardAvoidingView, Text, Platform, View } from 'react-native';
 import randomColor from 'randomcolor';
 

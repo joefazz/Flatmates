@@ -336,6 +336,20 @@ export interface HouseDetailQuery {
   } | null,
 };
 
+export interface HousePostQueryVariables {
+  shortID: number,
+};
+
+export interface HousePostQuery {
+  house:  {
+    post:  {
+      id: string,
+      description: string,
+      lastSeen: string | null,
+    } | null,
+  } | null,
+};
+
 export interface PostDetailQueryVariables {
   id: string,
 };

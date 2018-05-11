@@ -10,6 +10,7 @@ import { USER_BASIC_STARRED_POSTS_QUERY } from './User/BasicStarredPostQuery';
 import { HOUSE_APPLICATIONS_QUERY } from './House/ApplicationsQuery';
 import { USER_APPLICATIONS_QUERY } from './User/ApplicationsQuery';
 import { USER_STARRED_POSTS_QUERY } from './User/StarredPostQuery';
+import { HOUSE_POST_QUERY } from './House/PostQuery';
 
 export {
     USER_POST_QUERY,
@@ -23,5 +24,6 @@ export {
     USER_BASIC_STARRED_POSTS_QUERY,
     HOUSE_APPLICATIONS_QUERY,
     USER_APPLICATIONS_QUERY,
+    HOUSE_POST_QUERY,
     GET_CHAT_MESSAGES_QUERY
 };

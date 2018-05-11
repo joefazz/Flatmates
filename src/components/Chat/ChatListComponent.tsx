@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 

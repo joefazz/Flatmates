@@ -1,17 +1,28 @@
-import * as React from 'react';
-import { compose } from 'react-apollo';
-import { Platform, StatusBar } from 'react-native';
+import React from 'react';
+import { compose, graphql, ChildProps } from 'react-apollo';
+import { ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { getPosts, toggleFilter } from '../../redux/Routines';
-import { FeedState, LoginState, ReduxState } from '../../types/ReduxTypes';
+import { FeedState, LoginState, ReduxState, ProfileState } from '../../types/ReduxTypes';
 import { Post } from '../../types/Entities';
+import { HousePostQuery, HousePostQueryVariables } from '../../graphql/Types';
+import { HOUSE_POST_QUERY } from '../../graphql/queries';
 
 interface Props {
     feed: FeedState;
     login: LoginState;
+    house: {
+        post: {
+            id: string;
+            description: string;
+            lastSeen: string | null;
+        } | null;
+    };
+    loading: boolean;
+
     navigation: { push: (route: string, params: { fbUserId?: string; data?: object }) => void };
     getPosts: (take: number) => void;
     toggleFilter: (Filters) => void;
@@ -39,20 +50,7 @@ export class PostList extends React.Component<Props, State> {
     };
 
     protected static navigationOptions = () => ({
-        title: 'Flatmates',
-        tabBarIcon: ({ focused, tintColor }) => (
-            <Icon
-                name={
-                    Platform.OS === 'ios'
-                        ? focused
-                            ? 'ios-paper'
-                            : 'ios-paper-outline'
-                        : 'md-paper'
-                }
-                color={tintColor}
-                size={32}
-            />
-        )
+        title: 'Flatmates'
     });
 
     constructor(props: Props) {
@@ -96,9 +94,11 @@ export class PostList extends React.Component<Props, State> {
     }
 
     render() {
+        if (this.props.loading) {
+            return <ActivityIndicator />;
+        }
         return (
             <>
-                <StatusBar barStyle={'dark-content'} />
                 <PostListComponent
                     navigation={this.props.navigation}
                     loadMorePosts={this.loadMorePosts}
@@ -151,4 +151,26 @@ const bindActions = (dispatch) => {
     };
 };
 
-export default compose(connect(mapStateToProps, bindActions))(PostList);
+interface InputProps {
+    profile: ProfileState;
+}
+
+const housePost = graphql<
+    InputProps,
+    HousePostQuery,
+    HousePostQueryVariables,
+    ChildProps<HousePostQuery>
+>(HOUSE_POST_QUERY, {
+    options: (props) => {
+        console.log(props);
+        return { variables: { shortID: props.profile.house.shortID } };
+    },
+
+    props: ({ data: { loading, house, error } }) => ({
+        loading,
+        house,
+        error
+    })
+});
+
+export default compose(connect(mapStateToProps, bindActions), housePost)(PostList);

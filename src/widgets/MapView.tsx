@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { View, StyleSheet, TouchableHighlight, Slider } from "react-native";
 import Mapbox from "@mapbox/react-native-mapbox-gl";
 

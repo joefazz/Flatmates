@@ -1,5 +1,5 @@
 import Mapbox from '@mapbox/react-native-mapbox-gl';
-import * as React from 'react';
+import React from 'react';
 import { ActivityIndicator, Animated, ScrollView, Text, View } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import * as Interactable from 'react-native-interactable';

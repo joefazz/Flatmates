@@ -1,5 +1,5 @@
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 
 import { group } from '../../styles';

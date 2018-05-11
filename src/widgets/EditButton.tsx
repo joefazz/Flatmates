@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
 import { Colors } from '../consts';

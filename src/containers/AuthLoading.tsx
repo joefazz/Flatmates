@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Image, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import splash_screen from '../../Assets/splash_screen.png';
@@ -25,7 +25,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
     }
 
     componentDidUpdate() {
-        if (this.props.screenProps.isRehydrated && this.props.screenProps.playerId !== '') {
+        if (this.props.screenProps.isRehydrated) {
             this._bootstrap();
         }
     }

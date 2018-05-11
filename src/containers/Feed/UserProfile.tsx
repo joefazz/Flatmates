@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { graphql, QueryProps } from 'react-apollo';
 import { ActivityIndicator } from 'react-native';
 import { ProfileComponent } from '../../components/Profile/ProfileComponent';

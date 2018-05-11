@@ -1,6 +1,6 @@
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import MapboxClient from 'mapbox/lib/services/geocoding';
-import * as React from 'react';
+import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { Platform, AsyncStorage } from 'react-native';
 import { Provider } from 'react-redux';

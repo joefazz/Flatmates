@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { RegisteredStyle, StyleSheet, Text, View, ViewStyle, Platform } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';

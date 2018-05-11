@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { Platform, StatusBar, View, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -27,20 +27,7 @@ export class Profile extends React.Component<Props, State> {
         headerRight:
             Platform.OS === 'ios' ? (
                 <EditButton onPress={() => navigation.navigate('EditProfile')} />
-            ) : null,
-        tabBarIcon: ({ focused, tintColor }) => (
-            <Icon
-                name={
-                    Platform.OS === 'ios'
-                        ? focused
-                            ? 'ios-person'
-                            : 'ios-person-outline'
-                        : 'md-person'
-                }
-                color={tintColor}
-                size={32}
-            />
-        )
+            ) : null
     });
 
     constructor(props) {

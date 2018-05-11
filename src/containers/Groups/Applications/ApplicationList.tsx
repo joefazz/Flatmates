@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Platform } from 'react-native';
 import { ChildProps, compose, graphql } from 'react-apollo';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -30,19 +30,6 @@ interface Props {
 export class ApplicationList extends React.Component<Props> {
     static navigationOptions = {
         title: 'Applications',
-        tabBarIcon: ({ focused, tintColor }) => (
-            <Icon
-                name={
-                    Platform.OS === 'ios'
-                        ? focused
-                            ? 'ios-notifications'
-                            : 'ios-notifications-outline'
-                        : 'md-notifications'
-                }
-                color={tintColor}
-                size={32}
-            />
-        ),
         header: null
     };
 

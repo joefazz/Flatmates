@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 import Pickerise from 'react-native-pickerise';
 import { feed } from '../styles';

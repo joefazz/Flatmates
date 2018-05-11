@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { SectionList, Text, View, ActivityIndicator, StyleSheet, Image } from 'react-native';
 import { Application, User } from '../../types/Entities';
 import {

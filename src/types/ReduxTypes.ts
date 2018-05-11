@@ -90,7 +90,7 @@ export interface ProfileState {
     course: string;
     studyYear: string;
     house: {
-        shortId: number;
+        shortID: number;
         road: string;
         billsPrice: number;
         rentPrice: number;

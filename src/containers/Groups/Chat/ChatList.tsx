@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { ActivityIndicator, Platform, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -24,20 +24,7 @@ interface State {
 export class ChatList extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Chat',
-        header: null,
-        tabBarIcon: ({ focused, tintColor }) => (
-            <Icon
-                name={
-                    Platform.OS === 'ios'
-                        ? focused
-                            ? 'ios-notifications'
-                            : 'ios-notifications-outline'
-                        : 'md-notifications'
-                }
-                color={tintColor}
-                size={32}
-            />
-        )
+        header: null
     };
 
     render() {

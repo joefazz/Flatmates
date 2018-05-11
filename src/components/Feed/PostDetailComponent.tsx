@@ -1,7 +1,7 @@
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 // @ts-ignore
 import moment from 'moment';
-import * as React from 'react';
+import React from 'react';
 import {
     ActivityIndicator,
     Image,
