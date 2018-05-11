@@ -227,7 +227,7 @@ export class ProfileComponent extends React.Component<Props> {
                                             </Text>
                                         </View>
                                     </View>
-                                    {this.props.profile.house.users.length > 1 ? (
+                                    {/*this.props.profile.house.users.length > 1 ? (
                                         <ScrollView
                                             contentContainerStyle={profile.preferencesWrapper}
                                         >
@@ -245,7 +245,7 @@ export class ProfileComponent extends React.Component<Props> {
                                         </ScrollView>
                                     ) : (
                                         <React.Fragment />
-                                    )}
+                                    )*/}
                                 </View>
                             ) : (
                                 <View style={profile.contentWrapper}>

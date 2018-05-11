@@ -6,19 +6,22 @@ import { connect } from 'react-redux';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { getPosts, toggleFilter } from '../../redux/Routines';
-import { FeedState, LoginState, ReduxState, ProfileState } from '../../types/ReduxTypes';
+import { FeedState, LoginState, ReduxState } from '../../types/ReduxTypes';
 import { Post } from '../../types/Entities';
+import { USER_HOUSE_POST_QUERY } from '../../graphql/queries';
 import { HousePostQuery, HousePostQueryVariables } from '../../graphql/Types';
 import { HOUSE_POST_QUERY } from '../../graphql/queries';
 
 interface Props {
     feed: FeedState;
     login: LoginState;
-    house: {
-        post: {
-            id: string;
-            description: string;
-            lastSeen: string | null;
+    user: {
+        house: {
+            post: {
+                id: string;
+                description: string;
+                lastSeen: string | null;
+            } | null;
         } | null;
     };
     loading: boolean;
@@ -104,6 +107,9 @@ export class PostList extends React.Component<Props, State> {
                     loadMorePosts={this.loadMorePosts}
                     changeFilters={this.changeFilters}
                     refreshPostList={this.refreshPostList}
+                    userPostPermissionEnabled={
+                        !!this.props.user.house ? Boolean(this.props.user.house.post) : false
+                    }
                     {...this.state}
                 />
             </>
@@ -152,7 +158,7 @@ const bindActions = (dispatch) => {
 };
 
 interface InputProps {
-    profile: ProfileState;
+    login: LoginState;
 }
 
 const housePost = graphql<
@@ -160,15 +166,14 @@ const housePost = graphql<
     HousePostQuery,
     HousePostQueryVariables,
     ChildProps<HousePostQuery>
->(HOUSE_POST_QUERY, {
+>(USER_HOUSE_POST_QUERY, {
     options: (props) => {
-        console.log(props);
-        return { variables: { shortID: props.profile.house.shortID } };
+        return { variables: { id: props.login.id } };
     },
 
-    props: ({ data: { loading, house, error } }) => ({
+    props: ({ data: { loading, user, error } }) => ({
         loading,
-        house,
+        user,
         error
     })
 });

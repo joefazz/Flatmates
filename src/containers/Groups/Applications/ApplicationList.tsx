@@ -8,11 +8,11 @@ import { ReduxState, ProfileState } from '../../../types/ReduxTypes';
 import { HOUSE_APPLICATIONS_QUERY, USER_APPLICATIONS_QUERY } from '../../../graphql/queries';
 import {
     HouseApplicationsQuery,
-    HouseApplicationsQueryVariables,
     UserApplicationsQuery,
     UserApplicationsQueryVariables
 } from '../../../graphql/Types';
 import { Application } from '../../../types/Entities';
+import client from '../../../Client';
 
 interface Props {
     house: {
@@ -27,17 +27,42 @@ interface Props {
     navigation: { navigate: (route: string, params: { id: string }) => void };
 }
 
-export class ApplicationList extends React.Component<Props> {
+interface State {
+    receivedApplications: Application[];
+}
+
+export class ApplicationList extends React.Component<Props, State> {
     static navigationOptions = {
         title: 'Applications',
         header: null
     };
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            receivedApplications: []
+        };
+    }
+
+    componentDidMount() {
+        if (this.props.profile.house) {
+            client
+                .query<HouseApplicationsQuery>({
+                    query: HOUSE_APPLICATIONS_QUERY,
+                    variables: { shortID: this.props.profile.house.shortID }
+                })
+                .then(({ data: { house: { applications } } }) =>
+                    this.setState({ receivedApplications: applications })
+                );
+        }
+    }
+
     render() {
         return (
             <>
                 <ApplicationListComponent
-                    receivedApplications={this.props.house.applications}
+                    receivedApplications={this.state.receivedApplications}
                     sentApplications={this.props.user.applications}
                     isFetchingSent={this.props.sentLoading}
                     isFetchingReceived={this.props.receivedLoading}
@@ -61,24 +86,24 @@ const mapStateToProps = (state: ReduxState) => ({
     profile: state.profile
 });
 
-const getReceivedApplications = graphql<
-    InputProps,
-    HouseApplicationsQuery,
-    HouseApplicationsQueryVariables,
-    ChildProps<HouseApplicationsQuery>
->(HOUSE_APPLICATIONS_QUERY, {
-    options: (ownProps) => ({
-        variables: {
-            shortID: ownProps.profile.house.shortID
-        },
-        fetchPolicy: 'network-only'
-    }),
-    props: ({ data: { loading: receivedLoading, house, error: receivedError } }) => ({
-        receivedLoading,
-        house,
-        receivedError
-    })
-});
+// const getReceivedApplications = graphql<
+//     InputProps,
+//     HouseApplicationsQuery,
+//     HouseApplicationsQueryVariables,
+//     ChildProps<HouseApplicationsQuery>
+// >(HOUSE_APPLICATIONS_QUERY, {
+//     options: (ownProps) => ({
+//         variables: {
+//             shortID: ownProps.profile.house.shortID
+//         },
+//         fetchPolicy: 'network-only'
+//     }),
+//     props: ({ data: { loading: receivedLoading, house, error: receivedError } }) => ({
+//         receivedLoading,
+//         house,
+//         receivedError
+//     })
+// });
 
 const getSentApplications = graphql<
     InputProps,
@@ -98,6 +123,4 @@ const getSentApplications = graphql<
     })
 });
 
-export default compose(connect(mapStateToProps), getReceivedApplications, getSentApplications)(
-    ApplicationList
-);
+export default compose(connect(mapStateToProps), getSentApplications)(ApplicationList);

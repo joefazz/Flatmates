@@ -15,6 +15,7 @@ interface Props {
     navigation: {
         push: (route: string, params?: { data?: object }) => void;
     };
+    userPostPermissionEnabled: boolean;
     data: Array<Post>;
     isLoading: boolean;
     userId: string;
@@ -118,7 +119,7 @@ export class PostListComponent extends React.Component<Props> {
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
-                {Platform.OS === 'android' ? (
+                {Platform.OS === 'android' && this.props.userPostPermissionEnabled ? (
                     <FloatingAction
                         color={Colors.brandPrimaryColor}
                         overrideWithAction={true}
@@ -169,10 +170,10 @@ export class PostListComponent extends React.Component<Props> {
     };
 
     private renderCreateHeader = () => {
-        // if (this.props.hasCreatedPost) {
-        //     return <View />;
-        // }
-        // return <View />;
+        if (!this.props.userPostPermissionEnabled) {
+            return <View />;
+        }
+
         if (Platform.OS === 'ios') {
             return (
                 <TouchableHighlight

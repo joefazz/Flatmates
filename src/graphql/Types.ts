@@ -337,15 +337,17 @@ export interface HouseDetailQuery {
 };
 
 export interface HousePostQueryVariables {
-  shortID: number,
+  id: string,
 };
 
 export interface HousePostQuery {
-  house:  {
-    post:  {
-      id: string,
-      description: string,
-      lastSeen: string | null,
+  user:  {
+    house:  {
+      post:  {
+        id: string,
+        description: string,
+        lastSeen: string | null,
+      } | null,
     } | null,
   } | null,
 };
