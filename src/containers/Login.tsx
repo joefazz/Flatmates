@@ -15,7 +15,6 @@ import {
     Keyboard,
     ActivityIndicator
 } from 'react-native';
-// @ts-ignore
 import moment from 'moment';
 import Auth0 from 'react-native-auth0';
 import { Avatar } from 'react-native-elements';
@@ -1458,7 +1457,6 @@ export class Login extends React.Component<Props, State> {
 
             if (!!user) {
                 this.props.getUserData(user);
-                this.props.navigation.navigate('Home');
 
                 // Update the users PlayerID if it changes between sessions (which it can)
                 if (user.playerId !== this.props.navigation.state.params.playerId) {
@@ -1470,6 +1468,8 @@ export class Login extends React.Component<Props, State> {
                         }
                     });
                 }
+
+                this.props.navigation.navigate('Home');
             } else {
                 this.email = decodedJSON.email;
                 this.isVerifiedUser = decodedJSON.email_verified;
