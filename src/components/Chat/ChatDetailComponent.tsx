@@ -4,7 +4,7 @@ import randomColor from 'randomcolor';
 
 import { group } from '../../styles';
 import { Message, Group } from '../../types/Entities';
-
+import { Image as ImageType } from 'react-native-image-crop-picker';
 import { MessageComponent } from './MessageComponent';
 import { MessageInput } from './MessageInputComponent';
 import { CreateMessageMutationVariables } from '../../graphql/Types';
@@ -89,7 +89,78 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         );
     };
 
-    private send = (text) => {
+    private send = async (text: string, attachment: ImageType[] | ImageType | null) => {
+        var imageAttachment: string[];
+
+        if (attachment) {
+            if (Array.isArray(attachment)) {
+                imageAttachment = await Promise.all(
+                    attachment.map(async (image) => {
+                        const formData = new FormData();
+
+                        const lastIndex = image.path.lastIndexOf('/') + 1;
+
+                        const data = {
+                            uri: image.path,
+                            name: image.path.slice(lastIndex),
+                            type: image.mime
+                        };
+
+                        formData.append('data', data);
+
+                        const options = {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                Accept: 'application/json',
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        };
+
+                        const response = await fetch(
+                            'https://flatmates-server.azurewebsites.net/upload',
+                            options
+                        )
+                            .then((res) => res.json())
+                            .then((json) => json)
+                            .catch((error) => console.log(error));
+
+                        return response.url;
+                    })
+                );
+            } else {
+                const formData = new FormData();
+
+                const lastIndex = attachment.path.lastIndexOf('/') + 1;
+
+                const data = {
+                    uri: attachment.path,
+                    name: attachment.path.slice(lastIndex),
+                    type: attachment.mime
+                };
+
+                formData.append('data', data);
+
+                const options = {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'multipart/form-data'
+                    }
+                };
+
+                const response = await fetch(
+                    'https://flatmates-server.azurewebsites.net/upload',
+                    options
+                )
+                    .then((res) => res.json())
+                    .then((json) => json)
+                    .catch((error) => console.log(error));
+
+                imageAttachment = [response.url];
+            }
+        }
         this.props.createMessage({
             playerIDs: this.props.data.groupInfo.users.map((user) => user.playerId),
             senderID: this.props.userID,
@@ -98,7 +169,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                 (user) => user.id === this.props.userID
             ).name,
             groupID: this.props.data.groupInfo.id,
-            images: [],
+            images: imageAttachment,
             groupName: this.props.data.groupInfo.name
         });
     };

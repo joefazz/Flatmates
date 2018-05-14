@@ -1,16 +1,18 @@
 import React from 'react';
 import { Platform, TextInput, TouchableHighlight, View } from 'react-native';
+import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { Colors } from '../../consts';
 import { group } from '../../styles';
 
 interface Props {
-    send: (string) => void;
+    send: (text: string, images: ImageType[] | ImageType | null) => void;
 }
 
 interface State {
     text: string;
+    tempImages: ImageType[] | ImageType | null;
 }
 
 export class MessageInput extends React.Component<Props, State> {
@@ -18,13 +20,46 @@ export class MessageInput extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            text: ''
+            text: '',
+            tempImages: null
         };
     }
 
+    attach = () => {
+        ImagePicker.openPicker({
+            multiple: true,
+            compressImageMaxHeight: 500,
+            compressImageMaxWidth: 500,
+            mediaType: 'photo',
+            loadingLabelText: 'Processing photos...'
+        })
+            .then((result) => this.setState({ tempImages: result }))
+            .catch((error) => console.log(error));
+    };
+
     send = () => {
-        this.props.send(this.state.text);
+        this.props.send(this.state.text, this.state.tempImages);
         this.setState({ text: '' });
+    };
+
+    attachButton = (attach) => {
+        return (
+            <TouchableHighlight
+                style={group.sendButtonWrapper}
+                onPress={attach}
+                underlayColor={
+                    Platform.OS === 'ios' ? Colors.definetelyNotAirbnbRed : Colors.transparent
+                }
+                activeOpacity={0.5}
+            >
+                <Icon
+                    iconStyle={group.iconStyle}
+                    name={'add'}
+                    size={Platform.OS === 'ios' ? 20 : 26}
+                    color={Colors.brandPrimaryColor}
+                />
+            </TouchableHighlight>
+        );
     };
 
     sendButton = (send) => {
@@ -58,6 +93,7 @@ export class MessageInput extends React.Component<Props, State> {
     render() {
         return (
             <View style={group.messageInputContainer}>
+                <View style={group.sendButtonContainer}>{this.attachButton(this.attach)}</View>
                 <View style={group.inputContainer}>
                     <TextInput
                         onChangeText={(text) => this.setState({ text })}
