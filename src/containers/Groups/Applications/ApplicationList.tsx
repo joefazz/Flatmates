@@ -1,7 +1,6 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, ActivityIndicator } from 'react-native';
 import { ChildProps, compose, graphql } from 'react-apollo';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ApplicationListComponent } from '../../../components/Applications/ApplicationListComponent';
 import { ReduxState, ProfileState } from '../../../types/ReduxTypes';
@@ -22,13 +21,13 @@ interface Props {
         applications: Application[];
     };
     sentLoading: boolean;
-    receivedLoading: boolean;
     profile: ProfileState;
     navigation: { navigate: (route: string, params: { id: string }) => void };
 }
 
 interface State {
     receivedApplications: Application[];
+    receivedLoading: boolean;
 }
 
 export class ApplicationList extends React.Component<Props, State> {
@@ -41,7 +40,8 @@ export class ApplicationList extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            receivedApplications: []
+            receivedApplications: [],
+            receivedLoading: true
         };
     }
 
@@ -53,19 +53,22 @@ export class ApplicationList extends React.Component<Props, State> {
                     variables: { shortID: this.props.profile.house.shortID }
                 })
                 .then(({ data: { house: { applications } } }) =>
-                    this.setState({ receivedApplications: applications })
+                    this.setState({ receivedApplications: applications, receivedLoading: false })
                 );
         }
     }
 
     render() {
+        if (this.state.receivedLoading || this.props.sentLoading) {
+            return <ActivityIndicator />;
+        }
         return (
             <>
                 <ApplicationListComponent
                     receivedApplications={this.state.receivedApplications}
                     sentApplications={this.props.user.applications}
                     isFetchingSent={this.props.sentLoading}
-                    isFetchingReceived={this.props.receivedLoading}
+                    isFetchingReceived={this.state.receivedLoading}
                     navigation={this.props.navigation}
                 />
             </>

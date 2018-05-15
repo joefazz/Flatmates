@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from 'react-navigation';
-
+import { Platform } from 'react-native';
 import { ChatNavigator } from './Chat';
 import { ApplicationNavigator } from './Applications';
 import { Colors, Font } from '../consts';
@@ -17,7 +17,8 @@ const navConfig = {
         style: { backgroundColor: Colors.offWhite },
         pressColor: Colors.definetelyNotAirbnbRed,
         indicatorStyle: { backgroundColor: Colors.brandPrimaryColor },
-        labelStyle: { ...Font.FontFactory({ weight: 'Bold' }) }
+        labelStyle: { ...Font.FontFactory({ weight: 'Bold' }) },
+        tabStyle: Platform.OS === 'ios' && { marginTop: 10 }
     }
 };
 

@@ -40,7 +40,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
             const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
                 variables: { email: this.props.login.email },
                 query: USER_LOGIN_QUERY,
-                fetchPolicy: 'no-cache'
+                fetchPolicy: 'network-only'
             });
 
             console.log(data);

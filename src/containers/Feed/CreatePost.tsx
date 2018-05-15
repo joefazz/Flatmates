@@ -134,7 +134,7 @@ const getUserInfo = graphql<
     options(props) {
         return {
             variables: { id: props.login.id },
-            fetchPolicy: 'no-cache'
+            fetchPolicy: 'network-only'
         };
     },
     // @ts-ignore

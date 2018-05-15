@@ -161,6 +161,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                 imageAttachment = [response.url];
             }
         }
+
         this.props.createMessage({
             playerIDs: this.props.data.groupInfo.users.map((user) => user.playerId),
             senderID: this.props.userID,

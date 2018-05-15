@@ -100,6 +100,17 @@ export class PostList extends React.Component<Props, State> {
         if (this.props.loading) {
             return <ActivityIndicator />;
         }
+
+        let isPostingEnabled = false;
+
+        if (!!this.props.user.house) {
+            if (!this.props.user.house.post) {
+                isPostingEnabled = true;
+            }
+        }
+
+        console.log(this.props.user);
+
         return (
             <>
                 <PostListComponent
@@ -107,9 +118,7 @@ export class PostList extends React.Component<Props, State> {
                     loadMorePosts={this.loadMorePosts}
                     changeFilters={this.changeFilters}
                     refreshPostList={this.refreshPostList}
-                    userPostPermissionEnabled={
-                        !!this.props.user.house ? Boolean(this.props.user.house.post) : false
-                    }
+                    userPostPermissionEnabled={isPostingEnabled}
                     {...this.state}
                 />
             </>
