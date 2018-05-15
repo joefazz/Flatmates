@@ -1,4 +1,4 @@
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import { MapComponent } from '../components/Map/MapComponent';
 import { Colors, Font } from '../consts';
@@ -24,4 +24,4 @@ const navConfig: any = {
     }
 };
 
-export const FeedNavigator = StackNavigator(routeConfig, navConfig);
+export const FeedNavigator = createStackNavigator(routeConfig, navConfig);

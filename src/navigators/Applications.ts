@@ -1,4 +1,4 @@
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import ApplicationList from '../containers/Groups/Applications/ApplicationList';
 import ApplicationDetail from '../containers/Groups/Applications/ApplicationDetail';
@@ -17,4 +17,4 @@ const navConfig: any = {
     }
 };
 
-export const ApplicationNavigator = StackNavigator(routeConfig, navConfig);
+export const ApplicationNavigator = createStackNavigator(routeConfig, navConfig);

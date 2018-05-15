@@ -1,9 +1,9 @@
-import { SwitchNavigator } from "react-navigation";
+import { createSwitchNavigator } from 'react-navigation';
 
-import AuthLoading from "../containers/AuthLoading";
-import Login from "../containers/Login";
-import { HomeNavigator } from "./Home";
-import { FeedNavigator } from "./Feed";
+import AuthLoading from '../containers/AuthLoading';
+import Login from '../containers/Login';
+import { HomeNavigator } from './Home';
+import { FeedNavigator } from './Feed';
 
 const routesConfig = {
     AuthLoading: { screen: AuthLoading },
@@ -13,13 +13,13 @@ const routesConfig = {
 };
 
 const navConfig = {
-    headerMode: "none",
-    initialRouteName: "AuthLoading",
+    headerMode: 'none',
+    initialRouteName: 'AuthLoading',
     navigationOptions: {
         gesturesEnabled: false
     }
 };
 
-const RootNavigator = SwitchNavigator(routesConfig, navConfig);
+const RootNavigator = createSwitchNavigator(routesConfig, navConfig);
 
 export default RootNavigator;

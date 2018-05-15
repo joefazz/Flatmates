@@ -1,4 +1,4 @@
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import ChatList from '../containers/Groups/Chat/ChatList';
 import ChatDetail from '../containers/Groups/Chat/ChatDetail';
@@ -17,4 +17,4 @@ const navConfig: any = {
     }
 };
 
-export const ChatNavigator = StackNavigator(routeConfig, navConfig);
+export const ChatNavigator = createStackNavigator(routeConfig, navConfig);

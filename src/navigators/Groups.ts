@@ -1,17 +1,15 @@
-import { TabNavigator, TabBarTop } from 'react-navigation';
+import { createMaterialTopTabNavigator } from 'react-navigation';
 
 import { ChatNavigator } from './Chat';
 import { ApplicationNavigator } from './Applications';
 import { Colors, Font } from '../consts';
 
 const routeConfig = {
-    ChatNavigator: { screen: ChatNavigator },
-    ApplicationNavigator: { screen: ApplicationNavigator }
+    Chat: { screen: ChatNavigator },
+    Applications: { screen: ApplicationNavigator }
 };
 
 const navConfig = {
-    tabBarComponent: TabBarTop,
-    tabBarPosition: 'top',
     swipeEnabled: false,
     tabBarOptions: {
         activeTintColor: Colors.brandPrimaryColor,
@@ -23,4 +21,4 @@ const navConfig = {
     }
 };
 
-export const GroupNavigator = TabNavigator(routeConfig, navConfig);
+export const GroupNavigator = createMaterialTopTabNavigator(routeConfig, navConfig);
