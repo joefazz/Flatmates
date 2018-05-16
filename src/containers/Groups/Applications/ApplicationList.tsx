@@ -50,7 +50,8 @@ export class ApplicationList extends React.Component<Props, State> {
             client
                 .query<HouseApplicationsQuery>({
                     query: HOUSE_APPLICATIONS_QUERY,
-                    variables: { shortID: this.props.profile.house.shortID }
+                    variables: { shortID: this.props.profile.house.shortID },
+                    fetchPolicy: 'network-only'
                 })
                 .then(({ data: { house: { applications } } }) =>
                     this.setState({ receivedApplications: applications, receivedLoading: false })
@@ -77,15 +78,13 @@ export class ApplicationList extends React.Component<Props, State> {
 }
 
 interface InputProps {
-    profile: {
-        house: {
-            shortID: number;
-        };
-        id;
+    login: {
+        id: string;
     };
 }
 
 const mapStateToProps = (state: ReduxState) => ({
+    login: state.login,
     profile: state.profile
 });
 
@@ -97,7 +96,7 @@ const mapStateToProps = (state: ReduxState) => ({
 // >(HOUSE_APPLICATIONS_QUERY, {
 //     options: (ownProps) => ({
 //         variables: {
-//             shortID: ownProps.profile.house.shortID
+//             shortID: ownProps.login.house.shortID
 //         },
 //         fetchPolicy: 'network-only'
 //     }),
@@ -116,8 +115,9 @@ const getSentApplications = graphql<
 >(USER_APPLICATIONS_QUERY, {
     options: (ownProps) => ({
         variables: {
-            id: ownProps.profile.id
-        }
+            id: ownProps.login.id
+        },
+        fetchPolicy: 'network-only'
     }),
     props: ({ data: { loading: sentLoading, user, error: sentError } }) => ({
         sentLoading,

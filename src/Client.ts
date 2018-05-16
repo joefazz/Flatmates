@@ -41,16 +41,16 @@ const httpLink = createHttpLink({
     uri: 'https://flatmates-server.azurewebsites.net/'
 });
 
-const splitLink = split(
-    ({ query }) => {
-        const { kind, operation } = getMainDefinition(query);
-        return kind === 'OperationDefinition' && operation === 'subscription';
-    },
-    wsLink,
-    authLink.concat(httpLink)
-);
+// const splitLink = split(
+//     ({ query }) => {
+//         const { kind, operation } = getMainDefinition(query);
+//         return kind === 'OperationDefinition' && operation === 'subscription';
+//     },
+//     wsLink,
+//     authLink.concat(httpLink)
+// );
 
-const link = ApolloLink.from([reduxLink, errorLink, splitLink]);
+const link = ApolloLink.from([reduxLink, errorLink, authLink.concat(httpLink)]);
 
 const client = new ApolloClient({
     link,

@@ -22,6 +22,7 @@ interface Props {
     loading: boolean;
     approverName: string;
     approverID: string;
+    houseName: string;
     user: User;
     navigation: {
         state: {
@@ -33,15 +34,12 @@ interface Props {
         };
         pop: () => void;
     };
-    createGroup: (
-        params: CreateGroupMutationVariables &
-            DeleteApplicationMutationVariables & { approverID: string }
-    ) => void;
+    createGroup: (params: CreateGroupMutationVariables & { approverID: string }) => void;
+    removeApplication: (id: string, approverName: string, applicantName: string) => void;
 }
 
 export class ApplicationDetail extends React.Component<Props> {
     static navigationOptions = () => ({
-        tabBarVisible: false,
         title: 'Application Detail'
     });
 
@@ -78,10 +76,15 @@ export class ApplicationDetail extends React.Component<Props> {
                                                 applicantID: userData.id,
                                                 approverName: this.props.approverName,
                                                 houseUserIDs,
-                                                name: `Group Chat with ${userData.name}`,
-                                                id,
+                                                name: `${userData.name}|${this.props.houseName}`,
                                                 approverID: this.props.approverID
                                             });
+                                            // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
+                                            this.props.removeApplication(
+                                                id,
+                                                this.props.approverName,
+                                                userData.firstName
+                                            );
                                         }
                                     }
                                 ]
@@ -160,6 +163,7 @@ const removeApplication = graphql(DELETE_APPLICATION_MUTATION, {
 export default compose(
     connect((state: ReduxState) => ({
         approverName: state.profile.name,
+        houseName: state.profile.house.road,
         approverID: state.login.id
     })),
     createGroup,
