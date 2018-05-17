@@ -7,6 +7,7 @@ export const USER_APPLICATIONS_QUERY = gql`
             applications {
                 id
                 to {
+                    shortID
                     users {
                         id
                     }

@@ -583,7 +583,7 @@ export class Login extends React.Component<Props, State> {
                                                 section: false,
                                                 label: "Select the year you're currently in"
                                             },
-                                            { label: 'Foundation Year'},
+                                            { label: 'Foundation Year' },
                                             { label: 'First Year' },
                                             { label: 'Second Year' },
                                             { label: 'Third Year' },

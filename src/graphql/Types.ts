@@ -417,6 +417,7 @@ export interface UserApplicationsQuery {
     applications:  Array< {
       id: string,
       to:  {
+        shortID: number,
         users:  Array< {
           id: string,
         } > | null,

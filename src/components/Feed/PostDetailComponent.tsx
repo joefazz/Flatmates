@@ -22,15 +22,10 @@ import { FontFactory } from '../../consts/font';
 import { feed } from '../../styles';
 import { ProfileState } from '../../types/ReduxTypes';
 import { House, User } from '../../types/Entities';
-import {
-    toConstantFontSize,
-    toConstantHeight,
-    toConstantWidth
-} from '../../utils/PercentageConversion';
+import { toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
 import { compareUsers } from '../../utils/UserComparison';
 import { TouchableRect } from '../../widgets/TouchableRect';
 import { CreateApplicationMutationVariables } from '../../graphql/Types';
-import { AnyAction } from 'redux';
 
 interface Props {
     house: House;
@@ -40,6 +35,7 @@ interface Props {
     createApplication: (params: CreateApplicationMutationVariables) => void;
     description: string;
     title: string;
+    userHasAppliedToHouse: boolean;
 
     navigation: {
         state: {
@@ -56,7 +52,7 @@ interface Props {
     firstName: string;
     isLoading: boolean;
     profile: ProfileState;
-    starPost: () => void;
+    // starPost: () => void;
 }
 
 const initialState = {
@@ -298,8 +294,13 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                     ]
                                 )
                             }
-                            title={'Send Application'}
-                            iconName={'bullhorn'}
+                            title={
+                                this.props.userHasAppliedToHouse
+                                    ? 'Application Sent!'
+                                    : 'Send Application'
+                            }
+                            iconName={this.props.userHasAppliedToHouse ? 'envelope' : 'bullhorn'}
+                            enabled={!this.props.userHasAppliedToHouse}
                             backgroundColor={Colors.brandPrimaryColor}
                             wrapperStyle={{ borderRadius: 0 }}
                             buttonStyle={{
@@ -343,9 +344,6 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         }}
                     >
                         <Text style={feed.userNameText}>{user.name}</Text>
-                        <Text style={feed.userNameText}>
-                            {compareUsers(this.props.profile, user)}% Match
-                        </Text>
                     </View>
                     <Text style={feed.userInfoText}>
                         {user.studyYear} student studying {user.course}

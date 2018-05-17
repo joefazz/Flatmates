@@ -15,6 +15,7 @@ interface Props {
     backgroundColor: string;
     underlayColor?: string;
     textColor?: string;
+    enabled?: boolean;
 }
 
 export class TouchableRect extends React.Component<Props> {
@@ -29,6 +30,7 @@ export class TouchableRect extends React.Component<Props> {
                 ]}
             >
                 <RectButton
+                    enabled={Boolean(this.props.enabled)}
                     underlayColor={this.props.underlayColor}
                     style={[
                         styles.buttonContentWrapper,
