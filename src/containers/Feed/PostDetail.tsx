@@ -57,6 +57,19 @@ interface State {
 }
 
 export class PostDetail extends React.Component<Props, State> {
+    static getDerivedStateFromProps(newProps, prevState) {
+        let state = prevState;
+        if (!newProps.userAppQuery.loading) {
+            let appDoesExist = newProps.userAppQuery.user.applications.map(
+                (app) => app.to.shortID === prevState.data.createdBy.shortID
+            );
+
+            state.userHasAppliedToHouse = Boolean(appDoesExist);
+        }
+
+        return state;
+    }
+
     protected static navigationOptions = ({ navigation }) => ({
         headerTitle: navigation.state.params.data.createdBy.road,
         tabBarVisible: false
@@ -75,16 +88,8 @@ export class PostDetail extends React.Component<Props, State> {
         };
     }
 
-    async componentDidMount() {
-        await this.getPostDetails();
-
-        let appDoesExist = this.props.userAppQuery.user.applications.map(
-            (app) => app.to.shortID === this.state.data.createdBy.shortID
-        );
-
-        this.setState({
-            userHasAppliedToHouse: Boolean(appDoesExist)
-        });
+    componentDidMount() {
+        this.getPostDetails();
 
         // if (!this.state.isStarred) {
         //     this.hasStarredPost;

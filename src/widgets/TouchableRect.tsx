@@ -30,7 +30,7 @@ export class TouchableRect extends React.Component<Props> {
                 ]}
             >
                 <RectButton
-                    enabled={Boolean(this.props.enabled)}
+                    enabled={this.props.enabled === undefined ? true : this.props.enabled}
                     underlayColor={this.props.underlayColor}
                     style={[
                         styles.buttonContentWrapper,
