@@ -1054,7 +1054,26 @@ export class Login extends React.Component<Props, State> {
                     <View style={login.pageFooter}>
                         <TouchableRect
                             title={'Confirm'}
-                            backgroundColor={Colors.brandPrimaryColor}
+                            backgroundColor={
+                                this.state.minPrice === 0 ||
+                                this.state.maxPrice === 0 ||
+                                this.state.genderPreference === '' ||
+                                this.state.drugPreference === '' ||
+                                this.state.drinkPreference === '' ||
+                                this.state.smokerPreference === ''
+                                    ? Colors.grey
+                                    : Colors.brandPrimaryColor
+                            }
+                            enabled={
+                                !(
+                                    this.state.minPrice === 0 ||
+                                    this.state.maxPrice === 0 ||
+                                    this.state.genderPreference === '' ||
+                                    this.state.drugPreference === '' ||
+                                    this.state.drinkPreference === '' ||
+                                    this.state.smokerPreference === ''
+                                )
+                            }
                             onPress={this.completeUserSetup}
                             buttonStyle={base.buttonStyle}
                         />
@@ -1066,7 +1085,7 @@ export class Login extends React.Component<Props, State> {
                 <View style={login.page}>
                     <View style={base.headingWrapper}>
                         <Text style={[base.headingText, { textAlign: 'center', fontSize: 18 }]}>
-                            Enter your House ID or if you don't have one press 'Create House'
+                            Enter your House ID or if you don't have one press 'New House'
                         </Text>
                     </View>
                     <View style={login.mainContent}>
@@ -1081,20 +1100,15 @@ export class Login extends React.Component<Props, State> {
                     </View>
                     <View style={login.pageFooter}>
                         <TouchableRect
-                            title={'Confirm'}
-                            onPress={this.completeJoiningHouseSetup}
-                            backgroundColor={
-                                this.state.shortID === 0 ? Colors.grey : Colors.brandPrimaryColor
+                            title={this.state.shortID === 0 ? 'New House' : 'Confirm'}
+                            onPress={
+                                this.state.shortID === 0
+                                    ? this.generateShortID
+                                    : this.completeJoiningHouseSetup
                             }
+                            backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
-                        <TouchableOpacity
-                            onPress={() =>
-                                this.setState({ isCreatingHouse: true }, this.generateShortID)
-                            }
-                        >
-                            <Text style={login.hyperlink}>Create House</Text>
-                        </TouchableOpacity>
                     </View>
                 </View>
             );
@@ -1407,6 +1421,7 @@ export class Login extends React.Component<Props, State> {
 
     // Let the record show I have tested this works
     private generateShortID = function GenerateID(): void {
+        this.setState({ isCreatingHouse: true });
         const shortID = Math.floor(1000 + (10000 - 1000) * Math.random());
 
         try {

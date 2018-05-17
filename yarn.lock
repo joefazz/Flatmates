@@ -484,9 +484,9 @@
   version "9.4.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.0.tgz#b85a0bcf1e1cc84eb4901b7e96966aedc6f078d1"
 
-"@types/react-native@^0.55.12":
-  version "0.55.13"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.55.13.tgz#5ff5243998f06aaa656d7858ddfa7cdd6ab63c57"
+"@types/react-native@^0.55.14":
+  version "0.55.14"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.55.14.tgz#9a702845c7d72f2774b4e2004cb698c099f9b50e"
   dependencies:
     "@types/react" "*"
 
@@ -2215,9 +2215,9 @@ eslint-plugin-react-native@^3.2.1:
   dependencies:
     eslint-plugin-react-native-globals "^0.1.1"
 
-eslint-plugin-react@^7.7.0:
-  version "7.7.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.7.0.tgz#f606c719dbd8a1a2b3d25c16299813878cca0160"
+eslint-plugin-react@^7.8.2:
+  version "7.8.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.8.2.tgz#e95c9c47fece55d2303d1a67c9d01b930b88a51d"
   dependencies:
     doctrine "^2.0.2"
     has "^1.0.1"
@@ -4667,9 +4667,9 @@ react-addons-test-utils@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.6.2.tgz#c12b6efdc2247c10da7b8770d185080a7b047156"
 
-react-apollo@2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.1.3.tgz#5eb02cdf18cc4bdeb615bda94baedb50354e94e5"
+react-apollo@2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-2.1.4.tgz#a51059ac56f1a7997cad636a5d36398b9c93ff12"
   dependencies:
     fbjs "^0.8.16"
     hoist-non-react-statics "^2.5.0"
@@ -4750,23 +4750,23 @@ react-native-floating-action@1.10.1:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/react-native-floating-action/-/react-native-floating-action-1.10.1.tgz#93f9fe85e9b1d01210d732c6ca0ea8cb5faec795"
 
-react-native-gesture-handler@1.0.0-alpha.43:
-  version "1.0.0-alpha.43"
-  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.0-alpha.43.tgz#4a5c324b6a70cf44d31934a631ce6029c8a460e2"
+react-native-gesture-handler@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.0.tgz#442c9da5190a9fceb982489f235e889214312e95"
   dependencies:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
-react-native-iap@^0.3.24:
-  version "0.3.24"
-  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-0.3.24.tgz#571050744ad01ea054694236bfc465120f860238"
+react-native-iap@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-1.0.3.tgz#b42892f3dd3ee1a29e695288ddebd6c8cd45c82a"
   dependencies:
     dooboolab-welcome "^1.0.5"
 
-react-native-image-crop-picker@0.20.1:
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.20.1.tgz#048c70219ba9f4fcf70fea5819f8dcaadefc63f9"
+react-native-image-crop-picker@0.20.3:
+  version "0.20.3"
+  resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.20.3.tgz#565d69c1764e96abef23871fe4d6d58b1ee35e18"
 
 react-native-interactable@0.1.10:
   version "0.1.10"
@@ -5770,9 +5770,9 @@ tslint-react@^3.6.0:
   dependencies:
     tsutils "^2.13.1"
 
-tslint@^5.9.1:
-  version "5.9.1"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.9.1.tgz#1255f87a3ff57eb0b0e1f0e610a8b4748046c9ae"
+tslint@^5.10.0:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-5.10.0.tgz#11e26bccb88afa02dd0d9956cae3d4540b5f54c3"
   dependencies:
     babel-code-frame "^6.22.0"
     builtin-modules "^1.1.1"
