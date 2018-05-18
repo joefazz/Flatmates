@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from 'react-navigation';
 import { Colors, Font } from '../consts';
 import { FeedNavigator } from './Feed';
 import { ProfileNavigator } from './Profile';
-import { SettingsNavigator } from './Settings';
+import { HouseNavigator } from './House';
 import { GroupNavigator } from './Groups';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -13,14 +13,14 @@ const routeConfig = {
     Feed: { screen: FeedNavigator },
     Profile: { screen: ProfileNavigator },
     Group: { screen: GroupNavigator },
-    Settings: { screen: SettingsNavigator }
+    House: { screen: HouseNavigator }
 };
 
 enum Routes {
     Feed = 'Feed',
     Profile = 'Profile',
     Group = 'Group',
-    Settings = 'Settings'
+    House = 'House'
 }
 
 const navConfig = {
@@ -49,7 +49,7 @@ const navConfig = {
                             : 'md-notifications';
                     break;
 
-                case Routes.Settings:
+                case Routes.House:
                     iconName =
                         Platform.OS === 'ios' ? `ios-home${focused ? '' : '-outline'}` : 'md-home';
 

@@ -1,10 +1,10 @@
 import { createStackNavigator } from 'react-navigation';
 
 import { Colors, Font } from '../consts';
-import Settings from '../containers/Settings';
+import House from '../containers/House';
 
 const routeConfig = {
-    Settings: { screen: Settings }
+    House: { screen: House }
 };
 
 const navConfig = {
@@ -15,4 +15,4 @@ const navConfig = {
     }
 };
 
-export const SettingsNavigator = createStackNavigator(routeConfig, navConfig);
+export const HouseNavigator = createStackNavigator(routeConfig, navConfig);
