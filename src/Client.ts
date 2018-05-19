@@ -10,7 +10,7 @@ import { getMainDefinition } from 'apollo-utilities';
 import store from './redux/store';
 
 const wsLink = new WebSocketLink({
-    uri: `ws://flatmates-server.azurewebsites.com`,
+    uri: `ws://flatmates-cerebro.azurewebsites.com`,
     options: {
         reconnect: true
     }
@@ -38,7 +38,7 @@ const errorLink = onError((errors) => {
 });
 
 const httpLink = createHttpLink({
-    uri: 'https://flatmates-server.azurewebsites.net/'
+    uri: 'https://flatmates-cerebro.azurewebsites.net/'
 });
 
 // const splitLink = split(

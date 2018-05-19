@@ -1454,7 +1454,7 @@ export class Login extends React.Component<Props, State> {
                 email: string;
                 email_verified: boolean;
                 sub: string;
-            } = await fetch('https://flatmates-server.azurewebsites.net/verify', {
+            } = await fetch('https://flatmates-cerebro.azurewebsites.net/verify', {
                 method: 'POST',
                 body: JSON.stringify({ token: identityToken }),
                 headers: { 'Content-Type': 'application/json' }
@@ -1688,7 +1688,7 @@ export class Login extends React.Component<Props, State> {
 
                 try {
                     const response = await fetch(
-                        'https://flatmates-server.azurewebsites.net/upload',
+                        'https://flatmates-cerebro.azurewebsites.net/upload',
                         options
                     );
                     if (response.ok) {
@@ -1767,7 +1767,7 @@ export class Login extends React.Component<Props, State> {
                             };
 
                             const response = await fetch(
-                                'https://flatmates-server.azurewebsites.net/upload',
+                                'https://flatmates-cerebro.azurewebsites.net/upload',
                                 options
                             );
                             if (response.ok) {
