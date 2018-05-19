@@ -19,6 +19,9 @@ const navConfig = {
         indicatorStyle: { backgroundColor: Colors.brandPrimaryColor },
         labelStyle: { ...Font.FontFactory({ weight: 'Bold' }) },
         tabStyle: Platform.OS === 'ios' && { marginTop: 10 }
+    },
+    navigationOptions: ({ navigation }) => {
+        return { tabBarVisible: navigation.state.index === 0 };
     }
 };
 

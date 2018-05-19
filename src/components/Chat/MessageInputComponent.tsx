@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, TextInput, TouchableHighlight, View } from 'react-native';
+import { Platform, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -44,21 +44,14 @@ export class MessageInput extends React.Component<Props, State> {
 
     attachButton = (attach) => {
         return (
-            <TouchableHighlight
-                style={group.sendButtonWrapper}
-                onPress={attach}
-                underlayColor={
-                    Platform.OS === 'ios' ? Colors.definetelyNotAirbnbRed : Colors.transparent
-                }
-                activeOpacity={0.5}
-            >
+            <TouchableOpacity onPress={attach} activeOpacity={0.5}>
                 <Icon
                     iconStyle={group.iconStyle}
-                    name={'add'}
-                    size={Platform.OS === 'ios' ? 20 : 26}
+                    name={'plus-circle'}
+                    size={Platform.OS === 'ios' ? 36 : 40}
                     color={Colors.brandPrimaryColor}
                 />
-            </TouchableHighlight>
+            </TouchableOpacity>
         );
     };
 
@@ -93,17 +86,15 @@ export class MessageInput extends React.Component<Props, State> {
     render() {
         return (
             <View style={group.messageInputContainer}>
-                <View style={group.sendButtonContainer}>{this.attachButton(this.attach)}</View>
-                <View style={group.inputContainer}>
-                    <TextInput
-                        onChangeText={(text) => this.setState({ text })}
-                        multiline={true}
-                        style={group.input}
-                        placeholder={'Type your message here'}
-                        underlineColorAndroid={Colors.transparent}
-                        value={this.state.text}
-                    />
-                </View>
+                <View style={group.attachButtonContainer}>{this.attachButton(this.attach)}</View>
+                <TextInput
+                    onChangeText={(text) => this.setState({ text })}
+                    multiline={true}
+                    style={group.input}
+                    placeholder={'Type your message here'}
+                    underlineColorAndroid={Colors.transparent}
+                    value={this.state.text}
+                />
                 <View style={group.sendButtonContainer}>{this.sendButton(this.send)}</View>
             </View>
         );

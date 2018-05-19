@@ -119,20 +119,19 @@ export const group = StyleSheet.create({
 
     messageInputContainer: {
         alignSelf: 'flex-end',
+        alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: '#f5f1ee',
         borderColor: '#dbdbdb',
+        paddingVertical: 3,
         borderTopWidth: 1,
         flexDirection: 'row',
+        width: toConstantWidth(100),
         ...ifIphoneX({ paddingBottom: 20 }) // iPhone X padding required
     },
 
-    inputContainer: {
-        flex: 1,
-        paddingHorizontal: 12,
-        paddingVertical: 6
-    },
-
     input: {
+        width: toConstantWidth(77),
         ...Platform.select({
             ios: {
                 backgroundColor: 'white',
@@ -151,13 +150,24 @@ export const group = StyleSheet.create({
                 borderColor: '#dbdbdb',
                 borderRadius: 4,
                 height: 50,
-                paddingHorizontal: 8
+                paddingHorizontal: 4
             }
         })
     },
 
     sendButtonContainer: {
-        paddingRight: 12,
-        alignSelf: 'center'
+        flex: 0.8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: toConstantWidth(10)
+    },
+
+    attachButtonContainer: {
+        flex: 0.8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: toConstantWidth(10)
     }
 });
