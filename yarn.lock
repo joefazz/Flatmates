@@ -461,9 +461,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@mapbox/react-native-mapbox-gl@6.1.2-beta":
-  version "6.1.2-beta"
-  resolved "https://registry.yarnpkg.com/@mapbox/react-native-mapbox-gl/-/react-native-mapbox-gl-6.1.2-beta.tgz#3960904e81d9cb80488603886274c39d8dd85db7"
+"@mapbox/react-native-mapbox-gl@6.1.2-beta2":
+  version "6.1.2-beta2"
+  resolved "https://registry.yarnpkg.com/@mapbox/react-native-mapbox-gl/-/react-native-mapbox-gl-6.1.2-beta2.tgz#2140aab25ab5c31db1c91b17076d1573b93950e2"
   dependencies:
     "@turf/helpers" "4.6.0"
     underscore "^1.8.3"
@@ -484,11 +484,9 @@
   version "9.4.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.0.tgz#b85a0bcf1e1cc84eb4901b7e96966aedc6f078d1"
 
-"@types/react-native@^0.55.14":
-  version "0.55.14"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.55.14.tgz#9a702845c7d72f2774b4e2004cb698c099f9b50e"
-  dependencies:
-    "@types/react" "*"
+"@types/react-native@^0.55.16":
+  version "0.55.16"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.55.16.tgz#992304c2228b276c10d2b4460d824477b25d0306"
 
 "@types/react-redux@^6.0.0":
   version "6.0.0"
@@ -4696,11 +4694,7 @@ react-is@^16.3.2:
   version "16.3.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.3.2.tgz#f4d3d0e2f5fbb6ac46450641eb2e25bf05d36b22"
 
-react-lifecycles-compat@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-1.0.2.tgz#551d8b1d156346e5fcf30ffac9b32ce3f78b8850"
-
-react-lifecycles-compat@^3, react-lifecycles-compat@^3.0.2:
+react-lifecycles-compat@^3, react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
 
@@ -4750,17 +4744,17 @@ react-native-floating-action@1.10.1:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/react-native-floating-action/-/react-native-floating-action-1.10.1.tgz#93f9fe85e9b1d01210d732c6ca0ea8cb5faec795"
 
-react-native-gesture-handler@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.0.tgz#442c9da5190a9fceb982489f235e889214312e95"
+react-native-gesture-handler@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.1.tgz#e76236befe5d35b827a610ce6af427c58c8d2b82"
   dependencies:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
-react-native-iap@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-1.0.4.tgz#20ac095fa5ab0ebe64111b18a99ab2fbf42e315c"
+react-native-iap@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-iap/-/react-native-iap-1.0.5.tgz#25a58dacf4d7cf32774b2460ec24741fc95bf82e"
   dependencies:
     dooboolab-welcome "^1.0.5"
 
@@ -4782,9 +4776,9 @@ react-native-onesignal@^3.1.4:
   dependencies:
     invariant "^2.2.2"
 
-react-native-paper@=1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-1.4.0.tgz#33bd477cde1468b63e60bdb0c9a500822d03cdca"
+react-native-paper@2.0.0-alpha.0:
+  version "2.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-2.0.0-alpha.0.tgz#20ddb59926a45333841db7bb35911543b390cd2e"
   dependencies:
     color "^2.0.1"
     create-react-context "^0.2.2"
@@ -4802,27 +4796,33 @@ react-native-safe-area-view@^0.7.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
 
+react-native-safe-area-view@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-view/-/react-native-safe-area-view-0.8.0.tgz#22d78cb8e8658d04a10cd53c1546e0bc86cb7aea"
+  dependencies:
+    hoist-non-react-statics "^2.3.1"
+
 react-native-swiper@1.5.13:
   version "1.5.13"
   resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.5.13.tgz#fa695cd4ab77b9a9df2d2bfee38ea7274dd07a2e"
   dependencies:
     prop-types "^15.5.10"
 
-react-native-tab-view@^0.0.74:
-  version "0.0.74"
-  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.74.tgz#62c0c882d9232b461ce181d440d683b4f99d1bd8"
-  dependencies:
-    prop-types "^15.6.0"
-
-react-native-tab-view@~0.0.77:
+react-native-tab-view@^0.0.77:
   version "0.0.77"
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.77.tgz#11ceb8e7c23100d07e628dc151b57797524d00d4"
   dependencies:
     prop-types "^15.6.0"
 
-react-native-typescript-transformer@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/react-native-typescript-transformer/-/react-native-typescript-transformer-1.2.5.tgz#3e3b94fca705bcf40c7a99540bca47598f75a01b"
+react-native-tab-view@~0.0.78:
+  version "0.0.78"
+  resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-0.0.78.tgz#9b90730d89cbd34a03f0e0ab10e74ca7af945560"
+  dependencies:
+    prop-types "^15.6.0"
+
+react-native-typescript-transformer@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/react-native-typescript-transformer/-/react-native-typescript-transformer-1.2.9.tgz#a8724eee5d787c4f88da50cf2e091c53be2121ee"
   dependencies:
     chalk "^2.4.0"
     find-root "^1.1.0"
@@ -4902,44 +4902,34 @@ react-native@0.55.4:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
-react-navigation-deprecated-tab-navigator@1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-navigation-deprecated-tab-navigator/-/react-navigation-deprecated-tab-navigator-1.2.0.tgz#e0d969c196dcd3a4a440770a7bd97fa058eb4aaf"
+react-navigation-deprecated-tab-navigator@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/react-navigation-deprecated-tab-navigator/-/react-navigation-deprecated-tab-navigator-1.3.0.tgz#015dcae1e977b984ca7e99245261c15439026bb7"
   dependencies:
-    react-native-tab-view "^0.0.74"
+    react-native-tab-view "^0.0.77"
 
-react-navigation-material-bottom-tabs@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/react-navigation-material-bottom-tabs/-/react-navigation-material-bottom-tabs-0.1.2.tgz#7571ddea8e3749feb668e589d4b2edef8b02738a"
-  dependencies:
-    hoist-non-react-statics "^2.5.0"
-    prop-types "^15.6.0"
-    react-native-paper "=1.4.0"
-    react-navigation-tabs "0.2.0-rc.0"
-
-react-navigation-tabs@0.2.0:
+react-navigation-material-bottom-tabs@^0.2.0:
   version "0.2.0"
-  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-0.2.0.tgz#d25be64e01a728c893a93cfeee6b176ab74d67de"
+  resolved "https://registry.yarnpkg.com/react-navigation-material-bottom-tabs/-/react-navigation-material-bottom-tabs-0.2.0.tgz#0e6783a713483f6c6df16e7aa891a00ff283e657"
   dependencies:
     hoist-non-react-statics "^2.5.0"
     prop-types "^15.6.0"
-    react-lifecycles-compat "^1.0.2"
-    react-native-safe-area-view "^0.7.0"
-    react-native-tab-view "~0.0.77"
+    react-native-paper "2.0.0-alpha.0"
+    react-navigation-tabs "^0.3.0"
 
-react-navigation-tabs@0.2.0-rc.0:
-  version "0.2.0-rc.0"
-  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-0.2.0-rc.0.tgz#671e8c9914b915796879329752f7240147494038"
+react-navigation-tabs@0.3.0, react-navigation-tabs@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-navigation-tabs/-/react-navigation-tabs-0.3.0.tgz#b1fe7ef1c665dd8928fafcc8622616e220ae5efa"
   dependencies:
     hoist-non-react-statics "^2.5.0"
     prop-types "^15.6.0"
-    react-lifecycles-compat "^1.0.2"
+    react-lifecycles-compat "^3.0.4"
     react-native-safe-area-view "^0.7.0"
-    react-native-tab-view "~0.0.77"
+    react-native-tab-view "~0.0.78"
 
-react-navigation@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-2.0.1.tgz#adeba4eb16307c0f740c6c9efafd0c0aa6d47002"
+react-navigation@2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-2.0.4.tgz#efc09de09799c2117a54002a6ea0e9b80e92828d"
   dependencies:
     clamp "^1.0.1"
     create-react-context "^0.2.1"
@@ -4948,9 +4938,9 @@ react-navigation@2.0.1:
     prop-types "^15.5.10"
     react-lifecycles-compat "^3"
     react-native-drawer-layout-polyfill "^1.3.2"
-    react-native-safe-area-view "^0.7.0"
-    react-navigation-deprecated-tab-navigator "1.2.0"
-    react-navigation-tabs "0.2.0"
+    react-native-safe-area-view "^0.8.0"
+    react-navigation-deprecated-tab-navigator "1.3.0"
+    react-navigation-tabs "0.3.0"
 
 react-proxy@^1.1.7:
   version "1.1.8"

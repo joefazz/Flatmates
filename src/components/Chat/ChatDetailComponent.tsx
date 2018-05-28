@@ -118,7 +118,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                         };
 
                         const response = await fetch(
-                            'https://flatmates-cerebro.azurewebsites.net/upload',
+                            'https://flatmates-prisma-vpzbwzearp.now.sh/upload',
                             options
                         )
                             .then((res) => res.json())
@@ -151,7 +151,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                 };
 
                 const response = await fetch(
-                    'https://flatmates-cerebro.azurewebsites.net/upload',
+                    'https://flatmates-prisma-vpzbwzearp.now.sh/upload',
                     options
                 )
                     .then((res) => res.json())
