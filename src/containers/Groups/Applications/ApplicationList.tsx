@@ -55,11 +55,13 @@ export class ApplicationList extends React.Component<Props, State> {
                 })
                 .then(({ data: { house: { applications } } }) =>
                     this.setState({ receivedApplications: applications, receivedLoading: false })
-                );
+                )
+                .catch((err) => console.log(err));
         }
     }
 
     render() {
+        console.log(this.props.user.applications);
         if (this.state.receivedLoading || this.props.sentLoading) {
             return <ActivityIndicator />;
         }

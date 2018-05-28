@@ -8,31 +8,33 @@ import { Colors, Metrics } from '../consts';
 import { Font } from '../consts';
 import { toConstantFontSize } from '../utils/PercentageConversion';
 
-interface Props  {
-    images: Array<string>,
-    createdDate: number,
-    title: string,
-    onPress: () => void,
-    price: number,
-    spaces: number
+interface Props {
+    images: Array<string>;
+    createdDate: number;
+    title: string;
+    onPress: () => void;
+    price: number;
+    spaces: number;
 }
 
 export class PostCard extends React.PureComponent<Props> {
     render() {
-        return(
-            <View style={ styles.cardContainer }>
-                <View style={ styles.swiperContainer }>
-                    {this.renderPostPictures()}
-                </View>
+        return (
+            <View style={styles.cardContainer}>
+                <View style={styles.swiperContainer}>{this.renderPostPictures()}</View>
                 <TouchableOpacity style={{ flex: 1, padding: 10 }} onPress={this.props.onPress}>
-                    <View style={ styles.titleContainer }>
-                        <Text style={ styles.titleText }>{this.props.title}</Text>
-                        <Text style={ styles.spacesText }>{this.props.spaces} Spaces</Text>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.titleText}>{this.props.title}</Text>
+                        <Text style={styles.spacesText}>{this.props.spaces} Spaces</Text>
                     </View>
 
-                    <View style={ styles.subtitleContainer }>
-                        <Text style={ styles.priceText }>£{this.props.price} Per Month (incl. Bills)</Text>
-                        <Text style={ styles.priceText }>{moment(this.props.createdDate).format('DD MMM')}</Text>
+                    <View style={styles.subtitleContainer}>
+                        <Text style={styles.priceText}>
+                            £{this.props.price} Per Month (incl. Bills)
+                        </Text>
+                        <Text style={styles.priceText}>
+                            {moment(this.props.createdDate).format('DD MMM')}
+                        </Text>
                     </View>
                 </TouchableOpacity>
             </View>
@@ -40,12 +42,32 @@ export class PostCard extends React.PureComponent<Props> {
     }
 
     renderPostPictures() {
-        return(
-            <Swiper paginationStyle={{bottom: 0}} activeDotColor={ Colors.brandPrimaryColor } dotStyle={{ borderWidth: 1, borderColor: Colors.brandPrimaryColor, backgroundColor: Colors.transparent }}>
+        return (
+            <Swiper
+                paginationStyle={{ bottom: 0 }}
+                activeDotColor={Colors.brandPrimaryColor}
+                dotStyle={{
+                    borderWidth: 1,
+                    borderColor: Colors.brandPrimaryColor,
+                    backgroundColor: Colors.transparent
+                }}
+            >
                 {this.props.images.map((image, index) => {
                     return (
-                        <View style={{ borderTopLeftRadius: 5, borderTopRightRadius: 5, overflow: 'hidden' }} key={index}>
-                            <Image style={ styles.postImage } source={{uri: image}} key={index} />
+                        <View
+                            style={{
+                                borderTopLeftRadius: 5,
+                                borderTopRightRadius: 5,
+                                overflow: 'hidden'
+                            }}
+                            key={index}
+                        >
+                            <Image
+                                style={styles.postImage}
+                                source={{ uri: image }}
+                                key={index}
+                                resizeMode={'contain'}
+                            />
                         </View>
                     );
                 })}
@@ -63,15 +85,15 @@ const styles = StyleSheet.create({
         shadowColor: Colors.grey,
         shadowOffset: {
             width: 2,
-            height: 4,
+            height: 4
         },
         shadowOpacity: 0.6,
         shadowRadius: 4,
-        elevation: 1.8,
+        elevation: 1.8
     },
 
     swiperContainer: {
-        flex: 3,
+        flex: 3
     },
 
     titleContainer: {
@@ -79,7 +101,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'flex-end',
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white
     },
 
     subtitleContainer: {
@@ -92,19 +114,19 @@ const styles = StyleSheet.create({
 
     postImage: {
         width: Metrics.screenWidth * 0.9,
-        height: Metrics.screenHeight * 0.3,
+        height: Metrics.screenHeight * 0.3
     },
 
     titleText: {
         fontSize: toConstantFontSize(3.2),
         color: Colors.black,
-        ...Font.FontFactory({weight: 'Light'}),
+        ...Font.FontFactory({ weight: 'Light' })
     },
 
     spacesText: {
         fontSize: toConstantFontSize(2.5),
         marginBottom: 1.5,
-        ...Font.FontFactory({weight: 'Light'}),
+        ...Font.FontFactory({ weight: 'Light' }),
         color: Colors.black
     },
 

@@ -239,15 +239,7 @@ export const feed = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: toConstantHeight(1),
         backgroundColor: Colors.white,
-        width: toConstantWidth(100),
-        shadowOffset: {
-            height: 0,
-            width: 0
-        },
-        shadowColor: Colors.grey,
-        shadowRadius: 5,
-        shadowOpacity: 0.7,
-        elevation: 2
+        width: toConstantWidth(100)
     },
 
     avatarWrapper: {
@@ -267,7 +259,8 @@ export const feed = StyleSheet.create({
         ...FontFactory({ weight: 'Bold' }),
         color: Colors.brandPrimaryColor,
         fontSize: toConstantFontSize(2.5),
-        paddingHorizontal: toConstantFontSize(1)
+        paddingHorizontal: toConstantFontSize(1),
+        borderBottomWidth: 1
     },
 
     userNameText: {

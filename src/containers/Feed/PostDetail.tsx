@@ -13,11 +13,10 @@ import {
     UnstarPostMutation,
     UpdatePostMutation,
     CreateApplicationMutationVariables,
-    UserApplicationsQuery,
-    UserApplicationsQueryVariables
+    UserApplicationsQuery
 } from '../../graphql/Types';
 import { ProfileState, ReduxState } from '../../types/ReduxTypes';
-import { House } from '../../types/Entities';
+import { House, User } from '../../types/Entities';
 import { USER_APPLICATIONS_QUERY } from '../../graphql/queries';
 import { createApplication } from '../../redux/Routines';
 
@@ -64,7 +63,7 @@ export class PostDetail extends React.Component<Props, State> {
                 (app) => app.to.shortID === prevState.data.createdBy.shortID
             );
 
-            state.userHasAppliedToHouse = Boolean(appDoesExist);
+            state.userHasAppliedToHouse = Boolean(appDoesExist.length);
         }
 
         return state;
@@ -114,11 +113,17 @@ export class PostDetail extends React.Component<Props, State> {
                     userHasAppliedToHouse={this.state.userHasAppliedToHouse}
                     // starPost={this.starPost}
                     isStarred={this.state.isStarred}
-                    createApplication={this.props.createApplication}
+                    createApplication={this.createApplication}
                 />
             </>
         );
     }
+
+    private createApplication = (params: CreateApplicationMutationVariables) => {
+        this.props.createApplication({ ...params });
+
+        this.setState({ userHasAppliedToHouse: true });
+    };
 
     // private hasStarredPost = async () => {
     //     try {

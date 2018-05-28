@@ -59,7 +59,8 @@ const initialState = {
     zoomLevel: 14,
     isBookmarked: false,
     isLayoutCalculated: false,
-    descriptionWrapperHeight: toConstantHeight(20)
+    descriptionWrapperHeight: toConstantHeight(20),
+    hasSentApplication: false
 };
 
 type State = Readonly<typeof initialState>;
@@ -102,6 +103,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                     style={feed.detailImage}
                                     source={{ uri: image }}
                                     key={index}
+                                    resizeMode={'contain'}
                                 />
                             );
                         })}
