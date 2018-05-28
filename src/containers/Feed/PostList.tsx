@@ -109,8 +109,6 @@ export class PostList extends React.Component<Props, State> {
             }
         }
 
-        console.log(this.props.user);
-
         return (
             <>
                 <PostListComponent

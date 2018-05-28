@@ -1091,7 +1091,7 @@ export class Login extends React.Component<Props, State> {
                     <View style={login.mainContent}>
                         <TextInput
                             placeholder={'1234'}
-                            keyboardType={'number-pad'}
+                            keyboardType={'numeric'}
                             underlineColorAndroid={'transparent'}
                             maxLength={4}
                             onChangeText={(text) => this.setState({ shortID: text })}
@@ -1099,16 +1099,21 @@ export class Login extends React.Component<Props, State> {
                         />
                     </View>
                     <View style={login.pageFooter}>
-                        <TouchableRect
-                            title={this.state.shortID === 0 ? 'New House' : 'Confirm'}
-                            onPress={
-                                this.state.shortID === 0
-                                    ? this.generateShortID
-                                    : this.completeJoiningHouseSetup
-                            }
-                            backgroundColor={Colors.brandPrimaryColor}
-                            buttonStyle={base.buttonStyle}
-                        />
+                        {String(this.state.shortID).length !== 4 ? (
+                            <TouchableRect
+                                title={'New House'}
+                                onPress={this.generateShortID}
+                                backgroundColor={Colors.brandPrimaryColor}
+                                buttonStyle={base.buttonStyle}
+                            />
+                        ) : (
+                            <TouchableRect
+                                title={'Confirm'}
+                                onPress={this.completeJoiningHouseSetup}
+                                backgroundColor={Colors.brandPrimaryColor}
+                                buttonStyle={base.buttonStyle}
+                            />
+                        )}
                     </View>
                 </View>
             );
@@ -1420,20 +1425,19 @@ export class Login extends React.Component<Props, State> {
     };
 
     // Let the record show I have tested this works
-    private generateShortID = function GenerateID(): void {
-        this.setState({ isCreatingHouse: true });
-        const shortID = Math.floor(1000 + (10000 - 1000) * Math.random());
-
-        try {
-            Client.query({
-                variables: { shortID },
-                query: HOUSE_DETAILS_QUERY
-            }).then((res: any) => (res.data.House === null ? null : new Error()));
-        } catch (error) {
-            GenerateID();
+    private generateShortID = async (): Promise<void> => {
+        const shortID = Math.floor(1000 + (9000 * Math.random()));
+        
+        const res = await Client.query({
+            variables: { shortID },
+            query: HOUSE_DETAILS_QUERY
+        });
+        
+        if(res.data.House === null){
+            this.generateShortID();
         }
-
-        this.setState({ shortID }, () => this.homeSwiper.scrollBy(1, true));
+    
+        this.setState({ shortID, isCreatingHouse: true }, () => this.homeSwiper.scrollBy(1, true));
     };
 
     private loginWithAuth0 = (): void => {
@@ -1454,7 +1458,7 @@ export class Login extends React.Component<Props, State> {
                 email: string;
                 email_verified: boolean;
                 sub: string;
-            } = await fetch('https://flatmates-cerebro.azurewebsites.net/verify', {
+            } = await fetch('https://flatmates-prisma-vpzbwzearp.now.sh/verify', {
                 method: 'POST',
                 body: JSON.stringify({ token: identityToken }),
                 headers: { 'Content-Type': 'application/json' }
@@ -1688,7 +1692,7 @@ export class Login extends React.Component<Props, State> {
 
                 try {
                     const response = await fetch(
-                        'https://flatmates-cerebro.azurewebsites.net/upload',
+                        'https://flatmates-prisma-vpzbwzearp.now.sh/upload',
                         options
                     );
                     if (response.ok) {
@@ -1767,7 +1771,7 @@ export class Login extends React.Component<Props, State> {
                             };
 
                             const response = await fetch(
-                                'https://flatmates-cerebro.azurewebsites.net/upload',
+                                'https://flatmates-prisma-vpzbwzearp.now.sh/upload',
                                 options
                             );
                             if (response.ok) {
