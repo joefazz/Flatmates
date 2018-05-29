@@ -5,7 +5,22 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: gym" time="36.24279">
+      <testcase classname="fastlane.lanes" name="0: prompt" time="5.709684">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: increment_build_number" time="1.903696">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: gym" time="454.672436">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: pilot" time="44.12104">
         
       </testcase>
     
