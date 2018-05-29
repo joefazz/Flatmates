@@ -35,7 +35,7 @@ interface Props {
         pop: () => void;
     };
     createGroup: (params: CreateGroupMutationVariables & { approverID: string }) => void;
-    removeApplication: (id: string, approverName: string, applicantName: string) => void;
+    removeApplication: (params: DeleteApplicationMutationVariables) => void;
 }
 
 export class ApplicationDetail extends React.Component<Props> {
@@ -80,11 +80,11 @@ export class ApplicationDetail extends React.Component<Props> {
                                                 approverID: this.props.approverID
                                             });
                                             // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
-                                            this.props.removeApplication(
+                                            this.props.removeApplication({
                                                 id,
-                                                this.props.approverName,
-                                                userData.firstName
-                                            );
+                                                approverName: this.props.approverName,
+                                                firstName: userData.firstName
+                                            });
                                         }
                                     }
                                 ]

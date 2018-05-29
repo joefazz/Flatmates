@@ -1,7 +1,6 @@
 import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { ActivityIndicator, Platform, StatusBar } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
 import { ChatListComponent } from '../../../components/Chat/ChatListComponent';
@@ -39,6 +38,7 @@ export class ChatList extends React.Component<Props, State> {
                     navigation={this.props.navigation}
                     data={this.props.groups}
                     userID={this.props.login.id}
+                    username={this.props.login.name}
                 />
             </>
         );

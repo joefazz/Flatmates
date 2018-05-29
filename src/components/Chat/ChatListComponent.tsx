@@ -6,11 +6,13 @@ import { base } from '../../styles';
 import { RectButton } from 'react-native-gesture-handler';
 import { group } from '../../styles/Group';
 import { toConstantHeight, toConstantFontSize } from '../../utils/PercentageConversion';
+import { Group } from '../../types/Entities';
 
 interface Props {
     navigation: { navigate: (string, object) => void };
-    data: ReadonlyArray<object>;
+    data: ReadonlyArray<Group>;
     userID: string;
+    username: string;
 }
 
 export class ChatListComponent extends React.PureComponent<Props> {
@@ -47,7 +49,10 @@ export class ChatListComponent extends React.PureComponent<Props> {
         );
     };
 
-    renderItem = ({ item }) => {
+    renderItem = ({ item }: { item: Group }) => {
+        let names = item.name.split('|');
+
+        let groupName = names.find((name) => name !== this.props.username);
         return (
             <RectButton
                 style={[group.listItem, { height: toConstantHeight(12) }]}
@@ -67,7 +72,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                     large={true}
                 />
                 <View style={group.descWrapper}>
-                    <Text style={group.title}>{item.name}</Text>
+                    <Text style={group.title}>{groupName}</Text>
                     <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
                         {item.lastMessage || 'New group created.'}
                     </Text>
@@ -87,7 +92,6 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 <FlatList
                     data={this.props.data}
                     renderItem={this.renderItem}
-                    ListHeaderComponent={this.renderHeader}
                     ListEmptyComponent={() => <Text>No Groups</Text>}
                     ItemSeparatorComponent={this.renderSeperator}
                     keyExtractor={(item) => item.id}

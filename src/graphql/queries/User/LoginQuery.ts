@@ -26,6 +26,7 @@ export const USER_LOGIN_QUERY = gql`
             playerId
             house {
                 shortID
+                road
             }
         }
     }

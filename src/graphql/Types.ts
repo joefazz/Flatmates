@@ -538,6 +538,7 @@ export interface UserLoginQuery {
     playerId: string | null,
     house:  {
       shortID: number,
+      road: string,
     } | null,
   } | null,
 };
