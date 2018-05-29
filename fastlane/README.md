@@ -38,9 +38,9 @@ fastlane ios add
 ----
 
 ## Android
-### android beta
+### android alpha
 ```
-fastlane android beta
+fastlane android alpha
 ```
 
 

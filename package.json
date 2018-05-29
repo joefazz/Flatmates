@@ -33,7 +33,7 @@
         "shake": "adb shell input keyevent 82",
         "test": "jest",
         "beta-deploy:ios": "bundle exec fastlane ios beta",
-        "beta-deploy:android": "bundle exec fastlane android beta",
+        "beta-deploy:android": "bundle exec fastlane android alpha",
         "update-api-types": "apollo-codegen introspect-schema https://flatmates-prisma-vpzbwzearp.now.sh/ --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts"
     },
     "prettier": {

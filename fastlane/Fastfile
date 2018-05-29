@@ -29,9 +29,9 @@ platform :ios do
 end
 
 platform :android do
-  lane :beta do
+  lane :alpha do
     gradle(task: 'clean', project_dir: "android/") # Clean the Gradle project
     gradle(task: "assemble", build_type: "Release", project_dir: "android/") # Build the Release APK
-    supply(track: "beta", json_key: "./android/dev-service-account.json", apk: "./android/app/build/outputs/apk/app-release.apk") # Upload the APK to the Play Store (alpha)
+    supply(track: "alpha", package_name: "com.fazzino.flatmates", json_key: "./android/dev-service-account.json", apk: "./android/app/build/outputs/apk/app-release.apk") # Upload the APK to the Play Store (alpha)
   end
 end
