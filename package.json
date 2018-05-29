@@ -32,7 +32,8 @@
         "haste": "rm -rf $TMPDIR/react-* && rm -rf $TMPDIR/metro-bundler-cache-* && rm -rf $TMPDIR/haste-map-react-native-packager-*",
         "shake": "adb shell input keyevent 82",
         "test": "jest",
-        "beta-deploy": "bundle exec fastlane ios beta",
+        "beta-deploy:ios": "bundle exec fastlane ios beta",
+        "beta-deploy:android": "bundle exec fastlane android beta",
         "update-api-types": "apollo-codegen introspect-schema https://flatmates-prisma-vpzbwzearp.now.sh/ --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts"
     },
     "prettier": {
@@ -92,7 +93,7 @@
         "react-native-auth0": "^1.2.2",
         "react-native-elements": "0.19.1",
         "react-native-floating-action": "1.10.1",
-        "react-native-gesture-handler": "1.0.1",
+        "react-native-gesture-handler": "1.0.3",
         "react-native-iap": "^1.0.5",
         "react-native-image-crop-picker": "0.20.3",
         "react-native-interactable": "0.1.10",

@@ -1,4 +1,11 @@
 
+lane :add do
+  email = prompt(text: "Testers email address: ")
+  firstName = prompt(text: "Testers First Name: ")
+  lastName = prompt(text: "Testers Last Name: ")
+  pilot(email: email, first_name: firstName, last_name: lastName, username: "joseph@fazzino.net", app_identifier: "com.fazzino.Flatmates")
+end
+
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
@@ -8,7 +15,16 @@ platform :ios do
     )
     increment_build_number(xcodeproj: './ios/Flatmates.xcodeproj') # Increment the build number
     gym(clean: true, scheme: "Flatmates", workspace: "./ios/Flatmates.xcworkspace", export_xcargs: "-allowProvisioningUpdates")
-    pilot(username: "joseph@fazzino.net", app_identifier: "com.fazzino.Flatmates", skip_waiting_for_build_processing:true, changelog: changelog) # waiting just takes too long sometimes
+    pilot(username: "joseph@fazzino.net", app_identifier: "com.fazzino.Flatmates", changelog: changelog) # waiting just takes too long sometimes
+  end
+
+  lane :add do
+    email = prompt(text: "Testers email address: ")
+    firstName = prompt(text: "Testers First Name: ")
+    lastName = prompt(text: "Testers Last Name: ")  
+    increment_build_number(xcodeproj: './ios/Flatmates.xcodeproj') # Increment the build number    
+    gym(clean: true, scheme: "Flatmates", workspace: "./ios/Flatmates.xcworkspace", export_xcargs: "-allowProvisioningUpdates")  
+    pilot(email: email, first_name: firstName, last_name: lastName, username: "joseph@fazzino.net", app_identifier: "com.fazzino.Flatmates", changelog: "Added user")
   end
 end
 
@@ -16,6 +32,6 @@ platform :android do
   lane :beta do
     gradle(task: 'clean', project_dir: "android/") # Clean the Gradle project
     gradle(task: "assemble", build_type: "Release", project_dir: "android/") # Build the Release APK
-    supply(track: "beta", apk: "android/app/build/outputs/apk/app-release.apk") # Upload the APK to the Play Store (alpha)
+    supply(track: "beta", json_key: "./android/dev-service-account.json", apk: "./android/app/build/outputs/apk/app-release.apk") # Upload the APK to the Play Store (alpha)
   end
 end
