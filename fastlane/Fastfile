@@ -5,7 +5,7 @@ end
 platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :beta do
-    gym(clean: true, scheme: "Flatmates", workspace: "./ios/Flatmates.xcworkspace")
+    gym(clean: true, scheme: "Flatmates", workspace: "../ios/Flatmates.xcworkspace")
     pilot(skip_waiting_for_build_processing:true) # waiting just takes too long sometimes
   end
 end
