@@ -1,9 +1,10 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, AsyncStorage } from 'react-native';
 import { toConstantFontSize } from '../utils/PercentageConversion';
 import { FontFactory } from '../consts/font';
 import { Colors } from '../consts';
 import { StatRow } from '../widgets/StatRow';
+import { Button } from 'react-native-elements';
 
 interface Props {}
 
@@ -18,7 +19,7 @@ export default class House extends React.Component<Props, State> {
         return (
             <View>
                 <View style={styles.headingWrapper}>
-                    <Text style={styles.heading}>De Beauvoir Road</Text>
+                    <Text style={styles.heading}>UNDER CONSTRUCTION!!!</Text>
                 </View>
                 <View style={styles.statisticsWrapper}>
                     <StatRow first={['23', 'Applications']} second={['67', 'Post Views']} />
@@ -31,6 +32,13 @@ export default class House extends React.Component<Props, State> {
                     />
                     <StatRow first={['£430', 'Rent']} second={['£33', 'Bills']} />
                 </View>
+                <Button
+                    title={'RESET DATA BACK TO LOGIN'}
+                    backgroundColor={Colors.brandPrimaryColor}
+                    onPress={() =>
+                        AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
+                    }
+                />
             </View>
         );
     }

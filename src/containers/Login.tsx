@@ -1478,7 +1478,7 @@ export class Login extends React.Component<Props, State> {
                 this.props.getUserData(user);
 
                 // Update the users PlayerID if it changes between sessions (which it can)
-                if (user.playerId !== this.props.navigation.state.params.playerId) {
+                if (this.props.navigation.state.params && user.playerId !== this.props.navigation.state.params.playerId) {
                     client.mutate<UserPlayerIDMutation>({
                         mutation: UPDATE_USER_PLAYER_ID,
                         variables: {

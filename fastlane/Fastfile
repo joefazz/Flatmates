@@ -1,0 +1,23 @@
+before_all do
+  ensure_git_status_clean
+end
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    appicon(
+      appicon_image_file: 'icon.png',
+      appicon_devices: [:ipad, :iphone, :ios_marketing, :watch, :watch_marketing],
+      appicon_path: 'Flatmates/Images.xcassets'
+    )
+    get_certificates
+        get_provisioning_profile
+        increment_build_number(xcworkspace: "Flatmates.xcworkspace")
+        build_app(scheme: "Flatmates")
+        upload_to_testflight
+  end
+end
+
+platform :android do
+  # Android Lanes
+end
