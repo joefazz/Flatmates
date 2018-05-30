@@ -95,8 +95,8 @@ interface State {
     isDrinker: boolean;
     studyYear: string;
     course: string;
-    minPrice: number;
-    maxPrice: number;
+    minPrice: string;
+    maxPrice: string;
     genderPreference: string;
     drugPreference: string;
     drinkPreference: string;
@@ -168,9 +168,9 @@ export class Login extends React.Component<Props, State> {
             isDrinker: false,
             course: '',
             studyYear: '',
-            minPrice: 0,
-            maxPrice: 0,
-            genderPreference: '',
+            minPrice: '£350',
+            maxPrice: '£450',
+            genderPreference: 'No Preference',
             drinkPreference: '',
             drugPreference: '',
             smokerPreference: '',
@@ -301,46 +301,19 @@ export class Login extends React.Component<Props, State> {
                     </View>
                 </View>
 
-                <View style={login.page}>
+                <KeyboardAvoidingView style={login.page}>
                     <View style={base.headingWrapper}>
                         <Text style={base.headingTitle}>Basic Information</Text>
                         <Text style={base.headingSubtitle}>We store your information securely</Text>
                     </View>
-                    <KeyboardAvoidingView
-                        behavior={'padding'}
+                    <View
                         style={[
                             login.mainContent,
                             { alignItems: 'center', justifyContent: 'flex-start' }
                         ]}
                     >
-                        {this.state.tempProfilePic ? (
-                            <Avatar
-                                width={toConstantWidth(50)}
-                                height={toConstantWidth(50)}
-                                source={{ uri: this.state.tempProfilePic.path }}
-                                onPress={() => this.selectProfilePicture()}
-                                activeOpacity={0.7}
-                                containerStyle={{ alignSelf: 'center' }}
-                                rounded={true}
-                            />
-                        ) : (
-                            <Avatar
-                                width={toConstantWidth(50)}
-                                height={toConstantWidth(50)}
-                                icon={{ name: 'person' }}
-                                onPress={() => this.selectProfilePicture()}
-                                activeOpacity={0.7}
-                                containerStyle={{ alignSelf: 'center' }}
-                                rounded={true}
-                            />
-                        )}
                         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                            <View
-                                style={[
-                                    login.marginTop,
-                                    { flexDirection: 'row', alignSelf: 'flex-start' }
-                                ]}
-                            >
+                            <View style={[{ flexDirection: 'row', alignSelf: 'flex-start' }]}>
                                 <View style={{ marginRight: 20 }}>
                                     <Text style={[base.labelText]}>First Name</Text>
                                     <TextInput
@@ -417,7 +390,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: 18,
+                                                fontSize: toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' }),
                                                 marginBottom: Platform.OS === 'android' ? 2 : 0
                                             },
@@ -438,21 +411,44 @@ export class Login extends React.Component<Props, State> {
                                     />
                                 </View>
                             </View>
+                            {this.state.tempProfilePic ? (
+                                <Avatar
+                                    width={toConstantWidth(50)}
+                                    height={toConstantWidth(50)}
+                                    source={{ uri: this.state.tempProfilePic.path }}
+                                    onPress={() => this.selectProfilePicture()}
+                                    activeOpacity={0.7}
+                                    containerStyle={[{ alignSelf: 'center' }, login.marginVertical]}
+                                    rounded={true}
+                                />
+                            ) : (
+                                <Avatar
+                                    width={toConstantWidth(50)}
+                                    height={toConstantWidth(50)}
+                                    icon={{ name: 'person' }}
+                                    onPress={() => this.selectProfilePicture()}
+                                    activeOpacity={0.7}
+                                    containerStyle={[{ alignSelf: 'center' }, login.marginVertical]}
+                                    rounded={true}
+                                />
+                            )}
                         </View>
-                    </KeyboardAvoidingView>
+                    </View>
                     <View style={login.pageFooter}>
                         <TouchableRect
-                            onPress={() =>
-                                this.state.gender === '' ||
-                                this.state.firstName === '' ||
-                                this.state.lastName === '' ||
-                                !this.state.tempProfilePic ||
-                                this.state.age === ''
-                                    ? alert(
-                                          'You need to enter your information correctly to proceed'
-                                      )
-                                    : this.homeSwiper.scrollBy(1, true)
-                            }
+                            onPress={() => {
+                                this.state.firstName === ''
+                                    ? alert('Please enter your first name')
+                                    : this.state.lastName === ''
+                                        ? alert('Please enter your last name')
+                                        : this.state.age === ''
+                                            ? alert('Please enter your age')
+                                            : this.state.gender === ''
+                                                ? alert('Please provide a gender')
+                                                : this.state.tempProfilePic === ''
+                                                    ? alert('Please submit a profile picture')
+                                                    : this.homeSwiper.scrollBy(1, true);
+                            }}
                             title={'Next'}
                             backgroundColor={
                                 this.state.gender === '' ||
@@ -466,7 +462,7 @@ export class Login extends React.Component<Props, State> {
                             buttonStyle={base.buttonStyle}
                         />
                     </View>
-                </View>
+                </KeyboardAvoidingView>
 
                 <View style={login.page}>
                     <View style={base.headingWrapper}>
@@ -486,7 +482,7 @@ export class Login extends React.Component<Props, State> {
                                 base.headingText,
                                 {
                                     textAlign: 'center',
-                                    fontSize: 16,
+                                    fontSize: toConstantFontSize(2.1),
                                     ...Font.FontFactory({ weight: 'Light', family: 'Nunito' })
                                 }
                             ]}
@@ -564,7 +560,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: 18,
+                                                fontSize: toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.course === ''
@@ -591,7 +587,7 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'Placement Year' },
                                             { label: 'PHd' }
                                         ]}
-                                        initialValue={'Select Study Year'}
+                                        initialValue={'Select Year'}
                                         selectStyle={[
                                             {
                                                 borderWidth: 0,
@@ -606,7 +602,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: 18,
+                                                fontSize: toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -766,7 +762,10 @@ export class Login extends React.Component<Props, State> {
                         <Text
                             style={[
                                 base.headingText,
-                                { fontSize: 18, ...FontFactory({ weight: 'Bold' }) }
+                                {
+                                    fontSize: toConstantFontSize(2.5),
+                                    ...FontFactory({ weight: 'Bold' })
+                                }
                             ]}
                         >
                             Enter your preferences for a house
@@ -780,7 +779,7 @@ export class Login extends React.Component<Props, State> {
                     >
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{ marginRight: 20 }}>
-                                <Text style={base.pickerLabelText}>Min Price (incl. bills)</Text>
+                                <Text style={base.pickerLabelText}>Min Price</Text>
                                 <FlatPicker
                                     items={[
                                         {
@@ -796,7 +795,7 @@ export class Login extends React.Component<Props, State> {
                                         { label: '£450' },
                                         { label: '£500' }
                                     ]}
-                                    initialValue={'£300'}
+                                    initialValue={this.state.minPrice}
                                     onChange={({ label }) =>
                                         this.setState({ minPrice: label.replace('£', '') })
                                     }
@@ -815,7 +814,7 @@ export class Login extends React.Component<Props, State> {
                                     ]}
                                     selectTextStyle={[
                                         {
-                                            fontSize: 18,
+                                            fontSize: toConstantFontSize(2.5),
                                             ...FontFactory({ family: 'Nunito' })
                                         },
                                         this.state.studyYear === ''
@@ -826,7 +825,7 @@ export class Login extends React.Component<Props, State> {
                             </View>
 
                             <View>
-                                <Text style={base.pickerLabelText}>Max Price (incl. bills)</Text>
+                                <Text style={base.pickerLabelText}>Max Price</Text>
                                 <FlatPicker
                                     items={[
                                         {
@@ -842,7 +841,7 @@ export class Login extends React.Component<Props, State> {
                                         { label: '£550' },
                                         { label: '£600' }
                                     ]}
-                                    initialValue={'£500'}
+                                    initialValue={this.state.maxPrice}
                                     onChange={({ label }) =>
                                         this.setState({ maxPrice: label.replace('£', '') })
                                     }
@@ -860,7 +859,7 @@ export class Login extends React.Component<Props, State> {
                                     ]}
                                     selectTextStyle={[
                                         {
-                                            fontSize: 18,
+                                            fontSize: toConstantFontSize(2.5),
                                             ...FontFactory({ family: 'Nunito' })
                                         },
                                         this.state.studyYear === ''
@@ -899,7 +898,7 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'Non Binary' },
                                             { label: 'No Preference' }
                                         ]}
-                                        initialValue={'No Preference'}
+                                        initialValue={this.state.genderPreference}
                                         onChange={({ label }) =>
                                             this.setState({ genderPreference: label })
                                         }
@@ -917,7 +916,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: 18,
+                                                fontSize: toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -939,7 +938,7 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'No' },
                                             { label: 'No Preference' }
                                         ]}
-                                        initialValue={'Select Preference'}
+                                        initialValue={'Select'}
                                         selectStyle={[
                                             {
                                                 borderWidth: 0,
@@ -954,7 +953,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: 18,
+                                                fontSize: toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -980,7 +979,7 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'No' },
                                             { label: 'No Preference' }
                                         ]}
-                                        initialValue={'Select Preference'}
+                                        initialValue={'Select'}
                                         selectStyle={[
                                             {
                                                 borderWidth: 0,
@@ -996,7 +995,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: 18,
+                                                fontSize: toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -1020,7 +1019,7 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'No' },
                                             { label: 'No Preference' }
                                         ]}
-                                        initialValue={'Select Preference'}
+                                        initialValue={'Select'}
                                         selectStyle={[
                                             {
                                                 borderWidth: 0,
@@ -1035,7 +1034,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: 18,
+                                                fontSize: toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -1064,17 +1063,21 @@ export class Login extends React.Component<Props, State> {
                                     ? Colors.grey
                                     : Colors.brandPrimaryColor
                             }
-                            enabled={
-                                !(
-                                    this.state.minPrice === 0 ||
-                                    this.state.maxPrice === 0 ||
-                                    this.state.genderPreference === '' ||
-                                    this.state.drugPreference === '' ||
-                                    this.state.drinkPreference === '' ||
-                                    this.state.smokerPreference === ''
-                                )
-                            }
-                            onPress={this.completeUserSetup}
+                            onPress={() => {
+                                this.state.drugPreference === ''
+                                    ? alert(
+                                          'Please state whether you would prefer to live with/without flatmates who use drugs'
+                                      )
+                                    : this.state.drinkPreference === ''
+                                        ? alert(
+                                              'Please state whether you would prefer to live with/without flatmates who drink'
+                                          )
+                                        : this.state.smokerPreference === ''
+                                            ? alert(
+                                                  'Please state whether you would prefer to live with/without flatmates who use drugs'
+                                              )
+                                            : this.completeUserSetup();
+                            }}
                             buttonStyle={base.buttonStyle}
                         />
                     </View>
@@ -1084,7 +1087,12 @@ export class Login extends React.Component<Props, State> {
             return (
                 <View style={login.page}>
                     <View style={base.headingWrapper}>
-                        <Text style={[base.headingText, { textAlign: 'center', fontSize: 18 }]}>
+                        <Text
+                            style={[
+                                base.headingText,
+                                { textAlign: 'center', fontSize: toConstantFontSize(2.5) }
+                            ]}
+                        >
                             Enter your House ID or if you don't have one press 'New House'
                         </Text>
                     </View>
@@ -1177,7 +1185,7 @@ export class Login extends React.Component<Props, State> {
                             >
                                 <Text
                                     style={{
-                                        fontSize: 18,
+                                        fontSize: toConstantFontSize(2.5),
                                         ...FontFactory({ family: 'Nunito' }),
                                         color: Colors.brandPrimaryColor
                                     }}
@@ -1196,7 +1204,7 @@ export class Login extends React.Component<Props, State> {
                             >
                                 <Text
                                     style={{
-                                        fontSize: 18,
+                                        fontSize: toConstantFontSize(2.5),
                                         ...FontFactory({ family: 'Nunito' }),
                                         color: Colors.brandPrimaryColor
                                     }}
@@ -1426,17 +1434,17 @@ export class Login extends React.Component<Props, State> {
 
     // Let the record show I have tested this works
     private generateShortID = async (): Promise<void> => {
-        const shortID = Math.floor(1000 + (9000 * Math.random()));
-        
+        const shortID = Math.floor(1000 + 9000 * Math.random());
+
         const res = await Client.query({
             variables: { shortID },
             query: HOUSE_DETAILS_QUERY
         });
-        
-        if(res.data.House === null){
+
+        if (res.data.House === null) {
             this.generateShortID();
         }
-    
+
         this.setState({ shortID, isCreatingHouse: true }, () => this.homeSwiper.scrollBy(1, true));
     };
 
@@ -1478,7 +1486,10 @@ export class Login extends React.Component<Props, State> {
                 this.props.getUserData(user);
 
                 // Update the users PlayerID if it changes between sessions (which it can)
-                if (this.props.navigation.state.params && user.playerId !== this.props.navigation.state.params.playerId) {
+                if (
+                    this.props.navigation.state.params &&
+                    user.playerId !== this.props.navigation.state.params.playerId
+                ) {
                     client.mutate<UserPlayerIDMutation>({
                         mutation: UPDATE_USER_PLAYER_ID,
                         variables: {
@@ -1525,7 +1536,9 @@ export class Login extends React.Component<Props, State> {
         }
     }
 
-    private completeUserSetup = (): void => {
+    private completeUserSetup = async (): Promise<void> => {
+        await this.uploadProfilePicture();
+
         const fullName = `${this.state.firstName} ${this.state.lastName}`;
         this.props.createUser({
             email: this.email,
@@ -1615,24 +1628,27 @@ export class Login extends React.Component<Props, State> {
                                     const fullName = `${this.state.firstName} ${
                                         this.state.lastName
                                     }`;
-                                    this.props.createUserJoinHouse({
-                                        email: this.email,
-                                        profilePicture: this.state.profilePicture,
-                                        authId: this.authId,
-                                        playerId: this.props.navigation.state.params.playerId,
-                                        email_verified: this.isVerifiedUser,
-                                        name: fullName,
-                                        firstName: this.state.firstName,
-                                        lastName: this.state.lastName,
-                                        gender: this.state.gender,
-                                        age: Number(this.state.age),
-                                        bio: this.state.bio,
-                                        course: this.state.course,
-                                        studyYear: this.state.studyYear,
-                                        isSmoker: this.state.isSmoker,
-                                        isDrinker: this.state.isDrinker,
-                                        isDruggie: this.state.isDruggie,
-                                        houseId: this.state.shortID as number
+
+                                    this.uploadProfilePicture().then(() => {
+                                        this.props.createUserJoinHouse({
+                                            email: this.email,
+                                            profilePicture: this.state.profilePicture,
+                                            authId: this.authId,
+                                            playerId: this.props.navigation.state.params.playerId,
+                                            email_verified: this.isVerifiedUser,
+                                            name: fullName,
+                                            firstName: this.state.firstName,
+                                            lastName: this.state.lastName,
+                                            gender: this.state.gender,
+                                            age: Number(this.state.age),
+                                            bio: this.state.bio,
+                                            course: this.state.course,
+                                            studyYear: this.state.studyYear,
+                                            isSmoker: this.state.isSmoker,
+                                            isDrinker: this.state.isDrinker,
+                                            isDruggie: this.state.isDruggie,
+                                            houseId: this.state.shortID as number
+                                        });
                                     });
 
                                     this.homeSwiper.scrollBy(2, true);
@@ -1697,7 +1713,7 @@ export class Login extends React.Component<Props, State> {
                     );
                     if (response.ok) {
                         const json = await response.json();
-                        this.setState({ profilePicture: json.url });
+                        await this.setState({ profilePicture: json.url });
                         resolve();
                     } else {
                         alert('Problem with fetch: ' + response.status);
