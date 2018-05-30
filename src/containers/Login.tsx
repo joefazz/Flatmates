@@ -544,7 +544,8 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'Performing Arts' },
                                             { label: 'Philosophy' },
                                             { label: 'Physics' },
-                                            { label: 'Politics' }
+                                            { label: 'Politics' },
+                                            { label: 'Veterinary Medicine' }
                                         ]}
                                         selectStyle={[
                                             {
@@ -583,6 +584,9 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'First Year' },
                                             { label: 'Second Year' },
                                             { label: 'Third Year' },
+                                            { label: 'Fourth Year' },
+                                            { label: 'Fifth Year' },
+                                            { label: 'Sixth Year' },
                                             { label: 'Masters' },
                                             { label: 'Placement Year' },
                                             { label: 'PHd' }
@@ -1466,7 +1470,7 @@ export class Login extends React.Component<Props, State> {
                 email: string;
                 email_verified: boolean;
                 sub: string;
-            } = await fetch('https://flatmates-prisma-vpzbwzearp.now.sh/verify', {
+            } = await fetch('https://flatmates-prisma.now.sh/verify', {
                 method: 'POST',
                 body: JSON.stringify({ token: identityToken }),
                 headers: { 'Content-Type': 'application/json' }
@@ -1485,11 +1489,14 @@ export class Login extends React.Component<Props, State> {
             if (!!user) {
                 this.props.getUserData(user);
 
+                console.log(user, this.props.navigation.state.params);
+
                 // Update the users PlayerID if it changes between sessions (which it can)
                 if (
                     this.props.navigation.state.params &&
                     user.playerId !== this.props.navigation.state.params.playerId
                 ) {
+                    console.log('update player id');
                     client.mutate<UserPlayerIDMutation>({
                         mutation: UPDATE_USER_PLAYER_ID,
                         variables: {
@@ -1707,10 +1714,7 @@ export class Login extends React.Component<Props, State> {
                 };
 
                 try {
-                    const response = await fetch(
-                        'https://flatmates-prisma-vpzbwzearp.now.sh/upload',
-                        options
-                    );
+                    const response = await fetch('https://flatmates-prisma.now.sh/upload', options);
                     if (response.ok) {
                         const json = await response.json();
                         await this.setState({ profilePicture: json.url });
@@ -1787,7 +1791,7 @@ export class Login extends React.Component<Props, State> {
                             };
 
                             const response = await fetch(
-                                'https://flatmates-prisma-vpzbwzearp.now.sh/upload',
+                                'https://flatmates-prisma.now.sh/upload',
                                 options
                             );
                             if (response.ok) {

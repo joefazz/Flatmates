@@ -4,16 +4,18 @@ export const CREATE_GROUP_MUTATION = gql`
     mutation CreateGroup(
         $playerID: String
         $approverName: String!
+        $applicantName: String!
+        $houseID: Int!
         $applicantID: ID!
-        $houseUserIDs: [ID!]!
-        $name: String!
+        $housePlayerIDs: [String!]!
     ) {
         createGroup(
             playerID: $playerID
             applicantID: $applicantID
+            applicantName: $applicantName
+            houseID: $houseID
             approverName: $approverName
-            houseUserIDs: $houseUserIDs
-            name: $name
+            housePlayerIDs: $housePlayerIDs
         ) {
             id
         }

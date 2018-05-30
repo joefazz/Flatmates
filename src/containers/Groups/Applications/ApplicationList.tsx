@@ -41,12 +41,12 @@ export class ApplicationList extends React.Component<Props, State> {
 
         this.state = {
             receivedApplications: [],
-            receivedLoading: true
+            receivedLoading: Boolean(this.props.profile.house && this.props.profile.house.shortID)
         };
     }
 
     componentDidMount() {
-        if (this.props.profile.house) {
+        if (this.props.profile.house && this.props.profile.house.shortID) {
             client
                 .query<HouseApplicationsQuery>({
                     query: HOUSE_APPLICATIONS_QUERY,
@@ -61,17 +61,18 @@ export class ApplicationList extends React.Component<Props, State> {
     }
 
     render() {
-        console.log(this.props.user && this.props.user.applications);
         if (this.state.receivedLoading || this.props.sentLoading) {
             return <ActivityIndicator />;
         }
 
-        console.log(this.props.user);
         return (
             <>
                 <ApplicationListComponent
                     receivedApplications={this.state.receivedApplications}
                     sentApplications={this.props.user.applications}
+                    showReceived={Boolean(
+                        this.props.profile.house && this.props.profile.house.shortID
+                    )}
                     isFetchingSent={this.props.sentLoading}
                     isFetchingReceived={this.state.receivedLoading}
                     navigation={this.props.navigation}
@@ -91,25 +92,6 @@ const mapStateToProps = (state: ReduxState) => ({
     login: state.login,
     profile: state.profile
 });
-
-// const getReceivedApplications = graphql<
-//     InputProps,
-//     HouseApplicationsQuery,
-//     HouseApplicationsQueryVariables,
-//     ChildProps<HouseApplicationsQuery>
-// >(HOUSE_APPLICATIONS_QUERY, {
-//     options: (ownProps) => ({
-//         variables: {
-//             shortID: ownProps.login.house.shortID
-//         },
-//         fetchPolicy: 'network-only'
-//     }),
-//     props: ({ data: { loading: receivedLoading, house, error: receivedError } }) => ({
-//         receivedLoading,
-//         house,
-//         receivedError
-//     })
-// });
 
 const getSentApplications = graphql<
     InputProps,

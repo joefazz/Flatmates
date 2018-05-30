@@ -25,7 +25,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
     }
 
     componentDidUpdate() {
-        if (this.props.screenProps.isRehydrated) {
+        if (this.props.screenProps.isRehydrated && this.props.screenProps.playerId !== '') {
             this._bootstrap();
         }
     }
@@ -51,11 +51,12 @@ class AuthLoadingScreen extends React.Component<Props, State> {
                     playerId: this.props.screenProps.playerId
                 });
             } else if (this.props.login.id && this.props.login.id !== '') {
-                if (data.user.email_verified) {
-                    this.props.navigation.navigate('Home');
-                } else {
-                    this.props.navigation.navigate('ReadOnly');
-                }
+                // if (data.user.email_verified) {
+                //     this.props.navigation.navigate('Home');
+                // } else {
+                //     this.props.navigation.navigate('ReadOnly');
+                // }
+                this.props.navigation.navigate('Home');
             }
         } else {
             this.props.navigation.navigate('Login', {

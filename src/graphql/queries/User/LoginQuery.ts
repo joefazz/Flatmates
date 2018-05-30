@@ -27,6 +27,9 @@ export const USER_LOGIN_QUERY = gql`
             house {
                 shortID
                 road
+                billsPrice
+                rentPrice
+                spaces
             }
         }
     }

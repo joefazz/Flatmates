@@ -27,6 +27,7 @@ export const HOUSE_APPLICATIONS_QUERY = gql`
                 to {
                     users {
                         id
+                        playerId
                     }
                 }
                 createdAt

@@ -8,8 +8,13 @@ export const USER_APPLICATIONS_QUERY = gql`
                 id
                 to {
                     shortID
-                    users {
+                    houseImages
+                    road
+                    billsPrice
+                    rentPrice
+                    post {
                         id
+                        description
                     }
                 }
                 createdAt

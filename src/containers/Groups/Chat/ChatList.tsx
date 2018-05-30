@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose, graphql } from 'react-apollo';
-import { ActivityIndicator, Platform, StatusBar } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ChatListComponent } from '../../../components/Chat/ChatListComponent';
@@ -10,6 +10,7 @@ import { Group } from '../../../types/Entities';
 
 interface Props {
     loading: boolean;
+    error: boolean;
     groups: Array<Group>;
     navigation: { navigate: (route: string) => void };
     login: LoginState;
@@ -31,16 +32,17 @@ export class ChatList extends React.Component<Props, State> {
             return <ActivityIndicator />;
         }
 
+        if (this.props.error) {
+            return <Text>Error</Text>;
+        }
+
         return (
-            <>
-                <StatusBar barStyle={'dark-content'} />
-                <ChatListComponent
-                    navigation={this.props.navigation}
-                    data={this.props.groups}
-                    userID={this.props.login.id}
-                    username={this.props.login.name}
-                />
-            </>
+            <ChatListComponent
+                navigation={this.props.navigation}
+                data={this.props.groups}
+                userID={this.props.login.id}
+                username={this.props.login.name}
+            />
         );
     }
 }
@@ -60,7 +62,11 @@ const userChatQuery = graphql(USER_CHAT_QUERY, {
     }),
     // @ts-ignore
     props: ({ data: { loading, user, error } }) => {
-        return loading ? { loading } : { loading, groups: user.groups, error };
+        return loading
+            ? { loading }
+            : error
+                ? { loading, error }
+                : { loading, groups: user.groups, error };
     }
 });
 

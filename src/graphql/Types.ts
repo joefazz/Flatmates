@@ -51,9 +51,10 @@ export interface CreateMessageMutation {
 export interface CreateGroupMutationVariables {
   playerID?: string | null,
   approverName: string,
+  applicantName: string,
+  houseID: number,
   applicantID: string,
-  houseUserIDs: Array< string >,
-  name: string,
+  housePlayerIDs: Array< string >,
 };
 
 export interface CreateGroupMutation {
@@ -322,6 +323,26 @@ export interface HouseApplicationsQuery {
   } | null,
 };
 
+export interface HouseChatQueryVariables {
+  shortID: number,
+};
+
+export interface HouseChatQuery {
+  house:  {
+    shortID: number,
+    groups:  Array< {
+      id: string,
+      name: string,
+      applicant:  {
+        id: string,
+        name: string,
+        profilePicture: string,
+        playerId: string | null,
+      } | null,
+    } > | null,
+  } | null,
+};
+
 export interface HouseDetailQueryVariables {
   shortID: number,
 };
@@ -450,12 +471,15 @@ export interface UserChatQuery {
     groups:  Array< {
       id: string,
       name: string,
-      users:  Array< {
-        id: string,
-        playerId: string | null,
-        name: string,
-        profilePicture: string,
-      } > | null,
+      house:  {
+        shortID: number,
+        users:  Array< {
+          id: string,
+          playerId: string | null,
+          profilePicture: string,
+          name: string,
+        } > | null,
+      },
     } > | null,
   } | null,
 };
@@ -539,6 +563,9 @@ export interface UserLoginQuery {
     house:  {
       shortID: number,
       road: string,
+      billsPrice: number,
+      rentPrice: number,
+      spaces: number,
     } | null,
   } | null,
 };

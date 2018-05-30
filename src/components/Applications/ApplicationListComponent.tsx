@@ -16,10 +16,11 @@ interface Props {
     sentApplications: Array<Application>;
     isFetchingSent: boolean;
     isFetchingReceived: boolean;
+    showReceived: boolean;
     navigation: {
         navigate: (
             route: string,
-            params: { id: string; userData: User; houseUserIDs: Array<string> }
+            params: { id: string; userData: User; housePlayerIDs: Array<string> }
         ) => void;
     };
 }
@@ -30,12 +31,30 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
             return <ActivityIndicator />;
         }
 
+        const sections = this.props.showReceived
+            ? [
+                  {
+                      title: 'Received Applications',
+                      data: this.props.receivedApplications,
+                      renderItem: this.renderReceivedItem
+                  },
+                  {
+                      title: 'Sent Applications',
+                      data: this.props.sentApplications,
+                      renderItem: this.renderSentItem
+                  }
+              ]
+            : [
+                  {
+                      title: 'Sent Applications',
+                      data: this.props.sentApplications,
+                      renderItem: this.renderSentItem
+                  }
+              ];
+
         return (
             <SectionList
-                sections={[
-                    { title: 'Received Applications', data: this.props.receivedApplications }
-                ]}
-                renderItem={this.renderItem}
+                sections={sections}
                 renderSectionHeader={this.renderSection}
                 ListEmptyComponent={this.renderEmpty}
                 ItemSeparatorComponent={() => (
@@ -56,7 +75,7 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
         return <Text>No data to display</Text>;
     };
 
-    renderItem = ({ item }: { item: Application }) => {
+    renderSentItem = ({ item }: { item: Application }) => {
         return (
             <RectButton
                 style={group.listItem}
@@ -65,7 +84,37 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                     this.props.navigation.navigate('ApplicationDetail', {
                         id: item.id,
                         userData: item.from,
-                        houseUserIDs: item.to.users.map((user) => user.id)
+                        housePlayerIDs: item.to.users.map((user) => user.playerId)
+                    })
+                }
+            >
+                <Image
+                    source={{ uri: item.to.houseImages[0] }}
+                    style={styles.profilePicture}
+                    resizeMode={'cover'}
+                />
+                <View style={group.descWrapper}>
+                    <Text style={group.title}>
+                        {item.to.road}, £{item.to.rentPrice + item.to.billsPrice}
+                    </Text>
+                    <Text style={group.subtitle} numberOfLines={1}>
+                        {item.to.post.description}
+                    </Text>
+                </View>
+            </RectButton>
+        );
+    };
+
+    renderReceivedItem = ({ item }: { item: Application }) => {
+        return (
+            <RectButton
+                style={group.listItem}
+                underlayColor={Colors.brandPrimaryColor}
+                onPress={() =>
+                    this.props.navigation.navigate('ApplicationDetail', {
+                        id: item.id,
+                        userData: item.from,
+                        housePlayerIDs: item.to.users.map((user) => user.playerId)
                     })
                 }
             >

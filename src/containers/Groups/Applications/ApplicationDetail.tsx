@@ -11,7 +11,7 @@ import {
     UserChatQuery,
     HouseApplicationsQuery
 } from '../../../graphql/Types';
-import { User } from '../../../types/Entities';
+import { User, House } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
 import { TouchableRect } from '../../../widgets/TouchableRect';
 import { ReduxState } from '../../../types/ReduxTypes';
@@ -22,14 +22,14 @@ interface Props {
     loading: boolean;
     approverName: string;
     approverID: string;
-    houseName: string;
+    house: House;
     user: User;
     navigation: {
         state: {
             params: {
                 id: string;
                 userData: User;
-                houseUserIDs: Array<string>;
+                housePlayerIDs: Array<string>;
             };
         };
         pop: () => void;
@@ -44,7 +44,7 @@ export class ApplicationDetail extends React.Component<Props> {
     });
 
     render() {
-        const { id, userData, houseUserIDs } = this.props.navigation.state.params;
+        const { id, userData } = this.props.navigation.state.params;
         console.log(this.props);
         return (
             <>
@@ -75,15 +75,14 @@ export class ApplicationDetail extends React.Component<Props> {
                                                 playerID: userData.playerId,
                                                 applicantID: userData.id,
                                                 approverName: this.props.approverName,
-                                                houseUserIDs,
-                                                name: `${userData.name}|${this.props.houseName}`,
-                                                approverID: this.props.approverID
+                                                applicantName: `${userData.name}`,
+                                                approverID: this.props.approverID,
+                                                houseID: this.props.house.shortID,
+                                                housePlayerIDs: []
                                             });
                                             // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
                                             this.props.removeApplication({
-                                                id,
-                                                approverName: this.props.approverName,
-                                                firstName: userData.firstName
+                                                id
                                             });
                                         }
                                     }
@@ -163,7 +162,7 @@ const removeApplication = graphql(DELETE_APPLICATION_MUTATION, {
 export default compose(
     connect((state: ReduxState) => ({
         approverName: state.profile.name,
-        houseName: state.profile.house.road,
+        house: state.profile.house,
         approverID: state.login.id
     })),
     createGroup,
