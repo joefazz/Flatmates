@@ -25,9 +25,16 @@ enum Routes {
 
 const navConfig = {
     navigationOptions: ({ navigation }) => ({
+        tabBarVisible:
+            navigation.state.index === 0 ||
+            (navigation.state.routes[navigation.state.index].routeName === 'Applications' &&
+                navigation.state.routes[navigation.state.index].index === 0),
+
         tabBarIcon: ({ focused, tintColor }) => {
             const { routeName } = navigation.state;
             let iconName;
+
+            console.log(navigation.state);
 
             switch (routeName) {
                 case Routes.Feed:
