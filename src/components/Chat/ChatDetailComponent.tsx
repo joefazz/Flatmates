@@ -8,6 +8,7 @@ import { Image as ImageType } from 'react-native-image-crop-picker';
 import { MessageComponent } from './MessageComponent';
 import { MessageInput } from './MessageInputComponent';
 import { CreateMessageMutationVariables } from '../../graphql/Types';
+import { DOMAIN } from '../../consts/endpoint';
 
 interface Props {
     data: { messages: Array<Message>; groupInfo: Group };
@@ -117,10 +118,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                             }
                         };
 
-                        const response = await fetch(
-                            'https://flatmates-prisma.now.sh/upload',
-                            options
-                        )
+                        const response = await fetch(`${DOMAIN}/upload`, options)
                             .then((res) => res.json())
                             .then((json) => json)
                             .catch((error) => console.log(error));
@@ -150,10 +148,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                     }
                 };
 
-                const response = await fetch(
-                    'https://flatmates-prisma.now.sh/upload',
-                    options
-                )
+                const response = await fetch(`${DOMAIN}/upload`, options)
                     .then((res) => res.json())
                     .then((json) => json)
                     .catch((error) => console.log(error));

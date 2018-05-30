@@ -78,6 +78,7 @@ export class ApplicationDetail extends React.Component<Props> {
                                                 applicantName: `${userData.name}`,
                                                 approverID: this.props.approverID,
                                                 houseID: this.props.house.shortID,
+                                                roadName: this.props.house.road,
                                                 housePlayerIDs: []
                                             });
                                             // Want the name of the approver/applicant and the ids of all house members so we can send them a notification

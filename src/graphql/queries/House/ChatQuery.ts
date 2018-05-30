@@ -13,6 +13,16 @@ export const HOUSE_CHAT_QUERY = gql`
                     profilePicture
                     playerId
                 }
+                house {
+                    shortID
+                    houseImages
+                    users {
+                        id
+                        playerId
+                        profilePicture
+                        name
+                    }
+                }
             }
         }
     }

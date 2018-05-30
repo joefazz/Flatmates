@@ -53,6 +53,11 @@ export class ChatListComponent extends React.PureComponent<Props> {
         let names = item.name.split('|');
 
         let groupName = names.find((name) => name !== this.props.username);
+
+        let image = names.some((name) => name === this.props.username)
+            ? item.house.houseImages[0]
+            : item.applicant.profilePicture;
+
         return (
             <RectButton
                 style={[group.listItem, { height: toConstantHeight(12) }]}
@@ -67,7 +72,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 <Avatar
                     rounded={true}
                     source={{
-                        uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
+                        uri: image
                     }}
                     large={true}
                 />

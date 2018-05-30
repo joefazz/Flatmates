@@ -8,6 +8,7 @@ import { ReduxCache } from 'apollo-cache-redux';
 import { ApolloLink } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import store from './redux/store';
+import { DOMAIN } from './consts/endpoint';
 
 const wsLink = new WebSocketLink({
     uri: `ws://flatmates-prisma.now.sh`,
@@ -38,7 +39,7 @@ const errorLink = onError((errors) => {
 });
 
 const httpLink = createHttpLink({
-    uri: 'https://flatmates-prisma.now.sh'
+    uri: DOMAIN
 });
 
 // const splitLink = split(

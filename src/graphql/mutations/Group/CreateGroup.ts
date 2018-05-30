@@ -7,6 +7,7 @@ export const CREATE_GROUP_MUTATION = gql`
         $applicantName: String!
         $houseID: Int!
         $applicantID: ID!
+        $roadName: String!
         $housePlayerIDs: [String!]!
     ) {
         createGroup(
@@ -15,6 +16,7 @@ export const CREATE_GROUP_MUTATION = gql`
             applicantName: $applicantName
             houseID: $houseID
             approverName: $approverName
+            roadName: $roadName
             housePlayerIDs: $housePlayerIDs
         ) {
             id

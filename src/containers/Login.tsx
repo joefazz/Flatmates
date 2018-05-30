@@ -56,6 +56,7 @@ import {
 } from '../graphql/Types';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import { UPDATE_USER_PLAYER_ID } from '../graphql/mutations';
+import { DOMAIN } from '../consts/endpoint';
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -1470,7 +1471,7 @@ export class Login extends React.Component<Props, State> {
                 email: string;
                 email_verified: boolean;
                 sub: string;
-            } = await fetch('https://flatmates-prisma.now.sh/verify', {
+            } = await fetch(`${DOMAIN}/verify`, {
                 method: 'POST',
                 body: JSON.stringify({ token: identityToken }),
                 headers: { 'Content-Type': 'application/json' }
@@ -1714,7 +1715,7 @@ export class Login extends React.Component<Props, State> {
                 };
 
                 try {
-                    const response = await fetch('https://flatmates-prisma.now.sh/upload', options);
+                    const response = await fetch(`${DOMAIN}/upload`, options);
                     if (response.ok) {
                         const json = await response.json();
                         await this.setState({ profilePicture: json.url });
@@ -1790,10 +1791,7 @@ export class Login extends React.Component<Props, State> {
                                 }
                             };
 
-                            const response = await fetch(
-                                'https://flatmates-prisma.now.sh/upload',
-                                options
-                            );
+                            const response = await fetch(`${DOMAIN}/upload`, options);
                             if (response.ok) {
                                 const json = await response.json();
                                 return json.url;

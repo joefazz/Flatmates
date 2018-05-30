@@ -34,8 +34,6 @@ const navConfig = {
             const { routeName } = navigation.state;
             let iconName;
 
-            console.log(navigation.state);
-
             switch (routeName) {
                 case Routes.Feed:
                     iconName =

@@ -8,8 +8,15 @@ export const USER_CHAT_QUERY = gql`
             groups {
                 id
                 name
+                applicant {
+                    id
+                    name
+                    profilePicture
+                    playerId
+                }
                 house {
                     shortID
+                    houseImages
                     users {
                         id
                         playerId

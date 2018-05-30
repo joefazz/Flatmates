@@ -73,7 +73,8 @@ export interface Group {
     updatedAt: Date;
 
     name: string;
-    users: Array<User>;
+    house: House;
+    applicant: User;
     messages: Array<Message>;
 }
 

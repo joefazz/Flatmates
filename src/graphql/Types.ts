@@ -54,6 +54,7 @@ export interface CreateGroupMutationVariables {
   applicantName: string,
   houseID: number,
   applicantID: string,
+  roadName: string,
   housePlayerIDs: Array< string >,
 };
 
@@ -312,10 +313,12 @@ export interface HouseApplicationsQuery {
         minPrice: number | null,
         maxPrice: number | null,
         genderPreference: string | null,
+        playerId: string | null,
       },
       to:  {
         users:  Array< {
           id: string,
+          playerId: string | null,
         } > | null,
       },
       createdAt: string,
@@ -439,9 +442,14 @@ export interface UserApplicationsQuery {
       id: string,
       to:  {
         shortID: number,
-        users:  Array< {
+        houseImages: Array< string > | null,
+        road: string,
+        billsPrice: number,
+        rentPrice: number,
+        post:  {
           id: string,
-        } > | null,
+          description: string,
+        } | null,
       },
       createdAt: string,
     } > | null,
