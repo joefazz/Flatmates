@@ -5,22 +5,22 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: cd ../ &amp;&amp; echo &quot;$(awk '{sub(/versionCode [[:digit:]]+$/,&quot;versionCode &quot;$2+1)}1' android/app/build.gradle)&quot; &gt; android/app/build.gradle &amp;&amp; cd -" time="0.067542">
+      <testcase classname="fastlane.lanes" name="0: prompt" time="337.453243">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: gradle" time="26.483065">
+      <testcase classname="fastlane.lanes" name="1: increment_build_number" time="5.299717">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: gradle" time="276.023685">
+      <testcase classname="fastlane.lanes" name="2: gym" time="471.106031">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: supply" time="23.462061">
+      <testcase classname="fastlane.lanes" name="3: pilot" time="1085.218809">
         
       </testcase>
     
