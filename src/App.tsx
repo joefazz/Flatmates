@@ -11,6 +11,7 @@ import RootNavigation from './navigators/Root';
 import store from './redux/store';
 import OneSignal from 'react-native-onesignal';
 import * as RNIap from 'react-native-iap';
+import { Sentry } from 'react-native-sentry';
 
 const iapSKUs = Platform.select({
     ios: ['com.fazzino.15Applications'],
@@ -46,6 +47,14 @@ export default class Root extends React.Component<Props, State> {
     componentDidMount() {
         // AsyncStorage.clear();
 
+        Sentry.setShouldSendCallback(() => !__DEV__);
+
+        Sentry.setUserContext({
+            id: store.getState().login.id,
+            email: store.getState().login.email,
+            username: store.getState().login.name,
+        });
+
         console.disableYellowBox = true;
         persistentStore(() => {
             this.setState({ isRehydrated: true });
@@ -57,6 +66,7 @@ export default class Root extends React.Component<Props, State> {
         OneSignal.addEventListener('opened', this.onOpenPush);
         OneSignal.addEventListener('ids', this.saveIds);
 
+        // Sentry.nativeCrash();
         // this.displayIAP();
     }
 
