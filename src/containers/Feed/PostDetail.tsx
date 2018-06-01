@@ -6,19 +6,20 @@ import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import {
     STAR_POST_MUTATION,
     UNSTAR_POST_MUTATION,
-    UPDATE_POST_MUTATION
+    UPDATE_POST_MUTATION,
+    CREATE_APPLICATION_MUTATION
 } from '../../graphql/mutations';
 import {
     StarPostMutation,
     UnstarPostMutation,
     UpdatePostMutation,
     CreateApplicationMutationVariables,
-    UserApplicationsQuery
+    UserApplicationsQuery,
+    CreateApplicationMutation
 } from '../../graphql/Types';
 import { ProfileState, ReduxState } from '../../types/ReduxTypes';
 import { House, User } from '../../types/Entities';
 import { USER_APPLICATIONS_QUERY } from '../../graphql/queries';
-import { createApplication } from '../../redux/Routines';
 
 interface Props {
     navigation: {
@@ -120,6 +121,7 @@ export class PostDetail extends React.Component<Props, State> {
     }
 
     private createApplication = (params: CreateApplicationMutationVariables) => {
+        console.log(params);
         this.props.createApplication({ ...params });
 
         this.setState({ userHasAppliedToHouse: true });
@@ -218,6 +220,33 @@ const unstarPostMutation = graphql(UNSTAR_POST_MUTATION, {
     })
 });
 
+const createApplication = graphql(CREATE_APPLICATION_MUTATION, {
+    props: ({ mutate }) => ({
+        createApplication: (params: CreateApplicationMutationVariables) =>
+            mutate({
+                variables: { ...params },
+                update: (store, { data: { createApplication } }) => {
+                    const userData: UserApplicationsQuery = store.readQuery({
+                        query: USER_APPLICATIONS_QUERY,
+                        variables: {
+                            id: params.userID
+                        }
+                    });
+
+                    userData.user.applications.unshift(createApplication);
+
+                    store.writeQuery({
+                        query: USER_APPLICATIONS_QUERY,
+                        variables: {
+                            id: params.userID
+                        },
+                        data: userData
+                    });
+                }
+            })
+    })
+});
+
 interface InputProps {
     id: string;
 }
@@ -237,15 +266,11 @@ const mapStateToProps = (state: ReduxState) => ({
     id: state.login.id
 });
 
-const bindActions = (dispatch) => ({
-    createApplication: (params: CreateApplicationMutationVariables) =>
-        dispatch(createApplication(params))
-});
-
 export default compose(
-    connect<{}, {}, Props>(mapStateToProps, bindActions),
+    connect(mapStateToProps),
     updatePostMutation,
     starPostMutation,
     unstarPostMutation,
-    hasAppliedToHouse
+    hasAppliedToHouse,
+    createApplication
 )(PostDetail);

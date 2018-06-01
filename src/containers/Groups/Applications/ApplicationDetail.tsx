@@ -9,14 +9,19 @@ import {
     CreateGroupMutationVariables,
     DeleteApplicationMutationVariables,
     UserChatQuery,
-    HouseApplicationsQuery
+    HouseApplicationsQuery,
+    HouseChatQuery
 } from '../../../graphql/Types';
 import { User, House } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
 import { TouchableRect } from '../../../widgets/TouchableRect';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../graphql/mutations';
-import { USER_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY } from '../../../graphql/queries';
+import {
+    USER_CHAT_QUERY,
+    HOUSE_APPLICATIONS_QUERY,
+    HOUSE_CHAT_QUERY
+} from '../../../graphql/queries';
 
 interface Props {
     loading: boolean;
@@ -112,21 +117,21 @@ const createGroup = graphql(CREATE_GROUP_MUTATION, {
             mutate({
                 variables: { ...params },
                 update: (store, { data: { createGroup } }) => {
-                    const userData: UserChatQuery = store.readQuery({
-                        query: USER_CHAT_QUERY,
+                    const houseData: HouseChatQuery = store.readQuery({
+                        query: HOUSE_CHAT_QUERY,
                         variables: {
-                            id: params.approverID
+                            shortID: params.houseID
                         }
                     });
 
-                    userData.user.groups.unshift(createGroup);
+                    houseData.house.groups.unshift(createGroup);
 
                     store.writeQuery({
-                        query: USER_CHAT_QUERY,
+                        query: HOUSE_CHAT_QUERY,
                         variables: {
-                            id: params.approverID
+                            id: params.houseID
                         },
-                        data: userData
+                        data: houseData
                     });
                 }
             })
@@ -139,22 +144,19 @@ const removeApplication = graphql(DELETE_APPLICATION_MUTATION, {
             mutate({
                 variables: { ...params },
                 update: (store, { data: { removeApplication } }) => {
-                    const houseData: HouseApplicationsQuery = store.readQuery({
-                        query: HOUSE_APPLICATIONS_QUERY,
-                        variables: { shortID: params.houseID }
-                    });
-
-                    const index = houseData.house.applications.findIndex(
-                        (app) => app.id === removeApplication.id
-                    );
-
-                    houseData.house.applications.splice(index, 1);
-
-                    store.writeQuery({
-                        query: HOUSE_APPLICATIONS_QUERY,
-                        variables: { shortID: params.houseID },
-                        data: houseData
-                    });
+                    // const houseData: HouseApplicationsQuery = store.readQuery({
+                    //     query: HOUSE_APPLICATIONS_QUERY,
+                    //     variables: { shortID: params.houseID }
+                    // });
+                    // const index = houseData.house.applications.findIndex(
+                    //     (app) => app.id === removeApplication.id
+                    // );
+                    // houseData.house.applications.splice(index, 1);
+                    // store.writeQuery({
+                    //     query: HOUSE_APPLICATIONS_QUERY,
+                    //     variables: { shortID: params.houseID },
+                    //     data: houseData
+                    // });
                 }
             })
     })

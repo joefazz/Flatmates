@@ -157,13 +157,15 @@ export class ChatDetailComponent extends React.Component<Props, State> {
             }
         }
 
+        const allUsers = this.props.data.groupInfo.house.users.concat([
+            this.props.data.groupInfo.applicant
+        ]);
+
         this.props.createMessage({
-            playerIDs: this.props.data.groupInfo.users.map((user) => user.playerId),
+            playerIDs: allUsers.map((user) => user.playerId),
             senderID: this.props.userID,
             text: text.trim(),
-            senderName: this.props.data.groupInfo.users.find(
-                (user) => user.id === this.props.userID
-            ).name,
+            senderName: allUsers.find((user) => user.id === this.props.userID).name,
             groupID: this.props.data.groupInfo.id,
             images: imageAttachment,
             groupName: this.props.data.groupInfo.name

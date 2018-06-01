@@ -20,6 +20,23 @@ export const CREATE_GROUP_MUTATION = gql`
             housePlayerIDs: $housePlayerIDs
         ) {
             id
+            name
+            applicant {
+                id
+                name
+                profilePicture
+                playerId
+            }
+            house {
+                shortID
+                houseImages
+                users {
+                    id
+                    playerId
+                    profilePicture
+                    name
+                }
+            }
         }
     }
 `;

@@ -16,6 +16,18 @@ export const CREATE_APPLICATION_MUTATION = gql`
             message: $message
         ) {
             id
+            to {
+                shortID
+                houseImages
+                road
+                billsPrice
+                rentPrice
+                post {
+                    id
+                    description
+                }
+            }
+            createdAt
         }
     }
 `;
