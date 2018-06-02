@@ -2,6 +2,7 @@ import React from 'react';
 import { compose, graphql, Query } from 'react-apollo';
 import { ActivityIndicator, Text } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { ChatListComponent } from '../../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY, HOUSE_CHAT_QUERY } from '../../../graphql/queries';
@@ -54,8 +55,6 @@ export class ChatList extends React.Component<Props, State> {
                         if (loading) {
                             return <ActivityIndicator />;
                         }
-
-                        console.log(house.groups);
 
                         return (
                             <ChatListComponent

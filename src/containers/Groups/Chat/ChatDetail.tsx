@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
-import { ReduxState, ChatState } from '../../../types/ReduxTypes';
+import { ReduxState } from '../../../types/ReduxTypes';
 import {
     ChatMessagesQueryVariables,
     CreateMessageMutationVariables,
@@ -12,10 +12,11 @@ import { Group } from '../../../types/Entities';
 import { ChildProps, graphql, compose } from 'react-apollo';
 import { GET_CHAT_MESSAGES_QUERY } from '../../../graphql/queries';
 import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
+import { ApolloError } from 'apollo-client';
+import { ActivityIndicator } from 'react-native';
 
 interface Props {
     createMessage: (params: CreateMessageMutationVariables) => void;
-    getMessages: (params: ChatMessagesQueryVariables) => void;
     navigation: {
         state: {
             params: {
@@ -25,7 +26,9 @@ interface Props {
             };
         };
     };
-    chat: ChatState;
+    group: Group;
+    loading: boolean;
+    error: ApolloError;
 }
 
 export class ChatDetail extends React.Component<Props> {
@@ -34,19 +37,16 @@ export class ChatDetail extends React.Component<Props> {
         tabBarVisible: false
     });
 
-    constructor(props) {
-        super(props);
-
-        console.log(props);
-        this.props.getMessages({ id: props.navigation.state.params.groupData.id });
-    }
-
     render() {
+        if (this.props.loading) {
+            return <ActivityIndicator />;
+        }
+
         return (
             <ChatDetailComponent
                 data={{
                     groupInfo: this.props.navigation.state.params.groupData,
-                    messages: this.props.chat.messages
+                    messages: this.props.group.messages
                 }}
                 userID={this.props.navigation.state.params.userID}
                 createMessage={this.props.createMessage}
@@ -56,8 +56,14 @@ export class ChatDetail extends React.Component<Props> {
 }
 
 interface InputProps {
-    login: {
-        id: string;
+    navigation: {
+        state: {
+            params: {
+                messages: Array<string>;
+                groupData: Group;
+                userID: string;
+            };
+        };
     };
 }
 
@@ -69,7 +75,7 @@ const getMessages = graphql<
 >(GET_CHAT_MESSAGES_QUERY, {
     options: (ownProps) => ({
         variables: {
-            id: ownProps.login.id
+            id: ownProps.navigation.state.params.groupData.id
         },
         fetchPolicy: 'network-only'
     }),
@@ -93,7 +99,7 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         }
                     });
 
-                    groupData.group.messages.unshift(createMessage);
+                    groupData.group.messages.push(createMessage);
 
                     store.writeQuery({
                         query: GET_CHAT_MESSAGES_QUERY,
@@ -112,8 +118,9 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         createdAt: new Date().toISOString(), // the time is now!
                         from: {
                             __typename: 'User',
-                            id: params.senderID, // still faking the user
-                            username: params.senderName // still faking the user
+                            id: params.senderID,
+                            username: params.senderName,
+                            profilePicture: ''
                         },
                         to: {
                             __typename: 'Group',
@@ -125,8 +132,4 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
     })
 });
 
-const mapStateToProps = (state: ReduxState) => ({
-    login: state.login
-});
-
-export default compose(connect(mapStateToProps), getMessages, createMessage)(ChatDetail);
+export default compose(getMessages, createMessage)(ChatDetail);

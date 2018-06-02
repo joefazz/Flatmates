@@ -63,7 +63,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 style={[group.listItem, { height: toConstantHeight(12) }]}
                 onPress={() =>
                     this.props.navigation.navigate('ChatDetail', {
-                        title: item.name,
+                        title: groupName,
                         groupData: item,
                         userID: this.props.userID
                     })

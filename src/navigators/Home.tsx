@@ -26,8 +26,10 @@ enum Routes {
 const navConfig = {
     navigationOptions: ({ navigation }) => ({
         tabBarVisible:
-            navigation.state.index === 0 ||
+            (navigation.state.index === 0 && navigation.state.routes[0].routeName !== 'Chat') ||
             (navigation.state.routes[navigation.state.index].routeName === 'Applications' &&
+                navigation.state.routes[navigation.state.index].index === 0) ||
+            (navigation.state.routes[navigation.state.index].routeName === 'Chat' &&
                 navigation.state.routes[navigation.state.index].index === 0),
 
         tabBarIcon: ({ focused, tintColor }) => {

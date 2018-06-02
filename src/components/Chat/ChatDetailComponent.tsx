@@ -26,10 +26,6 @@ export class ChatDetailComponent extends React.Component<Props, State> {
     readonly state: State = initialState;
     messageList: any;
 
-    constructor(props) {
-        super(props);
-    }
-
     componentWillReceiveProps(nextProps) {
         const usernameColors: object = {};
 
@@ -59,7 +55,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                     data={messages}
                     inverted={true}
                     renderItem={this.renderItem}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => String(item.id)}
                     ListEmptyComponent={() => <Text>No Messages in Group</Text>}
                 />
                 <MessageInput send={this.send} />
@@ -71,7 +67,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                     data={messages}
                     inverted={true}
                     renderItem={this.renderItem}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => String(item.id)}
                     ListEmptyComponent={() => <Text>No Messages in Group</Text>}
                 />
                 <MessageInput send={this.send} />
@@ -91,7 +87,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
     };
 
     private send = async (text: string, attachment: ImageType[] | ImageType | null) => {
-        var imageAttachment: string[];
+        var imageAttachment: string[] = [];
 
         if (attachment) {
             if (Array.isArray(attachment)) {

@@ -7,6 +7,7 @@ export const HOUSE_CHAT_QUERY = gql`
             groups {
                 id
                 name
+                updatedAt
                 applicant {
                     id
                     name
