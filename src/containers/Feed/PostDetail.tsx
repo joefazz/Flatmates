@@ -59,7 +59,7 @@ interface State {
 export class PostDetail extends React.Component<Props, State> {
     static getDerivedStateFromProps(newProps, prevState) {
         let state = prevState;
-        if (!newProps.userAppQuery.loading) {
+        if (!newProps.userAppQuery.loading && !prevState.userHasAppliedToHouse) {
             let appDoesExist = newProps.userAppQuery.user.applications.map(
                 (app) => app.to.shortID === prevState.data.createdBy.shortID
             );

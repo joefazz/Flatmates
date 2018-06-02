@@ -12,10 +12,10 @@ import { RectButton } from 'react-native-gesture-handler';
 import { group } from '../../styles/Group';
 
 interface Props {
-    receivedApplications: Array<Application>;
+    receivedApplications?: Array<Application>;
     sentApplications: Array<Application>;
     isFetchingSent: boolean;
-    isFetchingReceived: boolean;
+    isFetchingReceived?: boolean;
     showReceived: boolean;
     navigation: {
         navigate: (

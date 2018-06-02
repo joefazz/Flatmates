@@ -7,14 +7,15 @@ import { Colors } from '../../../consts';
 import {
     CreateGroupMutationVariables,
     DeleteApplicationMutationVariables,
-    HouseChatQuery
+    HouseChatQuery,
+    HouseApplicationsQuery
 } from '../../../graphql/Types';
 import { User, House } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
 import { TouchableRect } from '../../../widgets/TouchableRect';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../graphql/mutations';
-import { HOUSE_CHAT_QUERY } from '../../../graphql/queries';
+import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY } from '../../../graphql/queries';
 import { HouseApplicationDetail } from '../../../components/Applications/HouseApplicationDetail';
 import UserProfile from '../../Feed/UserProfile';
 
@@ -37,7 +38,7 @@ interface Props {
         pop: () => void;
     };
     createGroup: (params: CreateGroupMutationVariables & { approverID: string }) => void;
-    removeApplication: (params: DeleteApplicationMutationVariables) => void;
+    removeApplication: (params: DeleteApplicationMutationVariables & { houseID: number }) => void;
 }
 
 export class ApplicationDetail extends React.Component<Props> {
@@ -103,7 +104,8 @@ export class ApplicationDetail extends React.Component<Props> {
                                                     });
                                                     // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
                                                     this.props.removeApplication({
-                                                        id
+                                                        id,
+                                                        houseID: this.props.house.shortID
                                                     });
                                                 }
                                             }
@@ -146,7 +148,7 @@ const createGroup = graphql(CREATE_GROUP_MUTATION, {
                     store.writeQuery({
                         query: HOUSE_CHAT_QUERY,
                         variables: {
-                            id: params.houseID
+                            shortID: params.houseID
                         },
                         data: houseData
                     });
@@ -160,20 +162,21 @@ const removeApplication = graphql(DELETE_APPLICATION_MUTATION, {
         removeApplication: (params: DeleteApplicationMutationVariables & { houseID: number }) =>
             mutate({
                 variables: { ...params },
-                update: (store, { data: { removeApplication } }) => {
-                    // const houseData: HouseApplicationsQuery = store.readQuery({
-                    //     query: HOUSE_APPLICATIONS_QUERY,
-                    //     variables: { shortID: params.houseID }
-                    // });
-                    // const index = houseData.house.applications.findIndex(
-                    //     (app) => app.id === removeApplication.id
-                    // );
-                    // houseData.house.applications.splice(index, 1);
-                    // store.writeQuery({
-                    //     query: HOUSE_APPLICATIONS_QUERY,
-                    //     variables: { shortID: params.houseID },
-                    //     data: houseData
-                    // });
+                update: (store, { data: { deleteApplication } }) => {
+                    const houseData: HouseApplicationsQuery = store.readQuery({
+                        query: HOUSE_APPLICATIONS_QUERY,
+                        variables: { shortID: params.houseID }
+                    });
+
+                    houseData.house.applications = houseData.house.applications.filter(
+                        (app) => app.id !== deleteApplication.id
+                    );
+
+                    store.writeQuery({
+                        query: HOUSE_APPLICATIONS_QUERY,
+                        variables: { shortID: params.houseID },
+                        data: houseData
+                    });
                 }
             })
     })

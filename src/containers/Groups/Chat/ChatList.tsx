@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { compose, graphql, Query } from 'react-apollo';
 import { ActivityIndicator, Text } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -30,34 +30,8 @@ export class ChatList extends React.Component<Props, State> {
         header: null
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            houseGroups: [],
-            isFetchingHouseGroups: Boolean(this.props.house && this.props.house.shortID)
-        };
-    }
-
-    componentDidMount() {
-        if (Boolean(this.props.house && this.props.house.shortID))
-            client
-                .query<HouseChatQuery>({
-                    query: HOUSE_CHAT_QUERY,
-                    variables: { shortID: this.props.house.shortID },
-                    fetchPolicy: 'network-only'
-                })
-                .then((res) =>
-                    this.setState({
-                        houseGroups: res.data.house.groups,
-                        isFetchingHouseGroups: false
-                    })
-                )
-                .catch((err) => console.log(err));
-    }
-
     render() {
-        if (this.props.loading || this.state.isFetchingHouseGroups) {
+        if (this.props.loading) {
             return <ActivityIndicator />;
         }
 
@@ -65,14 +39,45 @@ export class ChatList extends React.Component<Props, State> {
             return <Text>Error</Text>;
         }
 
-        return (
-            <ChatListComponent
-                navigation={this.props.navigation}
-                data={this.props.userGroups.concat(this.state.houseGroups)}
-                userID={this.props.login.id}
-                username={this.props.login.name}
-            />
-        );
+        if (Boolean(this.props.house && this.props.house.shortID)) {
+            return (
+                <Query
+                    query={HOUSE_CHAT_QUERY}
+                    variables={{ shortID: this.props.house.shortID }}
+                    fetchPolicy={'network-only'}
+                >
+                    {({ loading, error, data: { house } }) => {
+                        if (error) {
+                            console.log(error);
+                        }
+
+                        if (loading) {
+                            return <ActivityIndicator />;
+                        }
+
+                        console.log(house.groups);
+
+                        return (
+                            <ChatListComponent
+                                navigation={this.props.navigation}
+                                data={this.props.userGroups.concat(house.groups)}
+                                userID={this.props.login.id}
+                                username={this.props.login.name}
+                            />
+                        );
+                    }}
+                </Query>
+            );
+        } else {
+            return (
+                <ChatListComponent
+                    navigation={this.props.navigation}
+                    data={this.props.userGroups}
+                    userID={this.props.login.id}
+                    username={this.props.login.name}
+                />
+            );
+        }
     }
 }
 

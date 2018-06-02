@@ -1,6 +1,6 @@
 import React from 'react';
-import { Platform, ActivityIndicator } from 'react-native';
-import { ChildProps, compose, graphql } from 'react-apollo';
+import { Text, ActivityIndicator } from 'react-native';
+import { ChildProps, compose, graphql, Query } from 'react-apollo';
 import { connect } from 'react-redux';
 import { ApplicationListComponent } from '../../../components/Applications/ApplicationListComponent';
 import { ReduxState, ProfileState } from '../../../types/ReduxTypes';
@@ -8,9 +8,10 @@ import { HOUSE_APPLICATIONS_QUERY, USER_APPLICATIONS_QUERY } from '../../../grap
 import {
     HouseApplicationsQuery,
     UserApplicationsQuery,
-    UserApplicationsQueryVariables
+    UserApplicationsQueryVariables,
+    HouseApplicationsQueryVariables
 } from '../../../graphql/Types';
-import { Application } from '../../../types/Entities';
+import { Application, House } from '../../../types/Entities';
 import client from '../../../Client';
 
 interface Props {
@@ -21,6 +22,9 @@ interface Props {
         applications: Application[];
     };
     sentLoading: boolean;
+    receivedLoading: boolean;
+    receivedError: Error;
+    sentError: Error;
     profile: ProfileState;
     navigation: { navigate: (route: string, params: { id: string }) => void };
 }
@@ -36,55 +40,61 @@ export class ApplicationList extends React.Component<Props, State> {
         header: null
     };
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            receivedApplications: [],
-            receivedLoading: Boolean(this.props.profile.house && this.props.profile.house.shortID)
-        };
-    }
-
-    componentDidMount() {
-        if (this.props.profile.house && this.props.profile.house.shortID) {
-            client
-                .query<HouseApplicationsQuery>({
-                    query: HOUSE_APPLICATIONS_QUERY,
-                    variables: { shortID: this.props.profile.house.shortID },
-                    fetchPolicy: 'network-only'
-                })
-                .then(({ data: { house: { applications } } }) =>
-                    this.setState({ receivedApplications: applications, receivedLoading: false })
-                )
-                .catch((err) => console.log(err));
-        }
-    }
-
     render() {
-        if (this.state.receivedLoading || this.props.sentLoading) {
+        if (this.props.sentLoading || this.props.user === undefined) {
             return <ActivityIndicator />;
         }
 
-        return (
-            <>
+        let showRecieved = Boolean(this.props.profile.house && this.props.profile.house.shortID);
+
+        if (!showRecieved) {
+            return (
                 <ApplicationListComponent
-                    receivedApplications={this.state.receivedApplications}
                     sentApplications={this.props.user.applications}
-                    showReceived={Boolean(
-                        this.props.profile.house && this.props.profile.house.shortID
-                    )}
                     isFetchingSent={this.props.sentLoading}
-                    isFetchingReceived={this.state.receivedLoading}
+                    showReceived={showRecieved}
                     navigation={this.props.navigation}
                 />
-            </>
-        );
+            );
+        } else {
+            return (
+                <Query
+                    query={HOUSE_APPLICATIONS_QUERY}
+                    variables={{ shortID: this.props.profile.house.shortID }}
+                    fetchPolicy={'network-only'}
+                >
+                    {({ loading, error, data: { house } }) => {
+                        if (error) {
+                            console.log(error);
+                        }
+
+                        if (loading) {
+                            return <ActivityIndicator />;
+                        }
+
+                        return (
+                            <ApplicationListComponent
+                                receivedApplications={house.applications}
+                                isFetchingReceived={loading}
+                                sentApplications={this.props.user.applications}
+                                isFetchingSent={this.props.sentLoading}
+                                showReceived={showRecieved}
+                                navigation={this.props.navigation}
+                            />
+                        );
+                    }}
+                </Query>
+            );
+        }
     }
 }
 
 interface InputProps {
     login: {
         id: string;
+    };
+    profile: {
+        house: House;
     };
 }
 
