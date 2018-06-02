@@ -17,7 +17,7 @@
         "trailing-comma": false,
         "space-within-parens": true,
         "semicolon": false,
-        "array-type": [true, "generic"],
+        "array-type": [false],
         "jsx-curly-spacing": "always",
         "max-line-length": false,
         "align": false,
@@ -30,7 +30,7 @@
         "no-empty-interface": false,
         "max-classes-per-file": false,
         "ordered-imports": false,
-        "prefer-const": false,
+        "prefer-const": false
     },
     "rulesDirectory": []
 }

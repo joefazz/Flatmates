@@ -1,6 +1,6 @@
 import React from 'react';
 import { SectionList, Text, View, ActivityIndicator, StyleSheet, Image } from 'react-native';
-import { Application, User } from '../../types/Entities';
+import { Application, User, House } from '../../types/Entities';
 import {
     toConstantFontSize,
     toConstantHeight,
@@ -20,7 +20,13 @@ interface Props {
     navigation: {
         navigate: (
             route: string,
-            params: { id: string; userData: User; housePlayerIDs: Array<string> }
+            params: {
+                id: string;
+                houseData?: House;
+                userData?: User;
+                housePlayerIDs?: Array<string>;
+                isSent: boolean;
+            }
         ) => void;
     };
 }
@@ -80,13 +86,13 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
             <RectButton
                 style={group.listItem}
                 underlayColor={Colors.brandPrimaryColor}
-                onPress={() =>
+                onPress={() => {
                     this.props.navigation.navigate('ApplicationDetail', {
                         id: item.id,
-                        userData: item.from,
-                        housePlayerIDs: item.to.users.map((user) => user.playerId)
-                    })
-                }
+                        houseData: item.to,
+                        isSent: true
+                    });
+                }}
             >
                 <Image
                     source={{ uri: item.to.houseImages[0] }}
@@ -114,7 +120,8 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                     this.props.navigation.navigate('ApplicationDetail', {
                         id: item.id,
                         userData: item.from,
-                        housePlayerIDs: item.to.users.map((user) => user.playerId)
+                        housePlayerIDs: item.to.users.map((user) => user.playerId),
+                        isSent: false
                     })
                 }
             >

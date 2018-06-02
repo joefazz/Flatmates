@@ -3,13 +3,10 @@ import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
 import { Alert, View } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { ProfileComponent } from '../../../components/Profile/ProfileComponent';
 import { Colors } from '../../../consts';
 import {
     CreateGroupMutationVariables,
     DeleteApplicationMutationVariables,
-    UserChatQuery,
-    HouseApplicationsQuery,
     HouseChatQuery
 } from '../../../graphql/Types';
 import { User, House } from '../../../types/Entities';
@@ -17,11 +14,9 @@ import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConv
 import { TouchableRect } from '../../../widgets/TouchableRect';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../graphql/mutations';
-import {
-    USER_CHAT_QUERY,
-    HOUSE_APPLICATIONS_QUERY,
-    HOUSE_CHAT_QUERY
-} from '../../../graphql/queries';
+import { HOUSE_CHAT_QUERY } from '../../../graphql/queries';
+import { HouseApplicationDetail } from '../../../components/Applications/HouseApplicationDetail';
+import UserProfile from '../../Feed/UserProfile';
 
 interface Props {
     loading: boolean;
@@ -34,6 +29,8 @@ interface Props {
             params: {
                 id: string;
                 userData: User;
+                houseData: House;
+                isSent: boolean;
                 housePlayerIDs: Array<string>;
             };
         };
@@ -49,63 +46,83 @@ export class ApplicationDetail extends React.Component<Props> {
     });
 
     render() {
-        const { id, userData } = this.props.navigation.state.params;
-        console.log(this.props);
+        const {
+            id,
+            userData,
+            housePlayerIDs,
+            isSent,
+            houseData
+        } = this.props.navigation.state.params;
+
         return (
             <>
-                <ProfileComponent isLoading={this.props.loading} profile={userData} />
-                <View
-                    style={{
-                        height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
-                        position: 'absolute',
-                        bottom: 0
-                    }}
-                >
-                    <TouchableRect
-                        onPress={() =>
-                            Alert.alert(
-                                `Chat with ${userData.firstName}`,
-                                'Are you sure you want to chat with ' + userData.name + '?',
-                                [
-                                    {
-                                        text: 'Cancel',
-                                        onPress: () => console.log('Cancelled'),
-                                        style: 'cancel'
-                                    },
-                                    {
-                                        text: 'Confirm',
-                                        onPress: () => {
-                                            this.props.navigation.pop();
-                                            this.props.createGroup({
-                                                playerID: userData.playerId,
-                                                applicantID: userData.id,
-                                                approverName: this.props.approverName,
-                                                applicantName: `${userData.name}`,
-                                                approverID: this.props.approverID,
-                                                houseID: this.props.house.shortID,
-                                                roadName: this.props.house.road,
-                                                housePlayerIDs: []
-                                            });
-                                            // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
-                                            this.props.removeApplication({
-                                                id
-                                            });
-                                        }
-                                    }
-                                ]
-                            )
-                        }
-                        title={`Chat with ${userData.firstName}`}
-                        iconName={'envelope-o'}
-                        backgroundColor={Colors.brandPrimaryColor}
-                        wrapperStyle={{ borderRadius: 0 }}
-                        buttonStyle={{
-                            width: toConstantWidth(100),
-                            paddingBottom: isIphoneX() ? 18 : 0,
-                            height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
-                        }}
+                {isSent ? (
+                    <HouseApplicationDetail
+                        house={houseData}
+                        navigation={this.props.navigation}
+                        description={houseData.post.description}
+                        title={houseData.road}
+                        isLoading={this.props.loading}
                     />
-                </View>
+                ) : (
+                    <>
+                        <UserProfile
+                            navigation={{ state: { params: { id: userData.id, data: userData } } }}
+                        />
+                        <View
+                            style={{
+                                height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
+                                position: 'absolute',
+                                bottom: 0
+                            }}
+                        >
+                            <TouchableRect
+                                onPress={() =>
+                                    Alert.alert(
+                                        `Chat with ${userData.firstName}`,
+                                        'Are you sure you want to chat with ' + userData.name + '?',
+                                        [
+                                            {
+                                                text: 'Cancel',
+                                                onPress: () => console.log('Cancelled'),
+                                                style: 'cancel'
+                                            },
+                                            {
+                                                text: 'Confirm',
+                                                onPress: () => {
+                                                    this.props.navigation.pop();
+                                                    this.props.createGroup({
+                                                        playerID: userData.playerId,
+                                                        applicantID: userData.id,
+                                                        approverName: this.props.approverName,
+                                                        applicantName: `${userData.name}`,
+                                                        approverID: this.props.approverID,
+                                                        houseID: this.props.house.shortID,
+                                                        roadName: this.props.house.road,
+                                                        housePlayerIDs
+                                                    });
+                                                    // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
+                                                    this.props.removeApplication({
+                                                        id
+                                                    });
+                                                }
+                                            }
+                                        ]
+                                    )
+                                }
+                                title={`Chat with ${userData.firstName}`}
+                                iconName={'envelope-o'}
+                                backgroundColor={Colors.brandPrimaryColor}
+                                wrapperStyle={{ borderRadius: 0 }}
+                                buttonStyle={{
+                                    width: toConstantWidth(100),
+                                    paddingBottom: isIphoneX() ? 18 : 0,
+                                    height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                                }}
+                            />
+                        </View>
+                    </>
+                )}
             </>
         );
     }

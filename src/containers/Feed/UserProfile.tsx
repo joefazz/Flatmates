@@ -1,12 +1,14 @@
 import React from 'react';
-import { graphql, QueryProps } from 'react-apollo';
-import { ActivityIndicator } from 'react-native';
+import { graphql, ChildProps } from 'react-apollo';
+import { ActivityIndicator, Text } from 'react-native';
 import { ProfileComponent } from '../../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../../graphql/queries';
 import { User } from '../../types/Entities';
+import { UserDetailQuery, UserDetailQueryVariables } from '../../graphql/Types';
 
 interface Props {
     loading: boolean;
+    error: Error;
     user: User;
     navigation: {
         state: {
@@ -29,6 +31,10 @@ export class UserProfile extends React.Component<Props> {
             return <ActivityIndicator />;
         }
 
+        if (this.props.error) {
+            return <Text>ERROR</Text>;
+        }
+
         return (
             <ProfileComponent
                 isLoading={this.props.loading}
@@ -42,7 +48,23 @@ export class UserProfile extends React.Component<Props> {
     }
 }
 
-const getUserDetail = graphql(USER_DETAILS_QUERY, {
+interface InputProps {
+    navigation: {
+        state: {
+            params: {
+                id: string;
+                data: User;
+            };
+        };
+    };
+}
+
+const getUserDetail = graphql<
+    InputProps,
+    UserDetailQuery,
+    UserDetailQueryVariables,
+    ChildProps<UserDetailQuery>
+>(USER_DETAILS_QUERY, {
     options: ({
         navigation
     }: {
@@ -57,8 +79,7 @@ const getUserDetail = graphql(USER_DETAILS_QUERY, {
     }) => ({
         variables: { id: navigation.state.params.id }
     }),
-    props: ({ data }) => console.log(data)
+    props: ({ data: { loading, error, user } }) => ({ loading, error, user })
 });
 
-// @ts-ignore
 export default getUserDetail(UserProfile);

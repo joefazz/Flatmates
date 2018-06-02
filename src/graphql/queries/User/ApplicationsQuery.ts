@@ -10,11 +10,21 @@ export const USER_APPLICATIONS_QUERY = gql`
                     shortID
                     houseImages
                     road
+                    coords
+                    spaces
                     billsPrice
                     rentPrice
                     post {
                         id
                         description
+                    }
+                    users {
+                        id
+                        name
+                        profilePicture
+                        playerId
+                        course
+                        studyYear
                     }
                 }
                 createdAt
