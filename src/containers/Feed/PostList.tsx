@@ -103,7 +103,7 @@ export class PostList extends React.Component<Props, State> {
 
         let isPostingEnabled = false;
 
-        if (!!this.props.user.house) {
+        if (this.props.user && this.props.user.house) {
             if (!this.props.user.house.post) {
                 isPostingEnabled = true;
             }
