@@ -1,8 +1,7 @@
 import React from 'react';
 import { compose, graphql } from 'react-apollo';
-import { Platform, StatusBar, View, ActivityIndicator } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
+import { Platform, View, ActivityIndicator } from 'react-native';
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
 import { LoginState, ProfileState } from '../types/ReduxTypes';
@@ -76,7 +75,6 @@ export class Profile extends React.Component<Props, State> {
         }
         return (
             <View style={{ flex: 1 }}>
-                <StatusBar barStyle={'dark-content'} />
                 <ProfileComponent isLoading={this.state.isLoading} profile={this.state.profile} />
             </View>
         );
@@ -102,4 +100,10 @@ const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
     })
 });
 
-export default compose(connect(mapStateToProps, bindActions), userDetailsQuery)(Profile);
+export default compose(
+    connect(
+        mapStateToProps,
+        bindActions
+    ),
+    userDetailsQuery
+)(Profile);

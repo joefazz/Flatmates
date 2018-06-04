@@ -30,8 +30,8 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
             return Object.assign({}, state, {
                 id: action.payload.user.id,
                 name: action.payload.user.name,
-                authId: action.payload.user.profile.authId,
-                email: action.payload.user.profile.email,
+                authId: action.payload.user.authId,
+                email: action.payload.user.email,
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });
@@ -72,8 +72,8 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
             return Object.assign({}, state, {
                 id: action.payload.user.id,
                 name: action.payload.user.name,
-                authId: action.payload.user.profile.authId,
-                email: action.payload.user.profile.email,
+                authId: action.payload.user.authId,
+                email: action.payload.user.email,
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });
@@ -97,8 +97,8 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
             return Object.assign({}, state, {
                 id: action.payload.user.id,
                 name: action.payload.user.name,
-                authId: action.payload.user.profile.authId,
-                email: action.payload.user.profile.email,
+                authId: action.payload.user.authId,
+                email: action.payload.user.email,
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });

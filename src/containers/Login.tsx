@@ -530,6 +530,7 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'Arts' },
                                             { label: 'Biology' },
                                             { label: 'Business Studies' },
+                                            { label: 'Classics' },
                                             { label: 'Computer Science' },
                                             { label: 'Economics' },
                                             { label: 'Educational Studies' },

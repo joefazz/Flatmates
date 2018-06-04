@@ -16,6 +16,7 @@ const routeConfig = {
 };
 
 const navConfig: any = {
+    swipeEnabled: false,
     navigationOptions: {
         headerTintColor: Colors.white,
         headerTitleStyle: { color: Colors.white, ...Font.FontFactory({ family: 'Nunito' }) },

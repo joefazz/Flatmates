@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StatusBar, StyleSheet, View, AsyncStorage } from 'react-native';
+import { Image, StyleSheet, View, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import splash_screen from '../../Assets/splash_screen.png';
 import { LoginState } from '../types/ReduxTypes';
@@ -69,7 +69,6 @@ class AuthLoadingScreen extends React.Component<Props, State> {
     render() {
         return (
             <View style={styles.container}>
-                <StatusBar barStyle={'dark-content'} />
                 <Image
                     style={{ width: toConstantWidth(100), height: toConstantHeight(100) }}
                     source={splash_screen}

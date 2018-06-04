@@ -33,9 +33,12 @@ export const loginSaga = function*() {
 async function createUserMutation(
     params: CreateUserMutationVariables
 ): Promise<CreateUserMutation> {
-    const { data: { createUser: userData } } = await client.mutate<CreateUserMutation>({
+    const {
+        data: { createUser: userData }
+    } = await client.mutate<CreateUserMutation>({
         mutation: CREATE_USER_MUTATION,
-        variables: { ...params }
+        variables: { ...params },
+        fetchPolicy: 'no-cache'
     });
 
     return userData;
@@ -44,11 +47,12 @@ async function createUserMutation(
 async function createUserCreateHouseMutation(
     params: CreateUserCreateHouseMutationVariables
 ): Promise<CreateUserCreateHouseMutation> {
-    const { data: { createUserCreateHouse: userData } } = await client.mutate<
-        CreateUserCreateHouseMutation
-    >({
+    const {
+        data: { createUserCreateHouse: userData }
+    } = await client.mutate<CreateUserCreateHouseMutation>({
         mutation: CREATE_USER_CREATE_HOUSE_MUTATION,
-        variables: { ...params }
+        variables: { ...params },
+        fetchPolicy: 'no-cache'
     });
 
     return userData;
@@ -57,11 +61,12 @@ async function createUserCreateHouseMutation(
 async function createUserUpdateHouseMutation(
     params: CreateUserUpdateHouseMutationVariables
 ): Promise<CreateUserUpdateHouseMutation> {
-    const { data: { createUserUpdateHouse: userData } } = await client.mutate<
-        CreateUserUpdateHouseMutation
-    >({
+    const {
+        data: { createUserUpdateHouse: userData }
+    } = await client.mutate<CreateUserUpdateHouseMutation>({
         mutation: CREATE_USER_UPDATE_HOUSE_MUTATION,
-        variables: { ...params }
+        variables: { ...params },
+        fetchPolicy: 'no-cache'
     });
 
     return userData;
@@ -74,7 +79,7 @@ const login = function*({ payload }) {
     try {
         const result = yield createUserMutation(payload);
 
-        const user = Object.assign({}, result, { profile: payload });
+        const user = Object.assign({}, result, payload);
 
         yield put(createUser.success({ user }));
     } catch (error) {
@@ -95,7 +100,7 @@ const houseLogin = function*({ payload }) {
     try {
         const result = yield createUserCreateHouseMutation(payload);
 
-        const user = Object.assign({}, result, { profile: payload });
+        const user = Object.assign({}, result, payload);
 
         yield put(createUserWithHouse.success({ user }));
     } catch (error) {
@@ -112,9 +117,7 @@ const joinHouse = function*({ payload }) {
     try {
         const result = yield createUserUpdateHouseMutation(payload);
 
-        const user = Object.assign({}, result, { profile: payload });
-
-        yield put(createUserJoinHouse.success({ user }));
+        yield put(createUserJoinHouse.success({ ...result }));
     } catch (error) {
         yield put(createUserJoinHouse.failure(error));
     } finally {

@@ -50,7 +50,32 @@ export const CREATE_USER_MUTATION = gql`
             smokerPreference: $smokerPreference
         ) {
             id
+            email
+            authId
+            firstName
+            lastName
             name
+            age
+            bio
+            gender
+            course
+            studyYear
+            email_verified
+            profilePicture
+            isDrinker
+            isDruggie
+            isSmoker
+            maxPrice
+            minPrice
+            genderPreference
+            playerId
+            house {
+                shortID
+                road
+                billsPrice
+                rentPrice
+                spaces
+            }
         }
     }
 `;

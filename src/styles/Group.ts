@@ -87,12 +87,19 @@ export const group = StyleSheet.create({
     messageUsername: {
         color: 'red',
         fontWeight: 'bold',
-        paddingBottom: 12
+        paddingBottom: 6
+    },
+
+    myMessageTime: {
+        marginTop: 5,
+        color: Colors.highlightWhite,
+        fontSize: 12,
+        textAlign: 'right'
     },
 
     messageTime: {
         marginTop: 5,
-        color: Colors.highlightWhite,
+        color: Colors.grey,
         fontSize: 12,
         textAlign: 'right'
     },
@@ -127,7 +134,7 @@ export const group = StyleSheet.create({
         borderTopWidth: 1,
         flexDirection: 'row',
         width: toConstantWidth(100),
-        ...ifIphoneX({ paddingBottom: 20 }) // iPhone X padding required
+        ...ifIphoneX({ paddingBottom: 27 })
     },
 
     input: {

@@ -26,12 +26,13 @@ export class ChatDetailComponent extends React.Component<Props, State> {
     readonly state: State = initialState;
     messageList: any;
 
-    componentWillReceiveProps(nextProps) {
+    componentDidMount() {
         const usernameColors: object = {};
-
-        if (nextProps.data.groupInfo) {
-            if (nextProps.data.groupInfo.users) {
-                nextProps.data.groupInfo.users.forEach((user) => {
+        const groupData = this.props.data.groupInfo;
+        const users = groupData.house.users.concat(groupData.applicant);
+        if (groupData) {
+            if (users) {
+                users.forEach((user) => {
                     usernameColors[user.name] =
                         this.state.usernameColors[user.name] || randomColor({ luminosity: 'dark' });
                 });
@@ -43,6 +44,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
 
     render() {
         const messages = this.props.data.messages.slice().reverse();
+
         return Platform.OS === 'ios' ? (
             <KeyboardAvoidingView
                 behavior={'position'}

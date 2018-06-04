@@ -20,6 +20,10 @@ const iapSKUs = Platform.select({
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 
+Sentry.config(
+    'https://ff264cadb5f4403d8b6dbfd86e610646:41e9999cbe0745ab9fc6d069d656fee0@sentry.io/1216809'
+).install();
+
 export const MapboxSDK = new MapboxClient(MAPBOX_API_TOKEN);
 
 function persistentStore(onComplete) {
@@ -52,7 +56,7 @@ export default class Root extends React.Component<Props, State> {
         Sentry.setUserContext({
             id: store.getState().login.id,
             email: store.getState().login.email,
-            username: store.getState().login.name,
+            username: store.getState().login.name
         });
 
         console.disableYellowBox = true;

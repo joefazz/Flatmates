@@ -22,7 +22,7 @@ export class MessageComponent extends React.PureComponent<Props> {
                         <Text style={[group.messageUsername, { color }]}>{message.from.name}</Text>
                     )}
                     <Text style={group.messageText}>{message.text}</Text>
-                    <Text style={group.messageTime}>
+                    <Text style={isCurrentUser ? group.myMessageTime : group.messageTime}>
                         {moment(message.createdAt).format('h:mm A')}
                     </Text>
                 </View>
