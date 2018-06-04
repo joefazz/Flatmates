@@ -5,8 +5,13 @@ import { Avatar } from 'react-native-elements';
 import { base } from '../../styles';
 import { RectButton } from 'react-native-gesture-handler';
 import { group } from '../../styles/Group';
-import { toConstantHeight, toConstantFontSize } from '../../utils/PercentageConversion';
+import {
+    toConstantHeight,
+    toConstantFontSize,
+    toConstantWidth
+} from '../../utils/PercentageConversion';
 import { Group } from '../../types/Entities';
+import { Colors } from '../../consts';
 
 interface Props {
     navigation: { navigate: (string, object) => void };
@@ -74,7 +79,17 @@ export class ChatListComponent extends React.PureComponent<Props> {
                     source={{
                         uri: image
                     }}
-                    large={true}
+                    containerStyle={{
+                        width: toConstantWidth(18),
+                        height: toConstantWidth(18),
+                        marginLeft: 3
+                    }}
+                    overlayContainerStyle={{ backgroundColor: Colors.transparent }}
+                    avatarStyle={{
+                        width: toConstantWidth(18),
+                        height: toConstantWidth(18),
+                        borderRadius: toConstantWidth(9)
+                    }}
                 />
                 <View style={group.descWrapper}>
                     <Text style={group.title}>{groupName}</Text>

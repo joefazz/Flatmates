@@ -391,7 +391,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: toConstantFontSize(2.5),
+                                                fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' }),
                                                 marginBottom: Platform.OS === 'android' ? 2 : 0
                                             },
@@ -565,7 +565,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: toConstantFontSize(2.5),
+                                                fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.course === ''
@@ -610,7 +610,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: toConstantFontSize(2.5),
+                                                fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -771,7 +771,7 @@ export class Login extends React.Component<Props, State> {
                             style={[
                                 base.headingText,
                                 {
-                                    fontSize: toConstantFontSize(2.5),
+                                    fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                     ...FontFactory({ weight: 'Bold' })
                                 }
                             ]}
@@ -822,7 +822,7 @@ export class Login extends React.Component<Props, State> {
                                     ]}
                                     selectTextStyle={[
                                         {
-                                            fontSize: toConstantFontSize(2.5),
+                                            fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                             ...FontFactory({ family: 'Nunito' })
                                         },
                                         this.state.studyYear === ''
@@ -867,7 +867,7 @@ export class Login extends React.Component<Props, State> {
                                     ]}
                                     selectTextStyle={[
                                         {
-                                            fontSize: toConstantFontSize(2.5),
+                                            fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                             ...FontFactory({ family: 'Nunito' })
                                         },
                                         this.state.studyYear === ''
@@ -924,7 +924,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: toConstantFontSize(2.5),
+                                                fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -961,7 +961,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: toConstantFontSize(2.5),
+                                                fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -1003,7 +1003,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: toConstantFontSize(2.5),
+                                                fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -1042,7 +1042,7 @@ export class Login extends React.Component<Props, State> {
                                         ]}
                                         selectTextStyle={[
                                             {
-                                                fontSize: toConstantFontSize(2.5),
+                                                fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                                 ...FontFactory({ family: 'Nunito' })
                                             },
                                             this.state.studyYear === ''
@@ -1098,7 +1098,7 @@ export class Login extends React.Component<Props, State> {
                         <Text
                             style={[
                                 base.headingText,
-                                { textAlign: 'center', fontSize: toConstantFontSize(2.5) }
+                                { textAlign: 'center', fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5) }
                             ]}
                         >
                             Enter your House ID or if you don't have one press 'New House'
@@ -1193,7 +1193,7 @@ export class Login extends React.Component<Props, State> {
                             >
                                 <Text
                                     style={{
-                                        fontSize: toConstantFontSize(2.5),
+                                        fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                         ...FontFactory({ family: 'Nunito' }),
                                         color: Colors.brandPrimaryColor
                                     }}
@@ -1212,7 +1212,7 @@ export class Login extends React.Component<Props, State> {
                             >
                                 <Text
                                     style={{
-                                        fontSize: toConstantFontSize(2.5),
+                                        fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
                                         ...FontFactory({ family: 'Nunito' }),
                                         color: Colors.brandPrimaryColor
                                     }}
@@ -1270,7 +1270,7 @@ export class Login extends React.Component<Props, State> {
                                             >
                                                 <Icon
                                                     name={'ios-remove-circle'}
-                                                    size={toConstantFontSize(2.5)}
+                                                    size={toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5)}
                                                     style={{ color: Colors.brandTertiaryColor }}
                                                 />
                                             </TouchableOpacity>

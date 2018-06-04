@@ -18,12 +18,12 @@ export default function profileReducer(state: ProfileState = INITIAL_STATE, acti
 
         case CreateUserWithHouse.SUCCESS:
             return Object.assign({}, state, {
-                ...action.payload.user
+                ...action.payload
             });
 
         case CreateUserJoinHouse.SUCCESS:
             return Object.assign({}, state, {
-                ...action.payload.user
+                ...action.payload
             });
         default:
             return state;

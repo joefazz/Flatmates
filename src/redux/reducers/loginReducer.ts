@@ -70,10 +70,10 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
             action.payload = action.payload as CreatePayload;
 
             return Object.assign({}, state, {
-                id: action.payload.user.id,
-                name: action.payload.user.name,
-                authId: action.payload.user.authId,
-                email: action.payload.user.email,
+                id: action.payload.id,
+                name: action.payload.name,
+                authId: action.payload.authId,
+                email: action.payload.email,
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });
@@ -95,10 +95,10 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
             action.payload = action.payload as CreatePayload;
 
             return Object.assign({}, state, {
-                id: action.payload.user.id,
-                name: action.payload.user.name,
-                authId: action.payload.user.authId,
-                email: action.payload.user.email,
+                id: action.payload.id,
+                name: action.payload.name,
+                authId: action.payload.authId,
+                email: action.payload.email,
                 isLoggedIn: true,
                 loginStatus: LoginStatus.SUCCEED
             });

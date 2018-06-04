@@ -145,6 +145,8 @@ const createGroup = graphql(CREATE_GROUP_MUTATION, {
 
                     houseData.house.groups.unshift(createGroup);
 
+                    console.log(houseData);
+
                     store.writeQuery({
                         query: HOUSE_CHAT_QUERY,
                         variables: {

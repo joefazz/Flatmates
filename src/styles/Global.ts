@@ -70,7 +70,7 @@ export const base = StyleSheet.create({
         ...Font.FontFactory({ family: 'Nunito' }),
         color: Colors.textHighlightColor,
         width: toConstantWidth(80) + 20,
-        fontSize: toConstantFontSize(2.5),
+        fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
         borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
         borderColor: Colors.grey
     },
@@ -81,7 +81,7 @@ export const base = StyleSheet.create({
         width: toConstantWidth(40),
         borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
         borderColor: Colors.grey,
-        fontSize: toConstantFontSize(2.5)
+        fontSize: toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5)
     },
 
     halfWidthWrapper: {

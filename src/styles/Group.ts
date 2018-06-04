@@ -134,14 +134,14 @@ export const group = StyleSheet.create({
         borderTopWidth: 1,
         flexDirection: 'row',
         width: toConstantWidth(100),
-        ...ifIphoneX({ paddingBottom: 27 })
+        ...ifIphoneX({ paddingBottom: 27 }, { paddingBottom: 5 })
     },
 
     input: {
         width: toConstantWidth(77),
+        backgroundColor: Colors.white,
         ...Platform.select({
             ios: {
-                backgroundColor: 'white',
                 borderColor: '#dbdbdb',
                 borderRadius: 15,
                 borderWidth: 1,

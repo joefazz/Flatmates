@@ -11,9 +11,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const routeConfig = {
     Feed: { screen: FeedNavigator },
-    Profile: { screen: ProfileNavigator },
     Group: { screen: GroupNavigator },
-    House: { screen: HouseNavigator }
+    House: { screen: HouseNavigator },
+    Profile: { screen: ProfileNavigator }
 };
 
 enum Routes {

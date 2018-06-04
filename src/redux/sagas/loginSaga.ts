@@ -100,9 +100,7 @@ const houseLogin = function*({ payload }) {
     try {
         const result = yield createUserCreateHouseMutation(payload);
 
-        const user = Object.assign({}, result, payload);
-
-        yield put(createUserWithHouse.success({ user }));
+        yield put(createUserWithHouse.success({ ...result }));
     } catch (error) {
         yield put(createUserWithHouse.failure(error));
     }

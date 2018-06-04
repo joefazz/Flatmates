@@ -13,13 +13,18 @@ const routeConfig = {
 const navConfig = {
     swipeEnabled: true,
     tabBarOptions: {
-        activeTintColor: Colors.brandPrimaryColor,
+        activeTintColor: Platform.OS === 'ios' ? Colors.offWhite : Colors.brandPrimaryColor,
         inactiveTintColor: Colors.textGrey,
-        style: { backgroundColor: Colors.offWhite },
+        style: {
+            backgroundColor: Platform.OS === 'ios' ? Colors.brandPrimaryColor : Colors.offWhite
+        },
         pressColor: Colors.definetelyNotAirbnbRed,
-        indicatorStyle: { backgroundColor: Colors.brandPrimaryColor },
+        indicatorStyle: {
+            backgroundColor:
+                Platform.OS === 'ios' ? Colors.brandTertiaryColor : Colors.brandPrimaryColor
+        },
         labelStyle: { ...Font.FontFactory({ weight: 'Bold' }) },
-        tabStyle: Platform.OS === 'ios' && isIphoneX() ? { marginTop: 30 } : { marginTop: 10 }
+        tabStyle: Platform.OS === 'ios' && isIphoneX() ? { paddingTop: 30 } : { paddingTop: 15 }
     },
     navigationOptions: ({ navigation }) => {
         return { tabBarVisible: navigation.state.index === 0 };

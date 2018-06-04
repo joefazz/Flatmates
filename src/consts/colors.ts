@@ -3,7 +3,7 @@ const highlightColor = '#E44D26';
 const colors = {
     brandPrimaryColor: highlightColor,
     brandSecondaryColor: highlightColor,
-    brandTertiaryColor: '#f83600',
+    brandTertiaryColor: '#CA4422',
     brandWarningColor: '#ffcc41',
     brandErrorColor: '#bc341c',
     brandSuccessColor: '#14CC49',

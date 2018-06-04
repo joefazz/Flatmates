@@ -11,6 +11,7 @@ import { Post } from '../../types/Entities';
 import { USER_HOUSE_POST_QUERY } from '../../graphql/queries';
 import { HousePostQuery, HousePostQueryVariables } from '../../graphql/Types';
 import { HOUSE_POST_QUERY } from '../../graphql/queries';
+import { Colors } from '../../consts';
 
 interface Props {
     feed: FeedState;
@@ -185,4 +186,10 @@ const housePost = graphql<
     })
 });
 
-export default compose(connect(mapStateToProps, bindActions), housePost)(PostList);
+export default compose(
+    connect(
+        mapStateToProps,
+        bindActions
+    ),
+    housePost
+)(PostList);

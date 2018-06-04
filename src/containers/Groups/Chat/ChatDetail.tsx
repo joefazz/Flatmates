@@ -13,7 +13,8 @@ import { ChildProps, graphql, compose } from 'react-apollo';
 import { GET_CHAT_MESSAGES_QUERY } from '../../../graphql/queries';
 import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
 import { ApolloError } from 'apollo-client';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Platform } from 'react-native';
+import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 
 interface Props {
     createMessage: (params: CreateMessageMutationVariables) => void;
@@ -36,6 +37,12 @@ export class ChatDetail extends React.Component<Props> {
         title: navigation.state.params.title,
         tabBarVisible: false
     });
+
+    componentDidMount() {
+        if (Platform.OS === 'android') {
+            AndroidKeyboardAdjust.setAdjustResize();
+        }
+    }
 
     render() {
         if (this.props.loading) {
@@ -132,4 +139,7 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
     })
 });
 
-export default compose(getMessages, createMessage)(ChatDetail);
+export default compose(
+    getMessages,
+    createMessage
+)(ChatDetail);

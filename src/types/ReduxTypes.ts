@@ -27,10 +27,7 @@ export interface DataPayload extends ProfileState {
     authId: string;
 }
 
-export interface CreatePayload {
-    user: any;
-    error: string;
-}
+export type CreatePayload = User;
 
 export interface FeedAction {
     type: GetPosts | CreatePost | ToggleFilter;

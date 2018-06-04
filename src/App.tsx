@@ -2,7 +2,7 @@ import Mapbox from '@mapbox/react-native-mapbox-gl';
 import MapboxClient from 'mapbox/lib/services/geocoding';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
-import { Platform, AsyncStorage } from 'react-native';
+import { Platform, AsyncStorage, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import client from './Client';
@@ -50,6 +50,9 @@ export default class Root extends React.Component<Props, State> {
 
     componentDidMount() {
         // AsyncStorage.clear();
+        if (Platform.OS === 'ios') {
+            StatusBar.setBarStyle('light-content');
+        }
 
         Sentry.setShouldSendCallback(() => !__DEV__);
 

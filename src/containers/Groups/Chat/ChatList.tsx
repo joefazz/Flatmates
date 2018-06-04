@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose, graphql, Query } from 'react-apollo';
-import { ActivityIndicator, Text } from 'react-native';
+import { ActivityIndicator, Text, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
@@ -47,19 +47,23 @@ export class ChatList extends React.Component<Props, State> {
                     variables={{ shortID: this.props.house.shortID }}
                     fetchPolicy={'network-only'}
                 >
-                    {({ loading, error, data: { house } }) => {
+                    {({ loading, error, data }) => {
                         if (error) {
                             console.log(error);
+                            alert(error.message);
+                            return <Text>Error: {error.message}</Text>;
                         }
 
                         if (loading) {
                             return <ActivityIndicator />;
                         }
 
+                        console.log(data);
+
                         return (
                             <ChatListComponent
                                 navigation={this.props.navigation}
-                                data={this.props.userGroups.concat(house.groups)}
+                                data={this.props.userGroups.concat(data.house.groups)}
                                 userID={this.props.login.id}
                                 username={this.props.login.name}
                             />
@@ -104,4 +108,10 @@ const userChatQuery = graphql(USER_CHAT_QUERY, {
     }
 });
 
-export default compose(connect(mapStateToProps, bindActions), userChatQuery)(ChatList);
+export default compose(
+    connect(
+        mapStateToProps,
+        bindActions
+    ),
+    userChatQuery
+)(ChatList);
