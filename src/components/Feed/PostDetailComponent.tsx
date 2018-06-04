@@ -9,7 +9,8 @@ import {
     Text,
     TouchableHighlight,
     Alert,
-    View
+    View,
+    Platform
 } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { RectButton } from 'react-native-gesture-handler';
@@ -23,7 +24,6 @@ import { feed } from '../../styles';
 import { ProfileState } from '../../types/ReduxTypes';
 import { House, User } from '../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
-import { compareUsers } from '../../utils/UserComparison';
 import { TouchableRect } from '../../widgets/TouchableRect';
 import { CreateApplicationMutationVariables } from '../../graphql/Types';
 
@@ -208,9 +208,11 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             pitchEnabled={false}
                             rotateEnabled={false}
                             onPress={() =>
-                                this.props.navigation.push('MapView', {
-                                    data: { coords: this.props.house.coords }
-                                })
+                                Platform.OS === 'ios'
+                                    ? this.props.navigation.push('MapView', {
+                                          data: { coords: this.props.house.coords }
+                                      })
+                                    : console.log('coming soon')
                             }
                             styleUrl={Mapbox.StyleURL.Street}
                             logoEnabled={false}
