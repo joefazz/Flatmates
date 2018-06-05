@@ -24,7 +24,7 @@ const navConfig = {
                 Platform.OS === 'ios' ? Colors.brandTertiaryColor : Colors.brandPrimaryColor
         },
         labelStyle: { ...Font.FontFactory({ weight: 'Bold' }) },
-        tabStyle: Platform.OS === 'ios' && isIphoneX() ? { paddingTop: 30 } : { paddingTop: 15 }
+        tabStyle: Platform.OS === 'ios' && isIphoneX() ? { paddingTop: 45 } : { paddingTop: 15 }
     },
     navigationOptions: ({ navigation }) => {
         return { tabBarVisible: navigation.state.index === 0 };
