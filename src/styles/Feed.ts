@@ -25,7 +25,7 @@ export const feed = StyleSheet.create({
 
     // List styles
     card: {
-        height: toConstantHeight(36),
+        height: toConstantHeight(30),
         width: toConstantWidth(90),
         marginVertical: 10
     },

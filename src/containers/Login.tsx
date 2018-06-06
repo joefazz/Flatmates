@@ -1355,7 +1355,7 @@ export class Login extends React.Component<Props, State> {
                             buttonStyle={base.buttonStyle}
                             onPress={() => this.selectImages()}
                         />
-                    ) : this.state.road.match('^[0-9]+$') ? (
+                    ) : !!this.state.road.match(/[0-9]\d*/g) ? (
                         alert("Please don't enter your house number")
                     ) : (
                         <TouchableRect
