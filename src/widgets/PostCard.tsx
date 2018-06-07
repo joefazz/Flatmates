@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
 
     postImage: {
         width: Metrics.screenWidth * 0.9,
-        height: Metrics.screenHeight * 0.205,
+        height: Metrics.screenHeight * 0.22,
         backgroundColor: Colors.grey
     },
 

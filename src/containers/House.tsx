@@ -10,7 +10,6 @@ import { FontFactory } from '../consts/font';
 import { Colors } from '../consts';
 import { StatRow } from '../widgets/StatRow';
 import { Button } from 'react-native-elements';
-import { profile } from '../styles';
 import { ReduxState } from '../types/ReduxTypes';
 import { House as HouseType } from '../types/Entities';
 
@@ -45,20 +44,11 @@ export class House extends React.Component<Props, State> {
 
                 <View style={styles.statisticsWrapper}>
                     <StatRow
-                        first={[String(house.shortID), 'House ID']}
-                        second={[String(house.spaces), 'Free Rooms']}
+                        items={[
+                            { label: 'House ID', value: house.shortID },
+                            { label: 'Free Rooms', value: house.spaces }
+                        ]}
                     />
-                    <View
-                        style={{
-                            alignSelf: 'stretch',
-                            height: 0.5,
-                            backgroundColor: Colors.grey
-                        }}
-                    />
-                    <StatRow first={['23', 'Applications']} second={['67', 'Post Views']} />
-                </View>
-                <View style={styles.statisticsWrapper}>
-                    <StatRow first={['25th', 'Rent Due']} second={['23rd', 'Bills Due']} />
                     <View
                         style={{
                             alignSelf: 'stretch',
@@ -67,8 +57,31 @@ export class House extends React.Component<Props, State> {
                         }}
                     />
                     <StatRow
-                        first={['£' + String(house.rentPrice), 'Rent']}
-                        second={['£' + String(house.billsPrice), 'Bills']}
+                        items={[
+                            { label: 'Applications', value: 23 },
+                            { label: 'Post Views', value: 67 }
+                        ]}
+                    />
+                </View>
+                <View style={styles.statisticsWrapper}>
+                    <StatRow
+                        items={[
+                            { label: 'Rent Due', value: '25th' },
+                            { label: 'Bills Due', value: '23rd' }
+                        ]}
+                    />
+                    <View
+                        style={{
+                            alignSelf: 'stretch',
+                            height: 0.5,
+                            backgroundColor: Colors.grey
+                        }}
+                    />
+                    <StatRow
+                        items={[
+                            { label: 'Rent', value: '£' + String(house.rentPrice) },
+                            { label: 'Bills', value: '£' + String(house.billsPrice) }
+                        ]}
                     />
                 </View>
 
@@ -144,15 +157,6 @@ const styles = StyleSheet.create({
         ...FontFactory({ weight: 'Bold' })
     },
     statisticsWrapper: {
-        marginTop: 25,
-        alignSelf: 'stretch',
-        backgroundColor: Colors.offWhite,
-        shadowColor: Colors.grey,
-        shadowRadius: 2,
-        shadowOpacity: 0.5,
-        shadowOffset: {
-            width: 0,
-            height: 2
-        }
+        marginTop: 25
     }
 });

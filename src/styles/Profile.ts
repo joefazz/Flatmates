@@ -1,16 +1,16 @@
 import { StyleSheet } from 'react-native';
 
 import { Colors, Font, Metrics } from '../consts';
+import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
+import { FontFactory } from '../consts/font';
 
 export const profile = StyleSheet.create({
     headerPanel: {
-        flex: 1,
-        maxHeight: 400
+        flex: 1
     },
 
     headerTextWrapper: {
-        height: Metrics.screenHeight * 0.15,
-        paddingBottom: 5,
+        paddingLeft: 10,
         backgroundColor: Colors.highlightWhite,
         shadowOffset: {
             height: 4,
@@ -19,55 +19,61 @@ export const profile = StyleSheet.create({
         shadowColor: Colors.grey,
         shadowOpacity: 0.6,
         elevation: 3,
-        shadowRadius: 4,
+        shadowRadius: 4
     },
 
     headerText: {
         ...Font.FontFactory({ weight: 'Bold' }),
         color: Colors.black,
-        paddingLeft: 10,
+        fontSize: toConstantFontSize(6) > 45 ? 32 : toConstantFontSize(6),
+        paddingBottom: 10
+    },
+
+    aboutText: {
+        fontSize: toConstantFontSize(3.5) > 24 ? 24 : toConstantFontSize(3.5),
+        color: Colors.textGrey,
+        ...Font.FontFactory({ weight: 'Light' })
     },
 
     headerAvatar: {
-        height: Metrics.screenHeight * 0.21,
-        paddingTop: Metrics.screenHeight * 0.01,
-        justifyContent: 'center',
+        height: 120,
+        width: 120,
+        paddingRight: 5,
+        borderRadius: 60,
         alignItems: 'center',
-    },
-
-    interactableWrapper: {
-        minHeight: 1000,
-    },
-
-    contentWrapper: {
-        marginHorizontal: 10,
-        marginBottom: 15,
-        shadowColor: Colors.grey,
+        justifyContent: 'center',
         shadowOffset: {
-            width: 2,
-            height: 4,
+            width: 1,
+            height: 1
         },
-        shadowOpacity: 0.6,
-        shadowRadius: 4,
-        elevation: 3,
-        borderRadius: 3,
+        shadowRadius: 2,
+        shadowOpacity: 1,
+        shadowColor: Colors.white
+    },
 
-        padding: Metrics.screenWidth * 0.035,
-        alignItems: 'stretch',
-        backgroundColor: Colors.highlightWhite
+    summaryWrapper: {
+        flexDirection: 'row',
+        alignSelf: 'stretch',
+        backgroundColor: Colors.offWhite,
+        padding: 10
+    },
+
+    summaryDescriptionWrapper: {
+        flex: 2,
+        backgroundColor: Colors.offWhite,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+    summaryDescription: {
+        ...FontFactory({ weight: 'Light' }),
+        fontSize: 20
     },
 
     aboutLabel: {
         fontSize: 15,
         color: Colors.brandPrimaryColor,
-        ...Font.FontFactory({ weight: 'Light' }),
-        alignSelf: 'flex-start'
-    },
-
-    aboutText: {
-        fontSize: 22,
-        color: Colors.textGrey,
-        ...Font.FontFactory({ weight: 'Light' }),
+        ...Font.FontFactory({ weight: 'Light' })
     },
 
     ageGenderWrapper: {
@@ -77,13 +83,13 @@ export const profile = StyleSheet.create({
     },
 
     preferencesWrapper: {
-        marginTop: 10,
-        justifyContent: 'space-between',
-        flexDirection: 'row'
+        alignItems: 'stretch',
+        borderTopWidth: 1,
+        borderColor: Colors.grey
     },
 
     preference: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-})
+        justifyContent: 'space-between'
+    }
+});
