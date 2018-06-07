@@ -18,6 +18,7 @@ platform :ios do
     pilot(username: "joseph@fazzino.net", app_identifier: "com.fazzino.Flatmates", changelog: changelog) # waiting just takes too long sometimes
   end
 
+
   lane :add do
     email = prompt(text: "Testers email address: ")
     firstName = prompt(text: "Testers First Name: ")
@@ -28,10 +29,17 @@ platform :ios do
   end
 end
 
+lane :version_bump do
+  increment_version_code gradle_build: 'android/app/build.gradle'
+  increment_build_number(xcodeproj: './ios/Flatmates.xcodeproj') # Increment the build number    
+end
+
 platform :android do
   def increment_version_code(gradle_build: 'android/app/build.gradle')
     sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
   end
+
+  
 
   lane :alpha do
     increment_version_code gradle_build: 'android/app/build.gradle'
