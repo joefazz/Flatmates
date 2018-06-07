@@ -48,14 +48,34 @@ export const profile = StyleSheet.create({
         },
         shadowRadius: 2,
         shadowOpacity: 1,
-        shadowColor: Colors.white
+        shadowColor: Colors.black
     },
 
     summaryWrapper: {
         flexDirection: 'row',
         alignSelf: 'stretch',
         backgroundColor: Colors.offWhite,
-        padding: 10
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.grey,
+        shadowOffset: {
+            height: 1
+        },
+        shadowRadius: 4,
+        shadowOpacity: 0.3,
+        shadowColor: Colors.black
+    },
+
+    statWrapper: {
+        marginTop: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: Colors.grey,
+        shadowOffset: {
+            height: 1
+        },
+        shadowRadius: 4,
+        shadowOpacity: 0.3,
+        shadowColor: Colors.black
     },
 
     summaryDescriptionWrapper: {

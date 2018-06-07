@@ -249,8 +249,7 @@ export class Login extends React.Component<Props, State> {
                             buttonStyle={base.buttonStyle}
                         />
                         <TouchableOpacity
-                            testID={'LoginButton'}
-                            onPress={() => alert('looking around')}
+                            onPress={() => alert('Does nothing yet')}
                         >
                             <Text style={[login.hyperlink, { marginTop: 10 }]}>
                                 I don't have a student email address yet

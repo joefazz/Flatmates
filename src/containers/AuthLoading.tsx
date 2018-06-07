@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View, AsyncStorage } from 'react-native';
+import { Text, AsyncStorage, StyleSheet, View, Image } from 'react-native';
 import { connect } from 'react-redux';
 import splash_screen from '../../Assets/splash_screen.png';
 import { LoginState } from '../types/ReduxTypes';
@@ -8,6 +8,7 @@ import Client from '../Client';
 import { USER_LOGIN_QUERY } from '../graphql/queries';
 import { UserLoginQuery } from '../graphql/Types';
 import { ApolloQueryResult } from 'apollo-client';
+import { FontFactory } from '../consts/font';
 
 interface Props {
     screenProps: { isRehydrated: boolean; playerId: string };
@@ -20,10 +21,6 @@ interface Props {
 interface State {}
 
 class AuthLoadingScreen extends React.Component<Props, State> {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidUpdate() {
         if (this.props.screenProps.isRehydrated && this.props.screenProps.playerId !== '') {
             this._bootstrap();
@@ -35,7 +32,6 @@ class AuthLoadingScreen extends React.Component<Props, State> {
         // This will switch to the App screen or Auth screen and this loading
         // screen will be unmounted and thrown away.
 
-        console.log(this.props);
         if (this.props.login.email) {
             const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
                 variables: { email: this.props.login.email },
@@ -74,6 +70,22 @@ class AuthLoadingScreen extends React.Component<Props, State> {
                     source={splash_screen}
                     resizeMode={'cover'}
                 />
+                <Text
+                    style={{
+                        position: 'absolute',
+                        top: toConstantHeight(80),
+
+                        fontSize: 24,
+                        ...FontFactory({ weight: 'Bold' }),
+                        color: 'white'
+                    }}
+                >
+                    {!this.props.screenProps.isRehydrated
+                        ? 'Fetching data...'
+                        : !this.props.screenProps.playerId
+                            ? 'Unpacking house...'
+                            : 'Done'}
+                </Text>
             </View>
         );
     }
@@ -81,7 +93,9 @@ class AuthLoadingScreen extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
 

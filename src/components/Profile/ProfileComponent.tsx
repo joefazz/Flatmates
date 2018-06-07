@@ -45,26 +45,24 @@ export class ProfileComponent extends React.Component<Props> {
                         <Text style={profile.summaryDescription}>{data.bio}</Text>
                     </View>
                 </View>
-                <View>
-                    <View>
-                        <View style={profile.preferencesWrapper}>
-                            <StatRow
-                                items={[
-                                    { label: 'Age', value: data.age },
-                                    { label: 'Year', value: data.studyYear.replace(' Year', '') },
-                                    { label: 'Gender', value: data.gender }
-                                ]}
-                            />
-                        </View>
-                        <View style={profile.preferencesWrapper}>
-                            <StatRow
-                                items={[
-                                    { label: 'Smoker', value: data.isSmoker ? 'Yes' : 'No' },
-                                    { label: 'Druggie', value: data.isDruggie ? 'Yes' : 'No' },
-                                    { label: 'Drinker', value: data.isDrinker ? 'Yes' : 'No' }
-                                ]}
-                            />
-                        </View>
+                <View style={profile.statWrapper}>
+                    <View style={profile.preferencesWrapper}>
+                        <StatRow
+                            items={[
+                                { label: 'Age', value: data.age },
+                                { label: 'Year', value: data.studyYear.replace(' Year', '') },
+                                { label: 'Gender', value: data.gender }
+                            ]}
+                        />
+                    </View>
+                    <View style={profile.preferencesWrapper}>
+                        <StatRow
+                            items={[
+                                { label: 'Smoker', value: data.isSmoker ? 'Yes' : 'No' },
+                                { label: 'Uses Drugs', value: data.isDruggie ? 'Yes' : 'No' },
+                                { label: 'Drinker', value: data.isDrinker ? 'Yes' : 'No' }
+                            ]}
+                        />
                     </View>
                 </View>
             </View>
