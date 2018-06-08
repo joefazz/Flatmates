@@ -59,7 +59,8 @@ export const profile = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: Colors.grey,
         shadowOffset: {
-            height: 1
+            height: 1,
+            width: 0
         },
         shadowRadius: 4,
         shadowOpacity: 0.3,
@@ -71,7 +72,8 @@ export const profile = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: Colors.grey,
         shadowOffset: {
-            height: 1
+            height: 1,
+            width: 0
         },
         shadowRadius: 4,
         shadowOpacity: 0.3,
