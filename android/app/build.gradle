@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+implementation 'com.android.support:design:27.1.0'
 
 import com.android.build.OutputFile
 
@@ -103,7 +104,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 26
         multiDexEnabled true
-        versionCode 8
+        versionCode 10
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [onesignal_app_id: "bb46537e-9f24-418a-b636-0ea36e453d2b",
