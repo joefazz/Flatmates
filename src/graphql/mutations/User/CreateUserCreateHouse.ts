@@ -4,7 +4,6 @@ export const CREATE_USER_CREATE_HOUSE_MUTATION = gql`
     mutation CreateUserCreateHouse(
         $email: String!
         $authId: String!
-        $playerId: String
         $firstName: String!
         $lastName: String!
         $name: String!
@@ -31,7 +30,6 @@ export const CREATE_USER_CREATE_HOUSE_MUTATION = gql`
         createUserCreateHouse(
             email: $email
             authId: $authId
-            playerId: $playerId
             firstName: $firstName
             lastName: $lastName
             name: $name
@@ -74,7 +72,6 @@ export const CREATE_USER_CREATE_HOUSE_MUTATION = gql`
             maxPrice
             minPrice
             genderPreference
-            playerId
             house {
                 shortID
                 road

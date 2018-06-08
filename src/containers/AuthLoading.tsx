@@ -11,7 +11,7 @@ import { ApolloQueryResult } from 'apollo-client';
 import { FontFactory } from '../consts/font';
 
 interface Props {
-    screenProps: { isRehydrated: boolean; playerId: string };
+    screenProps: { isRehydrated: boolean };
     login: LoginState;
     navigation: {
         navigate: (route, params?) => void;
@@ -22,7 +22,7 @@ interface State {}
 
 class AuthLoadingScreen extends React.Component<Props, State> {
     componentDidUpdate() {
-        if (this.props.screenProps.isRehydrated && this.props.screenProps.playerId !== '') {
+        if (this.props.screenProps.isRehydrated) {
             this._bootstrap();
         }
     }
@@ -43,9 +43,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
 
             if (data.user === null) {
                 AsyncStorage.clear();
-                this.props.navigation.navigate('Login', {
-                    playerId: this.props.screenProps.playerId
-                });
+                this.props.navigation.navigate('Login');
             } else if (this.props.login.id && this.props.login.id !== '') {
                 // if (data.user.email_verified) {
                 //     this.props.navigation.navigate('Home');
@@ -55,9 +53,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
                 this.props.navigation.navigate('Home');
             }
         } else {
-            this.props.navigation.navigate('Login', {
-                playerId: this.props.screenProps.playerId
-            });
+            this.props.navigation.navigate('Login');
         }
     };
 
@@ -80,11 +76,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
                         color: 'white'
                     }}
                 >
-                    {!this.props.screenProps.isRehydrated
-                        ? 'Fetching data...'
-                        : !this.props.screenProps.playerId
-                            ? 'Unpacking house...'
-                            : 'Done'}
+                    {!this.props.screenProps.isRehydrated ? 'Fetching data...' : 'Done'}
                 </Text>
             </View>
         );

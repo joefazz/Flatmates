@@ -17,7 +17,7 @@ export class StatRow extends React.PureComponent<Props> {
         return (
             <View style={styles.statRow}>
                 {this.props.items.map((item, index) => (
-                    <>
+                    <React.Fragment key={item.label + item.value}>
                         <View style={styles.statSquare}>
                             <Text style={styles.statText}>{item.value}</Text>
                             <Text style={styles.statTitle}>{item.label}</Text>
@@ -33,7 +33,7 @@ export class StatRow extends React.PureComponent<Props> {
                                 }}
                             />
                         )}
-                    </>
+                    </React.Fragment>
                 ))}
             </View>
         );
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2
         },
-        elevation: 1,
+        elevation: 1
     },
     statSquare: {
         flex: 1,

@@ -18,6 +18,7 @@ import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../gra
 import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY } from '../../../graphql/queries';
 import { HouseApplicationDetail } from '../../../components/Applications/HouseApplicationDetail';
 import UserProfile from '../../Feed/UserProfile';
+import OneSignal from 'react-native-onesignal';
 
 interface Props {
     loading: boolean;
@@ -32,7 +33,6 @@ interface Props {
                 userData: User;
                 houseData: House;
                 isSent: boolean;
-                housePlayerIDs: Array<string>;
             };
         };
         pop: () => void;
@@ -47,13 +47,7 @@ export class ApplicationDetail extends React.Component<Props> {
     });
 
     render() {
-        const {
-            id,
-            userData,
-            housePlayerIDs,
-            isSent,
-            houseData
-        } = this.props.navigation.state.params;
+        const { id, userData, isSent, houseData } = this.props.navigation.state.params;
 
         return (
             <>
@@ -93,14 +87,12 @@ export class ApplicationDetail extends React.Component<Props> {
                                                 onPress: () => {
                                                     this.props.navigation.pop();
                                                     this.props.createGroup({
-                                                        playerID: userData.playerId,
                                                         applicantID: userData.id,
                                                         approverName: this.props.approverName,
                                                         applicantName: `${userData.name}`,
                                                         approverID: this.props.approverID,
                                                         houseID: this.props.house.shortID,
-                                                        roadName: this.props.house.road,
-                                                        housePlayerIDs
+                                                        roadName: this.props.house.road
                                                     });
                                                     // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
                                                     this.props.removeApplication({
@@ -143,9 +135,9 @@ const createGroup = graphql(CREATE_GROUP_MUTATION, {
                         }
                     });
 
-                    houseData.house.groups.unshift(createGroup);
+                    OneSignal.sendTags({ group_id: createGroup.id });
 
-                    console.log(houseData);
+                    houseData.house.groups.unshift(createGroup);
 
                     store.writeQuery({
                         query: HOUSE_CHAT_QUERY,

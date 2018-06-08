@@ -51,12 +51,11 @@ import {
     UserLoginQuery,
     CreateUserMutationVariables,
     CreateUserCreateHouseMutationVariables,
-    CreateUserUpdateHouseMutationVariables,
-    UserPlayerIDMutation
+    CreateUserUpdateHouseMutationVariables
 } from '../graphql/Types';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
-import { UPDATE_USER_PLAYER_ID } from '../graphql/mutations';
 import { DOMAIN } from '../consts/endpoint';
+import OneSignal from 'react-native-onesignal';
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -70,7 +69,7 @@ interface Props {
     createUserWithHouse: (mutationVars: CreateUserCreateHouseMutationVariables) => void;
     createUserJoinHouse: (mutationVars: CreateUserUpdateHouseMutationVariables) => void;
     getUserData: (user: any) => void;
-    navigation: { navigate: (route: string) => void; state: { params: { playerId: string } } };
+    navigation: { navigate: (route: string) => void };
 }
 
 interface State {
@@ -248,9 +247,7 @@ export class Login extends React.Component<Props, State> {
                             backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
-                        <TouchableOpacity
-                            onPress={() => alert('Does nothing yet')}
-                        >
+                        <TouchableOpacity onPress={() => alert('Does nothing yet')}>
                             <Text style={[login.hyperlink, { marginTop: 10 }]}>
                                 I don't have a student email address yet
                             </Text>
@@ -1535,24 +1532,11 @@ export class Login extends React.Component<Props, State> {
             });
 
             if (!!user) {
+
+                OneSignal.sendTags({ user_id: user.id, username: user.name, house_id: user.house ? user.house.shortID : null });
+
+
                 this.props.getUserData(user);
-
-                console.log(user, this.props.navigation.state.params);
-
-                // Update the users PlayerID if it changes between sessions (which it can)
-                if (
-                    this.props.navigation.state.params &&
-                    user.playerId !== this.props.navigation.state.params.playerId
-                ) {
-                    console.log('update player id');
-                    client.mutate<UserPlayerIDMutation>({
-                        mutation: UPDATE_USER_PLAYER_ID,
-                        variables: {
-                            id: user.id,
-                            playerID: this.props.navigation.state.params.playerId
-                        }
-                    });
-                }
 
                 this.props.navigation.navigate('Home');
             } else {
@@ -1599,7 +1583,6 @@ export class Login extends React.Component<Props, State> {
             email: this.email,
             profilePicture: this.state.profilePicture,
             authId: this.authId,
-            playerId: this.props.navigation.state.params.playerId,
             email_verified: this.isVerifiedUser,
             name: fullName,
             firstName: this.state.firstName,
@@ -1637,7 +1620,6 @@ export class Login extends React.Component<Props, State> {
             email: this.email,
             profilePicture: this.state.profilePicture,
             authId: this.authId,
-            playerId: this.props.navigation.state.params.playerId,
             email_verified: this.isVerifiedUser,
             name: fullName,
             firstName: this.state.firstName,
@@ -1689,7 +1671,6 @@ export class Login extends React.Component<Props, State> {
                                             email: this.email,
                                             profilePicture: this.state.profilePicture,
                                             authId: this.authId,
-                                            playerId: this.props.navigation.state.params.playerId,
                                             email_verified: this.isVerifiedUser,
                                             name: fullName,
                                             firstName: this.state.firstName,

@@ -24,7 +24,6 @@ interface Props {
                 id: string;
                 houseData?: House;
                 userData?: User;
-                housePlayerIDs?: Array<string>;
                 isSent: boolean;
             }
         ) => void;
@@ -120,7 +119,6 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                     this.props.navigation.navigate('ApplicationDetail', {
                         id: item.id,
                         userData: item.from,
-                        housePlayerIDs: item.to.users.map((user) => user.playerId),
                         isSent: false
                     })
                 }

@@ -12,14 +12,12 @@ export const USER_CHAT_QUERY = gql`
                     id
                     name
                     profilePicture
-                    playerId
                 }
                 house {
                     shortID
                     houseImages
                     users {
                         id
-                        playerId
                         profilePicture
                         name
                     }

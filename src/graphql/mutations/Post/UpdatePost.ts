@@ -16,7 +16,6 @@ export const UPDATE_POST_MUTATION = gql`
                 users {
                     id
                     name
-                    playerId
                     studyYear
                     age
                     gender

@@ -41,7 +41,6 @@ export interface User {
     lastName: string;
     age: number;
     authId: string;
-    playerId: string;
 
     gender: string;
     bio: string;

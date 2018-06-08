@@ -4,7 +4,6 @@
 export interface CreateApplicationMutationVariables {
   userID: string,
   houseID: number,
-  playerIDs: Array< string >,
   from: string,
   message?: string | null,
 };
@@ -38,7 +37,6 @@ export interface DeleteApplicationMutation {
 };
 
 export interface CreateMessageMutationVariables {
-  playerIDs: Array< string >,
   text: string,
   senderID: string,
   senderName: string,
@@ -61,13 +59,11 @@ export interface CreateMessageMutation {
 };
 
 export interface CreateGroupMutationVariables {
-  playerID?: string | null,
   approverName: string,
   applicantName: string,
   houseID: number,
   applicantID: string,
   roadName: string,
-  housePlayerIDs: Array< string >,
 };
 
 export interface CreateGroupMutation {
@@ -78,14 +74,12 @@ export interface CreateGroupMutation {
       id: string,
       name: string,
       profilePicture: string,
-      playerId: string | null,
     } | null,
     house:  {
       shortID: number,
       houseImages: Array< string > | null,
       users:  Array< {
         id: string,
-        playerId: string | null,
         profilePicture: string,
         name: string,
       } > | null,
@@ -143,7 +137,6 @@ export interface UpdatePostMutation {
       users:  Array< {
         id: string,
         name: string,
-        playerId: string | null,
         studyYear: string,
         age: number,
         gender: string,
@@ -161,7 +154,6 @@ export interface CreateUserMutationVariables {
   name: string,
   email: string,
   authId: string,
-  playerId?: string | null,
   email_verified: boolean,
   firstName: string,
   lastName: string,
@@ -185,14 +177,37 @@ export interface CreateUserMutationVariables {
 export interface CreateUserMutation {
   createUser:  {
     id: string,
+    email: string,
+    authId: string,
+    firstName: string,
+    lastName: string,
     name: string,
+    age: number,
+    bio: string,
+    gender: string,
+    course: string,
+    studyYear: string,
+    email_verified: boolean,
+    profilePicture: string,
+    isDrinker: boolean,
+    isDruggie: boolean,
+    isSmoker: boolean,
+    maxPrice: number | null,
+    minPrice: number | null,
+    genderPreference: string | null,
+    house:  {
+      shortID: number,
+      road: string,
+      billsPrice: number,
+      rentPrice: number,
+      spaces: number,
+    } | null,
   } | null,
 };
 
 export interface CreateUserCreateHouseMutationVariables {
   email: string,
   authId: string,
-  playerId?: string | null,
   firstName: string,
   lastName: string,
   name: string,
@@ -220,7 +235,31 @@ export interface CreateUserCreateHouseMutationVariables {
 export interface CreateUserCreateHouseMutation {
   createUserCreateHouse:  {
     id: string,
+    email: string,
+    authId: string,
+    firstName: string,
+    lastName: string,
     name: string,
+    age: number,
+    bio: string,
+    gender: string,
+    course: string,
+    studyYear: string,
+    email_verified: boolean,
+    profilePicture: string,
+    isDrinker: boolean,
+    isDruggie: boolean,
+    isSmoker: boolean,
+    maxPrice: number | null,
+    minPrice: number | null,
+    genderPreference: string | null,
+    house:  {
+      shortID: number,
+      road: string,
+      billsPrice: number,
+      rentPrice: number,
+      spaces: number,
+    } | null,
   } | null,
 };
 
@@ -228,7 +267,6 @@ export interface CreateUserUpdateHouseMutationVariables {
   name: string,
   email: string,
   authId: string,
-  playerId?: string | null,
   email_verified: boolean,
   firstName: string,
   lastName: string,
@@ -247,8 +285,30 @@ export interface CreateUserUpdateHouseMutationVariables {
 export interface CreateUserUpdateHouseMutation {
   createUserUpdateHouse:  {
     id: string,
+    email: string,
+    authId: string,
+    firstName: string,
+    lastName: string,
+    name: string,
+    age: number,
+    bio: string,
+    gender: string,
+    course: string,
+    studyYear: string,
+    email_verified: boolean,
+    profilePicture: string,
+    isDrinker: boolean,
+    isDruggie: boolean,
+    isSmoker: boolean,
+    maxPrice: number | null,
+    minPrice: number | null,
+    genderPreference: string | null,
     house:  {
       shortID: number,
+      road: string,
+      billsPrice: number,
+      rentPrice: number,
+      spaces: number,
     } | null,
   } | null,
 };
@@ -282,18 +342,6 @@ export interface UnstarPostMutationVariables {
 export interface UnstarPostMutation {
   unstarPost:  {
     id: string,
-  } | null,
-};
-
-export interface UserPlayerIDMutationVariables {
-  id: string,
-  playerID: string,
-};
-
-export interface UserPlayerIDMutation {
-  updateUserPlayerID:  {
-    id: string,
-    playerId: string | null,
   } | null,
 };
 
@@ -342,12 +390,10 @@ export interface HouseApplicationsQuery {
         minPrice: number | null,
         maxPrice: number | null,
         genderPreference: string | null,
-        playerId: string | null,
       },
       to:  {
         users:  Array< {
           id: string,
-          playerId: string | null,
         } > | null,
       },
       createdAt: string,
@@ -369,14 +415,12 @@ export interface HouseChatQuery {
         id: string,
         name: string,
         profilePicture: string,
-        playerId: string | null,
       } | null,
       house:  {
         shortID: number,
         houseImages: Array< string > | null,
         users:  Array< {
           id: string,
-          playerId: string | null,
           profilePicture: string,
           name: string,
         } > | null,
@@ -483,12 +527,21 @@ export interface UserApplicationsQuery {
         shortID: number,
         houseImages: Array< string > | null,
         road: string,
+        coords: Array< number > | null,
+        spaces: number,
         billsPrice: number,
         rentPrice: number,
         post:  {
           id: string,
           description: string,
         } | null,
+        users:  Array< {
+          id: string,
+          name: string,
+          profilePicture: string,
+          course: string,
+          studyYear: string,
+        } > | null,
       },
       createdAt: string,
     } > | null,
@@ -522,14 +575,12 @@ export interface UserChatQuery {
         id: string,
         name: string,
         profilePicture: string,
-        playerId: string | null,
       } | null,
       house:  {
         shortID: number,
         houseImages: Array< string > | null,
         users:  Array< {
           id: string,
-          playerId: string | null,
           profilePicture: string,
           name: string,
         } > | null,
@@ -613,7 +664,6 @@ export interface UserLoginQuery {
     maxPrice: number | null,
     minPrice: number | null,
     genderPreference: string | null,
-    playerId: string | null,
     house:  {
       shortID: number,
       road: string,

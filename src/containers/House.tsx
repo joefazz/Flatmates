@@ -27,12 +27,19 @@ export class House extends React.Component<Props, State> {
     render() {
         const { house } = this.props;
 
-        if (!house.shortID) {
+        if (!house) {
             return (
-                <Text>
-                    You don't have a house either make one to see what this page looks like or
-                    suffer until I think of something to put here xo
-                </Text>
+                <View>
+                    <Text>
+                        You don't have a house either make one to see what this page looks like or
+                        suffer until I think of something to put here xo
+                    </Text>
+                    <Button
+                        title={'RESET DATA BACK TO LOGIN'}
+                        containerViewStyle={{ marginTop: 20 }}
+                        backgroundColor={Colors.brandPrimaryColor}
+                        onPress={() => AsyncStorage.clear(() => this.props.navigation.navigate('Login'))} />
+                </View>
             );
         }
 
@@ -109,6 +116,7 @@ export class House extends React.Component<Props, State> {
                     title={'RESET DATA BACK TO LOGIN'}
                     containerViewStyle={{ marginTop: 20 }}
                     backgroundColor={Colors.brandPrimaryColor}
+                    onPress={() => AsyncStorage.clear(() => this.props.navigation.navigate('Login'))}
                 />
                 <Button
                     title={'Send Payment Reminder'}
@@ -121,7 +129,7 @@ export class House extends React.Component<Props, State> {
                         height: 100
                     }}
                     backgroundColor={Colors.brandPrimaryColor}
-                    onPress={() => AsyncStorage.clear(() => navigation.navigate('Login'))}
+                    onPress={() => AsyncStorage.clear(() => this.props.navigation.navigate('Login'))}
                 />
             </View>
         );

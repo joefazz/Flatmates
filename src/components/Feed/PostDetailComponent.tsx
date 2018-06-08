@@ -289,9 +289,6 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                                     userID: this.props.userId,
                                                     houseID: this.props.house.shortID,
                                                     from: this.props.firstName,
-                                                    playerIDs: this.props.house.users.map(
-                                                        (user: User) => user.playerId
-                                                    ),
                                                     message: ''
                                                 })
                                         }

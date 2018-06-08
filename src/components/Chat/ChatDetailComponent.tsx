@@ -160,7 +160,6 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         ]);
 
         this.props.createMessage({
-            playerIDs: allUsers.map((user) => user.playerId),
             senderID: this.props.userID,
             text: text.trim(),
             senderName: allUsers.find((user) => user.id === this.props.userID).name,

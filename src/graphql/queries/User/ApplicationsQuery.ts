@@ -22,7 +22,6 @@ export const USER_APPLICATIONS_QUERY = gql`
                         id
                         name
                         profilePicture
-                        playerId
                         course
                         studyYear
                     }

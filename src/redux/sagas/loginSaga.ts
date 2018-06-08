@@ -21,6 +21,7 @@ import {
     createUserWithHouse,
     createUserJoinHouse
 } from '../Routines';
+import OneSignal from 'react-native-onesignal';
 
 export const loginSaga = function*() {
     yield takeEvery(createUser.TRIGGER, login);
@@ -82,6 +83,8 @@ const login = function*({ payload }) {
         const user = Object.assign({}, result, payload);
 
         yield put(createUser.success({ user }));
+
+        OneSignal.sendTags({ user_id: result.id, username: result.name, house_id: null });
     } catch (error) {
         yield put(createUser.failure(error));
     }
@@ -101,6 +104,12 @@ const houseLogin = function*({ payload }) {
         const result = yield createUserCreateHouseMutation(payload);
 
         yield put(createUserWithHouse.success({ ...result }));
+
+        OneSignal.sendTags({
+            user_id: result.id,
+            username: result.name,
+            house_id: result.house.shortID
+        });
     } catch (error) {
         yield put(createUserWithHouse.failure(error));
     }
@@ -116,6 +125,12 @@ const joinHouse = function*({ payload }) {
         const result = yield createUserUpdateHouseMutation(payload);
 
         yield put(createUserJoinHouse.success({ ...result }));
+
+        OneSignal.sendTags({
+            user_id: result.id,
+            username: result.name,
+            house_id: result.house.shortID
+        });
     } catch (error) {
         yield put(createUserJoinHouse.failure(error));
     } finally {

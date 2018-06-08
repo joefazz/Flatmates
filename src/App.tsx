@@ -37,8 +37,7 @@ function persistentStore(onComplete) {
 }
 
 const initialState = {
-    isRehydrated: false,
-    playerId: ''
+    isRehydrated: false
 };
 
 interface Props {}
@@ -105,7 +104,6 @@ export default class Root extends React.Component<Props, State> {
 
     saveIds = (device) => {
         console.log('Device info: ', device);
-        this.setState({ playerId: device.userId });
     };
 
     render() {
@@ -114,8 +112,7 @@ export default class Root extends React.Component<Props, State> {
                 <Provider store={store}>
                     <RootNavigation
                         screenProps={{
-                            isRehydrated: this.state.isRehydrated,
-                            playerId: this.state.playerId
+                            isRehydrated: this.state.isRehydrated
                         }}
                     />
                 </Provider>

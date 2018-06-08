@@ -23,12 +23,10 @@ export const HOUSE_APPLICATIONS_QUERY = gql`
                     minPrice
                     maxPrice
                     genderPreference
-                    playerId
                 }
                 to {
                     users {
                         id
-                        playerId
                     }
                 }
                 createdAt
