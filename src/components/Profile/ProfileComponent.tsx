@@ -6,6 +6,7 @@ import { profile } from '../../styles';
 import _ from '../../utils/localdash';
 import { User } from '../../types/Entities';
 import { StatRow } from '../../widgets/StatRow';
+import { Colors } from '../../consts';
 
 interface Props {
     profile: User;
@@ -34,7 +35,15 @@ export class ProfileComponent extends React.Component<Props> {
                             avatarStyle={{
                                 width: 120,
                                 height: 120,
-                                borderRadius: 120 / 2
+                                borderRadius: 60,
+                                backgroundColor: Colors.transparent
+                            }}
+                            overlayContainerStyle={{ borderRadius: 60 }}
+                            containerStyle={{
+                                width: 120,
+                                height: 120,
+                                borderRadius: 60,
+                                backgroundColor: Colors.transparent
                             }}
                             source={{ uri: data.profilePicture }}
                         />

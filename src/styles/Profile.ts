@@ -38,8 +38,8 @@ export const profile = StyleSheet.create({
     headerAvatar: {
         height: 120,
         width: 120,
-        paddingRight: 5,
         borderRadius: 60,
+        backgroundColor: Colors.transparent,
         alignItems: 'center',
         justifyContent: 'center',
         shadowOffset: {

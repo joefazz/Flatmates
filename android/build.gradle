@@ -40,10 +40,6 @@ subprojects {
     }
 }
 
-lintOptions { 
-    quiet true 
-}
-
 ext {
     buildToolsVersion = "26.0.3"
     minSdkVersion = 16
