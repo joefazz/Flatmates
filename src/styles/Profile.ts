@@ -64,7 +64,8 @@ export const profile = StyleSheet.create({
         },
         shadowRadius: 4,
         shadowOpacity: 0.3,
-        shadowColor: Colors.black
+        shadowColor: Colors.black,
+        elevation: 2
     },
 
     statWrapper: {
@@ -77,7 +78,8 @@ export const profile = StyleSheet.create({
         },
         shadowRadius: 4,
         shadowOpacity: 0.3,
-        shadowColor: Colors.black
+        shadowColor: Colors.black,
+        elevation: 2
     },
 
     summaryDescriptionWrapper: {

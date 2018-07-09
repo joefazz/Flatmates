@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
             width: 0,
             height: 2
         },
-        elevation: 1
+        elevation: 2
     },
     statSquare: {
         flex: 1,
