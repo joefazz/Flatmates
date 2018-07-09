@@ -34,7 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new RNSentryPackage(MainApplication.this),
+            new RNSentryPackage(),
             new RNIapPackage(),
             new ReactNativeOneSignalPackage(),
             new A0Auth0Package(),
