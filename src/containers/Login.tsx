@@ -242,7 +242,8 @@ export class Login extends React.Component<Props, State> {
                     </View>
                     <View style={login.pageFooter}>
                         <TouchableRect
-                            title={'Get Started'}
+                            title={this.state.isLoggingIn ? 'Logging In...' : 'Get Started'}
+                            enabled={!this.state.isLoggingIn}
                             onPress={this.loginWithAuth0}
                             backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
@@ -1087,8 +1088,8 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             title={'Confirm'}
                             backgroundColor={
-                                this.state.minPrice === 0 ||
-                                this.state.maxPrice === 0 ||
+                                Number(this.state.minPrice) === 0 ||
+                                Number(this.state.maxPrice) === 0 ||
                                 this.state.genderPreference === '' ||
                                 this.state.drugPreference === '' ||
                                 this.state.drinkPreference === '' ||
@@ -1505,7 +1506,7 @@ export class Login extends React.Component<Props, State> {
                     audience: 'https://flatmates-auth.eu.auth0.com/userinfo'
                 })
                 .then((res) => this.doesUserExist(res.idToken))
-                .catch((error) => console.log(error));
+                .catch((error) => this.setState({ isLoggingIn: false }));
         });
     };
 
@@ -1532,9 +1533,11 @@ export class Login extends React.Component<Props, State> {
             });
 
             if (!!user) {
-
-                OneSignal.sendTags({ user_id: user.id, username: user.name, house_id: user.house ? user.house.shortID : null });
-
+                OneSignal.sendTags({
+                    user_id: user.id,
+                    username: user.name,
+                    house_id: user.house ? user.house.shortID : null
+                });
 
                 this.props.getUserData(user);
 
@@ -1542,7 +1545,7 @@ export class Login extends React.Component<Props, State> {
             } else {
                 this.email = decodedJSON.email;
                 this.isVerifiedUser = decodedJSON.email_verified;
-                this.homeSwiper.scrollBy(1, true);
+                this.setState({ isLoggingIn: false }, () => this.homeSwiper.scrollBy(1, true));
             }
         } catch (error) {
             console.log(error);
