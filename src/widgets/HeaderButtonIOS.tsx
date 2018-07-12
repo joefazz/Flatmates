@@ -4,15 +4,16 @@ import { Text, TouchableOpacity } from 'react-native';
 import { Colors } from '../consts';
 
 interface Props {
-    onPress: () => void
+    onPress: () => void;
+    text: string;
 }
 
-export class EditButton extends React.PureComponent<Props> {
+export class HeaderButtonIOS extends React.PureComponent<Props> {
     render() {
         return (
             <TouchableOpacity onPress={this.props.onPress} style={{ marginRight: 10 }}>
-                <Text style={{ fontSize: 17, color: Colors.white }}>Edit</Text>
+                <Text style={{ fontSize: 17, color: Colors.white }}>{this.props.text}</Text>
             </TouchableOpacity>
-        )
+        );
     }
 }

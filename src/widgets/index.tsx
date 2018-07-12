@@ -1,6 +1,6 @@
 import { CreateButton } from './CreateButton';
-import { EditButton } from './EditButton';
+import { HeaderButtonIOS } from './HeaderButtonIOS';
 import { PostCard } from './PostCard';
 import { PreferenceRow } from './PreferenceRow';
 
-export { CreateButton, EditButton, PostCard, PreferenceRow };
+export { CreateButton, HeaderButtonIOS, PostCard, PreferenceRow };

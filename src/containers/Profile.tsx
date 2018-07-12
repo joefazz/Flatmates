@@ -6,13 +6,20 @@ import { ProfileComponent } from '../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
 import { LoginState, ProfileState } from '../types/ReduxTypes';
 import { User } from '../types/Entities';
-import { EditButton } from '../widgets';
+import { HeaderButtonIOS } from '../widgets';
 
 interface Props {
     profile: ProfileState;
     login: LoginState;
     loading: boolean;
     userDetailsQuery: () => void;
+    navigation: {
+        state: {
+            params: {
+                contentEditable: boolean;
+            };
+        };
+    };
 }
 
 interface State {
@@ -25,7 +32,19 @@ export class Profile extends React.Component<Props, State> {
         title: 'Profile',
         headerRight:
             Platform.OS === 'ios' ? (
-                <EditButton onPress={() => navigation.navigate('EditProfile')} />
+                !!navigation.state &&
+                !!navigation.state.params &&
+                !!navigation.state.params.contentEditable ? (
+                    <HeaderButtonIOS
+                        text={'Done'}
+                        onPress={() => navigation.setParams({ contentEditable: false })}
+                    />
+                ) : (
+                    <HeaderButtonIOS
+                        text={'Edit'}
+                        onPress={() => navigation.setParams({ contentEditable: true })}
+                    />
+                )
             ) : null
     });
 
@@ -73,9 +92,19 @@ export class Profile extends React.Component<Props, State> {
         if (this.state.isLoading) {
             return <ActivityIndicator />;
         }
+
         return (
             <View style={{ flex: 1 }}>
-                <ProfileComponent isLoading={this.state.isLoading} profile={this.state.profile} />
+                <ProfileComponent
+                    isLoading={this.state.isLoading}
+                    profile={this.state.profile}
+                    contentEditable={
+                        (this.props.navigation.state &&
+                            this.props.navigation.state.params &&
+                            this.props.navigation.state.params.contentEditable) ||
+                        false
+                    }
+                />
             </View>
         );
     }

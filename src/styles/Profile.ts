@@ -25,7 +25,7 @@ export const profile = StyleSheet.create({
     headerText: {
         ...Font.FontFactory({ weight: 'Bold' }),
         color: Colors.black,
-        fontSize: toConstantFontSize(6) > 45 ? 32 : toConstantFontSize(6),
+        fontSize: toConstantFontSize(4.5),
         paddingBottom: 10
     },
 
