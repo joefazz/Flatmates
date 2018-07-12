@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, AsyncStorage, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import {
     toConstantFontSize,
@@ -12,17 +12,37 @@ import { StatRow } from '../widgets/StatRow';
 import { Button } from 'react-native-elements';
 import { ReduxState } from '../types/ReduxTypes';
 import { House as HouseType } from '../types/Entities';
+import { HeaderButtonIOS } from '../widgets';
 
 interface Props {
     house: HouseType;
+    navigation: {
+        navigate: (route: string) => void;
+    };
 }
 
 interface State {}
 
 export class House extends React.Component<Props, State> {
-    static navigationOptions = {
-        title: 'My House'
-    };
+    static navigationOptions = ({ navigation }) => ({
+        title: 'My House',
+        headerRight:
+            Platform.OS === 'ios' ? (
+                !!navigation.state &&
+                !!navigation.state.params &&
+                !!navigation.state.params.contentEditable ? (
+                    <HeaderButtonIOS
+                        text={'Done'}
+                        onPress={() => navigation.setParams({ contentEditable: false })}
+                    />
+                ) : (
+                    <HeaderButtonIOS
+                        text={'Edit'}
+                        onPress={() => navigation.setParams({ contentEditable: true })}
+                    />
+                )
+            ) : null
+    });
 
     render() {
         const { house } = this.props;
@@ -38,7 +58,10 @@ export class House extends React.Component<Props, State> {
                         title={'RESET DATA BACK TO LOGIN'}
                         containerViewStyle={{ marginTop: 20 }}
                         backgroundColor={Colors.brandPrimaryColor}
-                        onPress={() => AsyncStorage.clear(() => this.props.navigation.navigate('Login'))} />
+                        onPress={() =>
+                            AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
+                        }
+                    />
                 </View>
             );
         }
@@ -116,7 +139,9 @@ export class House extends React.Component<Props, State> {
                     title={'RESET DATA BACK TO LOGIN'}
                     containerViewStyle={{ marginTop: 20 }}
                     backgroundColor={Colors.brandPrimaryColor}
-                    onPress={() => AsyncStorage.clear(() => this.props.navigation.navigate('Login'))}
+                    onPress={() =>
+                        AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
+                    }
                 />
                 <Button
                     title={'Send Payment Reminder'}
@@ -129,7 +154,9 @@ export class House extends React.Component<Props, State> {
                         height: 100
                     }}
                     backgroundColor={Colors.brandPrimaryColor}
-                    onPress={() => AsyncStorage.clear(() => this.props.navigation.navigate('Login'))}
+                    onPress={() =>
+                        AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
+                    }
                 />
             </View>
         );
