@@ -40,6 +40,7 @@ export const profile = StyleSheet.create({
         width: 120,
         borderRadius: 60,
         backgroundColor: Colors.transparent,
+        alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'center',
         shadowOffset: {
