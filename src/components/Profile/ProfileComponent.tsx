@@ -5,6 +5,7 @@ import { profile } from '../../styles';
 import { User } from '../../types/Entities';
 import { StatRow } from '../../widgets/StatRow';
 import { Colors } from '../../consts';
+import { EditableStatRow } from '../../widgets/EditableStatRow';
 
 interface Props {
     profile: User;
@@ -37,7 +38,7 @@ export class ProfileComponent extends React.Component<Props, State> {
     };
 
     render() {
-        const { profile: data } = this.props;
+        const data = this.state;
 
         if (this.props.contentEditable) {
             return (
@@ -82,21 +83,51 @@ export class ProfileComponent extends React.Component<Props, State> {
                     </View>
                     <View style={profile.statWrapper}>
                         <View style={profile.preferencesWrapper}>
-                            <StatRow
+                            <EditableStatRow
                                 items={[
                                     { label: 'Age', value: data.age },
                                     { label: 'Year', value: data.studyYear.replace(' Year', '') },
                                     { label: 'Gender', value: data.gender }
                                 ]}
+                                onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                    items.map((item) => {
+                                        switch (item.label) {
+                                            case 'Age':
+                                                this.setState({ age: item.value });
+                                                break;
+                                            case 'Year':
+                                                this.setState({ studyYear: item.value });
+                                                break;
+                                            case 'Gender':
+                                                this.setState({ gender: item.value });
+                                                break;
+                                        }
+                                    })
+                                }
                             />
                         </View>
                         <View style={profile.preferencesWrapper}>
-                            <StatRow
+                            <EditableStatRow
                                 items={[
                                     { label: 'Smoker', value: data.isSmoker ? 'Yes' : 'No' },
                                     { label: 'Uses Drugs', value: data.isDruggie ? 'Yes' : 'No' },
                                     { label: 'Drinker', value: data.isDrinker ? 'Yes' : 'No' }
                                 ]}
+                                onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                    items.map((item) => {
+                                        switch (item.label) {
+                                            case 'Smoker':
+                                                this.setState({ isSmoker: Boolean(item.value) });
+                                                break;
+                                            case 'Uses Drugs':
+                                                this.setState({ isDruggie: Boolean(item.value) });
+                                                break;
+                                            case 'Drinker':
+                                                this.setState({ isDrinker: Boolean(item.value) });
+                                                break;
+                                        }
+                                    })
+                                }
                             />
                         </View>
                     </View>

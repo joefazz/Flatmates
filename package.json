@@ -24,7 +24,7 @@
         "url": "^0.11.0"
     },
     "scripts": {
-        "ios": "react-native run-ios --simulator=\"iPhone SE\"",
+        "ios": "react-native run-ios --simulator=\"iPhone X\"",
         "android": "react-native run-android",
         "emulator": "cd ~ && ./RunAndEmulate",
         "start": "react-native start --transformer node_modules/react-native-typescript-transformer/index.js --sourceExts ts,tsx",
