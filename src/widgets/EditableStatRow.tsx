@@ -28,7 +28,6 @@ export class EditableStatRow extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        console.log(this.props.onEndEditing);
         this.props.onEndEditing(this.state.items);
     }
 
