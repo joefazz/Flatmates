@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, AsyncStorage, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { FloatingAction } from 'react-native-floating-action';
+import Icon from 'react-native-vector-icons/Ionicons'
 import {
     toConstantFontSize,
     toConstantWidth,
@@ -15,6 +16,7 @@ import { ReduxState } from '../types/ReduxTypes';
 import { House as HouseType } from '../types/Entities';
 import { HeaderButtonIOS } from '../widgets';
 import { TextInput } from '../../node_modules/react-native-gesture-handler';
+import { EditableStatRow } from '../widgets/EditableStatRow';
 
 interface Props {
     house: HouseType;
@@ -29,7 +31,13 @@ interface Props {
     };
 }
 
-interface State { }
+interface State {
+    road: string;
+    billsPrice: number;
+    rentPrice: number;
+    spaces: number;
+    study
+}
 
 export class House extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
@@ -82,11 +90,20 @@ export class House extends React.Component<Props, State> {
                     </View>
 
                     <View style={styles.statisticsWrapper}>
-                        <Editable
+                        <EditableStatRow
                             items={[
-                                { label: 'House ID', value: house.shortID },
+                                { label: 'House ID', value: house.shortID, editable: false },
                                 { label: 'Free Rooms', value: house.spaces }
                             ]}
+                            onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                items.map((item) => {
+                                    switch (item.label) {
+                                        case 'Free Rooms':
+                                            this.setState({ spaces: Number(item.value) });
+                                            break;
+                                    }
+                                })
+                            }
                         />
                         <View
                             style={{
@@ -103,11 +120,23 @@ export class House extends React.Component<Props, State> {
                         />
                     </View>
                     <View style={styles.statisticsWrapper}>
-                        <StatRow
+                        <EditableStatRow
                             items={[
                                 { label: 'Rent Due', value: '25th' },
                                 { label: 'Bills Due', value: '23rd' }
                             ]}
+                            onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                items.map((item) => {
+                                    switch (item.label) {
+                                        case 'Rent Due':
+                                            // this.setState({ rentDue: Number(item.value) });
+                                            break;
+                                        case 'Bills Due':
+                                            // this.setState({ billsDue: Number(item.value) });
+                                            break;
+                                    }
+                                })
+                            }
                         />
                         <View
                             style={{
@@ -116,11 +145,23 @@ export class House extends React.Component<Props, State> {
                                 backgroundColor: Colors.grey
                             }}
                         />
-                        <StatRow
+                        <EditableStatRow
                             items={[
                                 { label: 'Rent', value: '£' + String(house.rentPrice) },
                                 { label: 'Bills', value: '£' + String(house.billsPrice) }
                             ]}
+                            onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                items.map((item) => {
+                                    switch (item.label) {
+                                        case 'Rent':
+                                            this.setState({ rentPrice: Number(item.value) });
+                                            break;
+                                        case 'Bills':
+                                            this.setState({ billsPrice: Number(item.value) });
+                                            break;
+                                    }
+                                })
+                            }
                         />
                     </View>
 
@@ -302,6 +343,7 @@ const mapStateToProps = (state: ReduxState) => ({
     house: state.profile.house
 });
 
+// @ts-ignore
 export default connect(mapStateToProps)(House);
 
 const styles = StyleSheet.create({

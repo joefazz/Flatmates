@@ -9,6 +9,7 @@ import { USER_LOGIN_QUERY } from '../graphql/queries';
 import { UserLoginQuery } from '../graphql/Types';
 import { ApolloQueryResult } from 'apollo-client';
 import { FontFactory } from '../consts/font';
+import { Colors } from '../consts';
 
 interface Props {
     screenProps: { isRehydrated: boolean };
@@ -87,7 +88,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: Colors.brandPrimaryColor
     }
 });
 
