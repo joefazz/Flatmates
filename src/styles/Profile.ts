@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { Colors, Font, Metrics } from '../consts';
+import { Colors, Font } from '../consts';
 import { toConstantFontSize, toConstantWidth } from '../utils/PercentageConversion';
 import { FontFactory } from '../consts/font';
 
@@ -37,9 +37,9 @@ export const profile = StyleSheet.create({
     },
 
     headerAvatar: {
-        height: 130,
-        width: 130,
-        borderRadius: 65,
+        height: toConstantWidth(34),
+        width: toConstantWidth(34),
+        borderRadius: toConstantWidth(34) / 2,
         backgroundColor: Colors.transparent,
         alignSelf: 'center',
         alignItems: 'center',

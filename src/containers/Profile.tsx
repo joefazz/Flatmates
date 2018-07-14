@@ -109,19 +109,21 @@ export class Profile extends React.Component<Props, State> {
                         false
                     }
                 />
-                <FloatingAction
-                    actions={[{
-                        name: 'Edit',
-                        icon: <Icon name={this.props.navigation.state &&
-                            this.props.navigation.state.params &&
-                            this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
-                    }]}
-                    color={Colors.brandPrimaryColor}
-                    overrideWithAction={true}
-                    onPressItem={() => {
-                        this.props.navigation.setParams({ contentEditable: !!this.props.navigation.state.params ? !this.props.navigation.state.params.contentEditable : true })
-                    }}
-                />
+                {Platform.OS === 'android' &&
+                    <FloatingAction
+                        actions={[{
+                            name: 'Edit',
+                            icon: <Icon name={this.props.navigation.state &&
+                                this.props.navigation.state.params &&
+                                this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
+                        }]}
+                        color={Colors.brandPrimaryColor}
+                        overrideWithAction={true}
+                        onPressItem={() => {
+                            this.props.navigation.setParams({ contentEditable: !!this.props.navigation.state.params ? !this.props.navigation.state.params.contentEditable : true })
+                        }}
+                    />
+                }
             </View>
         );
     }

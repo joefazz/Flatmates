@@ -5,6 +5,7 @@ import { profile } from '../../styles';
 import { User } from '../../types/Entities';
 import { StatRow } from '../../widgets/StatRow';
 import { Colors } from '../../consts';
+import { toConstantWidth } from '../../utils/PercentageConversion';
 
 interface Props {
     profile: User;
@@ -47,16 +48,16 @@ export class ProfileComponent extends React.Component<Props, State> {
                             <Avatar
                                 rounded={true}
                                 avatarStyle={{
-                                    width: 120,
-                                    height: 120,
-                                    borderRadius: 60,
+                                    width: toConstantWidth(32),
+                                    height: toConstantWidth(32),
+                                    borderRadius: toConstantWidth(32) / 2,
                                     backgroundColor: Colors.transparent
                                 }}
-                                overlayContainerStyle={{ borderRadius: 60 }}
+                                overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
                                 containerStyle={{
-                                    width: 120,
-                                    height: 120,
-                                    borderRadius: 60,
+                                    width: toConstantWidth(32),
+                                    height: toConstantWidth(32),
+                                    borderRadius: toConstantWidth(32) / 2,
                                     backgroundColor: Colors.transparent
                                 }}
                                 source={{ uri: data.profilePicture }}
@@ -114,16 +115,16 @@ export class ProfileComponent extends React.Component<Props, State> {
                         <Avatar
                             rounded={true}
                             avatarStyle={{
-                                width: 120,
-                                height: 120,
-                                borderRadius: 60,
+                                width: toConstantWidth(32),
+                                height: toConstantWidth(32),
+                                borderRadius: toConstantWidth(32) / 2,
                                 backgroundColor: Colors.transparent
                             }}
-                            overlayContainerStyle={{ borderRadius: 60 }}
+                            overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
                             containerStyle={{
-                                width: 120,
-                                height: 120,
-                                borderRadius: 60,
+                                width: toConstantWidth(32),
+                                height: toConstantWidth(32),
+                                borderRadius: toConstantWidth(32) / 2,
                                 backgroundColor: Colors.transparent
                             }}
                             source={{ uri: data.profilePicture }}
