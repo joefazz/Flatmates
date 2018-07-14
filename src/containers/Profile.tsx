@@ -35,7 +35,7 @@ export class Profile extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
         title: 'Profile',
         headerRight:
-            Platform.OS === 'ios' ? (
+            Platform.OS === 'ios' && (
                 !!navigation.state &&
                     !!navigation.state.params &&
                     !!navigation.state.params.contentEditable ? (
@@ -49,7 +49,7 @@ export class Profile extends React.Component<Props, State> {
                             onPress={() => navigation.setParams({ contentEditable: true })}
                         />
                     )
-            ) : null
+            )
     });
 
     constructor(props) {
