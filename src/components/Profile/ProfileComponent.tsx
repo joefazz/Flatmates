@@ -47,16 +47,16 @@ export class ProfileComponent extends React.Component<Props, State> {
                             <Avatar
                                 rounded={true}
                                 avatarStyle={{
-                                    width: 110,
-                                    height: 110,
-                                    borderRadius: 55,
+                                    width: 120,
+                                    height: 120,
+                                    borderRadius: 60,
                                     backgroundColor: Colors.transparent
                                 }}
                                 overlayContainerStyle={{ borderRadius: 60 }}
                                 containerStyle={{
-                                    width: 100,
-                                    height: 100,
-                                    borderRadius: 50,
+                                    width: 120,
+                                    height: 120,
+                                    borderRadius: 60,
                                     backgroundColor: Colors.transparent
                                 }}
                                 source={{ uri: data.profilePicture }}
@@ -67,16 +67,19 @@ export class ProfileComponent extends React.Component<Props, State> {
                                 style={profile.headerText}
                                 defaultValue={data.name}
                                 onChangeText={(text) => this.setState({ name: text })}
+                                underlineColorAndroid={Colors.transparent}
                             />
                             <TextInput
                                 style={profile.summaryDescription}
                                 defaultValue={data.course}
                                 onChangeText={(text) => this.setState({ course: text })}
+                                underlineColorAndroid={Colors.transparent}
                             />
                             <TextInput
                                 style={profile.summaryDescription}
                                 defaultValue={data.bio}
                                 onChangeText={(text) => this.setState({ bio: text })}
+                                underlineColorAndroid={Colors.transparent}
                             />
                         </View>
                     </View>
@@ -111,16 +114,16 @@ export class ProfileComponent extends React.Component<Props, State> {
                         <Avatar
                             rounded={true}
                             avatarStyle={{
-                                width: 110,
-                                height: 110,
-                                borderRadius: 55,
+                                width: 120,
+                                height: 120,
+                                borderRadius: 60,
                                 backgroundColor: Colors.transparent
                             }}
                             overlayContainerStyle={{ borderRadius: 60 }}
                             containerStyle={{
-                                width: 100,
-                                height: 100,
-                                borderRadius: 50,
+                                width: 120,
+                                height: 120,
+                                borderRadius: 60,
                                 backgroundColor: Colors.transparent
                             }}
                             source={{ uri: data.profilePicture }}

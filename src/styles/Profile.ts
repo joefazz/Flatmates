@@ -26,7 +26,8 @@ export const profile = StyleSheet.create({
         ...Font.FontFactory({ weight: 'Bold' }),
         color: Colors.black,
         fontSize: toConstantFontSize(4.5),
-        paddingBottom: 10
+        paddingBottom: 10,
+        paddingTop: 0,
     },
 
     aboutText: {
@@ -36,9 +37,9 @@ export const profile = StyleSheet.create({
     },
 
     headerAvatar: {
-        height: 120,
-        width: 120,
-        borderRadius: 60,
+        height: 130,
+        width: 130,
+        borderRadius: 65,
         backgroundColor: Colors.transparent,
         alignSelf: 'center',
         alignItems: 'center',
@@ -47,16 +48,18 @@ export const profile = StyleSheet.create({
             width: 1,
             height: 1
         },
+        marginVertical: 10,
+        marginLeft: 15,
         shadowRadius: 2,
         shadowOpacity: 1,
-        shadowColor: Colors.black
+        shadowColor: Colors.black,
+        elevation: 2
     },
 
     summaryWrapper: {
         flexDirection: 'row',
         alignSelf: 'stretch',
         backgroundColor: Colors.offWhite,
-        padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: Colors.grey,
         shadowOffset: {
@@ -92,7 +95,8 @@ export const profile = StyleSheet.create({
 
     summaryDescription: {
         ...FontFactory({ weight: 'Light' }),
-        fontSize: 20
+        fontSize: 20,
+        paddingVertical: 0
     },
 
     aboutLabel: {

@@ -3,10 +3,13 @@ import { compose, graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import { Platform, View, ActivityIndicator } from 'react-native';
 import { ProfileComponent } from '../components/Profile/ProfileComponent';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { USER_DETAILS_QUERY } from '../graphql/queries';
 import { LoginState, ProfileState } from '../types/ReduxTypes';
 import { User } from '../types/Entities';
 import { HeaderButtonIOS } from '../widgets';
+import { FloatingAction } from 'react-native-floating-action';
+import { Colors } from '../consts';
 
 interface Props {
     profile: ProfileState;
@@ -19,6 +22,7 @@ interface Props {
                 contentEditable: boolean;
             };
         };
+        setParams: any;
     };
 }
 
@@ -33,18 +37,18 @@ export class Profile extends React.Component<Props, State> {
         headerRight:
             Platform.OS === 'ios' ? (
                 !!navigation.state &&
-                !!navigation.state.params &&
-                !!navigation.state.params.contentEditable ? (
-                    <HeaderButtonIOS
-                        text={'Done'}
-                        onPress={() => navigation.setParams({ contentEditable: false })}
-                    />
-                ) : (
-                    <HeaderButtonIOS
-                        text={'Edit'}
-                        onPress={() => navigation.setParams({ contentEditable: true })}
-                    />
-                )
+                    !!navigation.state.params &&
+                    !!navigation.state.params.contentEditable ? (
+                        <HeaderButtonIOS
+                            text={'Done'}
+                            onPress={() => navigation.setParams({ contentEditable: false })}
+                        />
+                    ) : (
+                        <HeaderButtonIOS
+                            text={'Edit'}
+                            onPress={() => navigation.setParams({ contentEditable: true })}
+                        />
+                    )
             ) : null
     });
 
@@ -104,6 +108,19 @@ export class Profile extends React.Component<Props, State> {
                             this.props.navigation.state.params.contentEditable) ||
                         false
                     }
+                />
+                <FloatingAction
+                    actions={[{
+                        name: 'Edit',
+                        icon: <Icon name={this.props.navigation.state &&
+                            this.props.navigation.state.params &&
+                            this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
+                    }]}
+                    color={Colors.brandPrimaryColor}
+                    overrideWithAction={true}
+                    onPressItem={() => {
+                        this.props.navigation.setParams({ contentEditable: !!this.props.navigation.state.params ? !this.props.navigation.state.params.contentEditable : true })
+                    }}
                 />
             </View>
         );
