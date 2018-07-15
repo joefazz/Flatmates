@@ -87,6 +87,30 @@ export interface CreateGroupMutation {
   } | null,
 };
 
+export interface UpdateHouseMutationVariables {
+  shortID: number,
+  road?: string | null,
+  coords?: Array< number | null > | null,
+  spaces?: number | null,
+  rentDue?: string | null,
+  billsDue?: string | null,
+  rentPrice?: number | null,
+  billsPrice?: number | null,
+};
+
+export interface UpdateHouseMutation {
+  updateHouse:  {
+    shortID: number,
+    road: string,
+    coords: Array< number > | null,
+    spaces: number,
+    rentDue: string | null,
+    billsDue: string | null,
+    rentPrice: number,
+    billsPrice: number,
+  } | null,
+};
+
 export interface CreatePostMutationVariables {
   description: string,
   createdBy: number,
@@ -345,6 +369,38 @@ export interface UnstarPostMutation {
   } | null,
 };
 
+export interface UpdateUserMutationVariables {
+  id: string,
+  name?: string | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  age?: number | null,
+  course?: string | null,
+  bio?: string | null,
+  studyYear?: string | null,
+  gender?: string | null,
+  isSmoker?: boolean | null,
+  isDruggie?: boolean | null,
+  isDrinker?: boolean | null,
+};
+
+export interface UpdateUserMutation {
+  updateUser:  {
+    id: string,
+    name: string,
+    firstName: string,
+    lastName: string,
+    age: number,
+    course: string,
+    bio: string,
+    studyYear: string,
+    gender: string,
+    isSmoker: boolean,
+    isDruggie: boolean,
+    isDrinker: boolean,
+  } | null,
+};
+
 export interface ChatMessagesQueryVariables {
   id: string,
 };
@@ -435,6 +491,7 @@ export interface HouseDetailQueryVariables {
 
 export interface HouseDetailQuery {
   house:  {
+    shortID: number,
     road: string,
     billsPrice: number,
     rentPrice: number,
@@ -613,6 +670,7 @@ export interface UserDetailQuery {
     id: string,
     name: string,
     firstName: string,
+    lastName: string,
     course: string,
     bio: string,
     age: number,

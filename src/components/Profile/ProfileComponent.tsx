@@ -7,28 +7,16 @@ import { StatRow } from '../../widgets/StatRow';
 import { Colors } from '../../consts';
 import { toConstantWidth } from '../../utils/PercentageConversion';
 import { EditableStatRow } from '../../widgets/EditableStatRow';
+import { UpdateUserMutationVariables, UpdateHouseMutation } from '../../graphql/Types';
 
 interface Props {
     profile: User;
     isLoading: boolean;
     contentEditable: boolean;
+    updateUser: (params: UpdateUserMutationVariables) => UpdateHouseMutation;
 }
 
-interface State {
-    name: string;
-    course: string;
-    bio: string;
-    age: number | string;
-    studyYear: string;
-    gender: string;
-    isSmoker: boolean;
-    isDruggie: boolean;
-    isDrinker: boolean;
-}
-
-export class ProfileComponent extends React.Component<Props, State> {
-    readonly state = { ...this.props.profile };
-
+export class ProfileComponent extends React.Component<Props> {
     renderPreference = ({ item }) => {
         return (
             <View style={profile.preference}>
@@ -39,7 +27,7 @@ export class ProfileComponent extends React.Component<Props, State> {
     };
 
     render() {
-        const data = this.state;
+        const { profile: data } = this.props;
 
         if (this.props.contentEditable) {
             return (
@@ -68,20 +56,20 @@ export class ProfileComponent extends React.Component<Props, State> {
                             <TextInput
                                 style={profile.headerText}
                                 defaultValue={data.name}
-                                onChangeText={(text) => this.setState({ name: text })}
                                 underlineColorAndroid={Colors.transparent}
+                                onEndEditing={() => /* CALL FUNCTION HERE */ console.log("You're trash brock")}
                             />
                             <TextInput
                                 style={profile.summaryDescription}
                                 defaultValue={data.course}
-                                onChangeText={(text) => this.setState({ course: text })}
                                 underlineColorAndroid={Colors.transparent}
+                                onEndEditing={() => /* CALL FUNCTION HERE */ console.log("You're trash brock")}
                             />
                             <TextInput
                                 style={profile.summaryDescription}
                                 defaultValue={data.bio}
-                                onChangeText={(text) => this.setState({ bio: text })}
                                 underlineColorAndroid={Colors.transparent}
+                                onEndEditing={() => /* CALL FUNCTION HERE */ console.log("You're trash brock")}
                             />
                         </View>
                     </View>
@@ -97,13 +85,20 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     items.map((item) => {
                                         switch (item.label) {
                                             case 'Age':
-                                                this.setState({ age: item.value });
+                                                if (data.age !== Number(item.value)) {
+                                                    // call update function
+                                                }
+                                                break;
                                                 break;
                                             case 'Year':
-                                                this.setState({ studyYear: item.value });
+                                                if (data.studyYear !== item.value) {
+                                                    // call update function
+                                                }
                                                 break;
                                             case 'Gender':
-                                                this.setState({ gender: item.value });
+                                                if (data.gender !== item.value) {
+                                                    // call update function
+                                                }
                                                 break;
                                         }
                                     })
@@ -121,13 +116,19 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     items.map((item) => {
                                         switch (item.label) {
                                             case 'Smoker':
-                                                this.setState({ isSmoker: Boolean(item.value) });
+                                                if (data.isSmoker !== Boolean(item.value)) {
+                                                    // call update function
+                                                }
                                                 break;
                                             case 'Uses Drugs':
-                                                this.setState({ isDruggie: Boolean(item.value) });
+                                                if (data.isDruggie !== Boolean(item.value)) {
+                                                    // call update function
+                                                }
                                                 break;
                                             case 'Drinker':
-                                                this.setState({ isDrinker: Boolean(item.value) });
+                                                if (data.isDrinker !== Boolean(item.value)) {
+                                                    // call update function
+                                                }
                                                 break;
                                         }
                                     })

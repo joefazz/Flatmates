@@ -36,9 +36,10 @@ export class EditableStatRow extends React.Component<Props, State> {
         return (
             <View style={styles.statRow}>
                 {this.props.items.map((item, index) => (
-                    <React.Fragment key={item.label + item.value}>
-                        <View style={styles.statSquare}>
+                    <React.Fragment key={index}>
+                        <View key={index} style={styles.statSquare} >
                             <TextInput
+                                key={index}
                                 style={styles.statText}
                                 defaultValue={String(item.value)}
                                 underlineColorAndroid={Colors.transparent}

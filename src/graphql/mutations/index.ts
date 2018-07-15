@@ -14,12 +14,15 @@ import { CREATE_USER_UPDATE_HOUSE_MUTATION } from './User/CreateUserUpdateHouse'
 import { CREATE_APPLICATION_MUTATION } from './Application/CreateApplication';
 import { CREATE_GROUP_MUTATION } from './Group/CreateGroup';
 import { DELETE_APPLICATION_MUTATION } from './Application/DeleteApplication';
+import { UPDATE_USER_MUTATION } from './User/UpdateUser';
+import { UPDATE_HOUSE_MUTATION } from './House/UpdateHouse';
 
 export {
     // CREATE_MESSAGE_MUTATION,
-    // UPDATE_HOUSE_MUTATION,
+    UPDATE_HOUSE_MUTATION,
     // LEAVE_HOUSE_MUTATION,
     // DELETE_HOUSE_MUTATION,
+    UPDATE_USER_MUTATION,
     UNSTAR_POST_MUTATION,
     STAR_POST_MUTATION,
     CREATE_USER_MUTATION,

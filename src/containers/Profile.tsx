@@ -10,6 +10,8 @@ import { User } from '../types/Entities';
 import { HeaderButtonIOS } from '../widgets';
 import { FloatingAction } from 'react-native-floating-action';
 import { Colors } from '../consts';
+import { UPDATE_USER_MUTATION } from '../graphql/mutations';
+import { UpdateUserMutationVariables, UserDetailQuery } from '../graphql/Types';
 
 interface Props {
     profile: ProfileState;
@@ -148,10 +150,52 @@ const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
     })
 });
 
+const updateUserMutation = graphql(UPDATE_USER_MUTATION, {
+    props: ({ mutate }) => ({
+        updateUser: (params: UpdateUserMutationVariables) =>
+            mutate({
+                variables: { ...params },
+                update: (store, { data: { updateUser } }) => {
+                    const userData: UserDetailQuery = store.readQuery({
+                        query: USER_DETAILS_QUERY,
+                        variables: { id: params.id }
+                    });
+
+                    let data = Object.assign(userData.user, updateUser)
+
+                    store.writeQuery({
+                        query: USER_DETAILS_QUERY,
+                        variables: { id: params.id },
+                        data: { user: data }
+                    });
+                },
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    updateUser: {
+                        __typename: 'User',
+                        id: params.id,
+                        name: params.name,
+                        firstName: params.firstName,
+                        lastName: params.lastName,
+                        age: params.age,
+                        course: params.course,
+                        bio: params.bio,
+                        gender: params.gender,
+                        studyYear: params.studyYear,
+                        isSmoker: params.isSmoker,
+                        isDruggie: params.isDruggie,
+                        isDrinker: params.isDrinker,
+                    }
+                }
+            })
+    })
+});
+
 export default compose(
     connect(
         mapStateToProps,
         bindActions
     ),
-    userDetailsQuery
+    userDetailsQuery,
+    updateUserMutation
 )(Profile);

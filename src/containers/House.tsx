@@ -1,4 +1,5 @@
 import React from 'react';
+import { graphql, compose } from 'react-apollo';
 import { Text, View, StyleSheet, AsyncStorage, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { FloatingAction } from 'react-native-floating-action';
@@ -15,8 +16,12 @@ import { Button } from 'react-native-elements';
 import { ReduxState } from '../types/ReduxTypes';
 import { House as HouseType } from '../types/Entities';
 import { HeaderButtonIOS } from '../widgets';
-import { TextInput } from '../../node_modules/react-native-gesture-handler';
+import { TextInput } from 'react-native-gesture-handler';
 import { EditableStatRow } from '../widgets/EditableStatRow';
+import { UPDATE_HOUSE_MUTATION } from '../graphql/mutations';
+import { UpdateHouseMutationVariables, HouseDetailQuery, UpdateHouseMutation } from '../graphql/Types';
+import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
+import { getCoordsFromAddress } from '../utils/localdash';
 
 interface Props {
     house: HouseType;
@@ -29,14 +34,12 @@ interface Props {
             }
         }
     };
+    updateHouse: (params: UpdateHouseMutationVariables) => UpdateHouseMutation
 }
 
 interface State {
+    shortID: number;
     road: string;
-    billsPrice: number;
-    rentPrice: number;
-    spaces: number;
-    study
 }
 
 export class House extends React.Component<Props, State> {
@@ -59,6 +62,40 @@ export class House extends React.Component<Props, State> {
                     )
             )
     });
+
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            shortID: props.house.shortID,
+            road: props.house.road
+        }
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.navigation.state.params) {
+            if (prevProps.navigation.state.params.contentEditable && !this.props.navigation.state.params.contentEditable) {
+                if (prevProps.house.road !== this.state.road) {
+
+                    getCoordsFromAddress(this.state.road)
+                        .then(coords => {
+                            console.log(coords);
+                            this.props.updateHouse({
+                                shortID: this.props.house.shortID,
+                                road: this.state.road,
+                                coords: coords as Array<number>,
+                                spaces: this.props.house.spaces,
+                                billsPrice: this.props.house.billsPrice,
+                                rentPrice: this.props.house.rentPrice
+                            });
+                        })
+                        .catch(err => console.log('problem with coords', err));
+                }
+
+
+            }
+        }
+    }
 
     render() {
         const { house } = this.props;
@@ -99,7 +136,15 @@ export class House extends React.Component<Props, State> {
                                 items.map((item) => {
                                     switch (item.label) {
                                         case 'Free Rooms':
-                                            this.setState({ spaces: Number(item.value) });
+                                            if (house.spaces !== Number(item.value)) {
+                                                this.props.updateHouse({
+                                                    shortID: this.props.house.shortID,
+                                                    road: house.road,
+                                                    spaces: Number(item.value),
+                                                    billsPrice: house.billsPrice,
+                                                    rentPrice: house.rentPrice
+                                                });
+                                            }
                                             break;
                                     }
                                 })
@@ -152,16 +197,35 @@ export class House extends React.Component<Props, State> {
                             ]}
                             onEndEditing={(items: Array<{ value: string; label: string }>) =>
                                 items.map((item) => {
+                                    let value = item.value;
+                                    value = value.replace('£', '');
                                     switch (item.label) {
                                         case 'Rent':
-                                            this.setState({ rentPrice: Number(item.value) });
+                                            if (house.rentPrice !== Number(value)) {
+                                                this.props.updateHouse({
+                                                    shortID: this.props.house.shortID,
+                                                    road: house.road,
+                                                    spaces: house.spaces,
+                                                    rentPrice: Number(value),
+                                                    billsPrice: house.billsPrice
+                                                });
+                                            }
                                             break;
                                         case 'Bills':
-                                            this.setState({ billsPrice: Number(item.value) });
+                                            if (house.billsPrice !== Number(value)) {
+                                                this.props.updateHouse({
+                                                    shortID: this.props.house.shortID,
+                                                    road: house.road,
+                                                    spaces: house.spaces,
+                                                    rentPrice: house.rentPrice,
+                                                    billsPrice: Number(value),
+                                                });
+                                            }
                                             break;
                                     }
-                                })
-                            }
+                                }
+                                )}
+
                         />
                     </View>
 
@@ -230,7 +294,7 @@ export class House extends React.Component<Props, State> {
         return (
             <View style={{ width: toConstantWidth(100), height: toConstantHeight(100) }}>
                 <View style={styles.headingWrapper}>
-                    <Text style={styles.heading}>{house.road} - NOT DONE</Text>
+                    <Text style={styles.heading}>{house.road}</Text>
                 </View>
 
                 <View style={styles.statisticsWrapper}>
@@ -339,12 +403,55 @@ export class House extends React.Component<Props, State> {
     }
 }
 
+const getHouseDetailsQuery = graphql(HOUSE_DETAILS_QUERY, {
+    options: (ownProps: Props) => ({ variables: { shortID: ownProps.house.shortID }, fetchPolicy: 'network-only' }),
+
+    // @ts-ignore
+    props: ({ data: { loading, house } }) => ({
+        loading,
+        house
+    })
+})
+
+const updateHouseMutation = graphql(UPDATE_HOUSE_MUTATION, {
+    props: ({ mutate }) => ({
+        updateHouse: (params: UpdateHouseMutationVariables) =>
+            mutate({
+                variables: { ...params },
+                update: (store, { data: { updateHouse } }) => {
+                    const houseData: HouseDetailQuery = store.readQuery({
+                        query: HOUSE_DETAILS_QUERY,
+                        variables: { shortID: params.shortID }
+                    });
+
+                    let data = Object.assign(houseData.house, updateHouse);
+
+                    store.writeQuery({
+                        query: HOUSE_DETAILS_QUERY,
+                        variables: { shortID: params.shortID },
+                        data: { house: data }
+                    });
+                },
+                optimisticResponse: {
+                    __typename: 'Mutation',
+                    updateHouse: {
+                        __typename: 'House',
+                        shortID: params.shortID,
+                        road: params.road,
+                        spaces: params.spaces,
+                        billsPrice: params.billsPrice,
+                        rentPrice: params.rentPrice
+                    }
+                }
+            })
+    })
+})
+
 const mapStateToProps = (state: ReduxState) => ({
     house: state.profile.house
 });
 
-// @ts-ignore
-export default connect(mapStateToProps)(House);
+export default compose(connect(mapStateToProps, {}), updateHouseMutation, getHouseDetailsQuery)(House)
 
 const styles = StyleSheet.create({
     headingWrapper: {

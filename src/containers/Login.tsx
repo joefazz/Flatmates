@@ -56,6 +56,7 @@ import {
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import { DOMAIN } from '../consts/endpoint';
 import OneSignal from 'react-native-onesignal';
+import { getCoordsFromAddress } from '../utils/localdash';
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -424,16 +425,16 @@ export class Login extends React.Component<Props, State> {
                                     rounded={true}
                                 />
                             ) : (
-                                <Avatar
-                                    width={toConstantWidth(50)}
-                                    height={toConstantWidth(50)}
-                                    icon={{ name: 'person' }}
-                                    onPress={() => this.selectProfilePicture()}
-                                    activeOpacity={0.7}
-                                    containerStyle={[{ alignSelf: 'center' }, login.marginVertical]}
-                                    rounded={true}
-                                />
-                            )}
+                                    <Avatar
+                                        width={toConstantWidth(50)}
+                                        height={toConstantWidth(50)}
+                                        icon={{ name: 'person' }}
+                                        onPress={() => this.selectProfilePicture()}
+                                        activeOpacity={0.7}
+                                        containerStyle={[{ alignSelf: 'center' }, login.marginVertical]}
+                                        rounded={true}
+                                    />
+                                )}
                         </View>
                     </View>
                     <View style={login.pageFooter}>
@@ -454,10 +455,10 @@ export class Login extends React.Component<Props, State> {
                             title={'Next'}
                             backgroundColor={
                                 this.state.gender === '' ||
-                                this.state.firstName === '' ||
-                                this.state.lastName === '' ||
-                                !this.state.tempProfilePic ||
-                                this.state.age === ''
+                                    this.state.firstName === '' ||
+                                    this.state.lastName === '' ||
+                                    !this.state.tempProfilePic ||
+                                    this.state.age === ''
                                     ? Colors.grey
                                     : Colors.brandSecondaryColor
                             }
@@ -695,18 +696,18 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             onPress={() =>
                                 this.state.studyYear === '' ||
-                                this.state.course === '' ||
-                                this.state.bio === ''
+                                    this.state.course === '' ||
+                                    this.state.bio === ''
                                     ? alert(
-                                          'You need to enter your information correctly to proceed'
-                                      )
+                                        'You need to enter your information correctly to proceed'
+                                    )
                                     : this.homeSwiper.scrollBy(1, true)
                             }
                             title={'Next'}
                             backgroundColor={
                                 this.state.studyYear === '' ||
-                                this.state.course === '' ||
-                                this.state.bio === ''
+                                    this.state.course === '' ||
+                                    this.state.bio === ''
                                     ? Colors.grey
                                     : Colors.brandSecondaryColor
                             }
@@ -731,13 +732,13 @@ export class Login extends React.Component<Props, State> {
                                 <Text style={login.shortIDStyle}>{this.state.shortID}</Text>
                             </View>
                         ) : (
-                            <View>
-                                <Text style={login.congratsText}>Congrats!</Text>
-                                <Text style={login.congratsSubtitleText}>
-                                    You're ready to find your new Flatmates!
+                                <View>
+                                    <Text style={login.congratsText}>Congrats!</Text>
+                                    <Text style={login.congratsSubtitleText}>
+                                        You're ready to find your new Flatmates!
                                 </Text>
-                            </View>
-                        )}
+                                </View>
+                            )}
                     </View>
 
                     <View
@@ -1089,27 +1090,27 @@ export class Login extends React.Component<Props, State> {
                             title={'Confirm'}
                             backgroundColor={
                                 Number(this.state.minPrice) === 0 ||
-                                Number(this.state.maxPrice) === 0 ||
-                                this.state.genderPreference === '' ||
-                                this.state.drugPreference === '' ||
-                                this.state.drinkPreference === '' ||
-                                this.state.smokerPreference === ''
+                                    Number(this.state.maxPrice) === 0 ||
+                                    this.state.genderPreference === '' ||
+                                    this.state.drugPreference === '' ||
+                                    this.state.drinkPreference === '' ||
+                                    this.state.smokerPreference === ''
                                     ? Colors.grey
                                     : Colors.brandPrimaryColor
                             }
                             onPress={() => {
                                 this.state.drugPreference === ''
                                     ? alert(
-                                          'Please state whether you would prefer to live with/without flatmates who use drugs'
-                                      )
+                                        'Please state whether you would prefer to live with/without flatmates who use drugs'
+                                    )
                                     : this.state.drinkPreference === ''
                                         ? alert(
-                                              'Please state whether you would prefer to live with/without flatmates who drink'
-                                          )
+                                            'Please state whether you would prefer to live with/without flatmates who drink'
+                                        )
                                         : this.state.smokerPreference === ''
                                             ? alert(
-                                                  'Please state whether you would prefer to live with/without flatmates who use drugs'
-                                              )
+                                                'Please state whether you would prefer to live with/without flatmates who use drugs'
+                                            )
                                             : this.completeUserSetup();
                             }}
                             buttonStyle={base.buttonStyle}
@@ -1153,13 +1154,13 @@ export class Login extends React.Component<Props, State> {
                                 buttonStyle={base.buttonStyle}
                             />
                         ) : (
-                            <TouchableRect
-                                title={'Confirm'}
-                                onPress={this.completeJoiningHouseSetup}
-                                backgroundColor={Colors.brandPrimaryColor}
-                                buttonStyle={base.buttonStyle}
-                            />
-                        )}
+                                <TouchableRect
+                                    title={'Confirm'}
+                                    onPress={this.completeJoiningHouseSetup}
+                                    backgroundColor={Colors.brandPrimaryColor}
+                                    buttonStyle={base.buttonStyle}
+                                />
+                            )}
                     </View>
                 </View>
             );
@@ -1315,8 +1316,8 @@ export class Login extends React.Component<Props, State> {
                                                 />
                                             </TouchableOpacity>
                                         ) : (
-                                            <React.Fragment />
-                                        )}
+                                                <React.Fragment />
+                                            )}
                                     </View>
                                 );
                             })}
@@ -1355,13 +1356,13 @@ export class Login extends React.Component<Props, State> {
                     ) : !!this.state.road.match(/[0-9]\d*/g) ? (
                         alert("Please don't enter your house number")
                     ) : (
-                        <TouchableRect
-                            title={'Confirm'}
-                            backgroundColor={Colors.brandPrimaryColor}
-                            onPress={() => this.uploadImages()}
-                            buttonStyle={base.buttonStyle}
-                        />
-                    )}
+                                <TouchableRect
+                                    title={'Confirm'}
+                                    backgroundColor={Colors.brandPrimaryColor}
+                                    onPress={() => this.uploadImages()}
+                                    buttonStyle={base.buttonStyle}
+                                />
+                            )}
                     {this.state.isRentDueDatePickerVisible ? (
                         <View style={login.pickerWrapper}>
                             <DatePickerIOS
@@ -1381,8 +1382,8 @@ export class Login extends React.Component<Props, State> {
                             />
                         </View>
                     ) : (
-                        <View />
-                    )}
+                            <View />
+                        )}
                     {this.state.isBillsDueDatePickerVisible ? (
                         <View style={login.pickerWrapper}>
                             <DatePickerIOS
@@ -1402,8 +1403,8 @@ export class Login extends React.Component<Props, State> {
                             />
                         </View>
                     ) : (
-                        <View />
-                    )}
+                            <View />
+                        )}
                 </View>
                 {this.state.creatingDialogText !== '' && (
                     <View
@@ -1552,32 +1553,6 @@ export class Login extends React.Component<Props, State> {
         }
     };
 
-    private async getCoordsFromAddress(road: string): Promise<string | Array<number>> {
-        const address: string = road + ', Reading';
-        let res: any;
-
-        try {
-            res = await MapboxSDK.geocodeForward(address, {
-                country: 'gb',
-                proximity: { latitude: 51.4412, longitude: -0.943 }
-            });
-        } catch (err) {
-            alert(
-                'There was a problem with the road name you entered, please check it and try again'
-            );
-            return 'Error';
-        }
-
-        if (res.status !== 200 || res.entity.features.length === 0) {
-            alert(
-                'There was a problem with the road name you entered, please check it and try again.'
-            );
-            return 'Error';
-        } else {
-            return res.entity.features[0].center;
-        }
-    }
-
     private completeUserSetup = async (): Promise<void> => {
         await this.uploadProfilePicture();
 
@@ -1611,7 +1586,7 @@ export class Login extends React.Component<Props, State> {
 
     private completeHouseSetup = async () => {
         // for short id what should happen is should query all houses for their ids and then generate a number that isn't in the array
-        const coords = await this.getCoordsFromAddress(this.state.road);
+        const coords = await getCoordsFromAddress(this.state.road);
         if (coords === 'Error') {
             return;
         }
@@ -1667,7 +1642,7 @@ export class Login extends React.Component<Props, State> {
                                 onPress: (): void => {
                                     const fullName = `${this.state.firstName} ${
                                         this.state.lastName
-                                    }`;
+                                        }`;
 
                                     this.uploadProfilePicture().then(() => {
                                         this.props.createUserJoinHouse({
