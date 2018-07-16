@@ -75,7 +75,6 @@ export class House extends React.Component<Props, State> {
 
                     getCoordsFromAddress(this.state.road)
                         .then(coords => {
-                            console.log(coords);
                             this.props.updateHouse({
                                 shortID: this.props.house.shortID,
                                 road: this.state.road,
@@ -134,7 +133,7 @@ export class House extends React.Component<Props, State> {
                         <EditableStatRow
                             items={[
                                 { label: 'House ID', value: house.shortID, editable: false },
-                                { label: house.spaces === 1 ? 'Free Room' : 'Free Rooms', value: house.spaces }
+                                { label: house.spaces === 1 ? 'Free Room' : 'Free Rooms', value: house.spaces, inputType: 'number' }
                             ]}
                             onEndEditing={(items: Array<{ value: string; label: string }>) =>
                                 items.map((item) => {
@@ -196,8 +195,8 @@ export class House extends React.Component<Props, State> {
                         />
                         <EditableStatRow
                             items={[
-                                { label: 'Rent', value: '£' + String(house.rentPrice) },
-                                { label: 'Bills', value: '£' + String(house.billsPrice) }
+                                { label: 'Rent', value: String(house.rentPrice), inputType: 'number' },
+                                { label: 'Bills', value: String(house.billsPrice), inputType: 'number' }
                             ]}
                             onEndEditing={(items: Array<{ value: string; label: string }>) =>
                                 items.map((item) => {
