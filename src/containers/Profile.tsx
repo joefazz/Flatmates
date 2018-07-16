@@ -11,7 +11,7 @@ import { HeaderButtonIOS } from '../widgets';
 import { FloatingAction } from 'react-native-floating-action';
 import { Colors } from '../consts';
 import { UPDATE_USER_MUTATION } from '../graphql/mutations';
-import { UpdateUserMutationVariables, UserDetailQuery } from '../graphql/Types';
+import { UpdateUserMutationVariables, UserDetailQuery, UpdateUserMutation } from '../graphql/Types';
 
 interface Props {
     profile: ProfileState;
@@ -26,6 +26,8 @@ interface Props {
         };
         setParams: any;
     };
+    user: User;
+    updateUser: (params: UpdateUserMutationVariables) => UpdateUserMutation;
 }
 
 interface State {
@@ -63,39 +65,39 @@ export class Profile extends React.Component<Props, State> {
         };
     }
 
-    componentWillReceiveProps(newProps) {
-        if (newProps.loading !== this.props.loading && newProps.user) {
-            // Remove null properties
-            const trimmedData: { house?: { users: Array<User> } } = {};
+    // componentWillReceiveProps(newProps) {
+    //     if (newProps.loading !== this.props.loading && newProps.user) {
+    //         // Remove null properties
+    //         const trimmedData: { house?: { users: Array<User> } } = {};
 
-            Object.keys(newProps.user).map((property) => {
-                if (newProps.user[property] !== null) {
-                    trimmedData[property] = newProps.user[property];
-                }
-            });
+    //         Object.keys(newProps.user).map((property) => {
+    //             if (newProps.user[property] !== null) {
+    //                 trimmedData[property] = newProps.user[property];
+    //             }
+    //         });
 
-            if (trimmedData.house) {
-                const trimmedusers = trimmedData.house.users.filter((user) => {
-                    return user.name !== this.state.profile.name;
-                });
+    //         if (trimmedData.house) {
+    //             const trimmedusers = trimmedData.house.users.filter((user) => {
+    //                 return user.name !== this.state.profile.name;
+    //             });
 
-                const tempHouse: { users?: Array<any> } = {};
-                Object.keys(trimmedData.house).map((property) => {
-                    tempHouse[property] =
-                        property === 'users' ? trimmedusers : trimmedData.house[property];
-                });
-                trimmedData.house = tempHouse as { users: Array<User> };
-            }
+    //             const tempHouse: { users?: Array<any> } = {};
+    //             Object.keys(trimmedData.house).map((property) => {
+    //                 tempHouse[property] =
+    //                     property === 'users' ? trimmedusers : trimmedData.house[property];
+    //             });
+    //             trimmedData.house = tempHouse as { users: Array<User> };
+    //         }
 
-            this.setState({
-                isLoading: newProps.loading,
-                profile: Object.assign({}, this.state.profile, trimmedData)
-            });
-        }
-    }
+    //         this.setState({
+    //             isLoading: newProps.loading,
+    //             profile: Object.assign({}, this.state.profile, trimmedData)
+    //         });
+    //     }
+    // }
 
     render() {
-        if (this.state.isLoading) {
+        if (this.props.loading) {
             return <ActivityIndicator />;
         }
 
@@ -103,7 +105,8 @@ export class Profile extends React.Component<Props, State> {
             <View style={{ flex: 1 }}>
                 <ProfileComponent
                     isLoading={this.state.isLoading}
-                    profile={this.state.profile}
+                    profile={this.props.user}
+                    updateUser={this.props.updateUser}
                     contentEditable={
                         (this.props.navigation.state &&
                             this.props.navigation.state.params &&
@@ -141,7 +144,7 @@ const bindActions = () => {
 };
 
 const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
-    options: (ownProps: Props) => ({ variables: { id: ownProps.login.id } }),
+    options: (ownProps: Props) => ({ variables: { id: ownProps.login.id }, fetchPolicy: 'network-only' }),
 
     // @ts-ignore
     props: ({ data: { loading, user } }) => ({

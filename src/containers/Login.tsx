@@ -57,6 +57,7 @@ import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import { DOMAIN } from '../consts/endpoint';
 import OneSignal from 'react-native-onesignal';
 import { getCoordsFromAddress } from '../utils/localdash';
+import { STUDY_YEARS, GENDERS } from '../consts/strings';
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -406,10 +407,7 @@ export class Login extends React.Component<Props, State> {
                                                 section: true,
                                                 label: 'Select your gender from the list below'
                                             },
-                                            { label: 'Male' },
-                                            { label: 'Female' },
-                                            { label: 'Non Binary' },
-                                            { label: 'Other' }
+                                            ...GENDERS
                                         ]}
                                     />
                                 </View>
@@ -589,16 +587,7 @@ export class Login extends React.Component<Props, State> {
                                                 section: false,
                                                 label: "Select the year you're currently in"
                                             },
-                                            { label: 'Foundation Year' },
-                                            { label: 'First Year' },
-                                            { label: 'Second Year' },
-                                            { label: 'Third Year' },
-                                            { label: 'Fourth Year' },
-                                            { label: 'Fifth Year' },
-                                            { label: 'Sixth Year' },
-                                            { label: 'Masters' },
-                                            { label: 'Placement Year' },
-                                            { label: 'PHd' }
+                                            ...STUDY_YEARS
                                         ]}
                                         initialValue={'Select Year'}
                                         selectStyle={[

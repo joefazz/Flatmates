@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Switch } from 'react-native';
 import { toConstantHeight } from '../utils/PercentageConversion';
 import { FontFactory } from '../consts/font';
 import { Colors } from '../consts';
+import { FlatPicker } from './FlatPicker';
 
 interface Row {
     label: string;
-    value: string | number;
+    value: string | number | boolean;
     editable?: boolean;
+    inputType?: 'text' | 'multi' | 'switch' | 'number';
+    multiOptions?: Array<{ label: string }>;
 }
 
 interface Props {
@@ -37,19 +40,53 @@ export class EditableStatRow extends React.Component<Props, State> {
             <View style={styles.statRow}>
                 {this.props.items.map((item, index) => (
                     <React.Fragment key={index}>
-                        <View key={index} style={styles.statSquare} >
-                            <TextInput
-                                key={index}
-                                style={styles.statText}
-                                defaultValue={String(item.value)}
-                                underlineColorAndroid={Colors.transparent}
-                                editable={item.editable === false ? false : true}
-                                onChangeText={(text) => {
-                                    let items = this.state.items;
-                                    items[index].value = text;
-                                    this.setState({ items });
-                                }}
-                            />
+                        <View key={index} style={styles.statSquare}>
+                            {item.inputType === 'switch' && (
+                                <Switch
+                                    onTintColor={Colors.brandPrimaryColor}
+                                    thumbTintColor={Colors.definetelyNotAirbnbRed}
+                                    tintColor={Colors.grey}
+                                    onValueChange={(val) => {
+                                        let items = this.state.items;
+                                        items[index].value = val;
+                                        this.setState({ items });
+                                    }}
+                                    value={item.value as boolean}
+                                />)}
+                            {item.inputType === 'multi' && (
+                                <FlatPicker
+                                    items={[
+                                        {
+                                            section: true,
+                                            label: item.label
+                                        },
+                                        ...item.multiOptions
+                                    ]}
+                                    selectStyle={{ borderWidth: 0, padding: 0 }}
+                                    selectTextStyle={styles.statText}
+                                    onChange={(val) => {
+                                        let items = this.state.items;
+                                        items[index].value = val.label;
+                                        this.setState({ items });
+                                    }}
+                                    initialValue={item.value as string}
+                                />
+                            )}
+                            {(item.inputType === 'text' || item.inputType === 'number' || item.inputType === undefined) &&
+                                <TextInput
+                                    key={index}
+                                    style={styles.statText}
+                                    defaultValue={String(item.value)}
+                                    underlineColorAndroid={Colors.transparent}
+                                    keyboardType={item.inputType === 'number' ? 'numeric' : 'default'}
+                                    editable={item.editable === false ? false : true}
+                                    onChangeText={(text) => {
+                                        let items = this.state.items;
+                                        items[index].value = text;
+                                        this.setState({ items });
+                                    }}
+                                />
+                            }
                             <Text style={styles.statTitle}>{item.label}</Text>
                         </View>
                         {index === this.props.items.length - 1 ? (

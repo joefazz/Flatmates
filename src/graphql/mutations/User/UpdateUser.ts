@@ -7,6 +7,7 @@ export const UPDATE_USER_MUTATION = gql`
             name
             firstName
             lastName
+            profilePicture
             age
             course
             bio

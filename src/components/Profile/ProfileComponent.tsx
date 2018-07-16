@@ -7,16 +7,50 @@ import { StatRow } from '../../widgets/StatRow';
 import { Colors } from '../../consts';
 import { toConstantWidth } from '../../utils/PercentageConversion';
 import { EditableStatRow } from '../../widgets/EditableStatRow';
-import { UpdateUserMutationVariables, UpdateHouseMutation } from '../../graphql/Types';
+import { UpdateUserMutationVariables, UpdateUserMutation } from '../../graphql/Types';
+import { FlatPicker } from '../../widgets/FlatPicker';
+import { STUDY_YEARS, GENDERS } from '../../consts/strings';
 
 interface Props {
     profile: User;
     isLoading: boolean;
     contentEditable: boolean;
-    updateUser: (params: UpdateUserMutationVariables) => UpdateHouseMutation;
+    updateUser: (params: UpdateUserMutationVariables) => UpdateUserMutation;
 }
 
-export class ProfileComponent extends React.Component<Props> {
+interface State {
+    newName: string;
+    newCourse: string;
+    newBio: string;
+    newAge: number;
+    newGender: string;
+    newYear: string;
+    newSmoke: boolean;
+    newDrug: boolean;
+    newDrink: boolean;
+}
+
+export class ProfileComponent extends React.Component<Props, State> {
+    isNameDirty: boolean = false;
+    isCourseDirty: boolean = false;
+    isBioDirty: boolean = false;
+    isAgeDirty: boolean = false;
+    isGenderDirty: boolean = false;
+    isYearDirty: boolean = false;
+    isSmokerDirty: boolean = false;
+    isDrugsDirty: boolean = false;
+    isDrinkDirty: boolean = false;
+
+    newName: string;
+    newCourse: string;
+    newBio: string;
+    newAge: number;
+    newGender: string;
+    newYear: string;
+    newSmoke: boolean;
+    newDrug: boolean;
+    newDrink: boolean;
+
     renderPreference = ({ item }) => {
         return (
             <View style={profile.preference}>
@@ -25,6 +59,54 @@ export class ProfileComponent extends React.Component<Props> {
             </View>
         );
     };
+
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.contentEditable && !this.props.contentEditable) {
+            var params: UpdateUserMutationVariables = { id: this.props.profile.id };
+
+            if (this.isNameDirty) {
+                params.name = this.state.newName;
+
+                let names = this.state.newName.split(' ');
+                params.firstName = names[0].trim();
+                params.lastName = names[1].trim();
+            }
+
+            if (this.isCourseDirty) {
+                params.course = this.newCourse;
+            }
+
+            if (this.isBioDirty) {
+                params.bio = this.newBio;
+            }
+
+            if (this.isAgeDirty) {
+                params.age = this.newAge;
+            }
+
+            if (this.isGenderDirty) {
+                params.gender = this.newGender;
+            }
+
+            if (this.isYearDirty) {
+                params.studyYear = this.newYear;
+            }
+
+            if (this.isSmokerDirty) {
+                params.isSmoker = this.newSmoke;
+            }
+
+            if (this.isDrugsDirty) {
+                params.isDruggie = this.newDrug;
+            }
+
+            if (this.isDrinkDirty) {
+                params.isDrinker = this.newDrink;
+            }
+
+            this.props.updateUser(params);
+        }
+    }
 
     render() {
         const { profile: data } = this.props;
@@ -57,19 +139,59 @@ export class ProfileComponent extends React.Component<Props> {
                                 style={profile.headerText}
                                 defaultValue={data.name}
                                 underlineColorAndroid={Colors.transparent}
-                                onEndEditing={() => /* CALL FUNCTION HERE */ console.log("You're trash brock")}
+                                onEndEditing={(native) => {
+                                    this.isNameDirty = native.nativeEvent.text !== data.name
+                                    this.newName = native.nativeEvent.text;
+                                }}
                             />
-                            <TextInput
-                                style={profile.summaryDescription}
-                                defaultValue={data.course}
-                                underlineColorAndroid={Colors.transparent}
-                                onEndEditing={() => /* CALL FUNCTION HERE */ console.log("You're trash brock")}
+                            <FlatPicker
+                                items={[
+                                    {
+                                        section: true,
+                                        label: 'General Subject Areas (from UCAS)'
+                                    },
+                                    { label: 'Administration' },
+                                    { label: 'Area Studies' },
+                                    { label: 'Arts' },
+                                    { label: 'Biology' },
+                                    { label: 'Business Studies' },
+                                    { label: 'Classics' },
+                                    { label: 'Computer Science' },
+                                    { label: 'Economics' },
+                                    { label: 'Educational Studies' },
+                                    { label: 'Engineering' },
+                                    { label: 'Film' },
+                                    { label: 'Health Studies' },
+                                    { label: 'History' },
+                                    { label: 'Languages' },
+                                    { label: 'Law' },
+                                    { label: 'English Language' },
+                                    { label: 'English Literature' },
+                                    { label: 'Management' },
+                                    { label: 'Mathematics' },
+                                    { label: 'Medicine' },
+                                    { label: 'Performing Arts' },
+                                    { label: 'Philosophy' },
+                                    { label: 'Physics' },
+                                    { label: 'Politics' },
+                                    { label: 'Veterinary Medicine' }
+                                ]}
+                                selectStyle={{ borderWidth: 0, padding: 0 }}
+                                selectTextStyle={profile.summaryDescription}
+                                onChange={(val) => {
+                                    this.isCourseDirty = this.props.profile.course !== val.lablel;
+                                    this.newCourse = val.label;
+                                }}
+                                initialValue={data.course}
                             />
                             <TextInput
                                 style={profile.summaryDescription}
                                 defaultValue={data.bio}
                                 underlineColorAndroid={Colors.transparent}
-                                onEndEditing={() => /* CALL FUNCTION HERE */ console.log("You're trash brock")}
+                                onEndEditing={(native) => {
+                                    this.isBioDirty = native.nativeEvent.text !== data.bio
+                                    this.newBio = native.nativeEvent.text
+                                }}
                             />
                         </View>
                     </View>
@@ -77,27 +199,29 @@ export class ProfileComponent extends React.Component<Props> {
                         <View style={profile.preferencesWrapper}>
                             <EditableStatRow
                                 items={[
-                                    { label: 'Age', value: data.age },
-                                    { label: 'Year', value: data.studyYear.replace(' Year', '') },
-                                    { label: 'Gender', value: data.gender }
+                                    { label: 'Age', value: data.age, inputType: 'number' },
+                                    { label: 'Year', value: data.studyYear.replace(' Year', ''), inputType: 'multi', multiOptions: STUDY_YEARS },
+                                    { label: 'Gender', value: data.gender, inputType: 'multi', multiOptions: GENDERS }
                                 ]}
                                 onEndEditing={(items: Array<{ value: string; label: string }>) =>
                                     items.map((item) => {
                                         switch (item.label) {
                                             case 'Age':
                                                 if (data.age !== Number(item.value)) {
-                                                    // call update function
+                                                    this.isAgeDirty = true
+                                                    this.newAge = Number(item.value);
                                                 }
-                                                break;
                                                 break;
                                             case 'Year':
                                                 if (data.studyYear !== item.value) {
-                                                    // call update function
+                                                    this.isYearDirty = true;
+                                                    this.newYear = item.value;
                                                 }
                                                 break;
                                             case 'Gender':
                                                 if (data.gender !== item.value) {
-                                                    // call update function
+                                                    this.isGenderDirty = true;
+                                                    this.newGender = item.value;
                                                 }
                                                 break;
                                         }
@@ -108,26 +232,29 @@ export class ProfileComponent extends React.Component<Props> {
                         <View style={profile.preferencesWrapper}>
                             <EditableStatRow
                                 items={[
-                                    { label: 'Smoker', value: data.isSmoker ? 'Yes' : 'No' },
-                                    { label: 'Uses Drugs', value: data.isDruggie ? 'Yes' : 'No' },
-                                    { label: 'Drinker', value: data.isDrinker ? 'Yes' : 'No' }
+                                    { label: 'Smoker', value: data.isSmoker, inputType: 'switch' },
+                                    { label: 'Uses Drugs', value: data.isDruggie, inputType: 'switch' },
+                                    { label: 'Drinker', value: data.isDrinker, inputType: 'switch' }
                                 ]}
-                                onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                onEndEditing={(items: Array<{ value: string | boolean; label: string }>) =>
                                     items.map((item) => {
                                         switch (item.label) {
                                             case 'Smoker':
                                                 if (data.isSmoker !== Boolean(item.value)) {
-                                                    // call update function
+                                                    this.isSmokerDirty = true;
+                                                    this.newSmoke = Boolean(item.value);
                                                 }
                                                 break;
                                             case 'Uses Drugs':
                                                 if (data.isDruggie !== Boolean(item.value)) {
-                                                    // call update function
+                                                    this.isDrugsDirty = true;
+                                                    this.newDrug = Boolean(item.value);
                                                 }
                                                 break;
                                             case 'Drinker':
                                                 if (data.isDrinker !== Boolean(item.value)) {
-                                                    // call update function
+                                                    this.isDrinkDirty = true;
+                                                    this.newDrink = Boolean(item.value);
                                                 }
                                                 break;
                                         }
