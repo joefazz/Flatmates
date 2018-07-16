@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
-import { Text, View, StyleSheet, AsyncStorage, Platform } from 'react-native';
+import { Text, View, StyleSheet, AsyncStorage, Platform, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { FloatingAction } from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -34,7 +34,8 @@ interface Props {
             }
         }
     };
-    updateHouse: (params: UpdateHouseMutationVariables) => UpdateHouseMutation
+    updateHouse: (params: UpdateHouseMutationVariables) => UpdateHouseMutation;
+    loading: boolean;
 }
 
 interface State {
@@ -63,16 +64,11 @@ export class House extends React.Component<Props, State> {
             )
     });
 
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            shortID: props.house.shortID,
-            road: props.house.road
-        }
-    }
-
     componentDidUpdate(prevProps: Props) {
+        if (prevProps.loading && !this.props.loading) {
+            this.setState({ road: this.props.house.road });
+        }
+
         if (prevProps.navigation.state.params) {
             if (prevProps.navigation.state.params.contentEditable && !this.props.navigation.state.params.contentEditable) {
                 if (prevProps.house.road !== this.state.road) {
@@ -99,6 +95,14 @@ export class House extends React.Component<Props, State> {
 
     render() {
         const { house } = this.props;
+
+        if (this.props.loading) {
+            return (
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <ActivityIndicator />
+                </View>
+            );
+        }
 
         if (!house) {
             return (
@@ -130,12 +134,12 @@ export class House extends React.Component<Props, State> {
                         <EditableStatRow
                             items={[
                                 { label: 'House ID', value: house.shortID, editable: false },
-                                { label: 'Free Rooms', value: house.spaces }
+                                { label: house.spaces === 1 ? 'Free Room' : 'Free Rooms', value: house.spaces }
                             ]}
                             onEndEditing={(items: Array<{ value: string; label: string }>) =>
                                 items.map((item) => {
                                     switch (item.label) {
-                                        case 'Free Rooms':
+                                        case house.spaces === 1 ? 'Free Room' : 'Free Rooms':
                                             if (house.spaces !== Number(item.value)) {
                                                 this.props.updateHouse({
                                                     shortID: this.props.house.shortID,
@@ -301,7 +305,7 @@ export class House extends React.Component<Props, State> {
                     <StatRow
                         items={[
                             { label: 'House ID', value: house.shortID },
-                            { label: 'Free Rooms', value: house.spaces }
+                            { label: house.spaces === 1 ? 'Free Room' : 'Free Rooms', value: house.spaces }
                         ]}
                     />
                     <View
