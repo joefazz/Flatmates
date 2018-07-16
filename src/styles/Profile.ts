@@ -76,14 +76,6 @@ export const profile = StyleSheet.create({
         marginTop: 20,
         borderBottomWidth: 1,
         borderBottomColor: Colors.grey,
-        shadowOffset: {
-            height: 1,
-            width: 0
-        },
-        shadowRadius: 4,
-        shadowOpacity: 0.3,
-        shadowColor: Colors.black,
-        elevation: 2
     },
 
     summaryDescriptionWrapper: {

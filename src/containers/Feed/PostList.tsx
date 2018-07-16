@@ -174,17 +174,17 @@ const housePost = graphql<
     HousePostQuery,
     HousePostQueryVariables,
     ChildProps<HousePostQuery>
->(USER_HOUSE_POST_QUERY, {
-    options: (props) => {
-        return { variables: { id: props.login.id } };
-    },
+    >(USER_HOUSE_POST_QUERY, {
+        options: (props) => {
+            return { variables: { id: props.login.id } };
+        },
 
-    props: ({ data: { loading, user, error } }) => ({
-        loading,
-        user,
-        error
-    })
-});
+        props: ({ data: { loading, user, error } }) => ({
+            loading,
+            user,
+            error
+        })
+    });
 
 export default compose(
     connect(

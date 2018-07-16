@@ -32,7 +32,7 @@ export class PostListComponent extends React.Component<Props> {
     render() {
         return (
             <>
-                <View style={feed.filterWrapper}>
+                {/*<View style={feed.filterWrapper}>
                     <View style={feed.filterContainer}>
                         <TouchableHighlight
                             onPress={() => this.props.changeFilters(Filters.ALL)}
@@ -99,7 +99,7 @@ export class PostListComponent extends React.Component<Props> {
                             ]}
                         />
                     </View>
-                </View>
+                </View> */}
 
                 <FlatList
                     data={this.props.data}
@@ -136,8 +136,8 @@ export class PostListComponent extends React.Component<Props> {
                         onPressItem={() => this.props.navigation.push('CreatePost')}
                     />
                 ) : (
-                    <React.Fragment />
-                )}
+                        <React.Fragment />
+                    )}
             </>
         );
     }
