@@ -176,5 +176,13 @@ export const group = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         width: toConstantWidth(10)
+    },
+
+    imagePreviewContainer: {
+        marginTop: 10,
+        flexDirection: 'row',
+        width: toConstantWidth(100),
+        backgroundColor: '#f5f1ee',
+        paddingVertical: 5
     }
 });

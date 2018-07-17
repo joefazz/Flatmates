@@ -11,7 +11,7 @@ const routeConfig = {
 };
 
 const navConfig = {
-    swipeEnabled: true,
+    swipeEnabled: false,
     tabBarOptions: {
         activeTintColor: Platform.OS === 'ios' ? Colors.offWhite : Colors.brandPrimaryColor,
         inactiveTintColor: Colors.textGrey,
