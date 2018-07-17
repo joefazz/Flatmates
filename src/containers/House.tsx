@@ -295,55 +295,56 @@ export class House extends React.Component<Props, State> {
         }
 
         return (
-            <View style={{ width: toConstantWidth(100), height: toConstantHeight(100) }}>
-                <View style={styles.headingWrapper}>
-                    <Text style={styles.heading}>{house.road}</Text>
-                </View>
+            <>
+                <View style={{ width: toConstantWidth(100), height: toConstantHeight(100) }}>
+                    <View style={styles.headingWrapper}>
+                        <Text style={styles.heading}>{house.road}</Text>
+                    </View>
 
-                <View style={styles.statisticsWrapper}>
-                    <StatRow
-                        items={[
-                            { label: 'House ID', value: house.shortID },
-                            { label: house.spaces === 1 ? 'Free Room' : 'Free Rooms', value: house.spaces }
-                        ]}
-                    />
-                    <View
-                        style={{
-                            alignSelf: 'stretch',
-                            height: 0.5,
-                            backgroundColor: Colors.grey
-                        }}
-                    />
-                    <StatRow
-                        items={[
-                            { label: 'Applications', value: 23 },
-                            { label: 'Post Views', value: 67 }
-                        ]}
-                    />
-                </View>
-                <View style={styles.statisticsWrapper}>
-                    <StatRow
-                        items={[
-                            { label: 'Rent Due', value: '25th' },
-                            { label: 'Bills Due', value: '23rd' }
-                        ]}
-                    />
-                    <View
-                        style={{
-                            alignSelf: 'stretch',
-                            height: 0.5,
-                            backgroundColor: Colors.grey
-                        }}
-                    />
-                    <StatRow
-                        items={[
-                            { label: 'Rent', value: '£' + String(house.rentPrice) },
-                            { label: 'Bills', value: '£' + String(house.billsPrice) }
-                        ]}
-                    />
-                </View>
+                    <View style={styles.statisticsWrapper}>
+                        <StatRow
+                            items={[
+                                { label: 'House ID', value: house.shortID },
+                                { label: house.spaces === 1 ? 'Free Room' : 'Free Rooms', value: house.spaces }
+                            ]}
+                        />
+                        <View
+                            style={{
+                                alignSelf: 'stretch',
+                                height: 0.5,
+                                backgroundColor: Colors.grey
+                            }}
+                        />
+                        <StatRow
+                            items={[
+                                { label: 'Applications', value: 23 },
+                                { label: 'Post Views', value: 67 }
+                            ]}
+                        />
+                    </View>
+                    <View style={styles.statisticsWrapper}>
+                        <StatRow
+                            items={[
+                                { label: 'Rent Due', value: '25th' },
+                                { label: 'Bills Due', value: '23rd' }
+                            ]}
+                        />
+                        <View
+                            style={{
+                                alignSelf: 'stretch',
+                                height: 0.5,
+                                backgroundColor: Colors.grey
+                            }}
+                        />
+                        <StatRow
+                            items={[
+                                { label: 'Rent', value: '£' + String(house.rentPrice) },
+                                { label: 'Bills', value: '£' + String(house.billsPrice) }
+                            ]}
+                        />
+                    </View>
 
-                {/*house.users.length > 1 ? (
+                    {/*house.users.length > 1 ? (
                         <ScrollView
                             contentContainerStyle={profile.preferencesWrapper}
                         >
@@ -363,30 +364,32 @@ export class House extends React.Component<Props, State> {
                         <React.Fragment />
                     )*/}
 
-                <Button
-                    title={'RESET DATA BACK TO LOGIN'}
-                    containerViewStyle={{ marginTop: 20 }}
-                    backgroundColor={Colors.brandPrimaryColor}
-                    onPress={() =>
-                        AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
-                    }
-                />
-                <Button
-                    title={'Send Payment Reminder'}
-                    containerViewStyle={{
-                        position: 'absolute',
-                        bottom: 100,
-                        left: 0,
-                        right: 0,
+                    <Button
+                        title={'RESET DATA BACK TO LOGIN'}
+                        containerViewStyle={{ marginTop: 20 }}
+                        backgroundColor={Colors.brandPrimaryColor}
+                        onPress={() =>
+                            AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
+                        }
+                    />
+                    <Button
+                        title={'Send Payment Reminder'}
+                        containerViewStyle={{
+                            position: 'absolute',
+                            bottom: 100,
+                            left: 0,
+                            right: 0,
 
-                        height: 100
-                    }}
-                    backgroundColor={Colors.brandPrimaryColor}
-                    onPress={() =>
-                        AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
-                    }
-                />
-                {Platform.OS === 'android' &&
+                            height: 100
+                        }}
+                        backgroundColor={Colors.brandPrimaryColor}
+                        onPress={() =>
+                            AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
+                        }
+                    />
+                </View>
+                {
+                    Platform.OS === 'android' &&
                     <FloatingAction
                         actions={[{
                             name: 'Edit',
@@ -401,7 +404,7 @@ export class House extends React.Component<Props, State> {
                         }}
                     />
                 }
-            </View>
+            </>
         );
     }
 }
