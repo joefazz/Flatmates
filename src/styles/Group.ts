@@ -187,7 +187,6 @@ export const group = StyleSheet.create({
     },
 
     imageContainer: {
-        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',

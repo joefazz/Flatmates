@@ -51,7 +51,7 @@ export class MessageComponent extends React.PureComponent<Props> {
                     )}
                     <Text style={group.messageText}>{message.text}</Text>
                     {this.props.images.length > 0 &&
-                        <View style={group.imageContainer}>
+                        <View style={[group.imageContainer, { marginTop: 10 }]}>
                             {this.props.images.map(image => (
                                 <TouchableOpacity key={image} onPress={() => console.log('expand image')}>
                                     <Image source={{ uri: image }} style={{ width: 70, height: 70, borderWidth: 1, borderColor: Colors.white }} />
