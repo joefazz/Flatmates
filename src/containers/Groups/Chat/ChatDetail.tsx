@@ -106,8 +106,7 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         }
                     });
 
-
-                    // groupData.group.messages.push(createMessage);
+                    groupData.group.messages.push(createMessage);
 
                     store.writeQuery({
                         query: GET_CHAT_MESSAGES_QUERY,

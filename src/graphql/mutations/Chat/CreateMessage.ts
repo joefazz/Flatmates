@@ -20,6 +20,7 @@ export const CREATE_MESSAGE_MUTATION = gql`
             id
             createdAt
             text
+            images
             from {
                 id
                 name

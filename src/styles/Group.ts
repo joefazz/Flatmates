@@ -187,8 +187,11 @@ export const group = StyleSheet.create({
     },
 
     imageContainer: {
+        marginTop: 10,
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        alignItems: 'flex-start'
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingTop: 10,
+        flexWrap: 'wrap'
     }
 });

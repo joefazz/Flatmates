@@ -49,7 +49,7 @@ export class MessageInput extends React.Component<Props, State> {
 
     send = () => {
         this.props.send(this.state.text, this.state.tempImages);
-        this.setState({ text: '' });
+        this.setState({ text: '', tempImages: [] });
     };
 
     attachButton = (attach) => {

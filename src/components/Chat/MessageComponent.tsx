@@ -5,6 +5,7 @@ import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { group } from '../../styles';
 import { Message } from '../../types/Entities';
 import { toConstantWidth } from '../../utils/PercentageConversion';
+import { Colors } from '../../consts';
 
 interface Props {
     color: string;
@@ -53,7 +54,7 @@ export class MessageComponent extends React.PureComponent<Props> {
                         <View style={group.imageContainer}>
                             {this.props.images.map(image => (
                                 <TouchableOpacity key={image} onPress={() => console.log('expand image')}>
-                                    <Image source={{ uri: image }} style={{ width: 70, height: 70 }} />
+                                    <Image source={{ uri: image }} style={{ width: 70, height: 70, borderWidth: 1, borderColor: Colors.white }} />
                                 </TouchableOpacity>
                             ))}
                         </View>
