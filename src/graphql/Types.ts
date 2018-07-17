@@ -90,7 +90,7 @@ export interface CreateGroupMutation {
 export interface UpdateHouseMutationVariables {
   shortID: number,
   road?: string | null,
-  coords?: Array< number | null > | null,
+  coords?: Array< number > | null,
   spaces?: number | null,
   rentDue?: string | null,
   billsDue?: string | null,
@@ -390,6 +390,7 @@ export interface UpdateUserMutation {
     name: string,
     firstName: string,
     lastName: string,
+    profilePicture: string,
     age: number,
     course: string,
     bio: string,
@@ -411,6 +412,7 @@ export interface ChatMessagesQuery {
       id: string,
       createdAt: string,
       text: string,
+      images: Array< string > | null,
       from:  {
         id: string,
         name: string,
