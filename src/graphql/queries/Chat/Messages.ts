@@ -7,6 +7,7 @@ export const GET_CHAT_MESSAGES_QUERY = gql`
                 id
                 createdAt
                 text
+                images
                 from {
                     id
                     name

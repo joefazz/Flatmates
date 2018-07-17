@@ -63,18 +63,18 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                 <MessageInput send={this.send} />
             </KeyboardAvoidingView>
         ) : (
-            <View style={group.detailWrapper}>
-                <FlatList
-                    ref={(ref) => (this.messageList = ref)}
-                    data={messages}
-                    inverted={true}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item) => String(item.id)}
-                    ListEmptyComponent={() => <Text>No Messages in Group</Text>}
-                />
-                <MessageInput send={this.send} />
-            </View>
-        );
+                <View style={group.detailWrapper}>
+                    <FlatList
+                        ref={(ref) => (this.messageList = ref)}
+                        data={messages}
+                        inverted={true}
+                        renderItem={this.renderItem}
+                        keyExtractor={(item) => String(item.id)}
+                        ListEmptyComponent={() => <Text>No Messages in Group</Text>}
+                    />
+                    <MessageInput send={this.send} />
+                </View>
+            );
     }
 
     private renderItem = ({ item }: { item: Message }) => {
@@ -84,75 +84,46 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                 color={this.state.usernameColors[from.name]}
                 isCurrentUser={from.id === this.props.userID}
                 message={item}
+                images={item.images}
             />
         );
     };
 
-    private send = async (text: string, attachment: ImageType[] | ImageType | null) => {
+    private send = async (text: string, attachment: ImageType[]) => {
         var imageAttachment: string[] = [];
 
-        if (attachment) {
-            if (Array.isArray(attachment)) {
-                imageAttachment = await Promise.all(
-                    attachment.map(async (image) => {
-                        const formData = new FormData();
+        if (attachment.length > 0) {
+            imageAttachment = await Promise.all(
+                attachment.map(async (image) => {
+                    const formData = new FormData();
 
-                        const lastIndex = image.path.lastIndexOf('/') + 1;
+                    const lastIndex = image.path.lastIndexOf('/') + 1;
 
-                        const data = {
-                            uri: image.path,
-                            name: image.path.slice(lastIndex),
-                            type: image.mime
-                        };
+                    const data = {
+                        uri: image.path,
+                        name: image.path.slice(lastIndex),
+                        type: image.mime
+                    };
 
-                        formData.append('data', data);
+                    formData.append('data', data);
 
-                        const options = {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                Accept: 'application/json',
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        };
+                    const options = {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    };
 
-                        const response = await fetch(`${DOMAIN}/upload`, options)
-                            .then((res) => res.json())
-                            .then((json) => json)
-                            .catch((error) => console.log(error));
+                    const response = await fetch(`${DOMAIN}/upload`, options)
+                        .then((res) => res.json())
+                        .then((json) => json)
+                        .catch((error) => console.log(error));
 
-                        return response.url;
-                    })
-                );
-            } else {
-                const formData = new FormData();
-
-                const lastIndex = attachment.path.lastIndexOf('/') + 1;
-
-                const data = {
-                    uri: attachment.path,
-                    name: attachment.path.slice(lastIndex),
-                    type: attachment.mime
-                };
-
-                formData.append('data', data);
-
-                const options = {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'multipart/form-data'
-                    }
-                };
-
-                const response = await fetch(`${DOMAIN}/upload`, options)
-                    .then((res) => res.json())
-                    .then((json) => json)
-                    .catch((error) => console.log(error));
-
-                imageAttachment = [response.url];
-            }
+                    return response.url;
+                })
+            );
         }
 
         const allUsers = this.props.data.groupInfo.house.users.concat([

@@ -82,7 +82,7 @@ export interface Message {
 
     createdAt: Date;
 
-    pictureAttachment?: string;
+    images?: string[];
     text: string;
     from: User;
     to: Group;

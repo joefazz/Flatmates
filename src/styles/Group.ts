@@ -184,5 +184,11 @@ export const group = StyleSheet.create({
         width: toConstantWidth(100),
         backgroundColor: '#f5f1ee',
         paddingVertical: 5
+    },
+
+    imageContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'flex-start'
     }
 });

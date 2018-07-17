@@ -79,19 +79,19 @@ const getMessages = graphql<
     ChatMessagesQuery,
     ChatMessagesQueryVariables,
     ChildProps<ChatMessagesQuery>
->(GET_CHAT_MESSAGES_QUERY, {
-    options: (ownProps) => ({
-        variables: {
-            id: ownProps.navigation.state.params.groupData.id
-        },
-        fetchPolicy: 'network-only'
-    }),
-    props: ({ data: { loading, group, error } }) => ({
-        loading,
-        group,
-        error
-    })
-});
+    >(GET_CHAT_MESSAGES_QUERY, {
+        options: (ownProps) => ({
+            variables: {
+                id: ownProps.navigation.state.params.groupData.id
+            },
+            fetchPolicy: 'network-only'
+        }),
+        props: ({ data: { loading, group, error } }) => ({
+            loading,
+            group,
+            error
+        })
+    });
 
 const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
     props: ({ mutate }) => ({
@@ -106,7 +106,8 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         }
                     });
 
-                    groupData.group.messages.push(createMessage);
+
+                    // groupData.group.messages.push(createMessage);
 
                     store.writeQuery({
                         query: GET_CHAT_MESSAGES_QUERY,
@@ -129,6 +130,7 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                             username: params.senderName,
                             profilePicture: ''
                         },
+                        images: params.images,
                         to: {
                             __typename: 'Group',
                             id: params.groupID

@@ -13,7 +13,7 @@ interface Props {
 
 interface State {
     text: string;
-    tempImages: ImageType[] | null;
+    tempImages: ImageType[];
     removeImageToggle: boolean;
 }
 
@@ -23,7 +23,7 @@ export class MessageInput extends React.Component<Props, State> {
 
         this.state = {
             text: '',
-            tempImages: null,
+            tempImages: [],
             removeImageToggle: false
         };
     }
@@ -36,6 +36,7 @@ export class MessageInput extends React.Component<Props, State> {
             mediaType: 'photo',
             loadingLabelText: 'Processing photos...'
         })
+            // @ts-ignore
             .then((result) => this.setState({ tempImages: Array.isArray(this.state.tempImages) ? this.state.tempImages.concat(result) : result }))
             .catch((error) => console.log(error));
     };
@@ -65,16 +66,17 @@ export class MessageInput extends React.Component<Props, State> {
     };
 
     sendButton = (send) => {
+        let isDisabled = this.state.text.length === 0 && this.state.tempImages.length === 0;
         return (
             <TouchableHighlight
                 style={[
                     group.sendButtonWrapper,
-                    this.state.text.length === 0 &&
+                    isDisabled &&
                     Platform.OS === 'ios' && { backgroundColor: Colors.grey }
                 ]}
                 onPress={send}
                 underlayColor={Colors.definetelyNotAirbnbRed}
-                disabled={this.state.text.length === 0}
+                disabled={isDisabled}
             >
                 <Icon
                     iconStyle={group.iconStyle}
@@ -83,7 +85,7 @@ export class MessageInput extends React.Component<Props, State> {
                     color={
                         Platform.OS === 'ios'
                             ? Colors.white
-                            : this.state.text.length === 0
+                            : isDisabled
                                 ? Colors.grey
                                 : Colors.brandPrimaryColor
                     }
