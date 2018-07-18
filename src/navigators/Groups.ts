@@ -7,7 +7,7 @@ import { Colors, Font } from '../consts';
 
 const routeConfig = {
     Chat: { screen: ChatNavigator },
-    Applications: { screen: ApplicationNavigator }
+    Applications: { screen: ApplicationNavigator },
 };
 
 const navConfig = {

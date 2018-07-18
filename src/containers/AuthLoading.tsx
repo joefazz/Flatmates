@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, AsyncStorage, StyleSheet, View, Image } from 'react-native';
+import { Text, AsyncStorage, StyleSheet, View, Image, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import splash_screen from '../../Assets/splash_screen.png';
 import { LoginState } from '../types/ReduxTypes';
@@ -19,7 +19,7 @@ interface Props {
     };
 }
 
-interface State {}
+interface State { }
 
 class AuthLoadingScreen extends React.Component<Props, State> {
     componentDidUpdate() {
@@ -39,8 +39,6 @@ class AuthLoadingScreen extends React.Component<Props, State> {
                 query: USER_LOGIN_QUERY,
                 fetchPolicy: 'network-only'
             });
-
-            console.log(data);
 
             if (data.user === null) {
                 AsyncStorage.clear();
@@ -67,7 +65,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
                     source={splash_screen}
                     resizeMode={'cover'}
                 />
-                <Text
+                {/* <Text
                     style={{
                         position: 'absolute',
                         top: toConstantHeight(80),
@@ -78,7 +76,11 @@ class AuthLoadingScreen extends React.Component<Props, State> {
                     }}
                 >
                     {!this.props.screenProps.isRehydrated ? 'Fetching data...' : 'Done'}
-                </Text>
+                </Text> */}
+                <ActivityIndicator style={{
+                    position: 'absolute',
+                    top: toConstantHeight(80)
+                }} size={'large'} color={Colors.white} />
             </View>
         );
     }

@@ -26,6 +26,7 @@ interface Props {
                 userID: string;
             };
         };
+        push: (route, params) => void;
     };
     group: Group;
     loading: boolean;
@@ -51,6 +52,7 @@ export class ChatDetail extends React.Component<Props> {
 
         return (
             <ChatDetailComponent
+                navigation={this.props.navigation}
                 data={{
                     groupInfo: this.props.navigation.state.params.groupData,
                     messages: this.props.group.messages

@@ -13,11 +13,22 @@ import { DOMAIN } from '../../consts/endpoint';
 interface Props {
     data: { messages: Array<Message>; groupInfo: Group };
     userID: string;
+    navigation: {
+        state: {
+            params: {
+                messages: Array<string>;
+                groupData: Group;
+                userID: string;
+            };
+        };
+        push: (route, params) => void;
+    }
     createMessage: (params: CreateMessageMutationVariables) => void;
 }
 
 const initialState = {
-    usernameColors: {}
+    usernameColors: {},
+    modalVisible: false
 };
 
 type State = Readonly<typeof initialState>;
@@ -81,6 +92,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         const { from } = item;
         return (
             <MessageComponent
+                navigation={this.props.navigation}
                 color={this.state.usernameColors[from.name]}
                 isCurrentUser={from.id === this.props.userID}
                 message={item}
