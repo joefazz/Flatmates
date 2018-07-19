@@ -162,8 +162,8 @@ export class House extends React.Component<Props, State> {
                         />
                         <StatRow
                             items={[
-                                { label: 'Applications', value: 23 },
-                                { label: 'Post Views', value: 67 }
+                                { label: 'Applications', value: house.applicationCount },
+                                { label: 'Post Views', value: house.post.viewCount }
                             ]}
                         />
                     </View>
@@ -317,8 +317,8 @@ export class House extends React.Component<Props, State> {
                         />
                         <StatRow
                             items={[
-                                { label: 'Applications', value: 23 },
-                                { label: 'Post Views', value: 67 }
+                                { label: 'Applications', value: house.applicationCount },
+                                { label: 'Post Views', value: house.post.viewCount }
                             ]}
                         />
                     </View>

@@ -9,6 +9,10 @@ export const HOUSE_DETAILS_QUERY = gql`
             rentPrice
             spaces
             houseImages
+            applicationCount
+            post {
+                viewCount
+            }
         }
     }
 `;

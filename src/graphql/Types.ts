@@ -13,7 +13,7 @@ export interface CreateApplicationMutation {
     id: string,
     to:  {
       shortID: number,
-      houseImages: Array< string > | null,
+      houseImages: Array< string >,
       road: string,
       billsPrice: number,
       rentPrice: number,
@@ -50,6 +50,7 @@ export interface CreateMessageMutation {
     id: string,
     createdAt: string,
     text: string,
+    images: Array< string >,
     from:  {
       id: string,
       name: string,
@@ -77,7 +78,7 @@ export interface CreateGroupMutation {
     } | null,
     house:  {
       shortID: number,
-      houseImages: Array< string > | null,
+      houseImages: Array< string >,
       users:  Array< {
         id: string,
         profilePicture: string,
@@ -102,7 +103,7 @@ export interface UpdateHouseMutation {
   updateHouse:  {
     shortID: number,
     road: string,
-    coords: Array< number > | null,
+    coords: Array< number >,
     spaces: number,
     rentDue: string | null,
     billsDue: string | null,
@@ -126,7 +127,7 @@ export interface CreatePostMutation {
       billsPrice: number,
       rentPrice: number,
       spaces: number,
-      houseImages: Array< string > | null,
+      houseImages: Array< string >,
     },
   } | null,
 };
@@ -152,12 +153,12 @@ export interface UpdatePostMutation {
     description: string,
     createdBy:  {
       shortID: number,
-      coords: Array< number > | null,
+      coords: Array< number >,
       road: string,
       billsPrice: number,
       rentPrice: number,
       spaces: number,
-      houseImages: Array< string > | null,
+      houseImages: Array< string >,
       users:  Array< {
         id: string,
         name: string,
@@ -412,7 +413,7 @@ export interface ChatMessagesQuery {
       id: string,
       createdAt: string,
       text: string,
-      images: Array< string > | null,
+      images: Array< string >,
       from:  {
         id: string,
         name: string,
@@ -476,7 +477,7 @@ export interface HouseChatQuery {
       } | null,
       house:  {
         shortID: number,
-        houseImages: Array< string > | null,
+        houseImages: Array< string >,
         users:  Array< {
           id: string,
           profilePicture: string,
@@ -498,7 +499,11 @@ export interface HouseDetailQuery {
     billsPrice: number,
     rentPrice: number,
     spaces: number,
-    houseImages: Array< string > | null,
+    houseImages: Array< string >,
+    applicationCount: number | null,
+    post:  {
+      viewCount: number | null,
+    } | null,
   } | null,
 };
 
@@ -528,12 +533,12 @@ export interface PostDetailQuery {
     description: string,
     createdAt: string,
     createdBy:  {
-      coords: Array< number > | null,
+      coords: Array< number >,
       road: string,
       billsPrice: number,
       rentPrice: number,
       spaces: number,
-      houseImages: Array< string > | null,
+      houseImages: Array< string >,
       users:  Array< {
         id: string,
         name: string,
@@ -564,11 +569,11 @@ export interface AllPostsQuery {
     createdBy:  {
       shortID: number,
       road: string,
-      coords: Array< number > | null,
+      coords: Array< number >,
       billsPrice: number,
       rentPrice: number,
       spaces: number,
-      houseImages: Array< string > | null,
+      houseImages: Array< string >,
     },
   } | null > | null,
 };
@@ -584,9 +589,9 @@ export interface UserApplicationsQuery {
       id: string,
       to:  {
         shortID: number,
-        houseImages: Array< string > | null,
+        houseImages: Array< string >,
         road: string,
-        coords: Array< number > | null,
+        coords: Array< number >,
         spaces: number,
         billsPrice: number,
         rentPrice: number,
@@ -637,7 +642,7 @@ export interface UserChatQuery {
       } | null,
       house:  {
         shortID: number,
-        houseImages: Array< string > | null,
+        houseImages: Array< string >,
         users:  Array< {
           id: string,
           profilePicture: string,
@@ -694,7 +699,7 @@ export interface UserDetailQuery {
       users:  Array< {
         name: string,
       } > | null,
-      houseImages: Array< string > | null,
+      houseImages: Array< string >,
     } | null,
   } | null,
 };
@@ -748,11 +753,11 @@ export interface UserStarredQuery {
       lastSeen: string | null,
       createdBy:  {
         road: string,
-        coords: Array< number > | null,
+        coords: Array< number >,
         billsPrice: number,
         rentPrice: number,
         spaces: number,
-        houseImages: Array< string > | null,
+        houseImages: Array< string >,
       },
     } > | null,
   } | null,
