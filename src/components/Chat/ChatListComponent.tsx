@@ -47,7 +47,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                             If you can send the bills that'd be sound
                         </Text>
                     </View>
-                    <View style={true && group.unreadMarker} />
+                    {/* <View style={true && group.unreadMarker} /> */}
                 </RectButton>
                 {this.renderSeperator()}
             </>
@@ -97,7 +97,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                         {item.lastMessage || 'New group created.'}
                     </Text>
                 </View>
-                <View style={true && group.unreadMarker} />
+                {/* <View style={true && group.unreadMarker} /> */}
             </RectButton>
         );
     };

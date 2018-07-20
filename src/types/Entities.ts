@@ -4,6 +4,7 @@ export interface Post {
     description: string;
     createdAt: Date;
     createdBy: House;
+    viewCount: number;
 }
 
 export interface House {
@@ -14,7 +15,7 @@ export interface House {
     spaces: number;
     coords: Array<string>;
     houseImages: Array<string>;
-
+    applicationCount: number;
     createdAt: Date;
     updatedAt: Date;
 

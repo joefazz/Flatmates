@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose, graphql, ChildProps } from 'react-apollo';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
@@ -53,8 +53,13 @@ export class PostList extends React.Component<Props, State> {
         skip: 0
     };
 
-    protected static navigationOptions = () => ({
-        title: 'Flatmates'
+    protected static navigationOptions = ({ navigation }) => ({
+        title: 'Flatmates',
+        headerRight: (
+            <TouchableOpacity onPress={() => navigation.navigate('About')} style={{ marginRight: 10 }}>
+                <Icon name={'ios-help-circle-outline'} size={28} color={Colors.white} />
+            </TouchableOpacity>
+        )
     });
 
     constructor(props: Props) {

@@ -38,24 +38,24 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
 
         const sections = this.props.showReceived
             ? [
-                  {
-                      title: 'Received Applications',
-                      data: this.props.receivedApplications,
-                      renderItem: this.renderReceivedItem
-                  },
-                  {
-                      title: 'Sent Applications',
-                      data: this.props.sentApplications,
-                      renderItem: this.renderSentItem
-                  }
-              ]
+                {
+                    title: 'Received Applications',
+                    data: this.props.receivedApplications,
+                    renderItem: this.renderReceivedItem
+                },
+                {
+                    title: 'Sent Applications',
+                    data: this.props.sentApplications,
+                    renderItem: this.renderSentItem
+                }
+            ]
             : [
-                  {
-                      title: 'Sent Applications',
-                      data: this.props.sentApplications,
-                      renderItem: this.renderSentItem
-                  }
-              ];
+                {
+                    title: 'Sent Applications',
+                    data: this.props.sentApplications,
+                    renderItem: this.renderSentItem
+                }
+            ];
 
         return (
             <SectionList
@@ -134,7 +134,7 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                     </Text>
                     <Text style={group.subtitle}>{item.from.course}</Text>
                 </View>
-                <View style={true && group.unreadMarker} />
+                {/* <View style={true && group.unreadMarker} /> */}
             </RectButton>
         );
     };

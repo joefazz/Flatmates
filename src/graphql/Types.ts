@@ -586,6 +586,7 @@ export interface UserApplicationsQueryVariables {
 export interface UserApplicationsQuery {
   user:  {
     id: string,
+    applicationAllowance: number,
     applications:  Array< {
       id: string,
       to:  {

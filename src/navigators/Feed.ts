@@ -6,13 +6,15 @@ import CreatePost from '../containers/Feed/CreatePost';
 import PostDetail from '../containers/Feed/PostDetail';
 import PostList from '../containers/Feed/PostList';
 import UserProfile from '../containers/Feed/UserProfile';
+import { About } from '../containers/About';
 
 const routeConfig = {
     PostList: { screen: PostList },
     PostDetail: { screen: PostDetail },
     CreatePost: { screen: CreatePost },
     UserProfile: { screen: UserProfile },
-    MapView: { screen: MapComponent }
+    MapView: { screen: MapComponent },
+    About: { screen: About }
 };
 
 const navConfig: any = {

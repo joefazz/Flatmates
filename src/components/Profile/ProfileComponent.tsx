@@ -18,7 +18,7 @@ interface Props {
     profile: User;
     isLoading: boolean;
     contentEditable: boolean;
-    updateUser: (params: UpdateUserMutationVariables) => UpdateUserMutation;
+    updateUser: (params: UpdateUserMutationVariables & { tempProfilePicture: string }) => UpdateUserMutation;
 }
 
 interface State {
@@ -68,7 +68,8 @@ export class ProfileComponent extends React.Component<Props, State> {
 
     async componentDidUpdate(prevProps: Props) {
         if (prevProps.contentEditable && !this.props.contentEditable) {
-            var params: UpdateUserMutationVariables = { id: this.props.profile.id };
+            // @ts-ignore
+            var params: UpdateUserMutationVariables & { tempProfilePicture: string } = { id: this.props.profile.id };
 
             if (this.isNameDirty) {
                 params.name = this.state.newName;
@@ -79,6 +80,7 @@ export class ProfileComponent extends React.Component<Props, State> {
             }
 
             if (this.isProfilePictureDirty) {
+                params.tempProfilePicture = this.state.tempProfilePic.path;
                 await this.uploadProfilePicture();
                 params.profilePicture = this.state.profilePicture;
             }

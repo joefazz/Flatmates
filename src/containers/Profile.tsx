@@ -27,7 +27,7 @@ interface Props {
         setParams: any;
     };
     user: User;
-    updateUser: (params: UpdateUserMutationVariables) => UpdateUserMutation;
+    updateUser: (params: UpdateUserMutationVariables & { tempProfilePicture: string }) => UpdateUserMutation;
 }
 
 interface State {
@@ -155,7 +155,7 @@ const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
 
 const updateUserMutation = graphql(UPDATE_USER_MUTATION, {
     props: ({ mutate }) => ({
-        updateUser: (params: UpdateUserMutationVariables) =>
+        updateUser: (params: UpdateUserMutationVariables & { tempProfilePicture: string }) =>
             mutate({
                 variables: { ...params },
                 update: (store, { data: { updateUser } }) => {
@@ -180,7 +180,7 @@ const updateUserMutation = graphql(UPDATE_USER_MUTATION, {
                         name: params.name,
                         firstName: params.firstName,
                         lastName: params.lastName,
-                        profilePicture: params.profilePicture,
+                        profilePicture: params.tempProfilePicture,
                         age: params.age,
                         course: params.course,
                         bio: params.bio,
