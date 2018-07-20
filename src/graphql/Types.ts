@@ -375,6 +375,7 @@ export interface UpdateUserMutationVariables {
   name?: string | null,
   firstName?: string | null,
   lastName?: string | null,
+  profilePicture?: string | null,
   age?: number | null,
   course?: string | null,
   bio?: string | null,

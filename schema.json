@@ -10963,6 +10963,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "profilePicture",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "age",
                   "description": "",
                   "type": {

@@ -180,6 +180,7 @@ const updateUserMutation = graphql(UPDATE_USER_MUTATION, {
                         name: params.name,
                         firstName: params.firstName,
                         lastName: params.lastName,
+                        profilePicture: params.profilePicture,
                         age: params.age,
                         course: params.course,
                         bio: params.bio,

@@ -11,6 +11,8 @@ import { UpdateUserMutationVariables, UpdateUserMutation } from '../../graphql/T
 import { FlatPicker } from '../../widgets/FlatPicker';
 import { STUDY_YEARS, GENDERS } from '../../consts/strings';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
+import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker'
+import { DOMAIN } from '../../consts/endpoint';
 
 interface Props {
     profile: User;
@@ -22,15 +24,20 @@ interface Props {
 interface State {
     isAvatarModalVisible: boolean;
     newName: string;
+    tempProfilePic: ImageType | ImageType[];
+    profilePicture: string;
 }
 
 export class ProfileComponent extends React.Component<Props, State> {
     state = {
         isAvatarModalVisible: false,
-        newName: ''
+        newName: '',
+        tempProfilePic: null,
+        profilePicture: ''
     };
 
     isNameDirty: boolean = false;
+    isProfilePictureDirty: boolean = false;
     isCourseDirty: boolean = false;
     isBioDirty: boolean = false;
     isAgeDirty: boolean = false;
@@ -59,7 +66,7 @@ export class ProfileComponent extends React.Component<Props, State> {
         );
     };
 
-    componentDidUpdate(prevProps: Props) {
+    async componentDidUpdate(prevProps: Props) {
         if (prevProps.contentEditable && !this.props.contentEditable) {
             var params: UpdateUserMutationVariables = { id: this.props.profile.id };
 
@@ -69,6 +76,11 @@ export class ProfileComponent extends React.Component<Props, State> {
                 let names = this.state.newName.split(' ');
                 params.firstName = names[0].trim();
                 params.lastName = names[1].trim();
+            }
+
+            if (this.isProfilePictureDirty) {
+                await this.uploadProfilePicture();
+                params.profilePicture = this.state.profilePicture;
             }
 
             if (this.isCourseDirty) {
@@ -104,7 +116,84 @@ export class ProfileComponent extends React.Component<Props, State> {
             }
 
             this.props.updateUser(params);
+
+            this.isNameDirty = false;
+            this.isProfilePictureDirty = false;
+            this.isCourseDirty = false;
+            this.isBioDirty = false;
+            this.isAgeDirty = false;
+            this.isGenderDirty = false;
+            this.isYearDirty = false;
+            this.isSmokerDirty = false;
+            this.isDrugsDirty = false;
+            this.isDrinkDirty = false;
         }
+    }
+
+    private async selectProfilePicture(): Promise<void> {
+        let image: Array<ImageType> | ImageType | void;
+
+        image = await ImagePicker.openPicker({
+            multiple: false,
+            cropping: true,
+            height: 500,
+            width: 500,
+            compressImageQuality: 1,
+            cropperCircleOverlay: true,
+            mediaType: 'photo',
+            loadingLabelText: 'Processing photo...'
+        }).catch(() => console.log('Image upload cancelled'));
+
+        if (image) {
+            this.isProfilePictureDirty = true;
+            this.setState({ tempProfilePic: image });
+        }
+    }
+
+    private async uploadProfilePicture(): Promise<{} | void> {
+        if (this.state.tempProfilePic) {
+            return new Promise(async (resolve) => {
+                const formData = new FormData();
+
+                const lastIndex = this.state.tempProfilePic.path.lastIndexOf('/') + 1;
+
+                const data = {
+                    uri: this.state.tempProfilePic.path,
+                    name: this.state.tempProfilePic.path.slice(lastIndex),
+                    type: this.state.tempProfilePic.mime
+                };
+
+                // @ts-ignore
+                formData.append('data', data);
+
+                const options = {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'multipart/form-data'
+                    }
+                };
+
+                try {
+                    const response = await fetch(`${DOMAIN}/upload`, options);
+                    if (response.ok) {
+                        const json = await response.json();
+                        await this.setState({ profilePicture: json.url });
+                        resolve();
+                    } else {
+                        alert('Problem with fetch: ' + response.status);
+                    }
+                } catch (error) {
+                    console.log(error);
+                    alert('There was a problem uploading your profile picture');
+                }
+            });
+        } else {
+            alert('No profile pic selected');
+        }
+
+        return null;
     }
 
     render() {
@@ -115,23 +204,47 @@ export class ProfileComponent extends React.Component<Props, State> {
                 <View style={{ flex: 1, alignItems: 'stretch' }}>
                     <View style={profile.summaryWrapper}>
                         <View style={profile.headerAvatar}>
-                            <Avatar
-                                rounded={true}
-                                avatarStyle={{
-                                    width: toConstantWidth(32),
-                                    height: toConstantWidth(32),
-                                    borderRadius: toConstantWidth(32) / 2,
-                                    backgroundColor: Colors.transparent
-                                }}
-                                overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
-                                containerStyle={{
-                                    width: toConstantWidth(32),
-                                    height: toConstantWidth(32),
-                                    borderRadius: toConstantWidth(32) / 2,
-                                    backgroundColor: Colors.transparent
-                                }}
-                                source={{ uri: data.profilePicture }}
-                            />
+                            {this.state.tempProfilePic ? (
+                                <Avatar
+                                    avatarStyle={{
+                                        width: toConstantWidth(32),
+                                        height: toConstantWidth(32),
+                                        borderRadius: toConstantWidth(32) / 2,
+                                        backgroundColor: Colors.transparent
+                                    }}
+                                    overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                    containerStyle={{
+                                        width: toConstantWidth(32),
+                                        height: toConstantWidth(32),
+                                        borderRadius: toConstantWidth(32) / 2,
+                                        backgroundColor: Colors.transparent
+                                    }}
+                                    source={{ uri: this.state.tempProfilePic.path }}
+                                    onPress={() => this.selectProfilePicture()}
+                                    activeOpacity={0.7}
+                                    rounded={true}
+                                />
+                            ) : (
+                                    <Avatar
+                                        avatarStyle={{
+                                            width: toConstantWidth(32),
+                                            height: toConstantWidth(32),
+                                            borderRadius: toConstantWidth(32) / 2,
+                                            backgroundColor: Colors.transparent
+                                        }}
+                                        overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                        containerStyle={{
+                                            width: toConstantWidth(32),
+                                            height: toConstantWidth(32),
+                                            borderRadius: toConstantWidth(32) / 2,
+                                            backgroundColor: Colors.transparent
+                                        }}
+                                        source={{ uri: data.profilePicture }}
+                                        onPress={() => this.selectProfilePicture()}
+                                        activeOpacity={0.7}
+                                        rounded={true}
+                                    />
+                                )}
                         </View>
                         <View style={profile.summaryDescriptionWrapper}>
                             <TextInput
