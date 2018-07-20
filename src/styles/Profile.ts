@@ -28,6 +28,7 @@ export const profile = StyleSheet.create({
         fontSize: toConstantFontSize(4.5),
         paddingBottom: 10,
         paddingTop: 0,
+        textAlign: 'center'
     },
 
     aboutText: {
