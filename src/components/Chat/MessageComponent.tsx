@@ -6,7 +6,7 @@ import { group } from '../../styles';
 import { Message } from '../../types/Entities';
 import { toConstantWidth } from '../../utils/PercentageConversion';
 import { Colors } from '../../consts';
-import { ImageViewer } from '../../../node_modules/react-native-image-zoom-viewer';
+import { ImageViewer } from 'react-native-image-zoom-viewer';
 
 interface Props {
     color: string;
@@ -38,7 +38,7 @@ export class MessageComponent extends React.Component<Props, State> {
 
         if (this.state.isModalVisible) {
             return (
-                <Modal animationType="slide">
+                <Modal animationType={"slide"}>
                     <ImageViewer
                         imageUrls={this.props.images.map(image => ({ url: image }))}
                         enableSwipeDown={true}

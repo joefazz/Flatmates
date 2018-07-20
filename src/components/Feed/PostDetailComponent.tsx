@@ -10,19 +10,22 @@ import {
     TouchableHighlight,
     Alert,
     View,
-    Platform
+    Platform,
+    Modal,
+    TouchableOpacity
 } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { RectButton } from 'react-native-gesture-handler';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import { ImageViewer } from 'react-native-image-zoom-viewer';
 
 import { Colors } from '../../consts';
 import { FontFactory } from '../../consts/font';
 import { feed } from '../../styles';
 import { ProfileState } from '../../types/ReduxTypes';
-import { House, User } from '../../types/Entities';
+import { House } from '../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
 import { CreateApplicationMutationVariables } from '../../graphql/Types';
@@ -60,7 +63,8 @@ const initialState = {
     isBookmarked: false,
     isLayoutCalculated: false,
     descriptionWrapperHeight: toConstantHeight(20),
-    hasSentApplication: false
+    hasSentApplication: false,
+    isModalVisible: false
 };
 
 type State = Readonly<typeof initialState>;
@@ -83,6 +87,14 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         paddingBottom: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
                     }}
                 >
+                    <Modal animationType={"slide"} visible={this.state.isModalVisible}>
+                        <ImageViewer
+                            imageUrls={this.props.house.houseImages.map(image => ({ url: image }))}
+                            enableSwipeDown={true}
+                            onSwipeDown={() => this.setState({ isModalVisible: false })}
+                            saveToLocalByLongPress={true}
+                        />
+                    </Modal>
                     <Swiper
                         style={feed.detailImage}
                         buttonWrapperStyle={feed.swiperButtonWrapperStyle}
@@ -99,12 +111,13 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     >
                         {this.props.house.houseImages.map((image, index) => {
                             return (
-                                <Image
-                                    style={feed.detailImage}
-                                    source={{ uri: image }}
-                                    key={index}
-                                    resizeMode={'contain'}
-                                />
+                                <TouchableOpacity key={index} onPress={() => this.setState({ isModalVisible: true })}>
+                                    <Image
+                                        style={feed.detailImage}
+                                        source={{ uri: image }}
+                                        resizeMode={'contain'}
+                                    />
+                                </TouchableOpacity>
                             );
                         })}
                     </Swiper>
@@ -132,21 +145,21 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             <Text style={feed.dateText}>
                                 {this.props.lastSeen
                                     ? 'Last Viewed: ' +
-                                      moment(this.props.lastSeen)
-                                          .utc()
-                                          .format('DD MMMM') +
-                                      ' at ' +
-                                      moment(this.props.lastSeen)
-                                          .utc()
-                                          .format('HH:MM')
+                                    moment(this.props.lastSeen)
+                                        .utc()
+                                        .format('DD MMMM') +
+                                    ' at ' +
+                                    moment(this.props.lastSeen)
+                                        .utc()
+                                        .format('HH:MM')
                                     : 'Created On: ' +
-                                      moment(this.props.createdAt)
-                                          .utc()
-                                          .format('DD MMM') +
-                                      ' at ' +
-                                      moment(this.props.createdAt)
-                                          .utc()
-                                          .format('HH:MM')}
+                                    moment(this.props.createdAt)
+                                        .utc()
+                                        .format('DD MMM') +
+                                    ' at ' +
+                                    moment(this.props.createdAt)
+                                        .utc()
+                                        .format('HH:MM')}
                             </Text>
                             <Text style={feed.spacesText}>
                                 {this.props.house.spaces} Spaces Remaining
@@ -210,8 +223,8 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             onPress={() =>
                                 Platform.OS === 'ios'
                                     ? this.props.navigation.push('MapView', {
-                                          data: { coords: this.props.house.coords }
-                                      })
+                                        data: { coords: this.props.house.coords }
+                                    })
                                     : console.log('coming soon')
                             }
                             styleUrl={Mapbox.StyleURL.Street}
@@ -274,8 +287,8 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                 Alert.alert(
                                     'Send Application',
                                     'Are you sure you want to apply to ' +
-                                        this.props.house.road +
-                                        '?',
+                                    this.props.house.road +
+                                    '?',
                                     [
                                         {
                                             text: 'Cancel',

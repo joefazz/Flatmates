@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput, Modal } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { profile } from '../../styles';
 import { User } from '../../types/Entities';
@@ -10,6 +10,7 @@ import { EditableStatRow } from '../../widgets/EditableStatRow';
 import { UpdateUserMutationVariables, UpdateUserMutation } from '../../graphql/Types';
 import { FlatPicker } from '../../widgets/FlatPicker';
 import { STUDY_YEARS, GENDERS } from '../../consts/strings';
+import { ImageViewer } from 'react-native-image-zoom-viewer';
 
 interface Props {
     profile: User;
@@ -19,18 +20,16 @@ interface Props {
 }
 
 interface State {
+    isAvatarModalVisible: boolean;
     newName: string;
-    newCourse: string;
-    newBio: string;
-    newAge: number;
-    newGender: string;
-    newYear: string;
-    newSmoke: boolean;
-    newDrug: boolean;
-    newDrink: boolean;
 }
 
 export class ProfileComponent extends React.Component<Props, State> {
+    state = {
+        isAvatarModalVisible: false,
+        newName: ''
+    };
+
     isNameDirty: boolean = false;
     isCourseDirty: boolean = false;
     isBioDirty: boolean = false;
@@ -269,9 +268,18 @@ export class ProfileComponent extends React.Component<Props, State> {
 
         return (
             <View style={{ flex: 1, alignItems: 'stretch' }}>
+                <Modal animationType={"slide"} visible={this.state.isAvatarModalVisible}>
+                    <ImageViewer
+                        imageUrls={[{ url: data.profilePicture }]}
+                        enableSwipeDown={true}
+                        onSwipeDown={() => this.setState({ isAvatarModalVisible: false })}
+                        saveToLocalByLongPress={true}
+                    />
+                </Modal>
                 <View style={profile.summaryWrapper}>
                     <View style={profile.headerAvatar}>
                         <Avatar
+                            onPress={() => this.setState({ isAvatarModalVisible: true })}
                             rounded={true}
                             avatarStyle={{
                                 width: toConstantWidth(32),
