@@ -124,115 +124,116 @@ export class House extends React.Component<Props, State> {
 
         if (this.props.navigation.state.params && this.props.navigation.state.params.contentEditable) {
             return (
-                <View style={{ width: toConstantWidth(100), height: toConstantHeight(100) }}>
-                    <View style={styles.headingWrapper}>
-                        <TextInput style={styles.heading} defaultValue={house.road} onChangeText={(text) => this.setState({ road: text })} />
-                    </View>
+                <>
+                    <View style={{ width: toConstantWidth(100), height: toConstantHeight(100) }}>
+                        <View style={styles.headingWrapper}>
+                            <TextInput style={styles.heading} defaultValue={house.road} onChangeText={(text) => this.setState({ road: text })} />
+                        </View>
 
-                    <View style={styles.statisticsWrapper}>
-                        <EditableStatRow
-                            items={[
-                                { label: 'House ID', value: house.shortID, editable: false },
-                                { label: house.spaces === 1 ? 'Free Room' : 'Free Rooms', value: house.spaces, inputType: 'number' }
-                            ]}
-                            onEndEditing={(items: Array<{ value: string; label: string }>) =>
-                                items.map((item) => {
-                                    switch (item.label) {
-                                        case house.spaces === 1 ? 'Free Room' : 'Free Rooms':
-                                            if (house.spaces !== Number(item.value)) {
-                                                this.props.updateHouse({
-                                                    shortID: this.props.house.shortID,
-                                                    road: house.road,
-                                                    spaces: Number(item.value),
-                                                    billsPrice: house.billsPrice,
-                                                    rentPrice: house.rentPrice
-                                                });
-                                            }
-                                            break;
-                                    }
-                                })
-                            }
-                        />
-                        <View
-                            style={{
-                                alignSelf: 'stretch',
-                                height: 0.5,
-                                backgroundColor: Colors.grey
-                            }}
-                        />
-                        <StatRow
-                            items={[
-                                { label: 'Applications', value: house.applicationCount },
-                                { label: 'Post Views', value: house.post.viewCount }
-                            ]}
-                        />
-                    </View>
-                    <View style={styles.statisticsWrapper}>
-                        <EditableStatRow
-                            items={[
-                                { label: 'Rent Due', value: '25th' },
-                                { label: 'Bills Due', value: '23rd' }
-                            ]}
-                            onEndEditing={(items: Array<{ value: string; label: string }>) =>
-                                items.map((item) => {
-                                    switch (item.label) {
-                                        case 'Rent Due':
-                                            // this.setState({ rentDue: Number(item.value) });
-                                            break;
-                                        case 'Bills Due':
-                                            // this.setState({ billsDue: Number(item.value) });
-                                            break;
-                                    }
-                                })
-                            }
-                        />
-                        <View
-                            style={{
-                                alignSelf: 'stretch',
-                                height: 0.5,
-                                backgroundColor: Colors.grey
-                            }}
-                        />
-                        <EditableStatRow
-                            items={[
-                                { label: 'Rent', value: String(house.rentPrice), inputType: 'number' },
-                                { label: 'Bills', value: String(house.billsPrice), inputType: 'number' }
-                            ]}
-                            onEndEditing={(items: Array<{ value: string; label: string }>) =>
-                                items.map((item) => {
-                                    let value = item.value;
-                                    value = value.replace('£', '');
-                                    switch (item.label) {
-                                        case 'Rent':
-                                            if (house.rentPrice !== Number(value)) {
-                                                this.props.updateHouse({
-                                                    shortID: this.props.house.shortID,
-                                                    road: house.road,
-                                                    spaces: house.spaces,
-                                                    rentPrice: Number(value),
-                                                    billsPrice: house.billsPrice
-                                                });
-                                            }
-                                            break;
-                                        case 'Bills':
-                                            if (house.billsPrice !== Number(value)) {
-                                                this.props.updateHouse({
-                                                    shortID: this.props.house.shortID,
-                                                    road: house.road,
-                                                    spaces: house.spaces,
-                                                    rentPrice: house.rentPrice,
-                                                    billsPrice: Number(value),
-                                                });
-                                            }
-                                            break;
-                                    }
+                        <View style={styles.statisticsWrapper}>
+                            <EditableStatRow
+                                items={[
+                                    { label: 'House ID', value: house.shortID, editable: false },
+                                    { label: house.spaces === 1 ? 'Free Room' : 'Free Rooms', value: house.spaces, inputType: 'number' }
+                                ]}
+                                onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                    items.map((item) => {
+                                        switch (item.label) {
+                                            case house.spaces === 1 ? 'Free Room' : 'Free Rooms':
+                                                if (house.spaces !== Number(item.value)) {
+                                                    this.props.updateHouse({
+                                                        shortID: this.props.house.shortID,
+                                                        road: house.road,
+                                                        spaces: Number(item.value),
+                                                        billsPrice: house.billsPrice,
+                                                        rentPrice: house.rentPrice
+                                                    });
+                                                }
+                                                break;
+                                        }
+                                    })
                                 }
-                                )}
+                            />
+                            <View
+                                style={{
+                                    alignSelf: 'stretch',
+                                    height: 0.5,
+                                    backgroundColor: Colors.grey
+                                }}
+                            />
+                            <StatRow
+                                items={[
+                                    { label: 'Applications', value: house.applicationCount },
+                                    { label: 'Post Views', value: house.post.viewCount }
+                                ]}
+                            />
+                        </View>
+                        <View style={styles.statisticsWrapper}>
+                            <EditableStatRow
+                                items={[
+                                    { label: 'Rent Due', value: '25th' },
+                                    { label: 'Bills Due', value: '23rd' }
+                                ]}
+                                onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                    items.map((item) => {
+                                        switch (item.label) {
+                                            case 'Rent Due':
+                                                // this.setState({ rentDue: Number(item.value) });
+                                                break;
+                                            case 'Bills Due':
+                                                // this.setState({ billsDue: Number(item.value) });
+                                                break;
+                                        }
+                                    })
+                                }
+                            />
+                            <View
+                                style={{
+                                    alignSelf: 'stretch',
+                                    height: 0.5,
+                                    backgroundColor: Colors.grey
+                                }}
+                            />
+                            <EditableStatRow
+                                items={[
+                                    { label: 'Rent', value: String(house.rentPrice), inputType: 'number' },
+                                    { label: 'Bills', value: String(house.billsPrice), inputType: 'number' }
+                                ]}
+                                onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                    items.map((item) => {
+                                        let value = item.value;
+                                        value = value.replace('£', '');
+                                        switch (item.label) {
+                                            case 'Rent':
+                                                if (house.rentPrice !== Number(value)) {
+                                                    this.props.updateHouse({
+                                                        shortID: this.props.house.shortID,
+                                                        road: house.road,
+                                                        spaces: house.spaces,
+                                                        rentPrice: Number(value),
+                                                        billsPrice: house.billsPrice
+                                                    });
+                                                }
+                                                break;
+                                            case 'Bills':
+                                                if (house.billsPrice !== Number(value)) {
+                                                    this.props.updateHouse({
+                                                        shortID: this.props.house.shortID,
+                                                        road: house.road,
+                                                        spaces: house.spaces,
+                                                        rentPrice: house.rentPrice,
+                                                        billsPrice: Number(value),
+                                                    });
+                                                }
+                                                break;
+                                        }
+                                    }
+                                    )}
 
-                        />
-                    </View>
+                            />
+                        </View>
 
-                    {/*house.users.length > 1 ? (
+                        {/*house.users.length > 1 ? (
                             <ScrollView
                                 contentContainerStyle={profile.preferencesWrapper}
                             >
@@ -252,29 +253,30 @@ export class House extends React.Component<Props, State> {
                             <React.Fragment />
                         )*/}
 
-                    <Button
-                        title={'RESET DATA BACK TO LOGIN'}
-                        containerViewStyle={{ marginTop: 20 }}
-                        backgroundColor={Colors.brandPrimaryColor}
-                        onPress={() =>
-                            AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
-                        }
-                    />
-                    <Button
-                        title={'Send Payment Reminder'}
-                        containerViewStyle={{
-                            position: 'absolute',
-                            bottom: 100,
-                            left: 0,
-                            right: 0,
+                        <Button
+                            title={'RESET DATA BACK TO LOGIN'}
+                            containerViewStyle={{ marginTop: 20 }}
+                            backgroundColor={Colors.brandPrimaryColor}
+                            onPress={() =>
+                                AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
+                            }
+                        />
+                        <Button
+                            title={'Send Payment Reminder'}
+                            containerViewStyle={{
+                                position: 'absolute',
+                                bottom: 100,
+                                left: 0,
+                                right: 0,
 
-                            height: 100
-                        }}
-                        backgroundColor={Colors.brandPrimaryColor}
-                        onPress={() =>
-                            AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
-                        }
-                    />
+                                height: 100
+                            }}
+                            backgroundColor={Colors.brandPrimaryColor}
+                            onPress={() =>
+                                AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
+                            }
+                        />
+                    </View>
                     {Platform.OS === 'android' &&
                         <FloatingAction
                             actions={[{
@@ -290,7 +292,7 @@ export class House extends React.Component<Props, State> {
                             }}
                         />
                     }
-                </View>
+                </>
             );
         }
 
