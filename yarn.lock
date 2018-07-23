@@ -614,9 +614,9 @@
   version "9.4.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.4.0.tgz#b85a0bcf1e1cc84eb4901b7e96966aedc6f078d1"
 
-"@types/react-native@^0.56.3":
-  version "0.56.3"
-  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.56.3.tgz#79ab5d48f23e7429995a7b539de2b12321c3710f"
+"@types/react-native@^0.56.4":
+  version "0.56.4"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.56.4.tgz#2643ca2a9a81e30da9fde96cfd8587fca4e3c19d"
   dependencies:
     "@types/react" "*"
 
@@ -4904,9 +4904,9 @@ react-native-floating-action@1.12.1:
   version "1.12.1"
   resolved "https://registry.yarnpkg.com/react-native-floating-action/-/react-native-floating-action-1.12.1.tgz#269f41bd0217c54b62add3ee844ee088ed52c586"
 
-react-native-gesture-handler@1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.6.tgz#8a672ca0c7a1b706dffee4e230e5cf0197d2cdb8"
+react-native-gesture-handler@1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.7.tgz#86677c709c42d04555210cad9759b09e2c657720"
   dependencies:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
@@ -5108,9 +5108,9 @@ react-navigation-tabs@^0.4.0:
     react-native-safe-area-view "^0.7.0"
     react-native-tab-view "^1.0.0"
 
-react-navigation@2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-2.7.0.tgz#cd2a5ed107ebf9e24616a3fbc68aab00b9b3b241"
+react-navigation@2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/react-navigation/-/react-navigation-2.9.0.tgz#714d14c085fa566088166c85f187bc5f5943812d"
   dependencies:
     clamp "^1.0.1"
     create-react-context "^0.2.1"

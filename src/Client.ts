@@ -42,16 +42,16 @@ const httpLink = createHttpLink({
     uri: DOMAIN
 });
 
-// const splitLink = split(
-//     ({ query }) => {
-//         const { kind, operation } = getMainDefinition(query);
-//         return kind === 'OperationDefinition' && operation === 'subscription';
-//     },
-//     wsLink,
-//     authLink.concat(httpLink)
-// );
+const splitLink = split(
+    ({ query }) => {
+        const { kind, operation } = getMainDefinition(query);
+        return kind === 'OperationDefinition' && operation === 'subscription';
+    },
+    wsLink,
+    authLink.concat(httpLink)
+);
 
-const link = ApolloLink.from([reduxLink, errorLink, authLink.concat(httpLink)]);
+const link = ApolloLink.from([reduxLink, errorLink, splitLink]);
 
 const client = new ApolloClient({
     link,
