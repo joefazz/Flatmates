@@ -69,8 +69,8 @@ export interface User {
 export interface Group {
     id: string;
 
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 
     name: string;
     house: House;
@@ -81,7 +81,7 @@ export interface Group {
 export interface Message {
     id: string;
 
-    createdAt: Date;
+    createdAt: string;
 
     images?: string[];
     text: string;

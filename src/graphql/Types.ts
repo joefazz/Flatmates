@@ -764,3 +764,26 @@ export interface UserStarredQuery {
     } > | null,
   } | null,
 };
+
+export interface MessageAddedSubscriptionVariables {
+  groupID: string,
+};
+
+export interface MessageAddedSubscription {
+  message:  {
+    node:  {
+      id: string,
+      text: string,
+      images: Array< string >,
+      to:  {
+        id: string,
+      },
+      from:  {
+        id: string,
+        name: string,
+        profilePicture: string,
+      },
+      createdAt: string,
+    } | null,
+  } | null,
+};

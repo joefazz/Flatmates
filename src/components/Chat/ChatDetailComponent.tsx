@@ -1,14 +1,16 @@
 import React from 'react';
 import { FlatList, KeyboardAvoidingView, Text, Platform, View } from 'react-native';
 import randomColor from 'randomcolor';
+import { Subscription } from 'react-apollo';
 
 import { group } from '../../styles';
 import { Message, Group } from '../../types/Entities';
 import { Image as ImageType } from 'react-native-image-crop-picker';
 import { MessageComponent } from './MessageComponent';
 import { MessageInput } from './MessageInputComponent';
-import { CreateMessageMutationVariables } from '../../graphql/Types';
+import { CreateMessageMutationVariables, MessageAddedSubscription } from '../../graphql/Types';
 import { DOMAIN } from '../../consts/endpoint';
+import { MESSAGE_ADDED_SUBSCRIPTION } from '../../graphql/subscriptions/Chat/MessageAdded';
 
 interface Props {
     data: { messages: Array<Message>; groupInfo: Group };
@@ -57,34 +59,42 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         const messages = this.props.data.messages.slice().reverse();
 
         return Platform.OS === 'ios' ? (
-            <KeyboardAvoidingView
-                behavior={'position'}
-                contentContainerStyle={group.detailWrapper}
-                keyboardVerticalOffset={64}
-                style={group.detailWrapper}
-            >
-                <FlatList
-                    ref={(ref) => (this.messageList = ref)}
-                    data={messages}
-                    inverted={true}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item) => String(item.id)}
-                    ListEmptyComponent={() => <Text>No Messages in Group</Text>}
-                />
-                <MessageInput send={this.send} />
-            </KeyboardAvoidingView>
+            <Subscription subscription={MESSAGE_ADDED_SUBSCRIPTION} variables={{ groupID: this.props.data.groupInfo.id }}>
+                {({ data: { message: { node } } }: { data?: MessageAddedSubscription }) => (
+                    <KeyboardAvoidingView
+                        behavior={'position'}
+                        contentContainerStyle={group.detailWrapper}
+                        keyboardVerticalOffset={64}
+                        style={group.detailWrapper}
+                    >
+                        <FlatList
+                            ref={(ref) => (this.messageList = ref)}
+                            data={!!node ? messages.push(node) : messages}
+                            inverted={true}
+                            renderItem={this.renderItem}
+                            keyExtractor={(item) => String(item.id)}
+                            ListEmptyComponent={() => <Text>No Messages in Group</Text>}
+                        />
+                        <MessageInput send={this.send} />
+                    </KeyboardAvoidingView>
+                )}
+            </Subscription>
         ) : (
-                <View style={group.detailWrapper}>
-                    <FlatList
-                        ref={(ref) => (this.messageList = ref)}
-                        data={messages}
-                        inverted={true}
-                        renderItem={this.renderItem}
-                        keyExtractor={(item) => String(item.id)}
-                        ListEmptyComponent={() => <Text>No Messages in Group</Text>}
-                    />
-                    <MessageInput send={this.send} />
-                </View>
+                <Subscription subscription={MESSAGE_ADDED_SUBSCRIPTION} variables={{ groupID: this.props.data.groupInfo.id }}>
+                    {({ data: { message: { node } } }: { data?: MessageAddedSubscription }) => (
+                        <View style={group.detailWrapper}>
+                            <FlatList
+                                ref={(ref) => (this.messageList = ref)}
+                                data={!!node ? messages.concat(node) : messages}
+                                inverted={true}
+                                renderItem={this.renderItem}
+                                keyExtractor={(item) => String(item.id)}
+                                ListEmptyComponent={() => <Text>No Messages in Group</Text>}
+                            />
+                            <MessageInput send={this.send} />
+                        </View>
+                    )}
+                </Subscription>
             );
     }
 

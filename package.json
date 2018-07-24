@@ -34,7 +34,7 @@
         "test": "jest",
         "beta-deploy:ios": "bundle exec fastlane ios beta",
         "beta-deploy:android": "bundle exec fastlane android alpha",
-        "update-api-types": "apollo-codegen introspect-schema http://localhost:4000 --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts"
+        "update-api-types": "apollo-codegen introspect-schema https://flatmates-prisma.now.sh --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts"
     },
     "prettier": {
         "arrowParens": "always",
