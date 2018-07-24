@@ -1,12 +1,11 @@
 import React from 'react';
-import { compose, graphql, ChildProps, Query, QueryProps } from 'react-apollo';
-import { ActivityIndicator, TouchableOpacity, Text } from 'react-native';
+import { compose, graphql, ChildProps, Query } from 'react-apollo';
+import { TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ApolloError } from 'apollo-client';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
-import { getPosts, toggleFilter } from '../../redux/Routines';
 import { FeedState, LoginState, ReduxState } from '../../types/ReduxTypes';
 import { Post } from '../../types/Entities';
 import { USER_HOUSE_POST_QUERY, POST_LIST_QUERY } from '../../graphql/queries';

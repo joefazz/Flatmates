@@ -51,28 +51,6 @@ const initialState: State = {
             coords: [],
             houseImages: []
         }
-    },
-    feed: {
-        posts: [],
-        isFetchingPosts: false,
-        isCreatingPost: false,
-        isErrorFetchingPosts: false,
-        isErrorCreatingPost: false,
-        error: '',
-        isAllFilterActive: true,
-        isPriceFilterActive: false,
-        isStarredFilterActive: false
-    },
-    applications: {
-        sent: [],
-        received: [],
-        isFetchingReceivedApplications: false,
-        isFetchingSentApplications: false
-    },
-    chat: {
-        name: '',
-        users: [],
-        messages: []
     }
 };
 

@@ -40,7 +40,7 @@ const initialState = {
     isRehydrated: false
 };
 
-interface Props {}
+interface Props { }
 
 type State = Readonly<typeof initialState>;
 
