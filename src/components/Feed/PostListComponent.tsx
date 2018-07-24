@@ -146,7 +146,7 @@ export class PostListComponent extends React.Component<Props> {
 
     private renderFooter = () => {
         if (this.props.isLoading) {
-            <View />
+            return <View />;
         }
 
         if (this.props.canFetchMorePosts) {
@@ -157,12 +157,15 @@ export class PostListComponent extends React.Component<Props> {
             );
         }
 
-        return <Text style={{ ...FontFactory(), alignSelf: 'center', marginVertical: 10, fontSize: 16, color: Colors.definetelyNotAirbnbRed }}>No more posts!</Text>
+        return <Text style={{ ...FontFactory(), alignSelf: 'center', marginVertical: 10, fontSize: 16, color: Colors.definetelyNotAirbnbRed }}>No more posts!</Text>;
 
     };
 
     private renderEmpty = () => {
-        return <Text>No posts</Text>;
+        if (this.props.isLoading) {
+		return <View />;
+	}
+	return <Text>No posts</Text>;
     };
 
     private renderCard = ({ item }) => {
