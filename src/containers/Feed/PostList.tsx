@@ -1,15 +1,16 @@
 import React from 'react';
-import { compose, graphql, ChildProps } from 'react-apollo';
-import { ActivityIndicator, TouchableOpacity } from 'react-native';
+import { compose, graphql, ChildProps, Query, QueryProps } from 'react-apollo';
+import { ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
+import { ApolloError } from 'apollo-client';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { getPosts, toggleFilter } from '../../redux/Routines';
 import { FeedState, LoginState, ReduxState } from '../../types/ReduxTypes';
 import { Post } from '../../types/Entities';
-import { USER_HOUSE_POST_QUERY } from '../../graphql/queries';
-import { HousePostQuery, HousePostQueryVariables } from '../../graphql/Types';
+import { USER_HOUSE_POST_QUERY, POST_LIST_QUERY } from '../../graphql/queries';
+import { HousePostQuery, HousePostQueryVariables, AllPostsQuery, AllPostsQueryVariables } from '../../graphql/Types';
 import { HOUSE_POST_QUERY } from '../../graphql/queries';
 import { Colors } from '../../consts';
 
@@ -62,51 +63,7 @@ export class PostList extends React.Component<Props, State> {
         )
     });
 
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            data: props.feed.posts,
-            isLoading: props.feed.isFetchingPosts,
-            userId: props.login.id,
-            isAllFilterActive: props.feed.isAllFilterActive,
-            isStarredFilterActive: props.feed.isStarredFilterActive,
-            isPriceFilterActive: props.feed.isPriceFilterActive,
-            hasCreatedPost: props.login.hasCreatedPost
-        };
-    }
-
-    componentDidMount() {
-        this.props.getPosts(5);
-    }
-
-    componentWillReceiveProps(newProps: Props) {
-        if (newProps.feed.isFetchingPosts !== this.state.isLoading) {
-            this.setState({ isLoading: newProps.feed.isFetchingPosts });
-        }
-
-        if (newProps.feed.isAllFilterActive !== this.state.isAllFilterActive) {
-            this.setState({ isAllFilterActive: newProps.feed.isAllFilterActive });
-        }
-
-        if (newProps.feed.isStarredFilterActive !== this.state.isStarredFilterActive) {
-            this.setState({ isStarredFilterActive: newProps.feed.isStarredFilterActive });
-        }
-
-        if (newProps.feed.isPriceFilterActive !== this.state.isPriceFilterActive) {
-            this.setState({ isPriceFilterActive: newProps.feed.isPriceFilterActive });
-        }
-
-        if (newProps.feed.posts.length !== this.state.data.length) {
-            this.setState({ data: newProps.feed.posts });
-        }
-    }
-
     render() {
-        if (this.props.loading) {
-            return <ActivityIndicator />;
-        }
-
         let isPostingEnabled = false;
 
         if (this.props.user && this.props.user.house) {
@@ -116,59 +73,66 @@ export class PostList extends React.Component<Props, State> {
         }
 
         return (
-            <>
-                <PostListComponent
-                    navigation={this.props.navigation}
-                    loadMorePosts={this.loadMorePosts}
-                    changeFilters={this.changeFilters}
-                    refreshPostList={this.refreshPostList}
-                    userPostPermissionEnabled={isPostingEnabled}
-                    {...this.state}
-                />
-            </>
+            <Query query={POST_LIST_QUERY} variables={{ take: 10, skip: 0 }} fetchPolicy={'cache-and-network'}>
+                {({ data, loading, error, fetchMore, refetch }: { data: AllPostsQuery; loading: boolean; error: ApolloError; fetchMore: any; refetch: () => void; }) => {
+
+                    if (error) {
+                        return <Text>{error.message} please try again.</Text>
+                    }
+
+                    return (
+                        <PostListComponent
+                            fetchMorePosts={() => fetchMore({
+                                variables: { take: 10, skip: data.allPosts.length }, updateQuery: (prev, { fetchMoreResult }) => {
+                                    if (!fetchMoreResult) {
+                                        return prev;
+                                    }
+
+                                    return Object.assign({}, prev, {
+                                        allPosts: [...prev.allPosts, ...fetchMoreResult.allPosts]
+                                    });
+                                }
+                            })}
+                            isLoading={loading}
+                            navigation={this.props.navigation}
+                            refreshPostList={refetch}
+                            canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
+                            userPostPermissionEnabled={true}
+                            data={!!data.allPosts ? data.allPosts : []}
+                            userId={this.props.login.id}
+                        />
+                    )
+                }
+
+                }
+            </Query>
         );
     }
 
-    private changeFilters = (filterSelected: Filters): void => {
-        if (
-            filterSelected === Filters.ALL &&
-            (!this.state.isStarredFilterActive && !this.state.isPriceFilterActive)
-        ) {
-            return;
-        } else if (
-            filterSelected === Filters.STARRED &&
-            (!this.state.isAllFilterActive && !this.state.isPriceFilterActive)
-        ) {
-            return;
-        } else if (
-            filterSelected === Filters.MINE &&
-            (!this.state.isStarredFilterActive && !this.state.isAllFilterActive)
-        ) {
-            return;
-        }
-        this.props.toggleFilter(filterSelected);
-    };
-
-    private loadMorePosts = () => {
-        return;
-    };
-
-    private refreshPostList = () => {
-        return this.props.getPosts(5);
-    };
+    // private changeFilters = (filterSelected: Filters): void => {
+    //     if (
+    //         filterSelected === Filters.ALL &&
+    //         (!this.state.isStarredFilterActive && !this.state.isPriceFilterActive)
+    //     ) {
+    //         return;
+    //     } else if (
+    //         filterSelected === Filters.STARRED &&
+    //         (!this.state.isAllFilterActive && !this.state.isPriceFilterActive)
+    //     ) {
+    //         return;
+    //     } else if (
+    //         filterSelected === Filters.MINE &&
+    //         (!this.state.isStarredFilterActive && !this.state.isAllFilterActive)
+    //     ) {
+    //         return;
+    //     }
+    //     this.props.toggleFilter(filterSelected);
+    // };
 }
 
 const mapStateToProps = (state: ReduxState) => ({
     login: state.login,
-    feed: state.feed
 });
-
-const bindActions = (dispatch) => {
-    return {
-        getPosts: (take) => dispatch(getPosts(take)),
-        toggleFilter: (filter) => dispatch(toggleFilter(filter))
-    };
-};
 
 interface InputProps {
     login: LoginState;
@@ -194,7 +158,7 @@ const housePost = graphql<
 export default compose(
     connect(
         mapStateToProps,
-        bindActions
+        {}
     ),
     housePost
 )(PostList);

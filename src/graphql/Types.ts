@@ -559,6 +559,7 @@ export interface PostDetailQuery {
 
 export interface AllPostsQueryVariables {
   take: number,
+  skip?: number | null,
 };
 
 export interface AllPostsQuery {

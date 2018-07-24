@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View } from 'react-native';
+import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View, TouchableOpacity } from 'react-native';
 import { FloatingAction } from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -10,6 +10,7 @@ import { Post } from '../../types/Entities';
 import { PostCard } from '../../widgets';
 import { Filters } from '../../containers/Feed/PostList';
 import { FlatPicker } from '../../widgets/FlatPicker';
+import { FontFactory } from '../../consts/font';
 
 interface Props {
     navigation: {
@@ -20,12 +21,13 @@ interface Props {
     isLoading: boolean;
     userId: string;
     hasCreatedPost: boolean;
-    isAllFilterActive: boolean;
-    isStarredFilterActive: boolean;
-    isPriceFilterActive: boolean;
-    changeFilters: (Filters) => void;
+    isAllFilterActive?: boolean;
+    isStarredFilterActive?: boolean;
+    isPriceFilterActive?: boolean;
+    changeFilters?: (Filters) => void;
     refreshPostList: () => void;
-    loadMorePosts: () => any;
+    fetchMorePosts: () => any;
+    canFetchMorePosts: boolean;
 }
 
 export class PostListComponent extends React.Component<Props> {
@@ -112,10 +114,10 @@ export class PostListComponent extends React.Component<Props> {
                     refreshControl={
                         <RefreshControl
                             refreshing={this.props.isLoading}
-                            onRefresh={this.refreshPostList}
+                            onRefresh={() => this.props.refreshPostList()}
                         />
                     }
-                    ListFooterComponent={this.renderHeaderFooter}
+                    ListFooterComponent={this.renderFooter}
                     ListEmptyComponent={this.renderEmpty}
                     keyExtractor={(item) => item.createdAt}
                 />
@@ -142,12 +144,21 @@ export class PostListComponent extends React.Component<Props> {
         );
     }
 
-    private refreshPostList = () => {
-        this.props.refreshPostList();
-    };
+    private renderFooter = () => {
+        if (this.props.isLoading) {
+            <View />
+        }
 
-    private renderHeaderFooter = () => {
-        return <View style={{ height: 10 }} />;
+        if (this.props.canFetchMorePosts) {
+            return (
+                <TouchableOpacity style={{ marginVertical: 10, padding: 7, borderWidth: 1, borderRadius: 3, borderColor: Colors.definetelyNotAirbnbRed, alignSelf: 'center' }} onPress={() => this.props.fetchMorePosts()}>
+                    <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.definetelyNotAirbnbRed }}>Fetch more posts</Text>
+                </TouchableOpacity>
+            );
+        }
+
+        return <Text style={{ ...FontFactory(), alignSelf: 'center', marginVertical: 10, fontSize: 16, color: Colors.definetelyNotAirbnbRed }}>No more posts!</Text>
+
     };
 
     private renderEmpty = () => {

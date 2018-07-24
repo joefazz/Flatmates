@@ -34,23 +34,23 @@ class AuthLoadingScreen extends React.Component<Props, State> {
         // screen will be unmounted and thrown away.
 
         if (this.props.login.email) {
-            const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
-                variables: { email: this.props.login.email },
-                query: USER_LOGIN_QUERY,
-                fetchPolicy: 'network-only'
-            });
+            // const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
+            //     variables: { email: this.props.login.email },
+            //     query: USER_LOGIN_QUERY,
+            //     fetchPolicy: 'network-only'
+            // });
 
-            if (data.user === null) {
-                AsyncStorage.clear();
-                this.props.navigation.navigate('Login');
-            } else if (this.props.login.id && this.props.login.id !== '') {
-                // if (data.user.email_verified) {
-                //     this.props.navigation.navigate('Home');
-                // } else {
-                //     this.props.navigation.navigate('ReadOnly');
-                // }
-                this.props.navigation.navigate('Home');
-            }
+            // if (data.user === null) {
+            //     AsyncStorage.clear();
+            //     this.props.navigation.navigate('Login');
+            // } else if (this.props.login.id && this.props.login.id !== '') {
+            // if (data.user.email_verified) {
+            //     this.props.navigation.navigate('Home');
+            // } else {
+            //     this.props.navigation.navigate('ReadOnly');
+            // }
+            this.props.navigation.navigate('Home');
+            // }
         } else {
             this.props.navigation.navigate('Login');
         }

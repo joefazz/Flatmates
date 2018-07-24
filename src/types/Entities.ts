@@ -1,10 +1,11 @@
 export interface Post {
     id: string;
-    lastSeen: Date;
+    lastSeen: string;
     description: string;
-    createdAt: Date;
+    createdAt: string;
     createdBy: House;
-    viewCount: number;
+    viewCount?: number;
+
 }
 
 export interface House {

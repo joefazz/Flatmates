@@ -6,15 +6,17 @@ import { ReduxState } from '../../../types/ReduxTypes';
 import {
     ChatMessagesQueryVariables,
     CreateMessageMutationVariables,
-    ChatMessagesQuery
+    ChatMessagesQuery,
+    MessageAddedSubscription
 } from '../../../graphql/Types';
 import { Group } from '../../../types/Entities';
-import { ChildProps, graphql, compose } from 'react-apollo';
+import { ChildProps, graphql, compose, Query } from 'react-apollo';
 import { GET_CHAT_MESSAGES_QUERY } from '../../../graphql/queries';
 import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
 import { ApolloError } from 'apollo-client';
 import { ActivityIndicator, Platform } from 'react-native';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
+import { MESSAGE_ADDED_SUBSCRIPTION } from '../../../graphql/subscriptions/Chat/MessageAdded';
 
 interface Props {
     createMessage: (params: CreateMessageMutationVariables) => void;
@@ -46,54 +48,72 @@ export class ChatDetail extends React.Component<Props> {
     }
 
     render() {
-        if (this.props.loading) {
-            return <ActivityIndicator />;
-        }
+
 
         return (
-            <ChatDetailComponent
-                navigation={this.props.navigation}
-                data={{
-                    groupInfo: this.props.navigation.state.params.groupData,
-                    messages: this.props.group.messages
+            <Query query={GET_CHAT_MESSAGES_QUERY} variables={{ id: this.props.navigation.state.params.groupData.id }} fetchPolicy={'network-only'}>
+                {({ subscribeToMore, data, loading }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; }) => {
+                    if (loading) {
+                        return <ActivityIndicator />;
+                    }
+
+                    console.log(data);
+
+                    return (
+                        <ChatDetailComponent
+                            subscribeToNewMessages={() => subscribeToMore({
+                                document: MESSAGE_ADDED_SUBSCRIPTION,
+                                variables: { groupID: this.props.navigation.state.params.groupData.id },
+                                updateQuery: (prev, { subscriptionData }: { subscriptionData: { data?: MessageAddedSubscription } }) => {
+                                    if (!subscriptionData.data) {
+                                        return prev;
+                                    }
+
+                                    const newComment = subscriptionData.data.message.node;
+
+                                    const newPayload = Object.assign({}, prev, {
+                                        group: {
+                                            messages: prev.group.messages.concat(newComment),
+                                            __typename: 'Group'
+                                        }
+                                    });
+
+                                    return newPayload;
+                                }
+                            })}
+                            navigation={this.props.navigation}
+                            data={{
+                                groupInfo: this.props.navigation.state.params.groupData,
+                                messages: data.group.messages
+                            }}
+                            userID={this.props.navigation.state.params.userID}
+                            createMessage={this.props.createMessage}
+                        />
+                    )
                 }}
-                userID={this.props.navigation.state.params.userID}
-                createMessage={this.props.createMessage}
-            />
+            </Query>
         );
     }
 }
 
-interface InputProps {
-    navigation: {
-        state: {
-            params: {
-                messages: Array<string>;
-                groupData: Group;
-                userID: string;
-            };
-        };
-    };
-}
-
-const getMessages = graphql<
-    InputProps,
-    ChatMessagesQuery,
-    ChatMessagesQueryVariables,
-    ChildProps<ChatMessagesQuery>
-    >(GET_CHAT_MESSAGES_QUERY, {
-        options: (ownProps) => ({
-            variables: {
-                id: ownProps.navigation.state.params.groupData.id
-            },
-            fetchPolicy: 'network-only'
-        }),
-        props: ({ data: { loading, group, error } }) => ({
-            loading,
-            group,
-            error
-        })
-    });
+// const getMessages = graphql<
+//     InputProps,
+//     ChatMessagesQuery,
+//     ChatMessagesQueryVariables,
+//     ChildProps<ChatMessagesQuery>
+//     >(GET_CHAT_MESSAGES_QUERY, {
+//         options: (ownProps) => ({
+//             variables: {
+//                 id: ownProps.navigation.state.params.groupData.id
+//             },
+//             fetchPolicy: 'network-only'
+//         }),
+//         props: ({ data: { loading, group, error } }) => ({
+//             loading,
+//             group,
+//             error
+//         })
+//     });
 
 const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
     props: ({ mutate }) => ({
@@ -143,6 +163,5 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
 });
 
 export default compose(
-    getMessages,
     createMessage
 )(ChatDetail);
