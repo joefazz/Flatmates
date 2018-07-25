@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionList, Text, View, ActivityIndicator, StyleSheet, Image } from 'react-native';
+import { SectionList, Text, View, ActivityIndicator, StyleSheet, Image, RefreshControl } from 'react-native';
 import { Application, User, House } from '../../types/Entities';
 import {
     toConstantFontSize,
@@ -14,8 +14,10 @@ import { group } from '../../styles/Group';
 interface Props {
     receivedApplications?: Array<Application>;
     sentApplications: Array<Application>;
-    isFetchingSent: boolean;
-    isFetchingReceived?: boolean;
+    isLoadingSent: boolean;
+    isLoadingReceived?: boolean;
+    refetchSent: () => void;
+    refetchReceived?: () => void;
     showReceived: boolean;
     navigation: {
         navigate: (
@@ -32,10 +34,6 @@ interface Props {
 
 export class ApplicationListComponent extends React.PureComponent<Props> {
     render() {
-        if (this.props.isFetchingReceived || this.props.isFetchingSent) {
-            return <ActivityIndicator />;
-        }
-
         const sections = this.props.showReceived
             ? [
                 {
@@ -71,6 +69,17 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                         }}
                     />
                 )}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={this.props.isLoadingSent || this.props.isLoadingReceived}
+                        onRefresh={() => {
+                            this.props.refetchSent();
+                            if (this.props.showReceived) {
+                                this.props.refetchReceived();
+                            }
+                        }}
+                    />
+                }
                 keyExtractor={(item: Application, index) => item.createdAt.toString() + index}
             />
         );

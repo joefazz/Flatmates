@@ -52,13 +52,7 @@ export class ChatDetail extends React.Component<Props> {
 
         return (
             <Query query={GET_CHAT_MESSAGES_QUERY} variables={{ id: this.props.navigation.state.params.groupData.id }} fetchPolicy={'network-only'}>
-                {({ subscribeToMore, data, loading }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; }) => {
-                    if (loading) {
-                        return <ActivityIndicator />;
-                    }
-
-                    console.log(data);
-
+                {({ subscribeToMore, data, loading, refetch }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; }) => {
                     return (
                         <ChatDetailComponent
                             subscribeToNewMessages={() => subscribeToMore({
@@ -82,10 +76,12 @@ export class ChatDetail extends React.Component<Props> {
                                 }
                             })}
                             navigation={this.props.navigation}
+                            isLoading={loading}
                             data={{
                                 groupInfo: this.props.navigation.state.params.groupData,
-                                messages: data.group.messages
+                                messages: loading ? [] : data.group.messages
                             }}
+                            refetch={refetch}
                             userID={this.props.navigation.state.params.userID}
                             createMessage={this.props.createMessage}
                         />

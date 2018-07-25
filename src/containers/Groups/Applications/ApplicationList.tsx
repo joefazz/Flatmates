@@ -30,6 +30,7 @@ interface Props {
     receivedError: Error;
     sentError: Error;
     profile: ProfileState;
+    refetch: () => void;
     navigation: { navigate: (route: string, params: { id: string }) => void };
 }
 
@@ -45,20 +46,24 @@ export class ApplicationList extends React.Component<Props, State> {
     };
 
     render() {
-        if (this.props.sentLoading || this.props.user === undefined) {
-            return <ActivityIndicator />;
-        }
 
         let showRecieved = Boolean(this.props.profile.house && this.props.profile.house.shortID);
 
         if (!showRecieved) {
             return (
-                <ApplicationListComponent
-                    sentApplications={this.props.user.applications}
-                    isFetchingSent={this.props.sentLoading}
-                    showReceived={showRecieved}
-                    navigation={this.props.navigation}
-                />
+                <>
+                    <View style={{ width: toConstantWidth(100), height: toConstantHeight(7), backgroundColor: Colors.brandErrorColor, alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ fontSize: 16, color: Colors.white, ...FontFactory() }}>{this.props.user.applicationAllowance} Applications Remaining</Text>
+                        <Text style={{ fontSize: 14, color: Colors.white, ...FontFactory({ weight: 'Bold' }) }}>Tap to buy more!</Text>
+                    </View>
+                    <ApplicationListComponent
+                        sentApplications={this.props.user.applications}
+                        isLoadingSent={this.props.sentLoading}
+                        showReceived={showRecieved}
+                        navigation={this.props.navigation}
+                        refetchSent={this.props.refetch}
+                    />
+                </>
             );
         } else {
             return (
@@ -67,14 +72,11 @@ export class ApplicationList extends React.Component<Props, State> {
                     variables={{ shortID: this.props.profile.house.shortID }}
                     fetchPolicy={'network-only'}
                 >
-                    {({ loading, error, data: { house } }) => {
+                    {({ loading, error, data: { house }, refetch }) => {
                         if (error) {
                             console.log(error);
                         }
 
-                        if (loading) {
-                            return <ActivityIndicator />;
-                        }
 
                         return (
                             <>
@@ -84,10 +86,12 @@ export class ApplicationList extends React.Component<Props, State> {
                                 </View>
                                 <ApplicationListComponent
                                     receivedApplications={house.applications}
-                                    isFetchingReceived={loading}
+                                    isLoadingReceived={loading}
                                     sentApplications={this.props.user.applications}
-                                    isFetchingSent={this.props.sentLoading}
+                                    isLoadingSent={this.props.sentLoading}
                                     showReceived={showRecieved}
+                                    refetchReceived={refetch}
+                                    refetchSent={this.props.refetch}
                                     navigation={this.props.navigation}
                                 />
                             </>
@@ -123,12 +127,13 @@ const getSentApplications = graphql<
             variables: {
                 id: ownProps.login.id
             },
-            fetchPolicy: 'network-only'
+            fetchPolicy: 'cache-and-network'
         }),
-        props: ({ data: { loading: sentLoading, user, error: sentError } }) => ({
+        props: ({ data: { loading: sentLoading, user, error: sentError, refetch } }) => ({
             sentLoading,
             user,
-            sentError
+            sentError,
+            refetch
         })
     });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Text, TouchableOpacity, View, RefreshControl } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
 import { base } from '../../styles';
@@ -18,6 +18,8 @@ interface Props {
     data: ReadonlyArray<Group>;
     userID: string;
     username: string;
+    refetch: () => void;
+    isLoading: boolean;
 }
 
 export class ChatListComponent extends React.PureComponent<Props> {
@@ -112,9 +114,15 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 <FlatList
                     data={this.props.data}
                     renderItem={this.renderItem}
-                    ListEmptyComponent={() => <Text>No Groups</Text>}
+                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Groups</Text>}
                     ItemSeparatorComponent={this.renderSeperator}
                     keyExtractor={(item) => item.id}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.isLoading}
+                            onRefresh={() => this.props.refetch()}
+                        />
+                    }
                 />
             </View>
         );

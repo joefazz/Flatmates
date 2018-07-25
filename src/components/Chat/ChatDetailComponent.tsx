@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, KeyboardAvoidingView, Text, Platform, View } from 'react-native';
+import { FlatList, KeyboardAvoidingView, Text, Platform, View, RefreshControl } from 'react-native';
 import randomColor from 'randomcolor';
 
 import { group } from '../../styles';
@@ -14,6 +14,8 @@ interface Props {
     subscribeToNewMessages: () => void;
     data: { messages: Array<Message>; groupInfo: Group };
     userID: string;
+    isLoading: boolean;
+    refetch: () => void;
     navigation: {
         state: {
             params: {
@@ -72,7 +74,13 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                     inverted={true}
                     renderItem={this.renderItem}
                     keyExtractor={(item) => String(item.id)}
-                    ListEmptyComponent={() => <Text>No Messages in Group</Text>}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.props.isLoading}
+                            onRefresh={() => this.props.refetch()}
+                        />
+                    }
+                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Messages in Group</Text>}
                 />
                 <MessageInput send={this.send} />
             </KeyboardAvoidingView>

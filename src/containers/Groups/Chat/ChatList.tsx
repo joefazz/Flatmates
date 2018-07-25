@@ -18,6 +18,7 @@ interface Props {
     navigation: { navigate: (route: string) => void };
     login: LoginState;
     house: House;
+    refetch: () => void;
 }
 
 interface State {
@@ -32,10 +33,6 @@ export class ChatList extends React.Component<Props, State> {
     };
 
     render() {
-        if (this.props.loading) {
-            return <ActivityIndicator />;
-        }
-
         if (this.props.error) {
             return <Text>Error</Text>;
         }
@@ -45,25 +42,20 @@ export class ChatList extends React.Component<Props, State> {
                 <Query
                     query={HOUSE_CHAT_QUERY}
                     variables={{ shortID: this.props.house.shortID }}
-                    fetchPolicy={'network-only'}
+                    fetchPolicy={'cache-and-network'}
                 >
-                    {({ loading, error, data }) => {
+                    {({ loading, error, data, refetch }) => {
                         if (error) {
                             console.log(error);
-                            alert(error.message);
                             return <Text>Error: {error.message}</Text>;
                         }
-
-                        if (loading) {
-                            return <ActivityIndicator />;
-                        }
-
-                        console.log(data);
 
                         return (
                             <ChatListComponent
                                 navigation={this.props.navigation}
-                                data={this.props.userGroups.concat(data.house.groups)}
+                                isLoading={loading || this.props.loading}
+                                refetch={refetch}
+                                data={!loading && !this.props.loading ? this.props.userGroups.concat(data.house.groups) : []}
                                 userID={this.props.login.id}
                                 username={this.props.login.name}
                             />
@@ -76,6 +68,8 @@ export class ChatList extends React.Component<Props, State> {
                 <ChatListComponent
                     navigation={this.props.navigation}
                     data={this.props.userGroups}
+                    isLoading={this.props.loading}
+                    refetch={this.props.refetch}
                     userID={this.props.login.id}
                     username={this.props.login.name}
                 />
@@ -96,15 +90,15 @@ const bindActions = () => {
 const userChatQuery = graphql(USER_CHAT_QUERY, {
     options: (ownProps: Props) => ({
         variables: { id: ownProps.login.id },
-        fetchPolicy: 'network-only'
+        fetchPolicy: 'cache-and-network'
     }),
     // @ts-ignore
-    props: ({ data: { loading, user, error } }) => {
+    props: ({ data: { loading, user, error, refetch } }) => {
         return loading
             ? { loading }
             : error
                 ? { loading, error }
-                : { loading, userGroups: user.groups, error };
+                : { loading, userGroups: user.groups, error, refetch };
     }
 });
 

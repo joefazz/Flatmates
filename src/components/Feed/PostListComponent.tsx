@@ -114,7 +114,7 @@ export class PostListComponent extends React.Component<Props> {
                     refreshControl={
                         <RefreshControl
                             refreshing={this.props.isLoading}
-                            onRefresh={() => this.props.refreshPostList()}
+                            onRefresh={() => this.props.refreshPostList({ variables: { take: 10, skip: 0 } })}
                         />
                     }
                     ListFooterComponent={this.renderFooter}
@@ -163,9 +163,9 @@ export class PostListComponent extends React.Component<Props> {
 
     private renderEmpty = () => {
         if (this.props.isLoading) {
-		return <View />;
-	}
-	return <Text>No posts</Text>;
+            return <View />;
+        }
+        return <Text>No posts</Text>;
     };
 
     private renderCard = ({ item }) => {
