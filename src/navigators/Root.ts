@@ -1,14 +1,12 @@
 import { createSwitchNavigator } from 'react-navigation';
 
 import AuthLoading from '../containers/AuthLoading';
-import Login from '../containers/Login';
 import { HomeNavigator } from './Home';
-import { FeedNavigator } from './Feed';
+import { LoginNavigator } from './Login';
 
 const routesConfig = {
     AuthLoading: { screen: AuthLoading },
-    Login: { screen: Login },
-    ReadOnly: { screen: FeedNavigator },
+    Login: { screen: LoginNavigator },
     Home: { screen: HomeNavigator }
 };
 

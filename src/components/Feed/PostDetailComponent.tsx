@@ -39,7 +39,7 @@ interface Props {
     description: string;
     title: string;
     userHasAppliedToHouse: boolean;
-
+    isReadOnly: boolean;
     navigation: {
         state: {
             params: {
@@ -274,57 +274,58 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         )}
                     </View>
                 </ScrollView>
-                {!isUsersPost && (
-                    <View
-                        style={{
-                            height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
-                            position: 'absolute',
-                            bottom: 0
-                        }}
-                    >
-                        <TouchableRect
-                            onPress={() =>
-                                Alert.alert(
-                                    'Send Application',
-                                    'Are you sure you want to apply to ' +
-                                    this.props.house.road +
-                                    '?',
-                                    [
-                                        {
-                                            text: 'Cancel',
-                                            onPress: () => console.log('Cancelled'),
-                                            style: 'cancel'
-                                        },
-                                        {
-                                            text: 'Send',
-                                            onPress: () =>
-                                                this.props.createApplication({
-                                                    userID: this.props.userId,
-                                                    houseID: this.props.house.shortID,
-                                                    from: this.props.firstName,
-                                                    message: ''
-                                                })
-                                        }
-                                    ]
-                                )
-                            }
-                            title={
-                                this.props.userHasAppliedToHouse
-                                    ? 'Application Sent!'
-                                    : 'Send Application'
-                            }
-                            iconName={this.props.userHasAppliedToHouse ? 'envelope' : 'bullhorn'}
-                            enabled={!this.props.userHasAppliedToHouse}
-                            backgroundColor={Colors.brandPrimaryColor}
-                            wrapperStyle={{ borderRadius: 0 }}
-                            buttonStyle={{
-                                width: toConstantWidth(100),
-                                paddingBottom: isIphoneX() ? 18 : 0,
-                                height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                {!this.props.isReadOnly &&
+                    !isUsersPost && (
+                        <View
+                            style={{
+                                height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
+                                position: 'absolute',
+                                bottom: 0
                             }}
-                        />
-                    </View>
-                )}
+                        >
+                            <TouchableRect
+                                onPress={() =>
+                                    Alert.alert(
+                                        'Send Application',
+                                        'Are you sure you want to apply to ' +
+                                        this.props.house.road +
+                                        '?',
+                                        [
+                                            {
+                                                text: 'Cancel',
+                                                onPress: () => console.log('Cancelled'),
+                                                style: 'cancel'
+                                            },
+                                            {
+                                                text: 'Send',
+                                                onPress: () =>
+                                                    this.props.createApplication({
+                                                        userID: this.props.userId,
+                                                        houseID: this.props.house.shortID,
+                                                        from: this.props.firstName,
+                                                        message: ''
+                                                    })
+                                            }
+                                        ]
+                                    )
+                                }
+                                title={
+                                    this.props.userHasAppliedToHouse
+                                        ? 'Application Sent!'
+                                        : 'Send Application'
+                                }
+                                iconName={this.props.userHasAppliedToHouse ? 'envelope' : 'bullhorn'}
+                                enabled={!this.props.userHasAppliedToHouse}
+                                backgroundColor={Colors.brandPrimaryColor}
+                                wrapperStyle={{ borderRadius: 0 }}
+                                buttonStyle={{
+                                    width: toConstantWidth(100),
+                                    paddingBottom: isIphoneX() ? 18 : 0,
+                                    height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                                }}
+                            />
+                        </View>
+                    )}
             </>
         );
     }
@@ -334,7 +335,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
             <RectButton
                 key={index}
                 underlayColor={Colors.grey}
-                onPress={() =>
+                onPress={() => this.props.isReadOnly ? alert('Please sign up to view user profiles!') :
                     this.props.navigation.push('UserProfile', {
                         id: user.id,
                         data: user

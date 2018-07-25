@@ -13,7 +13,8 @@ import {
     TouchableOpacity,
     View,
     Keyboard,
-    ActivityIndicator
+    ActivityIndicator,
+    StatusBar
 } from 'react-native';
 import moment from 'moment';
 import Auth0 from 'react-native-auth0';
@@ -199,6 +200,8 @@ export class Login extends React.Component<Props, State> {
         if (Platform.OS === 'android') {
             AndroidKeyboardAdjust.setAdjustPan();
         }
+
+        StatusBar.setBarStyle('dark-content');
     }
 
     render() {
@@ -250,9 +253,9 @@ export class Login extends React.Component<Props, State> {
                             backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
-                        <TouchableOpacity onPress={() => alert('Does nothing yet')}>
-                            <Text style={[login.hyperlink, { marginTop: 10 }]}>
-                                I don't have a student email address yet
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Feed', { isReadOnly: true })}>
+                            <Text style={[login.hyperlink, { marginTop: 10, ...FontFactory(), fontSize: 17 }]}>
+                                Try without signing up!
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -748,7 +751,7 @@ export class Login extends React.Component<Props, State> {
                     <View style={[login.pageFooter, { justifyContent: 'flex-start' }]}>
                         <TouchableRect
                             title={'Continue'}
-                            onPress={() => this.props.navigation.navigate('Home')}
+                            onPress={() => this.props.navigation.navigate('Home', { isReadOnly: false })}
                             buttonStyle={base.buttonStyle}
                             backgroundColor={Colors.white}
                             textColor={Colors.brandPrimaryColor}
@@ -1531,7 +1534,7 @@ export class Login extends React.Component<Props, State> {
 
                 this.props.getUserData(user);
 
-                this.props.navigation.navigate('Home');
+                this.props.navigation.navigate('Home', { isReadOnly: false });
             } else {
                 this.email = decodedJSON.email;
                 this.isVerifiedUser = decodedJSON.email_verified;

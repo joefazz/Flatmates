@@ -29,6 +29,7 @@ interface Props {
                     id: string;
                 };
                 isStarred: boolean;
+                isReadOnly: boolean;
             };
         };
         push: (route: string, params: { id?: string; data?: object }) => void;
@@ -59,12 +60,14 @@ interface State {
 export class PostDetail extends React.Component<Props, State> {
     static getDerivedStateFromProps(newProps, prevState) {
         let state = prevState;
-        if (!newProps.userAppQuery.loading && !prevState.userHasAppliedToHouse) {
-            let appDoesExist = newProps.userAppQuery.user.applications.map(
-                (app) => app.to.shortID === prevState.data.createdBy.shortID
-            );
+        if (!newProps.navigation.state.params.isReadOnly) {
+            if (!newProps.userAppQuery.loading && !prevState.userHasAppliedToHouse) {
+                let appDoesExist = newProps.userAppQuery.user.applications.map(
+                    (app) => app.to.shortID === prevState.data.createdBy.shortID
+                );
 
-            state.userHasAppliedToHouse = Boolean(appDoesExist.length);
+                state.userHasAppliedToHouse = Boolean(appDoesExist.length);
+            }
         }
 
         return state;
@@ -100,6 +103,7 @@ export class PostDetail extends React.Component<Props, State> {
         return (
             <>
                 <PostDetailComponent
+                    isReadOnly={this.props.navigation.state.params.isReadOnly}
                     userId={this.props.id}
                     firstName={this.props.profile.firstName}
                     title={this.state.data.title}
@@ -121,7 +125,6 @@ export class PostDetail extends React.Component<Props, State> {
     }
 
     private createApplication = (params: CreateApplicationMutationVariables) => {
-        console.log(params);
         this.props.createApplication({ ...params });
 
         this.setState({ userHasAppliedToHouse: true });
@@ -167,8 +170,8 @@ export class PostDetail extends React.Component<Props, State> {
         } catch (error) {
             console.log(
                 'There was an error: ' +
-                    error +
-                    '... This will turn into a ui element eventually...'
+                error +
+                '... This will turn into a ui element eventually...'
             );
         }
     };
@@ -196,29 +199,29 @@ const updatePostMutation = graphql(UPDATE_POST_MUTATION, {
     })
 });
 
-const starPostMutation = graphql(STAR_POST_MUTATION, {
-    props: ({ mutate }) => ({
-        starPost: (id, postID) =>
-            mutate({
-                variables: {
-                    id,
-                    postID
-                }
-            })
-    })
-});
+// const starPostMutation = graphql(STAR_POST_MUTATION, {
+//     props: ({ mutate }) => ({
+//         starPost: (id, postID) =>
+//             mutate({
+//                 variables: {
+//                     id,
+//                     postID
+//                 }
+//             })
+//     })
+// });
 
-const unstarPostMutation = graphql(UNSTAR_POST_MUTATION, {
-    props: ({ mutate }) => ({
-        unstarPost: (id, postID) =>
-            mutate({
-                variables: {
-                    id,
-                    postID
-                }
-            })
-    })
-});
+// const unstarPostMutation = graphql(UNSTAR_POST_MUTATION, {
+//     props: ({ mutate }) => ({
+//         unstarPost: (id, postID) =>
+//             mutate({
+//                 variables: {
+//                     id,
+//                     postID
+//                 }
+//             })
+//     })
+// });
 
 const createApplication = graphql(CREATE_APPLICATION_MUTATION, {
     props: ({ mutate }) => ({
@@ -269,8 +272,8 @@ const mapStateToProps = (state: ReduxState) => ({
 export default compose(
     connect(mapStateToProps),
     updatePostMutation,
-    starPostMutation,
-    unstarPostMutation,
+    // starPostMutation,
+    // unstarPostMutation,
     hasAppliedToHouse,
     createApplication
 )(PostDetail);

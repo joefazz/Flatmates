@@ -49,7 +49,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
             // } else {
             //     this.props.navigation.navigate('ReadOnly');
             // }
-            this.props.navigation.navigate('Home');
+            this.props.navigation.navigate('Home', { isReadOnly: false });
             // }
         } else {
             this.props.navigation.navigate('Login');

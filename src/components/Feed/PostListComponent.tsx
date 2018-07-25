@@ -14,7 +14,12 @@ import { FontFactory } from '../../consts/font';
 
 interface Props {
     navigation: {
-        push: (route: string, params?: { data?: object }) => void;
+        push: (route: string, params?: { data?: object, isReadOnly?: boolean; }) => void;
+        state: {
+            params: {
+                isReadOnly?: boolean;
+            }
+        }
     };
     userPostPermissionEnabled: boolean;
     data: Array<Post>;
@@ -172,7 +177,7 @@ export class PostListComponent extends React.Component<Props> {
         return (
             <View style={feed.card}>
                 <PostCard
-                    onPress={() => this.props.navigation.push('PostDetail', { data: item })}
+                    onPress={() => this.props.navigation.push('PostDetail', { data: item, isReadOnly: !!this.props.navigation.state.params })}
                     title={item.createdBy.road}
                     spaces={item.createdBy.spaces}
                     price={item.createdBy.billsPrice + item.createdBy.rentPrice}
