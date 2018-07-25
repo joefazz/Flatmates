@@ -6,8 +6,11 @@ export const CREATE_POST_MUTATION = gql`
             id
             description
             createdAt
+            lastSeen
             createdBy {
+                shortID
                 road
+                coords
                 billsPrice
                 rentPrice
                 spaces

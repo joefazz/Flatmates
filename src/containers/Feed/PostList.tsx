@@ -14,7 +14,6 @@ import { HOUSE_POST_QUERY } from '../../graphql/queries';
 import { Colors } from '../../consts';
 
 interface Props {
-    feed: FeedState;
     login: LoginState;
     user: {
         house: {
@@ -28,18 +27,6 @@ interface Props {
     loading: boolean;
 
     navigation: { push: (route: string, params: { fbUserId?: string; data?: object }) => void };
-    getPosts: (take: number) => void;
-    toggleFilter: (Filters) => void;
-}
-
-interface State {
-    data: Array<Post>;
-    isLoading: boolean;
-    hasCreatedPost: boolean;
-    userId: string;
-    isAllFilterActive: boolean;
-    isPriceFilterActive: boolean;
-    isStarredFilterActive: boolean;
 }
 
 export enum Filters {
@@ -48,7 +35,7 @@ export enum Filters {
     STARRED
 }
 
-export class PostList extends React.Component<Props, State> {
+export class PostList extends React.Component<Props> {
     protected static defaultProps = {
         skip: 0
     };
@@ -63,14 +50,6 @@ export class PostList extends React.Component<Props, State> {
     });
 
     render() {
-        let isPostingEnabled = false;
-
-        if (this.props.user && this.props.user.house) {
-            if (!this.props.user.house.post) {
-                isPostingEnabled = true;
-            }
-        }
-
         return (
             <Query query={POST_LIST_QUERY} variables={{ take: 10, skip: 0 }} fetchPolicy={'cache-and-network'}>
                 {({ data, loading, error, fetchMore, refetch }: { data: AllPostsQuery; loading: boolean; error: ApolloError; fetchMore: any; refetch: () => void; }) => {
@@ -96,7 +75,7 @@ export class PostList extends React.Component<Props, State> {
                             navigation={this.props.navigation}
                             refreshPostList={refetch}
                             canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
-                            userPostPermissionEnabled={true}
+                            userPostPermissionEnabled={this.props.loading ? false : !this.props.user.house.post}
                             data={!!data.allPosts ? data.allPosts : []}
                             userId={this.props.login.id}
                         />
@@ -144,7 +123,7 @@ const housePost = graphql<
     ChildProps<HousePostQuery>
     >(USER_HOUSE_POST_QUERY, {
         options: (props) => {
-            return { variables: { id: props.login.id } };
+            return { variables: { id: props.login.id }, fetchPolicy: 'network-only' };
         },
 
         props: ({ data: { loading, user, error } }) => ({

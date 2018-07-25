@@ -122,8 +122,11 @@ export interface CreatePostMutation {
     id: string,
     description: string,
     createdAt: string,
+    lastSeen: string | null,
     createdBy:  {
+      shortID: number,
       road: string,
+      coords: Array< number >,
       billsPrice: number,
       rentPrice: number,
       spaces: number,

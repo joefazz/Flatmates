@@ -8,6 +8,10 @@ export const USER_POST_QUERY = gql`
                 shortID
                 spaces
                 road
+                coords
+                billsPrice
+                rentPrice
+                houseImages
             }
         }
     }
