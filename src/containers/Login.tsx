@@ -526,7 +526,7 @@ export class Login extends React.Component<Props, State> {
                                         items={[
                                             {
                                                 section: true,
-                                                label: 'General Subject Areas (from UCAS)'
+                                                label: 'General Subject'
                                             },
                                             { label: 'Administration' },
                                             { label: 'Area Studies' },
@@ -549,6 +549,7 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'Mathematics' },
                                             { label: 'Medicine' },
                                             { label: 'Performing Arts' },
+                                            { label: 'PGCE' },
                                             { label: 'Philosophy' },
                                             { label: 'Physics' },
                                             { label: 'Politics' },

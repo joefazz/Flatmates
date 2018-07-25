@@ -12,6 +12,7 @@ export const STUDY_YEARS = [
     { label: 'Fourth Year' },
     { label: 'Fifth Year' },
     { label: 'Sixth Year' },
+    { label: 'Post Graduate' },
     { label: 'Masters' },
     { label: 'Placement Year' },
     { label: 'PhD' }
