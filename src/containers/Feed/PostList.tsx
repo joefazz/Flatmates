@@ -49,7 +49,7 @@ export class PostList extends React.Component<Props> {
         } else {
             return {
                 title: 'Flatmates',
-                headerLeft: (
+                headerLeft: navigation.state.params && (
                     <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{ marginLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
                         <Icon name={'ios-arrow-back'} size={32} color={Colors.white} />
                         <Text style={{ fontSize: 18, color: Colors.white, marginLeft: 10, marginBottom: 3 }}>Login</Text>

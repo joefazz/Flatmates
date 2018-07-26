@@ -70,7 +70,7 @@ export class ApplicationList extends React.Component<Props, State> {
                 <Query
                     query={HOUSE_APPLICATIONS_QUERY}
                     variables={{ shortID: this.props.profile.house.shortID }}
-                    fetchPolicy={'network-only'}
+                    fetchPolicy={'cache-and-network'}
                 >
                     {({ loading, error, data: { house }, refetch }) => {
                         if (error) {
@@ -85,7 +85,7 @@ export class ApplicationList extends React.Component<Props, State> {
                                     <Text style={{ fontSize: 14, color: Colors.white, ...FontFactory({ weight: 'Bold' }) }}>Tap to buy more!</Text>
                                 </View>
                                 <ApplicationListComponent
-                                    receivedApplications={house.applications}
+                                    receivedApplications={!!house ? house.applications : []}
                                     isLoadingReceived={loading}
                                     sentApplications={!!this.props.user ? this.props.user.applications : []}
                                     isLoadingSent={this.props.sentLoading}

@@ -116,7 +116,7 @@ export class House extends React.Component<Props, State> {
                 fetchPolicy={'cache-and-network'}
             >
                 {({ data: { house }, loading, error }) => {
-                    if (loading && !!house) {
+                    if (loading && !house) {
                         return <ActivityIndicator />;
                     }
 
