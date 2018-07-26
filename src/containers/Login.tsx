@@ -262,6 +262,9 @@ export class Login extends React.Component<Props, State> {
                 </View>
 
                 <View style={[login.page, { justifyContent: 'space-around' }]}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    </TouchableOpacity>
                     <View
                         style={[
                             login.mainContent,
@@ -306,6 +309,9 @@ export class Login extends React.Component<Props, State> {
                 </View>
 
                 <KeyboardAvoidingView style={login.page}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    </TouchableOpacity>
                     <View style={base.headingWrapper}>
                         <Text style={base.headingTitle}>Basic Information</Text>
                         <Text style={base.headingSubtitle}>We store your information securely</Text>
@@ -469,29 +475,19 @@ export class Login extends React.Component<Props, State> {
                 </KeyboardAvoidingView>
 
                 <View style={login.page}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    </TouchableOpacity>
                     <View style={base.headingWrapper}>
                         <Text
-                            style={[
-                                base.headingText,
-                                {
-                                    ...Font.FontFactory({ weight: 'Bold', family: 'Nunito' }),
-                                    fontSize: 24
-                                }
-                            ]}
+                            style={base.headingTitle}
                         >
                             Profile Information
                         </Text>
                         <Text
-                            style={[
-                                base.headingText,
-                                {
-                                    textAlign: 'center',
-                                    fontSize: toConstantFontSize(2.1),
-                                    ...Font.FontFactory({ weight: 'Light', family: 'Nunito' })
-                                }
-                            ]}
+                            style={[base.headingSubtitle, { textAlign: 'center' }]}
                         >
-                            This information helps us find the best Flatmates
+                            This information helps us find the{"\n"}best Flatmates
                         </Text>
                     </View>
                     <View
@@ -767,6 +763,9 @@ export class Login extends React.Component<Props, State> {
         if (this.state.isLookingForHouse) {
             return (
                 <View style={login.page}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    </TouchableOpacity>
                     <View style={base.headingWrapper}>
                         <Text
                             style={[
@@ -1114,12 +1113,16 @@ export class Login extends React.Component<Props, State> {
         } else {
             return (
                 <View style={login.page}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    </TouchableOpacity>
                     <View style={base.headingWrapper}>
                         <Text
                             style={[
                                 base.headingText,
                                 {
                                     textAlign: 'center',
+                                    marginTop: 20,
                                     fontSize:
                                         toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5)
                                 }
@@ -1163,6 +1166,9 @@ export class Login extends React.Component<Props, State> {
     renderHouseDetail = () => {
         return (
             <View style={login.page}>
+                <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                    <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                </TouchableOpacity>
                 <View style={base.headingWrapper}>
                     <Text style={[base.headingText, { fontSize: 20 }]}>
                         Enter your house details
