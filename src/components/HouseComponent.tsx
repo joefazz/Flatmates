@@ -8,6 +8,8 @@ import { toConstantWidth, toConstantHeight, toConstantFontSize } from '../utils/
 import { Colors } from '../consts';
 import { FontFactory } from '../consts/font';
 import { UpdateHouseMutationVariables } from '../graphql/Types';
+import { TouchableRect } from '../widgets/TouchableRect';
+import { DOMAIN } from '../consts/endpoint';
 
 interface Props {
     house: House;
@@ -131,7 +133,16 @@ export class HouseComponent extends React.Component<Props> {
                                     )}
 
                             />
+
                         </View>
+
+                        <TouchableRect
+                            title={'Send Payment Reminder'}
+                            backgroundColor={Colors.brandPrimaryColor}
+                            onPress={() => fetch(`${DOMAIN}/PaymentNotification`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ houseID: house.shortID }) })
+                                .then(() => alert('Notification sent!'))
+                                .catch(err => console.log(err))}
+                        />
 
                         {/*house.users.length > 1 ? (
                             <ScrollView
@@ -153,29 +164,15 @@ export class HouseComponent extends React.Component<Props> {
                             <React.Fragment />
                         )*/}
 
-                        <Button
+                        {/* <Button
                             title={'RESET DATA BACK TO LOGIN'}
                             containerViewStyle={{ marginTop: 20 }}
                             backgroundColor={Colors.brandPrimaryColor}
                             onPress={() =>
                                 AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
                             }
-                        />
-                        <Button
-                            title={'Send Payment Reminder'}
-                            containerViewStyle={{
-                                position: 'absolute',
-                                bottom: 100,
-                                left: 0,
-                                right: 0,
+                        /> */}
 
-                                height: 100
-                            }}
-                            backgroundColor={Colors.brandPrimaryColor}
-                            onPress={() =>
-                                AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
-                            }
-                        />
                     </View>
                 </>
             );
@@ -231,6 +228,15 @@ export class HouseComponent extends React.Component<Props> {
                         />
                     </View>
 
+                    <TouchableRect
+                        title={'Send Payment Reminder'}
+                        backgroundColor={Colors.brandPrimaryColor}
+                        buttonStyle={{ width: toConstantWidth(100) }}
+                        onPress={() => fetch(`${DOMAIN}/PaymentNotification`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ houseID: house.shortID }) })
+                            .then(() => alert('Notification sent!'))
+                            .catch(err => console.log(err))}
+                    />
+
                     {/*house.users.length > 1 ? (
                         <ScrollView
                             contentContainerStyle={profile.preferencesWrapper}
@@ -251,29 +257,15 @@ export class HouseComponent extends React.Component<Props> {
                         <React.Fragment />
                     )*/}
 
-                    <Button
+                    {/* <Button
                         title={'RESET DATA BACK TO LOGIN'}
                         containerViewStyle={{ marginTop: 20 }}
                         backgroundColor={Colors.brandPrimaryColor}
                         onPress={() =>
                             AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
                         }
-                    />
-                    <Button
-                        title={'Send Payment Reminder'}
-                        containerViewStyle={{
-                            position: 'absolute',
-                            bottom: 100,
-                            left: 0,
-                            right: 0,
+                    /> */}
 
-                            height: 100
-                        }}
-                        backgroundColor={Colors.brandPrimaryColor}
-                        onPress={() =>
-                            AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
-                        }
-                    />
                 </View>
             </>
         );
@@ -300,9 +292,10 @@ const styles = StyleSheet.create({
     },
     heading: {
         fontSize: toConstantFontSize(2.5),
+        padding: 0,
         ...FontFactory({ weight: 'Bold' })
     },
     statisticsWrapper: {
-        marginTop: 25
+        marginTop: 25,
     }
 });

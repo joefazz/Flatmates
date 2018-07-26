@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Switch } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Switch, Platform } from 'react-native';
 import { toConstantHeight } from '../utils/PercentageConversion';
 import { FontFactory } from '../consts/font';
 import { Colors } from '../consts';
@@ -130,11 +130,17 @@ const styles = StyleSheet.create({
     statText: {
         color: Colors.brandTertiaryColor,
         fontSize: 18,
+        paddingVertical: 0,
+        width: 100,
+        textAlign: 'center',
+        alignItems: 'center',
+        margin: 0,
         ...FontFactory({ weight: 'Bold' })
     },
     statTitle: {
         color: Colors.brandTertiaryColor,
         fontSize: 16,
+        marginTop: Platform.OS === 'android' ? -2 : 0,
         ...FontFactory()
     }
 });

@@ -118,9 +118,9 @@ export class Profile extends React.Component<Props, State> {
                     <FloatingAction
                         actions={[{
                             name: 'Edit',
-                            icon: <Icon name={this.props.navigation.state &&
+                            icon: <Icon name={
                                 this.props.navigation.state.params &&
-                                this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
+                                    this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
                         }]}
                         color={Colors.brandPrimaryColor}
                         overrideWithAction={true}

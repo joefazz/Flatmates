@@ -117,7 +117,9 @@ export class ProfileComponent extends React.Component<Props, State> {
                 params.isDrinker = this.newDrink;
             }
 
-            this.props.updateUser(params);
+            if (Object.keys(params).length > 1) {
+                this.props.updateUser(params);
+            }
 
             this.isNameDirty = false;
             this.isProfilePictureDirty = false;
@@ -129,6 +131,7 @@ export class ProfileComponent extends React.Component<Props, State> {
             this.isSmokerDirty = false;
             this.isDrugsDirty = false;
             this.isDrinkDirty = false;
+            this.setState({ tempProfilePic: null })
         }
     }
 
@@ -385,7 +388,7 @@ export class ProfileComponent extends React.Component<Props, State> {
             <View style={{ flex: 1, alignItems: 'stretch' }}>
                 <Modal animationType={"slide"} visible={this.state.isAvatarModalVisible}>
                     <ImageViewer
-                        imageUrls={[{ url: data.profilePicture }]}
+                        imageUrls={[{ url: !!this.state.tempProfilePic ? this.state.tempProfilePic.path : data.profilePicture }]}
                         enableSwipeDown={true}
                         onSwipeDown={() => this.setState({ isAvatarModalVisible: false })}
                         saveToLocalByLongPress={true}
@@ -393,24 +396,47 @@ export class ProfileComponent extends React.Component<Props, State> {
                 </Modal>
                 <View style={profile.summaryWrapper}>
                     <View style={profile.headerAvatar}>
-                        <Avatar
-                            onPress={() => this.setState({ isAvatarModalVisible: true })}
-                            rounded={true}
-                            avatarStyle={{
-                                width: toConstantWidth(32),
-                                height: toConstantWidth(32),
-                                borderRadius: toConstantWidth(32) / 2,
-                                backgroundColor: Colors.transparent
-                            }}
-                            overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
-                            containerStyle={{
-                                width: toConstantWidth(32),
-                                height: toConstantWidth(32),
-                                borderRadius: toConstantWidth(32) / 2,
-                                backgroundColor: Colors.transparent
-                            }}
-                            source={{ uri: data.profilePicture }}
-                        />
+                        {this.state.tempProfilePic ? (
+                            <Avatar
+                                avatarStyle={{
+                                    width: toConstantWidth(32),
+                                    height: toConstantWidth(32),
+                                    borderRadius: toConstantWidth(32) / 2,
+                                    backgroundColor: Colors.transparent
+                                }}
+                                overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                containerStyle={{
+                                    width: toConstantWidth(32),
+                                    height: toConstantWidth(32),
+                                    borderRadius: toConstantWidth(32) / 2,
+                                    backgroundColor: Colors.transparent
+                                }}
+                                source={{ uri: this.state.tempProfilePic.path }}
+                                onPress={() => this.setState({ isAvatarModalVisible: true })}
+                                activeOpacity={0.7}
+                                rounded={true}
+                            />
+                        ) : (
+                                <Avatar
+                                    avatarStyle={{
+                                        width: toConstantWidth(32),
+                                        height: toConstantWidth(32),
+                                        borderRadius: toConstantWidth(32) / 2,
+                                        backgroundColor: Colors.transparent
+                                    }}
+                                    overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                    containerStyle={{
+                                        width: toConstantWidth(32),
+                                        height: toConstantWidth(32),
+                                        borderRadius: toConstantWidth(32) / 2,
+                                        backgroundColor: Colors.transparent
+                                    }}
+                                    source={{ uri: data.profilePicture }}
+                                    onPress={() => this.setState({ isAvatarModalVisible: true })}
+                                    activeOpacity={0.7}
+                                    rounded={true}
+                                />
+                            )}
                     </View>
                     <View style={profile.summaryDescriptionWrapper}>
                         <Text style={profile.headerText}>{data.name}</Text>

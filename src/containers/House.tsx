@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, compose, Query } from 'react-apollo';
-import { Text, View, StyleSheet, AsyncStorage, Platform, ActivityIndicator } from 'react-native';
+import { Text, View, AsyncStorage, Platform, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { FloatingAction } from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -14,8 +14,6 @@ import { UpdateHouseMutationVariables, HouseDetailQuery, UpdateHouseMutation } f
 import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { HouseComponent } from '../components/HouseComponent';
-import { ApolloError } from '../../node_modules/apollo-client';
-import { Z_ASCII } from 'zlib';
 
 interface Props {
     house: HouseType;
@@ -118,7 +116,7 @@ export class House extends React.Component<Props, State> {
                 fetchPolicy={'cache-and-network'}
             >
                 {({ data: { house }, loading, error }) => {
-                    if (loading) {
+                    if (loading && !!house) {
                         return <ActivityIndicator />;
                     }
 
@@ -140,9 +138,9 @@ export class House extends React.Component<Props, State> {
                                 <FloatingAction
                                     actions={[{
                                         name: 'Edit',
-                                        icon: <Icon name={this.props.navigation.state &&
+                                        icon: <Icon name={
                                             this.props.navigation.state.params &&
-                                            this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
+                                                this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
                                     }]}
                                     color={Colors.brandPrimaryColor}
                                     overrideWithAction={true}
