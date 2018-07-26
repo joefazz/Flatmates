@@ -95,8 +95,6 @@ export class CreatePost extends React.Component<Props, State> {
                         }
                     });
 
-                    console.log(postData, data.createPost);
-
                     postData.allPosts.push(data.createPost);
 
                     store.writeQuery({
