@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
     package="com.fazzino.flatmates">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,7 +9,8 @@
       android:allowBackup="false"
       android:label="@string/app_name"
       android:icon="@drawable/ic_launcher"
-      android:theme="@style/AppTheme">
+      android:theme="@style/AppTheme"
+      tools:overrideLibrary="com.dooboolab.RNIap">
       <meta-data android:name="com.onesignal.NotificationAccentColor.DEFAULT" android:value="FFE44D26" />
       <activity
         android:name=".MainActivity"

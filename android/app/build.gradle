@@ -97,6 +97,7 @@ def enableProguardInReleaseBuilds = false
 android {
     lintOptions { 
         quiet true 
+        abortOnError false
     }
     
     compileSdkVersion rootProject.ext.compileSdkVersion

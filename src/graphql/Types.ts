@@ -103,10 +103,7 @@ export interface UpdateHouseMutation {
   updateHouse:  {
     shortID: number,
     road: string,
-    coords: Array< number >,
     spaces: number,
-    rentDue: string | null,
-    billsDue: string | null,
     rentPrice: number,
     billsPrice: number,
   } | null,
@@ -175,6 +172,18 @@ export interface UpdatePostMutation {
         course: string,
       } > | null,
     },
+  } | null,
+};
+
+export interface AddApplicationsMutationVariables {
+  id: string,
+  newAllowance: number,
+};
+
+export interface AddApplicationsMutation {
+  addApplications:  {
+    id: string,
+    applicationAllowance: number,
   } | null,
 };
 
@@ -517,7 +526,9 @@ export interface HousePostQueryVariables {
 
 export interface HousePostQuery {
   user:  {
+    id: string,
     house:  {
+      shortID: number,
       post:  {
         id: string,
         description: string,
@@ -670,6 +681,10 @@ export interface UserPostQuery {
       shortID: number,
       spaces: number,
       road: string,
+      coords: Array< number >,
+      billsPrice: number,
+      rentPrice: number,
+      houseImages: Array< string >,
     } | null,
   } | null,
 };

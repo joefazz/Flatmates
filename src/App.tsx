@@ -13,9 +13,9 @@ import OneSignal from 'react-native-onesignal';
 import * as RNIap from 'react-native-iap';
 import { Sentry } from 'react-native-sentry';
 
-const iapSKUs = Platform.select({
+export const iapSKUs = Platform.select({
     ios: ['flatmates.5_applications', 'flatmates.15_applications', 'flatmates.infinite_applications'],
-    android: ['flatmates.5_application', 'flatmates.10_applications', 'flatmates.infinite_applications']
+    android: ['flatmates.5_applications', 'flatmates.10_application', 'flatmates.infinite_applications']
 });
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
@@ -73,16 +73,12 @@ export default class Root extends React.Component<Props, State> {
         OneSignal.addEventListener('ids', this.saveIds);
 
         // Sentry.nativeCrash();
-        this.displayIAP();
+        this.prepareIAP();
     }
 
-    displayIAP = async () => {
+    prepareIAP = async () => {
         try {
             await RNIap.prepare();
-
-            const products = await RNIap.getProducts(iapSKUs);
-
-            console.log(products);
         } catch (error) {
             console.warn(error);
         }
