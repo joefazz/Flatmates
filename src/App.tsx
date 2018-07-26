@@ -14,8 +14,8 @@ import * as RNIap from 'react-native-iap';
 import { Sentry } from 'react-native-sentry';
 
 const iapSKUs = Platform.select({
-    ios: ['com.fazzino.15Applications'],
-    android: ['com.fazzino.15Applications']
+    ios: ['flatmates.5_applications', 'flatmates.15_applications', 'flatmates.infinite_applications'],
+    android: ['flatmates.5_application', 'flatmates.10_applications', 'flatmates.infinite_applications']
 });
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
@@ -73,7 +73,7 @@ export default class Root extends React.Component<Props, State> {
         OneSignal.addEventListener('ids', this.saveIds);
 
         // Sentry.nativeCrash();
-        // this.displayIAP();
+        this.displayIAP();
     }
 
     displayIAP = async () => {

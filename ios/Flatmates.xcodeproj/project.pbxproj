@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -61,6 +62,7 @@
 		9848123C409F4791A1DC4B5E /* Nunito SemiBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B712D49E1C8045EA9695E4F0 /* Nunito SemiBold Italic.ttf */; };
 		9C49CB85C04C4D73917C9D1B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02743E41C3B445FF98098195 /* Foundation.ttf */; };
 		A187D8B921594ED290DA9DC9 /* Nunito SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */; };
+		A20E4C87210A0CF500C1C028 /* libRNIap.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A20E4C85210A0CDD00C1C028 /* libRNIap.a */; };
 		A22199C320A0630B00DC99C2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A22199C220A0630B00DC99C2 /* StoreKit.framework */; };
 		A26DBE031FFBE62300FE1330 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; };
 		A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -323,6 +325,13 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+		A20E4C84210A0CDD00C1C028 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A20E4C56210A0CDD00C1C028 /* RNIap.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNIap;
+		};
 		A23B3C5420755D4100214125 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BD556DEAC7AD4407A1A51FEB /* A0Auth0.xcodeproj */;
@@ -460,6 +469,7 @@
 		8F130619A78745C2A9B259D4 /* Nunito Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Black.ttf"; path = "../Assets/Fonts/Nunito/Nunito Black.ttf"; sourceTree = "<group>"; };
 		92666A5AC50E103D720121A4 /* Pods-Flatmates-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOS/Pods-Flatmates-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito SemiBold.ttf"; path = "../Assets/Fonts/Nunito/Nunito SemiBold.ttf"; sourceTree = "<group>"; };
+		A20E4C56210A0CDD00C1C028 /* RNIap.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNIap.xcodeproj; path = "../node_modules/react-native-iap/ios/RNIap.xcodeproj"; sourceTree = "<group>"; };
 		A22199C220A0630B00DC99C2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A23B3C5920755D5900214125 /* Flatmates.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Flatmates.entitlements; path = Flatmates/Flatmates.entitlements; sourceTree = "<group>"; };
 		A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
@@ -503,6 +513,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A20E4C87210A0CF500C1C028 /* libRNIap.a in Frameworks */,
 				A2E5D0ED20BFF4C50093C083 /* libRNSentry.a in Frameworks */,
 				A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -741,6 +752,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A20E4C56210A0CDD00C1C028 /* RNIap.xcodeproj */,
 				A2E5D0BA20BFF4920093C083 /* RNSentry.xcodeproj */,
 				A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
@@ -804,7 +816,6 @@
 		A20D48981FCD64A600059AAE /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				5BF855C967F34A8FA3AC0DCE /* libInteractable.a */,
 				7BD128C1EBFC4AB0BF889D6D /* libimageCropPicker.a */,
 				FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */,
 				F872B3C0815744A3A4182DF6 /* libA0Auth0.a */,
@@ -825,6 +836,14 @@
 				FA79D7BCC6E140AE98876863 /* libz.tbd */,
 			);
 			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		A20E4C57210A0CDD00C1C028 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20E4C85210A0CDD00C1C028 /* libRNIap.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		A23B3C4F20755D4100214125 /* Products */ = {
@@ -1087,6 +1106,10 @@
 					ProjectRef = 1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */;
 				},
 				{
+					ProductGroup = A20E4C57210A0CDD00C1C028 /* Products */;
+					ProjectRef = A20E4C56210A0CDD00C1C028 /* RNIap.xcodeproj */;
+				},
+				{
 					ProductGroup = A2E5D0BB20BFF4920093C083 /* Products */;
 					ProjectRef = A2E5D0BA20BFF4920093C083 /* RNSentry.xcodeproj */;
 				},
@@ -1331,6 +1354,13 @@
 			fileType = archive.ar;
 			path = "libprivatedata-tvOS.a";
 			remoteRef = A20D49031FCD6AEE00059AAE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A20E4C85210A0CDD00C1C028 /* libRNIap.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNIap.a;
+			remoteRef = A20E4C84210A0CDD00C1C028 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A23B3C5520755D4100214125 /* libA0Auth0.a */ = {
@@ -1697,9 +1727,7 @@
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1726,9 +1754,7 @@
 				INFOPLIST_FILE = FlatmatesTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1831,9 +1857,7 @@
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1868,9 +1892,7 @@
 				);
 				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -1897,9 +1919,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Flatmates-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
@@ -1922,9 +1942,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Flatmates-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
