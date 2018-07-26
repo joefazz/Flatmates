@@ -41,14 +41,28 @@ export class PostList extends React.Component<Props> {
         skip: 0
     };
 
-    protected static navigationOptions = ({ navigation }) => ({
-        title: 'Flatmates',
-        headerRight: (
-            <TouchableOpacity onPress={() => navigation.navigate('About')} style={{ marginRight: 10 }}>
-                <Icon name={Platform.OS === 'ios' ? 'ios-help-circle-outline' : 'md-help-circle'} size={28} color={Colors.white} />
-            </TouchableOpacity>
-        )
-    });
+    protected static navigationOptions = ({ navigation }) => {
+        if (Platform.OS === 'android') {
+            return {
+                title: 'Flatmates'
+            }
+        } else {
+            return {
+                title: 'Flatmates',
+                headerLeft: (
+                    <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{ marginLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
+                        <Icon name={'ios-arrow-back'} size={32} color={Colors.white} />
+                        <Text style={{ fontSize: 18, color: Colors.white, marginLeft: 10, marginBottom: 3 }}>Login</Text>
+                    </TouchableOpacity>
+                ),
+                headerRight: (
+                    <TouchableOpacity onPress={() => navigation.navigate('About')} style={{ marginRight: 10 }}>
+                        <Icon name={'md-help-circle'} size={28} color={Colors.white} />
+                    </TouchableOpacity>
+                )
+            }
+        }
+    };
 
     componentDidMount() {
         StatusBar.setBarStyle('light-content');
