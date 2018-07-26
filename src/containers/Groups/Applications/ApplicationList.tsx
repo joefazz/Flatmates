@@ -53,11 +53,11 @@ export class ApplicationList extends React.Component<Props, State> {
             return (
                 <>
                     <View style={{ width: toConstantWidth(100), height: toConstantHeight(7), backgroundColor: Colors.brandErrorColor, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 16, color: Colors.white, ...FontFactory() }}>{this.props.user.applicationAllowance} Applications Remaining</Text>
+                        <Text style={{ fontSize: 16, color: Colors.white, ...FontFactory() }}>{this.props.sentLoading ? 'Fetching Remaining Applications' : `${this.props.user.applicationAllowance} Applications Remaining`}</Text>
                         <Text style={{ fontSize: 14, color: Colors.white, ...FontFactory({ weight: 'Bold' }) }}>Tap to buy more!</Text>
                     </View>
                     <ApplicationListComponent
-                        sentApplications={this.props.user.applications}
+                        sentApplications={!!this.props.user ? this.props.user.applications : []}
                         isLoadingSent={this.props.sentLoading}
                         showReceived={showRecieved}
                         navigation={this.props.navigation}
@@ -81,13 +81,13 @@ export class ApplicationList extends React.Component<Props, State> {
                         return (
                             <>
                                 <View style={{ width: toConstantWidth(100), height: toConstantHeight(7), backgroundColor: Colors.brandErrorColor, alignItems: 'center', justifyContent: 'center' }}>
-                                    <Text style={{ fontSize: 16, color: Colors.white, ...FontFactory() }}>{this.props.user.applicationAllowance} Applications Remaining</Text>
+                                    <Text style={{ fontSize: 16, color: Colors.white, ...FontFactory() }}>{this.props.sentLoading ? 'Fetching Remaining Applications' : `${this.props.user.applicationAllowance} Applications Remaining`}</Text>
                                     <Text style={{ fontSize: 14, color: Colors.white, ...FontFactory({ weight: 'Bold' }) }}>Tap to buy more!</Text>
                                 </View>
                                 <ApplicationListComponent
                                     receivedApplications={house.applications}
                                     isLoadingReceived={loading}
-                                    sentApplications={this.props.user.applications}
+                                    sentApplications={!!this.props.user ? this.props.user.applications : []}
                                     isLoadingSent={this.props.sentLoading}
                                     showReceived={showRecieved}
                                     refetchReceived={refetch}

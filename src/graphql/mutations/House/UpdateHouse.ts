@@ -5,10 +5,7 @@ export const UPDATE_HOUSE_MUTATION = gql`
         updateHouse(shortID: $shortID, road: $road, coords: $coords, spaces: $spaces, rentDue: $rentDue, billsDue: $billsDue, rentPrice: $rentPrice, billsPrice: $billsPrice) {
             shortID
             road
-            coords
             spaces
-            rentDue
-            billsDue
             rentPrice
             billsPrice
         }

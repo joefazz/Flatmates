@@ -43,16 +43,12 @@ export class PostList extends React.Component<Props> {
 
     protected static navigationOptions = ({ navigation }) => ({
         title: 'Flatmates',
-        headerLeft: navigation.state.params && (Platform.OS === 'ios' ? (
+        headerLeft: Platform.OS === 'android' ? null : navigation.state.params && (
             <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{ marginLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
                 <Icon name={'ios-arrow-back'} size={32} color={Colors.white} />
                 <Text style={{ fontSize: 18, color: Colors.white, marginLeft: 10, marginBottom: 3 }}>Login</Text>
             </TouchableOpacity>
-        ) : (
-                <TouchableNativeFeedback onPress={() => navigation.navigate('Login')} style={{ marginLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
-                    <Icon name={'md-arrow-back'} size={32} color={Colors.white} />
-                </TouchableNativeFeedback>
-            )),
+        ),
         headerRight: (
             <TouchableOpacity onPress={() => navigation.navigate('About')} style={{ marginRight: 10 }}>
                 <Icon name={Platform.OS === 'ios' ? 'ios-help-circle-outline' : 'md-help-circle'} size={28} color={Colors.white} />
@@ -71,7 +67,6 @@ export class PostList extends React.Component<Props> {
     }
 
     render() {
-        console.log(this.props.navigation);
         return (
             <Query query={POST_LIST_QUERY} variables={{ take: 10, skip: 0 }} fetchPolicy={'cache-and-network'}>
                 {({ data, loading, error, fetchMore, refetch }: { data: AllPostsQuery; loading: boolean; error: ApolloError; fetchMore: any; refetch: () => void; }) => {
@@ -97,7 +92,7 @@ export class PostList extends React.Component<Props> {
                             navigation={this.props.navigation}
                             refreshPostList={refetch}
                             canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
-                            userPostPermissionEnabled={this.props.loading || !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly) ? false : !this.props.user.house.post}
+                            userPostPermissionEnabled={this.props.loading || !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly) ? false : !!this.props.user.house ? !this.props.user.house.post : true}
                             data={!!data.allPosts ? data.allPosts : []}
                             userId={this.props.login.id}
                         />

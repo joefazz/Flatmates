@@ -14,7 +14,7 @@ export interface House {
     billsPrice: number;
     rentPrice: number;
     spaces: number;
-    coords: Array<string>;
+    coords: Array<number>;
     houseImages: Array<string>;
     applicationCount: number;
     createdAt: Date;
