@@ -43,12 +43,6 @@ export class PostList extends React.Component<Props> {
 
     protected static navigationOptions = ({ navigation }) => ({
         title: 'Flatmates',
-        headerLeft: Platform.OS === 'android' ? null : navigation.state.params && (
-            <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{ marginLeft: 10, flexDirection: 'row', alignItems: 'center' }}>
-                <Icon name={'ios-arrow-back'} size={32} color={Colors.white} />
-                <Text style={{ fontSize: 18, color: Colors.white, marginLeft: 10, marginBottom: 3 }}>Login</Text>
-            </TouchableOpacity>
-        ),
         headerRight: (
             <TouchableOpacity onPress={() => navigation.navigate('About')} style={{ marginRight: 10 }}>
                 <Icon name={Platform.OS === 'ios' ? 'ios-help-circle-outline' : 'md-help-circle'} size={28} color={Colors.white} />
