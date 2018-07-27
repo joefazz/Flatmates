@@ -50,12 +50,14 @@ export class ChatList extends React.Component<Props, State> {
                             return <Text>Error: {error.message}</Text>;
                         }
 
+                        console.log()
+
                         return (
                             <ChatListComponent
                                 navigation={this.props.navigation}
                                 isLoading={loading || this.props.loading}
                                 refetch={refetch}
-                                data={!loading && !this.props.loading ? this.props.userGroups.concat(data.house.groups) : []}
+                                data={(!loading && !this.props.loading) ? this.props.userGroups.concat(data.house.groups) : []}
                                 userID={this.props.login.id}
                                 username={this.props.login.name}
                             />
