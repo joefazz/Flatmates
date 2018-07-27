@@ -57,13 +57,15 @@ export class ChatListComponent extends React.PureComponent<Props> {
     };
 
     renderItem = ({ item }: { item: Group }) => {
-        let names = item.name.split('|');
-
-        let groupName = names.find((name) => name !== this.props.username);
-
-        let image = names.some((name) => name === this.props.username)
-            ? item.house.houseImages[0]
-            : item.applicant.profilePicture;
+        var groupName = '';
+        var avatar = '';
+        if (item.applicant.name === this.props.username) {
+            groupName = item.house.road;
+            avatar = item.house.houseImages[0];
+        } else {
+            groupName = item.applicant.name;
+            avatar = item.applicant.profilePicture;
+        }
 
         return (
             <RectButton
@@ -79,7 +81,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 <Avatar
                     rounded={true}
                     source={{
-                        uri: image
+                        uri: avatar
                     }}
                     containerStyle={{
                         width: toConstantWidth(18),
@@ -96,7 +98,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 <View style={group.descWrapper}>
                     <Text style={group.title}>{groupName}</Text>
                     <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
-                        {item.lastMessage || 'New group created.'}
+                        {item.messages[0].text || 'New group created.'}
                     </Text>
                 </View>
                 {/* <View style={true && group.unreadMarker} /> */}
