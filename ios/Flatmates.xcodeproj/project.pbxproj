@@ -58,7 +58,6 @@
 		842DD735889EB15F3AD8B3EF /* libPods-Flatmates-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 781B99A806011EB79CD5A47F /* libPods-Flatmates-tvOSTests.a */; };
 		877367CE05544B899E04954E /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8E1B2DED13D743A4949F3816 /* Ionicons.ttf */; };
 		8984374BD95549F0AD6CE3DB /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3048F3E3DE0A4F7A8BAA8898 /* FontAwesome.ttf */; };
-		97E8E9F209D94F06B02EFF5B /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = FA79D7BCC6E140AE98876863 /* libz.tbd */; };
 		9848123C409F4791A1DC4B5E /* Nunito SemiBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B712D49E1C8045EA9695E4F0 /* Nunito SemiBold Italic.ttf */; };
 		9C49CB85C04C4D73917C9D1B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02743E41C3B445FF98098195 /* Foundation.ttf */; };
 		A187D8B921594ED290DA9DC9 /* Nunito SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */; };
@@ -67,7 +66,7 @@
 		A26DBE031FFBE62300FE1330 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; };
 		A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */; };
-		A2E5D0ED20BFF4C50093C083 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2E5D0EC20BFF4920093C083 /* libRNSentry.a */; };
+		A2E6BD19210BE325000944CE /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2E6BD18210BE30C000944CE /* libRNSentry.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B0A72F9DE27E4B1F970D4162 /* Nunito Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF584EDC622941B39C566EDA /* Nunito Bold.ttf */; };
 		BAF5874BEB2E4783B027E9E3 /* Nunito Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F130619A78745C2A9B259D4 /* Nunito Black.ttf */; };
@@ -76,6 +75,7 @@
 		D5248FE54BF749F8BC4EA811 /* Nunito ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 883F13C4BADC42C2AE73F3DD /* Nunito ExtraBold.ttf */; };
 		D697E743465A4D55913B8D3A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A42DCEAE826546B6A730396A /* SimpleLineIcons.ttf */; };
 		D867C993DA9C40B5AC63B5C6 /* Nunito Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B751948C591E40CAAA56BC99 /* Nunito Regular.ttf */; };
+		D8F7738760BA483E823D65BD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A312E5C401124DEBA005B75B /* libz.tbd */; };
 		F47907D01C631E9D4A3F33D0 /* libPods-Flatmates-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DC076EA845244790C2ADE34 /* libPods-Flatmates-tvOS.a */; };
 /* End PBXBuildFile section */
 
@@ -388,9 +388,9 @@
 			remoteGlobalIDString = 3400A8081CEB54A6008A0BC7;
 			remoteInfo = imageCropPicker;
 		};
-		A2E5D0EB20BFF4920093C083 /* PBXContainerItemProxy */ = {
+		A2E6BD17210BE30C000944CE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = A2E5D0BA20BFF4920093C083 /* RNSentry.xcodeproj */;
+			containerPortal = A2E6BCE6210BE30B000944CE /* RNSentry.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNSentry;
@@ -474,7 +474,8 @@
 		A23B3C5920755D5900214125 /* Flatmates.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Flatmates.entitlements; path = Flatmates/Flatmates.entitlements; sourceTree = "<group>"; };
 		A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
 		A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
-		A2E5D0BA20BFF4920093C083 /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
+		A2E6BCE6210BE30B000944CE /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
+		A312E5C401124DEBA005B75B /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A42DCEAE826546B6A730396A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AEF31C6EDD5E4A21ABACA30B /* Nunito ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito ExtraLight.ttf"; path = "../Assets/Fonts/Nunito/Nunito ExtraLight.ttf"; sourceTree = "<group>"; };
@@ -494,7 +495,6 @@
 		ECE0628D1CBDE33419625255 /* libPods-FlatmatesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlatmatesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EED8BC209733A9881B7389AC /* Pods-FlatmatesTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlatmatesTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlatmatesTests/Pods-FlatmatesTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F872B3C0815744A3A4182DF6 /* libA0Auth0.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libA0Auth0.a; sourceTree = "<group>"; };
-		FA79D7BCC6E140AE98876863 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		FBF61FC483C84B89BE8D9902 /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
 		FE050012E176E4E0BC1260A0 /* Pods-Flatmates-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOSTests/Pods-Flatmates-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -513,8 +513,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2E6BD19210BE325000944CE /* libRNSentry.a in Frameworks */,
 				A20E4C87210A0CF500C1C028 /* libRNIap.a in Frameworks */,
-				A2E5D0ED20BFF4C50093C083 /* libRNSentry.a in Frameworks */,
 				A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -536,7 +536,7 @@
 				3C7C4406A87C474591F7CCB2 /* libA0Auth0.a in Frameworks */,
 				0772CF767A404D848DF30E67 /* libRCTOneSignal.a in Frameworks */,
 				A22199C320A0630B00DC99C2 /* StoreKit.framework in Frameworks */,
-				97E8E9F209D94F06B02EFF5B /* libz.tbd in Frameworks */,
+				D8F7738760BA483E823D65BD /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,8 +752,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A2E6BCE6210BE30B000944CE /* RNSentry.xcodeproj */,
 				A20E4C56210A0CDD00C1C028 /* RNIap.xcodeproj */,
-				A2E5D0BA20BFF4920093C083 /* RNSentry.xcodeproj */,
 				A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -833,7 +833,7 @@
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
 				781B99A806011EB79CD5A47F /* libPods-Flatmates-tvOSTests.a */,
 				ECE0628D1CBDE33419625255 /* libPods-FlatmatesTests.a */,
-				FA79D7BCC6E140AE98876863 /* libz.tbd */,
+				A312E5C401124DEBA005B75B /* libz.tbd */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -886,10 +886,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A2E5D0BB20BFF4920093C083 /* Products */ = {
+		A2E6BCE7210BE30B000944CE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A2E5D0EC20BFF4920093C083 /* libRNSentry.a */,
+				A2E6BD18210BE30C000944CE /* libRNSentry.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -937,7 +937,7 @@
 				A26DBE051FFBE62300FE1330 /* Embed Frameworks */,
 				A26DBE0D1FFBE69B00FE1330 /* ShellScript */,
 				EB18391211C0BCFB3F0B1927 /* [CP] Copy Pods Resources */,
-				DDF620E0133445E6A315B40E /* Upload Debug Symbols to Sentry */,
+				F0682DCF32DC4D96889C3A41 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -1110,8 +1110,8 @@
 					ProjectRef = A20E4C56210A0CDD00C1C028 /* RNIap.xcodeproj */;
 				},
 				{
-					ProductGroup = A2E5D0BB20BFF4920093C083 /* Products */;
-					ProjectRef = A2E5D0BA20BFF4920093C083 /* RNSentry.xcodeproj */;
+					ProductGroup = A2E6BCE7210BE30B000944CE /* Products */;
+					ProjectRef = A2E6BCE6210BE30B000944CE /* RNSentry.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1419,11 +1419,11 @@
 			remoteRef = A2D3D60B200A5C30006F2355 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		A2E5D0EC20BFF4920093C083 /* libRNSentry.a */ = {
+		A2E6BD18210BE30C000944CE /* libRNSentry.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNSentry.a;
-			remoteRef = A2E5D0EB20BFF4920093C083 /* PBXContainerItemProxy */;
+			remoteRef = A2E6BD17210BE30C000944CE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */ = {
@@ -1590,20 +1590,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mapbox.framework/strip-frameworks.sh\"";
 		};
-		DDF620E0133445E6A315B40E /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Upload Debug Symbols to Sentry";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
-		};
 		EB18391211C0BCFB3F0B1927 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1623,6 +1609,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Flatmates/Pods-Flatmates-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		F0682DCF32DC4D96889C3A41 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 		FAE02CEC21B3DD6227387A20 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
