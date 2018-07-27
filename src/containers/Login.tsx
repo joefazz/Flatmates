@@ -59,6 +59,7 @@ import { DOMAIN } from '../consts/endpoint';
 import OneSignal from 'react-native-onesignal';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { STUDY_YEARS, GENDERS } from '../consts/strings';
+import { VERIFY_EMAIL_MUTATION } from '../graphql/mutations/User/VerifyEmail';
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -748,7 +749,32 @@ export class Login extends React.Component<Props, State> {
                     <View style={[login.pageFooter, { justifyContent: 'flex-start' }]}>
                         <TouchableRect
                             title={'Continue'}
-                            onPress={() => this.props.navigation.navigate('Home', { isReadOnly: false })}
+                            onPress={async () => {
+                                let result = await fetch('https://flatmates-auth.eu.auth0.com/oauth/token',
+                                    {
+                                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            grant_type: 'client_credentials',
+                                            client_id: 'kJyhKNP7jn6drUFIP4vWD98eTjsnJKQ6',
+                                            client_secret: '18V1vcmTOJVDHt7OGm6WGfASCAcRTqruUsGTPjimmbqQwBBhyBKeGw58DvSQa2gd',
+                                            audience: 'https://flatmates-auth.eu.auth0.com/api/v2/'
+                                        })
+                                    });
+
+                                let json = await result.json();
+
+                                let userDetails = await fetch(`https://flatmates-auth.eu.auth0.com/api/v2/users?q=user_id:${this.authId}&search_engine=v3`, { headers: { authorization: `Bearer ${json.access_token}` } }).then(res => res.json())
+
+                                console.log(userDetails);
+
+                                if (userDetails[0].email_verified) {
+                                    client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { email: userDetails[0].email, email_verified: true } });
+                                    this.props.navigation.navigate('Home', { isReadOnly: false });
+                                } else {
+                                    alert('Verify your email address in order to access the full app\'s functionality')
+                                    this.props.navigation.navigate('Feed', { isReadOnly: true });
+                                }
+                            }}
                             buttonStyle={base.buttonStyle}
                             backgroundColor={Colors.white}
                             textColor={Colors.brandPrimaryColor}
@@ -1506,7 +1532,7 @@ export class Login extends React.Component<Props, State> {
                     audience: 'https://flatmates-auth.eu.auth0.com/userinfo'
                 })
                 .then((res) => this.doesUserExist(res.idToken))
-                .catch((error) => this.setState({ isLoggingIn: false }));
+                .catch((error) => this.setState({ isLoggingIn: false }, () => console.log(error)));
         });
     };
 
@@ -1541,7 +1567,15 @@ export class Login extends React.Component<Props, State> {
 
                 this.props.getUserData(user);
 
-                this.props.navigation.navigate('Home', { isReadOnly: false });
+                if (decodedJSON.email_verified) {
+                    if (!user.email_verified) {
+                        client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { email: decodedJSON.email, email_verified: true } });
+                    }
+                    this.props.navigation.navigate('Home', { isReadOnly: false });
+                } else {
+                    alert('Verify your email address in order to access the full app\'s functionality');
+                    this.props.navigation.navigate('Feed', { isReadOnly: true });
+                }
             } else {
                 this.email = decodedJSON.email;
                 this.isVerifiedUser = decodedJSON.email_verified;

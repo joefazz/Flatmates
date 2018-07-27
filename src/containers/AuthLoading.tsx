@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text, AsyncStorage, StyleSheet, View, Image, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
-import Auth0 from 'react-native-auth0';
 import splash_screen from '../../Assets/splash_screen.png';
 import { LoginState } from '../types/ReduxTypes';
 import { toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
@@ -9,12 +8,8 @@ import Client from '../Client';
 import { USER_LOGIN_QUERY } from '../graphql/queries';
 import { UserLoginQuery } from '../graphql/Types';
 import { ApolloQueryResult } from 'apollo-client';
-import { FontFactory } from '../consts/font';
 import { Colors } from '../consts';
-import { DOMAIN } from '../consts/endpoint';
-import { clientId } from './Login';
 import client from '../Client';
-import { UPDATE_USER_MUTATION } from '../graphql/mutations';
 import { VERIFY_EMAIL_MUTATION } from '../graphql/mutations/User/VerifyEmail';
 
 interface Props {
@@ -65,10 +60,8 @@ class AuthLoadingScreen extends React.Component<Props, State> {
 
                 let userDetails = await fetch(`https://flatmates-auth.eu.auth0.com/api/v2/users?q=email:${data.user.email}&search_engine=v3`, { headers: { authorization: `Bearer ${json.access_token}` } }).then(res => res.json())
 
-                console.log(userDetails);
-
                 if (userDetails[0].email_verified) {
-                    client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { id: data.user.id, email_verified: true } });
+                    client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { email: userDetails[0].email, email_verified: true } });
                     this.props.navigation.navigate('Home', { isReadOnly: false });
                 } else {
                     alert('Verify your email address in order to access the full app\'s functionality')
