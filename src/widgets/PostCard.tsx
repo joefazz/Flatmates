@@ -131,12 +131,13 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: toConstantFontSize(2.8),
         color: Colors.black,
+        height: toConstantFontSize(2.8) + 5,
         ...Font.FontFactory({ weight: 'Light' })
     },
 
     spacesText: {
         fontSize: toConstantFontSize(2.3),
-        marginBottom: 1.5,
+        paddingBottom: 1.5,
         ...Font.FontFactory({ weight: 'Light' }),
         color: Colors.black
     },
