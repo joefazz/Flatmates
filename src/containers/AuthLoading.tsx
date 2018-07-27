@@ -44,6 +44,27 @@ class AuthLoadingScreen extends React.Component<Props, State> {
             }
 
             if (!!data.user && !data.user.email_verified) {
+                let result = await fetch('https://flatmates-auth.eu.auth0.com/oauth/token',
+                    {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            grant_type: 'client_credentials',
+                            client_id: 'kJyhKNP7jn6drUFIP4vWD98eTjsnJKQ6',
+                            client_secret: '18V1vcmTOJVDHt7OGm6WGfASCAcRTqruUsGTPjimmbqQwBBhyBKeGw58DvSQa2gd',
+                            audience: 'https://flatmates-auth.eu.auth0.com/api/v2/'
+                        })
+                    });
+
+                let json = await result.json();
+
+                let userDetails = await fetch(`https://flatmates-auth.eu.auth0.com/api/v2/users?q=email:${data.user.email}&search_engine=v3`, { headers: { authorization: `Bearer ${json.access_token}` } }).then(res => res.json())
+
+                console.log(userDetails);
+
+                if (userDetails[0].email_verified) {
+                    client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { id: data.user.id, email_verified: true } });
+                    this.props.navigation.navigate('Home', { isReadOnly: false });
+                } else {
                 alert('Verify your email address in order to access the full app\'s functionality')
                 this.props.navigation.navigate('Feed', { isReadOnly: true });
             }
