@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, AsyncStorage, StyleSheet, View, Image, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
+import Auth0 from 'react-native-auth0';
 import splash_screen from '../../Assets/splash_screen.png';
 import { LoginState } from '../types/ReduxTypes';
 import { toConstantHeight, toConstantWidth } from '../utils/PercentageConversion';
@@ -10,6 +11,11 @@ import { UserLoginQuery } from '../graphql/Types';
 import { ApolloQueryResult } from 'apollo-client';
 import { FontFactory } from '../consts/font';
 import { Colors } from '../consts';
+import { DOMAIN } from '../consts/endpoint';
+import { clientId } from './Login';
+import client from '../Client';
+import { UPDATE_USER_MUTATION } from '../graphql/mutations';
+import { VERIFY_EMAIL_MUTATION } from '../graphql/mutations/User/VerifyEmail';
 
 interface Props {
     screenProps: { isRehydrated: boolean };
@@ -65,8 +71,10 @@ class AuthLoadingScreen extends React.Component<Props, State> {
                     client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { id: data.user.id, email_verified: true } });
                     this.props.navigation.navigate('Home', { isReadOnly: false });
                 } else {
-                alert('Verify your email address in order to access the full app\'s functionality')
-                this.props.navigation.navigate('Feed', { isReadOnly: true });
+                    alert('Verify your email address in order to access the full app\'s functionality')
+                    this.props.navigation.navigate('Feed', { isReadOnly: true });
+                }
+
             }
 
             if (data.user === null) {
