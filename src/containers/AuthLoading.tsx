@@ -32,29 +32,30 @@ class AuthLoadingScreen extends React.Component<Props, State> {
     _bootstrap = async () => {
         // This will switch to the App screen or Auth screen and this loading
         // screen will be unmounted and thrown away.
-
         if (this.props.login.email) {
-            // const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
-            //     variables: { email: this.props.login.email },
-            //     query: USER_LOGIN_QUERY,
-            //     fetchPolicy: 'network-only'
-            // });
+            const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
+                variables: { email: this.props.login.email },
+                query: USER_LOGIN_QUERY,
+                fetchPolicy: 'network-only'
+            });
 
-            // if (data.user === null) {
-            //     AsyncStorage.clear();
-            //     this.props.navigation.navigate('Login');
-            // } else if (this.props.login.id && this.props.login.id !== '') {
-            // if (data.user.email_verified) {
-            //     this.props.navigation.navigate('Home');
-            // } else {
-            //     this.props.navigation.navigate('ReadOnly');
-            // }
-            this.props.navigation.navigate('Home', { isReadOnly: false });
-            // }
+            if (!!data.user && data.user.email_verified) {
+                this.props.navigation.navigate('Home');
+            }
+
+            if (!!data.user && !data.user.email_verified) {
+                alert('Verify your email address in order to access the full app\'s functionality')
+                this.props.navigation.navigate('Feed', { isReadOnly: true });
+            }
+
+            if (data.user === null) {
+                AsyncStorage.clear();
+                this.props.navigation.navigate('Login');
+            }
         } else {
             this.props.navigation.navigate('Login');
         }
-    };
+    }
 
     // Render any loading content that you like here
     render() {
@@ -99,4 +100,4 @@ const mapStateToProps = (state) => ({
     login: state.login
 });
 
-export default connect(mapStateToProps)(AuthLoadingScreen);
+export default connect(mapStateToProps, {})(AuthLoadingScreen);
