@@ -16,7 +16,6 @@ export const CREATE_GROUP_MUTATION = gql`
             roadName: $roadName
         ) {
             id
-            name
             applicant {
                 id
                 name

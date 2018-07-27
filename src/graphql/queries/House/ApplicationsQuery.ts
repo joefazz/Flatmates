@@ -6,6 +6,7 @@ export const HOUSE_APPLICATIONS_QUERY = gql`
             shortID
             applications {
                 id
+                isActive
                 from {
                     id
                     name

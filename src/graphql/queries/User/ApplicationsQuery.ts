@@ -7,6 +7,7 @@ export const USER_APPLICATIONS_QUERY = gql`
             applicationAllowance
             applications {
                 id
+                isActive
                 to {
                     shortID
                     houseImages

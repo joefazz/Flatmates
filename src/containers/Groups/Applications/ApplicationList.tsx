@@ -128,7 +128,7 @@ export class ApplicationList extends React.Component<Props, State> {
                         </>
                     </TouchableHighlight>
                     <ApplicationListComponent
-                        sentApplications={!!this.props.user ? this.props.user.applications : []}
+                        sentApplications={!!this.props.user ? this.props.user.applications.filter(app => app.isActive) : []}
                         isLoadingSent={this.props.sentLoading}
                         showReceived={showRecieved}
                         navigation={this.props.navigation}
@@ -159,9 +159,9 @@ export class ApplicationList extends React.Component<Props, State> {
                                     </>
                                 </TouchableHighlight>
                                 <ApplicationListComponent
-                                    receivedApplications={!!house ? house.applications : []}
+                                    receivedApplications={!!house ? house.applications.filter(app => app.isActive) : []}
                                     isLoadingReceived={loading}
-                                    sentApplications={!!this.props.user ? this.props.user.applications : []}
+                                    sentApplications={!!this.props.user ? this.props.user.applications.filter(app => app.isActive) : []}
                                     isLoadingSent={this.props.sentLoading}
                                     showReceived={showRecieved}
                                     refetchReceived={refetch}

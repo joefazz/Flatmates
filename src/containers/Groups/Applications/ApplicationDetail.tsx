@@ -8,7 +8,8 @@ import {
     CreateGroupMutationVariables,
     DeleteApplicationMutationVariables,
     HouseChatQuery,
-    HouseApplicationsQuery
+    HouseApplicationsQuery,
+    UpdateApplicationMutationVariables
 } from '../../../graphql/Types';
 import { User, House } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
@@ -19,6 +20,7 @@ import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY } from '../../../graphql/que
 import { HouseApplicationDetail } from '../../../components/Applications/HouseApplicationDetail';
 import UserProfile from '../../Feed/UserProfile';
 import OneSignal from 'react-native-onesignal';
+import { UPDATE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/UpdateApplication';
 
 interface Props {
     loading: boolean;
@@ -38,7 +40,7 @@ interface Props {
         pop: () => void;
     };
     createGroup: (params: CreateGroupMutationVariables & { approverID: string }) => void;
-    removeApplication: (params: DeleteApplicationMutationVariables & { houseID: number }) => void;
+    removeApplicationFromList: (params: UpdateApplicationMutationVariables & { houseID: number }) => void;
 }
 
 export class ApplicationDetail extends React.Component<Props> {
@@ -60,63 +62,64 @@ export class ApplicationDetail extends React.Component<Props> {
                         isLoading={this.props.loading}
                     />
                 ) : (
-                    <>
-                        <UserProfile
-                            navigation={{ state: { params: { id: userData.id, data: userData } } }}
-                        />
-                        <View
-                            style={{
-                                height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
-                                position: 'absolute',
-                                bottom: 0
-                            }}
-                        >
-                            <TouchableRect
-                                onPress={() =>
-                                    Alert.alert(
-                                        `Chat with ${userData.firstName}`,
-                                        'Are you sure you want to chat with ' + userData.name + '?',
-                                        [
-                                            {
-                                                text: 'Cancel',
-                                                onPress: () => console.log('Cancelled'),
-                                                style: 'cancel'
-                                            },
-                                            {
-                                                text: 'Confirm',
-                                                onPress: () => {
-                                                    this.props.navigation.pop();
-                                                    this.props.createGroup({
-                                                        applicantID: userData.id,
-                                                        approverName: this.props.approverName,
-                                                        applicantName: `${userData.name}`,
-                                                        approverID: this.props.approverID,
-                                                        houseID: this.props.house.shortID,
-                                                        roadName: this.props.house.road
-                                                    });
-                                                    // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
-                                                    this.props.removeApplication({
-                                                        id,
-                                                        houseID: this.props.house.shortID
-                                                    });
-                                                }
-                                            }
-                                        ]
-                                    )
-                                }
-                                title={`Chat with ${userData.firstName}`}
-                                iconName={'envelope-o'}
-                                backgroundColor={Colors.brandPrimaryColor}
-                                wrapperStyle={{ borderRadius: 0 }}
-                                buttonStyle={{
-                                    width: toConstantWidth(100),
-                                    paddingBottom: isIphoneX() ? 18 : 0,
-                                    height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
-                                }}
+                        <>
+                            <UserProfile
+                                navigation={{ state: { params: { id: userData.id, data: userData } } }}
                             />
-                        </View>
-                    </>
-                )}
+                            <View
+                                style={{
+                                    height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
+                                    position: 'absolute',
+                                    bottom: 0
+                                }}
+                            >
+                                <TouchableRect
+                                    onPress={() =>
+                                        Alert.alert(
+                                            `Chat with ${userData.firstName}`,
+                                            'Are you sure you want to chat with ' + userData.name + '?',
+                                            [
+                                                {
+                                                    text: 'Cancel',
+                                                    onPress: () => console.log('Cancelled'),
+                                                    style: 'cancel'
+                                                },
+                                                {
+                                                    text: 'Confirm',
+                                                    onPress: () => {
+                                                        this.props.navigation.pop();
+                                                        this.props.createGroup({
+                                                            applicantID: userData.id,
+                                                            approverName: this.props.approverName,
+                                                            applicantName: `${userData.name}`,
+                                                            approverID: this.props.approverID,
+                                                            houseID: this.props.house.shortID,
+                                                            roadName: this.props.house.road
+                                                        });
+                                                        // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
+                                                        this.props.removeApplicationFromList({
+                                                            id,
+                                                            isActive: false,
+                                                            houseID: this.props.house.shortID
+                                                        });
+                                                    }
+                                                }
+                                            ]
+                                        )
+                                    }
+                                    title={`Chat with ${userData.firstName}`}
+                                    iconName={'envelope-o'}
+                                    backgroundColor={Colors.brandPrimaryColor}
+                                    wrapperStyle={{ borderRadius: 0 }}
+                                    buttonStyle={{
+                                        width: toConstantWidth(100),
+                                        paddingBottom: isIphoneX() ? 18 : 0,
+                                        height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                                    }}
+                                />
+                            </View>
+                        </>
+                    )}
             </>
         );
     }
@@ -151,19 +154,19 @@ const createGroup = graphql(CREATE_GROUP_MUTATION, {
     })
 });
 
-const removeApplication = graphql(DELETE_APPLICATION_MUTATION, {
+const removeApplication = graphql(UPDATE_APPLICATION_MUTATION, {
     props: ({ mutate }) => ({
-        removeApplication: (params: DeleteApplicationMutationVariables & { houseID: number }) =>
+        removeApplicationFromList: (params: UpdateApplicationMutationVariables & { houseID: number }) =>
             mutate({
                 variables: { ...params },
-                update: (store, { data: { deleteApplication } }) => {
+                update: (store, { data: { updateApplication } }) => {
                     const houseData: HouseApplicationsQuery = store.readQuery({
                         query: HOUSE_APPLICATIONS_QUERY,
                         variables: { shortID: params.houseID }
                     });
 
-                    houseData.house.applications = houseData.house.applications.filter(
-                        (app) => app.id !== deleteApplication.id
+                    houseData.house.applications = houseData.house.applications.map(
+                        (app) => app.id === updateApplication.id ? Object.assign(app, updateApplication) : app
                     );
 
                     store.writeQuery({

@@ -26,6 +26,8 @@ export interface House {
 
 export interface Application {
     id: string;
+    isActive: boolean;
+
     from: User;
     to: House;
     message: string;

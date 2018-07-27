@@ -36,6 +36,17 @@ export interface DeleteApplicationMutation {
   } | null,
 };
 
+export interface UpdateApplicationMutationVariables {
+  id: string,
+  isActive: boolean,
+};
+
+export interface UpdateApplicationMutation {
+  updateApplication:  {
+    id: string,
+  } | null,
+};
+
 export interface CreateMessageMutationVariables {
   text: string,
   senderID: string,
@@ -70,7 +81,6 @@ export interface CreateGroupMutationVariables {
 export interface CreateGroupMutation {
   createGroup:  {
     id: string,
-    name: string,
     applicant:  {
       id: string,
       name: string,
@@ -445,6 +455,7 @@ export interface HouseApplicationsQuery {
     shortID: number,
     applications:  Array< {
       id: string,
+      isActive: boolean,
       from:  {
         id: string,
         name: string,
@@ -482,7 +493,6 @@ export interface HouseChatQuery {
     shortID: number,
     groups:  Array< {
       id: string,
-      name: string,
       applicant:  {
         id: string,
         name: string,
@@ -491,12 +501,17 @@ export interface HouseChatQuery {
       house:  {
         shortID: number,
         houseImages: Array< string >,
+        road: string,
         users:  Array< {
           id: string,
           profilePicture: string,
           name: string,
         } > | null,
       },
+      messages:  Array< {
+        id: string,
+        text: string,
+      } > | null,
     } > | null,
   } | null,
 };
@@ -604,6 +619,7 @@ export interface UserApplicationsQuery {
     applicationAllowance: number,
     applications:  Array< {
       id: string,
+      isActive: boolean,
       to:  {
         shortID: number,
         houseImages: Array< string >,
@@ -651,7 +667,6 @@ export interface UserChatQuery {
     id: string,
     groups:  Array< {
       id: string,
-      name: string,
       applicant:  {
         id: string,
         name: string,
@@ -660,12 +675,17 @@ export interface UserChatQuery {
       house:  {
         shortID: number,
         houseImages: Array< string >,
+        road: string,
         users:  Array< {
           id: string,
           profilePicture: string,
           name: string,
         } > | null,
       },
+      messages:  Array< {
+        id: string,
+        text: string,
+      } > | null,
     } > | null,
   } | null,
 };
@@ -796,7 +816,7 @@ export interface MessageAddedSubscription {
       images: Array< string >,
       to:  {
         id: string,
-      },
+      } | null,
       from:  {
         id: string,
         name: string,
