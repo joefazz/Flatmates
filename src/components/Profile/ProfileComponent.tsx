@@ -384,7 +384,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                             </View>
                         </View>
                     </View>
-                    {!!this.props.contentEditable && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'))} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100), borderRadius: 0 }} />}
+                    {this.props.navigation.state.params && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'))} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100), borderRadius: 0 }} />}
 
                 </View>
             );
@@ -472,7 +472,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                         </View>
                     </View>
                 </View>
-                {!!this.props.contentEditable && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'))} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100), borderRadius: 0 }} />}
+                {this.props.navigation && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'))} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100), borderRadius: 0 }} />}
             </View>
         );
     }

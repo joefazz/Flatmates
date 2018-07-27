@@ -62,7 +62,7 @@ export class PostDetail extends React.Component<Props, State> {
         let state = prevState;
         if (!newProps.navigation.state.params.isReadOnly) {
             if (!newProps.userAppQuery.loading && !prevState.userHasAppliedToHouse) {
-                let appDoesExist = newProps.userAppQuery.user.applications.map(
+                let appDoesExist = newProps.userAppQuery.user.applications.filter(
                     (app) => app.to.shortID === prevState.data.createdBy.shortID
                 );
 
