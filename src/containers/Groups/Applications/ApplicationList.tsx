@@ -163,7 +163,7 @@ export class ApplicationList extends React.Component<Props, State> {
                                     isLoadingReceived={loading}
                                     sentApplications={!!this.props.user ? this.props.user.applications.filter(app => app.isActive) : []}
                                     isLoadingSent={this.props.sentLoading}
-                                    showReceived={showRecieved}
+                                    showReceived={!!house && house.applications.filter(app => app.isActive).length > 0}
                                     refetchReceived={refetch}
                                     refetchSent={this.props.refetch}
                                     navigation={this.props.navigation}
