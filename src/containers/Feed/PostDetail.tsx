@@ -116,6 +116,7 @@ export class PostDetail extends React.Component<Props, State> {
                     isLoading={this.state.isLoading}
                     navigation={this.props.navigation}
                     userHasAppliedToHouse={this.state.userHasAppliedToHouse}
+                    userHasNoApplications={this.props.userAppQuery.user.applicationAllowance === 0}
                     // starPost={this.starPost}
                     isStarred={this.state.isStarred}
                     createApplication={this.createApplication}
@@ -237,6 +238,7 @@ const createApplication = graphql(CREATE_APPLICATION_MUTATION, {
                     });
 
                     userData.user.applications.unshift(createApplication);
+                    userData.user.applicationAllowance--;
 
                     store.writeQuery({
                         query: USER_APPLICATIONS_QUERY,
