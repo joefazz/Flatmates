@@ -123,7 +123,7 @@ export class ApplicationList extends React.Component<Props, State> {
                     {this.renderPaymentModal()}
                     <TouchableHighlight underlayColor={Colors.translucentDefinetelyNotAirbnbRed} onPress={() => this.displayIAP()} style={{ width: toConstantWidth(100), height: toConstantHeight(7), backgroundColor: Colors.brandErrorColor, alignItems: 'center', justifyContent: 'center' }}>
                         <>
-                            <Text style={{ fontSize: 16, color: Colors.white, ...FontFactory() }}>{this.props.sentLoading ? 'Fetching Remaining Applications' : `${!!this.props.user && this.props.user.applicationAllowance} Applications Remaining`}</Text>
+                            <Text style={{ fontSize: 16, color: Colors.white, ...FontFactory() }}>{this.props.sentLoading ? 'Fetching Remaining Applications' : `${this.props.user.applicationAllowance === 1 ? 'Application' : 'Applications'} Remaining`}</Text>
                             <Text style={{ fontSize: 14, color: Colors.white, ...FontFactory({ weight: 'Bold' }) }}>Tap to buy more!</Text>
                         </>
                     </TouchableHighlight>
