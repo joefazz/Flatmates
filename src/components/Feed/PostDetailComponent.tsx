@@ -34,6 +34,7 @@ interface Props {
     house: House;
     isStarred: boolean;
     createdAt: string;
+    userHasNoApplications: boolean;
     lastSeen: string;
     createApplication: (params: CreateApplicationMutationVariables) => void;
     description: string;
@@ -275,7 +276,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     </View>
                 </ScrollView>
                 {!this.props.isReadOnly &&
-                    !isUsersPost && (
+                    !isUsersPost && (!this.props.userHasNoApplications) ? (
                         <View
                             style={{
                                 height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
@@ -316,6 +317,27 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                 }
                                 iconName={this.props.userHasAppliedToHouse ? 'envelope' : 'bullhorn'}
                                 enabled={!this.props.userHasAppliedToHouse}
+                                backgroundColor={Colors.brandPrimaryColor}
+                                wrapperStyle={{ borderRadius: 0 }}
+                                buttonStyle={{
+                                    width: toConstantWidth(100),
+                                    paddingBottom: isIphoneX() ? 18 : 0,
+                                    height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                                }}
+                            />
+                        </View>
+                    ) : (
+                        <View
+                            style={{
+                                height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
+                                position: 'absolute',
+                                bottom: 0
+                            }}
+                        >
+                            <TouchableRect
+                                onPress={() => console.log('buy more apps')}
+                                title={'Buy Applications'}
+                                iconName={'shopping-cart'}
                                 backgroundColor={Colors.brandPrimaryColor}
                                 wrapperStyle={{ borderRadius: 0 }}
                                 buttonStyle={{
