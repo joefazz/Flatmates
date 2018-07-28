@@ -52,6 +52,7 @@ interface State {
         description: string;
         title: string;
     };
+    userHasNoApplications: boolean;
     isLoading: boolean;
     isStarred: boolean;
     userHasAppliedToHouse: boolean;
@@ -67,6 +68,9 @@ export class PostDetail extends React.Component<Props, State> {
                 );
 
                 state.userHasAppliedToHouse = Boolean(appDoesExist.length);
+            }
+            if (!newProps.userAppQuery.loading) {
+                state.userHasNoApplications = newProps.userAppQuery.user.applicationAllowance;
             }
         }
 
@@ -116,7 +120,7 @@ export class PostDetail extends React.Component<Props, State> {
                     isLoading={this.state.isLoading}
                     navigation={this.props.navigation}
                     userHasAppliedToHouse={this.state.userHasAppliedToHouse}
-                    userHasNoApplications={this.props.userAppQuery.user.applicationAllowance === 0}
+                    userHasNoApplications={this.state.userHasNoApplications}
                     // starPost={this.starPost}
                     isStarred={this.state.isStarred}
                     createApplication={this.createApplication}
