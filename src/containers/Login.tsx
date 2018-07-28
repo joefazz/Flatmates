@@ -456,7 +456,7 @@ export class Login extends React.Component<Props, State> {
                                             ? alert('Please enter your age')
                                             : this.state.gender === ''
                                                 ? alert('Please provide a gender')
-                                                : this.state.tempProfilePic === ''
+                                                : !Boolean(this.state.tempProfilePic)
                                                     ? alert('Please submit a profile picture')
                                                     : this.homeSwiper.scrollBy(1, true);
                             }}
@@ -585,7 +585,7 @@ export class Login extends React.Component<Props, State> {
                                     <FlatPicker
                                         items={[
                                             {
-                                                section: false,
+                                                section: true,
                                                 label: "Select the year you're currently in"
                                             },
                                             ...STUDY_YEARS
@@ -1154,7 +1154,7 @@ export class Login extends React.Component<Props, State> {
                                 }
                             ]}
                         >
-                            Enter your House ID or if you don't have one press 'New House'
+                            Enter your House ID or if you don't{"\n"} have one press 'New House'
                         </Text>
                     </View>
                     <View style={login.mainContent}>

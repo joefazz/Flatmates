@@ -107,6 +107,7 @@ export class Profile extends React.Component<Props, State> {
                     isLoading={this.state.isLoading}
                     profile={this.props.user}
                     updateUser={this.props.updateUser}
+                    navigation={this.props.navigation}
                     contentEditable={
                         (this.props.navigation.state &&
                             this.props.navigation.state.params &&

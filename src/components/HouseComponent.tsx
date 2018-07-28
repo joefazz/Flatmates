@@ -138,6 +138,7 @@ export class HouseComponent extends React.Component<Props> {
 
                         <TouchableRect
                             title={'Send Payment Reminder'}
+                            buttonStyle={{ width: toConstantWidth(100) }}
                             backgroundColor={Colors.brandPrimaryColor}
                             onPress={() => fetch(`${DOMAIN}/PaymentNotification`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ houseID: house.shortID }) })
                                 .then(() => alert('Notification sent!'))

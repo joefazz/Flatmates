@@ -18,6 +18,7 @@ interface Props {
     isLoadingReceived?: boolean;
     refetchSent: () => void;
     refetchReceived?: () => void;
+    hasHouse: boolean;
     showReceived: boolean;
     navigation: {
         navigate: (
@@ -71,10 +72,10 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                 )}
                 refreshControl={
                     <RefreshControl
-                        refreshing={this.props.isLoadingSent || this.props.isLoadingReceived}
+                        refreshing={this.props.hasHouse ? (this.props.isLoadingSent || this.props.isLoadingReceived) : (this.props.isLoadingSent)}
                         onRefresh={() => {
                             this.props.refetchSent();
-                            if (this.props.showReceived) {
+                            if (this.props.hasHouse) {
                                 this.props.refetchReceived();
                             }
                         }}
@@ -86,7 +87,7 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
     }
 
     renderEmpty = () => {
-        return <Text>No data to display</Text>;
+        return <Text style={{ marginTop: 30 }}>No data to display</Text>;
     };
 
     renderSentItem = ({ item }: { item: Application }) => {

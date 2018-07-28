@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TextInput, Modal } from 'react-native';
+import { Text, View, TextInput, Modal, AsyncStorage } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { profile } from '../../styles';
 import { User } from '../../types/Entities';
@@ -13,10 +13,12 @@ import { STUDY_YEARS, GENDERS } from '../../consts/strings';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker'
 import { DOMAIN } from '../../consts/endpoint';
+import { TouchableRect } from '../../widgets/TouchableRect';
 
 interface Props {
     profile: User;
     isLoading: boolean;
+    navigation: { navigate: (route: string) => void }
     contentEditable: boolean;
     updateUser: (params: UpdateUserMutationVariables & { tempProfilePicture: string }) => UpdateUserMutation;
 }
@@ -72,12 +74,12 @@ export class ProfileComponent extends React.Component<Props, State> {
             var params: UpdateUserMutationVariables & { tempProfilePicture: string } = { id: this.props.profile.id };
 
             if (this.isNameDirty) {
-                params.name = this.state.newName;
-
-                let names = this.state.newName.split(' ');
+                params.name = this.newName;
+                let names = this.newName.split(' ');
                 params.firstName = names[0].trim();
                 params.lastName = names[1].trim();
             }
+
 
             if (this.isProfilePictureDirty) {
                 params.tempProfilePicture = this.state.tempProfilePic.path;
@@ -206,7 +208,199 @@ export class ProfileComponent extends React.Component<Props, State> {
 
         if (this.props.contentEditable) {
             return (
-                <View style={{ flex: 1, alignItems: 'stretch' }}>
+                <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'space-between' }}>
+                    <View>
+                        <View style={profile.summaryWrapper}>
+                            <View style={profile.headerAvatar}>
+                                {this.state.tempProfilePic ? (
+                                    <Avatar
+                                        avatarStyle={{
+                                            width: toConstantWidth(32),
+                                            height: toConstantWidth(32),
+                                            borderRadius: toConstantWidth(32) / 2,
+                                            backgroundColor: Colors.transparent
+                                        }}
+                                        overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                        containerStyle={{
+                                            width: toConstantWidth(32),
+                                            height: toConstantWidth(32),
+                                            borderRadius: toConstantWidth(32) / 2,
+                                            backgroundColor: Colors.transparent
+                                        }}
+                                        source={{ uri: this.state.tempProfilePic.path }}
+                                        onPress={() => this.selectProfilePicture()}
+                                        activeOpacity={0.7}
+                                        rounded={true}
+                                    />
+                                ) : (
+                                        <Avatar
+                                            avatarStyle={{
+                                                width: toConstantWidth(32),
+                                                height: toConstantWidth(32),
+                                                borderRadius: toConstantWidth(32) / 2,
+                                                backgroundColor: Colors.transparent
+                                            }}
+                                            overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                            containerStyle={{
+                                                width: toConstantWidth(32),
+                                                height: toConstantWidth(32),
+                                                borderRadius: toConstantWidth(32) / 2,
+                                                backgroundColor: Colors.transparent
+                                            }}
+                                            source={{ uri: data.profilePicture }}
+                                            onPress={() => this.selectProfilePicture()}
+                                            activeOpacity={0.7}
+                                            rounded={true}
+                                        />
+                                    )}
+                            </View>
+                            <View style={profile.summaryDescriptionWrapper}>
+                                <TextInput
+                                    style={profile.headerText}
+                                    defaultValue={data.name}
+                                    underlineColorAndroid={Colors.transparent}
+                                    onChangeText={(text) => {
+                                        this.isNameDirty = text !== data.name
+                                        this.newName = text;
+                                    }}
+                                />
+                                <FlatPicker
+                                    items={[
+                                        {
+                                            section: true,
+                                            label: 'General Subject Areas (from UCAS)'
+                                        },
+                                        { label: 'Administration' },
+                                        { label: 'Area Studies' },
+                                        { label: 'Arts' },
+                                        { label: 'Biology' },
+                                        { label: 'Business Studies' },
+                                        { label: 'Classics' },
+                                        { label: 'Computer Science' },
+                                        { label: 'Economics' },
+                                        { label: 'Educational Studies' },
+                                        { label: 'Engineering' },
+                                        { label: 'Film' },
+                                        { label: 'Health Studies' },
+                                        { label: 'History' },
+                                        { label: 'Languages' },
+                                        { label: 'Law' },
+                                        { label: 'English Language' },
+                                        { label: 'English Literature' },
+                                        { label: 'Management' },
+                                        { label: 'Mathematics' },
+                                        { label: 'Medicine' },
+                                        { label: 'Performing Arts' },
+                                        { label: 'Philosophy' },
+                                        { label: 'Physics' },
+                                        { label: 'Politics' },
+                                        { label: 'Veterinary Medicine' }
+                                    ]}
+                                    selectStyle={{ borderWidth: 0, padding: 0 }}
+                                    selectTextStyle={profile.summaryDescription}
+                                    onChange={(val) => {
+                                        this.isCourseDirty = this.props.profile.course !== val.lablel;
+                                        this.newCourse = val.label;
+                                    }}
+                                    initialValue={data.course}
+                                />
+                                <TextInput
+                                    style={profile.summaryDescription}
+                                    defaultValue={data.bio}
+                                    underlineColorAndroid={Colors.transparent}
+                                    onEndEditing={(native) => {
+                                        this.isBioDirty = native.nativeEvent.text !== data.bio
+                                        this.newBio = native.nativeEvent.text
+                                    }}
+                                />
+                            </View>
+                        </View>
+                        <View style={profile.statWrapper}>
+                            <View style={profile.preferencesWrapper}>
+                                <EditableStatRow
+                                    items={[
+                                        { label: 'Age', value: data.age, inputType: 'number' },
+                                        { label: 'Year', value: data.studyYear.replace(' Year', ''), inputType: 'multi', multiOptions: STUDY_YEARS },
+                                        { label: 'Gender', value: data.gender, inputType: 'multi', multiOptions: GENDERS }
+                                    ]}
+                                    onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                        items.map((item) => {
+                                            switch (item.label) {
+                                                case 'Age':
+                                                    if (data.age !== Number(item.value)) {
+                                                        this.isAgeDirty = true
+                                                        this.newAge = Number(item.value);
+                                                    }
+                                                    break;
+                                                case 'Year':
+                                                    if (data.studyYear !== item.value) {
+                                                        this.isYearDirty = true;
+                                                        this.newYear = item.value;
+                                                    }
+                                                    break;
+                                                case 'Gender':
+                                                    if (data.gender !== item.value) {
+                                                        this.isGenderDirty = true;
+                                                        this.newGender = item.value;
+                                                    }
+                                                    break;
+                                            }
+                                        })
+                                    }
+                                />
+                            </View>
+                            <View style={profile.preferencesWrapper}>
+                                <EditableStatRow
+                                    items={[
+                                        { label: 'Smoker', value: data.isSmoker, inputType: 'switch' },
+                                        { label: 'Uses Drugs', value: data.isDruggie, inputType: 'switch' },
+                                        { label: 'Drinker', value: data.isDrinker, inputType: 'switch' }
+                                    ]}
+                                    onEndEditing={(items: Array<{ value: string | boolean; label: string }>) =>
+                                        items.map((item) => {
+                                            switch (item.label) {
+                                                case 'Smoker':
+                                                    if (data.isSmoker !== Boolean(item.value)) {
+                                                        this.isSmokerDirty = true;
+                                                        this.newSmoke = Boolean(item.value);
+                                                    }
+                                                    break;
+                                                case 'Uses Drugs':
+                                                    if (data.isDruggie !== Boolean(item.value)) {
+                                                        this.isDrugsDirty = true;
+                                                        this.newDrug = Boolean(item.value);
+                                                    }
+                                                    break;
+                                                case 'Drinker':
+                                                    if (data.isDrinker !== Boolean(item.value)) {
+                                                        this.isDrinkDirty = true;
+                                                        this.newDrink = Boolean(item.value);
+                                                    }
+                                                    break;
+                                            }
+                                        })
+                                    }
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    {this.props.navigation.state.params && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'))} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100) }} wrapperStyle={{ borderRadius: 0 }} />}
+
+                </View>
+            );
+        }
+
+        return (
+            <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'space-between' }}>
+                <Modal animationType={"slide"} visible={this.state.isAvatarModalVisible}>
+                    <ImageViewer
+                        imageUrls={[{ url: !!this.state.tempProfilePic ? this.state.tempProfilePic.path : data.profilePicture }]}
+                        enableSwipeDown={true}
+                        onSwipeDown={() => this.setState({ isAvatarModalVisible: false })}
+                        saveToLocalByLongPress={true}
+                    />
+                </Modal>
+                <View>
                     <View style={profile.summaryWrapper}>
                         <View style={profile.headerAvatar}>
                             {this.state.tempProfilePic ? (
@@ -225,7 +419,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                                         backgroundColor: Colors.transparent
                                     }}
                                     source={{ uri: this.state.tempProfilePic.path }}
-                                    onPress={() => this.selectProfilePicture()}
+                                    onPress={() => this.setState({ isAvatarModalVisible: true })}
                                     activeOpacity={0.7}
                                     rounded={true}
                                 />
@@ -245,225 +439,40 @@ export class ProfileComponent extends React.Component<Props, State> {
                                             backgroundColor: Colors.transparent
                                         }}
                                         source={{ uri: data.profilePicture }}
-                                        onPress={() => this.selectProfilePicture()}
+                                        onPress={() => this.setState({ isAvatarModalVisible: true })}
                                         activeOpacity={0.7}
                                         rounded={true}
                                     />
                                 )}
                         </View>
                         <View style={profile.summaryDescriptionWrapper}>
-                            <TextInput
-                                style={profile.headerText}
-                                defaultValue={data.name}
-                                underlineColorAndroid={Colors.transparent}
-                                onEndEditing={(native) => {
-                                    this.isNameDirty = native.nativeEvent.text !== data.name
-                                    this.newName = native.nativeEvent.text;
-                                }}
-                            />
-                            <FlatPicker
-                                items={[
-                                    {
-                                        section: true,
-                                        label: 'General Subject Areas (from UCAS)'
-                                    },
-                                    { label: 'Administration' },
-                                    { label: 'Area Studies' },
-                                    { label: 'Arts' },
-                                    { label: 'Biology' },
-                                    { label: 'Business Studies' },
-                                    { label: 'Classics' },
-                                    { label: 'Computer Science' },
-                                    { label: 'Economics' },
-                                    { label: 'Educational Studies' },
-                                    { label: 'Engineering' },
-                                    { label: 'Film' },
-                                    { label: 'Health Studies' },
-                                    { label: 'History' },
-                                    { label: 'Languages' },
-                                    { label: 'Law' },
-                                    { label: 'English Language' },
-                                    { label: 'English Literature' },
-                                    { label: 'Management' },
-                                    { label: 'Mathematics' },
-                                    { label: 'Medicine' },
-                                    { label: 'Performing Arts' },
-                                    { label: 'Philosophy' },
-                                    { label: 'Physics' },
-                                    { label: 'Politics' },
-                                    { label: 'Veterinary Medicine' }
-                                ]}
-                                selectStyle={{ borderWidth: 0, padding: 0 }}
-                                selectTextStyle={profile.summaryDescription}
-                                onChange={(val) => {
-                                    this.isCourseDirty = this.props.profile.course !== val.lablel;
-                                    this.newCourse = val.label;
-                                }}
-                                initialValue={data.course}
-                            />
-                            <TextInput
-                                style={profile.summaryDescription}
-                                defaultValue={data.bio}
-                                underlineColorAndroid={Colors.transparent}
-                                onEndEditing={(native) => {
-                                    this.isBioDirty = native.nativeEvent.text !== data.bio
-                                    this.newBio = native.nativeEvent.text
-                                }}
-                            />
+                            <Text style={profile.headerText}>{data.name}</Text>
+                            <Text style={profile.summaryDescription}>{data.course}</Text>
+                            <Text style={profile.summaryDescription}>{data.bio}</Text>
                         </View>
                     </View>
                     <View style={profile.statWrapper}>
                         <View style={profile.preferencesWrapper}>
-                            <EditableStatRow
+                            <StatRow
                                 items={[
-                                    { label: 'Age', value: data.age, inputType: 'number' },
-                                    { label: 'Year', value: data.studyYear.replace(' Year', ''), inputType: 'multi', multiOptions: STUDY_YEARS },
-                                    { label: 'Gender', value: data.gender, inputType: 'multi', multiOptions: GENDERS }
+                                    { label: 'Age', value: data.age },
+                                    { label: 'Year', value: data.studyYear.replace(' Year', '') },
+                                    { label: 'Gender', value: data.gender }
                                 ]}
-                                onEndEditing={(items: Array<{ value: string; label: string }>) =>
-                                    items.map((item) => {
-                                        switch (item.label) {
-                                            case 'Age':
-                                                if (data.age !== Number(item.value)) {
-                                                    this.isAgeDirty = true
-                                                    this.newAge = Number(item.value);
-                                                }
-                                                break;
-                                            case 'Year':
-                                                if (data.studyYear !== item.value) {
-                                                    this.isYearDirty = true;
-                                                    this.newYear = item.value;
-                                                }
-                                                break;
-                                            case 'Gender':
-                                                if (data.gender !== item.value) {
-                                                    this.isGenderDirty = true;
-                                                    this.newGender = item.value;
-                                                }
-                                                break;
-                                        }
-                                    })
-                                }
                             />
                         </View>
                         <View style={profile.preferencesWrapper}>
-                            <EditableStatRow
+                            <StatRow
                                 items={[
-                                    { label: 'Smoker', value: data.isSmoker, inputType: 'switch' },
-                                    { label: 'Uses Drugs', value: data.isDruggie, inputType: 'switch' },
-                                    { label: 'Drinker', value: data.isDrinker, inputType: 'switch' }
+                                    { label: 'Smoker', value: data.isSmoker ? 'Yes' : 'No' },
+                                    { label: 'Uses Drugs', value: data.isDruggie ? 'Yes' : 'No' },
+                                    { label: 'Drinker', value: data.isDrinker ? 'Yes' : 'No' }
                                 ]}
-                                onEndEditing={(items: Array<{ value: string | boolean; label: string }>) =>
-                                    items.map((item) => {
-                                        switch (item.label) {
-                                            case 'Smoker':
-                                                if (data.isSmoker !== Boolean(item.value)) {
-                                                    this.isSmokerDirty = true;
-                                                    this.newSmoke = Boolean(item.value);
-                                                }
-                                                break;
-                                            case 'Uses Drugs':
-                                                if (data.isDruggie !== Boolean(item.value)) {
-                                                    this.isDrugsDirty = true;
-                                                    this.newDrug = Boolean(item.value);
-                                                }
-                                                break;
-                                            case 'Drinker':
-                                                if (data.isDrinker !== Boolean(item.value)) {
-                                                    this.isDrinkDirty = true;
-                                                    this.newDrink = Boolean(item.value);
-                                                }
-                                                break;
-                                        }
-                                    })
-                                }
                             />
                         </View>
                     </View>
                 </View>
-            );
-        }
-
-        return (
-            <View style={{ flex: 1, alignItems: 'stretch' }}>
-                <Modal animationType={"slide"} visible={this.state.isAvatarModalVisible}>
-                    <ImageViewer
-                        imageUrls={[{ url: !!this.state.tempProfilePic ? this.state.tempProfilePic.path : data.profilePicture }]}
-                        enableSwipeDown={true}
-                        onSwipeDown={() => this.setState({ isAvatarModalVisible: false })}
-                        saveToLocalByLongPress={true}
-                    />
-                </Modal>
-                <View style={profile.summaryWrapper}>
-                    <View style={profile.headerAvatar}>
-                        {this.state.tempProfilePic ? (
-                            <Avatar
-                                avatarStyle={{
-                                    width: toConstantWidth(32),
-                                    height: toConstantWidth(32),
-                                    borderRadius: toConstantWidth(32) / 2,
-                                    backgroundColor: Colors.transparent
-                                }}
-                                overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
-                                containerStyle={{
-                                    width: toConstantWidth(32),
-                                    height: toConstantWidth(32),
-                                    borderRadius: toConstantWidth(32) / 2,
-                                    backgroundColor: Colors.transparent
-                                }}
-                                source={{ uri: this.state.tempProfilePic.path }}
-                                onPress={() => this.setState({ isAvatarModalVisible: true })}
-                                activeOpacity={0.7}
-                                rounded={true}
-                            />
-                        ) : (
-                                <Avatar
-                                    avatarStyle={{
-                                        width: toConstantWidth(32),
-                                        height: toConstantWidth(32),
-                                        borderRadius: toConstantWidth(32) / 2,
-                                        backgroundColor: Colors.transparent
-                                    }}
-                                    overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
-                                    containerStyle={{
-                                        width: toConstantWidth(32),
-                                        height: toConstantWidth(32),
-                                        borderRadius: toConstantWidth(32) / 2,
-                                        backgroundColor: Colors.transparent
-                                    }}
-                                    source={{ uri: data.profilePicture }}
-                                    onPress={() => this.setState({ isAvatarModalVisible: true })}
-                                    activeOpacity={0.7}
-                                    rounded={true}
-                                />
-                            )}
-                    </View>
-                    <View style={profile.summaryDescriptionWrapper}>
-                        <Text style={profile.headerText}>{data.name}</Text>
-                        <Text style={profile.summaryDescription}>{data.course}</Text>
-                        <Text style={profile.summaryDescription}>{data.bio}</Text>
-                    </View>
-                </View>
-                <View style={profile.statWrapper}>
-                    <View style={profile.preferencesWrapper}>
-                        <StatRow
-                            items={[
-                                { label: 'Age', value: data.age },
-                                { label: 'Year', value: data.studyYear.replace(' Year', '') },
-                                { label: 'Gender', value: data.gender }
-                            ]}
-                        />
-                    </View>
-                    <View style={profile.preferencesWrapper}>
-                        <StatRow
-                            items={[
-                                { label: 'Smoker', value: data.isSmoker ? 'Yes' : 'No' },
-                                { label: 'Uses Drugs', value: data.isDruggie ? 'Yes' : 'No' },
-                                { label: 'Drinker', value: data.isDrinker ? 'Yes' : 'No' }
-                            ]}
-                        />
-                    </View>
-                </View>
+                {this.props.navigation && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'))} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100) }} wrapperStyle={{ borderRadius: 0 }} />}
             </View>
         );
     }
