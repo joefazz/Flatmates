@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, KeyboardAvoidingView, Text, Platform, View, RefreshControl } from 'react-native';
+import { FlatList, KeyboardAvoidingView, Text, Platform, View, RefreshControl, TouchableOpacity } from 'react-native';
 import randomColor from 'randomcolor';
 
 import { group } from '../../styles';
@@ -9,6 +9,8 @@ import { MessageComponent } from './MessageComponent';
 import { MessageInput } from './MessageInputComponent';
 import { CreateMessageMutationVariables } from '../../graphql/Types';
 import { DOMAIN } from '../../consts/endpoint';
+import { FontFactory } from '../../consts/font';
+import { Colors } from '../../consts';
 
 interface Props {
     subscribeToNewMessages: () => void;
@@ -17,6 +19,7 @@ interface Props {
     isLoading: boolean;
     username: string;
     refetch: () => void;
+    fetchMoreMessages: any;
     navigation: {
         state: {
             params: {
@@ -81,7 +84,8 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                             onRefresh={() => this.props.refetch()}
                         />
                     }
-                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Messages in Group</Text>}
+                    // ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Messages in Group</Text>}
+                    ListFooterComponent={this.renderFooter}
                 />
                 <MessageInput send={this.send} />
             </KeyboardAvoidingView>
@@ -100,13 +104,31 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                         }
                         renderItem={this.renderItem}
                         keyExtractor={(item) => String(item.id)}
-                        ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Messages in Group</Text>}
+                        // ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Messages in Group</Text>}
+                        ListFooterComponent={this.renderFooter}
                     />
                     <MessageInput send={this.send} />
                 </View>
 
             );
     }
+
+    private renderFooter = () => {
+        if (this.props.isLoading) {
+            return <View />;
+        }
+
+        if (this.props.data.messages.length % 25 === 0) {
+            return (
+                <TouchableOpacity style={{ marginVertical: 10, padding: 7, borderWidth: 1, borderRadius: 3, borderColor: Colors.definetelyNotAirbnbRed, alignSelf: 'center' }} onPress={() => this.props.fetchMoreMessages()}>
+                    <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.definetelyNotAirbnbRed }}>Fetch more messages</Text>
+                </TouchableOpacity>
+            );
+        }
+
+        return <Text style={{ ...FontFactory(), alignSelf: 'center', marginVertical: 10, fontSize: 16, color: Colors.definetelyNotAirbnbRed }}>No more messages!</Text>;
+
+    };
 
     private renderItem = ({ item }: { item: Message }) => {
         const { from } = item;

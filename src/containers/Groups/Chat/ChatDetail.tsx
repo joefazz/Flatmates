@@ -1,24 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
-
-import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
-import { ReduxState } from '../../../types/ReduxTypes';
-import {
-    ChatMessagesQueryVariables,
-    CreateMessageMutationVariables,
-    ChatMessagesQuery,
-    MessageAddedSubscription,
-    UserChatQuery,
-    HouseChatQuery
-} from '../../../graphql/Types';
-import { Group } from '../../../types/Entities';
-import { ChildProps, graphql, compose, Query } from 'react-apollo';
-import { GET_CHAT_MESSAGES_QUERY, USER_CHAT_QUERY, HOUSE_CHAT_QUERY } from '../../../graphql/queries';
-import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
 import { ApolloError } from 'apollo-client';
-import { ActivityIndicator, Platform } from 'react-native';
+import React from 'react';
+import { compose, graphql, Query } from 'react-apollo';
+import { Platform, Text } from 'react-native';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
+import { connect } from 'react-redux';
+import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
+import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
+import { GET_CHAT_MESSAGES_QUERY, HOUSE_CHAT_QUERY, USER_CHAT_QUERY } from '../../../graphql/queries';
 import { MESSAGE_ADDED_SUBSCRIPTION } from '../../../graphql/subscriptions/Chat/MessageAdded';
+import { ChatMessagesQuery, CreateMessageMutationVariables, HouseChatQuery, MessageAddedSubscription, UserChatQuery } from '../../../graphql/Types';
+import { Group } from '../../../types/Entities';
+import { ReduxState } from '../../../types/ReduxTypes';
+
 
 interface Props {
     createMessage: (params: CreateMessageMutationVariables) => void;
@@ -55,9 +48,27 @@ export class ChatDetail extends React.Component<Props> {
 
         return (
             <Query query={GET_CHAT_MESSAGES_QUERY} variables={{ id: this.props.navigation.state.params.groupData.id }} fetchPolicy={'network-only'}>
-                {({ subscribeToMore, data, loading, refetch }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; }) => {
+                {({ subscribeToMore, data, loading, error, refetch, fetchMore }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; error: ApolloError, fetchMore: any; }) => {
+
+                    if (error) {
+                        return (<Text>{error.message}</Text>)
+                    }
+
+
                     return (
                         <ChatDetailComponent
+                            fetchMoreMessages={() => fetchMore({
+                                variables: { id: data.group.id, skip: data.group.messages.length }, updateQuery: (prev, { fetchMoreResult }) => {
+                                    if (!fetchMoreResult) {
+                                        return prev;
+                                    }
+
+
+                                    return { group: { id: prev.group.id, __typename: 'Group', messages: [...fetchMoreResult.group.messages, ...prev.group.messages] } }
+
+
+                                }
+                            })}
                             subscribeToNewMessages={() => subscribeToMore({
                                 document: MESSAGE_ADDED_SUBSCRIPTION,
                                 variables: { groupID: this.props.navigation.state.params.groupData.id },

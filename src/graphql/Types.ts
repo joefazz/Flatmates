@@ -11,16 +11,26 @@ export interface CreateApplicationMutationVariables {
 export interface CreateApplicationMutation {
   createApplication:  {
     id: string,
+    isActive: boolean,
     to:  {
       shortID: number,
       houseImages: Array< string >,
       road: string,
+      coords: Array< number >,
+      spaces: number,
       billsPrice: number,
       rentPrice: number,
       post:  {
         id: string,
         description: string,
       } | null,
+      users:  Array< {
+        id: string,
+        name: string,
+        profilePicture: string,
+        course: string,
+        studyYear: string,
+      } > | null,
     },
     createdAt: string,
   } | null,
@@ -44,6 +54,7 @@ export interface UpdateApplicationMutationVariables {
 export interface UpdateApplicationMutation {
   updateApplication:  {
     id: string,
+    isActive: boolean,
   } | null,
 };
 
@@ -426,12 +437,27 @@ export interface UpdateUserMutation {
   } | null,
 };
 
+export interface VerifyEmailMutationVariables {
+  email: string,
+  email_verified: boolean,
+};
+
+export interface VerifyEmailMutation {
+  verifyEmail:  {
+    id: string,
+    email: string,
+    email_verified: boolean,
+  } | null,
+};
+
 export interface ChatMessagesQueryVariables {
   id: string,
+  skip?: number | null,
 };
 
 export interface ChatMessagesQuery {
   group:  {
+    id: string,
     messages:  Array< {
       id: string,
       createdAt: string,
