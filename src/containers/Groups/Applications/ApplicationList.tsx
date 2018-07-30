@@ -62,7 +62,9 @@ export class ApplicationList extends React.Component<Props, State> {
     }
 
     purchaseIAP = async (sku: string, amount: number) => {
+        console.log('hello')
         try {
+
             const purchase = await RNIap.buyProduct(sku);
 
             console.log(purchase);
@@ -94,7 +96,7 @@ export class ApplicationList extends React.Component<Props, State> {
                                 <TouchableHighlight
                                     key={product.productId}
                                     underlayColor={Colors.brandTertiaryColor}
-                                    onPress={() => this.purchaseIAP(product.productId, product.title.substring(0, product.title.indexOf(' ')))}
+                                    onPress={() => this.purchaseIAP(product.productId, product.title.includes('Five') ? 5 : product.title.includes('Fifteen') ? 15 : 10000)}
                                     style={{
                                         flex: 1,
                                         alignItems: 'center',
@@ -104,13 +106,13 @@ export class ApplicationList extends React.Component<Props, State> {
                                         borderBottomLeftRadius: index === 0 ? 13 : 0,
                                         borderBottomRightRadius: index === this.state.productList.length - 1 ? 13 : 0
                                     }}>
-                                    <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 18, color: Colors.white, textAlign: 'center' }}>{product.title.substring(0, product.title.indexOf(' '))} more{"\n"}for{"\n"}{product.localizedPrice}</Text>
+                                    <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 18, color: Colors.white, textAlign: 'center' }}>{product.title.substring(0, product.title.indexOf(' '))} {product.title.includes('Infinite') ? '' : 'more'} {"\n"}for{"\n"}{product.localizedPrice}</Text>
                                 </TouchableHighlight>
                             ))}
                         </View>
                     </View>
                 </View>
-            </Modal>
+            </Modal >
         )
     }
 
@@ -244,4 +246,4 @@ const getSentApplications = graphql<
         })
     });
 
-export default compose(connect(mapStateToProps), getSentApplications)(ApplicationList);
+export default compose(connect(mapStateToProps), getSentApplications, addMoreApplications)(ApplicationList);
