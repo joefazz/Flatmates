@@ -27,7 +27,7 @@ interface Props {
         };
         push: (route, params) => void;
     }
-    createMessage: (params: CreateMessageMutationVariables) => void;
+    createMessage: (params: CreateMessageMutationVariables & { houseID: number; }) => void;
 }
 
 const initialState = {
@@ -171,6 +171,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
             senderName: allUsers.find((user) => user.id === this.props.userID).name,
             groupID: this.props.data.groupInfo.id,
             images: imageAttachment,
+            houseID: this.props.data.groupInfo.house.shortID,
             groupName: `${this.props.data.groupInfo.house.road}|${senderName}`
         });
     };

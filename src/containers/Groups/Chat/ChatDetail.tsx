@@ -7,11 +7,13 @@ import {
     ChatMessagesQueryVariables,
     CreateMessageMutationVariables,
     ChatMessagesQuery,
-    MessageAddedSubscription
+    MessageAddedSubscription,
+    UserChatQuery,
+    HouseChatQuery
 } from '../../../graphql/Types';
 import { Group } from '../../../types/Entities';
 import { ChildProps, graphql, compose, Query } from 'react-apollo';
-import { GET_CHAT_MESSAGES_QUERY } from '../../../graphql/queries';
+import { GET_CHAT_MESSAGES_QUERY, USER_CHAT_QUERY, HOUSE_CHAT_QUERY } from '../../../graphql/queries';
 import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
 import { ApolloError } from 'apollo-client';
 import { ActivityIndicator, Platform } from 'react-native';
@@ -67,6 +69,7 @@ export class ChatDetail extends React.Component<Props> {
                                     const newComment = subscriptionData.data.message.node;
 
                                     if (prev.group.messages.find(message => message.id === newComment.id) === undefined) {
+
                                         const newPayload = Object.assign({}, prev, {
                                             group: {
                                                 messages: prev.group.messages.concat(newComment),
@@ -120,7 +123,7 @@ export class ChatDetail extends React.Component<Props> {
 
 const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
     props: ({ mutate }) => ({
-        createMessage: (params: CreateMessageMutationVariables & { approverID: string }) =>
+        createMessage: (params: CreateMessageMutationVariables & { houseID: number }) =>
             mutate({
                 variables: { ...params },
                 update: (store, { data: { createMessage } }) => {
@@ -131,7 +134,7 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         }
                     });
 
-                    // groupData.group.messages.push(createMessage);
+                    groupData.group.messages.push(createMessage);
 
                     store.writeQuery({
                         query: GET_CHAT_MESSAGES_QUERY,
@@ -140,12 +143,42 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         },
                         data: groupData
                     });
+
+                    const userListData: UserChatQuery = store.readQuery({
+                        query: USER_CHAT_QUERY,
+                        variables: { id: params.senderID }
+                    });
+
+                    if (userListData.user.groups.find(group => group.id === params.groupID) !== undefined) {
+
+                        const newData = userListData.user.groups.map(group => group.id === params.groupID ? Object.assign(group, { messages: [createMessage] }) : group);
+
+                        store.writeQuery({
+                            query: USER_CHAT_QUERY,
+                            data: newData
+                        });
+
+                    } else {
+                        const houseListData: HouseChatQuery = store.readQuery({
+                            query: HOUSE_CHAT_QUERY,
+                            variables: { shortID: params.houseID }
+                        });
+
+                        const newData = houseListData.house.groups.map(group => group.id === params.groupID ? Object.assign(group, { messages: [createMessage] }) : group);
+
+                        store.writeQuery({
+                            query: HOUSE_CHAT_QUERY,
+                            data: newData
+                        })
+                    }
+
+
                 },
                 optimisticResponse: {
                     __typename: 'Mutation',
                     createMessage: {
                         __typename: 'Message',
-                        id: -1, // don't know id yet, but it doesn't matter
+                        id: Math.floor(Math.random() * Math.floor(100000)), // don't know id yet, but it doesn't matter
                         text: params.text, // we know what the text will be
                         createdAt: new Date().toISOString(), // the time is now!
                         from: {

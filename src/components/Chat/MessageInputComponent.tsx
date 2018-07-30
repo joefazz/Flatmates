@@ -75,8 +75,8 @@ export class MessageInput extends React.Component<Props, State> {
                     Platform.OS === 'ios' && { backgroundColor: Colors.grey }
                 ]}
                 onPress={send}
-                underlayColor={Colors.definetelyNotAirbnbRed}
                 disabled={isDisabled}
+                underlayColor={Platform.OS === 'ios' ? Colors.definetelyNotAirbnbRed : Colors.transparent}
             >
                 <Icon
                     iconStyle={group.iconStyle}
