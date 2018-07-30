@@ -308,9 +308,9 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     style={profile.summaryDescription}
                                     defaultValue={data.bio}
                                     underlineColorAndroid={Colors.transparent}
-                                    onEndEditing={(native) => {
-                                        this.isBioDirty = native.nativeEvent.text !== data.bio
-                                        this.newBio = native.nativeEvent.text
+                                    onChangeText={(text) => {
+                                        this.isBioDirty = text !== data.bio;
+                                        this.newBio = text;
                                     }}
                                 />
                             </View>
