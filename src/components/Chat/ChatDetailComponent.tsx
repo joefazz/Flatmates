@@ -92,6 +92,12 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                         ref={(ref) => (this.messageList = ref)}
                         data={messages}
                         inverted={true}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={this.props.isLoading}
+                                onRefresh={() => this.props.refetch()}
+                            />
+                        }
                         renderItem={this.renderItem}
                         keyExtractor={(item) => String(item.id)}
                         ListEmptyComponent={() => <Text>No Messages in Group</Text>}

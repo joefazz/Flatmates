@@ -156,7 +156,8 @@ export const group = StyleSheet.create({
                 borderWidth: 1,
                 borderColor: '#dbdbdb',
                 borderRadius: 4,
-                height: 50,
+                minHeight: 50,
+                maxHeight: 200,
                 paddingHorizontal: 4
             }
         })
