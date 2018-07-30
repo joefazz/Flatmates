@@ -118,6 +118,14 @@ export class ChatDetailComponent extends React.Component<Props, State> {
             return <View />;
         }
 
+        if (this.props.data.messages.length === 0) {
+            return <Text style={{ ...FontFactory(), alignSelf: 'center', marginVertical: 10, fontSize: 16, color: Colors.definetelyNotAirbnbRed }}>No messages in this group.</Text>;
+        }
+
+        if (this.props.data.messages.length < 25) {
+            return <View />
+        }
+
         if (this.props.data.messages.length % 25 === 0) {
             return (
                 <TouchableOpacity style={{ marginVertical: 10, padding: 7, borderWidth: 1, borderRadius: 3, borderColor: Colors.definetelyNotAirbnbRed, alignSelf: 'center' }} onPress={() => this.props.fetchMoreMessages()}>
@@ -193,6 +201,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
             senderName: allUsers.find((user) => user.id === this.props.userID).name,
             groupID: this.props.data.groupInfo.id,
             images: imageAttachment,
+            applicantID: this.props.data.groupInfo.applicant.id,
             houseID: this.props.data.groupInfo.house.shortID,
             groupName: `${this.props.data.groupInfo.house.road}|${senderName}`
         });
