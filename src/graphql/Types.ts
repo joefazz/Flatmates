@@ -61,6 +61,8 @@ export interface UpdateApplicationMutation {
 export interface CreateMessageMutationVariables {
   text: string,
   senderID: string,
+  applicantID: string,
+  houseID: number,
   senderName: string,
   groupID: string,
   images: Array< string >,
