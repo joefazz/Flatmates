@@ -100,7 +100,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
                         }
                         renderItem={this.renderItem}
                         keyExtractor={(item) => String(item.id)}
-                        ListEmptyComponent={() => <Text>No Messages in Group</Text>}
+                        ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Messages in Group</Text>}
                     />
                     <MessageInput send={this.send} />
                 </View>
