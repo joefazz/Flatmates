@@ -31,6 +31,7 @@ interface Props {
         push: (route, params) => void;
     };
     group: Group;
+    username: string;
     loading: boolean;
     error: ApolloError;
 }
@@ -65,18 +66,24 @@ export class ChatDetail extends React.Component<Props> {
 
                                     const newComment = subscriptionData.data.message.node;
 
-                                    const newPayload = Object.assign({}, prev, {
-                                        group: {
-                                            messages: prev.group.messages.concat(newComment),
-                                            __typename: 'Group'
-                                        }
-                                    });
+                                    if (prev.group.messages.find(message => message.id === newComment.id) === undefined) {
+                                        const newPayload = Object.assign({}, prev, {
+                                            group: {
+                                                messages: prev.group.messages.concat(newComment),
+                                                __typename: 'Group'
+                                            }
+                                        });
 
-                                    return newPayload;
+                                        return newPayload;
+                                    } else {
+                                        return prev;
+                                    }
+
                                 }
                             })}
                             navigation={this.props.navigation}
                             isLoading={loading}
+                            username={this.props.username}
                             data={{
                                 groupInfo: this.props.navigation.state.params.groupData,
                                 messages: loading ? [] : data.group.messages
@@ -159,5 +166,6 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
 });
 
 export default compose(
+    connect((state: ReduxState) => ({ username: state.profile.name }), {}),
     createMessage
 )(ChatDetail);

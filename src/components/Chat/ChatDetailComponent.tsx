@@ -15,6 +15,7 @@ interface Props {
     data: { messages: Array<Message>; groupInfo: Group };
     userID: string;
     isLoading: boolean;
+    username: string;
     refetch: () => void;
     navigation: {
         state: {
@@ -156,13 +157,15 @@ export class ChatDetailComponent extends React.Component<Props, State> {
             this.props.data.groupInfo.applicant
         ]);
 
+        var senderName = allUsers.find((user) => user.id === this.props.userID).name;
+
         this.props.createMessage({
             senderID: this.props.userID,
             text: text.trim(),
             senderName: allUsers.find((user) => user.id === this.props.userID).name,
             groupID: this.props.data.groupInfo.id,
             images: imageAttachment,
-            groupName: this.props.data.groupInfo.name
+            groupName: `${this.props.data.groupInfo.house.road}|${senderName}`
         });
     };
 }

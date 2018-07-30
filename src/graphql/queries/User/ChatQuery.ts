@@ -22,7 +22,7 @@ export const USER_CHAT_QUERY = gql`
                         name
                     }
                 }
-                messages(first: 1) {
+                messages(last: 1) {
                     id
                     text
                 }
