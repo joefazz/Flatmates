@@ -134,7 +134,7 @@ export class ChatDetail extends React.Component<Props> {
 
 const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
     props: ({ mutate }) => ({
-        createMessage: (params: CreateMessageMutationVariables & { houseID: number }) =>
+        createMessage: (params: CreateMessageMutationVariables) =>
             mutate({
                 variables: { ...params },
                 update: (store, { data: { createMessage } }) => {
