@@ -11,7 +11,7 @@ import store from './redux/store';
 import { DOMAIN } from './consts/endpoint';
 
 const wsLink = new WebSocketLink({
-    uri: DOMAIN.includes('https') ? `wss://flatmates-prisma.now.sh` : 'ws://localhost:4000',
+    uri: 'wss://flatmates-prisma.now.sh',
     options: {
         reconnect: true
     }
