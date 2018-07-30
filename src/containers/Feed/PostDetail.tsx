@@ -70,7 +70,7 @@ export class PostDetail extends React.Component<Props, State> {
                 state.userHasAppliedToHouse = Boolean(appDoesExist.length);
             }
             if (!newProps.userAppQuery.loading) {
-                state.userHasNoApplications = newProps.userAppQuery.user.applicationAllowance;
+                state.userHasNoApplications = !Boolean(newProps.userAppQuery.user.applicationAllowance);
             }
         }
 
@@ -89,6 +89,7 @@ export class PostDetail extends React.Component<Props, State> {
 
         this.state = {
             data: props.navigation.state.params.data,
+            userHasNoApplications: true,
             isLoading: true,
             isStarred: props.navigation.state.params.isStarred,
             userHasAppliedToHouse: false
