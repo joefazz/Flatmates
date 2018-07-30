@@ -138,7 +138,6 @@ const createGroup = graphql(CREATE_GROUP_MUTATION, {
                         }
                     });
 
-                    OneSignal.sendTags({ group_id: createGroup.id });
 
                     houseData.house.groups.unshift(createGroup);
 
