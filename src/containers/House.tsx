@@ -1,6 +1,8 @@
 import React from 'react';
 import { graphql, compose, Query } from 'react-apollo';
-import { Text, View, AsyncStorage, Platform, ActivityIndicator } from 'react-native';
+import { Text, View, AsyncStorage, Platform, ActivityIndicator, StyleSheet } from 'react-native';
+import Mapbox from '@mapbox/react-native-mapbox-gl';
+
 import { connect } from 'react-redux';
 import { FloatingAction } from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -8,17 +10,20 @@ import { Colors } from '../consts';
 import { Button } from 'react-native-elements';
 import { ReduxState } from '../types/ReduxTypes';
 import { House as HouseType } from '../types/Entities';
-import { HeaderButtonIOS } from '../widgets';
+import { HeaderButtonIOS, PostCard } from '../widgets';
 import { UPDATE_HOUSE_MUTATION } from '../graphql/mutations';
 import { UpdateHouseMutationVariables, HouseDetailQuery, UpdateHouseMutation } from '../graphql/Types';
-import { HOUSE_DETAILS_QUERY } from '../graphql/queries';
+import { HOUSE_DETAILS_QUERY, POST_LIST_QUERY } from '../graphql/queries';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { HouseComponent } from '../components/HouseComponent';
+import { ANNOTATION_SIZE } from '../widgets/MapView';
+import { FontFactory } from '../consts/font';
+import { toConstantFontSize } from '../utils/PercentageConversion';
 
 interface Props {
     house: HouseType;
     navigation: {
-        navigate: (route: string) => void;
+        navigate: (route: string, params: any) => void;
         setParams: any;
         state: {
             params: {
@@ -33,32 +38,39 @@ interface Props {
 interface State {
     road: string;
     spaces: number;
+    centerCoordinate: number[];
     billsPrice: number;
     rentPrice: number;
+    houseViewerInfo?: HouseType;
 }
 
 export class House extends React.Component<Props, State> {
-    state = { road: '', spaces: 0, billsPrice: 0, rentPrice: 0 };
+    state = { road: '', spaces: 0, billsPrice: 0, rentPrice: 0, centerCoordinate: [-0.9418, 51.4414], houseViewerInfo: null };
 
     static navigationOptions = ({ navigation }) => ({
-        title: 'My House',
+        title: navigation.state.params && navigation.state.params.userHasHouse ? 'My House' : 'House Finder',
         headerRight:
             Platform.OS === 'ios' && (
                 !!navigation.state &&
                     !!navigation.state.params &&
-                    !!navigation.state.params.contentEditable ? (
+                    navigation.state.params.userHasHouse ? (!!navigation.state.params.contentEditable ? (
                         <HeaderButtonIOS
                             text={'Done'}
                             onPress={() => navigation.setParams({ contentEditable: false })}
                         />
                     ) : (
-                        <HeaderButtonIOS
-                            text={'Edit'}
-                            onPress={() => navigation.setParams({ contentEditable: true })}
-                        />
-                    )
+                            <HeaderButtonIOS
+                                text={'Edit'}
+                                onPress={() => navigation.setParams({ contentEditable: true })}
+                            />
+                        ))
+                    : <View />
             )
     });
+
+    componentDidMount() {
+        this.props.navigation.setParams({ userHasHouse: Boolean(this.props.house) });
+    }
 
     componentDidUpdate(prevProps: Props) {
         if (prevProps.navigation.state.params) {
@@ -83,6 +95,16 @@ export class House extends React.Component<Props, State> {
         }
     }
 
+    renderAnnotation(post) {
+        const { createdBy: house } = post;
+        return (
+            <Mapbox.PointAnnotation key={String(house.shortID)} id={String(house.shortID)} title={`${house.spaces === 1 ? 'A space' : `${house.spaces} spaces`} on ${house.road}`} coordinate={house.coords} onSelected={(feature) => this.setState({ centerCoordinate: feature.geometry.coordinates, houseViewerInfo: post })}>
+
+                <Mapbox.Callout title={`${house.spaces === 1 ? 'A space' : `${house.spaces} spaces`} on ${house.road}`} />
+            </Mapbox.PointAnnotation>
+        );
+    }
+
     setRoad = (road: string, spaces: number, billsPrice: number, rentPrice: number) => {
         this.setState({ road, spaces, billsPrice, rentPrice })
     }
@@ -92,20 +114,36 @@ export class House extends React.Component<Props, State> {
 
         if (!house) {
             return (
-                <View>
-                    <Text>
-                        You don't have a house either make one to see what this page looks like or
-                        suffer until I think of something to put here xo
-                    </Text>
-                    <Button
-                        title={'RESET DATA BACK TO LOGIN'}
-                        containerViewStyle={{ marginTop: 20 }}
-                        backgroundColor={Colors.brandPrimaryColor}
-                        onPress={() =>
-                            AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
-                        }
-                    />
-                </View>
+                <Query query={POST_LIST_QUERY} variables={{ take: 100 }} fetchPolicy={'cache-and-network'}>
+                    {({ data }, loading, error) => {
+
+                        return (
+                            <>
+                                <View style={{ flex: 1, backgroundColor: Colors.offWhite, borderBottomColor: Colors.grey, borderBottomWidth: 1, justifyContent: 'center' }}>
+                                    {!!this.state.houseViewerInfo ? (
+                                        <PostCard
+                                            direction={'horizontal'}
+                                            onPress={() => this.props.navigation.navigate('PostDetail', { data: this.state.houseViewerInfo, isReadOnly: false })}
+                                            createdDate={this.state.houseViewerInfo.createdAt}
+                                            price={this.state.houseViewerInfo.createdBy.billsPrice + this.state.houseViewerInfo.createdBy.rentPrice}
+                                            spaces={this.state.houseViewerInfo.createdBy.spaces}
+                                            title={this.state.houseViewerInfo.createdBy.road}
+                                            images={this.state.houseViewerInfo.createdBy.houseImages} />
+                                    ) : <Text style={{ ...FontFactory({ weight: 'Bold' }), alignSelf: 'center', fontSize: toConstantFontSize(2.5), color: Colors.brandPrimaryColor }}>Select a pin to see info on that road!</Text>}
+                                </View>
+                                <Mapbox.MapView
+                                    style={{ flex: 6 }}
+                                    zoomLevel={12}
+                                    styleURL={Mapbox.StyleURL.Street}
+                                    logoEnabled={false}
+                                    centerCoordinate={this.state.centerCoordinate}
+                                >
+                                    {!loading && data.allPosts.map(post => this.renderAnnotation(post))}
+                                </Mapbox.MapView>
+                            </>
+                        );
+                    }}
+                </Query>
             );
         }
 
