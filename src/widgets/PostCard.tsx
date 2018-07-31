@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: toConstantFontSize(2.8),
         color: Colors.black,
-        height: toConstantFontSize(2.8) + 5,
+        height: toConstantFontSize(3.7),
         ...Font.FontFactory({ weight: 'Light' })
     },
 
