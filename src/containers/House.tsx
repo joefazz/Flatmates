@@ -138,7 +138,7 @@ export class House extends React.Component<Props, State> {
                                     logoEnabled={false}
                                     centerCoordinate={this.state.centerCoordinate}
                                 >
-                                    {!loading && data.allPosts.map(post => this.renderAnnotation(post))}
+                                    {!loading && data.allPosts && data.allPosts.map(post => this.renderAnnotation(post))}
                                 </Mapbox.MapView>
                             </>
                         );
