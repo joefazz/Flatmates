@@ -18,6 +18,12 @@ platform :ios do
     pilot(username: "joseph@fazzino.net", app_identifier: "com.fazzino.Flatmates", changelog: changelog) # waiting just takes too long sometimes
   end
 
+  lane :alpha do
+    increment_build_number(xcodeproj: './ios/Flatmates.xcodeproj') # Increment the build number
+    gym(clean: true, scheme: "Flatmates", workspace: "./ios/Flatmates.xcworkspace", export_xcargs: "-allowProvisioningUpdates")
+    pilot(username: "joseph@fazzino.net", app_identifier: "com.fazzino.Flatmates", skip_waiting_for_build_processing: true)
+  end
+
 
   lane :add do
     email = prompt(text: "Testers email address: ")
