@@ -19,16 +19,18 @@ import {
     createUser,
     readOnlyLogin,
     createUserWithHouse,
-    createUserJoinHouse
+    createUserJoinHouse,
+    validateUserEmail
 } from '../Routines';
 import OneSignal from 'react-native-onesignal';
 
-export const loginSaga = function*() {
+export const loginSaga = function* () {
     yield takeEvery(createUser.TRIGGER, login);
     yield takeEvery(getUserData.TRIGGER, saveData);
     yield takeEvery(readOnlyLogin.TRIGGER, readOnly);
     yield takeEvery(createUserWithHouse.TRIGGER, houseLogin);
     yield takeEvery(createUserJoinHouse.TRIGGER, joinHouse);
+    yield takeEvery(validateUserEmail.TRIGGER, validate);
 };
 
 async function createUserMutation(
@@ -73,7 +75,7 @@ async function createUserUpdateHouseMutation(
     return userData;
 }
 
-const login = function*({ payload }) {
+const login = function* ({ payload }) {
     // Trigger request action
     yield put(createUser.request());
     // Wait for response from API and assign it to response
@@ -92,11 +94,15 @@ const login = function*({ payload }) {
     createUser.fulfill();
 };
 
-const saveData = function*({ payload }) {
+const validate = function* ({ payload }) {
+    yield put(validateUserEmail.success({ email_validated: payload }))
+};
+
+const saveData = function* ({ payload }) {
     yield put(getUserData.success(payload));
 };
 
-const houseLogin = function*({ payload }) {
+const houseLogin = function* ({ payload }) {
     // Trigger request action
     yield put(createUserWithHouse.request());
     // Wait for response from API and assign it to response
@@ -117,7 +123,7 @@ const houseLogin = function*({ payload }) {
     createUserWithHouse.fulfill();
 };
 
-const joinHouse = function*({ payload }) {
+const joinHouse = function* ({ payload }) {
     // Trigger request action
     yield put(createUserJoinHouse.request());
     // Wait for response from API and assign it to response
@@ -138,6 +144,6 @@ const joinHouse = function*({ payload }) {
     }
 };
 
-const readOnly = function*() {
+const readOnly = function* () {
     yield put(readOnlyLogin.success());
 };
