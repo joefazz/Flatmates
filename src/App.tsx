@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import client from './Client';
 import { MAPBOX_API_TOKEN } from './consts/strings';
+import CodePush from "react-native-code-push";
 import RootNavigation from './navigators/Root';
 import store from './redux/store';
 import OneSignal from 'react-native-onesignal';
@@ -46,7 +47,7 @@ interface Props { }
 
 type State = Readonly<typeof initialState>;
 
-export default class Root extends React.Component<Props, State> {
+class Root extends React.Component<Props, State> {
     readonly state: State = initialState;
 
     componentDidMount() {
@@ -118,3 +119,5 @@ export default class Root extends React.Component<Props, State> {
         );
     }
 }
+
+export default CodePush({ installMode: CodePush.InstallMode.ON_NEXT_RESUME, minimumBackgroundDuration: 1000, checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME })(Root);
