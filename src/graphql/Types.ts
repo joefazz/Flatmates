@@ -198,18 +198,6 @@ export interface UpdatePostMutation {
   } | null,
 };
 
-export interface AddApplicationsMutationVariables {
-  id: string,
-  newAllowance: number,
-};
-
-export interface AddApplicationsMutation {
-  addApplications:  {
-    id: string,
-    applicationAllowance: number,
-  } | null,
-};
-
 export interface CreateUserMutationVariables {
   name: string,
   email: string,
@@ -644,7 +632,6 @@ export interface UserApplicationsQueryVariables {
 export interface UserApplicationsQuery {
   user:  {
     id: string,
-    applicationAllowance: number,
     applications:  Array< {
       id: string,
       isActive: boolean,
