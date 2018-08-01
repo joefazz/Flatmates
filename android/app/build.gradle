@@ -170,7 +170,6 @@ android {
 dependencies {
     compile project(':react-native-code-push')
     compile project(':react-native-sentry')
-    compile project(':react-native-iap')
     compile project(':react-native-onesignal')
     compile project(':react-native-auth0')
     compile project(':react-native-gesture-handler')

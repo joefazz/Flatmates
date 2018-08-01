@@ -11,13 +11,7 @@ import CodePush from "react-native-code-push";
 import RootNavigation from './navigators/Root';
 import store from './redux/store';
 import OneSignal from 'react-native-onesignal';
-import * as RNIap from 'react-native-iap';
 import { Sentry } from 'react-native-sentry';
-
-export const iapSKUs = Platform.select({
-    ios: ['flatmates.5_applications', 'flatmates.15_applications', 'flatmates.infinite_applications'],
-    android: ['flatmates.5_applications', 'flatmates.10_application', 'flatmates.infinite_applications']
-});
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 
@@ -76,7 +70,6 @@ class Root extends React.Component<Props, State> {
         OneSignal.addEventListener('ids', this.saveIds);
 
         // Sentry.nativeCrash();
-        this.prepareIAP();
 
         CodePush.getUpdateMetadata().then((update) => {
             if (update.isFirstRun) {
@@ -85,14 +78,6 @@ class Root extends React.Component<Props, State> {
             }
         });
     }
-
-    prepareIAP = async () => {
-        try {
-            await RNIap.prepare();
-        } catch (error) {
-            console.warn(error);
-        }
-    };
 
     componentWillUnmount() {
         OneSignal.removeEventListener('received', this.onReceivePush);

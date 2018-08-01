@@ -4,7 +4,6 @@ export const USER_APPLICATIONS_QUERY = gql`
     query UserApplications($id: ID!) {
         user(id: $id) {
             id
-            applicationAllowance
             applications {
                 id
                 isActive
