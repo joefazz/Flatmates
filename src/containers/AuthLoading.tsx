@@ -11,10 +11,13 @@ import { ApolloQueryResult } from 'apollo-client';
 import { Colors } from '../consts';
 import client from '../Client';
 import { VERIFY_EMAIL_MUTATION } from '../graphql/mutations/User/VerifyEmail';
+import { validateUserEmail } from '../redux/Routines';
 
 interface Props {
     screenProps: { isRehydrated: boolean };
     login: LoginState;
+    isVerified: boolean;
+    validateUserEmail: (isValidated: boolean) => void;
     navigation: {
         navigate: (route, params?) => void;
     };
@@ -33,6 +36,12 @@ class AuthLoadingScreen extends React.Component<Props, State> {
     _bootstrap = async () => {
         // This will switch to the App screen or Auth screen and this loading
         // screen will be unmounted and thrown away.
+
+        if (this.props.login.id !== '' && this.props.isVerified) {
+            this.props.navigation.navigate('Home');
+            return;
+        }
+
         if (this.props.login.email) {
             const { data }: ApolloQueryResult<UserLoginQuery> = await Client.query<UserLoginQuery>({
                 variables: { email: this.props.login.email },
@@ -41,6 +50,10 @@ class AuthLoadingScreen extends React.Component<Props, State> {
             });
 
             if (!!data.user && data.user.email_verified) {
+                if (!this.props.isVerified) {
+                    this.props.validateUserEmail(true);
+                }
+
                 this.props.navigation.navigate('Home');
             }
 
@@ -62,8 +75,10 @@ class AuthLoadingScreen extends React.Component<Props, State> {
 
                 if (userDetails[0].email_verified) {
                     client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { email: userDetails[0].email, email_verified: true } });
+                    this.props.validateUserEmail(true);
                     this.props.navigation.navigate('Home', { isReadOnly: false });
                 } else {
+                    this.props.validateUserEmail(false);
                     alert('Verify your email address in order to access the full app\'s functionality')
                     this.props.navigation.navigate('Feed', { isReadOnly: true });
                 }
@@ -119,7 +134,12 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-    login: state.login
+    login: state.login,
+    isVerified: state.profile.email_validated
 });
 
-export default connect(mapStateToProps, {})(AuthLoadingScreen);
+const bindActions = (dispatch) => ({
+    validateUserEmail: (isValidated: boolean) => dispatch(validateUserEmail(isValidated))
+})
+
+export default connect(mapStateToProps, bindActions)(AuthLoadingScreen);

@@ -34,6 +34,11 @@ fastlane version_bump
 fastlane ios beta
 ```
 Push a new beta build to TestFlight
+### ios alpha
+```
+fastlane ios alpha
+```
+
 ### ios add
 ```
 fastlane ios add

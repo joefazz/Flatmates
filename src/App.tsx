@@ -2,11 +2,12 @@ import Mapbox from '@mapbox/react-native-mapbox-gl';
 import MapboxClient from 'mapbox/lib/services/geocoding';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
-import { Platform, AsyncStorage, StatusBar } from 'react-native';
+import { Platform, AsyncStorage, StatusBar, Alert } from 'react-native';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import client from './Client';
 import { MAPBOX_API_TOKEN } from './consts/strings';
+import CodePush from "react-native-code-push";
 import RootNavigation from './navigators/Root';
 import store from './redux/store';
 import OneSignal from 'react-native-onesignal';
@@ -46,7 +47,7 @@ interface Props { }
 
 type State = Readonly<typeof initialState>;
 
-export default class Root extends React.Component<Props, State> {
+class Root extends React.Component<Props, State> {
     readonly state: State = initialState;
 
     componentDidMount() {
@@ -76,6 +77,13 @@ export default class Root extends React.Component<Props, State> {
 
         // Sentry.nativeCrash();
         this.prepareIAP();
+
+        CodePush.getUpdateMetadata().then((update) => {
+            if (update.isFirstRun) {
+                Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
+                Alert.alert('Flatmates has updated!', update.label, [{ text: 'OK', style: 'default' }]);
+            }
+        });
     }
 
     prepareIAP = async () => {
@@ -118,3 +126,5 @@ export default class Root extends React.Component<Props, State> {
         );
     }
 }
+
+export default CodePush({ installMode: CodePush.InstallMode.ON_NEXT_RESUME, minimumBackgroundDuration: 60, checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME })(Root);

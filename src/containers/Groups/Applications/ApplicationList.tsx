@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableHighlight, Modal, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableHighlight, Modal, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { ChildProps, compose, graphql, Query } from 'react-apollo';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { connect } from 'react-redux';
@@ -41,11 +41,13 @@ interface Props {
 
 interface State {
     isPurchaseModalAvaliable: boolean;
+    isPurchasingModalAvaliable: boolean;
     productList: any[];
+    purchasingStatus: string;
 }
 
 export class ApplicationList extends React.Component<Props, State> {
-    state = { isPurchaseModalAvaliable: false, productList: [] };
+    state = { isPurchaseModalAvaliable: false, productList: [], isPurchasingModalAvaliable: false, purchasingStatus: '' };
 
     static navigationOptions = {
         title: 'Applications',
@@ -57,25 +59,26 @@ export class ApplicationList extends React.Component<Props, State> {
     }
 
     displayIAP = async () => {
-        console.log(this.state.productList)
         this.setState({ isPurchaseModalAvaliable: true });
     }
 
     purchaseIAP = async (sku: string, amount: number) => {
         try {
+            this.setState({ purchasingStatus: 'Loading Items', isPurchaseModalAvaliable: false, isPurchasingModalAvaliable: true });
             const purchase = await RNIap.buyProduct(sku);
 
-            console.log(purchase);
+            this.setState({ purchasingStatus: 'Verifying Purchase' });
             await RNIap.validateReceiptIos({ 'receipt-data': purchase.transactionReceipt }, true);
 
-            const result = await this.props.addApplications({ id: this.props.user.id, newAllowance: this.props.user.applicationAllowance + amount });
+            await this.props.addApplications({ id: this.props.user.id, newAllowance: this.props.user.applicationAllowance + amount });
 
-            console.log(result);
+            this.setState({ isPurchasingModalAvaliable: false, purchasingStatus: '' });
 
             // await RNIap.consumePurchase(purchase.purchaseToken);
         } catch (err) {
             alert(err);
         }
+        this.setState({ isPurchasingModalAvaliable: false, purchasingStatus: '' });
     }
 
     renderPaymentModal = () => {
@@ -94,7 +97,7 @@ export class ApplicationList extends React.Component<Props, State> {
                                 <TouchableHighlight
                                     key={product.productId}
                                     underlayColor={Colors.brandTertiaryColor}
-                                    onPress={() => this.purchaseIAP(product.productId, product.title.substring(0, product.title.indexOf(' ')))}
+                                    onPress={() => this.purchaseIAP(product.productId, product.title.includes('Five') ? 5 : product.title.includes('Fifteen') ? 15 : 10000)}
                                     style={{
                                         flex: 1,
                                         alignItems: 'center',
@@ -104,14 +107,28 @@ export class ApplicationList extends React.Component<Props, State> {
                                         borderBottomLeftRadius: index === 0 ? 13 : 0,
                                         borderBottomRightRadius: index === this.state.productList.length - 1 ? 13 : 0
                                     }}>
-                                    <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 18, color: Colors.white, textAlign: 'center' }}>{product.title.substring(0, product.title.indexOf(' '))} more{"\n"}for{"\n"}{product.localizedPrice}</Text>
+                                    <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 18, color: Colors.white, textAlign: 'center' }}>{product.title.substring(0, product.title.indexOf(' '))} {product.title.includes('Infinite') ? '' : 'more'} {"\n"}for{"\n"}{product.localizedPrice}</Text>
                                 </TouchableHighlight>
                             ))}
                         </View>
                     </View>
                 </View>
+            </Modal >
+
+        );
+    }
+
+    renderLoadingModal = () => {
+        return (
+            <Modal animationType={'fade'} visible={this.state.isPurchasingModalAvaliable} transparent={true}>
+                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', shadowColor: Colors.black, shadowOpacity: 0.7, shadowOffset: { width: 2, height: 4 }, shadowRadius: 8, elevation: 4, borderRadius: 5, backgroundColor: Colors.brandPrimaryColor, width: toConstantWidth(60), height: toConstantHeight(20) }}>
+                        <ActivityIndicator color={'white'} />
+                        <Text style={{ ...FontFactory(), color: Colors.white, fontSize: 18 }}>{this.state.purchasingStatus}</Text>
+                    </View>
+                </View>
             </Modal>
-        )
+        );
     }
 
     render() {
@@ -121,6 +138,7 @@ export class ApplicationList extends React.Component<Props, State> {
             return (
                 <>
                     {this.renderPaymentModal()}
+                    {this.state.isPurchasingModalAvaliable && this.renderLoadingModal()}
                     <TouchableHighlight underlayColor={Colors.translucentDefinetelyNotAirbnbRed} onPress={() => this.displayIAP()} style={{ width: toConstantWidth(100), height: toConstantHeight(7), backgroundColor: Colors.brandErrorColor, alignItems: 'center', justifyContent: 'center' }}>
                         <>
                             <Text style={{ fontSize: 16, color: Colors.white, ...FontFactory() }}>{this.props.sentLoading ? 'Fetching Remaining Applications' : `${this.props.user.applicationAllowance === 1 ? '1 Application' : `${this.props.user.applicationAllowance} Applications`} Remaining`}</Text>
@@ -154,6 +172,7 @@ export class ApplicationList extends React.Component<Props, State> {
                         return (
                             <>
                                 {this.renderPaymentModal()}
+                                {this.state.isPurchasingModalAvaliable && this.renderLoadingModal()}
                                 <TouchableHighlight underlayColor={Colors.translucentDefinetelyNotAirbnbRed} onPress={() => this.displayIAP()} style={{ width: toConstantWidth(100), height: toConstantHeight(7), backgroundColor: Colors.brandErrorColor, alignItems: 'center', justifyContent: 'center' }}>
                                     <>
                                         <Text style={{ fontSize: 16, color: Colors.white, ...FontFactory() }}>{this.props.sentLoading ? 'Fetching Remaining Applications' : `${this.props.user.applicationAllowance} Applications Remaining`}</Text>
@@ -244,4 +263,4 @@ const getSentApplications = graphql<
         })
     });
 
-export default compose(connect(mapStateToProps), getSentApplications)(ApplicationList);
+export default compose(connect(mapStateToProps), getSentApplications, addMoreApplications)(ApplicationList);

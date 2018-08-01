@@ -5,7 +5,7 @@ import Mapbox from "@mapbox/react-native-mapbox-gl";
 import { Colors } from "../consts";
 import PulseCircleLayer from "./PulseCircleLayer";
 
-const ANNOTATION_SIZE = 20;
+export const ANNOTATION_SIZE = 20;
 
 export class MapView extends React.Component {
     constructor(props) {

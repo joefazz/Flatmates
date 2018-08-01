@@ -1,5 +1,4 @@
 <resources>
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">b3rHTnP4cGBqEj8d96rza88MFKziSk8GxlR47</string>
     <string name="app_name">Flatmates</string>
-    <string name="facebook_app_id">777909632392769</string>
 </resources>

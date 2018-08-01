@@ -77,6 +77,7 @@ project.ext.react = [
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 apply from: "../../node_modules/react-native-sentry/sentry.gradle"
 
 /**
@@ -108,7 +109,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 28
+        versionCode 34
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [onesignal_app_id: "bb46537e-9f24-418a-b636-0ea36e453d2b",
@@ -136,10 +137,19 @@ android {
         }
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "CODEPUSH_KEY", "\"\""
+        }
+
+        releaseStaging {
+            buildConfigField "String", "CODEPUSH_KEY", "\"b3rHTnP4cGBqEj8d96rza88MFKziSk8GxlR47\""
+        }
+
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+            buildConfigField "String", "CODEPUSH_KEY", "\"H1OdsOeYjNUhFJwuT-FSB5PzIwmRSkmYxeCNX\""
         }
     }
     // applicationVariants are e.g. debug, release
@@ -158,6 +168,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-code-push')
     compile project(':react-native-sentry')
     compile project(':react-native-iap')
     compile project(':react-native-onesignal')

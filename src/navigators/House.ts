@@ -2,9 +2,11 @@ import { createStackNavigator } from 'react-navigation';
 
 import { Colors, Font } from '../consts';
 import House from '../containers/House';
+import PostDetail from '../containers/Feed/PostDetail';
 
 const routeConfig = {
-    House: { screen: House }
+    House: { screen: House },
+    PostDetail: { screen: PostDetail }
 };
 
 const navConfig = {

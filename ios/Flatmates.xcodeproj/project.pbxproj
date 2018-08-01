@@ -66,6 +66,7 @@
 		A26DBE031FFBE62300FE1330 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; };
 		A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */; };
+		A26E02022110C4BD002D8672 /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A26E01D42110C4AC002D8672 /* libCodePush.a */; };
 		A2E6BD19210BE325000944CE /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A2E6BD18210BE30C000944CE /* libRNSentry.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B0A72F9DE27E4B1F970D4162 /* Nunito Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF584EDC622941B39C566EDA /* Nunito Bold.ttf */; };
@@ -353,6 +354,20 @@
 			remoteGlobalIDString = C4D1443D1F4E16F600396F26;
 			remoteInfo = RCTMGL;
 		};
+		A26E01D32110C4AC002D8672 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A26E01CD2110C4AB002D8672 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = CodePush;
+		};
+		A26E01D52110C4AC002D8672 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A26E01CD2110C4AB002D8672 /* CodePush.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F886647B1F4ADB500036D01B;
+			remoteInfo = "CodePush-tvOS";
+		};
 		A2D150AD2048B10600C4DD57 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -474,6 +489,7 @@
 		A23B3C5920755D5900214125 /* Flatmates.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Flatmates.entitlements; path = Flatmates/Flatmates.entitlements; sourceTree = "<group>"; };
 		A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
 		A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTMGL.xcodeproj; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/RCTMGL.xcodeproj"; sourceTree = "<group>"; };
+		A26E01CD2110C4AB002D8672 /* CodePush.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
 		A2E6BCE6210BE30B000944CE /* RNSentry.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNSentry.xcodeproj; path = "../node_modules/react-native-sentry/ios/RNSentry.xcodeproj"; sourceTree = "<group>"; };
 		A312E5C401124DEBA005B75B /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A42DCEAE826546B6A730396A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
@@ -513,6 +529,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A26E02022110C4BD002D8672 /* libCodePush.a in Frameworks */,
 				A2E6BD19210BE325000944CE /* libRNSentry.a in Frameworks */,
 				A20E4C87210A0CF500C1C028 /* libRNIap.a in Frameworks */,
 				A26DBE0C1FFBE66000FE1330 /* libRCTMGL.a in Frameworks */,
@@ -752,6 +769,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A26E01CD2110C4AB002D8672 /* CodePush.xcodeproj */,
 				A2E6BCE6210BE30B000944CE /* RNSentry.xcodeproj */,
 				A20E4C56210A0CDD00C1C028 /* RNIap.xcodeproj */,
 				A26DBE061FFBE64D00FE1330 /* RCTMGL.xcodeproj */,
@@ -866,6 +884,15 @@
 			isa = PBXGroup;
 			children = (
 				A26DBE0B1FFBE64E00FE1330 /* libRCTMGL.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A26E01CE2110C4AB002D8672 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A26E01D42110C4AC002D8672 /* libCodePush.a */,
+				A26E01D62110C4AC002D8672 /* libCodePush.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1040,6 +1067,10 @@
 				{
 					ProductGroup = A23B3C4F20755D4100214125 /* Products */;
 					ProjectRef = BD556DEAC7AD4407A1A51FEB /* A0Auth0.xcodeproj */;
+				},
+				{
+					ProductGroup = A26E01CE2110C4AB002D8672 /* Products */;
+					ProjectRef = A26E01CD2110C4AB002D8672 /* CodePush.xcodeproj */;
 				},
 				{
 					ProductGroup = A2D3D608200A5C2F006F2355 /* Products */;
@@ -1382,6 +1413,20 @@
 			fileType = archive.ar;
 			path = libRCTMGL.a;
 			remoteRef = A26DBE0A1FFBE64E00FE1330 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A26E01D42110C4AC002D8672 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = A26E01D32110C4AC002D8672 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A26E01D62110C4AC002D8672 /* libCodePush.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCodePush.a;
+			remoteRef = A26E01D52110C4AC002D8672 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A2D150AE2048B10600C4DD57 /* libReact.a */ = {
@@ -1770,8 +1815,13 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODEPUSH_KEY = "NaN9wS2m1vmvkri1Qp4KtNXVcvLKHyR-xg04m";
 				CODE_SIGN_ENTITLEMENTS = Flatmates/Flatmates.entitlements;
+<<<<<<< HEAD
 				CURRENT_PROJECT_VERSION = 43;
+=======
+				CURRENT_PROJECT_VERSION = 50;
+>>>>>>> development
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 3FC5KELS79;
 				ENABLE_BITCODE = NO;
@@ -1807,7 +1857,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Flatmates/Flatmates.entitlements;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 50;
 				DEVELOPMENT_TEAM = 3FC5KELS79;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios";
@@ -1968,6 +2018,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODEPUSH_KEY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2009,6 +2060,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODEPUSH_KEY = "ey_q2uNgB3X5abdKa5-tNTl_7HyaHyFdxgCVX";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -2027,6 +2079,163 @@
 			};
 			name = Release;
 		};
+		A2169CBF2110AB5E00A266D1 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODEPUSH_KEY = "NaN9wS2m1vmvkri1Qp4KtNXVcvLKHyR-xg04m";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CONFIGURATION_TEMP_DIR = "$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Staging;
+		};
+		A2169CC02110AB5E00A266D1 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CCD26172338273C9A4EF6102 /* Pods-Flatmates.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Flatmates/Flatmates.entitlements;
+				CURRENT_PROJECT_VERSION = 50;
+				DEVELOPMENT_TEAM = 3FC5KELS79;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../node_modules/@mapbox/react-native-mapbox-gl/ios";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-auth0/ios",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
+				);
+				INFOPLIST_FILE = Flatmates/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/build/Build/Products/Debug-iphonesimulator",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_NAME = Flatmates;
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Staging;
+		};
+		A2169CC12110AB5E00A266D1 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6464E1A75799FF86BBC32B85 /* Pods-FlatmatesTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 3FC5KELS79;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-auth0/ios",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
+				);
+				INFOPLIST_FILE = FlatmatesTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Flatmates.app/Flatmates";
+			};
+			name = Staging;
+		};
+		A2169CC22110AB5E00A266D1 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 92666A5AC50E103D720121A4 /* Pods-Flatmates-tvOS.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../node_modules/react-native-image-crop-picker/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-gesture-handler/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-auth0/ios",
+					"$(SRCROOT)/../node_modules/react-native-onesignal/ios/**",
+				);
+				INFOPLIST_FILE = "Flatmates-tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Staging;
+		};
+		A2169CC32110AB5E00A266D1 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 53C87534E35B2009F351C9D3 /* Pods-Flatmates-tvOSTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Flatmates-tvOSTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.Flatmates-tvOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Flatmates-tvOS.app/Flatmates-tvOS";
+				TVOS_DEPLOYMENT_TARGET = 10.1;
+			};
+			name = Staging;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2035,6 +2244,7 @@
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
 				00E356F71AD99517003FC87E /* Release */,
+				A2169CC12110AB5E00A266D1 /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2044,6 +2254,7 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+				A2169CC02110AB5E00A266D1 /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2053,6 +2264,7 @@
 			buildConfigurations = (
 				2D02E4971E0B4A5E006451C7 /* Debug */,
 				2D02E4981E0B4A5E006451C7 /* Release */,
+				A2169CC22110AB5E00A266D1 /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2062,6 +2274,7 @@
 			buildConfigurations = (
 				2D02E4991E0B4A5E006451C7 /* Debug */,
 				2D02E49A1E0B4A5E006451C7 /* Release */,
+				A2169CC32110AB5E00A266D1 /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2071,6 +2284,7 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
+				A2169CBF2110AB5E00A266D1 /* Staging */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

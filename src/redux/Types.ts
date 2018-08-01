@@ -28,6 +28,10 @@ export enum GetUserData {
     FULFILL = Routines.getUserData.FULFILL
 }
 
+export enum ValidateUserEmail {
+    SUCCESS = Routines.validateUserEmail.SUCCESS
+};
+
 export enum HouseLogin {
     SUCCESS = Routines.completeHouseLogin.SUCCESS,
     FAILURE = Routines.completeHouseLogin.FAILURE
