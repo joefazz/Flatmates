@@ -167,6 +167,8 @@ export class House extends React.Component<Props, State> {
                             <HouseComponent
                                 updateHouse={this.props.updateHouse}
                                 house={house}
+                                userID={this.props.userID}
+                                users={house.users}
                                 road={this.state.road === '' ? house.road : this.state.road}
                                 setRoad={this.setRoad}
                                 navigation={this.props.navigation}
@@ -230,7 +232,8 @@ const updateHouseMutation = graphql(UPDATE_HOUSE_MUTATION, {
 })
 
 const mapStateToProps = (state: ReduxState) => ({
-    house: state.profile.house
+    house: state.profile.house,
+    userID: state.login.id
 });
 
 export default compose(connect(mapStateToProps, {}), updateHouseMutation)(House)

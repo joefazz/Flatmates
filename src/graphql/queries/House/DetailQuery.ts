@@ -13,6 +13,11 @@ export const HOUSE_DETAILS_QUERY = gql`
             post {
                 viewCount
             }
+            users {
+                id
+                name
+                profilePicture
+            }
         }
     }
 `;

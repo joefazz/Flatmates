@@ -1,22 +1,26 @@
 import React from 'react';
-import { View, TextInput, Text, StyleSheet, AsyncStorage } from 'react-native';
+import { View, TextInput, Text, StyleSheet, AsyncStorage, Alert, TouchableOpacity } from 'react-native';
 import { EditableStatRow } from '../widgets/EditableStatRow';
-import { Button } from 'react-native-elements';
+import { Button, Avatar } from 'react-native-elements';
 import { StatRow } from '../widgets/StatRow';
-import { House } from '../types/Entities';
+import { House, User } from '../types/Entities';
 import { toConstantWidth, toConstantHeight, toConstantFontSize } from '../utils/PercentageConversion';
 import { Colors } from '../consts';
 import { FontFactory } from '../consts/font';
 import { UpdateHouseMutationVariables } from '../graphql/Types';
 import { TouchableRect } from '../widgets/TouchableRect';
 import { DOMAIN } from '../consts/endpoint';
+import { ScrollView } from 'react-native-gesture-handler';
+import { profile } from '../styles';
 
 interface Props {
     house: House;
+    users: User[];
     road: string;
+    userID: string;
     contentEditable: boolean;
     updateHouse: (params: UpdateHouseMutationVariables) => void;
-    navigation: { navigate: (route: string) => void; }
+    navigation: { navigate: (route: string, params?: any) => void; }
     setRoad: (road: string, spaces: number, billsPrice: number, rentPrice: number) => void;
 }
 
@@ -136,44 +140,6 @@ export class HouseComponent extends React.Component<Props> {
 
                         </View>
 
-                        <TouchableRect
-                            title={'Send Payment Reminder'}
-                            buttonStyle={{ width: toConstantWidth(100) }}
-                            backgroundColor={Colors.brandPrimaryColor}
-                            onPress={() => fetch(`${DOMAIN}/PaymentNotification`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ houseID: house.shortID }) })
-                                .then(() => alert('Notification sent!'))
-                                .catch(err => console.log(err))}
-                        />
-
-                        {/*house.users.length > 1 ? (
-                            <ScrollView
-                                contentContainerStyle={profile.preferencesWrapper}
-                            >
-                                <Text style={profile.aboutLabel}>Flatmates</Text>
-                                {house.users.map((flatmate) => {
-                                    return (
-                                        <Text
-                                            key={flatmate.name}
-                                            style={profile.aboutText}
-                                        >
-                                            {flatmate.name}
-                                        </Text>
-                                    );
-                                })}
-                            </ScrollView>
-                        ) : (
-                            <React.Fragment />
-                        )*/}
-
-                        {/* <Button
-                            title={'RESET DATA BACK TO LOGIN'}
-                            containerViewStyle={{ marginTop: 20 }}
-                            backgroundColor={Colors.brandPrimaryColor}
-                            onPress={() =>
-                                AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
-                            }
-                        /> */}
-
                     </View>
                 </>
             );
@@ -181,7 +147,7 @@ export class HouseComponent extends React.Component<Props> {
 
         return (
             <>
-                <View style={{ width: toConstantWidth(100), height: toConstantHeight(100) }}>
+                <ScrollView style={{ width: toConstantWidth(100), height: toConstantHeight(100) }}>
                     <View style={styles.headingWrapper}>
                         <Text style={styles.heading}>{this.props.road}</Text>
                     </View>
@@ -229,45 +195,60 @@ export class HouseComponent extends React.Component<Props> {
                         />
                     </View>
 
+                    {this.props.users && (
+                        <>
+                            <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, marginTop: 20, color: Colors.brandPrimaryColor, marginBottom: 5 }}>Flatmates</Text>
+                            <View style={{
+                                shadowColor: Colors.grey,
+                                shadowRadius: 2,
+                                shadowOpacity: 0.5,
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 2
+                                },
+                                elevation: 2
+                            }}>
+                                {house.users.map((flatmate, index) => {
+                                    if (flatmate.id === this.props.userID) {
+                                        return <View />
+                                    }
+
+                                    return (
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('UserProfile', { id: flatmate.id, data: flatmate })} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.offWhite, borderBottomWidth: 1, borderColor: Colors.grey, borderTopWidth: index === 0 ? 1 : 0 }}>
+                                            <Avatar containerStyle={{ width: 60, height: 60 }} avatarStyle={{ width: 60, height: 60 }} source={{ uri: flatmate.profilePicture }} />
+                                            <Text
+                                                key={flatmate.name}
+                                                style={{ ...FontFactory(), flex: 3, fontSize: 20, marginLeft: toConstantWidth(5) }}
+                                            >
+                                                {flatmate.name}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    );
+                                })}
+                            </View>
+                        </>
+                    )}
+
                     <TouchableRect
                         title={'Send Payment Reminder'}
                         backgroundColor={Colors.brandPrimaryColor}
                         buttonStyle={{ width: toConstantWidth(100) }}
+                        wrapperStyle={{ borderRadius: 0, marginBottom: 1, marginTop: 20 }}
                         onPress={() => fetch(`${DOMAIN}/PaymentNotification`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ houseID: house.shortID }) })
                             .then(() => alert('Notification sent!'))
                             .catch(err => console.log(err))}
                     />
-
-                    {/*house.users.length > 1 ? (
-                        <ScrollView
-                            contentContainerStyle={profile.preferencesWrapper}
-                        >
-                            <Text style={profile.aboutLabel}>Flatmates</Text>
-                            {house.users.map((flatmate) => {
-                                return (
-                                    <Text
-                                        key={flatmate.name}
-                                        style={profile.aboutText}
-                                    >
-                                        {flatmate.name}
-                                    </Text>
-                                );
-                            })}
-                        </ScrollView>
-                    ) : (
-                        <React.Fragment />
-                    )*/}
-
-                    {/* <Button
-                        title={'RESET DATA BACK TO LOGIN'}
-                        containerViewStyle={{ marginTop: 20 }}
+                    <TouchableRect
+                        title={'Leave House'}
                         backgroundColor={Colors.brandPrimaryColor}
+                        wrapperStyle={{ borderRadius: 0 }}
+                        buttonStyle={{ width: toConstantWidth(100) }}
                         onPress={() =>
-                            AsyncStorage.clear(() => this.props.navigation.navigate('Login'))
+                            Alert.alert('Hold Up', "What you're about to do is pretty serious, in order get back into this house you'll have to apply. Are you sure you want to leave?", [{ text: "I'm Sure", onPress: () => console.log('prank') }, { text: "Oops No Thanks", onPress: () => console.log('heavens') }])
                         }
-                    /> */}
+                    />
 
-                </View>
+                </ScrollView>
             </>
         );
     }

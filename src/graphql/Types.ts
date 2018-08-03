@@ -1,6 +1,20 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export interface CompleteApplicationMutationVariables {
+  id: string,
+  applicantID: string,
+  houseID: number,
+  houseName: string,
+  applicantName: string,
+};
+
+export interface CompleteApplicationMutation {
+  completeApplication:  {
+    shortID: number,
+  } | null,
+};
+
 export interface CreateApplicationMutationVariables {
   userID: string,
   houseID: number,

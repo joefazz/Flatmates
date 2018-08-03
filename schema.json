@@ -655,17 +655,13 @@
               "deprecationReason": null
             },
             {
-              "name": "applicationAllowance",
+              "name": "sentApplicationCount",
               "description": "",
               "args": [],
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4587,7 +4583,7 @@
               "defaultValue": null
             },
             {
-              "name": "applicationAllowance",
+              "name": "sentApplicationCount",
               "description": "",
               "type": {
                 "kind": "SCALAR",
@@ -4597,7 +4593,7 @@
               "defaultValue": null
             },
             {
-              "name": "applicationAllowance_not",
+              "name": "sentApplicationCount_not",
               "description": "All values that are not equal to given value.",
               "type": {
                 "kind": "SCALAR",
@@ -4607,7 +4603,7 @@
               "defaultValue": null
             },
             {
-              "name": "applicationAllowance_in",
+              "name": "sentApplicationCount_in",
               "description": "All values that are contained in given list.",
               "type": {
                 "kind": "LIST",
@@ -4625,7 +4621,7 @@
               "defaultValue": null
             },
             {
-              "name": "applicationAllowance_not_in",
+              "name": "sentApplicationCount_not_in",
               "description": "All values that are not contained in given list.",
               "type": {
                 "kind": "LIST",
@@ -4643,7 +4639,7 @@
               "defaultValue": null
             },
             {
-              "name": "applicationAllowance_lt",
+              "name": "sentApplicationCount_lt",
               "description": "All values less than the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -4653,7 +4649,7 @@
               "defaultValue": null
             },
             {
-              "name": "applicationAllowance_lte",
+              "name": "sentApplicationCount_lte",
               "description": "All values less than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -4663,7 +4659,7 @@
               "defaultValue": null
             },
             {
-              "name": "applicationAllowance_gt",
+              "name": "sentApplicationCount_gt",
               "description": "All values greater than the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -4673,7 +4669,7 @@
               "defaultValue": null
             },
             {
-              "name": "applicationAllowance_gte",
+              "name": "sentApplicationCount_gte",
               "description": "All values greater than or equal the given value.",
               "type": {
                 "kind": "SCALAR",
@@ -9077,13 +9073,13 @@
               "deprecationReason": null
             },
             {
-              "name": "applicationAllowance_ASC",
+              "name": "sentApplicationCount_ASC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "applicationAllowance_DESC",
+              "name": "sentApplicationCount_DESC",
               "description": "",
               "isDeprecated": false,
               "deprecationReason": null
@@ -11097,6 +11093,89 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "Application",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "completeApplication",
+              "description": "",
+              "args": [
+                {
+                  "name": "id",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "applicantID",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "houseID",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "Int",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "houseName",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "applicantName",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "String",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "House",
                 "ofType": null
               },
               "isDeprecated": false,

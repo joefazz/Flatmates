@@ -1,8 +1,9 @@
 import { ApolloError } from 'apollo-client';
 import React from 'react';
 import { compose, graphql, Query } from 'react-apollo';
-import { Platform, Text } from 'react-native';
+import { Platform, Text, TouchableOpacity } from 'react-native';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
+import Icon from "react-native-vector-icons/Entypo";
 import { connect } from 'react-redux';
 import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
 import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
@@ -11,6 +12,7 @@ import { MESSAGE_ADDED_SUBSCRIPTION } from '../../../graphql/subscriptions/Chat/
 import { ChatMessagesQuery, CreateMessageMutationVariables, HouseChatQuery, MessageAddedSubscription, UserChatQuery } from '../../../graphql/Types';
 import { Group } from '../../../types/Entities';
 import { ReduxState } from '../../../types/ReduxTypes';
+import { Colors } from '../../../consts';
 
 
 interface Props {
@@ -34,7 +36,12 @@ interface Props {
 export class ChatDetail extends React.Component<Props> {
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.title,
-        tabBarVisible: false
+        tabBarVisible: false,
+        headerRight: (
+            <TouchableOpacity style={{ marginRight: 16 }} onPress={() => console.log('call the function of madness here')}>
+                <Icon name={'dots-three-horizontal'} color={Colors.white} size={24} />
+            </TouchableOpacity>
+        )
     });
 
     componentDidMount() {
@@ -44,8 +51,6 @@ export class ChatDetail extends React.Component<Props> {
     }
 
     render() {
-
-
         return (
             <Query query={GET_CHAT_MESSAGES_QUERY} variables={{ id: this.props.navigation.state.params.groupData.id }} fetchPolicy={'network-only'}>
                 {({ subscribeToMore, data, loading, error, refetch, fetchMore }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; error: ApolloError, fetchMore: any; }) => {
