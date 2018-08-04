@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-client';
 import React from 'react';
 import { compose, graphql, Query } from 'react-apollo';
-import { Platform, Text, TouchableOpacity } from 'react-native';
+import { Platform, Text, TouchableOpacity, Modal, View } from 'react-native';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import Icon from "react-native-vector-icons/Entypo";
 import { connect } from 'react-redux';
@@ -13,6 +13,8 @@ import { ChatMessagesQuery, CreateMessageMutationVariables, HouseChatQuery, Mess
 import { Group } from '../../../types/Entities';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { Colors } from '../../../consts';
+import { toConstantWidth, toConstantHeight } from '../../../utils/PercentageConversion';
+import { FontFactory } from '../../../consts/font';
 
 
 interface Props {
@@ -23,8 +25,10 @@ interface Props {
                 messages: Array<string>;
                 groupData: Group;
                 userID: string;
+                title: string;
             };
         };
+        setParams: (params) => void;
         push: (route, params) => void;
     };
     group: Group;
@@ -33,12 +37,18 @@ interface Props {
     error: ApolloError;
 }
 
-export class ChatDetail extends React.Component<Props> {
+interface State {
+    showOptionModal: boolean;
+}
+
+export class ChatDetail extends React.Component<Props, State> {
+    state = { showOptionModal: false };
+
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.title,
         tabBarVisible: false,
         headerRight: (
-            <TouchableOpacity style={{ marginRight: 16 }} onPress={() => console.log('call the function of madness here')}>
+            <TouchableOpacity style={{ marginRight: toConstantWidth(2) }} onPress={() => navigation.state.params && navigation.state.params.toggleModal(true)}>
                 <Icon name={'dots-three-horizontal'} color={Colors.white} size={24} />
             </TouchableOpacity>
         )
@@ -48,6 +58,12 @@ export class ChatDetail extends React.Component<Props> {
         if (Platform.OS === 'android') {
             AndroidKeyboardAdjust.setAdjustResize();
         }
+
+        this.props.navigation.setParams({ toggleModal: this.toggleModal })
+    }
+
+    toggleModal = (option: boolean) => {
+        this.setState({ showOptionModal: option });
     }
 
     render() {
@@ -61,56 +77,80 @@ export class ChatDetail extends React.Component<Props> {
 
 
                     return (
-                        <ChatDetailComponent
-                            fetchMoreMessages={() => fetchMore({
-                                variables: { id: data.group.id, skip: data.group.messages.length }, updateQuery: (prev, { fetchMoreResult }) => {
-                                    if (!fetchMoreResult) {
-                                        return prev;
+                        <>
+                            <Modal visible={this.state.showOptionModal} transparent={true} animationType={'fade'}>
+                                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                    <View style={{ width: toConstantWidth(60), height: toConstantHeight(45), backgroundColor: Colors.offWhite, borderRadius: 4, alignItems: 'center', paddingTop: 10, justifyContent: 'space-between' }}>
+                                        <Text style={{ ...FontFactory({ weight: 'Bold' }), color: Colors.brandPrimaryColor, fontSize: 20 }}>{this.props.navigation.state.params.title}</Text>
+
+                                        <View>
+                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 10 }} onPress={() => console.log('pressed')} >
+                                                <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>Accept Application</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 5 }} onPress={() => console.log('pressed')} >
+                                                <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>Reject Application</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 5 }} onPress={() => console.log('pressed')} >
+                                                <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>View Profile</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandTertiaryColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 10, borderBottomEndRadius: 4, borderBottomLeftRadius: 4 }} onPress={() => this.toggleModal(false)} >
+                                            <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white }}>Close</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Modal>
+                            <ChatDetailComponent
+                                fetchMoreMessages={() => fetchMore({
+                                    variables: { id: data.group.id, skip: data.group.messages.length }, updateQuery: (prev, { fetchMoreResult }) => {
+                                        if (!fetchMoreResult) {
+                                            return prev;
+                                        }
+
+
+                                        return { group: { id: prev.group.id, __typename: 'Group', messages: [...fetchMoreResult.group.messages, ...prev.group.messages] } }
+
+
                                     }
+                                })}
+                                subscribeToNewMessages={() => subscribeToMore({
+                                    document: MESSAGE_ADDED_SUBSCRIPTION,
+                                    variables: { groupID: this.props.navigation.state.params.groupData.id },
+                                    updateQuery: (prev, { subscriptionData }: { subscriptionData: { data?: MessageAddedSubscription } }) => {
+                                        if (!subscriptionData.data) {
+                                            return prev;
+                                        }
 
+                                        const newComment = subscriptionData.data.message.node;
 
-                                    return { group: { id: prev.group.id, __typename: 'Group', messages: [...fetchMoreResult.group.messages, ...prev.group.messages] } }
+                                        if (prev.group.messages.find(message => message.id === newComment.id) === undefined) {
 
+                                            const newPayload = Object.assign({}, prev, {
+                                                group: {
+                                                    messages: prev.group.messages.concat(newComment),
+                                                    __typename: 'Group'
+                                                }
+                                            });
 
-                                }
-                            })}
-                            subscribeToNewMessages={() => subscribeToMore({
-                                document: MESSAGE_ADDED_SUBSCRIPTION,
-                                variables: { groupID: this.props.navigation.state.params.groupData.id },
-                                updateQuery: (prev, { subscriptionData }: { subscriptionData: { data?: MessageAddedSubscription } }) => {
-                                    if (!subscriptionData.data) {
-                                        return prev;
+                                            return newPayload;
+                                        } else {
+                                            return prev;
+                                        }
+
                                     }
-
-                                    const newComment = subscriptionData.data.message.node;
-
-                                    if (prev.group.messages.find(message => message.id === newComment.id) === undefined) {
-
-                                        const newPayload = Object.assign({}, prev, {
-                                            group: {
-                                                messages: prev.group.messages.concat(newComment),
-                                                __typename: 'Group'
-                                            }
-                                        });
-
-                                        return newPayload;
-                                    } else {
-                                        return prev;
-                                    }
-
-                                }
-                            })}
-                            navigation={this.props.navigation}
-                            isLoading={loading}
-                            username={this.props.username}
-                            data={{
-                                groupInfo: this.props.navigation.state.params.groupData,
-                                messages: loading ? [] : data.group.messages
-                            }}
-                            refetch={refetch}
-                            userID={this.props.navigation.state.params.userID}
-                            createMessage={this.props.createMessage}
-                        />
+                                })}
+                                navigation={this.props.navigation}
+                                isLoading={loading}
+                                username={this.props.username}
+                                data={{
+                                    groupInfo: this.props.navigation.state.params.groupData,
+                                    messages: loading ? [] : data.group.messages
+                                }}
+                                refetch={refetch}
+                                userID={this.props.navigation.state.params.userID}
+                                createMessage={this.props.createMessage}
+                            />
+                        </>
                     )
                 }}
             </Query>
