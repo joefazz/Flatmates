@@ -1,27 +1,28 @@
 import React from 'react';
 import { graphql, compose, Query } from 'react-apollo';
-import { Text, View, AsyncStorage, Platform, ActivityIndicator, StyleSheet } from 'react-native';
+import { Text, View, Platform, ActivityIndicator } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 
 import { connect } from 'react-redux';
 import { FloatingAction } from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Colors } from '../consts';
-import { Button } from 'react-native-elements';
 import { ReduxState } from '../types/ReduxTypes';
 import { House as HouseType } from '../types/Entities';
 import { HeaderButtonIOS, PostCard } from '../widgets';
 import { UPDATE_HOUSE_MUTATION } from '../graphql/mutations';
-import { UpdateHouseMutationVariables, HouseDetailQuery, UpdateHouseMutation } from '../graphql/Types';
+import { UpdateHouseMutationVariables, HouseDetailQuery, UpdateHouseMutation, LeaveHouseMutationVariables } from '../graphql/Types';
 import { HOUSE_DETAILS_QUERY, POST_LIST_QUERY } from '../graphql/queries';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { HouseComponent } from '../components/HouseComponent';
-import { ANNOTATION_SIZE } from '../widgets/MapView';
 import { FontFactory } from '../consts/font';
 import { toConstantFontSize } from '../utils/PercentageConversion';
+import { leaveHouse } from '../redux/Routines';
 
 interface Props {
     house: HouseType;
+    userID: string;
+    username: string;
     navigation: {
         navigate: (route: string, params: any) => void;
         setParams: any;
@@ -32,6 +33,7 @@ interface Props {
         }
     };
     updateHouse: (params: UpdateHouseMutationVariables) => UpdateHouseMutation;
+    leaveHouse: (params: LeaveHouseMutationVariables) => void;
     loading: boolean;
 }
 
@@ -93,6 +95,11 @@ export class House extends React.Component<Props, State> {
 
             }
         }
+    }
+
+    leaveHouse = (params: LeaveHouseMutationVariables) => {
+        this.props.leaveHouse(params);
+        this.props.navigation.setParams({ userHasHouse: false });
     }
 
     renderAnnotation(post) {
@@ -168,7 +175,9 @@ export class House extends React.Component<Props, State> {
                                 updateHouse={this.props.updateHouse}
                                 house={house}
                                 userID={this.props.userID}
+                                username={this.props.username}
                                 users={house.users}
+                                leaveHouse={this.leaveHouse}
                                 road={this.state.road === '' ? house.road : this.state.road}
                                 setRoad={this.setRoad}
                                 navigation={this.props.navigation}
@@ -229,11 +238,16 @@ const updateHouseMutation = graphql(UPDATE_HOUSE_MUTATION, {
                 }
             })
     })
-})
+});
 
 const mapStateToProps = (state: ReduxState) => ({
     house: state.profile.house,
-    userID: state.login.id
+    userID: state.login.id,
+    username: state.profile.name
 });
 
-export default compose(connect(mapStateToProps, {}), updateHouseMutation)(House)
+const bindActions = (dispatch) => ({
+    leaveHouse: (params: LeaveHouseMutationVariables) => dispatch(leaveHouse(params))
+});
+
+export default compose(connect(mapStateToProps, bindActions), updateHouseMutation)(House)

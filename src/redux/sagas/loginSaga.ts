@@ -12,7 +12,9 @@ import {
     CreateUserUpdateHouseMutation,
     CreateUserCreateHouseMutationVariables,
     CreateUserMutationVariables,
-    CreateUserUpdateHouseMutationVariables
+    CreateUserUpdateHouseMutationVariables,
+    LeaveHouseMutation,
+    LeaveHouseMutationVariables
 } from '../../graphql/Types';
 import {
     getUserData,
@@ -20,9 +22,11 @@ import {
     readOnlyLogin,
     createUserWithHouse,
     createUserJoinHouse,
-    validateUserEmail
+    validateUserEmail,
+    leaveHouse
 } from '../Routines';
 import OneSignal from 'react-native-onesignal';
+import { LEAVE_HOUSE_MUTATION } from '../../graphql/mutations/User/LeaveHouse';
 
 export const loginSaga = function* () {
     yield takeEvery(createUser.TRIGGER, login);
@@ -31,6 +35,7 @@ export const loginSaga = function* () {
     yield takeEvery(createUserWithHouse.TRIGGER, houseLogin);
     yield takeEvery(createUserJoinHouse.TRIGGER, joinHouse);
     yield takeEvery(validateUserEmail.TRIGGER, validate);
+    yield takeEvery(leaveHouse.TRIGGER, leave);
 };
 
 async function createUserMutation(
@@ -73,6 +78,21 @@ async function createUserUpdateHouseMutation(
     });
 
     return userData;
+}
+
+async function leaveHouseMutation(
+    params: LeaveHouseMutationVariables
+): Promise<LeaveHouseMutation> {
+    console.log(params)
+    const {
+        data: { leaveHouse }
+    } = await client.mutate<LeaveHouseMutation>({
+        mutation: LEAVE_HOUSE_MUTATION,
+        variables: { ...params },
+        fetchPolicy: 'no-cache'
+    })
+
+    return leaveHouse;
 }
 
 const login = function* ({ payload }) {
@@ -143,6 +163,23 @@ const joinHouse = function* ({ payload }) {
         createUserJoinHouse.fulfill();
     }
 };
+
+const leave = function* ({ payload }) {
+    console.log(payload);
+    yield put(leaveHouse.request());
+    // Wait for response from API and assign it to response
+    try {
+        const result = yield leaveHouseMutation(payload);
+
+        yield put(leaveHouse.success({ ...result }));
+
+        OneSignal.deleteTag('house_id');
+    } catch (error) {
+        yield put(leaveHouse.failure(error));
+    } finally {
+        leaveHouse.fulfill();
+    }
+}
 
 const readOnly = function* () {
     yield put(readOnlyLogin.success());

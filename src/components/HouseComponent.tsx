@@ -7,7 +7,7 @@ import { House, User } from '../types/Entities';
 import { toConstantWidth, toConstantHeight, toConstantFontSize } from '../utils/PercentageConversion';
 import { Colors } from '../consts';
 import { FontFactory } from '../consts/font';
-import { UpdateHouseMutationVariables } from '../graphql/Types';
+import { UpdateHouseMutationVariables, LeaveHouseMutationVariables } from '../graphql/Types';
 import { TouchableRect } from '../widgets/TouchableRect';
 import { DOMAIN } from '../consts/endpoint';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -18,7 +18,9 @@ interface Props {
     users: User[];
     road: string;
     userID: string;
+    username: string;
     contentEditable: boolean;
+    leaveHouse: (params: LeaveHouseMutationVariables) => void;
     updateHouse: (params: UpdateHouseMutationVariables) => void;
     navigation: { navigate: (route: string, params?: any) => void; }
     setRoad: (road: string, spaces: number, billsPrice: number, rentPrice: number) => void;
@@ -195,7 +197,7 @@ export class HouseComponent extends React.Component<Props> {
                         />
                     </View>
 
-                    {this.props.users && (
+                    {house.users.filter(user => user.id !== this.props.userID).length > 0 && (
                         <>
                             <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, marginTop: 20, color: Colors.brandPrimaryColor, marginBottom: 5 }}>Flatmates</Text>
                             <View style={{
@@ -208,16 +210,12 @@ export class HouseComponent extends React.Component<Props> {
                                 },
                                 elevation: 2
                             }}>
-                                {house.users.map((flatmate, index) => {
-                                    if (flatmate.id === this.props.userID) {
-                                        return <View />
-                                    }
+                                {house.users.filter(user => user.id !== this.props.userID).map((flatmate, index) => {
 
                                     return (
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('UserProfile', { id: flatmate.id, data: flatmate })} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.offWhite, borderBottomWidth: 1, borderColor: Colors.grey, borderTopWidth: index === 0 ? 1 : 0 }}>
+                                        <TouchableOpacity key={flatmate.id} onPress={() => this.props.navigation.navigate('UserProfile', { id: flatmate.id, data: flatmate })} style={{ flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.offWhite, borderBottomWidth: 1, borderColor: Colors.grey, borderTopWidth: index === 0 ? 1 : 0 }}>
                                             <Avatar containerStyle={{ width: 60, height: 60 }} avatarStyle={{ width: 60, height: 60 }} source={{ uri: flatmate.profilePicture }} />
                                             <Text
-                                                key={flatmate.name}
                                                 style={{ ...FontFactory(), flex: 3, fontSize: 20, marginLeft: toConstantWidth(5) }}
                                             >
                                                 {flatmate.name}
@@ -244,7 +242,7 @@ export class HouseComponent extends React.Component<Props> {
                         wrapperStyle={{ borderRadius: 0 }}
                         buttonStyle={{ width: toConstantWidth(100) }}
                         onPress={() =>
-                            Alert.alert('Hold Up', "What you're about to do is pretty serious, in order get back into this house you'll have to apply. Are you sure you want to leave?", [{ text: "I'm Sure", onPress: () => console.log('prank') }, { text: "Oops No Thanks", onPress: () => console.log('heavens') }])
+                            Alert.alert('Hold Up', "What you're about to do is pretty serious, in order get back into this house you'll have to apply. Are you sure you want to leave?", [{ text: "I'm Sure", onPress: () => this.props.leaveHouse({ id: this.props.userID, houseID: this.props.house.shortID, name: this.props.username }) }, { text: "Oops No Thanks", onPress: () => console.log('heavens') }])
                         }
                     />
 

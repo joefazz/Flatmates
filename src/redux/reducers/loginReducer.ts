@@ -45,11 +45,6 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
                 loginStatus: LoginStatus.ENDED
             });
 
-        case CreatePost.SUCCESS:
-            return Object.assign({}, state, {
-                hasCreatedPost: true
-            });
-
         case GetUserData.SUCCESS:
             const { id, name, authId, email } = action.payload as DataPayload;
 
@@ -110,11 +105,6 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
         case CreateUserJoinHouse.FULFILL:
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.ENDED
-            });
-
-        case CreatePost.SUCCESS:
-            return Object.assign({}, state, {
-                hasCreatedPost: true
             });
 
         default:

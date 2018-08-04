@@ -37,59 +37,66 @@ export enum HouseLogin {
     FAILURE = Routines.completeHouseLogin.FAILURE
 }
 
-export enum GetPosts {
-    REQUEST = Routines.getPosts.REQUEST,
-    SUCCESS = Routines.getPosts.SUCCESS,
-    FAILURE = Routines.getPosts.FAILURE,
-    FULFILL = Routines.getPosts.FULFILL
+export enum LeaveHouse {
+    REQUEST = Routines.leaveHouse.REQUEST,
+    SUCCESS = Routines.leaveHouse.SUCCESS,
+    FAILURE = Routines.leaveHouse.FAILURE,
+    FULFILL = Routines.leaveHouse.FULFILL
 }
 
-export enum CreatePost {
-    REQUEST = Routines.createPost.REQUEST,
-    SUCCESS = Routines.createPost.SUCCESS,
-    FAILURE = Routines.createPost.FAILURE,
-    FULFILL = Routines.createPost.FULFILL
-}
+// export enum GetPosts {
+//     REQUEST = Routines.getPosts.REQUEST,
+//     SUCCESS = Routines.getPosts.SUCCESS,
+//     FAILURE = Routines.getPosts.FAILURE,
+//     FULFILL = Routines.getPosts.FULFILL
+// }
 
-export enum ToggleFilter {
-    SUCCESS = Routines.toggleFilter.SUCCESS,
-    FAILURE = Routines.toggleFilter.FAILURE
-}
+// export enum CreatePost {
+//     REQUEST = Routines.createPost.REQUEST,
+//     SUCCESS = Routines.createPost.SUCCESS,
+//     FAILURE = Routines.createPost.FAILURE,
+//     FULFILL = Routines.createPost.FULFILL
+// }
 
-export enum GetReceivedApplications {
-    REQUEST = Routines.getReceivedApplications.REQUEST,
-    SUCCESS = Routines.getReceivedApplications.SUCCESS,
-    FAILURE = Routines.getReceivedApplications.FAILURE,
-    FULFILL = Routines.getReceivedApplications.FULFILL
-}
+// export enum ToggleFilter {
+//     SUCCESS = Routines.toggleFilter.SUCCESS,
+//     FAILURE = Routines.toggleFilter.FAILURE
+// }
 
-export enum GetSentApplications {
-    REQUEST = Routines.getSentApplications.REQUEST,
-    SUCCESS = Routines.getSentApplications.SUCCESS,
-    FAILURE = Routines.getSentApplications.FAILURE,
-    FULFILL = Routines.getSentApplications.FULFILL
-}
+// export enum GetReceivedApplications {
+//     REQUEST = Routines.getReceivedApplications.REQUEST,
+//     SUCCESS = Routines.getReceivedApplications.SUCCESS,
+//     FAILURE = Routines.getReceivedApplications.FAILURE,
+//     FULFILL = Routines.getReceivedApplications.FULFILL
+// }
 
-export enum CreateApplication {
-    SUCCESS = Routines.createApplication.SUCCESS,
-    FAILURE = Routines.createApplication.FAILURE
-}
+// export enum GetSentApplications {
+//     REQUEST = Routines.getSentApplications.REQUEST,
+//     SUCCESS = Routines.getSentApplications.SUCCESS,
+//     FAILURE = Routines.getSentApplications.FAILURE,
+//     FULFILL = Routines.getSentApplications.FULFILL
+// }
 
-export enum DeleteApplication {
-    SUCCESS = Routines.deleteApplication.SUCCESS,
-    FAILURE = Routines.deleteApplication.FAILURE
-}
+// export enum CreateApplication {
+//     SUCCESS = Routines.createApplication.SUCCESS,
+//     FAILURE = Routines.createApplication.FAILURE
+// }
 
-export enum GetMessages {
-    REQUEST = Routines.getChatMessages.REQUEST,
-    SUCCESS = Routines.getChatMessages.SUCCESS,
-    FAILURE = Routines.getChatMessages.FAILURE,
-    FULFILL = Routines.getChatMessages.FULFILL
-}
+// export enum DeleteApplication {
+//     SUCCESS = Routines.deleteApplication.SUCCESS,
+//     FAILURE = Routines.deleteApplication.FAILURE
+// }
 
-export enum CreateMessage {
-    SUCCESS = Routines.createMessage.SUCCESS,
-    FAILURE = Routines.createMessage.FAILURE
-}
+// export enum GetMessages {
+//     REQUEST = Routines.getChatMessages.REQUEST,
+//     SUCCESS = Routines.getChatMessages.SUCCESS,
+//     FAILURE = Routines.getChatMessages.FAILURE,
+//     FULFILL = Routines.getChatMessages.FULFILL
+// }
+
+// export enum CreateMessage {
+//     SUCCESS = Routines.createMessage.SUCCESS,
+//     FAILURE = Routines.createMessage.FAILURE
+// }
 
 export const READ_ONLY_LOGIN_SUCCESS = Routines.readOnlyLogin.SUCCESS;

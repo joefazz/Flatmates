@@ -11,7 +11,9 @@ import {
     GetReceivedApplications,
     GetSentApplications,
     GetMessages,
-    CreateMessage
+    CreateMessage,
+    ValidateUserEmail,
+    LeaveHouse
 } from '../redux/Types';
 import { Course, LoginStatus, Post, StudyYear, User, Message, Application } from './Entities';
 import { Filters } from '../containers/Feed/PostList';
@@ -40,7 +42,7 @@ export interface ToggleFilterAction {
 }
 
 export interface ProfileAction {
-    type: GetUserData | HouseLogin | CreateUserWithHouse | CreateUser | CreateUserJoinHouse;
+    type: GetUserData | HouseLogin | CreateUserWithHouse | CreateUser | CreateUserJoinHouse | ValidateUserEmail | LeaveHouse;
     payload: {
         user: any;
         error: string;

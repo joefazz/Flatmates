@@ -6,7 +6,6 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 import { Colors } from '../../../consts';
 import {
     CreateGroupMutationVariables,
-    DeleteApplicationMutationVariables,
     HouseChatQuery,
     HouseApplicationsQuery,
     UpdateApplicationMutationVariables
@@ -19,7 +18,6 @@ import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../gra
 import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY } from '../../../graphql/queries';
 import { HouseApplicationDetail } from '../../../components/Applications/HouseApplicationDetail';
 import UserProfile from '../../Feed/UserProfile';
-import OneSignal from 'react-native-onesignal';
 import { UPDATE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/UpdateApplication';
 
 interface Props {

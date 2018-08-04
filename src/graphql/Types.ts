@@ -385,6 +385,22 @@ export interface DeleteUserMutation {
   } | null,
 };
 
+export interface LeaveHouseMutationVariables {
+  id: string,
+  name: string,
+  houseID: number,
+};
+
+export interface LeaveHouseMutation {
+  leaveHouse:  {
+    id: string,
+    name: string,
+    house:  {
+      road: string,
+    } | null,
+  } | null,
+};
+
 export interface StarPostMutationVariables {
   id: string,
   postID: string,
@@ -562,6 +578,11 @@ export interface HouseDetailQuery {
     post:  {
       viewCount: number | null,
     } | null,
+    users:  Array< {
+      id: string,
+      name: string,
+      profilePicture: string,
+    } > | null,
   } | null,
 };
 
