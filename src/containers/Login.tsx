@@ -26,7 +26,7 @@ import { connect } from 'react-redux';
 
 import Box from '../../Assets/box.png';
 import OpenBox from '../../Assets/Designs/Flatmates_Open_Box.png';
-import { MapboxSDK } from '../App';
+import { MapboxSDK, TRACKER } from '../App';
 import Client from '../Client';
 import { Colors, Font } from '../consts';
 import { HOUSE_DETAILS_QUERY, USER_LOGIN_QUERY } from '../graphql/queries';
@@ -60,6 +60,7 @@ import OneSignal from 'react-native-onesignal';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { STUDY_YEARS, GENDERS } from '../consts/strings';
 import { VERIFY_EMAIL_MUTATION } from '../graphql/mutations/User/VerifyEmail';
+import { performance } from 'perf_hooks';
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -148,6 +149,7 @@ export class Login extends React.Component<Props, State> {
     email: string;
     isVerifiedUser: boolean;
     authId: string;
+    START_TIME: number;
 
     constructor(props) {
         super(props);
@@ -201,6 +203,10 @@ export class Login extends React.Component<Props, State> {
         if (Platform.OS === 'android') {
             AndroidKeyboardAdjust.setAdjustPan();
         }
+
+        TRACKER.trackScreenView('Login');
+
+        this.START_TIME = performance.now();
 
         StatusBar.setBarStyle('dark-content');
     }
@@ -750,6 +756,9 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             title={'Continue'}
                             onPress={async () => {
+
+                                TRACKER.trackTiming('SIGN_UP', performance.now() - this.START_TIME, { name: 'SignUp', label: this.state.isCreatingHouse ? 'CreatingHouseFlow' : 'UserFlow' })
+
                                 let result = await fetch('https://flatmates-auth.eu.auth0.com/oauth/token',
                                     {
                                         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -1565,6 +1574,8 @@ export class Login extends React.Component<Props, State> {
                     house_id: user.house ? user.house.shortID : null
                 });
 
+                TRACKER.setUser(user.id);
+
                 this.props.getUserData(user);
 
                 if (decodedJSON.email_verified) {
@@ -1576,6 +1587,8 @@ export class Login extends React.Component<Props, State> {
                     Alert.alert('Verification Reminder', 'Flatmates is build on the trust that all users are students and we can only do that if you verify your student email address. If you\'re a first year without an email address yet please email me at "joseph@fazzino.net"');
                     this.props.navigation.navigate('Feed', { isReadOnly: true });
                 }
+
+                TRACKER.trackTiming('LOGIN', performance.now() - this.START_TIME, { name: 'Login' });
             } else {
                 this.email = decodedJSON.email;
                 this.isVerifiedUser = decodedJSON.email_verified;

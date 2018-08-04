@@ -168,6 +168,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-google-analytics-bridge')
     compile project(':react-native-code-push')
     compile project(':react-native-sentry')
     compile project(':react-native-onesignal')
