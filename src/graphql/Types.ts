@@ -128,6 +128,7 @@ export interface CreateGroupMutation {
     } | null,
     house:  {
       shortID: number,
+      road: string,
       houseImages: Array< string >,
       users:  Array< {
         id: string,
@@ -135,6 +136,10 @@ export interface CreateGroupMutation {
         name: string,
       } > | null,
     },
+    messages:  Array< {
+      id: string,
+      text: string,
+    } > | null,
   } | null,
 };
 
@@ -534,8 +539,23 @@ export interface HouseApplicationsQuery {
         genderPreference: string | null,
       },
       to:  {
+        shortID: number,
+        houseImages: Array< string >,
+        road: string,
+        coords: Array< number >,
+        spaces: number,
+        billsPrice: number,
+        rentPrice: number,
+        post:  {
+          id: string,
+          description: string,
+        } | null,
         users:  Array< {
           id: string,
+          name: string,
+          profilePicture: string,
+          course: string,
+          studyYear: string,
         } > | null,
       },
       createdAt: string,
@@ -606,6 +626,7 @@ export interface HousePostQueryVariables {
 export interface HousePostQuery {
   house:  {
     shortID: number,
+    spaces: number,
     post:  {
       id: string,
       description: string,
@@ -680,6 +701,24 @@ export interface UserApplicationsQuery {
     applications:  Array< {
       id: string,
       isActive: boolean,
+      from:  {
+        id: string,
+        name: string,
+        firstName: string,
+        lastName: string,
+        course: string,
+        age: number,
+        bio: string,
+        studyYear: string,
+        profilePicture: string,
+        gender: string,
+        isSmoker: boolean,
+        isDruggie: boolean,
+        isDrinker: boolean,
+        minPrice: number | null,
+        maxPrice: number | null,
+        genderPreference: string | null,
+      },
       to:  {
         shortID: number,
         houseImages: Array< string >,

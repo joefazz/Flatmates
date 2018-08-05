@@ -8,7 +8,7 @@ import { ApolloError } from 'apollo-client';
 import { PostListComponent } from '../../components/Feed/PostListComponent';
 import { FeedState, LoginState, ReduxState, ProfileState } from '../../types/ReduxTypes';
 import { Post } from '../../types/Entities';
-import { USER_HOUSE_POST_QUERY, POST_LIST_QUERY } from '../../graphql/queries';
+import { POST_LIST_QUERY } from '../../graphql/queries';
 import { HousePostQuery, HousePostQueryVariables, AllPostsQuery, AllPostsQueryVariables } from '../../graphql/Types';
 import { HOUSE_POST_QUERY } from '../../graphql/queries';
 import { Colors } from '../../consts';
@@ -94,7 +94,7 @@ export class PostList extends React.Component<Props> {
                                         navigation={this.props.navigation}
                                         refreshPostList={refetch}
                                         canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
-                                        userPostPermissionEnabled={(!(createLoading || loading) && !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!createData.house ? !Boolean(createData.house.post) : true}
+                                        userPostPermissionEnabled={(!(createLoading || loading) && !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!createData.house ? (createData.house.spaces > 0 ? !Boolean(createData.house.post) : false) : false}
                                         data={!!data.allPosts ? data.allPosts : []}
                                         userId={this.props.login.id}
                                     />
@@ -102,7 +102,7 @@ export class PostList extends React.Component<Props> {
                             }
 
                             }
-                        </Query>
+                        </Query>;
                     }
                     }
                 </Query>
