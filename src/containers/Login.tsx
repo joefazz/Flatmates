@@ -774,13 +774,11 @@ export class Login extends React.Component<Props, State> {
 
                                 let userDetails = await fetch(`https://flatmates-auth.eu.auth0.com/api/v2/users?q=user_id:${this.authId}&search_engine=v3`, { headers: { authorization: `Bearer ${json.access_token}` } }).then(res => res.json())
 
-                                console.log(userDetails);
-
                                 if (userDetails[0].email_verified) {
                                     client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { email: userDetails[0].email, email_verified: true } });
                                     this.props.navigation.navigate('Home', { isReadOnly: false });
                                 } else {
-                                    alert('Verify your email address in order to access the full app\'s functionality')
+                                    Alert.alert('Verification Reminder', 'Flatmates is build on the trust that all users are students and we can only do that if you verify your student email address. If you\'re a first year without an email address yet please email me at "joseph@fazzino.net"');
                                     this.props.navigation.navigate('Feed', { isReadOnly: true });
                                 }
                             }}
