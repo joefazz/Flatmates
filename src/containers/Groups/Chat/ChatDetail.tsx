@@ -269,7 +269,7 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
     })
 });
 
-const completeApplication = graphql(COMPLETE_APPLICATION_MUTATION, {
+const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
     props: ({ mutate }) =>
         ({
             completeApplication: (params: CompleteApplicationMutationVariables) => mutate({
@@ -279,6 +279,8 @@ const completeApplication = graphql(COMPLETE_APPLICATION_MUTATION, {
                         variables: { shortID: params.houseID },
                         query: HOUSE_DETAILS_QUERY,
                     });
+
+                    // THIS IS TO CHECK TOMORROW
 
                     if (houseData.house.spaces === 1) {
                         let groupData: HouseChatQuery = store.readQuery({
@@ -305,7 +307,7 @@ const completeApplication = graphql(COMPLETE_APPLICATION_MUTATION, {
                             variables: { shortID: params.houseID },
                             query: HOUSE_APPLICATIONS_QUERY,
                             data: applicationData
-                        })
+                        });
                     }
 
                     houseData.house.spaces--;
@@ -323,5 +325,5 @@ const completeApplication = graphql(COMPLETE_APPLICATION_MUTATION, {
 export default compose(
     connect((state: ReduxState) => ({ username: state.profile.name }), {}),
     createMessage,
-    completeApplication
+    completeApplicationMutation
 )(ChatDetail);
