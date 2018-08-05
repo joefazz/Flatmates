@@ -70,10 +70,10 @@ export class HouseComponent extends React.Component<Props> {
                                 }}
                             />
                             <StatRow
-                                items={[
+                                items={house.post ? [
                                     { label: 'Applications', value: house.applicationCount },
                                     { label: 'Post Views', value: house.post.viewCount }
-                                ]}
+                                ] : [{ label: 'Thing goes here', value: 0 }, { label: 'What ever', value: 'Hello' }]}
                             />
                         </View>
                         <View style={styles.statisticsWrapper}>
@@ -169,10 +169,10 @@ export class HouseComponent extends React.Component<Props> {
                             }}
                         />
                         <StatRow
-                            items={[
+                            items={house.post ? [
                                 { label: 'Applications', value: house.applicationCount },
                                 { label: 'Post Views', value: house.post.viewCount }
-                            ]}
+                            ] : [{ label: 'Thing goes here', value: 0 }, { label: 'What ever', value: 'Hello' }]}
                         />
                     </View>
                     <View style={styles.statisticsWrapper}>
