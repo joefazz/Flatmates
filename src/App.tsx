@@ -79,7 +79,7 @@ class Root extends React.Component<Props, State> {
                 Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
                 Alert.alert('Flatmates has updated!', update.label, [{ text: 'OK', style: 'default' }]);
             }
-        });
+        }).catch(err => Sentry.captureException(err));
     }
 
     componentWillUnmount() {

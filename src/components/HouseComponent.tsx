@@ -49,13 +49,35 @@ export class HouseComponent extends React.Component<Props> {
                                         switch (item.label) {
                                             case house.spaces === 1 ? 'Free Room' : 'Free Rooms':
                                                 if (house.spaces !== Number(item.value)) {
-                                                    this.props.updateHouse({
-                                                        shortID: house.shortID,
-                                                        road: house.road,
-                                                        spaces: Number(item.value),
-                                                        billsPrice: house.billsPrice,
-                                                        rentPrice: house.rentPrice
-                                                    });
+                                                    if (house.spaces === 0 && Number(item.value) > 0) {
+                                                        Alert.alert('Open Applications', 'Setting the number of spaces to more than 0 means that your house is open to new Flatmates so you will see the Chat screen change. Create a post in the homepage to advertise your space!', [{
+                                                            text: 'OK', style: 'default', onPress: () => this.props.updateHouse({
+                                                                shortID: house.shortID,
+                                                                road: house.road,
+                                                                spaces: Number(item.value),
+                                                                billsPrice: house.billsPrice,
+                                                                rentPrice: house.rentPrice
+                                                            })
+                                                        }, { text: 'Cancel', style: 'cancel' }]);
+                                                    } else if (house.spaces !== 0 && Number(item.value) === 0) {
+                                                        Alert.alert('Close Applications', 'Setting the number of spaces to 0 means that your house is closed to accepting new Flatmates so you will see the Chat screen change.', [{
+                                                            text: 'OK', style: 'default', onPress: () => this.props.updateHouse({
+                                                                shortID: house.shortID,
+                                                                road: house.road,
+                                                                spaces: Number(item.value),
+                                                                billsPrice: house.billsPrice,
+                                                                rentPrice: house.rentPrice
+                                                            })
+                                                        }, { text: 'Cancel', style: 'cancel' }]);
+                                                    } else {
+                                                        this.props.updateHouse({
+                                                            shortID: house.shortID,
+                                                            road: house.road,
+                                                            spaces: Number(item.value),
+                                                            billsPrice: house.billsPrice,
+                                                            rentPrice: house.rentPrice
+                                                        });
+                                                    }
                                                 }
                                                 break;
                                         }
@@ -199,7 +221,7 @@ export class HouseComponent extends React.Component<Props> {
 
                     {house.users.filter(user => user.id !== this.props.userID).length > 0 && (
                         <>
-                            <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, marginTop: 20, color: Colors.brandPrimaryColor, marginBottom: 5 }}>Flatmates</Text>
+                            <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, marginLeft: 4, marginTop: 20, color: Colors.brandPrimaryColor, marginBottom: 5 }}>Flatmates</Text>
                             <View style={{
                                 shadowColor: Colors.grey,
                                 shadowRadius: 2,
