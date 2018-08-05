@@ -160,25 +160,26 @@ export class House extends React.Component<Props, State> {
                 variables={{ shortID: house.shortID }}
                 fetchPolicy={'cache-and-network'}
             >
-                {({ data: { house }, loading, error }) => {
+                {({ data: { house: houseData }, loading, error }) => {
                     if (loading) {
                         return <ActivityIndicator />;
                     }
 
                     if (error) {
-                        return <Text>{error.message}</Text>
+                        return <Text>{error.message}</Text>;
                     }
 
+                    console.log(houseData);
                     return (
                         <>
                             <HouseComponent
                                 updateHouse={this.props.updateHouse}
-                                house={house}
+                                house={houseData}
                                 userID={this.props.userID}
                                 username={this.props.username}
-                                users={house.users}
+                                users={houseData.users}
                                 leaveHouse={this.leaveHouse}
-                                road={this.state.road === '' ? house.road : this.state.road}
+                                road={this.state.road === '' ? houseData.road : this.state.road}
                                 setRoad={this.setRoad}
                                 navigation={this.props.navigation}
                                 contentEditable={this.props.navigation.state.params && this.props.navigation.state.params.contentEditable} />

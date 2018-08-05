@@ -48,7 +48,7 @@ class Root extends React.Component<Props, State> {
     readonly state: State = initialState;
 
     componentDidMount() {
-        // AsyncStorage.clear();
+        AsyncStorage.clear();
         if (Platform.OS === 'ios') {
             StatusBar.setBarStyle('light-content');
         }

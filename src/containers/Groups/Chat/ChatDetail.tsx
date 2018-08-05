@@ -320,7 +320,7 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                 }
             })
         })
-})
+});
 
 export default compose(
     connect((state: ReduxState) => ({ username: state.profile.name }), {}),
