@@ -7,6 +7,24 @@ export const USER_APPLICATIONS_QUERY = gql`
             applications {
                 id
                 isActive
+                from {
+                    id
+                    name
+                    firstName
+                    lastName
+                    course
+                    age
+                    bio
+                    studyYear
+                    profilePicture
+                    gender
+                    isSmoker
+                    isDruggie
+                    isDrinker
+                    minPrice
+                    maxPrice
+                    genderPreference
+                }
                 to {
                     shortID
                     houseImages

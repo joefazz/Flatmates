@@ -12,19 +12,31 @@
         "curly": true,
         "no-switch-case-fall-through": true,
         "prefer-conditional-expression": true,
-        "quotemark": [false, "single"],
-        "variable-name": [true, "allow-pascal-case", "check-format", "allow-leading-underscore"],
+        "quotemark": [
+            false,
+            "single"
+        ],
+        "variable-name": [
+            true,
+            "allow-pascal-case",
+            "check-format",
+            "allow-leading-underscore"
+        ],
         "trailing-comma": false,
         "space-within-parens": true,
-        "semicolon": false,
-        "array-type": [false],
+        "semicolon": true,
+        "array-type": [
+            false
+        ],
         "jsx-curly-spacing": "always",
         "max-line-length": false,
         "align": false,
+        "member-ordering": false,
         "object-literal-sort-keys": false,
         "jsx-no-multiline-js": false,
         "interface-name": false,
         "eofline": false,
+        "no-var-keyword": false,
         "member-access": false,
         "jsx-no-lambda": false,
         "no-empty-interface": false,

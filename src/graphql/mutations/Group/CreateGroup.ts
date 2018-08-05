@@ -23,12 +23,17 @@ export const CREATE_GROUP_MUTATION = gql`
             }
             house {
                 shortID
+                road
                 houseImages
                 users {
                     id
                     profilePicture
                     name
                 }
+            }
+            messages(last: 1) {
+                id
+                text
             }
         }
     }

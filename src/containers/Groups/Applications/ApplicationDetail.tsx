@@ -33,6 +33,7 @@ interface Props {
                 userData: User;
                 houseData: House;
                 isSent: boolean;
+                isActive: boolean;
             };
         };
         pop: () => void;
@@ -47,7 +48,7 @@ export class ApplicationDetail extends React.Component<Props> {
     });
 
     render() {
-        const { id, userData, isSent, houseData } = this.props.navigation.state.params;
+        const { id, userData, isSent, houseData, isActive } = this.props.navigation.state.params;
 
         return (
             <>
@@ -71,7 +72,7 @@ export class ApplicationDetail extends React.Component<Props> {
                                     bottom: 0
                                 }}
                             >
-                                <TouchableRect
+                                {!isActive && <TouchableRect
                                     onPress={() =>
                                         Alert.alert(
                                             `Chat with ${userData.firstName}`,
@@ -114,7 +115,7 @@ export class ApplicationDetail extends React.Component<Props> {
                                         paddingBottom: isIphoneX() ? 18 : 0,
                                         height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
                                     }}
-                                />
+                                />}
                             </View>
                         </>
                     )}
@@ -135,7 +136,6 @@ const createGroup = graphql(CREATE_GROUP_MUTATION, {
                             shortID: params.houseID
                         }
                     });
-
 
                     houseData.house.groups.unshift(createGroup);
 

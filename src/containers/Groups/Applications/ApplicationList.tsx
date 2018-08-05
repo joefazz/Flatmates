@@ -59,6 +59,7 @@ export class ApplicationList extends React.Component<Props, State> {
                     <ApplicationListComponent
                         sentApplications={!!this.props.user ? this.props.user.applications.filter(app => app.isActive) : []}
                         receivedApplications={[]}
+                        inactiveApplications={!!this.props.user ? this.props.user.applications.filter(app => !app.isActive) : []}
                         isLoadingSent={this.props.sentLoading}
                         showReceived={showRecieved}
                         hasHouse={false}
@@ -79,6 +80,14 @@ export class ApplicationList extends React.Component<Props, State> {
                             console.log(error);
                         }
 
+                        var inactiveApplications = [];
+                        if (!!this.props.user) {
+                            if (this.props.user.applications.filter(app => !app.isActive).length === 0 && !loading) {
+                                inactiveApplications = house.applications.filter(app => !app.isActive);
+                            } else if (!loading) {
+                                inactiveApplications = this.props.user.applications.filter(app => !app.isActive).concat(house.applications.filter(app => !app.isActive));
+                            }
+                        }
 
                         return (
                             <>
@@ -86,9 +95,11 @@ export class ApplicationList extends React.Component<Props, State> {
                                     receivedApplications={!!house ? house.applications.filter(app => app.isActive) : []}
                                     isLoadingReceived={loading}
                                     sentApplications={!!this.props.user ? this.props.user.applications.filter(app => app.isActive) : []}
+                                    inactiveApplications={inactiveApplications}
                                     isLoadingSent={this.props.sentLoading}
-                                    showReceived={!!house && house.applications.filter(app => app.isActive).length > 0}
+                                    showReceived={true}
                                     hasHouse={!!house}
+                                    houseID={!!house && house.shortID}
                                     refetchReceived={refetch}
                                     refetchSent={this.props.refetch}
                                     navigation={this.props.navigation}

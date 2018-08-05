@@ -8,8 +8,6 @@ import { ChatListComponent } from '../../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY, HOUSE_CHAT_QUERY } from '../../../graphql/queries';
 import { LoginState } from '../../../types/ReduxTypes';
 import { Group, House } from '../../../types/Entities';
-import client from '../../../Client';
-import { HouseChatQuery } from '../../../graphql/Types';
 
 interface Props {
     loading: boolean;
@@ -46,7 +44,6 @@ export class ChatList extends React.Component<Props, State> {
                 >
                     {({ loading, error, data, refetch }) => {
                         if (error) {
-                            console.log(error);
                             return <Text>Error: {error.message}</Text>;
                         }
 
@@ -54,8 +51,6 @@ export class ChatList extends React.Component<Props, State> {
                             refetch();
                             this.props.refetch();
                         }
-
-                        console.log(data.house);
 
                         return (
                             <ChatListComponent

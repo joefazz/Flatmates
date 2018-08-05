@@ -59,7 +59,10 @@ export class ChatListComponent extends React.PureComponent<Props> {
     renderItem = ({ item }: { item: Group }) => {
         var groupName = '';
         var avatar = '';
-        if (item.applicant.name === this.props.username) {
+        if (!Boolean(item.applicant)) {
+            groupName = item.house.road;
+            avatar = item.house.houseImages[0];
+        } else if (item.applicant.name === this.props.username) {
             groupName = item.house.road;
             avatar = item.house.houseImages[0];
         } else {

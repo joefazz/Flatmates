@@ -11,13 +11,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
 import { Colors } from '../../consts';
-import { USER_POST_QUERY, POST_LIST_QUERY } from '../../graphql/queries';
+import { USER_POST_QUERY, POST_LIST_QUERY, USER_HOUSE_POST_QUERY, HOUSE_POST_QUERY } from '../../graphql/queries';
 import { base, feed } from '../../styles';
 import { LoginState } from '../../types/ReduxTypes';
 import { House } from '../../types/Entities';
-import { toConstantHeight } from '../../utils/PercentageConversion';
+import { toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
-import { UserPostQuery, UserPostQueryVariables, CreatePostMutationVariables, AllPostsQuery, CreatePostMutation } from '../../graphql/Types';
+import { UserPostQuery, UserPostQueryVariables, CreatePostMutationVariables, AllPostsQuery, CreatePostMutation, HousePostQuery } from '../../graphql/Types';
 import { CREATE_POST_MUTATION } from '../../graphql/mutations';
 
 interface Props {
@@ -86,7 +86,7 @@ export class CreatePost extends React.Component<Props, State> {
         return (
             <Mutation
                 mutation={CREATE_POST_MUTATION}
-                update={(store, { data }: { data: CreatePostMutation }) => {
+                update={(store, { data }) => {
                     const postData: AllPostsQuery = store.readQuery({
                         query: POST_LIST_QUERY,
                         variables: {
@@ -95,7 +95,7 @@ export class CreatePost extends React.Component<Props, State> {
                         }
                     });
 
-                    postData.allPosts.push(data.createPost);
+                    postData.allPosts.unshift(data.createPost);
 
                     store.writeQuery({
                         query: POST_LIST_QUERY,
@@ -104,6 +104,19 @@ export class CreatePost extends React.Component<Props, State> {
                             skip: 0
                         },
                         data: postData
+                    });
+
+                    const houseData: HousePostQuery = store.readQuery({
+                        query: HOUSE_POST_QUERY,
+                        variables: { shortID: this.props.user.house.shortID }
+                    });
+
+                    houseData.house.post = data.createPost;
+
+                    store.writeQuery({
+                        query: HOUSE_POST_QUERY,
+                        variables: { shortID: this.props.user.house.shortID },
+                        data: houseData
                     });
                 }}
                 optimisticResponse={
@@ -129,7 +142,7 @@ export class CreatePost extends React.Component<Props, State> {
                             justifyContent: 'flex-start'
                         }}
                     >
-                        <View style={{ marginVertical: toConstantHeight(4) }}>
+                        <View style={{ marginTop: toConstantHeight(4) }}>
                             <Text style={base.labelText}>Description</Text>
                             <TextInput
                                 onChangeText={(text) => this.setState({ description: text })}
@@ -138,20 +151,15 @@ export class CreatePost extends React.Component<Props, State> {
                                 style={feed.descriptionInput}
                                 multiline={true}
                                 returnKeyType={'done'}
-                                defaultValue={
-                                    (this.props.user.house.spaces > 0
-                                        ? 'Looking to fill ' + this.props.user.house.spaces + ' rooms '
-                                        : 'a room ') +
-                                    'on ' +
-                                    this.props.user.house.road +
-                                    '. '
-                                }
+                                placeholderTextColor={Colors.grey}
+                                placeholder={`Enter information here that you haven't already provided during sign up. Some ideas of what to talk about: total number of bedrooms, number of bathrooms, parking availability, public transport links, etcetra.`}
                             />
                         </View>
 
                         <TouchableRect
                             title={'Create'}
-                            buttonStyle={base.buttonStyle}
+                            buttonStyle={{ width: toConstantWidth(85) }}
+                            wrapperStyle={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
                             backgroundColor={Colors.brandPrimaryColor}
                             onPress={() => this.createPostTrigger(createPost)}
                         />

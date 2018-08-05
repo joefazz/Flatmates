@@ -2,7 +2,6 @@
 //  This file was automatically generated and should not be edited.
 
 export interface CompleteApplicationMutationVariables {
-  id: string,
   applicantID: string,
   houseID: number,
   houseName: string,
@@ -12,6 +11,20 @@ export interface CompleteApplicationMutationVariables {
 export interface CompleteApplicationMutation {
   completeApplication:  {
     shortID: number,
+    groups:  Array< {
+      id: string,
+      messages:  Array< {
+        id: string,
+        text: string,
+      } > | null,
+      applicant:  {
+        id: string,
+      } | null,
+    } > | null,
+    houseImages: Array< string >,
+    applications:  Array< {
+      id: string,
+    } > | null,
   } | null,
 };
 
@@ -587,19 +600,16 @@ export interface HouseDetailQuery {
 };
 
 export interface HousePostQueryVariables {
-  id: string,
+  shortID: number,
 };
 
 export interface HousePostQuery {
-  user:  {
-    id: string,
-    house:  {
-      shortID: number,
-      post:  {
-        id: string,
-        description: string,
-        lastSeen: string | null,
-      } | null,
+  house:  {
+    shortID: number,
+    post:  {
+      id: string,
+      description: string,
+      lastSeen: string | null,
     } | null,
   } | null,
 };

@@ -60,7 +60,6 @@ import OneSignal from 'react-native-onesignal';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { STUDY_YEARS, GENDERS } from '../consts/strings';
 import { VERIFY_EMAIL_MUTATION } from '../graphql/mutations/User/VerifyEmail';
-import { performance } from 'perf_hooks';
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -206,7 +205,7 @@ export class Login extends React.Component<Props, State> {
 
         TRACKER.trackScreenView('Login');
 
-        this.START_TIME = performance.now();
+        this.START_TIME = moment().unix();
 
         StatusBar.setBarStyle('dark-content');
     }
@@ -757,7 +756,7 @@ export class Login extends React.Component<Props, State> {
                             title={'Continue'}
                             onPress={async () => {
 
-                                TRACKER.trackTiming('SIGN_UP', performance.now() - this.START_TIME, { name: 'SignUp', label: this.state.isCreatingHouse ? 'CreatingHouseFlow' : 'UserFlow' })
+                                TRACKER.trackTiming('SIGN_UP', moment().unix() - this.START_TIME, { name: 'SignUp', label: this.state.isCreatingHouse ? 'CreatingHouseFlow' : 'UserFlow' })
 
                                 let result = await fetch('https://flatmates-auth.eu.auth0.com/oauth/token',
                                     {
@@ -1586,7 +1585,7 @@ export class Login extends React.Component<Props, State> {
                     this.props.navigation.navigate('Feed', { isReadOnly: true });
                 }
 
-                TRACKER.trackTiming('LOGIN', performance.now() - this.START_TIME, { name: 'Login' });
+                TRACKER.trackTiming('LOGIN', moment().unix() - this.START_TIME, { name: 'Login' });
             } else {
                 this.email = decodedJSON.email;
                 this.isVerifiedUser = decodedJSON.email_verified;

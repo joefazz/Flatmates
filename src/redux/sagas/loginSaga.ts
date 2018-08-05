@@ -165,7 +165,6 @@ const joinHouse = function* ({ payload }) {
 };
 
 const leave = function* ({ payload }) {
-    console.log(payload);
     yield put(leaveHouse.request());
     // Wait for response from API and assign it to response
     try {

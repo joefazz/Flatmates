@@ -8,8 +8,6 @@ import { feed } from '../../styles';
 import { toConstantFontSize } from '../../utils/PercentageConversion';
 import { Post } from '../../types/Entities';
 import { PostCard } from '../../widgets';
-import { Filters } from '../../containers/Feed/PostList';
-import { FlatPicker } from '../../widgets/FlatPicker';
 import { FontFactory } from '../../consts/font';
 
 interface Props {
@@ -200,17 +198,30 @@ export class PostListComponent extends React.Component<Props> {
                     onPress={() => this.props.navigation.push('CreatePost')}
                     style={feed.createCard}
                 >
-                    <Text
-                        style={[
-                            {
-                                fontSize: toConstantFontSize(8),
-                                color: Colors.brandPrimaryColor,
-                                ...Font.FontFactory({ weight: 'Light' })
-                            }
-                        ]}
-                    >
-                        +
+                    <>
+                        <Text
+                            style={[
+                                {
+                                    fontSize: toConstantFontSize(8),
+                                    color: Colors.brandPrimaryColor,
+                                    ...Font.FontFactory({ weight: 'Light' })
+                                }
+                            ]}
+                        >
+                            +
                     </Text>
+                        <Text
+                            style={[
+                                {
+                                    fontSize: toConstantFontSize(3),
+                                    color: Colors.brandPrimaryColor,
+                                    ...Font.FontFactory({ weight: 'Light' })
+                                }
+                            ]}
+                        >
+                            Create Post
+                    </Text>
+                    </>
                 </TouchableHighlight>
             );
         }

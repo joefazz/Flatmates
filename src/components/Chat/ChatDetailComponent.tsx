@@ -49,7 +49,11 @@ export class ChatDetailComponent extends React.Component<Props, State> {
 
         const usernameColors: object = {};
         const groupData = this.props.data.groupInfo;
-        const users = groupData.house.users.concat(groupData.applicant);
+        var users = groupData.house.users;
+        if (!!groupData.applicant) {
+            users = users.concat(groupData.applicant);
+        }
+
         if (groupData) {
             if (users) {
                 users.forEach((user) => {

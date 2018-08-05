@@ -1,17 +1,14 @@
 import gql from 'graphql-tag';
 
-export const USER_HOUSE_POST_QUERY = gql`
-    query HousePost($id: ID!) {
-        user(id: $id) {
-            id
-            house {
+export const HOUSE_POST_QUERY = gql`
+    query HousePost($shortID: Int!) {
+        house(shortID: $shortID) {
                 shortID
                 post {
                     id
                     description
                     lastSeen
                 }
-            }
         }
     }
 `;

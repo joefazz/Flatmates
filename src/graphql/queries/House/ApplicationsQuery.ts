@@ -26,8 +26,23 @@ export const HOUSE_APPLICATIONS_QUERY = gql`
                     genderPreference
                 }
                 to {
+                    shortID
+                    houseImages
+                    road
+                    coords
+                    spaces
+                    billsPrice
+                    rentPrice
+                    post {
+                        id
+                        description
+                    }
                     users {
                         id
+                        name
+                        profilePicture
+                        course
+                        studyYear
                     }
                 }
                 createdAt

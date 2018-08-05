@@ -7,14 +7,15 @@ import Icon from "react-native-vector-icons/Entypo";
 import { connect } from 'react-redux';
 import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
 import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
-import { GET_CHAT_MESSAGES_QUERY, HOUSE_CHAT_QUERY, USER_CHAT_QUERY } from '../../../graphql/queries';
+import { GET_CHAT_MESSAGES_QUERY, HOUSE_CHAT_QUERY, USER_CHAT_QUERY, HOUSE_DETAILS_QUERY, HOUSE_APPLICATIONS_QUERY } from '../../../graphql/queries';
 import { MESSAGE_ADDED_SUBSCRIPTION } from '../../../graphql/subscriptions/Chat/MessageAdded';
-import { ChatMessagesQuery, CreateMessageMutationVariables, HouseChatQuery, MessageAddedSubscription, UserChatQuery } from '../../../graphql/Types';
+import { ChatMessagesQuery, CreateMessageMutationVariables, HouseChatQuery, MessageAddedSubscription, UserChatQuery, CompleteApplicationMutationVariables, CompleteApplicationMutation, HouseDetailQuery, HouseApplicationsQuery } from '../../../graphql/Types';
 import { Group } from '../../../types/Entities';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { Colors } from '../../../consts';
 import { toConstantWidth, toConstantHeight } from '../../../utils/PercentageConversion';
 import { FontFactory } from '../../../consts/font';
+import { COMPLETE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/CompleteApplication';
 
 
 interface Props {
@@ -35,6 +36,7 @@ interface Props {
     username: string;
     loading: boolean;
     error: ApolloError;
+    completeApplication: (params: CompleteApplicationMutationVariables) => void;
 }
 
 interface State {
@@ -42,8 +44,6 @@ interface State {
 }
 
 export class ChatDetail extends React.Component<Props, State> {
-    state = { showOptionModal: false };
-
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.title,
         tabBarVisible: false,
@@ -52,29 +52,43 @@ export class ChatDetail extends React.Component<Props, State> {
                 <Icon name={'dots-three-horizontal'} color={Colors.white} size={24} />
             </TouchableOpacity>
         )
-    });
+    })
+
+    state = { showOptionModal: false };
 
     componentDidMount() {
         if (Platform.OS === 'android') {
             AndroidKeyboardAdjust.setAdjustResize();
         }
 
-        this.props.navigation.setParams({ toggleModal: this.toggleModal })
+        this.props.navigation.setParams({ toggleModal: this.toggleModal });
     }
 
     toggleModal = (option: boolean) => {
         this.setState({ showOptionModal: option });
     }
 
+    acceptFlatmate = () => {
+        const { applicant, house } = this.props.navigation.state.params.groupData;
+
+        if (!!applicant) {
+            this.props.completeApplication({
+                applicantID: applicant.id,
+                applicantName: applicant.name,
+                houseID: house.shortID,
+                houseName: house.road
+            });
+        }
+    }
+
     render() {
         return (
             <Query query={GET_CHAT_MESSAGES_QUERY} variables={{ id: this.props.navigation.state.params.groupData.id }} fetchPolicy={'network-only'}>
-                {({ subscribeToMore, data, loading, error, refetch, fetchMore }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; error: ApolloError, fetchMore: any; }) => {
+                {({ subscribeToMore, data, loading, error, refetch, fetchMore }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; error?: ApolloError, fetchMore: any; }) => {
 
                     if (error) {
-                        return (<Text>{error.message}</Text>)
+                        return (<Text>{error.message}</Text>);
                     }
-
 
                     return (
                         <>
@@ -84,7 +98,7 @@ export class ChatDetail extends React.Component<Props, State> {
                                         <Text style={{ ...FontFactory({ weight: 'Bold' }), color: Colors.brandPrimaryColor, fontSize: 20 }}>{this.props.navigation.state.params.title}</Text>
 
                                         <View>
-                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 10 }} onPress={() => console.log('pressed')} >
+                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 10 }} onPress={() => this.acceptFlatmate()} >
                                                 <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>Accept Application</Text>
                                             </TouchableOpacity>
                                             <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 5 }} onPress={() => console.log('pressed')} >
@@ -94,6 +108,7 @@ export class ChatDetail extends React.Component<Props, State> {
                                                 <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>View Profile</Text>
                                             </TouchableOpacity>
                                         </View>
+
                                         <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandTertiaryColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 10, borderBottomEndRadius: 4, borderBottomLeftRadius: 4 }} onPress={() => this.toggleModal(false)} >
                                             <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white }}>Close</Text>
                                         </TouchableOpacity>
@@ -254,7 +269,59 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
     })
 });
 
+const completeApplication = graphql(COMPLETE_APPLICATION_MUTATION, {
+    props: ({ mutate }) =>
+        ({
+            completeApplication: (params: CompleteApplicationMutationVariables) => mutate({
+                variables: { ...params },
+                update: (store, { completeApplication }) => {
+                    let houseData: HouseDetailQuery = store.readQuery({
+                        variables: { shortID: params.houseID },
+                        query: HOUSE_DETAILS_QUERY,
+                    });
+
+                    if (houseData.house.spaces === 1) {
+                        let groupData: HouseChatQuery = store.readQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_CHAT_QUERY
+                        });
+
+                        groupData.house.groups = completeApplication.groups;
+
+                        store.writeQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_CHAT_QUERY,
+                            data: groupData
+                        });
+
+                        let applicationData: HouseApplicationsQuery = store.readQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_APPLICATIONS_QUERY
+                        });
+
+                        applicationData.house.applications = [];
+
+                        store.writeQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_APPLICATIONS_QUERY,
+                            data: applicationData
+                        })
+                    }
+
+                    houseData.house.spaces--;
+
+                    store.writeQuery({
+                        variables: { shortID: params.houseID },
+                        query: HOUSE_DETAILS_QUERY,
+                        data: houseData
+                    });
+                }
+            })
+        })
+})
+
 export default compose(
     connect((state: ReduxState) => ({ username: state.profile.name }), {}),
-    createMessage
+    createMessage,
+    completeApplication
 )(ChatDetail);
