@@ -23,10 +23,7 @@ export class About extends React.PureComponent {
                     5 minutes after watching "The Social Network". It is the product of many hundreds of hours
                     of work and experience.{"\n"}{"\n"}
 
-                    The aim of Flatmates is not to make money, at the moment the app costs me about £50 a month to maintain
-                    (not including labour). I charge for additional applications in the hope that the app can break even eventually.
-                    If you are in desperate need of a house and can't really afford spending money on micro-transactions, please email
-                    me with the subject "Need Applications" so I can respond to you as soon as possible.{"\n"}{"\n"}
+                    The aim of Flatmates is not to make money, there was a version of this app that included microtransactions in order to buy additional applications but I removed it as I was concerned this would put people off of downloading the app and actually using it.{"\n"}{"\n"}
 
                     Please email me at <Text style={{ ...FontFactory({ weight: 'Bold' }) }}>joseph@fazzino.net</Text> with any feedback, ideas, happy thoughts etc.{"\n"}{"\n"}
                 </Text>
@@ -51,11 +48,7 @@ export class About extends React.PureComponent {
                     1. Users aren't so happy to login with Facebook after that{"\n"}
                     2. Facebook greatly restricted the access developers have making it almost useless{"\n"}
                     3. How many people actually like the things they like anyway?!{"\n"}{"\n"}
-
-                    Flatmates took almost 9 months to develop (while working a full time development job). A visual history of my code additions/deletions can be
-                    found below (try and guess where I took holidays and where I started saying to myself "it'll be done by the end of the month").
                 </Text>
-                <Image />
             </ScrollView>
         );
     }
