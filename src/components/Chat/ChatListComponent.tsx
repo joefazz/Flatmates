@@ -94,7 +94,8 @@ export class ChatListComponent extends React.PureComponent<Props> {
                     this.props.navigation.navigate('ChatDetail', {
                         title: groupName,
                         groupData: item,
-                        userID: this.props.userID
+                        userID: this.props.userID,
+                        approvePermissions: !(item.applicant.name === this.props.username)
                     })
                 }
             >

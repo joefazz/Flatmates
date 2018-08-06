@@ -24,6 +24,9 @@ export const HOUSE_APPLICATIONS_QUERY = gql`
                     minPrice
                     maxPrice
                     genderPreference
+                    house {
+                        shortID
+                    }
                 }
                 to {
                     shortID

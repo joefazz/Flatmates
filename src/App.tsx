@@ -75,7 +75,7 @@ class Root extends React.Component<Props, State> {
         // Sentry.nativeCrash();
 
         CodePush.getUpdateMetadata().then((update) => {
-            if (update.isFirstRun) {
+            if (update && update.isFirstRun) {
                 Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
                 Alert.alert('Flatmates has updated!', update.label, [{ text: 'OK', style: 'default' }]);
             }

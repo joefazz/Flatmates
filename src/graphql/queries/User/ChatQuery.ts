@@ -11,6 +11,9 @@ export const USER_CHAT_QUERY = gql`
                     id
                     name
                     profilePicture
+                    house {
+                        shortID
+                    }
                 }
                 house {
                     shortID

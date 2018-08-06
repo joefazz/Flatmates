@@ -87,6 +87,10 @@ export class ApplicationDetail extends React.Component<Props, State> {
                                 {this.state.isApproved ?
                                     <TouchableRect
                                         onPress={() => {
+                                            if (userData.house) {
+                                                Alert.alert('Uh oh', 'The user already has a house, to add them to yours ask them to go to their "My House" page, scroll to the bottom and press "Leave House"');
+                                                return;
+                                            }
                                             this.props.navigation.pop();
 
                                             this.props.completeApplication({
@@ -222,8 +226,6 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                         variables: { shortID: params.houseID },
                         query: HOUSE_DETAILS_QUERY,
                     });
-
-                    // THIS IS TO CHECK TOMORROW
 
                     if (houseData.house.spaces === 1) {
                         let groupData: HouseChatQuery = store.readQuery({

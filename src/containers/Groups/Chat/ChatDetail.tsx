@@ -1,7 +1,7 @@
 import { ApolloError } from 'apollo-client';
 import React from 'react';
 import { compose, graphql, Query } from 'react-apollo';
-import { Platform, Text, TouchableOpacity, Modal, View } from 'react-native';
+import { Platform, Text, TouchableOpacity, Modal, View, Alert } from 'react-native';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
 import Icon from "react-native-vector-icons/Entypo";
 import { connect } from 'react-redux';
@@ -47,7 +47,7 @@ export class ChatDetail extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.title,
         tabBarVisible: false,
-        headerRight: navigation.state.params && navigation.state.params.groupData.applicant && (
+        headerRight: navigation.state.params && navigation.state.params.groupData.applicant && navigation.state.params.approvePermissions && (
             <TouchableOpacity style={{ marginRight: toConstantWidth(2) }} onPress={() => navigation.state.params && navigation.state.params.toggleModal(true)}>
                 <Icon name={'dots-three-horizontal'} color={Colors.white} size={24} />
             </TouchableOpacity>
@@ -70,6 +70,11 @@ export class ChatDetail extends React.Component<Props, State> {
 
     acceptFlatmate = () => {
         const { applicant, house } = this.props.navigation.state.params.groupData;
+
+        if (applicant.house) {
+            Alert.alert('Uh oh', 'The user already has a house, to add them to yours ask them to go to their "My House" page, scroll to the bottom and press "Leave House"');
+            return;
+        }
 
         if (!!applicant) {
             this.props.completeApplication({
