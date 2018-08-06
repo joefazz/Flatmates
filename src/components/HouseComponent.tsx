@@ -84,19 +84,22 @@ export class HouseComponent extends React.Component<Props> {
                                     })
                                 }
                             />
-                            <View
-                                style={{
-                                    alignSelf: 'stretch',
-                                    height: 0.5,
-                                    backgroundColor: Colors.grey
-                                }}
-                            />
-                            <StatRow
-                                items={house.post ? [
-                                    { label: 'Applications', value: house.applicationCount },
-                                    { label: 'Post Views', value: house.post.viewCount }
-                                ] : [{ label: 'Thing goes here', value: 0 }, { label: 'What ever', value: 'Hello' }]}
-                            />
+                            {house.post &&
+                                <>
+                                    <View
+                                        style={{
+                                            alignSelf: 'stretch',
+                                            height: 0.5,
+                                            backgroundColor: Colors.grey
+                                        }}
+                                    />
+                                    <StatRow
+                                        items={house.post && [
+                                            { label: 'Applications', value: house.applicationCount },
+                                            { label: 'Post Views', value: house.post.viewCount }
+                                        ]}
+                                    />
+                                </>}
                         </View>
                         <View style={styles.statisticsWrapper}>
                             <EditableStatRow
@@ -183,19 +186,22 @@ export class HouseComponent extends React.Component<Props> {
                                 { label: house.spaces === 1 ? 'Free Room' : 'Free Rooms', value: house.spaces }
                             ]}
                         />
-                        <View
-                            style={{
-                                alignSelf: 'stretch',
-                                height: 0.5,
-                                backgroundColor: Colors.grey
-                            }}
-                        />
-                        <StatRow
-                            items={house.post ? [
-                                { label: 'Applications', value: house.applicationCount },
-                                { label: 'Post Views', value: house.post.viewCount }
-                            ] : [{ label: 'Thing goes here', value: 0 }, { label: 'What ever', value: 'Hello' }]}
-                        />
+                        {house.post &&
+                            <>
+                                <View
+                                    style={{
+                                        alignSelf: 'stretch',
+                                        height: 0.5,
+                                        backgroundColor: Colors.grey
+                                    }}
+                                />
+                                <StatRow
+                                    items={house.post && [
+                                        { label: 'Applications', value: house.applicationCount },
+                                        { label: 'Post Views', value: house.post.viewCount }
+                                    ]}
+                                />
+                            </>}
                     </View>
                     <View style={styles.statisticsWrapper}>
                         <StatRow

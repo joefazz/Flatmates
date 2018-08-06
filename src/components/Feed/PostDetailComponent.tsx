@@ -12,13 +12,14 @@ import {
     View,
     Platform,
     Modal,
-    TouchableOpacity
+    TouchableOpacity,
+    Linking
 } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { RectButton } from 'react-native-gesture-handler';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import Swiper from 'react-native-swiper';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
 
 import { Colors } from '../../consts';
@@ -132,6 +133,9 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             >
                                 <Text style={feed.roadText}>{this.props.house.road}</Text>
                                 <View style={{ marginRight: 10, marginBottom: 3 }}>
+                                    <TouchableOpacity onPress={() => Alert.alert('Report Post', 'If this post contains content that you consider to be harmful or inappropriate please report it.', [{ text: 'Report', onPress: () => Linking.openURL(`mailto:joseph@fazzino.net?subject=Report%20Post%20${this.props.id}`) }, { text: 'Cancel', style: 'cancel' }])} >
+                                        <Icon name={'flag'} size={24} style={{ color: Colors.brandPrimaryColor }} />
+                                    </TouchableOpacity>
                                     {/*<RNShineButton
                                         size={toConstantFontSize(3.5)}
                                         value={this.props.isStarred}
