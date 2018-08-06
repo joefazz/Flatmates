@@ -7,9 +7,9 @@ import Icon from "react-native-vector-icons/Entypo";
 import { connect } from 'react-redux';
 import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
 import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
-import { GET_CHAT_MESSAGES_QUERY, HOUSE_CHAT_QUERY, USER_CHAT_QUERY, HOUSE_DETAILS_QUERY, HOUSE_APPLICATIONS_QUERY } from '../../../graphql/queries';
+import { GET_CHAT_MESSAGES_QUERY, HOUSE_CHAT_QUERY, USER_CHAT_QUERY, HOUSE_DETAILS_QUERY, HOUSE_APPLICATIONS_QUERY, HOUSE_POST_QUERY, POST_LIST_QUERY } from '../../../graphql/queries';
 import { MESSAGE_ADDED_SUBSCRIPTION } from '../../../graphql/subscriptions/Chat/MessageAdded';
-import { ChatMessagesQuery, CreateMessageMutationVariables, HouseChatQuery, MessageAddedSubscription, UserChatQuery, CompleteApplicationMutationVariables, CompleteApplicationMutation, HouseDetailQuery, HouseApplicationsQuery } from '../../../graphql/Types';
+import { ChatMessagesQuery, CreateMessageMutationVariables, HouseChatQuery, MessageAddedSubscription, UserChatQuery, CompleteApplicationMutationVariables, CompleteApplicationMutation, HouseDetailQuery, HouseApplicationsQuery, HousePostQuery, AllPostsQuery } from '../../../graphql/Types';
 import { Group } from '../../../types/Entities';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { Colors } from '../../../consts';
@@ -176,7 +176,7 @@ export class ChatDetail extends React.Component<Props, State> {
                                             <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 5 }} onPress={() => console.log('pressed')} >
                                                 <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>Reject Application</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 5 }} onPress={() => console.log('pressed')} >
+                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 5 }} onPress={() => this.setState({ showOptionModal: false }, () => this.props.navigation.push('UserProfile', { id: this.props.navigation.state.params.groupData.applicant.id, data: this.props.navigation.state.params.groupData.applicant }))} >
                                                 <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>View Profile</Text>
                                             </TouchableOpacity>
                                         </View>
@@ -347,13 +347,11 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
         ({
             completeApplication: (params: CompleteApplicationMutationVariables) => mutate({
                 variables: { ...params },
-                update: (store, { completeApplication }) => {
+                update: (store, { data: { completeApplication } }) => {
                     let houseData: HouseDetailQuery = store.readQuery({
                         variables: { shortID: params.houseID },
                         query: HOUSE_DETAILS_QUERY,
                     });
-
-                    // THIS IS TO CHECK TOMORROW
 
                     if (houseData.house.spaces === 1) {
                         let groupData: HouseChatQuery = store.readQuery({
@@ -361,7 +359,9 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                             query: HOUSE_CHAT_QUERY
                         });
 
-                        groupData.house.groups = completeApplication.groups;
+                        if (groupData.house) {
+                            groupData.house.groups = completeApplication.groups;
+                        }
 
                         store.writeQuery({
                             variables: { shortID: params.houseID },
@@ -380,6 +380,39 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                             variables: { shortID: params.houseID },
                             query: HOUSE_APPLICATIONS_QUERY,
                             data: applicationData
+                        });
+
+                        let postData: HousePostQuery = store.readQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_POST_QUERY
+                        });
+
+                        let allPostData: AllPostsQuery = store.readQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            }
+                        });
+
+                        allPostData.allPosts = allPostData.allPosts.filter(post => post.id !== postData.house.post.id);
+
+                        store.writeQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            },
+                            data: allPostData
+                        });
+
+
+                        postData.house.post = null;
+
+                        store.writeQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_POST_QUERY,
+                            data: postData
                         });
                     }
 
