@@ -309,11 +309,10 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         });
 
                         const newData = houseListData.house.groups.map(group => group.id === params.groupID ? Object.assign(group, { messages: [createMessage] }) : group);
-
                         store.writeQuery({
                             query: HOUSE_CHAT_QUERY,
                             data: newData
-                        })
+                        });
                     }
 
 

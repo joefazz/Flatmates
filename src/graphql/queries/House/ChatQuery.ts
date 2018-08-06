@@ -4,7 +4,7 @@ export const HOUSE_CHAT_QUERY = gql`
     query HouseChat($shortID: Int!) {
         house(shortID: $shortID) {
             shortID
-            groups {
+            groups(orderBy: updatedAt_DESC) {
                 id
                 applicant {
                     id
@@ -26,7 +26,20 @@ export const HOUSE_CHAT_QUERY = gql`
                 }
                 messages(last: 1) {
                     id
+                    createdAt
                     text
+                    images
+                    to {
+                        id
+                    }
+                    from {
+                        id
+                        name
+                        profilePicture
+                        house {
+                            shortID
+                        }
+                    }
                 }
             }
         }
