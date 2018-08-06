@@ -11,14 +11,15 @@ import {
     UpdateApplicationMutationVariables,
     CompleteApplicationMutationVariables,
     HouseDetailQuery,
-    HousePostQuery
+    HousePostQuery,
+    AllPostsQuery
 } from '../../../graphql/Types';
 import { User, House } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
 import { TouchableRect } from '../../../widgets/TouchableRect';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../graphql/mutations';
-import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY, HOUSE_DETAILS_QUERY, HOUSE_POST_QUERY } from '../../../graphql/queries';
+import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY, HOUSE_DETAILS_QUERY, HOUSE_POST_QUERY, POST_LIST_QUERY } from '../../../graphql/queries';
 import { HouseApplicationDetail } from '../../../components/Applications/HouseApplicationDetail';
 import UserProfile from '../../Feed/UserProfile';
 import { UPDATE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/UpdateApplication';
@@ -216,7 +217,7 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
         ({
             completeApplication: (params: CompleteApplicationMutationVariables) => mutate({
                 variables: { ...params },
-                update: (store, { completeApplication }) => {
+                update: (store, { data: { completeApplication } }) => {
                     let houseData: HouseDetailQuery = store.readQuery({
                         variables: { shortID: params.houseID },
                         query: HOUSE_DETAILS_QUERY,
@@ -257,6 +258,26 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                             variables: { shortID: params.houseID },
                             query: HOUSE_POST_QUERY
                         });
+
+                        let allPostData: AllPostsQuery = store.readQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            }
+                        });
+
+                        allPostData.allPosts = allPostData.allPosts.filter(post => post.id !== postData.house.post.id);
+
+                        store.writeQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            },
+                            data: allPostData
+                        });
+
 
                         postData.house.post = null;
 

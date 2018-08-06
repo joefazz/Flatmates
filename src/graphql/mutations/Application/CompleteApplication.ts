@@ -14,6 +14,10 @@ export const COMPLETE_APPLICATION_MUTATION = gql`
                 applicant {
                     id
                 }
+                house {
+                    shortID
+                    road
+                }
             }
             houseImages
             applications {
