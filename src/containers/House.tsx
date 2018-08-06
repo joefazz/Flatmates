@@ -169,10 +169,7 @@ export class House extends React.Component<Props, State> {
                 variables={{ shortID: house.shortID }}
                 fetchPolicy={'cache-and-network'}
             >
-                {({ data: { house: houseData }, loading, error }) => {
-                    if (loading) {
-                        return <ActivityIndicator />;
-                    }
+                {({ data: { house: houseData }, loading, error, refetch }) => {
 
                     if (error) {
                         return <Text>{error.message}</Text>;
@@ -181,11 +178,13 @@ export class House extends React.Component<Props, State> {
                     return (
                         <>
                             <HouseComponent
+                                isLoading={loading}
+                                refetch={refetch}
                                 updateHouse={this.props.updateHouse}
-                                house={houseData}
+                                house={!loading && houseData}
                                 userID={this.props.userID}
                                 username={this.props.username}
-                                users={houseData.users}
+                                users={!loading && houseData.users}
                                 leaveHouse={this.leaveHouse}
                                 road={this.state.road === '' ? houseData.road : this.state.road}
                                 setRoad={this.setRoad}
