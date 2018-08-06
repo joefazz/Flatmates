@@ -20,6 +20,7 @@ interface Props {
     username: string;
     refetch: () => void;
     fetchMoreMessages: any;
+    isHouseChat: boolean;
     navigation: {
         state: {
             params: {
@@ -50,15 +51,14 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         const usernameColors: object = {};
         const groupData = this.props.data.groupInfo;
         var users = groupData.house.users;
-        if (!!groupData.applicant) {
+        if (!this.props.isHouseChat) {
             users = users.concat(groupData.applicant);
         }
 
         if (groupData) {
             if (users) {
                 users.forEach((user) => {
-                    usernameColors[user.name] =
-                        this.state.usernameColors[user.name] || randomColor({ luminosity: 'dark' });
+                    usernameColors[user.name] = this.state.usernameColors[user.name] || randomColor({ luminosity: 'dark' });
                 });
             }
 
@@ -127,7 +127,7 @@ export class ChatDetailComponent extends React.Component<Props, State> {
         }
 
         if (this.props.data.messages.length < 25) {
-            return <View />
+            return <View />;
         }
 
         if (this.props.data.messages.length % 25 === 0) {
@@ -144,7 +144,6 @@ export class ChatDetailComponent extends React.Component<Props, State> {
 
     private renderItem = ({ item }: { item: Message }) => {
         const { from } = item;
-
         return (
             <MessageComponent
                 navigation={this.props.navigation}
@@ -193,21 +192,24 @@ export class ChatDetailComponent extends React.Component<Props, State> {
             );
         }
 
-        const allUsers = this.props.data.groupInfo.house.users.concat([
-            this.props.data.groupInfo.applicant
-        ]);
+        var allUsers = this.props.data.groupInfo.house.users;
+        if (!this.props.isHouseChat) {
+            allUsers = allUsers.concat([
+                this.props.data.groupInfo.applicant
+            ]);
+        }
 
         var senderName = allUsers.find((user) => user.id === this.props.userID).name;
 
         this.props.createMessage({
             senderID: this.props.userID,
             text: text.trim(),
-            senderName: allUsers.find((user) => user.id === this.props.userID).name,
+            senderName,
             groupID: this.props.data.groupInfo.id,
             images: imageAttachment,
-            applicantID: this.props.data.groupInfo.applicant.id,
+            applicantID: this.props.isHouseChat ? null : this.props.data.groupInfo.applicant.id,
             houseID: this.props.data.groupInfo.house.shortID,
-            groupName: `${this.props.data.groupInfo.house.road}|${senderName}`
+            groupName: this.props.isHouseChat ? 'House Chat' : `${this.props.data.groupInfo.house.road}|${senderName}`
         });
     };
 }

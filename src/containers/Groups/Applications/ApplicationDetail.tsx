@@ -78,15 +78,19 @@ export class ApplicationDetail extends React.Component<Props> {
                             >
                                 {isActive ?
                                     <TouchableRect
-                                        onPress={() => this.props.completeApplication({
-                                            applicantID: userData.id,
-                                            applicantName: userData.name,
-                                            houseID: this.props.house.shortID,
-                                            houseName: this.props.house.road
-                                        })}
+                                        onPress={() => {
+                                            this.props.navigation.pop();
+
+                                            this.props.completeApplication({
+                                                applicantID: userData.id,
+                                                applicantName: userData.name,
+                                                houseID: this.props.house.shortID,
+                                                houseName: this.props.house.road
+                                            });
+                                        }}
                                         title={`Accept ${userData.firstName} as your new Flatmate`}
                                         iconName={'check-square-o'}
-                                        backgroundColor={Colors.brandSuccessColor}
+                                        backgroundColor={Colors.purple}
                                         wrapperStyle={{ borderRadius: 0 }}
                                         buttonStyle={{
                                             width: toConstantWidth(100),
@@ -109,7 +113,6 @@ export class ApplicationDetail extends React.Component<Props> {
                                                     {
                                                         text: 'Confirm',
                                                         onPress: () => {
-                                                            this.props.navigation.pop();
                                                             this.props.createGroup({
                                                                 applicantID: userData.id,
                                                                 approverName: this.props.approverName,

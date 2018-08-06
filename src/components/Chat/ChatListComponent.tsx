@@ -23,46 +23,63 @@ interface Props {
 }
 
 export class ChatListComponent extends React.PureComponent<Props> {
-    renderHeader = () => {
-        return (
-            <>
-                <RectButton
-                    style={[group.listItem, { height: toConstantHeight(12) }]}
-                    onPress={() =>
-                        this.props.navigation.navigate('ChatDetail', {
-                            title: 'De Beauvoir',
-                            groupId: '123'
-                        })
-                    }
-                >
-                    <Avatar
-                        rounded={true}
-                        source={{
-                            uri:
-                                'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
-                        }}
-                        large={true}
-                    />
-                    <View style={group.descWrapper}>
-                        <Text style={group.title}>De Beauvoir Road</Text>
-                        <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
-                            If you can send the bills that'd be sound
-                        </Text>
-                    </View>
-                    {/* <View style={true && group.unreadMarker} /> */}
-                </RectButton>
-                {this.renderSeperator()}
-            </>
-        );
+    renderHeader = (chat: Group) => {
+        if (chat) {
+            console.log(chat)
+            return (
+                <>
+                    <RectButton
+                        style={[group.listItem, { height: toConstantHeight(12) }]}
+                        onPress={() =>
+                            this.props.navigation.navigate('ChatDetail', {
+                                title: 'House Chat',
+                                groupData: chat,
+                                userID: this.props.userID
+                            })
+                        }
+                    >
+                        <Avatar
+                            rounded={true}
+                            source={{
+                                uri: chat.house.houseImages[0]
+                            }}
+                            containerStyle={{
+                                width: toConstantWidth(18),
+                                height: toConstantWidth(18),
+                                marginLeft: 3
+                            }}
+                            overlayContainerStyle={{ backgroundColor: Colors.transparent }}
+                            avatarStyle={{
+                                width: toConstantWidth(18),
+                                height: toConstantWidth(18),
+                                borderRadius: toConstantWidth(9)
+                            }}
+                        />
+                        <View style={group.descWrapper}>
+                            <Text style={group.title}>House Chat</Text>
+                            <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
+                                {!!chat.messages[0] ? chat.messages[0].text : 'New group created.'}
+                            </Text>
+                        </View>
+                        {/* <View style={true && group.unreadMarker} /> */}
+                    </RectButton>
+                    {this.renderSeperator()}
+                </>
+            );
+        }
+
+        return <View />;
     };
 
     renderItem = ({ item }: { item: Group }) => {
         var groupName = '';
         var avatar = '';
+
         if (!Boolean(item.applicant)) {
-            groupName = item.house.road;
-            avatar = item.house.houseImages[0];
-        } else if (item.applicant.name === this.props.username) {
+            return <View />;
+        }
+
+        if (item.applicant.name === this.props.username) {
             groupName = item.house.road;
             avatar = item.house.houseImages[0];
         } else {
@@ -114,11 +131,14 @@ export class ChatListComponent extends React.PureComponent<Props> {
     };
 
     render() {
+        let houseChat = this.props.data.filter(chat => !Boolean(chat.applicant));
+
         return (
             <View style={{ flex: 1 }}>
                 <FlatList
                     data={this.props.data}
                     renderItem={this.renderItem}
+                    ListHeaderComponent={() => this.renderHeader(houseChat.length > 0 && houseChat[0])}
                     ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Groups</Text>}
                     ItemSeparatorComponent={this.renderSeperator}
                     keyExtractor={(item) => item.id}

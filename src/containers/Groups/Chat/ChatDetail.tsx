@@ -47,7 +47,7 @@ export class ChatDetail extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.title,
         tabBarVisible: false,
-        headerRight: (
+        headerRight: navigation.state.params && navigation.state.params.groupData.applicant && (
             <TouchableOpacity style={{ marginRight: toConstantWidth(2) }} onPress={() => navigation.state.params && navigation.state.params.toggleModal(true)}>
                 <Icon name={'dots-three-horizontal'} color={Colors.white} size={24} />
             </TouchableOpacity>
@@ -82,6 +82,73 @@ export class ChatDetail extends React.Component<Props, State> {
     }
 
     render() {
+        if (!Boolean(this.props.navigation.state.params.groupData.applicant)) {
+            return (
+                <Query query={GET_CHAT_MESSAGES_QUERY} variables={{ id: this.props.navigation.state.params.groupData.id }} fetchPolicy={'network-only'}>
+                    {({ subscribeToMore, data, loading, error, refetch, fetchMore }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; error?: ApolloError, fetchMore: any; }) => {
+
+                        if (error) {
+                            return (<Text>{error.message}</Text>);
+                        }
+
+                        return (
+                            <ChatDetailComponent
+                                fetchMoreMessages={() => fetchMore({
+                                    variables: { id: data.group.id, skip: data.group.messages.length }, updateQuery: (prev, { fetchMoreResult }) => {
+                                        if (!fetchMoreResult) {
+                                            return prev;
+                                        }
+
+
+                                        return { group: { id: prev.group.id, __typename: 'Group', messages: [...fetchMoreResult.group.messages, ...prev.group.messages] } }
+
+
+                                    }
+                                })}
+                                subscribeToNewMessages={() => subscribeToMore({
+                                    document: MESSAGE_ADDED_SUBSCRIPTION,
+                                    variables: { groupID: this.props.navigation.state.params.groupData.id },
+                                    updateQuery: (prev, { subscriptionData }: { subscriptionData: { data?: MessageAddedSubscription } }) => {
+                                        if (!subscriptionData.data) {
+                                            return prev;
+                                        }
+
+                                        const newComment = subscriptionData.data.message.node;
+
+                                        if (prev.group.messages.find(message => message.id === newComment.id) === undefined) {
+
+                                            const newPayload = Object.assign({}, prev, {
+                                                group: {
+                                                    messages: prev.group.messages.concat(newComment),
+                                                    __typename: 'Group'
+                                                }
+                                            });
+
+                                            return newPayload;
+                                        } else {
+                                            return prev;
+                                        }
+
+                                    }
+                                })}
+                                navigation={this.props.navigation}
+                                isLoading={loading}
+                                username={this.props.username}
+                                isHouseChat={true}
+                                data={{
+                                    groupInfo: this.props.navigation.state.params.groupData,
+                                    messages: loading ? [] : data.group.messages
+                                }}
+                                refetch={refetch}
+                                userID={this.props.navigation.state.params.userID}
+                                createMessage={this.props.createMessage}
+                            />
+                        );
+                    }}
+                </Query>
+            );
+        }
+
         return (
             <Query query={GET_CHAT_MESSAGES_QUERY} variables={{ id: this.props.navigation.state.params.groupData.id }} fetchPolicy={'network-only'}>
                 {({ subscribeToMore, data, loading, error, refetch, fetchMore }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; error?: ApolloError, fetchMore: any; }) => {
@@ -161,6 +228,7 @@ export class ChatDetail extends React.Component<Props, State> {
                                     groupInfo: this.props.navigation.state.params.groupData,
                                     messages: loading ? [] : data.group.messages
                                 }}
+                                isHouseChat={false}
                                 refetch={refetch}
                                 userID={this.props.navigation.state.params.userID}
                                 createMessage={this.props.createMessage}
