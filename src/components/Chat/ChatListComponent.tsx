@@ -12,6 +12,7 @@ import {
 } from '../../utils/PercentageConversion';
 import { Group } from '../../types/Entities';
 import { Colors } from '../../consts';
+import { FontFactory } from '../../consts/font';
 
 interface Props {
     navigation: { navigate: (string, object) => void };
@@ -23,42 +24,61 @@ interface Props {
 }
 
 export class ChatListComponent extends React.PureComponent<Props> {
-    renderHeader = () => {
-        return (
-            <>
-                <RectButton
-                    style={[group.listItem, { height: toConstantHeight(12) }]}
-                    onPress={() =>
-                        this.props.navigation.navigate('ChatDetail', {
-                            title: 'De Beauvoir',
-                            groupId: '123'
-                        })
-                    }
-                >
-                    <Avatar
-                        rounded={true}
-                        source={{
-                            uri:
-                                'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
-                        }}
-                        large={true}
-                    />
-                    <View style={group.descWrapper}>
-                        <Text style={group.title}>De Beauvoir Road</Text>
-                        <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
-                            If you can send the bills that'd be sound
-                        </Text>
-                    </View>
-                    {/* <View style={true && group.unreadMarker} /> */}
-                </RectButton>
-                {this.renderSeperator()}
-            </>
-        );
+    renderHeader = (chat: Group) => {
+        if (chat) {
+            return (
+                <>
+                    <RectButton
+                        style={[group.listItem, { height: toConstantHeight(12) }]}
+                        onPress={() =>
+                            this.props.navigation.navigate('ChatDetail', {
+                                title: 'House Chat',
+                                groupData: chat,
+                                userID: this.props.userID
+                            })
+                        }
+                    >
+                        <Avatar
+                            rounded={true}
+                            source={{
+                                uri: chat.house.houseImages[0]
+                            }}
+                            containerStyle={{
+                                width: toConstantWidth(18),
+                                height: toConstantWidth(18),
+                                marginLeft: 3
+                            }}
+                            overlayContainerStyle={{ backgroundColor: Colors.transparent }}
+                            avatarStyle={{
+                                width: toConstantWidth(18),
+                                height: toConstantWidth(18),
+                                borderRadius: toConstantWidth(9)
+                            }}
+                        />
+                        <View style={group.descWrapper}>
+                            <Text style={group.title}>House Chat</Text>
+                            <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
+                                {!!chat.messages[0] ? chat.messages[0].text : 'New group created.'}
+                            </Text>
+                        </View>
+                        {/* <View style={true && group.unreadMarker} /> */}
+                    </RectButton>
+                    {this.renderSeperator()}
+                </>
+            );
+        }
+
+        return <View />;
     };
 
     renderItem = ({ item }: { item: Group }) => {
         var groupName = '';
         var avatar = '';
+
+        if (!Boolean(item.applicant)) {
+            return <View />;
+        }
+
         if (item.applicant.name === this.props.username) {
             groupName = item.house.road;
             avatar = item.house.houseImages[0];
@@ -74,7 +94,8 @@ export class ChatListComponent extends React.PureComponent<Props> {
                     this.props.navigation.navigate('ChatDetail', {
                         title: groupName,
                         groupData: item,
-                        userID: this.props.userID
+                        userID: this.props.userID,
+                        approvePermissions: !(item.applicant.name === this.props.username)
                     })
                 }
             >
@@ -111,12 +132,18 @@ export class ChatListComponent extends React.PureComponent<Props> {
     };
 
     render() {
+        var houseChat = [];
+        if (!this.props.isLoading) {
+            houseChat = this.props.data.filter(chat => !Boolean(chat.applicant));
+        }
+
         return (
             <View style={{ flex: 1 }}>
                 <FlatList
                     data={this.props.data}
                     renderItem={this.renderItem}
-                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Groups</Text>}
+                    ListHeaderComponent={() => this.renderHeader(houseChat.length > 0 && houseChat[0])}
+                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, alignSelf: 'center', marginTop: 10 }}>No Chat Groups</Text>}
                     ItemSeparatorComponent={this.renderSeperator}
                     keyExtractor={(item) => item.id}
                     refreshControl={

@@ -6,21 +6,24 @@ import { isIphoneX } from 'react-native-iphone-x-helper';
 import { Colors } from '../../../consts';
 import {
     CreateGroupMutationVariables,
-    DeleteApplicationMutationVariables,
     HouseChatQuery,
     HouseApplicationsQuery,
-    UpdateApplicationMutationVariables
+    UpdateApplicationMutationVariables,
+    CompleteApplicationMutationVariables,
+    HouseDetailQuery,
+    HousePostQuery,
+    AllPostsQuery
 } from '../../../graphql/Types';
 import { User, House } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
 import { TouchableRect } from '../../../widgets/TouchableRect';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../graphql/mutations';
-import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY } from '../../../graphql/queries';
+import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY, HOUSE_DETAILS_QUERY, HOUSE_POST_QUERY, POST_LIST_QUERY } from '../../../graphql/queries';
 import { HouseApplicationDetail } from '../../../components/Applications/HouseApplicationDetail';
 import UserProfile from '../../Feed/UserProfile';
-import OneSignal from 'react-native-onesignal';
 import { UPDATE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/UpdateApplication';
+import { COMPLETE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/CompleteApplication';
 
 interface Props {
     loading: boolean;
@@ -28,6 +31,7 @@ interface Props {
     approverID: string;
     house: House;
     user: User;
+    completeApplication: (params: CompleteApplicationMutationVariables) => void;
     navigation: {
         state: {
             params: {
@@ -35,21 +39,28 @@ interface Props {
                 userData: User;
                 houseData: House;
                 isSent: boolean;
+                isActive: boolean;
             };
         };
         pop: () => void;
     };
     createGroup: (params: CreateGroupMutationVariables & { approverID: string }) => void;
-    removeApplicationFromList: (params: UpdateApplicationMutationVariables & { houseID: number }) => void;
+    progressApplication: (params: UpdateApplicationMutationVariables & { houseID: number }) => void;
 }
 
-export class ApplicationDetail extends React.Component<Props> {
+interface State {
+    isApproved: boolean;
+}
+
+export class ApplicationDetail extends React.Component<Props, State> {
+    state = { isApproved: this.props.navigation.state.params.isActive };
+
     static navigationOptions = () => ({
         title: 'Application Detail'
     });
 
     render() {
-        const { id, userData, isSent, houseData } = this.props.navigation.state.params;
+        const { id, userData, isSent, houseData, isActive } = this.props.navigation.state.params;
 
         return (
             <>
@@ -73,50 +84,78 @@ export class ApplicationDetail extends React.Component<Props> {
                                     bottom: 0
                                 }}
                             >
-                                <TouchableRect
-                                    onPress={() =>
-                                        Alert.alert(
-                                            `Chat with ${userData.firstName}`,
-                                            'Are you sure you want to chat with ' + userData.name + '?',
-                                            [
-                                                {
-                                                    text: 'Cancel',
-                                                    onPress: () => console.log('Cancelled'),
-                                                    style: 'cancel'
-                                                },
-                                                {
-                                                    text: 'Confirm',
-                                                    onPress: () => {
-                                                        this.props.navigation.pop();
-                                                        this.props.createGroup({
-                                                            applicantID: userData.id,
-                                                            approverName: this.props.approverName,
-                                                            applicantName: `${userData.name}`,
-                                                            approverID: this.props.approverID,
-                                                            houseID: this.props.house.shortID,
-                                                            roadName: this.props.house.road
-                                                        });
-                                                        // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
-                                                        this.props.removeApplicationFromList({
-                                                            id,
-                                                            isActive: false,
-                                                            houseID: this.props.house.shortID
-                                                        });
+                                {this.state.isApproved ?
+                                    <TouchableRect
+                                        onPress={() => {
+                                            if (userData.house) {
+                                                Alert.alert('Uh oh', 'The user already has a house, to add them to yours ask them to go to their "My House" page, scroll to the bottom and press "Leave House"');
+                                                return;
+                                            }
+                                            this.props.navigation.pop();
+
+                                            this.props.completeApplication({
+                                                applicantID: userData.id,
+                                                applicantName: userData.name,
+                                                houseID: this.props.house.shortID,
+                                                houseName: this.props.house.road
+                                            });
+                                        }}
+                                        title={`Accept ${userData.firstName} as your new Flatmate`}
+                                        iconName={'check-square-o'}
+                                        backgroundColor={Colors.purple}
+                                        wrapperStyle={{ borderRadius: 0 }}
+                                        buttonStyle={{
+                                            width: toConstantWidth(100),
+                                            paddingBottom: isIphoneX() ? 18 : 0,
+                                            height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                                        }}
+                                    />
+                                    :
+                                    <TouchableRect
+                                        onPress={() =>
+                                            Alert.alert(
+                                                `Chat with ${userData.firstName}`,
+                                                'Are you sure you want to chat with ' + userData.name + '?',
+                                                [
+                                                    {
+                                                        text: 'Cancel',
+                                                        onPress: () => console.log('Cancelled'),
+                                                        style: 'cancel'
+                                                    },
+                                                    {
+                                                        text: 'Confirm',
+                                                        onPress: () => {
+                                                            this.props.createGroup({
+                                                                applicantID: userData.id,
+                                                                approverName: this.props.approverName,
+                                                                applicantName: `${userData.name}`,
+                                                                approverID: this.props.approverID,
+                                                                houseID: this.props.house.shortID,
+                                                                roadName: this.props.house.road
+                                                            });
+                                                            // Want the name of the approver/applicant and the ids of all house members so we can send them a notification
+                                                            this.props.progressApplication({
+                                                                id,
+                                                                isActive: false,
+                                                                houseID: this.props.house.shortID
+                                                            });
+
+                                                            this.setState({ isApproved: true });
+                                                        }
                                                     }
-                                                }
-                                            ]
-                                        )
-                                    }
-                                    title={`Chat with ${userData.firstName}`}
-                                    iconName={'envelope-o'}
-                                    backgroundColor={Colors.brandPrimaryColor}
-                                    wrapperStyle={{ borderRadius: 0 }}
-                                    buttonStyle={{
-                                        width: toConstantWidth(100),
-                                        paddingBottom: isIphoneX() ? 18 : 0,
-                                        height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
-                                    }}
-                                />
+                                                ]
+                                            )
+                                        }
+                                        title={`Chat with ${userData.firstName}`}
+                                        iconName={'envelope-o'}
+                                        backgroundColor={Colors.brandPrimaryColor}
+                                        wrapperStyle={{ borderRadius: 0 }}
+                                        buttonStyle={{
+                                            width: toConstantWidth(100),
+                                            paddingBottom: isIphoneX() ? 18 : 0,
+                                            height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                                        }}
+                                    />}
                             </View>
                         </>
                     )}
@@ -138,7 +177,6 @@ const createGroup = graphql(CREATE_GROUP_MUTATION, {
                         }
                     });
 
-
                     houseData.house.groups.unshift(createGroup);
 
                     store.writeQuery({
@@ -153,9 +191,9 @@ const createGroup = graphql(CREATE_GROUP_MUTATION, {
     })
 });
 
-const removeApplication = graphql(UPDATE_APPLICATION_MUTATION, {
+const progressApplication = graphql(UPDATE_APPLICATION_MUTATION, {
     props: ({ mutate }) => ({
-        removeApplicationFromList: (params: UpdateApplicationMutationVariables & { houseID: number }) =>
+        progressApplication: (params: UpdateApplicationMutationVariables & { houseID: number }) =>
             mutate({
                 variables: { ...params },
                 update: (store, { data: { updateApplication } }) => {
@@ -178,6 +216,92 @@ const removeApplication = graphql(UPDATE_APPLICATION_MUTATION, {
     })
 });
 
+const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
+    props: ({ mutate }) =>
+        ({
+            completeApplication: (params: CompleteApplicationMutationVariables) => mutate({
+                variables: { ...params },
+                update: (store, { data: { completeApplication } }) => {
+                    let houseData: HouseDetailQuery = store.readQuery({
+                        variables: { shortID: params.houseID },
+                        query: HOUSE_DETAILS_QUERY,
+                    });
+
+                    if (houseData.house.spaces === 1) {
+                        let groupData: HouseChatQuery = store.readQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_CHAT_QUERY
+                        });
+
+                        if (groupData.house) {
+                            groupData.house.groups = completeApplication.groups;
+                        }
+
+                        store.writeQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_CHAT_QUERY,
+                            data: groupData
+                        });
+
+                        let applicationData: HouseApplicationsQuery = store.readQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_APPLICATIONS_QUERY
+                        });
+
+                        applicationData.house.applications = [];
+
+                        store.writeQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_APPLICATIONS_QUERY,
+                            data: applicationData
+                        });
+
+                        let postData: HousePostQuery = store.readQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_POST_QUERY
+                        });
+
+                        let allPostData: AllPostsQuery = store.readQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            }
+                        });
+
+                        allPostData.allPosts = allPostData.allPosts.filter(post => post.id !== postData.house.post.id);
+
+                        store.writeQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            },
+                            data: allPostData
+                        });
+
+
+                        postData.house.post = null;
+
+                        store.writeQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_POST_QUERY,
+                            data: postData
+                        });
+                    }
+
+                    houseData.house.spaces--;
+
+                    store.writeQuery({
+                        variables: { shortID: params.houseID },
+                        query: HOUSE_DETAILS_QUERY,
+                        data: houseData
+                    });
+                }
+            })
+        })
+})
+
 export default compose(
     connect((state: ReduxState) => ({
         approverName: state.profile.name,
@@ -185,5 +309,6 @@ export default compose(
         approverID: state.login.id
     })),
     createGroup,
-    removeApplication
+    progressApplication,
+    completeApplicationMutation
 )(ApplicationDetail);

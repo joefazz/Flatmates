@@ -8,7 +8,7 @@ import { USER_DETAILS_QUERY } from './User/DetailQuery';
 import { USER_LOGIN_QUERY } from './User/LoginQuery';
 import { USER_BASIC_STARRED_POSTS_QUERY } from './User/BasicStarredPostQuery';
 import { HOUSE_APPLICATIONS_QUERY } from './House/ApplicationsQuery';
-import { USER_HOUSE_POST_QUERY } from './House/PostQuery';
+import { HOUSE_POST_QUERY } from './House/PostQuery';
 import { HOUSE_CHAT_QUERY } from './House/ChatQuery';
 import { USER_APPLICATIONS_QUERY } from './User/ApplicationsQuery';
 import { USER_STARRED_POSTS_QUERY } from './User/StarredPostQuery';
@@ -24,7 +24,7 @@ export {
     USER_STARRED_POSTS_QUERY,
     USER_BASIC_STARRED_POSTS_QUERY,
     HOUSE_APPLICATIONS_QUERY,
-    USER_HOUSE_POST_QUERY,
+    HOUSE_POST_QUERY,
     USER_APPLICATIONS_QUERY,
     HOUSE_CHAT_QUERY,
     GET_CHAT_MESSAGES_QUERY

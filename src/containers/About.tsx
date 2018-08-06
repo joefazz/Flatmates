@@ -1,13 +1,25 @@
 import React from 'react';
+import moment from 'moment';
 import { ScrollView, Text, Image } from "react-native";
 import logo from '../../Assets/box.png';
 import { toConstantWidth } from '../utils/PercentageConversion';
 import { FontFactory } from '../consts/font';
+import { TRACKER } from '../App';
 
 export class About extends React.PureComponent {
     static navigationOptions = () => ({
         title: 'About'
-    });
+    })
+
+    START_TIME = moment().unix();
+
+    componentDidMount() {
+        TRACKER.trackScreenView('About');
+    }
+
+    componentWillUnmount() {
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, { name: 'About', label: 'AboutPage' });
+    }
 
     render() {
         return (
@@ -18,15 +30,12 @@ export class About extends React.PureComponent {
                     where housemates would drop out and finding replacements would suck,
 
                     {"\n"}{"\n"}Flatmates is designed to be a replacement for the Facebook groups that are often run by students union.
-                    I was disappointed by the lack of structure the current solutions offered, some houses not even
-                    listing the price to rent per month!. I started coding it in November 2017 about
-                    5 minutes after watching "The Social Network". It is the product of many hundreds of hours
+I was disappointed by the lack of structure the current solutions offered, some houses not even
+listing the price to rent per month!. I started coding it in November 2017 about
+5 minutes after watching "The Social Network". It is the product of many hundreds of hours
                     of work and experience.{"\n"}{"\n"}
 
-                    The aim of Flatmates is not to make money, at the moment the app costs me about £50 a month to maintain
-                    (not including labour). I charge for additional applications in the hope that the app can break even eventually.
-                    If you are in desperate need of a house and can't really afford spending money on micro-transactions, please email
-                    me with the subject "Need Applications" so I can respond to you as soon as possible.{"\n"}{"\n"}
+                    The aim of Flatmates is not to make money, there was a version of this app that included microtransactions in order to buy additional applications but I removed it as I was concerned this would put people off of downloading the app and actually using it.{"\n"}{"\n"}
 
                     Please email me at <Text style={{ ...FontFactory({ weight: 'Bold' }) }}>joseph@fazzino.net</Text> with any feedback, ideas, happy thoughts etc.{"\n"}{"\n"}
                 </Text>
@@ -51,11 +60,7 @@ export class About extends React.PureComponent {
                     1. Users aren't so happy to login with Facebook after that{"\n"}
                     2. Facebook greatly restricted the access developers have making it almost useless{"\n"}
                     3. How many people actually like the things they like anyway?!{"\n"}{"\n"}
-
-                    Flatmates took almost 9 months to develop (while working a full time development job). A visual history of my code additions/deletions can be
-                    found below (try and guess where I took holidays and where I started saying to myself "it'll be done by the end of the month").
                 </Text>
-                <Image />
             </ScrollView>
         );
     }

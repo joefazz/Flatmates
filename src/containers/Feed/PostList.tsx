@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { compose, graphql, ChildProps, Query } from 'react-apollo';
 import { TouchableOpacity, Text, Platform, TouchableNativeFeedback, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -6,26 +7,18 @@ import { connect } from 'react-redux';
 import { ApolloError } from 'apollo-client';
 
 import { PostListComponent } from '../../components/Feed/PostListComponent';
-import { FeedState, LoginState, ReduxState } from '../../types/ReduxTypes';
+import { FeedState, LoginState, ReduxState, ProfileState } from '../../types/ReduxTypes';
 import { Post } from '../../types/Entities';
-import { USER_HOUSE_POST_QUERY, POST_LIST_QUERY } from '../../graphql/queries';
+import { POST_LIST_QUERY } from '../../graphql/queries';
 import { HousePostQuery, HousePostQueryVariables, AllPostsQuery, AllPostsQueryVariables } from '../../graphql/Types';
 import { HOUSE_POST_QUERY } from '../../graphql/queries';
 import { Colors } from '../../consts';
 import { FontFactory } from '../../consts/font';
+import { TRACKER } from '../../App';
 
 interface Props {
     login: LoginState;
-    user: {
-        house: {
-            post: {
-                id: string;
-                description: string;
-                lastSeen: string | null;
-            } | null;
-        } | null;
-    };
-    loading: boolean;
+    profile: ProfileState;
 
     navigation: { push: (route: string) => void; state: { params: { isReadOnly?: boolean }; } };
 }
@@ -45,7 +38,7 @@ export class PostList extends React.Component<Props> {
         if (Platform.OS === 'android') {
             return {
                 title: 'Flatmates'
-            }
+            };
         } else {
             return {
                 title: 'Flatmates',
@@ -60,24 +53,71 @@ export class PostList extends React.Component<Props> {
                         <Icon name={'md-help-circle'} size={28} color={Colors.white} />
                     </TouchableOpacity>
                 )
-            }
+            };
         }
-    };
+    }
+
+    START_TIME = moment().unix();
 
     componentDidMount() {
         StatusBar.setBarStyle('light-content');
+        TRACKER.trackScreenView('PostList');
     }
 
     componentWillUnmount() {
         if (this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly) {
             StatusBar.setBarStyle('dark-content');
         }
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, { name: 'PostList', label: 'PostList' });
     }
 
     render() {
+        if (!!this.props.profile.house) {
+            return (
+                <Query query={HOUSE_POST_QUERY} variables={{ shortID: this.props.profile.house.shortID }} fetchPolicy={'cache-and-network'}>
+                    {({ data: createData, loading: createLoading, error: createError }: { data: HousePostQuery; loading: boolean; error?: ApolloError; }) => {
+                        return <Query query={POST_LIST_QUERY} variables={{ take: 10, skip: 0 }} fetchPolicy={'cache-and-network'}>
+                            {({ data, loading, error, fetchMore, refetch }: { data: AllPostsQuery; loading: boolean; error?: ApolloError; fetchMore: any; refetch: () => void; }) => {
+
+                                if (error || createError) {
+                                    return <Text>{error.message} please try again.</Text>
+                                }
+
+                                return (
+                                    <PostListComponent
+                                        fetchMorePosts={() => fetchMore({
+                                            variables: { take: 10, skip: data.allPosts.length }, updateQuery: (prev, { fetchMoreResult }) => {
+                                                if (!fetchMoreResult) {
+                                                    return prev;
+                                                }
+
+                                                return Object.assign({}, prev, {
+                                                    allPosts: [...prev.allPosts, ...fetchMoreResult.allPosts]
+                                                });
+                                            }
+                                        })}
+                                        isLoading={loading}
+                                        navigation={this.props.navigation}
+                                        refreshPostList={refetch}
+                                        canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
+                                        userPostPermissionEnabled={(!(createLoading || loading) && !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!createData.house ? (createData.house.spaces > 0 ? !Boolean(createData.house.post) : false) : false}
+                                        data={!!data.allPosts ? data.allPosts : []}
+                                        userId={this.props.login.id}
+                                    />
+                                )
+                            }
+
+                            }
+                        </Query>;
+                    }
+                    }
+                </Query>
+            );
+        }
+
         return (
             <Query query={POST_LIST_QUERY} variables={{ take: 10, skip: 0 }} fetchPolicy={'cache-and-network'}>
-                {({ data, loading, error, fetchMore, refetch }: { data: AllPostsQuery; loading: boolean; error: ApolloError; fetchMore: any; refetch: () => void; }) => {
+                {({ data, loading, error, fetchMore, refetch }: { data: AllPostsQuery; loading: boolean; error?: ApolloError; fetchMore: any; refetch: () => void; }) => {
 
                     if (error) {
                         return <Text>{error.message} please try again.</Text>
@@ -100,7 +140,7 @@ export class PostList extends React.Component<Props> {
                             navigation={this.props.navigation}
                             refreshPostList={refetch}
                             canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
-                            userPostPermissionEnabled={(this.props.loading || !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!this.props.user.house ? !Boolean(this.props.user.house.post) : false}
+                            userPostPermissionEnabled={(!(this.props.loading && loading) || !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!this.props.user.house ? !Boolean(this.props.user.house.post) : false}
                             data={!!data.allPosts ? data.allPosts : []}
                             userId={this.props.login.id}
                         />
@@ -135,33 +175,7 @@ export class PostList extends React.Component<Props> {
 
 const mapStateToProps = (state: ReduxState) => ({
     login: state.login,
+    profile: state.profile
 });
 
-interface InputProps {
-    login: LoginState;
-}
-
-const housePost = graphql<
-    InputProps,
-    HousePostQuery,
-    HousePostQueryVariables,
-    ChildProps<HousePostQuery>
-    >(USER_HOUSE_POST_QUERY, {
-        options: (props) => {
-            return { variables: { id: props.login.id }, fetchPolicy: 'network-only' };
-        },
-
-        props: ({ data: { loading, user, error } }) => ({
-            loading,
-            user,
-            error
-        })
-    });
-
-export default compose(
-    connect(
-        mapStateToProps,
-        {}
-    ),
-    housePost
-)(PostList);
+export default connect(mapStateToProps, {})(PostList);

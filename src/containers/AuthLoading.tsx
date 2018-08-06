@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, AsyncStorage, StyleSheet, View, Image, ActivityIndicator } from 'react-native';
+import { AsyncStorage, StyleSheet, View, Image, ActivityIndicator, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import splash_screen from '../../Assets/splash_screen.png';
 import { LoginState } from '../types/ReduxTypes';
@@ -79,7 +79,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
                     this.props.navigation.navigate('Home', { isReadOnly: false });
                 } else {
                     this.props.validateUserEmail(false);
-                    alert('Verify your email address in order to access the full app\'s functionality')
+                    Alert.alert('Verification Reminder', 'Flatmates is build on the trust that all users are students and we can only do that if you verify your student email address. If you\'re a first year without an email address yet please email me at "joseph@fazzino.net"');
                     this.props.navigation.navigate('Feed', { isReadOnly: true });
                 }
 

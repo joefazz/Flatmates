@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>50</string>
+	<string>59</string>
 	<key>CodePushDeploymentKey</key>
 	<string>$(CODEPUSH_KEY)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -53,7 +53,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Flatmates requires access to your images to upload profile pictures and images of your house</string>
 	<key>UIAppFonts</key>

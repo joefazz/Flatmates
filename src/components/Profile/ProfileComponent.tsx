@@ -13,6 +13,7 @@ import { STUDY_YEARS, GENDERS } from '../../consts/strings';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
 import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker'
 import { DOMAIN } from '../../consts/endpoint';
+import OneSignal from 'react-native-onesignal';
 import { TouchableRect } from '../../widgets/TouchableRect';
 
 interface Props {
@@ -384,7 +385,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                             </View>
                         </View>
                     </View>
-                    {this.props.navigation.state.params && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'))} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100) }} wrapperStyle={{ borderRadius: 0 }} />}
+                    {this.props.navigation.state.params && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => { OneSignal.deleteTag('user_id', 'house_id'); this.props.navigation.navigate('Login'); })} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100) }} wrapperStyle={{ borderRadius: 0 }} />}
 
                 </View>
             );
@@ -472,7 +473,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                         </View>
                     </View>
                 </View>
-                {this.props.navigation && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'))} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100) }} wrapperStyle={{ borderRadius: 0 }} />}
+                {this.props.navigation && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => { OneSignal.deleteTag('user_id', 'house_id'); this.props.navigation.navigate('Login'); })} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100) }} wrapperStyle={{ borderRadius: 0 }} />}
             </View>
         );
     }

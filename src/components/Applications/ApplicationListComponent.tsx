@@ -14,8 +14,10 @@ import { group } from '../../styles/Group';
 interface Props {
     receivedApplications?: Array<Application>;
     sentApplications: Array<Application>;
+    inactiveApplications: Array<Application>;
     isLoadingSent: boolean;
     isLoadingReceived?: boolean;
+    houseID?: number;
     refetchSent: () => void;
     refetchReceived?: () => void;
     hasHouse: boolean;
@@ -28,6 +30,7 @@ interface Props {
                 houseData?: House;
                 userData?: User;
                 isSent: boolean;
+                isActive: boolean;
             }
         ) => void;
     };
@@ -40,19 +43,29 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                 {
                     title: 'Received Applications',
                     data: this.props.receivedApplications,
-                    renderItem: this.renderReceivedItem
+                    renderItem: this.renderItem
                 },
                 {
                     title: 'Sent Applications',
                     data: this.props.sentApplications,
-                    renderItem: this.renderSentItem
+                    renderItem: this.renderItem
+                },
+                {
+                    title: 'Pending Applications',
+                    data: this.props.inactiveApplications,
+                    renderItem: this.renderItem
                 }
             ]
             : [
                 {
                     title: 'Sent Applications',
                     data: this.props.sentApplications,
-                    renderItem: this.renderSentItem
+                    renderItem: this.renderItem
+                },
+                {
+                    title: 'Pending Applications',
+                    data: this.props.inactiveApplications,
+                    renderItem: this.renderItem
                 }
             ];
 
@@ -90,7 +103,68 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
         return <Text style={{ marginTop: 30 }}>No data to display</Text>;
     };
 
-    renderSentItem = ({ item }: { item: Application }) => {
+    renderItem = ({ item, section }: { item: Application; section: { title: string; }; }) => {
+        if (this.props.showReceived) {
+            if (!!this.props.houseID && item.to.shortID === this.props.houseID) {
+                return (
+                    <RectButton
+                        style={group.listItem}
+                        underlayColor={Colors.brandPrimaryColor}
+                        onPress={() =>
+                            this.props.navigation.navigate('ApplicationDetail', {
+                                id: item.id,
+                                userData: item.from,
+                                isSent: false,
+                                isActive: section.title === 'Pending Applications'
+                            })
+                        }
+                    >
+                        <Image
+                            source={{ uri: item.from.profilePicture }}
+                            style={styles.profilePicture}
+                            resizeMode={'cover'}
+                        />
+                        <View style={group.descWrapper}>
+                            <Text style={group.title}>
+                                {item.from.name}, {item.from.age}
+                            </Text>
+                            <Text style={group.subtitle}>{item.from.course}</Text>
+                        </View>
+                        {/* <View style={true && group.unreadMarker} /> */}
+                    </RectButton>
+                );
+            } else {
+                return (
+                    <RectButton
+                        style={group.listItem}
+                        underlayColor={Colors.brandPrimaryColor}
+                        onPress={() => {
+                            this.props.navigation.navigate('ApplicationDetail', {
+                                id: item.id,
+                                houseData: item.to,
+                                isSent: true,
+                                isActive: section.title === 'Pending Applications'
+                            });
+                        }}
+                    >
+                        <Image
+                            source={{ uri: item.to.houseImages[0] }}
+                            style={styles.profilePicture}
+                            resizeMode={'cover'}
+                        />
+                        <View style={group.descWrapper}>
+                            <Text style={group.title}>
+                                {item.to.road}, £{item.to.rentPrice + item.to.billsPrice}
+                            </Text>
+                            <Text style={group.subtitle} numberOfLines={1}>
+                                {item.to.post.description}
+                            </Text>
+                        </View>
+                    </RectButton>
+                );
+            }
+        }
+
         return (
             <RectButton
                 style={group.listItem}
@@ -99,7 +173,8 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                     this.props.navigation.navigate('ApplicationDetail', {
                         id: item.id,
                         houseData: item.to,
-                        isSent: true
+                        isSent: true,
+                        isActive: section.title === 'Pending Applications'
                     });
                 }}
             >
@@ -118,41 +193,21 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                 </View>
             </RectButton>
         );
-    };
-
-    renderReceivedItem = ({ item }: { item: Application }) => {
-        return (
-            <RectButton
-                style={group.listItem}
-                underlayColor={Colors.brandPrimaryColor}
-                onPress={() =>
-                    this.props.navigation.navigate('ApplicationDetail', {
-                        id: item.id,
-                        userData: item.from,
-                        isSent: false
-                    })
-                }
-            >
-                <Image
-                    source={{ uri: item.from.profilePicture }}
-                    style={styles.profilePicture}
-                    resizeMode={'cover'}
-                />
-                <View style={group.descWrapper}>
-                    <Text style={group.title}>
-                        {item.from.name}, {item.from.age}
-                    </Text>
-                    <Text style={group.subtitle}>{item.from.course}</Text>
-                </View>
-                {/* <View style={true && group.unreadMarker} /> */}
-            </RectButton>
-        );
-    };
+    }
 
     renderSection = ({ section }) => {
         if (this.props.sentApplications.length === 0 && section.title === 'Sent Applications') {
             return <View />;
         }
+
+        if (this.props.inactiveApplications.length === 0 && section.title === 'Pending Applications') {
+            return <View />;
+        }
+
+        if (this.props.receivedApplications.length === 0 && section.title === 'Received Applications') {
+            return <View />;
+        }
+
         return <Text style={styles.sectionHeader}>{section.title}</Text>;
     };
 }

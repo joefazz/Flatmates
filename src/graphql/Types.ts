@@ -1,6 +1,33 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
+export interface CompleteApplicationMutationVariables {
+  applicantID: string,
+  houseID: number,
+  houseName: string,
+  applicantName: string,
+};
+
+export interface CompleteApplicationMutation {
+  completeApplication:  {
+    shortID: number,
+    groups:  Array< {
+      id: string,
+      messages:  Array< {
+        id: string,
+        text: string,
+      } > | null,
+      applicant:  {
+        id: string,
+      } | null,
+    } > | null,
+    houseImages: Array< string >,
+    applications:  Array< {
+      id: string,
+    } > | null,
+  } | null,
+};
+
 export interface CreateApplicationMutationVariables {
   userID: string,
   houseID: number,
@@ -101,6 +128,7 @@ export interface CreateGroupMutation {
     } | null,
     house:  {
       shortID: number,
+      road: string,
       houseImages: Array< string >,
       users:  Array< {
         id: string,
@@ -108,6 +136,10 @@ export interface CreateGroupMutation {
         name: string,
       } > | null,
     },
+    messages:  Array< {
+      id: string,
+      text: string,
+    } > | null,
   } | null,
 };
 
@@ -195,18 +227,6 @@ export interface UpdatePostMutation {
         course: string,
       } > | null,
     },
-  } | null,
-};
-
-export interface AddApplicationsMutationVariables {
-  id: string,
-  newAllowance: number,
-};
-
-export interface AddApplicationsMutation {
-  addApplications:  {
-    id: string,
-    applicationAllowance: number,
   } | null,
 };
 
@@ -383,6 +403,22 @@ export interface DeleteUserMutation {
   } | null,
 };
 
+export interface LeaveHouseMutationVariables {
+  id: string,
+  name: string,
+  houseID: number,
+};
+
+export interface LeaveHouseMutation {
+  leaveHouse:  {
+    id: string,
+    name: string,
+    house:  {
+      road: string,
+    } | null,
+  } | null,
+};
+
 export interface StarPostMutationVariables {
   id: string,
   postID: string,
@@ -503,8 +539,23 @@ export interface HouseApplicationsQuery {
         genderPreference: string | null,
       },
       to:  {
+        shortID: number,
+        houseImages: Array< string >,
+        road: string,
+        coords: Array< number >,
+        spaces: number,
+        billsPrice: number,
+        rentPrice: number,
+        post:  {
+          id: string,
+          description: string,
+        } | null,
         users:  Array< {
           id: string,
+          name: string,
+          profilePicture: string,
+          course: string,
+          studyYear: string,
         } > | null,
       },
       createdAt: string,
@@ -560,23 +611,26 @@ export interface HouseDetailQuery {
     post:  {
       viewCount: number | null,
     } | null,
+    users:  Array< {
+      id: string,
+      name: string,
+      profilePicture: string,
+    } > | null,
   } | null,
 };
 
 export interface HousePostQueryVariables {
-  id: string,
+  shortID: number,
 };
 
 export interface HousePostQuery {
-  user:  {
-    id: string,
-    house:  {
-      shortID: number,
-      post:  {
-        id: string,
-        description: string,
-        lastSeen: string | null,
-      } | null,
+  house:  {
+    shortID: number,
+    spaces: number,
+    post:  {
+      id: string,
+      description: string,
+      lastSeen: string | null,
     } | null,
   } | null,
 };
@@ -644,10 +698,27 @@ export interface UserApplicationsQueryVariables {
 export interface UserApplicationsQuery {
   user:  {
     id: string,
-    applicationAllowance: number,
     applications:  Array< {
       id: string,
       isActive: boolean,
+      from:  {
+        id: string,
+        name: string,
+        firstName: string,
+        lastName: string,
+        course: string,
+        age: number,
+        bio: string,
+        studyYear: string,
+        profilePicture: string,
+        gender: string,
+        isSmoker: boolean,
+        isDruggie: boolean,
+        isDrinker: boolean,
+        minPrice: number | null,
+        maxPrice: number | null,
+        genderPreference: string | null,
+      },
       to:  {
         shortID: number,
         houseImages: Array< string >,

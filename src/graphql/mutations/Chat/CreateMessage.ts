@@ -4,7 +4,7 @@ export const CREATE_MESSAGE_MUTATION = gql`
     mutation CreateMessage(
         $text: String!
         $senderID: ID!
-        $applicantID: ID!
+        $applicantID: ID
         $houseID: Int!
         $senderName: String!
         $groupID: ID!
@@ -25,10 +25,16 @@ export const CREATE_MESSAGE_MUTATION = gql`
             createdAt
             text
             images
+            to {
+                id
+            }
             from {
                 id
                 name
                 profilePicture
+                house {
+                    shortID
+                }
             }
         }
     }

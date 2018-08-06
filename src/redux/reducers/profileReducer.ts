@@ -1,5 +1,5 @@
 import { ProfileState, ProfileAction } from '../../types/ReduxTypes';
-import { CreateUser, CreateUserWithHouse, GetUserData, CreateUserJoinHouse, ValidateUserEmail } from '../Types';
+import { CreateUser, CreateUserWithHouse, GetUserData, CreateUserJoinHouse, ValidateUserEmail, LeaveHouse } from '../Types';
 import initialState from '../InitialState';
 
 const INITIAL_STATE = initialState.profile;
@@ -27,7 +27,10 @@ export default function profileReducer(state: ProfileState = INITIAL_STATE, acti
             });
 
         case ValidateUserEmail.SUCCESS:
-            return Object.assign({}, state, { ...action.payload })
+            return Object.assign({}, state, { ...action.payload });
+
+        case LeaveHouse.SUCCESS:
+            return Object.assign({}, state, { house: null });
 
         default:
             return state;

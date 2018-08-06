@@ -1,27 +1,30 @@
 import React from 'react';
 import { graphql, compose, Query } from 'react-apollo';
-import { Text, View, AsyncStorage, Platform, ActivityIndicator, StyleSheet } from 'react-native';
+import { Text, View, Platform, ActivityIndicator } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
+import moment from 'moment';
 
 import { connect } from 'react-redux';
 import { FloatingAction } from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Colors } from '../consts';
-import { Button } from 'react-native-elements';
 import { ReduxState } from '../types/ReduxTypes';
 import { House as HouseType } from '../types/Entities';
 import { HeaderButtonIOS, PostCard } from '../widgets';
 import { UPDATE_HOUSE_MUTATION } from '../graphql/mutations';
-import { UpdateHouseMutationVariables, HouseDetailQuery, UpdateHouseMutation } from '../graphql/Types';
-import { HOUSE_DETAILS_QUERY, POST_LIST_QUERY } from '../graphql/queries';
+import { UpdateHouseMutationVariables, HouseDetailQuery, UpdateHouseMutation, LeaveHouseMutationVariables, HousePostQuery, AllPostsQuery } from '../graphql/Types';
+import { HOUSE_DETAILS_QUERY, POST_LIST_QUERY, HOUSE_POST_QUERY } from '../graphql/queries';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { HouseComponent } from '../components/HouseComponent';
-import { ANNOTATION_SIZE } from '../widgets/MapView';
 import { FontFactory } from '../consts/font';
 import { toConstantFontSize } from '../utils/PercentageConversion';
+import { leaveHouse } from '../redux/Routines';
+import { TRACKER } from '../App';
 
 interface Props {
     house: HouseType;
+    userID: string;
+    username: string;
     navigation: {
         navigate: (route: string, params: any) => void;
         setParams: any;
@@ -32,6 +35,7 @@ interface Props {
         }
     };
     updateHouse: (params: UpdateHouseMutationVariables) => UpdateHouseMutation;
+    leaveHouse: (params: LeaveHouseMutationVariables) => void;
     loading: boolean;
 }
 
@@ -46,6 +50,7 @@ interface State {
 
 export class House extends React.Component<Props, State> {
     state = { road: '', spaces: 0, billsPrice: 0, rentPrice: 0, centerCoordinate: [-0.9418, 51.4414], houseViewerInfo: null };
+    START_TIMING = moment().unix();
 
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params && navigation.state.params.userHasHouse ? 'My House' : 'House Finder',
@@ -66,10 +71,16 @@ export class House extends React.Component<Props, State> {
                         ))
                     : <View />
             )
-    });
+    })
 
     componentDidMount() {
         this.props.navigation.setParams({ userHasHouse: Boolean(this.props.house) });
+
+        TRACKER.trackScreenView('House');
+    }
+
+    componentWillUnmount() {
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIMING, { name: 'HOUSE', label: this.props.house ? 'Has House' : 'No House' });
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -95,18 +106,23 @@ export class House extends React.Component<Props, State> {
         }
     }
 
+    leaveHouse = (params: LeaveHouseMutationVariables) => {
+        this.props.leaveHouse(params);
+        this.props.navigation.setParams({ userHasHouse: false });
+        TRACKER.trackEvent('HouseManagement', 'LeaveHouse');
+    }
+
     renderAnnotation(post) {
         const { createdBy: house } = post;
         return (
             <Mapbox.PointAnnotation key={String(house.shortID)} id={String(house.shortID)} title={`${house.spaces === 1 ? 'A space' : `${house.spaces} spaces`} on ${house.road}`} coordinate={house.coords} onSelected={(feature) => this.setState({ centerCoordinate: feature.geometry.coordinates, houseViewerInfo: post })}>
-
                 <Mapbox.Callout title={`${house.spaces === 1 ? 'A space' : `${house.spaces} spaces`} on ${house.road}`} />
             </Mapbox.PointAnnotation>
         );
     }
 
     setRoad = (road: string, spaces: number, billsPrice: number, rentPrice: number) => {
-        this.setState({ road, spaces, billsPrice, rentPrice })
+        this.setState({ road, spaces, billsPrice, rentPrice });
     }
 
     render() {
@@ -153,21 +169,25 @@ export class House extends React.Component<Props, State> {
                 variables={{ shortID: house.shortID }}
                 fetchPolicy={'cache-and-network'}
             >
-                {({ data: { house }, loading, error }) => {
-                    if (loading && !house) {
+                {({ data: { house: houseData }, loading, error }) => {
+                    if (loading) {
                         return <ActivityIndicator />;
                     }
 
                     if (error) {
-                        return <Text>{error.message}</Text>
+                        return <Text>{error.message}</Text>;
                     }
 
                     return (
                         <>
                             <HouseComponent
                                 updateHouse={this.props.updateHouse}
-                                house={house}
-                                road={this.state.road === '' ? house.road : this.state.road}
+                                house={houseData}
+                                userID={this.props.userID}
+                                username={this.props.username}
+                                users={houseData.users}
+                                leaveHouse={this.leaveHouse}
+                                road={this.state.road === '' ? houseData.road : this.state.road}
                                 setRoad={this.setRoad}
                                 navigation={this.props.navigation}
                                 contentEditable={this.props.navigation.state.params && this.props.navigation.state.params.contentEditable} />
@@ -188,7 +208,7 @@ export class House extends React.Component<Props, State> {
                                 />
                             }
                         </>
-                    )
+                    );
                 }}
             </Query>
         )
@@ -207,6 +227,42 @@ const updateHouseMutation = graphql(UPDATE_HOUSE_MUTATION, {
                     });
 
                     let data = Object.assign(houseData.house, updateHouse);
+
+                    if (data.post !== null && data.spaces === 0) {
+                        data.post = null;
+
+                        let postData: HousePostQuery = store.readQuery({
+                            query: HOUSE_POST_QUERY,
+                            variables: { shortID: params.shortID }
+                        });
+
+                        let allPostData: AllPostsQuery = store.readQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            }
+                        });
+
+                        allPostData.allPosts = allPostData.allPosts.filter(post => post.id !== postData.house.post.id);
+
+                        store.writeQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            },
+                            data: allPostData
+                        });
+
+                        postData.house.post = null;
+
+                        store.writeQuery({
+                            query: HOUSE_POST_QUERY,
+                            variables: { shortID: params.shortID },
+                            data: postData
+                        });
+                    }
 
                     store.writeQuery({
                         query: HOUSE_DETAILS_QUERY,
@@ -227,10 +283,16 @@ const updateHouseMutation = graphql(UPDATE_HOUSE_MUTATION, {
                 }
             })
     })
-})
-
-const mapStateToProps = (state: ReduxState) => ({
-    house: state.profile.house
 });
 
-export default compose(connect(mapStateToProps, {}), updateHouseMutation)(House)
+const mapStateToProps = (state: ReduxState) => ({
+    house: state.profile.house,
+    userID: state.login.id,
+    username: state.profile.name
+});
+
+const bindActions = (dispatch) => ({
+    leaveHouse: (params: LeaveHouseMutationVariables) => dispatch(leaveHouse(params))
+});
+
+export default compose(connect(mapStateToProps, bindActions), updateHouseMutation)(House)

@@ -11,13 +11,8 @@ import CodePush from "react-native-code-push";
 import RootNavigation from './navigators/Root';
 import store from './redux/store';
 import OneSignal from 'react-native-onesignal';
-import * as RNIap from 'react-native-iap';
 import { Sentry } from 'react-native-sentry';
-
-export const iapSKUs = Platform.select({
-    ios: ['flatmates.5_applications', 'flatmates.15_applications', 'flatmates.infinite_applications'],
-    android: ['flatmates.5_applications', 'flatmates.10_application', 'flatmates.infinite_applications']
-});
+import { GoogleAnalyticsTracker, GoogleAnalyticsSettings } from "react-native-google-analytics-bridge";
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 
@@ -26,6 +21,8 @@ Sentry.config(
         deactivateStacktraceMerging: false
     }
 ).install();
+
+export const TRACKER = new GoogleAnalyticsTracker('UA-123407646-1');
 
 export const MapboxSDK = new MapboxClient(MAPBOX_API_TOKEN);
 
@@ -76,23 +73,14 @@ class Root extends React.Component<Props, State> {
         OneSignal.addEventListener('ids', this.saveIds);
 
         // Sentry.nativeCrash();
-        this.prepareIAP();
 
         CodePush.getUpdateMetadata().then((update) => {
-            if (update.isFirstRun) {
+            if (update && update.isFirstRun) {
                 Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
                 Alert.alert('Flatmates has updated!', update.label, [{ text: 'OK', style: 'default' }]);
             }
-        });
+        }).catch(err => Sentry.captureException(err));
     }
-
-    prepareIAP = async () => {
-        try {
-            await RNIap.prepare();
-        } catch (error) {
-            console.warn(error);
-        }
-    };
 
     componentWillUnmount() {
         OneSignal.removeEventListener('received', this.onReceivePush);

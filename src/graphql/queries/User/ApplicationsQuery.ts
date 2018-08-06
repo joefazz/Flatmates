@@ -4,10 +4,30 @@ export const USER_APPLICATIONS_QUERY = gql`
     query UserApplications($id: ID!) {
         user(id: $id) {
             id
-            applicationAllowance
             applications {
                 id
                 isActive
+                from {
+                    id
+                    name
+                    firstName
+                    lastName
+                    course
+                    age
+                    bio
+                    studyYear
+                    profilePicture
+                    gender
+                    isSmoker
+                    isDruggie
+                    isDrinker
+                    minPrice
+                    maxPrice
+                    genderPreference
+                    house {
+                        shortID
+                    }
+                }
                 to {
                     shortID
                     houseImages

@@ -11,7 +11,13 @@ export const HOUSE_DETAILS_QUERY = gql`
             houseImages
             applicationCount
             post {
+                id
                 viewCount
+            }
+            users {
+                id
+                name
+                profilePicture
             }
         }
     }
