@@ -12,6 +12,7 @@ import {
 } from '../../utils/PercentageConversion';
 import { Group } from '../../types/Entities';
 import { Colors } from '../../consts';
+import { FontFactory } from '../../consts/font';
 
 interface Props {
     navigation: { navigate: (string, object) => void };
@@ -25,7 +26,6 @@ interface Props {
 export class ChatListComponent extends React.PureComponent<Props> {
     renderHeader = (chat: Group) => {
         if (chat) {
-            console.log(chat)
             return (
                 <>
                     <RectButton
@@ -131,7 +131,10 @@ export class ChatListComponent extends React.PureComponent<Props> {
     };
 
     render() {
-        let houseChat = this.props.data.filter(chat => !Boolean(chat.applicant));
+        var houseChat = [];
+        if (!this.props.isLoading) {
+            houseChat = this.props.data.filter(chat => !Boolean(chat.applicant));
+        }
 
         return (
             <View style={{ flex: 1 }}>
@@ -139,7 +142,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                     data={this.props.data}
                     renderItem={this.renderItem}
                     ListHeaderComponent={() => this.renderHeader(houseChat.length > 0 && houseChat[0])}
-                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text>No Groups</Text>}
+                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, alignSelf: 'center', marginTop: 10 }}>No Chat Groups</Text>}
                     ItemSeparatorComponent={this.renderSeperator}
                     keyExtractor={(item) => item.id}
                     refreshControl={

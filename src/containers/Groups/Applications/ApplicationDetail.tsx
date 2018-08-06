@@ -10,14 +10,15 @@ import {
     HouseApplicationsQuery,
     UpdateApplicationMutationVariables,
     CompleteApplicationMutationVariables,
-    HouseDetailQuery
+    HouseDetailQuery,
+    HousePostQuery
 } from '../../../graphql/Types';
 import { User, House } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
 import { TouchableRect } from '../../../widgets/TouchableRect';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../graphql/mutations';
-import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY, HOUSE_DETAILS_QUERY } from '../../../graphql/queries';
+import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY, HOUSE_DETAILS_QUERY, HOUSE_POST_QUERY } from '../../../graphql/queries';
 import { HouseApplicationDetail } from '../../../components/Applications/HouseApplicationDetail';
 import UserProfile from '../../Feed/UserProfile';
 import { UPDATE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/UpdateApplication';
@@ -46,7 +47,13 @@ interface Props {
     progressApplication: (params: UpdateApplicationMutationVariables & { houseID: number }) => void;
 }
 
-export class ApplicationDetail extends React.Component<Props> {
+interface State {
+    isApproved: boolean;
+}
+
+export class ApplicationDetail extends React.Component<Props, State> {
+    state = { isApproved: this.props.navigation.state.params.isActive };
+
     static navigationOptions = () => ({
         title: 'Application Detail'
     });
@@ -76,7 +83,7 @@ export class ApplicationDetail extends React.Component<Props> {
                                     bottom: 0
                                 }}
                             >
-                                {isActive ?
+                                {this.state.isApproved ?
                                     <TouchableRect
                                         onPress={() => {
                                             this.props.navigation.pop();
@@ -127,6 +134,8 @@ export class ApplicationDetail extends React.Component<Props> {
                                                                 isActive: false,
                                                                 houseID: this.props.house.shortID
                                                             });
+
+                                                            this.setState({ isApproved: true });
                                                         }
                                                     }
                                                 ]
@@ -221,7 +230,9 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                             query: HOUSE_CHAT_QUERY
                         });
 
-                        groupData.house.groups = completeApplication.groups;
+                        if (groupData.house) {
+                            groupData.house.groups = completeApplication.groups;
+                        }
 
                         store.writeQuery({
                             variables: { shortID: params.houseID },
@@ -240,6 +251,19 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                             variables: { shortID: params.houseID },
                             query: HOUSE_APPLICATIONS_QUERY,
                             data: applicationData
+                        });
+
+                        let postData: HousePostQuery = store.readQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_POST_QUERY
+                        });
+
+                        postData.house.post = null;
+
+                        store.writeQuery({
+                            variables: { shortID: params.houseID },
+                            query: HOUSE_POST_QUERY,
+                            data: postData
                         });
                     }
 

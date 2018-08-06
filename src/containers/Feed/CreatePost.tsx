@@ -111,7 +111,8 @@ export class CreatePost extends React.Component<Props, State> {
                         variables: { shortID: this.props.user.house.shortID }
                     });
 
-                    houseData.house.post = { id: data.createPost.id, description: data.createPost.description, lastSeen: data.createPost.lastSeen };
+                    houseData.house.post = { __typename: data.createPost.__typename, viewCount: data.createPost.viewCount, id: data.createPost.id, description: data.createPost.description, lastSeen: data.createPost.lastSeen };
+                    console.log(houseData);
 
                     store.writeQuery({
                         query: HOUSE_POST_QUERY,
@@ -124,10 +125,11 @@ export class CreatePost extends React.Component<Props, State> {
                         __typename: 'Mutation',
                         createPost: {
                             __typename: 'Post',
-                            id: -1,
+                            id: "-1",
                             description: this.state.description,
                             createdAt: Date.now(),
                             lastSeen: Date.now(),
+                            viewCount: 0,
                             createdBy: {
                                 ...this.props.user.house
                             }

@@ -12,8 +12,8 @@ import { ReduxState } from '../types/ReduxTypes';
 import { House as HouseType } from '../types/Entities';
 import { HeaderButtonIOS, PostCard } from '../widgets';
 import { UPDATE_HOUSE_MUTATION } from '../graphql/mutations';
-import { UpdateHouseMutationVariables, HouseDetailQuery, UpdateHouseMutation, LeaveHouseMutationVariables } from '../graphql/Types';
-import { HOUSE_DETAILS_QUERY, POST_LIST_QUERY } from '../graphql/queries';
+import { UpdateHouseMutationVariables, HouseDetailQuery, UpdateHouseMutation, LeaveHouseMutationVariables, HousePostQuery, AllPostsQuery } from '../graphql/Types';
+import { HOUSE_DETAILS_QUERY, POST_LIST_QUERY, HOUSE_POST_QUERY } from '../graphql/queries';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { HouseComponent } from '../components/HouseComponent';
 import { FontFactory } from '../consts/font';
@@ -208,7 +208,7 @@ export class House extends React.Component<Props, State> {
                                 />
                             }
                         </>
-                    )
+                    );
                 }}
             </Query>
         )
@@ -227,6 +227,42 @@ const updateHouseMutation = graphql(UPDATE_HOUSE_MUTATION, {
                     });
 
                     let data = Object.assign(houseData.house, updateHouse);
+
+                    if (data.post !== null && data.spaces === 0) {
+                        data.post = null;
+
+                        let postData: HousePostQuery = store.readQuery({
+                            query: HOUSE_POST_QUERY,
+                            variables: { shortID: params.shortID }
+                        });
+
+                        let allPostData: AllPostsQuery = store.readQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            }
+                        });
+
+                        allPostData.allPosts = allPostData.allPosts.filter(post => post.id !== postData.house.post.id);
+
+                        store.writeQuery({
+                            query: POST_LIST_QUERY,
+                            variables: {
+                                take: 10,
+                                skip: 0
+                            },
+                            data: allPostData
+                        });
+
+                        postData.house.post = null;
+
+                        store.writeQuery({
+                            query: HOUSE_POST_QUERY,
+                            variables: { shortID: params.shortID },
+                            data: postData
+                        });
+                    }
 
                     store.writeQuery({
                         query: HOUSE_DETAILS_QUERY,
