@@ -111,7 +111,7 @@ export class CreatePost extends React.Component<Props, State> {
                         variables: { shortID: this.props.user.house.shortID }
                     });
 
-                    houseData.house.post = data.createPost;
+                    houseData.house.post = { id: data.createPost.id, description: data.createPost.description, lastSeen: data.createPost.lastSeen };
 
                     store.writeQuery({
                         query: HOUSE_POST_QUERY,
