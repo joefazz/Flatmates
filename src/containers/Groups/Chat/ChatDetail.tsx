@@ -173,9 +173,6 @@ export class ChatDetail extends React.Component<Props, State> {
                                             <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 10 }} onPress={() => this.acceptFlatmate()} >
                                                 <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>Accept Application</Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 5 }} onPress={() => console.log('pressed')} >
-                                                <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>Reject Application</Text>
-                                            </TouchableOpacity>
                                             <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 5 }} onPress={() => this.setState({ showOptionModal: false }, () => this.props.navigation.push('UserProfile', { id: this.props.navigation.state.params.groupData.applicant.id, data: this.props.navigation.state.params.groupData.applicant }))} >
                                                 <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>View Profile</Text>
                                             </TouchableOpacity>
@@ -288,32 +285,32 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         data: groupData
                     });
 
-                    const userListData: UserChatQuery = store.readQuery({
-                        query: USER_CHAT_QUERY,
-                        variables: { id: params.senderID }
-                    });
+                    // const userListData: UserChatQuery = store.readQuery({
+                    //     query: USER_CHAT_QUERY,
+                    //     variables: { id: params.senderID }
+                    // });
 
-                    if (userListData.user.groups.find(group => group.id === params.groupID) !== undefined) {
+                    // if (userListData.user.groups.find(group => group.id === params.groupID) !== undefined) {
 
-                        const newData = userListData.user.groups.map(group => group.id === params.groupID ? Object.assign(group, { messages: [createMessage] }) : group);
+                    //     const newData = userListData.user.groups.map(group => group.id === params.groupID ? Object.assign(group, { messages: [createMessage] }) : group);
 
-                        store.writeQuery({
-                            query: USER_CHAT_QUERY,
-                            data: newData
-                        });
+                    //     store.writeQuery({
+                    //         query: USER_CHAT_QUERY,
+                    //         data: newData
+                    //     });
 
-                    } else {
-                        const houseListData: HouseChatQuery = store.readQuery({
-                            query: HOUSE_CHAT_QUERY,
-                            variables: { shortID: params.houseID }
-                        });
+                    // } else {
+                    //     const houseListData: HouseChatQuery = store.readQuery({
+                    //         query: HOUSE_CHAT_QUERY,
+                    //         variables: { shortID: params.houseID }
+                    //     });
 
-                        const newData = houseListData.house.groups.map(group => group.id === params.groupID ? Object.assign(group, { messages: [createMessage] }) : group);
-                        store.writeQuery({
-                            query: HOUSE_CHAT_QUERY,
-                            data: newData
-                        });
-                    }
+                    //     const newData = houseListData.house.groups.map(group => group.id === params.groupID ? Object.assign(group, { messages: [createMessage] }) : group);
+                    //     store.writeQuery({
+                    //         query: HOUSE_CHAT_QUERY,
+                    //         data: newData
+                    //     });
+                    // }
 
 
                 },
