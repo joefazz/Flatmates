@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose, graphql, QueryProps, ChildProps, QueryResult } from 'react-apollo';
 import { connect } from 'react-redux';
-
+import moment from 'moment';
 import { PostDetailComponent } from '../../components/Feed/PostDetailComponent';
 import {
     STAR_POST_MUTATION,
@@ -20,6 +20,7 @@ import {
 import { ProfileState, ReduxState } from '../../types/ReduxTypes';
 import { House, User } from '../../types/Entities';
 import { USER_APPLICATIONS_QUERY } from '../../graphql/queries';
+import { TRACKER } from '../../App';
 
 interface Props {
     navigation: {
@@ -78,25 +79,29 @@ export class PostDetail extends React.Component<Props, State> {
         tabBarVisible: false
     });
 
+    state = {
+        data: this.props.navigation.state.params.data,
+        isLoading: true,
+        isStarred: this.props.navigation.state.params.isStarred,
+        userHasAppliedToHouse: false
+    };
+
+    START_TIME = moment().unix();
+
     isStarred: boolean;
-
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            data: props.navigation.state.params.data,
-            isLoading: true,
-            isStarred: props.navigation.state.params.isStarred,
-            userHasAppliedToHouse: false
-        };
-    }
 
     componentDidMount() {
         this.getPostDetails();
 
+        TRACKER.trackScreenView('PostDetail');
+
         // if (!this.state.isStarred) {
         //     this.hasStarredPost;
         // }
+    }
+
+    componentWillUnmount() {
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, { name: 'Profile', label: 'OtherUserProfile' });
     }
 
     render() {

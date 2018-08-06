@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import { compose, graphql, ChildProps, Query } from 'react-apollo';
 import { TouchableOpacity, Text, Platform, TouchableNativeFeedback, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -13,6 +14,7 @@ import { HousePostQuery, HousePostQueryVariables, AllPostsQuery, AllPostsQueryVa
 import { HOUSE_POST_QUERY } from '../../graphql/queries';
 import { Colors } from '../../consts';
 import { FontFactory } from '../../consts/font';
+import { TRACKER } from '../../App';
 
 interface Props {
     login: LoginState;
@@ -36,7 +38,7 @@ export class PostList extends React.Component<Props> {
         if (Platform.OS === 'android') {
             return {
                 title: 'Flatmates'
-            }
+            };
         } else {
             return {
                 title: 'Flatmates',
@@ -51,18 +53,22 @@ export class PostList extends React.Component<Props> {
                         <Icon name={'md-help-circle'} size={28} color={Colors.white} />
                     </TouchableOpacity>
                 )
-            }
+            };
         }
-    };
+    }
+
+    START_TIME = moment().unix();
 
     componentDidMount() {
         StatusBar.setBarStyle('light-content');
+        TRACKER.trackScreenView('PostList');
     }
 
     componentWillUnmount() {
         if (this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly) {
             StatusBar.setBarStyle('dark-content');
         }
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, { name: 'PostList', label: 'PostList' });
     }
 
     render() {

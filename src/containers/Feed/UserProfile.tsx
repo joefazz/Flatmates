@@ -1,10 +1,12 @@
 import React from 'react';
+import moment from 'moment';
 import { graphql, ChildProps } from 'react-apollo';
 import { ActivityIndicator, Text } from 'react-native';
 import { ProfileComponent } from '../../components/Profile/ProfileComponent';
 import { USER_DETAILS_QUERY } from '../../graphql/queries';
 import { User } from '../../types/Entities';
 import { UserDetailQuery, UserDetailQueryVariables } from '../../graphql/Types';
+import { TRACKER } from '../../App';
 
 interface Props {
     loading: boolean;
@@ -24,7 +26,16 @@ export class UserProfile extends React.Component<Props> {
     protected static navigationOptions = ({ navigation }) => ({
         headerTitle: navigation.state.params.data.name,
         tabBarVisible: false
-    });
+    })
+    START_TIME = moment().unix();
+
+    componentDidMount() {
+        TRACKER.trackScreenView('UserProfile');
+    }
+
+    componentWillUnmount() {
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, { name: 'Profile', label: 'OtherUserProfile' });
+    }
 
     render() {
         if (this.props.loading) {
@@ -64,22 +75,22 @@ const getUserDetail = graphql<
     UserDetailQuery,
     UserDetailQueryVariables,
     ChildProps<UserDetailQuery>
->(USER_DETAILS_QUERY, {
-    options: ({
-        navigation
-    }: {
-        navigation: {
-            state: {
-                params: {
-                    id: string;
-                    data: User;
+    >(USER_DETAILS_QUERY, {
+        options: ({
+            navigation
+        }: {
+                navigation: {
+                    state: {
+                        params: {
+                            id: string;
+                            data: User;
+                        };
+                    };
                 };
-            };
-        };
-    }) => ({
-        variables: { id: navigation.state.params.id }
-    }),
-    props: ({ data: { loading, error, user } }) => ({ loading, error, user })
-});
+            }) => ({
+                variables: { id: navigation.state.params.id }
+            }),
+        props: ({ data: { loading, error, user } }) => ({ loading, error, user })
+    });
 
 export default getUserDetail(UserProfile);

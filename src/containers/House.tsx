@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql, compose, Query } from 'react-apollo';
 import { Text, View, Platform, ActivityIndicator } from 'react-native';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
+import moment from 'moment';
 
 import { connect } from 'react-redux';
 import { FloatingAction } from 'react-native-floating-action';
@@ -18,6 +19,7 @@ import { HouseComponent } from '../components/HouseComponent';
 import { FontFactory } from '../consts/font';
 import { toConstantFontSize } from '../utils/PercentageConversion';
 import { leaveHouse } from '../redux/Routines';
+import { TRACKER } from '../App';
 
 interface Props {
     house: HouseType;
@@ -48,6 +50,7 @@ interface State {
 
 export class House extends React.Component<Props, State> {
     state = { road: '', spaces: 0, billsPrice: 0, rentPrice: 0, centerCoordinate: [-0.9418, 51.4414], houseViewerInfo: null };
+    START_TIMING = moment().unix();
 
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params && navigation.state.params.userHasHouse ? 'My House' : 'House Finder',
@@ -68,10 +71,16 @@ export class House extends React.Component<Props, State> {
                         ))
                     : <View />
             )
-    });
+    })
 
     componentDidMount() {
         this.props.navigation.setParams({ userHasHouse: Boolean(this.props.house) });
+
+        TRACKER.trackScreenView('House');
+    }
+
+    componentWillUnmount() {
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIMING, { name: 'HOUSE', label: this.props.house ? 'Has House' : 'No House' });
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -100,20 +109,20 @@ export class House extends React.Component<Props, State> {
     leaveHouse = (params: LeaveHouseMutationVariables) => {
         this.props.leaveHouse(params);
         this.props.navigation.setParams({ userHasHouse: false });
+        TRACKER.trackEvent('HouseManagement', 'LeaveHouse');
     }
 
     renderAnnotation(post) {
         const { createdBy: house } = post;
         return (
             <Mapbox.PointAnnotation key={String(house.shortID)} id={String(house.shortID)} title={`${house.spaces === 1 ? 'A space' : `${house.spaces} spaces`} on ${house.road}`} coordinate={house.coords} onSelected={(feature) => this.setState({ centerCoordinate: feature.geometry.coordinates, houseViewerInfo: post })}>
-
                 <Mapbox.Callout title={`${house.spaces === 1 ? 'A space' : `${house.spaces} spaces`} on ${house.road}`} />
             </Mapbox.PointAnnotation>
         );
     }
 
     setRoad = (road: string, spaces: number, billsPrice: number, rentPrice: number) => {
-        this.setState({ road, spaces, billsPrice, rentPrice })
+        this.setState({ road, spaces, billsPrice, rentPrice });
     }
 
     render() {
@@ -169,7 +178,6 @@ export class House extends React.Component<Props, State> {
                         return <Text>{error.message}</Text>;
                     }
 
-                    console.log(houseData);
                     return (
                         <>
                             <HouseComponent

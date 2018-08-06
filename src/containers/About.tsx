@@ -1,13 +1,25 @@
 import React from 'react';
+import moment from 'moment';
 import { ScrollView, Text, Image } from "react-native";
 import logo from '../../Assets/box.png';
 import { toConstantWidth } from '../utils/PercentageConversion';
 import { FontFactory } from '../consts/font';
+import { TRACKER } from '../App';
 
 export class About extends React.PureComponent {
     static navigationOptions = () => ({
         title: 'About'
-    });
+    })
+
+    START_TIME = moment().unix();
+
+    componentDidMount() {
+        TRACKER.trackScreenView('About');
+    }
+
+    componentWillUnmount() {
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, { name: 'About', label: 'AboutPage' });
+    }
 
     render() {
         return (
@@ -18,9 +30,9 @@ export class About extends React.PureComponent {
                     where housemates would drop out and finding replacements would suck,
 
                     {"\n"}{"\n"}Flatmates is designed to be a replacement for the Facebook groups that are often run by students union.
-                    I was disappointed by the lack of structure the current solutions offered, some houses not even
-                    listing the price to rent per month!. I started coding it in November 2017 about
-                    5 minutes after watching "The Social Network". It is the product of many hundreds of hours
+I was disappointed by the lack of structure the current solutions offered, some houses not even
+listing the price to rent per month!. I started coding it in November 2017 about
+5 minutes after watching "The Social Network". It is the product of many hundreds of hours
                     of work and experience.{"\n"}{"\n"}
 
                     The aim of Flatmates is not to make money, there was a version of this app that included microtransactions in order to buy additional applications but I removed it as I was concerned this would put people off of downloading the app and actually using it.{"\n"}{"\n"}
