@@ -80,7 +80,7 @@ export class PostList extends React.Component<Props> {
                             {({ data, loading, error, fetchMore, refetch }: { data: AllPostsQuery; loading: boolean; error?: ApolloError; fetchMore: any; refetch: () => void; }) => {
 
                                 if (error || createError) {
-                                    return <Text>{error.message} please try again.</Text>
+                                    return <Text>{createError.message || error.message} please try again.</Text>;
                                 }
 
                                 return (
