@@ -19,7 +19,7 @@ import { Avatar } from 'react-native-elements';
 import { RectButton } from 'react-native-gesture-handler';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import Swiper from 'react-native-swiper';
-import Icon from 'react-native-vector-icons/Feather';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
 
 import { Colors } from '../../consts';

@@ -109,7 +109,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         multiDexEnabled true
-        versionCode 43
+        versionCode 44
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [onesignal_app_id: "bb46537e-9f24-418a-b636-0ea36e453d2b",
