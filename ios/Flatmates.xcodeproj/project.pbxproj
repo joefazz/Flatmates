@@ -61,6 +61,7 @@
 		9848123C409F4791A1DC4B5E /* Nunito SemiBold Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B712D49E1C8045EA9695E4F0 /* Nunito SemiBold Italic.ttf */; };
 		9C49CB85C04C4D73917C9D1B /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 02743E41C3B445FF98098195 /* Foundation.ttf */; };
 		A187D8B921594ED290DA9DC9 /* Nunito SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */; };
+		A20BCC7B211B923E003439D7 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A20BCC78211B9230003439D7 /* libReactNativePermissions.a */; };
 		A22199C320A0630B00DC99C2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A22199C220A0630B00DC99C2 /* StoreKit.framework */; };
 		A26DBE031FFBE62300FE1330 /* Mapbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; };
 		A26DBE041FFBE62300FE1330 /* Mapbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -265,6 +266,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
+		};
+		A20BCC77211B9230003439D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A20BCC47211B9230003439D7 /* ReactNativePermissions.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9D23B34F1C767B80008B4819;
+			remoteInfo = ReactNativePermissions;
 		};
 		A20D489E1FCD64AA00059AAE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -487,6 +495,7 @@
 		8F130619A78745C2A9B259D4 /* Nunito Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito Black.ttf"; path = "../Assets/Fonts/Nunito/Nunito Black.ttf"; sourceTree = "<group>"; };
 		92666A5AC50E103D720121A4 /* Pods-Flatmates-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Flatmates-tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-Flatmates-tvOS/Pods-Flatmates-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		A0DFFA6F1EC34E6EA92DE474 /* Nunito SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito SemiBold.ttf"; path = "../Assets/Fonts/Nunito/Nunito SemiBold.ttf"; sourceTree = "<group>"; };
+		A20BCC47211B9230003439D7 /* ReactNativePermissions.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativePermissions.xcodeproj; path = "../node_modules/react-native-permissions/ios/ReactNativePermissions.xcodeproj"; sourceTree = "<group>"; };
 		A22199C220A0630B00DC99C2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A23B3C5920755D5900214125 /* Flatmates.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Flatmates.entitlements; path = Flatmates/Flatmates.entitlements; sourceTree = "<group>"; };
 		A26DBDDB1FFBE62200FE1330 /* Mapbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Mapbox.framework; path = "../node_modules/@mapbox/react-native-mapbox-gl/ios/Mapbox.framework"; sourceTree = "<group>"; };
@@ -535,6 +544,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A20BCC7B211B923E003439D7 /* libReactNativePermissions.a in Frameworks */,
 				A295687D21165073001000E4 /* CoreData.framework in Frameworks */,
 				A295687B2116506B001000E4 /* SystemConfiguration.framework in Frameworks */,
 				A295687921165061001000E4 /* libsqlite3.tbd in Frameworks */,
@@ -778,6 +788,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				A20BCC47211B9230003439D7 /* ReactNativePermissions.xcodeproj */,
 				A2A5E94C21164CD5006F3B65 /* RCTGoogleAnalyticsBridge.xcodeproj */,
 				A26E01CD2110C4AB002D8672 /* CodePush.xcodeproj */,
 				A2E6BCE6210BE30B000944CE /* RNSentry.xcodeproj */,
@@ -836,6 +847,14 @@
 				00E356EE1AD99517003FC87E /* FlatmatesTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* Flatmates-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* Flatmates-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A20BCC48211B9230003439D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20BCC78211B9230003439D7 /* libReactNativePermissions.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1149,6 +1168,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = A20BCC48211B9230003439D7 /* Products */;
+					ProjectRef = A20BCC47211B9230003439D7 /* ReactNativePermissions.xcodeproj */;
+				},
+				{
 					ProductGroup = A2D150B32048B10600C4DD57 /* Products */;
 					ProjectRef = 1013189F2150495CBA300A22 /* RNGestureHandler.xcodeproj */;
 				},
@@ -1334,6 +1357,13 @@
 			fileType = archive.ar;
 			path = libRCTText.a;
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A20BCC78211B9230003439D7 /* libReactNativePermissions.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativePermissions.a;
+			remoteRef = A20BCC77211B9230003439D7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		A20D489F1FCD64AA00059AAE /* libRCTBlob-tvOS.a */ = {

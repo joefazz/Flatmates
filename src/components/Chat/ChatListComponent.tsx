@@ -58,7 +58,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                         <View style={group.descWrapper}>
                             <Text style={group.title}>House Chat</Text>
                             <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
-                                {!!chat.messages[0] ? chat.messages[0].text : 'New group created.'}
+                                {!!chat && chat.messages[0] ? chat.messages[0].text : 'New group created.'}
                             </Text>
                         </View>
                         {/* <View style={true && group.unreadMarker} /> */}
@@ -119,7 +119,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 <View style={group.descWrapper}>
                     <Text style={group.title}>{groupName}</Text>
                     <Text numberOfLines={1} style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
-                        {!!item.messages[0] ? item.messages[0].text : 'New group created.'}
+                        {!!item && item.messages[0] ? item.messages[0].text : 'New group created.'}
                     </Text>
                 </View>
                 {/* <View style={true && group.unreadMarker} /> */}

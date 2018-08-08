@@ -220,12 +220,19 @@ export class HouseApplicationDetail extends React.Component<Props, State> {
                 style={feed.userRow}
             >
                 <View style={feed.avatarWrapper}>
-                    <Avatar
-                        medium={true}
-                        source={{ uri: user.profilePicture }}
-                        rounded={true}
-                        title={user.firstName}
-                    />
+                    {user.profilePicture ?
+                        <Avatar
+                            medium={true}
+                            source={{ uri: user.profilePicture }}
+                            rounded={true}
+                            title={user.firstName}
+                        /> :
+                        <Avatar
+                            medium={true}
+                            icon={{ name: 'person' }}
+                            rounded={true}
+                            title={user.firstName}
+                        />}
                 </View>
                 <View style={feed.userDetailsWrapper}>
                     <View
@@ -237,7 +244,7 @@ export class HouseApplicationDetail extends React.Component<Props, State> {
                         <Text style={feed.userNameText}>{user.name}</Text>
                     </View>
                     <Text style={feed.userInfoText}>
-                        {user.studyYear} student studying {user.course}
+                        {user.bio}
                     </Text>
                 </View>
             </RectButton>

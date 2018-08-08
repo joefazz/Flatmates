@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View, TextInput, Modal, AsyncStorage } from 'react-native';
+import { Text, View, TextInput, Modal, AsyncStorage, Alert } from 'react-native';
+import Permissions from "react-native-permissions";
 import { Avatar } from 'react-native-elements';
 import { profile } from '../../styles';
 import { User } from '../../types/Entities';
@@ -19,7 +20,7 @@ import { TouchableRect } from '../../widgets/TouchableRect';
 interface Props {
     profile: User;
     isLoading: boolean;
-    navigation: { navigate: (route: string) => void }
+    navigation: { navigate: (route: string) => void };
     contentEditable: boolean;
     updateUser: (params: UpdateUserMutationVariables & { tempProfilePicture: string }) => UpdateUserMutation;
 }
@@ -139,6 +140,26 @@ export class ProfileComponent extends React.Component<Props, State> {
     }
 
     private async selectProfilePicture(): Promise<void> {
+        Permissions.check('photo').then(res => {
+            if (res === 'denied') {
+                Alert.alert(
+                    'Can we access your photos?',
+                    "If you want to submit a profile picture you're going to have to give permissions to Flatmates.",
+                    [
+                        {
+                            text: 'Still No',
+                            onPress: () => console.log('Permission denied'),
+                            style: 'cancel',
+                        },
+                        {
+                            text: 'Open Settings',
+                            onPress: () => Permissions.openSettings()
+                        }
+                    ],
+                )
+            }
+        });
+
         let image: Array<ImageType> | ImageType | void;
 
         image = await ImagePicker.openPicker({
@@ -233,27 +254,34 @@ export class ProfileComponent extends React.Component<Props, State> {
                                         activeOpacity={0.7}
                                         rounded={true}
                                     />
+                                ) : data.profilePicture ? (
+                                    <Avatar
+                                        avatarStyle={{
+                                            width: toConstantWidth(32),
+                                            height: toConstantWidth(32),
+                                            borderRadius: toConstantWidth(32) / 2,
+                                            backgroundColor: Colors.transparent
+                                        }}
+                                        overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                        containerStyle={{
+                                            width: toConstantWidth(32),
+                                            height: toConstantWidth(32),
+                                            borderRadius: toConstantWidth(32) / 2,
+                                            backgroundColor: Colors.transparent
+                                        }}
+                                        source={{ uri: data.profilePicture }}
+                                        onPress={() => this.selectProfilePicture()}
+                                        activeOpacity={0.7}
+                                        rounded={true}
+                                    />
                                 ) : (
-                                        <Avatar
-                                            avatarStyle={{
-                                                width: toConstantWidth(32),
-                                                height: toConstantWidth(32),
-                                                borderRadius: toConstantWidth(32) / 2,
-                                                backgroundColor: Colors.transparent
-                                            }}
-                                            overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
-                                            containerStyle={{
-                                                width: toConstantWidth(32),
-                                                height: toConstantWidth(32),
-                                                borderRadius: toConstantWidth(32) / 2,
-                                                backgroundColor: Colors.transparent
-                                            }}
-                                            source={{ uri: data.profilePicture }}
-                                            onPress={() => this.selectProfilePicture()}
-                                            activeOpacity={0.7}
-                                            rounded={true}
-                                        />
-                                    )}
+                                            <Avatar
+                                                large={true}
+                                                icon={{ name: 'person' }}
+                                                onPress={() => this.selectProfilePicture()}
+                                                activeOpacity={0.7}
+                                                rounded={true}
+                                            />)}
                             </View>
                             <View style={profile.summaryDescriptionWrapper}>
                                 <TextInput
@@ -261,7 +289,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     defaultValue={data.name}
                                     underlineColorAndroid={Colors.transparent}
                                     onChangeText={(text) => {
-                                        this.isNameDirty = text !== data.name
+                                        this.isNameDirty = text !== data.name;
                                         this.newName = text;
                                     }}
                                 />
@@ -303,7 +331,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                                         this.isCourseDirty = this.props.profile.course !== val.lablel;
                                         this.newCourse = val.label;
                                     }}
-                                    initialValue={data.course}
+                                    initialValue={data.course || 'Select Course'}
                                 />
                                 <TextInput
                                     style={profile.summaryDescription}
@@ -320,9 +348,9 @@ export class ProfileComponent extends React.Component<Props, State> {
                             <View style={profile.preferencesWrapper}>
                                 <EditableStatRow
                                     items={[
-                                        { label: 'Age', value: data.age, inputType: 'number' },
-                                        { label: 'Year', value: data.studyYear.replace(' Year', ''), inputType: 'multi', multiOptions: STUDY_YEARS },
-                                        { label: 'Gender', value: data.gender, inputType: 'multi', multiOptions: GENDERS }
+                                        { label: 'Age', value: data.age || 'N/A', inputType: data.age ? 'number' : 'text' },
+                                        { label: 'Year', value: data.studyYear ? data.studyYear.replace(' Year', '') : 'N/a', inputType: data.studyYear ? 'multi' : 'text', multiOptions: STUDY_YEARS },
+                                        { label: 'Gender', value: data.gender || 'N/A', inputType: data.gender ? 'multi' : 'text', multiOptions: GENDERS }
                                     ]}
                                     onEndEditing={(items: Array<{ value: string; label: string }>) =>
                                         items.map((item) => {
@@ -424,31 +452,38 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     activeOpacity={0.7}
                                     rounded={true}
                                 />
+                            ) : data.profilePicture ? (
+                                <Avatar
+                                    avatarStyle={{
+                                        width: toConstantWidth(32),
+                                        height: toConstantWidth(32),
+                                        borderRadius: toConstantWidth(32) / 2,
+                                        backgroundColor: Colors.transparent
+                                    }}
+                                    overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                    containerStyle={{
+                                        width: toConstantWidth(32),
+                                        height: toConstantWidth(32),
+                                        borderRadius: toConstantWidth(32) / 2,
+                                        backgroundColor: Colors.transparent
+                                    }}
+                                    source={{ uri: data.profilePicture }}
+                                    onPress={() => this.setState({ isAvatarModalVisible: true })}
+                                    activeOpacity={0.7}
+                                    rounded={true}
+                                />
                             ) : (
-                                    <Avatar
-                                        avatarStyle={{
-                                            width: toConstantWidth(32),
-                                            height: toConstantWidth(32),
-                                            borderRadius: toConstantWidth(32) / 2,
-                                            backgroundColor: Colors.transparent
-                                        }}
-                                        overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
-                                        containerStyle={{
-                                            width: toConstantWidth(32),
-                                            height: toConstantWidth(32),
-                                            borderRadius: toConstantWidth(32) / 2,
-                                            backgroundColor: Colors.transparent
-                                        }}
-                                        source={{ uri: data.profilePicture }}
-                                        onPress={() => this.setState({ isAvatarModalVisible: true })}
-                                        activeOpacity={0.7}
-                                        rounded={true}
-                                    />
-                                )}
+                                        <Avatar
+                                            large={true}
+                                            icon={{ name: 'person' }}
+                                            activeOpacity={0.7}
+                                            rounded={true}
+                                        />
+                                    )}
                         </View>
                         <View style={profile.summaryDescriptionWrapper}>
                             <Text style={profile.headerText}>{data.name}</Text>
-                            <Text style={profile.summaryDescription}>{data.course}</Text>
+                            <Text style={profile.summaryDescription}>{data.course ? data.course : 'No Course Provided'}</Text>
                             <Text style={profile.summaryDescription}>{data.bio}</Text>
                         </View>
                     </View>
@@ -456,9 +491,9 @@ export class ProfileComponent extends React.Component<Props, State> {
                         <View style={profile.preferencesWrapper}>
                             <StatRow
                                 items={[
-                                    { label: 'Age', value: data.age },
-                                    { label: 'Year', value: data.studyYear.replace(' Year', '') },
-                                    { label: 'Gender', value: data.gender }
+                                    { label: 'Age', value: data.age ? data.age : 'N/A' },
+                                    { label: 'Year', value: data.studyYear ? data.studyYear.replace(' Year', '') : 'N/A' },
+                                    { label: 'Gender', value: data.gender ? data.gender : 'N/A' }
                                 ]}
                             />
                         </View>

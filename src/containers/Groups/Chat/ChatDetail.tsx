@@ -122,7 +122,7 @@ export class ChatDetail extends React.Component<Props, State> {
 
                                         const newComment = subscriptionData.data.message.node;
 
-                                        if (prev.group.messages.find(message => message.id === newComment.id) === undefined) {
+                                        if (prev.group.messages.find((message) => message.id === newComment.id) === undefined) {
 
                                             const newPayload = Object.assign({}, prev, {
                                                 group: {

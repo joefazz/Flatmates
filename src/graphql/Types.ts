@@ -11,6 +11,7 @@ export interface CompleteApplicationMutationVariables {
 export interface CompleteApplicationMutation {
   completeApplication:  {
     shortID: number,
+    road: string,
     groups:  Array< {
       id: string,
       messages:  Array< {
@@ -20,6 +21,10 @@ export interface CompleteApplicationMutation {
       applicant:  {
         id: string,
       } | null,
+      house:  {
+        shortID: number,
+        road: string,
+      },
     } > | null,
     houseImages: Array< string >,
     applications:  Array< {
@@ -88,7 +93,7 @@ export interface UpdateApplicationMutation {
 export interface CreateMessageMutationVariables {
   text: string,
   senderID: string,
-  applicantID: string,
+  applicantID?: string | null,
   houseID: number,
   senderName: string,
   groupID: string,
@@ -102,10 +107,16 @@ export interface CreateMessageMutation {
     createdAt: string,
     text: string,
     images: Array< string >,
+    to:  {
+      id: string,
+    } | null,
     from:  {
       id: string,
       name: string,
       profilePicture: string,
+      house:  {
+        shortID: number,
+      } | null,
     },
   } | null,
 };
@@ -171,10 +182,12 @@ export interface CreatePostMutationVariables {
 
 export interface CreatePostMutation {
   createPost:  {
+    __typename: "Post",
     id: string,
     description: string,
     createdAt: string,
     lastSeen: string | null,
+    viewCount: number | null,
     createdBy:  {
       shortID: number,
       road: string,
@@ -537,6 +550,9 @@ export interface HouseApplicationsQuery {
         minPrice: number | null,
         maxPrice: number | null,
         genderPreference: string | null,
+        house:  {
+          shortID: number,
+        } | null,
       },
       to:  {
         shortID: number,
@@ -576,6 +592,9 @@ export interface HouseChatQuery {
         id: string,
         name: string,
         profilePicture: string,
+        house:  {
+          shortID: number,
+        } | null,
       } | null,
       house:  {
         shortID: number,
@@ -589,7 +608,20 @@ export interface HouseChatQuery {
       },
       messages:  Array< {
         id: string,
+        createdAt: string,
         text: string,
+        images: Array< string >,
+        to:  {
+          id: string,
+        } | null,
+        from:  {
+          id: string,
+          name: string,
+          profilePicture: string,
+          house:  {
+            shortID: number,
+          } | null,
+        },
       } > | null,
     } > | null,
   } | null,
@@ -609,6 +641,7 @@ export interface HouseDetailQuery {
     houseImages: Array< string >,
     applicationCount: number | null,
     post:  {
+      id: string,
       viewCount: number | null,
     } | null,
     users:  Array< {
@@ -626,12 +659,24 @@ export interface HousePostQueryVariables {
 export interface HousePostQuery {
   house:  {
     shortID: number,
+    road: string,
+    billsPrice: number,
+    rentPrice: number,
     spaces: number,
+    houseImages: Array< string >,
+    applicationCount: number | null,
     post:  {
+      __typename: "Post",
       id: string,
       description: string,
       lastSeen: string | null,
+      viewCount: number | null,
     } | null,
+    users:  Array< {
+      id: string,
+      name: string,
+      profilePicture: string,
+    } > | null,
   } | null,
 };
 
@@ -718,6 +763,9 @@ export interface UserApplicationsQuery {
         minPrice: number | null,
         maxPrice: number | null,
         genderPreference: string | null,
+        house:  {
+          shortID: number,
+        } | null,
       },
       to:  {
         shortID: number,
@@ -770,6 +818,9 @@ export interface UserChatQuery {
         id: string,
         name: string,
         profilePicture: string,
+        house:  {
+          shortID: number,
+        } | null,
       } | null,
       house:  {
         shortID: number,
@@ -783,7 +834,20 @@ export interface UserChatQuery {
       },
       messages:  Array< {
         id: string,
+        createdAt: string,
         text: string,
+        images: Array< string >,
+        to:  {
+          id: string,
+        } | null,
+        from:  {
+          id: string,
+          name: string,
+          profilePicture: string,
+          house:  {
+            shortID: number,
+          } | null,
+        },
       } > | null,
     } > | null,
   } | null,

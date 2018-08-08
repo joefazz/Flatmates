@@ -5,6 +5,7 @@ export const MESSAGE_ADDED_SUBSCRIPTION = gql`
         message(groupID: $groupID) {
             node {
                 id
+                createdAt
                 text
                 images
                 to {
@@ -14,9 +15,11 @@ export const MESSAGE_ADDED_SUBSCRIPTION = gql`
                     id
                     name
                     profilePicture
+                    house {
+                        shortID
+                    }
                 }
-                createdAt
             }
         }
-    }   
-`
+    }
+`;

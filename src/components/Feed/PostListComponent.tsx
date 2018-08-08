@@ -176,6 +176,7 @@ export class PostListComponent extends React.Component<Props> {
             <View style={feed.card}>
                 <PostCard
                     onPress={() => this.props.navigation.push('PostDetail', { data: item, isReadOnly: !!this.props.navigation.state.params })}
+                    direction={'vertical'}
                     title={item.createdBy.road}
                     spaces={item.createdBy.spaces}
                     price={item.createdBy.billsPrice + item.createdBy.rentPrice}

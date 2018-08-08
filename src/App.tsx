@@ -12,7 +12,7 @@ import RootNavigation from './navigators/Root';
 import store from './redux/store';
 import OneSignal from 'react-native-onesignal';
 import { Sentry } from 'react-native-sentry';
-import { GoogleAnalyticsTracker, GoogleAnalyticsSettings } from "react-native-google-analytics-bridge";
+import { GoogleAnalyticsTracker } from "react-native-google-analytics-bridge";
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 

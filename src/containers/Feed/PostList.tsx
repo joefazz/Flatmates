@@ -105,7 +105,7 @@ export class PostList extends React.Component<Props> {
                                             navigation={this.props.navigation}
                                             refreshPostList={refetch}
                                             canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
-                                            userPostPermissionEnabled={(!(createLoading || loading) && !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!createData.house ? (createData.house.spaces > 0 ? !Boolean(createData.house.post) : false) : false}
+                                            userPostPermissionEnabled={(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly) ? false : !(createLoading || loading) ? !!createData ? (createData.house.spaces > 0 ? !Boolean(createData.house.post) : false) : false : false}
                                             data={!!data.allPosts ? data.allPosts : []}
                                             userId={this.props.login.id}
                                         />

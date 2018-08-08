@@ -50,7 +50,7 @@ export const profile = StyleSheet.create({
             height: 1
         },
         marginVertical: 10,
-        marginLeft: 15,
+        marginLeft: 5,
         shadowRadius: 2,
         shadowOpacity: 1,
         shadowColor: Colors.black,

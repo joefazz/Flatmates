@@ -83,7 +83,6 @@ async function createUserUpdateHouseMutation(
 async function leaveHouseMutation(
     params: LeaveHouseMutationVariables
 ): Promise<LeaveHouseMutation> {
-    console.log(params)
     const {
         data: { leaveHouse }
     } = await client.mutate<LeaveHouseMutation>({

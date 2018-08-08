@@ -43,8 +43,8 @@ export class EditableStatRow extends React.Component<Props, State> {
                         <View key={index} style={styles.statSquare}>
                             {item.inputType === 'switch' && (
                                 <Switch
-                                    onTintColor={Colors.brandPrimaryColor}
-                                    thumbTintColor={Colors.definetelyNotAirbnbRed}
+                                    onTintColor={Colors.grey}
+                                    thumbTintColor={Colors.brandPrimaryColor}
                                     tintColor={Colors.grey}
                                     onValueChange={(val) => {
                                         let items = this.state.items;

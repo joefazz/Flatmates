@@ -16,6 +16,7 @@ import {
     ActivityIndicator,
     StatusBar
 } from 'react-native';
+import Permissions from 'react-native-permissions';
 import moment from 'moment';
 import Auth0 from 'react-native-auth0';
 import { Avatar } from 'react-native-elements';
@@ -85,11 +86,13 @@ interface State {
     tempProfilePic: any;
     removeImageToggle: boolean;
 
+    hasSubmittedProfilePic: boolean;
+
     firstName: string;
     lastName: string;
-    gender: string;
-    age: number | string;
-    profilePicture: string;
+    gender?: string;
+    age?: number | string;
+    profilePicture?: string;
     isLookingForHouse: boolean;
     isCreatingHouse: boolean;
 
@@ -97,8 +100,8 @@ interface State {
     isSmoker: boolean;
     isDruggie: boolean;
     isDrinker: boolean;
-    studyYear: string;
-    course: string;
+    studyYear?: string;
+    course?: string;
     minPrice: string;
     maxPrice: string;
     genderPreference: string;
@@ -164,15 +167,15 @@ export class Login extends React.Component<Props, State> {
 
             firstName: '',
             lastName: '',
-            age: '',
-            profilePicture: '',
-            gender: '',
+            age: undefined,
+            profilePicture: undefined,
+            gender: undefined,
             bio: '',
             isSmoker: false,
             isDruggie: false,
             isDrinker: false,
-            course: '',
-            studyYear: '',
+            course: undefined,
+            studyYear: undefined,
             minPrice: '£350',
             maxPrice: '£450',
             genderPreference: 'No Preference',
@@ -268,7 +271,7 @@ export class Login extends React.Component<Props, State> {
                 </View>
 
                 <View style={[login.page, { justifyContent: 'space-around' }]}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
                         <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
                     </TouchableOpacity>
                     <View
@@ -315,7 +318,7 @@ export class Login extends React.Component<Props, State> {
                 </View>
 
                 <KeyboardAvoidingView style={login.page}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
                         <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
                     </TouchableOpacity>
                     <View style={base.headingWrapper}>
@@ -457,21 +460,12 @@ export class Login extends React.Component<Props, State> {
                                     ? alert('Please enter your first name')
                                     : this.state.lastName === ''
                                         ? alert('Please enter your last name')
-                                        : this.state.age === ''
-                                            ? alert('Please enter your age')
-                                            : this.state.gender === ''
-                                                ? alert('Please provide a gender')
-                                                : !Boolean(this.state.tempProfilePic)
-                                                    ? alert('Please submit a profile picture')
-                                                    : this.homeSwiper.scrollBy(1, true);
+                                        : this.homeSwiper.scrollBy(1, true);
                             }}
                             title={'Next'}
                             backgroundColor={
-                                this.state.gender === '' ||
-                                    this.state.firstName === '' ||
-                                    this.state.lastName === '' ||
-                                    !this.state.tempProfilePic ||
-                                    this.state.age === ''
+                                this.state.firstName === '' ||
+                                    this.state.lastName === ''
                                     ? Colors.grey
                                     : Colors.brandSecondaryColor
                             }
@@ -481,10 +475,10 @@ export class Login extends React.Component<Props, State> {
                 </KeyboardAvoidingView>
 
                 <View style={login.page}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
                         <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
                     </TouchableOpacity>
-                    <View style={base.headingWrapper}>
+                    <View style={[base.headingWrapper, { marginTop: 15 }]}>
                         <Text
                             style={base.headingTitle}
                         >
@@ -628,15 +622,6 @@ export class Login extends React.Component<Props, State> {
                             </View>
                         </View>
                         <View style={{ marginBottom: 20 }}>
-                            <Text
-                                style={[
-                                    base.labelText,
-                                    { alignSelf: 'center', textAlign: 'center' }
-                                ]}
-                            >
-                                None of the following information is displayed publically, this is
-                                only for matching with other flatmates
-                            </Text>
                             <View
                                 style={{
                                     flexDirection: 'row',
@@ -652,8 +637,8 @@ export class Login extends React.Component<Props, State> {
                                         Smoke?
                                     </Text>
                                     <Switch
-                                        onTintColor={Colors.brandPrimaryColor}
-                                        thumbTintColor={Colors.definetelyNotAirbnbRed}
+                                        onTintColor={Colors.grey}
+                                        thumbTintColor={Colors.brandPrimaryColor}
                                         tintColor={Colors.grey}
                                         onValueChange={(val) => this.setState({ isSmoker: val })}
                                         value={this.state.isSmoker}
@@ -664,8 +649,8 @@ export class Login extends React.Component<Props, State> {
                                         Drink?
                                     </Text>
                                     <Switch
-                                        onTintColor={Colors.brandPrimaryColor}
-                                        thumbTintColor={Colors.definetelyNotAirbnbRed}
+                                        onTintColor={Colors.grey}
+                                        thumbTintColor={Colors.brandPrimaryColor}
                                         tintColor={Colors.grey}
                                         onValueChange={(val) => this.setState({ isDrinker: val })}
                                         value={this.state.isDrinker}
@@ -676,8 +661,8 @@ export class Login extends React.Component<Props, State> {
                                         Drugs?
                                     </Text>
                                     <Switch
-                                        onTintColor={Colors.brandPrimaryColor}
-                                        thumbTintColor={Colors.definetelyNotAirbnbRed}
+                                        onTintColor={Colors.grey}
+                                        thumbTintColor={Colors.brandPrimaryColor}
                                         tintColor={Colors.grey}
                                         onValueChange={(val) => this.setState({ isDruggie: val })}
                                         value={this.state.isDruggie}
@@ -690,19 +675,15 @@ export class Login extends React.Component<Props, State> {
                     <View style={login.pageFooter}>
                         <TouchableRect
                             onPress={() =>
-                                this.state.studyYear === '' ||
-                                    this.state.course === '' ||
-                                    this.state.bio === ''
+                                this.state.bio === ''
                                     ? alert(
-                                        'You need to enter your information correctly to proceed'
+                                        'Please provide a bio.'
                                     )
                                     : this.homeSwiper.scrollBy(1, true)
                             }
                             title={'Next'}
                             backgroundColor={
-                                this.state.studyYear === '' ||
-                                    this.state.course === '' ||
-                                    this.state.bio === ''
+                                this.state.bio === ''
                                     ? Colors.grey
                                     : Colors.brandSecondaryColor
                             }
@@ -795,7 +776,7 @@ export class Login extends React.Component<Props, State> {
         if (this.state.isLookingForHouse) {
             return (
                 <View style={login.page}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
                         <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
                     </TouchableOpacity>
                     <View style={base.headingWrapper}>
@@ -805,11 +786,12 @@ export class Login extends React.Component<Props, State> {
                                 {
                                     fontSize:
                                         toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5),
-                                    ...FontFactory({ weight: 'Bold' })
+                                    ...FontFactory({ weight: 'Bold' }),
+                                    textAlign: 'center'
                                 }
                             ]}
                         >
-                            Enter your preferences for a house
+                            Enter your preferences{"\n"}for a house
                         </Text>
                     </View>
                     <View
@@ -1145,7 +1127,7 @@ export class Login extends React.Component<Props, State> {
         } else {
             return (
                 <View style={login.page}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
                         <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
                     </TouchableOpacity>
                     <View style={base.headingWrapper}>
@@ -1154,7 +1136,7 @@ export class Login extends React.Component<Props, State> {
                                 base.headingText,
                                 {
                                     textAlign: 'center',
-                                    marginTop: 20,
+                                    marginTop: 40,
                                     fontSize:
                                         toConstantFontSize(2.5) > 18 ? 18 : toConstantFontSize(2.5)
                                 }
@@ -1165,10 +1147,10 @@ export class Login extends React.Component<Props, State> {
                     </View>
                     <View style={login.mainContent}>
                         <TextInput
-                            placeholder={'1234'}
+                            placeholder={'123456'}
                             keyboardType={'numeric'}
                             underlineColorAndroid={'transparent'}
-                            maxLength={4}
+                            maxLength={6}
                             onChangeText={(text) => this.setState({ shortID: text })}
                             style={login.houseIDInput}
                         />
@@ -1198,7 +1180,7 @@ export class Login extends React.Component<Props, State> {
     renderHouseDetail = () => {
         return (
             <View style={login.page}>
-                <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: 40, left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
+                <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
                     <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
                 </TouchableOpacity>
                 <View style={base.headingWrapper}>
@@ -1382,7 +1364,29 @@ export class Login extends React.Component<Props, State> {
                             iconName={'camera'}
                             backgroundColor={Colors.purple}
                             buttonStyle={base.buttonStyle}
-                            onPress={() => this.selectImages()}
+                            onPress={() => {
+                                Permissions.check('photo').then(res => {
+                                    if (res === 'authorized' || res === 'undetermined') {
+                                        this.selectImages();
+                                    } else {
+                                        Alert.alert(
+                                            'Can we access your photos?',
+                                            "You must submit at least one photo if you're creating a house, if you're uncomfortable granting permissions then go into your settings after submitting a photo and revoke them.",
+                                            [
+                                                {
+                                                    text: 'Still No',
+                                                    onPress: () => console.log('Permission denied'),
+                                                    style: 'cancel',
+                                                },
+                                                {
+                                                    text: 'Open Settings',
+                                                    onPress: () => Permissions.openSettings()
+                                                }
+                                            ],
+                                        )
+                                    }
+                                })
+                            }}
                         />
                     ) : !!this.state.road.match(/[0-9]\d*/g) ? (
                         alert("Please don't enter your house number")
@@ -1516,7 +1520,7 @@ export class Login extends React.Component<Props, State> {
 
     // Let the record show I have tested this works
     private generateShortID = async (): Promise<void> => {
-        const shortID = Math.floor(1000 + 9000 * Math.random());
+        const shortID = Math.floor(100000 + 900000 * Math.random());
 
         const res = await Client.query({
             variables: { shortID },
@@ -1598,7 +1602,9 @@ export class Login extends React.Component<Props, State> {
     };
 
     private completeUserSetup = async (): Promise<void> => {
-        await this.uploadProfilePicture();
+        if (this.state.tempProfilePic !== '') {
+            await this.uploadProfilePicture();
+        };
 
         const fullName = `${this.state.firstName} ${this.state.lastName}`;
         this.props.createUser({
@@ -1688,7 +1694,28 @@ export class Login extends React.Component<Props, State> {
                                         this.state.lastName
                                         }`;
 
-                                    this.uploadProfilePicture().then(() => {
+                                    if (this.state.tempProfilePic !== '') {
+                                        this.uploadProfilePicture().then(() => {
+                                            this.props.createUserJoinHouse({
+                                                email: this.email,
+                                                profilePicture: this.state.profilePicture,
+                                                authId: this.authId,
+                                                email_verified: this.isVerifiedUser,
+                                                name: fullName,
+                                                firstName: this.state.firstName,
+                                                lastName: this.state.lastName,
+                                                gender: this.state.gender,
+                                                age: Number(this.state.age),
+                                                bio: this.state.bio,
+                                                course: this.state.course,
+                                                studyYear: this.state.studyYear,
+                                                isSmoker: this.state.isSmoker,
+                                                isDrinker: this.state.isDrinker,
+                                                isDruggie: this.state.isDruggie,
+                                                houseId: this.state.shortID as number
+                                            });
+                                        });
+                                    } else {
                                         this.props.createUserJoinHouse({
                                             email: this.email,
                                             profilePicture: this.state.profilePicture,
@@ -1707,7 +1734,7 @@ export class Login extends React.Component<Props, State> {
                                             isDruggie: this.state.isDruggie,
                                             houseId: this.state.shortID as number
                                         });
-                                    });
+                                    }
 
                                     this.homeSwiper.scrollBy(2, true);
                                 }
@@ -1806,56 +1833,58 @@ export class Login extends React.Component<Props, State> {
         this.setState({ tempImages: clone });
     }
 
-    private uploadImages(): void {
+    private async uploadImages(): Promise<void> {
         this.setState({ creatingDialogText: 'Uploading Profile Picture' });
-        this.uploadProfilePicture()
-            .then(async () => {
-                if (this.state.tempImages && this.state.tempImages.length > 0) {
-                    let imageUrls: Array<string> | void;
+        if (this.state.tempProfilePic !== '') {
+            await this.uploadProfilePicture();
+        }
 
-                    imageUrls = await Promise.all(
-                        this.state.tempImages.map(async (image, index) => {
-                            this.setState({
-                                creatingDialogText: `Uploading house image ${index + 1}`
-                            });
+        if (this.state.tempImages && this.state.tempImages.length > 0) {
+            let imageUrls: Array<string> | void;
 
-                            const formData = new FormData();
+            imageUrls = await Promise.all(
+                this.state.tempImages.map(async (image, index) => {
+                    this.setState({
+                        creatingDialogText: `Uploading house image ${index + 1}`
+                    });
 
-                            const lastIndex = image.path.lastIndexOf('/') + 1;
+                    const formData = new FormData();
 
-                            const data = {
-                                uri: image.path,
-                                name: image.path.slice(lastIndex),
-                                type: image.mime
-                            };
+                    const lastIndex = image.path.lastIndexOf('/') + 1;
 
-                            // @ts-ignore
-                            formData.append('data', data);
+                    const data = {
+                        uri: image.path,
+                        name: image.path.slice(lastIndex),
+                        type: image.mime
+                    };
 
-                            const options = {
-                                method: 'POST',
-                                body: formData,
-                                headers: {
-                                    Accept: 'application/json',
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            };
+                    // @ts-ignore
+                    formData.append('data', data);
 
-                            const response = await fetch(`${DOMAIN}/upload`, options);
-                            if (response.ok) {
-                                const json = await response.json();
-                                return json.url;
-                            } else {
-                                alert('Problem with fetch: ' + response.status);
-                            }
-                        })
-                    ).catch((error) => console.log(error));
+                    const options = {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            Accept: 'application/json',
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    };
 
-                    imageUrls && this.setState({ houseImages: imageUrls }, this.completeHouseSetup);
-                }
-            })
-            .catch((error) => console.log(error));
+                    const response = await fetch(`${DOMAIN}/upload`, options);
+                    if (response.ok) {
+                        const json = await response.json();
+                        return json.url;
+                    } else {
+                        alert('Problem with fetch: ' + response.status);
+                    }
+                })
+            ).catch((error) => console.log(error));
+
+            imageUrls && this.setState({ houseImages: imageUrls }, this.completeHouseSetup);
+        }
+
     }
+
 }
 
 const mapStateToProps = (state: ReduxState) => ({
