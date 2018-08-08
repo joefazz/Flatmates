@@ -7,12 +7,15 @@ import moment from 'moment';
 import { ChatListComponent } from '../../../components/Chat/ChatListComponent';
 import { USER_CHAT_QUERY, HOUSE_CHAT_QUERY } from '../../../graphql/queries';
 import { LoginState } from '../../../types/ReduxTypes';
-import { Group, House } from '../../../types/Entities';
+import { Group, House, User } from '../../../types/Entities';
+import { ErrorScreen } from '../../../widgets/ErrorScreen';
+import { ErrorToast } from '../../../widgets/ErrorToast';
+import { ApolloError } from 'apollo-client';
 
 interface Props {
     loading: boolean;
-    error: boolean;
-    userGroups: Array<Group>;
+    error: ApolloError;
+    user: Array<User>;
     navigation: { navigate: (route: string) => void };
     login: LoginState;
     house: House;
@@ -31,9 +34,8 @@ export class ChatList extends React.Component<Props, State> {
     };
 
     render() {
-        if (this.props.error) {
-            return <Text>Error</Text>;
-        }
+
+        console.log(this.props.error)
 
         if (Boolean(this.props.house && this.props.house.shortID)) {
             return (
@@ -43,39 +45,72 @@ export class ChatList extends React.Component<Props, State> {
                     fetchPolicy={'cache-and-network'}
                 >
                     {({ loading, error, data, refetch }) => {
-                        if (error) {
-                            return <Text>Error: {error.message}</Text>;
-                        }
-
                         let refetchData = () => {
                             refetch();
                             this.props.refetch();
+                        };
+
+                        if (this.props.loading || loading) {
+                            return <ActivityIndicator />;
+                        }
+
+                        if (error) {
+                            return <ErrorScreen message={this.props.error.message} onPress={refetchData} />;
                         }
 
                         return (
-                            <ChatListComponent
-                                navigation={this.props.navigation}
-                                isLoading={loading || this.props.loading}
-                                refetch={refetchData}
-                                data={(!this.props.loading && !loading) ? !!data.house ? this.props.userGroups.concat(data.house.groups) : this.props.userGroups : []}
-                                userID={this.props.login.id}
-                                username={this.props.login.name}
-                            />
+                            <>
+                                {error && <ErrorToast message={error.message} onPress={refetchData} />}
+                                <ChatListComponent
+                                    navigation={this.props.navigation}
+                                    isLoading={loading || this.props.loading}
+                                    refetch={refetchData}
+                                    data={(!this.props.loading && !loading) ? !!data.house ?
+                                        this.props.user.groups.concat(data.house.groups) : this.props.user.groups : []}
+                                    userID={this.props.login.id}
+                                    username={this.props.login.name}
+                                />
+                            </>
                         );
                     }}
                 </Query>
             );
         } else {
+            if (this.props.loading) {
+                return <ActivityIndicator />;
+            }
+
+            if (this.props.error && this.props.user.groups === undefined) {
+                return <ErrorScreen message={this.props.error.message} onPress={this.props.refetch} />;
+            }
+
+            if (this.props.error && !!this.props.user.groups) {
+                return (
+                    <>
+                        {this.props.error && <ErrorToast message={this.props.error.message} onPress={this.props.refetch} />}
+                        <ChatListComponent
+                            navigation={this.props.navigation}
+                            data={this.props.user.groups}
+                            isLoading={this.props.loading}
+                            refetch={this.props.refetch}
+                            userID={this.props.login.id}
+                            username={this.props.login.name}
+                        />
+                    </>
+                );
+            }
+
+            console.log(this.props.user.groups)
             return (
                 <ChatListComponent
                     navigation={this.props.navigation}
-                    data={this.props.userGroups}
+                    data={this.props.user.groups}
                     isLoading={this.props.loading}
                     refetch={this.props.refetch}
                     userID={this.props.login.id}
                     username={this.props.login.name}
                 />
-            );
+            )
         }
     }
 }
@@ -95,13 +130,12 @@ const userChatQuery = graphql(USER_CHAT_QUERY, {
         fetchPolicy: 'cache-and-network'
     }),
     // @ts-ignore
-    props: ({ data: { loading, user, error, refetch } }) => {
-        return loading
-            ? { loading }
-            : error
-                ? { loading, error }
-                : { loading, userGroups: user.groups, error, refetch };
-    }
+    props: ({ data: { loading, user, error, refetch } }) => ({
+        loading,
+        user,
+        error,
+        refetch
+    })
 });
 
 export default compose(

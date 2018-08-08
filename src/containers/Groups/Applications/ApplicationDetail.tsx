@@ -18,7 +18,7 @@ import { User, House } from '../../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../../utils/PercentageConversion';
 import { TouchableRect } from '../../../widgets/TouchableRect';
 import { ReduxState } from '../../../types/ReduxTypes';
-import { DELETE_APPLICATION_MUTATION, CREATE_GROUP_MUTATION } from '../../../graphql/mutations';
+import { CREATE_GROUP_MUTATION } from '../../../graphql/mutations';
 import { HOUSE_CHAT_QUERY, HOUSE_APPLICATIONS_QUERY, HOUSE_DETAILS_QUERY, HOUSE_POST_QUERY, POST_LIST_QUERY } from '../../../graphql/queries';
 import { HouseApplicationDetail } from '../../../components/Applications/HouseApplicationDetail';
 import UserProfile from '../../Feed/UserProfile';

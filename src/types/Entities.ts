@@ -36,6 +36,7 @@ export interface Application {
 
 export interface User {
     id: string;
+    groups?: [];
     email: string;
     email_verified: boolean;
     createdAt: Date;

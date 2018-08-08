@@ -20,6 +20,8 @@ import { FontFactory } from '../consts/font';
 import { toConstantFontSize } from '../utils/PercentageConversion';
 import { leaveHouse } from '../redux/Routines';
 import { TRACKER } from '../App';
+import { ErrorScreen } from '../widgets/ErrorScreen';
+import { ErrorToast } from '../widgets/ErrorToast';
 
 interface Props {
     house: HouseType;
@@ -131,10 +133,14 @@ export class House extends React.Component<Props, State> {
         if (!house) {
             return (
                 <Query query={POST_LIST_QUERY} variables={{ take: 100 }} fetchPolicy={'cache-and-network'}>
-                    {({ data }, loading, error) => {
+                    {({ data }, loading, error, refetch) => {
+                        if (data === undefined && error) {
+                            return <ErrorScreen message={error.message} onPress={refetch} />;
+                        }
 
                         return (
                             <>
+                                {error && <ErrorToast message={error.message} onPress={refetch} />}
                                 <View style={{ flex: 1, backgroundColor: Colors.offWhite, borderBottomColor: Colors.grey, borderBottomWidth: 1, justifyContent: 'center' }}>
                                     {!!this.state.houseViewerInfo ? (
                                         <PostCard
@@ -171,12 +177,13 @@ export class House extends React.Component<Props, State> {
             >
                 {({ data: { house: houseData }, loading, error, refetch }) => {
 
-                    if (error) {
-                        return <Text>{error.message}</Text>;
+                    if (error && houseData === undefined) {
+                        return <ErrorScreen message={error.message} onPress={refetch} />;
                     }
 
                     return (
                         <>
+                            {error && <ErrorToast message={error.message} onPress={refetch} />}
                             <HouseComponent
                                 isLoading={loading}
                                 refetch={refetch}

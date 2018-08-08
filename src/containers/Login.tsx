@@ -1592,7 +1592,8 @@ export class Login extends React.Component<Props, State> {
                 this.setState({ isLoggingIn: false }, () => this.homeSwiper.scrollBy(1, true));
             }
         } catch (error) {
-            console.log(error);
+            Alert.alert('Network Error', error.message);
+            this.setState({ isLoggingIn: false });
         }
     };
 

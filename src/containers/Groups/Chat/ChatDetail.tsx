@@ -16,6 +16,8 @@ import { Colors } from '../../../consts';
 import { toConstantWidth, toConstantHeight } from '../../../utils/PercentageConversion';
 import { FontFactory } from '../../../consts/font';
 import { COMPLETE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/CompleteApplication';
+import { ErrorScreen } from '../../../widgets/ErrorScreen';
+import { ErrorToast } from '../../../widgets/ErrorToast';
 
 
 interface Props {
@@ -159,11 +161,12 @@ export class ChatDetail extends React.Component<Props, State> {
                 {({ subscribeToMore, data, loading, error, refetch, fetchMore }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; error?: ApolloError, fetchMore: any; }) => {
 
                     if (error) {
-                        return (<Text>{error.message}</Text>);
+                        return <ErrorScreen message={error.message} onPress={refetch} />;
                     }
 
                     return (
                         <>
+                            {error && <ErrorToast message={error.message} onPress={refetch} />}
                             <Modal visible={this.state.showOptionModal} transparent={true} animationType={'fade'}>
                                 <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                                     <View style={{ width: toConstantWidth(60), height: toConstantHeight(45), backgroundColor: Colors.offWhite, borderRadius: 4, alignItems: 'center', paddingTop: 10, justifyContent: 'space-between' }}>

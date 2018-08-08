@@ -21,6 +21,8 @@ import { ProfileState, ReduxState } from '../../types/ReduxTypes';
 import { House, User } from '../../types/Entities';
 import { USER_APPLICATIONS_QUERY } from '../../graphql/queries';
 import { TRACKER } from '../../App';
+import { ErrorScreen } from '../../widgets/ErrorScreen';
+import { ApolloError } from 'apollo-client';
 
 interface Props {
     navigation: {
@@ -54,6 +56,7 @@ interface State {
         title: string;
     };
     isLoading: boolean;
+    error?: ApolloError;
     isStarred: boolean;
     userHasAppliedToHouse: boolean;
 }
@@ -83,7 +86,8 @@ export class PostDetail extends React.Component<Props, State> {
         data: this.props.navigation.state.params.data,
         isLoading: true,
         isStarred: this.props.navigation.state.params.isStarred,
-        userHasAppliedToHouse: false
+        userHasAppliedToHouse: false,
+        error: undefined
     };
 
     START_TIME = moment().unix();
@@ -105,6 +109,10 @@ export class PostDetail extends React.Component<Props, State> {
     }
 
     render() {
+        if (this.state.error) {
+            return <ErrorScreen message={this.state.error.message} onPress={() => this.getPostDetails()} />;
+        }
+
         return (
             <>
                 <PostDetailComponent
@@ -171,13 +179,9 @@ export class PostDetail extends React.Component<Props, State> {
 
             const combinedData = Object.assign({}, this.state.data, updatePost);
 
-            this.setState({ isLoading: false, data: combinedData });
+            this.setState({ isLoading: false, data: combinedData, error: undefined });
         } catch (error) {
-            console.log(
-                'There was an error: ' +
-                error +
-                '... This will turn into a ui element eventually...'
-            );
+            this.setState({ isLoading: false, error });
         }
     };
 

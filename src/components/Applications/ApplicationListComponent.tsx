@@ -100,7 +100,7 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
     }
 
     renderEmpty = () => {
-        return <Text style={{ marginTop: 30 }}>No data to display</Text>;
+        return <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, alignSelf: 'center', marginTop: 10, textAlign: 'center' }}>No applications to display{"\n"}Send some applications or wait until someone else sends one to your house</Text>;
     };
 
     renderItem = ({ item, section }: { item: Application; section: { title: string; }; }) => {

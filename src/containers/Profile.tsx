@@ -12,10 +12,15 @@ import { FloatingAction } from 'react-native-floating-action';
 import { Colors } from '../consts';
 import { UPDATE_USER_MUTATION } from '../graphql/mutations';
 import { UpdateUserMutationVariables, UserDetailQuery, UpdateUserMutation } from '../graphql/Types';
+import { ErrorScreen } from '../widgets/ErrorScreen';
+import { ErrorToast } from '../widgets/ErrorToast';
+import { ApolloError } from 'apollo-client';
 
 interface Props {
     profile: ProfileState;
     login: LoginState;
+    error: ApolloError;
+    refetch: () => void;
     loading: boolean;
     userDetailsQuery: () => void;
     navigation: {
@@ -101,36 +106,43 @@ export class Profile extends React.Component<Props, State> {
             return <ActivityIndicator />;
         }
 
+        if (this.props.error && this.props.user === undefined) {
+            return <ErrorScreen message={this.props.error.message} onPress={this.props.refetch} />;
+        }
+
         return (
-            <View style={{ flex: 1 }}>
-                <ProfileComponent
-                    isLoading={this.state.isLoading}
-                    profile={this.props.user}
-                    updateUser={this.props.updateUser}
-                    navigation={this.props.navigation}
-                    contentEditable={
-                        (this.props.navigation.state &&
-                            this.props.navigation.state.params &&
-                            this.props.navigation.state.params.contentEditable) ||
-                        false
-                    }
-                />
-                {Platform.OS === 'android' &&
-                    <FloatingAction
-                        actions={[{
-                            name: 'Edit',
-                            icon: <Icon name={
+            <>
+                {this.props.error && <ErrorToast message={this.props.error.message} onPress={this.props.refetch} />}
+                <View style={{ flex: 1 }}>
+                    <ProfileComponent
+                        isLoading={this.state.isLoading}
+                        profile={this.props.user}
+                        updateUser={this.props.updateUser}
+                        navigation={this.props.navigation}
+                        contentEditable={
+                            (this.props.navigation.state &&
                                 this.props.navigation.state.params &&
-                                    this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
-                        }]}
-                        color={Colors.brandPrimaryColor}
-                        overrideWithAction={true}
-                        onPressItem={() => {
-                            this.props.navigation.setParams({ contentEditable: !!this.props.navigation.state.params ? !this.props.navigation.state.params.contentEditable : true })
-                        }}
+                                this.props.navigation.state.params.contentEditable) ||
+                            false
+                        }
                     />
-                }
-            </View>
+                    {Platform.OS === 'android' &&
+                        <FloatingAction
+                            actions={[{
+                                name: 'Edit',
+                                icon: <Icon name={
+                                    this.props.navigation.state.params &&
+                                        this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
+                            }]}
+                            color={Colors.brandPrimaryColor}
+                            overrideWithAction={true}
+                            onPressItem={() => {
+                                this.props.navigation.setParams({ contentEditable: !!this.props.navigation.state.params ? !this.props.navigation.state.params.contentEditable : true })
+                            }}
+                        />
+                    }
+                </View>
+            </>
         );
     }
 }
@@ -148,9 +160,11 @@ const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
     options: (ownProps: Props) => ({ variables: { id: ownProps.login.id }, fetchPolicy: 'network-only' }),
 
     // @ts-ignore
-    props: ({ data: { loading, user } }) => ({
+    props: ({ data: { loading, user, error, refetch } }) => ({
         loading,
-        user
+        user,
+        error,
+        refetch
     })
 });
 

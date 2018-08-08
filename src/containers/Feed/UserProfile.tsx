@@ -7,11 +7,14 @@ import { USER_DETAILS_QUERY } from '../../graphql/queries';
 import { User } from '../../types/Entities';
 import { UserDetailQuery, UserDetailQueryVariables } from '../../graphql/Types';
 import { TRACKER } from '../../App';
+import { ErrorScreen } from '../../widgets/ErrorScreen';
+import { ErrorToast } from '../../widgets/ErrorToast';
 
 interface Props {
     loading: boolean;
     error: Error;
     user: User;
+    refetch: () => void;
     navigation: {
         state: {
             params: {
@@ -43,18 +46,21 @@ export class UserProfile extends React.Component<Props> {
         }
 
         if (this.props.error) {
-            return <Text>ERROR</Text>;
+            return <ErrorScreen message={this.props.error.message} onPress={this.props.refetch} />;
         }
 
         return (
-            <ProfileComponent
-                isLoading={this.props.loading}
-                profile={Object.assign(
-                    {},
-                    this.props.navigation.state.params.data,
-                    this.props.user
-                )}
-            />
+            <>
+                {this.props.error && <ErrorToast message={this.props.error.message} onPress={this.props.refetch} />}
+                <ProfileComponent
+                    isLoading={this.props.loading}
+                    profile={Object.assign(
+                        {},
+                        this.props.navigation.state.params.data,
+                        this.props.user
+                    )}
+                />
+            </>
         );
     }
 }
@@ -90,7 +96,7 @@ const getUserDetail = graphql<
             }) => ({
                 variables: { id: navigation.state.params.id }
             }),
-        props: ({ data: { loading, error, user } }) => ({ loading, error, user })
+        props: ({ data: { loading, error, user, refetch } }) => ({ loading, error, user })
     });
 
 export default getUserDetail(UserProfile);

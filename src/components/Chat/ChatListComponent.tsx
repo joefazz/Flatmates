@@ -133,7 +133,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
 
     render() {
         var houseChat = [];
-        if (!this.props.isLoading) {
+        if (!this.props.isLoading && this.props.data) {
             houseChat = this.props.data.filter(chat => !Boolean(chat.applicant));
         }
 
@@ -143,7 +143,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
                     data={this.props.data}
                     renderItem={this.renderItem}
                     ListHeaderComponent={() => this.renderHeader(houseChat.length > 0 && houseChat[0])}
-                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, alignSelf: 'center', marginTop: 10 }}>No Chat Groups</Text>}
+                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, alignSelf: 'center', marginTop: 10, textAlign: 'center' }}>No Chat Groups{"\n"}{"\n"}In order to chat with other users{"\n"} someone in a house will have to add you to a group.</Text>}
                     ItemSeparatorComponent={this.renderSeperator}
                     keyExtractor={(item) => item.id}
                     refreshControl={

@@ -15,6 +15,8 @@ import { HOUSE_POST_QUERY } from '../../graphql/queries';
 import { Colors } from '../../consts';
 import { FontFactory } from '../../consts/font';
 import { TRACKER } from '../../App';
+import { ErrorScreen } from '../../widgets/ErrorScreen';
+import { ErrorToast } from '../../widgets/ErrorToast';
 
 interface Props {
     login: LoginState;
@@ -79,31 +81,35 @@ export class PostList extends React.Component<Props> {
                         return <Query query={POST_LIST_QUERY} variables={{ take: 10, skip: 0 }} fetchPolicy={'cache-and-network'}>
                             {({ data, loading, error, fetchMore, refetch }: { data: AllPostsQuery; loading: boolean; error?: ApolloError; fetchMore: any; refetch: () => void; }) => {
 
-                                if (error || createError) {
-                                    return <Text>{createError.message || error.message} please try again.</Text>;
+                                if (error) {
+                                    return <ErrorScreen message={error.message} onPress={refetch} />;
                                 }
 
                                 return (
-                                    <PostListComponent
-                                        fetchMorePosts={() => fetchMore({
-                                            variables: { take: 10, skip: data.allPosts.length }, updateQuery: (prev, { fetchMoreResult }) => {
-                                                if (!fetchMoreResult) {
-                                                    return prev;
-                                                }
+                                    <>
+                                        {error && <ErrorToast message={error.message} onPress={refetch} />}
 
-                                                return Object.assign({}, prev, {
-                                                    allPosts: [...prev.allPosts, ...fetchMoreResult.allPosts]
-                                                });
-                                            }
-                                        })}
-                                        isLoading={loading}
-                                        navigation={this.props.navigation}
-                                        refreshPostList={refetch}
-                                        canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
-                                        userPostPermissionEnabled={(!(createLoading || loading) && !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!createData.house ? (createData.house.spaces > 0 ? !Boolean(createData.house.post) : false) : false}
-                                        data={!!data.allPosts ? data.allPosts : []}
-                                        userId={this.props.login.id}
-                                    />
+                                        <PostListComponent
+                                            fetchMorePosts={() => fetchMore({
+                                                variables: { take: 10, skip: data.allPosts.length }, updateQuery: (prev, { fetchMoreResult }) => {
+                                                    if (!fetchMoreResult) {
+                                                        return prev;
+                                                    }
+
+                                                    return Object.assign({}, prev, {
+                                                        allPosts: [...prev.allPosts, ...fetchMoreResult.allPosts]
+                                                    });
+                                                }
+                                            })}
+                                            isLoading={loading}
+                                            navigation={this.props.navigation}
+                                            refreshPostList={refetch}
+                                            canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
+                                            userPostPermissionEnabled={(!(createLoading || loading) && !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!createData.house ? (createData.house.spaces > 0 ? !Boolean(createData.house.post) : false) : false}
+                                            data={!!data.allPosts ? data.allPosts : []}
+                                            userId={this.props.login.id}
+                                        />
+                                    </>
                                 )
                             }
 
@@ -119,31 +125,34 @@ export class PostList extends React.Component<Props> {
             <Query query={POST_LIST_QUERY} variables={{ take: 10, skip: 0 }} fetchPolicy={'cache-and-network'}>
                 {({ data, loading, error, fetchMore, refetch }: { data: AllPostsQuery; loading: boolean; error?: ApolloError; fetchMore: any; refetch: () => void; }) => {
 
-                    if (error) {
-                        return <Text>{error.message} please try again.</Text>
+                    if (error && !Boolean(data.allPosts)) {
+                        return <ErrorScreen message={error.message} onPress={refetch} />;
                     }
 
                     return (
-                        <PostListComponent
-                            fetchMorePosts={() => fetchMore({
-                                variables: { take: 10, skip: data.allPosts.length }, updateQuery: (prev, { fetchMoreResult }) => {
-                                    if (!fetchMoreResult) {
-                                        return prev;
-                                    }
+                        <>
+                            {error && <ErrorToast message={error.message} onPress={refetch} />}
+                            <PostListComponent
+                                fetchMorePosts={() => fetchMore({
+                                    variables: { take: 10, skip: data.allPosts.length }, updateQuery: (prev, { fetchMoreResult }) => {
+                                        if (!fetchMoreResult) {
+                                            return prev;
+                                        }
 
-                                    return Object.assign({}, prev, {
-                                        allPosts: [...prev.allPosts, ...fetchMoreResult.allPosts]
-                                    });
-                                }
-                            })}
-                            isLoading={loading}
-                            navigation={this.props.navigation}
-                            refreshPostList={refetch}
-                            canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
-                            userPostPermissionEnabled={(!(this.props.loading && loading) || !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!this.props.user.house ? !Boolean(this.props.user.house.post) : false}
-                            data={!!data.allPosts ? data.allPosts : []}
-                            userId={this.props.login.id}
-                        />
+                                        return Object.assign({}, prev, {
+                                            allPosts: [...prev.allPosts, ...fetchMoreResult.allPosts]
+                                        });
+                                    }
+                                })}
+                                isLoading={loading}
+                                navigation={this.props.navigation}
+                                refreshPostList={refetch}
+                                canFetchMorePosts={!!data.allPosts && data.allPosts.length % 10 === 0}
+                                userPostPermissionEnabled={(!(this.props.loading && loading) || !!(this.props.navigation.state.params && this.props.navigation.state.params.isReadOnly)) ? false : !!this.props.user.house ? !Boolean(this.props.user.house.post) : false}
+                                data={!!data.allPosts ? data.allPosts : []}
+                                userId={this.props.login.id}
+                            />
+                        </>
                     )
                 }
 

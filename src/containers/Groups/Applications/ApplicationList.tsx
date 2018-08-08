@@ -16,6 +16,8 @@ import { Application, House } from '../../../types/Entities';
 import { toConstantWidth, toConstantHeight } from '../../../utils/PercentageConversion';
 import { Colors } from '../../../consts';
 import { FontFactory } from '../../../consts/font';
+import { ErrorScreen } from '../../../widgets/ErrorScreen';
+import { ErrorToast } from '../../../widgets/ErrorToast';
 
 interface Props {
     house: {
@@ -54,8 +56,13 @@ export class ApplicationList extends React.Component<Props, State> {
         let showRecieved = Boolean(this.props.profile.house && this.props.profile.house.shortID);
 
         if (!showRecieved) {
+            if (this.props.sentError && !Boolean(this.props.user)) {
+                return <ErrorScreen message={this.props.sentError.message} onPress={this.props.refetch} />;
+            }
+
             return (
                 <>
+                    {this.props.sentError && <ErrorToast message={this.props.sentError.message} onPress={this.props.refetch} />}
                     <ApplicationListComponent
                         sentApplications={!!this.props.user ? this.props.user.applications.filter(app => app.isActive) : []}
                         receivedApplications={[]}
@@ -76,9 +83,6 @@ export class ApplicationList extends React.Component<Props, State> {
                     fetchPolicy={'cache-and-network'}
                 >
                     {({ loading, error, data: { house }, refetch }) => {
-                        if (error) {
-                            console.log(error);
-                        }
 
                         var inactiveApplications = [];
                         if (!!this.props.user) {
@@ -89,8 +93,18 @@ export class ApplicationList extends React.Component<Props, State> {
                             }
                         }
 
+                        function refetchAll() {
+                            this.props.refetch();
+                            refetch();
+                        }
+
+                        if (error || this.props.sentError) {
+                            return <ErrorScreen message={error.message || this.props.sentError.message} onPress={refetchAll} />;
+                        }
+
                         return (
                             <>
+                                {error || this.props.sentError && <ErrorToast message={error.message || this.props.sentError.message} onPress={refetchAll} />}
                                 <ApplicationListComponent
                                     receivedApplications={!!house ? house.applications.filter(app => app.isActive) : []}
                                     isLoadingReceived={loading}
