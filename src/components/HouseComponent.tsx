@@ -52,7 +52,7 @@ export class HouseComponent extends React.Component<Props> {
                                             case house.spaces === 1 ? 'Free Room' : 'Free Rooms':
                                                 if (house.spaces !== Number(item.value)) {
                                                     if (house.spaces === 0 && Number(item.value) > 0) {
-                                                        Alert.alert('Open Applications', 'Setting the number of spaces to more than 0 means that your house is open to new Flatmates so you will see the Chat screen change. Create a post in the homepage to advertise your space!', [{
+                                                        Alert.alert('Open Applications', 'Setting the number of spaces to more than 0 means that your house is open to new Flatmates. Create a post in the homepage to advertise your space!', [{
                                                             text: 'OK', style: 'default', onPress: () => this.props.updateHouse({
                                                                 shortID: house.shortID,
                                                                 road: house.road,
