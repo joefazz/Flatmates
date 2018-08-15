@@ -49,7 +49,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
             });
 
             if (data.user === null) {
-                AsyncStorage.clear(() => this.props.navigation.navigate('Login'));
+                AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'));
             }
 
             if (this.props.login.id !== '' && this.props.isVerified) {

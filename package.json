@@ -1,6 +1,6 @@
 {
     "name": "flatmates",
-    "version": "1.0.1",
+    "version": "1.0.1-c1",
     "private": true,
     "devDependencies": {
         "@types/react": "^16.4.10",
@@ -28,6 +28,7 @@
     },
     "scripts": {
         "ios": "react-native run-ios --simulator=\"iPhone SE\"",
+        "ios:release": "react-native run-ios --configuration Release",
         "android": "react-native run-android",
         "emulator": "cd ~ && ./RunAndEmulate",
         "start": "react-native start --transformer node_modules/react-native-typescript-transformer/index.js --sourceExts ts,tsx",

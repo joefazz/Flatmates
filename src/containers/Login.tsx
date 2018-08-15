@@ -61,6 +61,7 @@ import OneSignal from 'react-native-onesignal';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { STUDY_YEARS, GENDERS } from '../consts/strings';
 import { VERIFY_EMAIL_MUTATION } from '../graphql/mutations/User/VerifyEmail';
+var json = require('../../package.json');
 
 const auth0 = new Auth0({
     domain: 'flatmates-auth.eu.auth0.com',
@@ -276,6 +277,7 @@ export class Login extends React.Component<Props, State> {
                                 Try without signing up!
                             </Text>
                         </TouchableOpacity>
+                        <Text style={{ fontSize: 10, ...FontFactory() }}>{json.version}</Text>
                     </View>
                 </View>
 

@@ -90,14 +90,27 @@ export class ApplicationDetail extends React.Component<Props, State> {
                         />
                         <TouchableRect
                             onPress={() => {
-                                this.props.deleteApplication({
-                                    id,
-                                    applicantID: userData.id,
-                                    road: this.props.house.road,
-                                    houseID: this.props.house.shortID
-                                });
+                                Alert.alert(
+                                    `Reject ${userData.firstName}`,
+                                    `${userData.name}'s application will be deleted.`,
+                                    [
+                                        {
+                                            text: 'Reject',
+                                            onPress: () => {
+                                                this.props.deleteApplication({
+                                                    id,
+                                                    applicantID: userData.id,
+                                                    road: this.props.house.road,
+                                                    houseID: this.props.house.shortID
+                                                });
 
-                                this.props.navigation.pop();
+                                                this.props.navigation.pop();
+                                            }
+                                        },
+
+                                        { text: 'Cancel', style: 'cancel' }
+                                    ]
+                                );
                             }}
                             title={`Reject Application`}
                             iconName={'times-circle'}
@@ -120,14 +133,28 @@ export class ApplicationDetail extends React.Component<Props, State> {
                                         );
                                         return;
                                     }
-                                    this.props.navigation.pop();
 
-                                    this.props.completeApplication({
-                                        applicantID: userData.id,
-                                        applicantName: userData.name,
-                                        houseID: this.props.house.shortID,
-                                        houseName: this.props.house.road
-                                    });
+                                    Alert.alert(
+                                        `Accept ${userData.firstName}`,
+                                        `${userData.name}'s will be added to your house.`,
+                                        [
+                                            {
+                                                text: 'Accept',
+                                                onPress: () => {
+                                                    this.props.completeApplication({
+                                                        applicantID: userData.id,
+                                                        applicantName: userData.name,
+                                                        houseID: this.props.house.shortID,
+                                                        houseName: this.props.house.road
+                                                    });
+
+                                                    this.props.navigation.pop();
+                                                }
+                                            },
+
+                                            { text: 'Cancel', style: 'cancel' }
+                                        ]
+                                    );
                                 }}
                                 title={`Accept Application`}
                                 iconName={'check-circle'}
