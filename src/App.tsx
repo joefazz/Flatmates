@@ -80,7 +80,7 @@ class Root extends React.Component<Props, State> {
             .then((update) => {
                 if (update && update.isFirstRun) {
                     Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
-                    Alert.alert('Flatmates has updated!', update.label, [
+                    Alert.alert('Flatmates has updated!', update.description, [
                         { text: 'OK', style: 'default' }
                     ]);
                 }

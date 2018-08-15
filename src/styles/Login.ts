@@ -120,7 +120,7 @@ export const login = StyleSheet.create({
     houseIDInput: {
         ...Font.FontFactory(),
         color: Colors.textHighlightColor,
-        width: 90,
+        width: 100,
         fontSize: 24,
         borderBottomWidth: 1,
         borderColor: Colors.grey,

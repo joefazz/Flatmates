@@ -32,7 +32,9 @@ interface Props {
         setParams: any;
     };
     user: User;
-    updateUser: (params: UpdateUserMutationVariables & { tempProfilePicture: string }) => UpdateUserMutation;
+    updateUser: (
+        params: UpdateUserMutationVariables & { tempProfilePicture: string }
+    ) => UpdateUserMutation;
 }
 
 interface State {
@@ -44,21 +46,20 @@ export class Profile extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
         title: 'Profile',
         headerRight:
-            Platform.OS === 'ios' && (
-                !!navigation.state &&
-                    !!navigation.state.params &&
-                    !!navigation.state.params.contentEditable ? (
-                        <HeaderButtonIOS
-                            text={'Done'}
-                            onPress={() => navigation.setParams({ contentEditable: false })}
-                        />
-                    ) : (
-                        <HeaderButtonIOS
-                            text={'Edit'}
-                            onPress={() => navigation.setParams({ contentEditable: true })}
-                        />
-                    )
-            )
+            Platform.OS === 'ios' &&
+            (!!navigation.state &&
+            !!navigation.state.params &&
+            !!navigation.state.params.contentEditable ? (
+                <HeaderButtonIOS
+                    text={'Done'}
+                    onPress={() => navigation.setParams({ contentEditable: false })}
+                />
+            ) : (
+                <HeaderButtonIOS
+                    text={'Edit'}
+                    onPress={() => navigation.setParams({ contentEditable: true })}
+                />
+            ))
     });
 
     constructor(props) {
@@ -69,37 +70,6 @@ export class Profile extends React.Component<Props, State> {
             isLoading: props.loading
         };
     }
-
-    // componentWillReceiveProps(newProps) {
-    //     if (newProps.loading !== this.props.loading && newProps.user) {
-    //         // Remove null properties
-    //         const trimmedData: { house?: { users: Array<User> } } = {};
-
-    //         Object.keys(newProps.user).map((property) => {
-    //             if (newProps.user[property] !== null) {
-    //                 trimmedData[property] = newProps.user[property];
-    //             }
-    //         });
-
-    //         if (trimmedData.house) {
-    //             const trimmedusers = trimmedData.house.users.filter((user) => {
-    //                 return user.name !== this.state.profile.name;
-    //             });
-
-    //             const tempHouse: { users?: Array<any> } = {};
-    //             Object.keys(trimmedData.house).map((property) => {
-    //                 tempHouse[property] =
-    //                     property === 'users' ? trimmedusers : trimmedData.house[property];
-    //             });
-    //             trimmedData.house = tempHouse as { users: Array<User> };
-    //         }
-
-    //         this.setState({
-    //             isLoading: newProps.loading,
-    //             profile: Object.assign({}, this.state.profile, trimmedData)
-    //         });
-    //     }
-    // }
 
     render() {
         if (this.props.loading) {
@@ -112,7 +82,9 @@ export class Profile extends React.Component<Props, State> {
 
         return (
             <>
-                {this.props.error && <ErrorToast message={this.props.error.message} onPress={this.props.refetch} />}
+                {this.props.error && (
+                    <ErrorToast message={this.props.error.message} onPress={this.props.refetch} />
+                )}
                 <View style={{ flex: 1 }}>
                     <ProfileComponent
                         isLoading={this.state.isLoading}
@@ -126,21 +98,36 @@ export class Profile extends React.Component<Props, State> {
                             false
                         }
                     />
-                    {Platform.OS === 'android' &&
+                    {Platform.OS === 'android' && (
                         <FloatingAction
-                            actions={[{
-                                name: 'Edit',
-                                icon: <Icon name={
-                                    this.props.navigation.state.params &&
-                                        this.props.navigation.state.params.contentEditable ? 'md-checkmark' : 'md-create'} color={Colors.white} size={25} />
-                            }]}
+                            actions={[
+                                {
+                                    name: 'Edit',
+                                    icon: (
+                                        <Icon
+                                            name={
+                                                this.props.navigation.state.params &&
+                                                this.props.navigation.state.params.contentEditable
+                                                    ? 'md-checkmark'
+                                                    : 'md-create'
+                                            }
+                                            color={Colors.white}
+                                            size={25}
+                                        />
+                                    )
+                                }
+                            ]}
                             color={Colors.brandPrimaryColor}
                             overrideWithAction={true}
                             onPressItem={() => {
-                                this.props.navigation.setParams({ contentEditable: !!this.props.navigation.state.params ? !this.props.navigation.state.params.contentEditable : true })
+                                this.props.navigation.setParams({
+                                    contentEditable: !!this.props.navigation.state.params
+                                        ? !this.props.navigation.state.params.contentEditable
+                                        : true
+                                });
                             }}
                         />
-                    }
+                    )}
                 </View>
             </>
         );
@@ -157,7 +144,10 @@ const bindActions = () => {
 };
 
 const userDetailsQuery = graphql(USER_DETAILS_QUERY, {
-    options: (ownProps: Props) => ({ variables: { id: ownProps.login.id }, fetchPolicy: 'network-only' }),
+    options: (ownProps: Props) => ({
+        variables: { id: ownProps.login.id },
+        fetchPolicy: 'network-only'
+    }),
 
     // @ts-ignore
     props: ({ data: { loading, user, error, refetch } }) => ({
@@ -179,7 +169,7 @@ const updateUserMutation = graphql(UPDATE_USER_MUTATION, {
                         variables: { id: params.id }
                     });
 
-                    let data = Object.assign(userData.user, updateUser)
+                    let data = Object.assign(userData.user, updateUser);
 
                     store.writeQuery({
                         query: USER_DETAILS_QUERY,
@@ -203,7 +193,7 @@ const updateUserMutation = graphql(UPDATE_USER_MUTATION, {
                         studyYear: params.studyYear,
                         isSmoker: params.isSmoker,
                         isDruggie: params.isDruggie,
-                        isDrinker: params.isDrinker,
+                        isDrinker: params.isDrinker
                     }
                 }
             })

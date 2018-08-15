@@ -83,7 +83,9 @@ export class PostList extends React.Component<Props> {
 
     componentDidMount() {
         StatusBar.setBarStyle('light-content');
-        TRACKER.trackScreenView('PostList');
+        this.props.navigation.state.params.isReadOnly
+            ? TRACKER.trackScreenView('ReadOnly')
+            : TRACKER.trackScreenView('PostList');
     }
 
     componentWillUnmount() {
@@ -179,7 +181,8 @@ export class PostList extends React.Component<Props> {
                                                 refreshPostList={refetch}
                                                 canFetchMorePosts={
                                                     !!data.allPosts &&
-                                                    data.allPosts.length % 10 === 0
+                                                    data.allPosts.length % 10 === 0 &&
+                                                    data.allPosts.length !== 0
                                                 }
                                                 userPostPermissionEnabled={
                                                     this.props.navigation.state.params &&

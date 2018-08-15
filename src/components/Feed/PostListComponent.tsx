@@ -1,5 +1,13 @@
 import React from 'react';
-import { FlatList, Platform, RefreshControl, Text, TouchableHighlight, View, TouchableOpacity } from 'react-native';
+import {
+    FlatList,
+    Platform,
+    RefreshControl,
+    Text,
+    TouchableHighlight,
+    View,
+    TouchableOpacity
+} from 'react-native';
 import { FloatingAction } from 'react-native-floating-action';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -12,12 +20,12 @@ import { FontFactory } from '../../consts/font';
 
 interface Props {
     navigation: {
-        push: (route: string, params?: { data?: object, isReadOnly?: boolean; }) => void;
+        push: (route: string, params?: { data?: object; isReadOnly?: boolean }) => void;
         state: {
             params: {
                 isReadOnly?: boolean;
-            }
-        }
+            };
+        };
     };
     userPostPermissionEnabled: boolean;
     data: Array<Post>;
@@ -117,7 +125,9 @@ export class PostListComponent extends React.Component<Props> {
                     refreshControl={
                         <RefreshControl
                             refreshing={this.props.isLoading}
-                            onRefresh={() => this.props.refreshPostList({ variables: { take: 10, skip: 0 } })}
+                            onRefresh={() =>
+                                this.props.refreshPostList({ variables: { take: 10, skip: 0 } })
+                            }
                         />
                     }
                     ListFooterComponent={this.renderFooter}
@@ -141,8 +151,8 @@ export class PostListComponent extends React.Component<Props> {
                         onPressItem={() => this.props.navigation.push('CreatePost')}
                     />
                 ) : (
-                        <React.Fragment />
-                    )}
+                    <React.Fragment />
+                )}
             </>
         );
     }
@@ -152,16 +162,49 @@ export class PostListComponent extends React.Component<Props> {
             return <View />;
         }
 
+        if (this.props.data.length === 0) {
+            return <View />;
+        }
+
         if (this.props.canFetchMorePosts) {
             return (
-                <TouchableOpacity style={{ marginVertical: 10, padding: 7, borderWidth: 1, borderRadius: 3, borderColor: Colors.definetelyNotAirbnbRed, alignSelf: 'center' }} onPress={() => this.props.fetchMorePosts()}>
-                    <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.definetelyNotAirbnbRed }}>Fetch more posts</Text>
+                <TouchableOpacity
+                    style={{
+                        marginVertical: 10,
+                        padding: 7,
+                        borderWidth: 1,
+                        borderRadius: 3,
+                        borderColor: Colors.definetelyNotAirbnbRed,
+                        alignSelf: 'center'
+                    }}
+                    onPress={() => this.props.fetchMorePosts()}
+                >
+                    <Text
+                        style={{
+                            ...FontFactory(),
+                            fontSize: 16,
+                            color: Colors.definetelyNotAirbnbRed
+                        }}
+                    >
+                        Fetch more posts
+                    </Text>
                 </TouchableOpacity>
             );
         }
 
-        return <Text style={{ ...FontFactory(), alignSelf: 'center', marginVertical: 10, fontSize: 16, color: Colors.definetelyNotAirbnbRed }}>No more posts!</Text>;
-
+        return (
+            <Text
+                style={{
+                    ...FontFactory(),
+                    alignSelf: 'center',
+                    marginVertical: 10,
+                    fontSize: 16,
+                    color: Colors.definetelyNotAirbnbRed
+                }}
+            >
+                No more posts!
+            </Text>
+        );
     };
 
     private renderEmpty = () => {
@@ -175,7 +218,12 @@ export class PostListComponent extends React.Component<Props> {
         return (
             <View style={feed.card}>
                 <PostCard
-                    onPress={() => this.props.navigation.push('PostDetail', { data: item, isReadOnly: !!this.props.navigation.state.params })}
+                    onPress={() =>
+                        this.props.navigation.push('PostDetail', {
+                            data: item,
+                            isReadOnly: !!this.props.navigation.state.params
+                        })
+                    }
                     direction={'vertical'}
                     title={item.createdBy.road}
                     spaces={item.createdBy.spaces}
@@ -210,7 +258,7 @@ export class PostListComponent extends React.Component<Props> {
                             ]}
                         >
                             +
-                    </Text>
+                        </Text>
                         <Text
                             style={[
                                 {
@@ -221,7 +269,7 @@ export class PostListComponent extends React.Component<Props> {
                             ]}
                         >
                             Create Post
-                    </Text>
+                        </Text>
                     </>
                 </TouchableHighlight>
             );

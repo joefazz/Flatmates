@@ -1,6 +1,6 @@
 {
     "name": "flatmates",
-    "version": "1.0.1-c1",
+    "version": "1.0.1-c2",
     "private": true,
     "devDependencies": {
         "@types/react": "^16.4.10",
