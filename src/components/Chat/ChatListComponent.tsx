@@ -58,7 +58,9 @@ export class ChatListComponent extends React.PureComponent<Props> {
                         <View style={group.descWrapper}>
                             <Text style={group.title}>House Chat</Text>
                             <Text style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
-                                {!!chat && chat.messages[0] ? chat.messages[0].text : 'New group created.'}
+                                {!!chat && chat.messages[0]
+                                    ? chat.messages[0].text
+                                    : 'New group created.'}
                             </Text>
                         </View>
                         {/* <View style={true && group.unreadMarker} /> */}
@@ -99,26 +101,50 @@ export class ChatListComponent extends React.PureComponent<Props> {
                     })
                 }
             >
-                <Avatar
-                    rounded={true}
-                    source={{
-                        uri: avatar
-                    }}
-                    containerStyle={{
-                        width: toConstantWidth(18),
-                        height: toConstantWidth(18),
-                        marginLeft: 3
-                    }}
-                    overlayContainerStyle={{ backgroundColor: Colors.transparent }}
-                    avatarStyle={{
-                        width: toConstantWidth(18),
-                        height: toConstantWidth(18),
-                        borderRadius: toConstantWidth(9)
-                    }}
-                />
+                {!!avatar ? (
+                    <Avatar
+                        rounded={true}
+                        source={{
+                            uri: avatar
+                        }}
+                        containerStyle={{
+                            width: toConstantWidth(18),
+                            height: toConstantWidth(18),
+                            marginLeft: 3
+                        }}
+                        overlayContainerStyle={{ backgroundColor: Colors.transparent }}
+                        avatarStyle={{
+                            width: toConstantWidth(18),
+                            height: toConstantWidth(18),
+                            borderRadius: toConstantWidth(9)
+                        }}
+                    />
+                ) : (
+                    <Avatar
+                        icon={{ name: 'person' }}
+                        containerStyle={{
+                            width: toConstantWidth(18),
+                            height: toConstantWidth(18),
+                            borderRadius: toConstantWidth(9),
+                            marginLeft: 3
+                        }}
+                        overlayContainerStyle={{
+                            backgroundColor: Colors.grey,
+                            borderRadius: toConstantWidth(9)
+                        }}
+                        iconStyle={{
+                            width: toConstantWidth(18),
+                            height: toConstantWidth(18),
+                            borderRadius: toConstantWidth(9)
+                        }}
+                    />
+                )}
                 <View style={group.descWrapper}>
                     <Text style={group.title}>{groupName}</Text>
-                    <Text numberOfLines={1} style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}>
+                    <Text
+                        numberOfLines={1}
+                        style={[group.subtitle, { fontSize: toConstantFontSize(1.8) }]}
+                    >
                         {!!item && item.messages[0] ? item.messages[0].text : 'New group created.'}
                     </Text>
                 </View>
@@ -134,7 +160,7 @@ export class ChatListComponent extends React.PureComponent<Props> {
     render() {
         var houseChat = [];
         if (!this.props.isLoading && this.props.data) {
-            houseChat = this.props.data.filter(chat => !Boolean(chat.applicant));
+            houseChat = this.props.data.filter((chat) => !Boolean(chat.applicant));
         }
 
         return (
@@ -142,8 +168,30 @@ export class ChatListComponent extends React.PureComponent<Props> {
                 <FlatList
                     data={this.props.data}
                     renderItem={this.renderItem}
-                    ListHeaderComponent={() => this.renderHeader(houseChat.length > 0 && houseChat[0])}
-                    ListEmptyComponent={() => this.props.isLoading ? <View /> : <Text style={{ ...FontFactory({ weight: 'Bold' }), fontSize: 20, alignSelf: 'center', marginTop: 10, textAlign: 'center' }}>No Chat Groups{"\n"}{"\n"}In order to chat with other users{"\n"} someone in a house will have to add you to a group.</Text>}
+                    ListHeaderComponent={() =>
+                        this.renderHeader(houseChat.length > 0 && houseChat[0])
+                    }
+                    ListEmptyComponent={() =>
+                        this.props.isLoading ? (
+                            <View />
+                        ) : (
+                            <Text
+                                style={{
+                                    ...FontFactory({ weight: 'Bold' }),
+                                    fontSize: 20,
+                                    alignSelf: 'center',
+                                    marginTop: 10,
+                                    textAlign: 'center'
+                                }}
+                            >
+                                No Chat Groups
+                                {'\n'}
+                                {'\n'}
+                                In order to chat with other users
+                                {'\n'} someone in a house will have to add you to a group.
+                            </Text>
+                        )
+                    }
                     ItemSeparatorComponent={this.renderSeperator}
                     keyExtractor={(item) => item.id}
                     refreshControl={

@@ -1,23 +1,29 @@
 import React from 'react';
 import { compose, graphql, ChildProps, Mutation } from 'react-apollo';
-import {
-    ActivityIndicator,
-    Platform,
-    Text,
-    TextInput,
-    View
-} from 'react-native';
+import { ActivityIndicator, Platform, Text, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 
 import { Colors } from '../../consts';
-import { USER_POST_QUERY, POST_LIST_QUERY, USER_HOUSE_POST_QUERY, HOUSE_POST_QUERY } from '../../graphql/queries';
+import {
+    USER_POST_QUERY,
+    POST_LIST_QUERY,
+    USER_HOUSE_POST_QUERY,
+    HOUSE_POST_QUERY
+} from '../../graphql/queries';
 import { base, feed } from '../../styles';
 import { LoginState } from '../../types/ReduxTypes';
 import { House } from '../../types/Entities';
 import { toConstantHeight, toConstantWidth } from '../../utils/PercentageConversion';
 import { TouchableRect } from '../../widgets/TouchableRect';
-import { UserPostQuery, UserPostQueryVariables, CreatePostMutationVariables, AllPostsQuery, CreatePostMutation, HousePostQuery } from '../../graphql/Types';
+import {
+    UserPostQuery,
+    UserPostQueryVariables,
+    CreatePostMutationVariables,
+    AllPostsQuery,
+    CreatePostMutation,
+    HousePostQuery
+} from '../../graphql/Types';
 import { CREATE_POST_MUTATION } from '../../graphql/mutations';
 
 interface Props {
@@ -60,8 +66,8 @@ export class CreatePost extends React.Component<Props, State> {
                     description:
                         this.props.user.house.spaces > 1
                             ? `Looking to fill ${this.props.user.house.spaces} rooms on ${
-                            this.props.user.house.road
-                            }.`
+                                  this.props.user.house.road
+                              }.`
                             : `Looking to fill a room on ${this.props.user.house.road}.`,
                     createdBy: this.props.user.house.shortID
                 }
@@ -111,7 +117,13 @@ export class CreatePost extends React.Component<Props, State> {
                         variables: { shortID: this.props.user.house.shortID }
                     });
 
-                    houseData.house.post = { __typename: data.createPost.__typename, viewCount: data.createPost.viewCount, id: data.createPost.id, description: data.createPost.description, lastSeen: data.createPost.lastSeen };
+                    houseData.house.post = {
+                        __typename: data.createPost.__typename,
+                        viewCount: data.createPost.viewCount,
+                        id: data.createPost.id,
+                        description: data.createPost.description,
+                        lastSeen: data.createPost.lastSeen
+                    };
                     console.log(houseData);
 
                     store.writeQuery({
@@ -120,54 +132,54 @@ export class CreatePost extends React.Component<Props, State> {
                         data: houseData
                     });
                 }}
-                optimisticResponse={
-                    {
-                        __typename: 'Mutation',
-                        createPost: {
-                            __typename: 'Post',
-                            id: "-1",
-                            description: this.state.description,
-                            createdAt: Date.now(),
-                            lastSeen: Date.now(),
-                            viewCount: 0,
-                            createdBy: {
-                                ...this.props.user.house
-                            }
+                optimisticResponse={{
+                    __typename: 'Mutation',
+                    createPost: {
+                        __typename: 'Post',
+                        id: '-1',
+                        description: this.state.description,
+                        createdAt: Date.now(),
+                        lastSeen: Date.now(),
+                        viewCount: 0,
+                        createdBy: {
+                            ...this.props.user.house
                         }
-                    }}
+                    }
+                }}
             >
-                {(createPost) => (<View style={[base.wholePage, { alignItems: 'center', justifyContent: 'center' }]}>
+                {(createPost) => (
                     <View
-                        style={{
-                            flex: 4,
-                            alignItems: 'center',
-                            justifyContent: 'flex-start'
-                        }}
+                        style={[base.wholePage, { alignItems: 'center', justifyContent: 'center' }]}
                     >
-                        <View style={{ marginTop: toConstantHeight(4) }}>
-                            <Text style={base.labelText}>Description</Text>
-                            <TextInput
-                                onChangeText={(text) => this.setState({ description: text })}
-                                underlineColorAndroid={Colors.transparent}
-                                enablesReturnKeyAutomatically={true}
-                                style={feed.descriptionInput}
-                                multiline={true}
-                                returnKeyType={'done'}
-                                placeholderTextColor={Colors.grey}
-                                placeholder={`Enter information here that you haven't already provided during sign up. Some ideas of what to talk about: total number of bedrooms, number of bathrooms, parking availability, public transport links, etcetra.`}
+                        <View
+                            style={{
+                                flex: 4,
+                                alignItems: 'center',
+                                justifyContent: 'flex-start'
+                            }}
+                        >
+                            <View style={{ marginTop: toConstantHeight(4) }}>
+                                <Text style={base.labelText}>Description</Text>
+                                <TextInput
+                                    onChangeText={(text) => this.setState({ description: text })}
+                                    underlineColorAndroid={Colors.transparent}
+                                    style={feed.descriptionInput}
+                                    multiline={true}
+                                    placeholderTextColor={Colors.grey}
+                                    placeholder={`Enter information here that you haven't already provided during sign up. Some ideas of what to talk about: total number of bedrooms, number of bathrooms, parking availability, public transport links, etcetra.`}
+                                />
+                            </View>
+
+                            <TouchableRect
+                                title={'Create'}
+                                buttonStyle={{ width: toConstantWidth(85) }}
+                                wrapperStyle={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
+                                backgroundColor={Colors.brandPrimaryColor}
+                                onPress={() => this.createPostTrigger(createPost)}
                             />
                         </View>
-
-                        <TouchableRect
-                            title={'Create'}
-                            buttonStyle={{ width: toConstantWidth(85) }}
-                            wrapperStyle={{ borderTopLeftRadius: 0, borderTopRightRadius: 0 }}
-                            backgroundColor={Colors.brandPrimaryColor}
-                            onPress={() => this.createPostTrigger(createPost)}
-                        />
                     </View>
-                </View>)
-                }
+                )}
             </Mutation>
         );
     }
@@ -182,26 +194,30 @@ const getUserInfo = graphql<
     UserPostQuery,
     UserPostQueryVariables,
     ChildProps<UserPostQuery>
-    >(USER_POST_QUERY, {
-        options(props) {
-            return {
-                variables: { id: props.login.id },
-                fetchPolicy: 'network-only'
-            };
-        },
-        // @ts-ignore
-        props({ data: { loading, user } }) {
-            return {
-                loading,
-                user
-            };
-        }
-    });
+>(USER_POST_QUERY, {
+    options(props) {
+        return {
+            variables: { id: props.login.id },
+            fetchPolicy: 'network-only'
+        };
+    },
+    // @ts-ignore
+    props({ data: { loading, user } }) {
+        return {
+            loading,
+            user
+        };
+    }
+});
 
 const mapStateToProps = (state) => ({
     login: state.login
 });
 
-export default compose(connect<{}, {}, Props>(mapStateToProps, {}), getUserInfo)(
-    CreatePost
-);
+export default compose(
+    connect<{}, {}, Props>(
+        mapStateToProps,
+        {}
+    ),
+    getUserInfo
+)(CreatePost);

@@ -3,13 +3,33 @@ import React from 'react';
 import { compose, graphql, Query } from 'react-apollo';
 import { Platform, Text, TouchableOpacity, Modal, View, Alert } from 'react-native';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
-import Icon from "react-native-vector-icons/Entypo";
+import Icon from 'react-native-vector-icons/Entypo';
 import { connect } from 'react-redux';
 import { ChatDetailComponent } from '../../../components/Chat/ChatDetailComponent';
 import { CREATE_MESSAGE_MUTATION } from '../../../graphql/mutations/Chat/CreateMessage';
-import { GET_CHAT_MESSAGES_QUERY, HOUSE_CHAT_QUERY, USER_CHAT_QUERY, HOUSE_DETAILS_QUERY, HOUSE_APPLICATIONS_QUERY, HOUSE_POST_QUERY, POST_LIST_QUERY } from '../../../graphql/queries';
+import {
+    GET_CHAT_MESSAGES_QUERY,
+    HOUSE_CHAT_QUERY,
+    USER_CHAT_QUERY,
+    HOUSE_DETAILS_QUERY,
+    HOUSE_APPLICATIONS_QUERY,
+    HOUSE_POST_QUERY,
+    POST_LIST_QUERY
+} from '../../../graphql/queries';
 import { MESSAGE_ADDED_SUBSCRIPTION } from '../../../graphql/subscriptions/Chat/MessageAdded';
-import { ChatMessagesQuery, CreateMessageMutationVariables, HouseChatQuery, MessageAddedSubscription, UserChatQuery, CompleteApplicationMutationVariables, CompleteApplicationMutation, HouseDetailQuery, HouseApplicationsQuery, HousePostQuery, AllPostsQuery } from '../../../graphql/Types';
+import {
+    ChatMessagesQuery,
+    CreateMessageMutationVariables,
+    HouseChatQuery,
+    MessageAddedSubscription,
+    UserChatQuery,
+    CompleteApplicationMutationVariables,
+    CompleteApplicationMutation,
+    HouseDetailQuery,
+    HouseApplicationsQuery,
+    HousePostQuery,
+    AllPostsQuery
+} from '../../../graphql/Types';
 import { Group } from '../../../types/Entities';
 import { ReduxState } from '../../../types/ReduxTypes';
 import { Colors } from '../../../consts';
@@ -18,7 +38,7 @@ import { FontFactory } from '../../../consts/font';
 import { COMPLETE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/CompleteApplication';
 import { ErrorScreen } from '../../../widgets/ErrorScreen';
 import { ErrorToast } from '../../../widgets/ErrorToast';
-
+import Tron from '../../../utils/ReactotronConfig';
 
 interface Props {
     createMessage: (params: CreateMessageMutationVariables) => void;
@@ -35,6 +55,7 @@ interface Props {
         push: (route, params) => void;
     };
     group: Group;
+    userID: string;
     username: string;
     loading: boolean;
     error: ApolloError;
@@ -49,12 +70,19 @@ export class ChatDetail extends React.Component<Props, State> {
     static navigationOptions = ({ navigation }) => ({
         title: navigation.state.params.title,
         tabBarVisible: false,
-        headerRight: navigation.state.params && navigation.state.params.groupData.applicant && navigation.state.params.approvePermissions && (
-            <TouchableOpacity style={{ marginRight: toConstantWidth(2) }} onPress={() => navigation.state.params && navigation.state.params.toggleModal(true)}>
-                <Icon name={'dots-three-horizontal'} color={Colors.white} size={24} />
-            </TouchableOpacity>
-        )
-    })
+        headerRight: navigation.state.params &&
+            navigation.state.params.groupData.applicant &&
+            navigation.state.params.approvePermissions && (
+                <TouchableOpacity
+                    style={{ marginRight: toConstantWidth(2) }}
+                    onPress={() =>
+                        navigation.state.params && navigation.state.params.toggleModal(true)
+                    }
+                >
+                    <Icon name={'dots-three-horizontal'} color={Colors.white} size={24} />
+                </TouchableOpacity>
+            )
+    });
 
     state = { showOptionModal: false };
 
@@ -68,13 +96,16 @@ export class ChatDetail extends React.Component<Props, State> {
 
     toggleModal = (option: boolean) => {
         this.setState({ showOptionModal: option });
-    }
+    };
 
     acceptFlatmate = () => {
         const { applicant, house } = this.props.navigation.state.params.groupData;
 
         if (applicant.house) {
-            Alert.alert('Uh oh', 'The user already has a house, to add them to yours ask them to go to their "My House" page, scroll to the bottom and press "Leave House"');
+            Alert.alert(
+                'Uh oh',
+                'The user already has a house, to add them to yours ask them to go to their "My House" page, scroll to the bottom and press "Leave House"'
+            );
             return;
         }
 
@@ -86,58 +117,110 @@ export class ChatDetail extends React.Component<Props, State> {
                 houseName: house.road
             });
         }
-    }
+    };
 
     render() {
         if (!Boolean(this.props.navigation.state.params.groupData.applicant)) {
             return (
-                <Query query={GET_CHAT_MESSAGES_QUERY} variables={{ id: this.props.navigation.state.params.groupData.id }} fetchPolicy={'network-only'}>
-                    {({ subscribeToMore, data, loading, error, refetch, fetchMore }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; error?: ApolloError, fetchMore: any; }) => {
-
+                <Query
+                    query={GET_CHAT_MESSAGES_QUERY}
+                    variables={{ id: this.props.navigation.state.params.groupData.id }}
+                    fetchPolicy={'network-only'}
+                >
+                    {({
+                        subscribeToMore,
+                        data,
+                        loading,
+                        error,
+                        refetch,
+                        fetchMore
+                    }: {
+                        subscribeToMore: any;
+                        data: ChatMessagesQuery;
+                        loading: boolean;
+                        refetch: () => void;
+                        error?: ApolloError;
+                        fetchMore: any;
+                    }) => {
                         if (error) {
-                            return (<Text>{error.message}</Text>);
+                            return <Text>{error.message}</Text>;
                         }
 
                         return (
                             <ChatDetailComponent
-                                fetchMoreMessages={() => fetchMore({
-                                    variables: { id: data.group.id, skip: data.group.messages.length }, updateQuery: (prev, { fetchMoreResult }) => {
-                                        if (!fetchMoreResult) {
-                                            return prev;
-                                        }
+                                fetchMoreMessages={() =>
+                                    fetchMore({
+                                        variables: {
+                                            id: data.group.id,
+                                            skip: data.group.messages.length
+                                        },
+                                        updateQuery: (prev, { fetchMoreResult }) => {
+                                            if (!fetchMoreResult) {
+                                                return prev;
+                                            }
 
-
-                                        return { group: { id: prev.group.id, __typename: 'Group', messages: [...fetchMoreResult.group.messages, ...prev.group.messages] } }
-
-
-                                    }
-                                })}
-                                subscribeToNewMessages={() => subscribeToMore({
-                                    document: MESSAGE_ADDED_SUBSCRIPTION,
-                                    variables: { groupID: this.props.navigation.state.params.groupData.id },
-                                    updateQuery: (prev, { subscriptionData }: { subscriptionData: { data?: MessageAddedSubscription } }) => {
-                                        if (!subscriptionData.data) {
-                                            return prev;
-                                        }
-
-                                        const newComment = subscriptionData.data.message.node;
-
-                                        if (prev.group.messages.find((message) => message.id === newComment.id) === undefined) {
-
-                                            const newPayload = Object.assign({}, prev, {
+                                            return {
                                                 group: {
-                                                    messages: prev.group.messages.concat(newComment),
-                                                    __typename: 'Group'
+                                                    id: prev.group.id,
+                                                    __typename: 'Group',
+                                                    messages: [
+                                                        ...fetchMoreResult.group.messages,
+                                                        ...prev.group.messages
+                                                    ]
                                                 }
-                                            });
-
-                                            return newPayload;
-                                        } else {
-                                            return prev;
+                                            };
                                         }
+                                    })
+                                }
+                                subscribeToNewMessages={() =>
+                                    subscribeToMore({
+                                        document: MESSAGE_ADDED_SUBSCRIPTION,
+                                        variables: {
+                                            groupID: this.props.navigation.state.params.groupData
+                                                .id,
+                                            userID: this.props.userID
+                                        },
+                                        updateQuery: (
+                                            prev,
+                                            {
+                                                subscriptionData
+                                            }: {
+                                                subscriptionData: {
+                                                    data?: MessageAddedSubscription;
+                                                };
+                                            }
+                                        ) => {
+                                            if (!subscriptionData.data) {
+                                                return prev;
+                                            }
 
-                                    }
-                                })}
+                                            const newComment = subscriptionData.data.message.node;
+
+                                            if (
+                                                prev.group.messages.find(
+                                                    (message) => message.id === newComment.id
+                                                ) === undefined
+                                            ) {
+                                                const newPayload = Object.assign(
+                                                    {},
+                                                    {
+                                                        group: {
+                                                            id: prev.group.id,
+                                                            messages: prev.group.messages.concat(
+                                                                newComment
+                                                            ),
+                                                            __typename: 'Group'
+                                                        }
+                                                    }
+                                                );
+
+                                                return newPayload;
+                                            } else {
+                                                return prev;
+                                            }
+                                        }
+                                    })
+                                }
                                 navigation={this.props.navigation}
                                 isLoading={loading}
                                 username={this.props.username}
@@ -157,9 +240,26 @@ export class ChatDetail extends React.Component<Props, State> {
         }
 
         return (
-            <Query query={GET_CHAT_MESSAGES_QUERY} variables={{ id: this.props.navigation.state.params.groupData.id }} fetchPolicy={'network-only'}>
-                {({ subscribeToMore, data, loading, error, refetch, fetchMore }: { subscribeToMore: any; data: ChatMessagesQuery; loading: boolean; refetch: () => void; error?: ApolloError, fetchMore: any; }) => {
-
+            <Query
+                query={GET_CHAT_MESSAGES_QUERY}
+                variables={{ id: this.props.navigation.state.params.groupData.id }}
+                fetchPolicy={'network-only'}
+            >
+                {({
+                    subscribeToMore,
+                    data,
+                    loading,
+                    error,
+                    refetch,
+                    fetchMore
+                }: {
+                    subscribeToMore: any;
+                    data: ChatMessagesQuery;
+                    loading: boolean;
+                    refetch: () => void;
+                    error?: ApolloError;
+                    fetchMore: any;
+                }) => {
                     if (error) {
                         return <ErrorScreen message={error.message} onPress={refetch} />;
                     }
@@ -167,65 +267,196 @@ export class ChatDetail extends React.Component<Props, State> {
                     return (
                         <>
                             {error && <ErrorToast message={error.message} onPress={refetch} />}
-                            <Modal visible={this.state.showOptionModal} transparent={true} animationType={'fade'}>
-                                <View style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                    <View style={{ width: toConstantWidth(60), height: toConstantHeight(45), backgroundColor: Colors.offWhite, borderRadius: 4, alignItems: 'center', paddingTop: 10, justifyContent: 'space-between' }}>
-                                        <Text style={{ ...FontFactory({ weight: 'Bold' }), color: Colors.brandPrimaryColor, fontSize: 20 }}>{this.props.navigation.state.params.title}</Text>
+                            <Modal
+                                visible={this.state.showOptionModal}
+                                transparent={true}
+                                animationType={'fade'}
+                            >
+                                <View
+                                    style={{
+                                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                        flex: 1,
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}
+                                >
+                                    <View
+                                        style={{
+                                            width: toConstantWidth(60),
+                                            height: toConstantHeight(45),
+                                            backgroundColor: Colors.offWhite,
+                                            borderRadius: 4,
+                                            alignItems: 'center',
+                                            paddingTop: 10,
+                                            justifyContent: 'space-between'
+                                        }}
+                                    >
+                                        <Text
+                                            style={{
+                                                ...FontFactory({ weight: 'Bold' }),
+                                                color: Colors.brandPrimaryColor,
+                                                fontSize: 20
+                                            }}
+                                        >
+                                            {this.props.navigation.state.params.title}
+                                        </Text>
 
                                         <View>
-                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 10 }} onPress={() => this.acceptFlatmate()} >
-                                                <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>Accept Application</Text>
+                                            <TouchableOpacity
+                                                activeOpacity={0.7}
+                                                style={{
+                                                    backgroundColor: Colors.brandErrorColor,
+                                                    width: toConstantWidth(60),
+                                                    paddingVertical: 10,
+                                                    alignItems: 'center',
+                                                    marginTop: 10
+                                                }}
+                                                onPress={() => this.acceptFlatmate()}
+                                            >
+                                                <Text
+                                                    style={{
+                                                        ...FontFactory(),
+                                                        fontSize: 16,
+                                                        color: Colors.white,
+                                                        textAlign: 'center'
+                                                    }}
+                                                >
+                                                    Accept Application
+                                                </Text>
                                             </TouchableOpacity>
-                                            <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandErrorColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 5 }} onPress={() => this.setState({ showOptionModal: false }, () => this.props.navigation.push('UserProfile', { id: this.props.navigation.state.params.groupData.applicant.id, data: this.props.navigation.state.params.groupData.applicant }))} >
-                                                <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white, textAlign: 'center' }}>View Profile</Text>
+                                            <TouchableOpacity
+                                                activeOpacity={0.7}
+                                                style={{
+                                                    backgroundColor: Colors.brandErrorColor,
+                                                    width: toConstantWidth(60),
+                                                    paddingVertical: 10,
+                                                    alignItems: 'center',
+                                                    marginTop: 5
+                                                }}
+                                                onPress={() =>
+                                                    this.setState({ showOptionModal: false }, () =>
+                                                        this.props.navigation.push('UserProfile', {
+                                                            id: this.props.navigation.state.params
+                                                                .groupData.applicant.id,
+                                                            data: this.props.navigation.state.params
+                                                                .groupData.applicant
+                                                        })
+                                                    )
+                                                }
+                                            >
+                                                <Text
+                                                    style={{
+                                                        ...FontFactory(),
+                                                        fontSize: 16,
+                                                        color: Colors.white,
+                                                        textAlign: 'center'
+                                                    }}
+                                                >
+                                                    View Profile
+                                                </Text>
                                             </TouchableOpacity>
                                         </View>
 
-                                        <TouchableOpacity activeOpacity={0.7} style={{ backgroundColor: Colors.brandTertiaryColor, width: toConstantWidth(60), paddingVertical: 10, alignItems: 'center', marginTop: 10, borderBottomEndRadius: 4, borderBottomLeftRadius: 4 }} onPress={() => this.toggleModal(false)} >
-                                            <Text style={{ ...FontFactory(), fontSize: 16, color: Colors.white }}>Close</Text>
+                                        <TouchableOpacity
+                                            activeOpacity={0.7}
+                                            style={{
+                                                backgroundColor: Colors.brandTertiaryColor,
+                                                width: toConstantWidth(60),
+                                                paddingVertical: 10,
+                                                alignItems: 'center',
+                                                marginTop: 10,
+                                                borderBottomEndRadius: 4,
+                                                borderBottomLeftRadius: 4
+                                            }}
+                                            onPress={() => this.toggleModal(false)}
+                                        >
+                                            <Text
+                                                style={{
+                                                    ...FontFactory(),
+                                                    fontSize: 16,
+                                                    color: Colors.white
+                                                }}
+                                            >
+                                                Close
+                                            </Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
                             </Modal>
                             <ChatDetailComponent
-                                fetchMoreMessages={() => fetchMore({
-                                    variables: { id: data.group.id, skip: data.group.messages.length }, updateQuery: (prev, { fetchMoreResult }) => {
-                                        if (!fetchMoreResult) {
-                                            return prev;
-                                        }
+                                fetchMoreMessages={() =>
+                                    fetchMore({
+                                        variables: {
+                                            id: data.group.id,
+                                            skip: data.group.messages.length
+                                        },
+                                        updateQuery: (prev, { fetchMoreResult }) => {
+                                            if (!fetchMoreResult) {
+                                                return prev;
+                                            }
 
-
-                                        return { group: { id: prev.group.id, __typename: 'Group', messages: [...fetchMoreResult.group.messages, ...prev.group.messages] } }
-
-
-                                    }
-                                })}
-                                subscribeToNewMessages={() => subscribeToMore({
-                                    document: MESSAGE_ADDED_SUBSCRIPTION,
-                                    variables: { groupID: this.props.navigation.state.params.groupData.id },
-                                    updateQuery: (prev, { subscriptionData }: { subscriptionData: { data?: MessageAddedSubscription } }) => {
-                                        if (!subscriptionData.data) {
-                                            return prev;
-                                        }
-
-                                        const newComment = subscriptionData.data.message.node;
-
-                                        if (prev.group.messages.find(message => message.id === newComment.id) === undefined) {
-
-                                            const newPayload = Object.assign({}, prev, {
+                                            return {
                                                 group: {
-                                                    messages: prev.group.messages.concat(newComment),
-                                                    __typename: 'Group'
+                                                    id: prev.group.id,
+                                                    __typename: 'Group',
+                                                    messages: [
+                                                        ...fetchMoreResult.group.messages,
+                                                        ...prev.group.messages
+                                                    ]
                                                 }
-                                            });
-
-                                            return newPayload;
-                                        } else {
-                                            return prev;
+                                            };
                                         }
+                                    })
+                                }
+                                subscribeToNewMessages={() =>
+                                    subscribeToMore({
+                                        document: MESSAGE_ADDED_SUBSCRIPTION,
+                                        variables: {
+                                            groupID: this.props.navigation.state.params.groupData
+                                                .id,
+                                            userID: this.props.userID
+                                        },
+                                        updateQuery: (
+                                            prev,
+                                            {
+                                                subscriptionData
+                                            }: {
+                                                subscriptionData: {
+                                                    data?: MessageAddedSubscription;
+                                                };
+                                            }
+                                        ) => {
+                                            if (!subscriptionData.data) {
+                                                return prev;
+                                            }
 
-                                    }
-                                })}
+                                            const newComment = subscriptionData.data.message.node;
+
+                                            if (
+                                                prev.group.messages.find(
+                                                    (message) => message.id === newComment.id
+                                                ) === undefined
+                                            ) {
+                                                const newPayload = Object.assign(
+                                                    {},
+                                                    {
+                                                        group: {
+                                                            id: prev.group.id,
+                                                            messages: prev.group.messages.concat(
+                                                                newComment
+                                                            ),
+                                                            __typename: 'Group'
+                                                        }
+                                                    }
+                                                );
+
+                                                return newPayload;
+                                            } else {
+                                                return prev;
+                                            }
+                                        }
+                                    })
+                                }
                                 navigation={this.props.navigation}
                                 isLoading={loading}
                                 username={this.props.username}
@@ -239,7 +470,7 @@ export class ChatDetail extends React.Component<Props, State> {
                                 createMessage={this.props.createMessage}
                             />
                         </>
-                    )
+                    );
                 }}
             </Query>
         );
@@ -278,7 +509,13 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         }
                     });
 
-                    groupData.group.messages.push(createMessage);
+                    if (
+                        groupData.group.messages.find(
+                            (message) => message.id === createMessage.id
+                        ) === undefined
+                    ) {
+                        groupData.group.messages.push(createMessage);
+                    }
 
                     store.writeQuery({
                         query: GET_CHAT_MESSAGES_QUERY,
@@ -288,40 +525,50 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
                         data: groupData
                     });
 
-                    // const userListData: UserChatQuery = store.readQuery({
-                    //     query: USER_CHAT_QUERY,
-                    //     variables: { id: params.senderID }
-                    // });
+                    var userListData: UserChatQuery = store.readQuery({
+                        query: USER_CHAT_QUERY,
+                        variables: { id: params.senderID }
+                    });
 
-                    // if (userListData.user.groups.find(group => group.id === params.groupID) !== undefined) {
+                    if (
+                        userListData.user.groups.find((group) => group.id === params.groupID) !==
+                        undefined
+                    ) {
+                        userListData.user.groups = userListData.user.groups.map(
+                            (group) =>
+                                group.id === params.groupID
+                                    ? Object.assign(group, { messages: [createMessage] })
+                                    : group
+                        );
 
-                    //     const newData = userListData.user.groups.map(group => group.id === params.groupID ? Object.assign(group, { messages: [createMessage] }) : group);
+                        store.writeQuery({
+                            query: USER_CHAT_QUERY,
+                            data: userListData
+                        });
+                    } else {
+                        let houseListData: HouseChatQuery = store.readQuery({
+                            query: HOUSE_CHAT_QUERY,
+                            variables: { shortID: params.houseID }
+                        });
 
-                    //     store.writeQuery({
-                    //         query: USER_CHAT_QUERY,
-                    //         data: newData
-                    //     });
+                        houseListData.house.groups = houseListData.house.groups.map(
+                            (group) =>
+                                group.id === params.groupID
+                                    ? Object.assign(group, { messages: [createMessage] })
+                                    : group
+                        );
 
-                    // } else {
-                    //     const houseListData: HouseChatQuery = store.readQuery({
-                    //         query: HOUSE_CHAT_QUERY,
-                    //         variables: { shortID: params.houseID }
-                    //     });
-
-                    //     const newData = houseListData.house.groups.map(group => group.id === params.groupID ? Object.assign(group, { messages: [createMessage] }) : group);
-                    //     store.writeQuery({
-                    //         query: HOUSE_CHAT_QUERY,
-                    //         data: newData
-                    //     });
-                    // }
-
-
+                        store.writeQuery({
+                            query: HOUSE_CHAT_QUERY,
+                            data: houseListData
+                        });
+                    }
                 },
                 optimisticResponse: {
                     __typename: 'Mutation',
                     createMessage: {
                         __typename: 'Message',
-                        id: Math.floor(Math.random() * Math.floor(100000)), // don't know id yet, but it doesn't matter
+                        id: '-1', // don't know id yet, but it doesn't matter
                         text: params.text, // we know what the text will be
                         createdAt: new Date().toISOString(), // the time is now!
                         from: {
@@ -342,14 +589,14 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
 });
 
 const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
-    props: ({ mutate }) =>
-        ({
-            completeApplication: (params: CompleteApplicationMutationVariables) => mutate({
+    props: ({ mutate }) => ({
+        completeApplication: (params: CompleteApplicationMutationVariables) =>
+            mutate({
                 variables: { ...params },
                 update: (store, { data: { completeApplication } }) => {
                     let houseData: HouseDetailQuery = store.readQuery({
                         variables: { shortID: params.houseID },
-                        query: HOUSE_DETAILS_QUERY,
+                        query: HOUSE_DETAILS_QUERY
                     });
 
                     if (houseData.house.spaces === 1) {
@@ -394,7 +641,9 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                             }
                         });
 
-                        allPostData.allPosts = allPostData.allPosts.filter(post => post.id !== postData.house.post.id);
+                        allPostData.allPosts = allPostData.allPosts.filter(
+                            (post) => post.id !== postData.house.post.id
+                        );
 
                         store.writeQuery({
                             query: POST_LIST_QUERY,
@@ -404,7 +653,6 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                             },
                             data: allPostData
                         });
-
 
                         postData.house.post = null;
 
@@ -424,11 +672,14 @@ const completeApplicationMutation = graphql(COMPLETE_APPLICATION_MUTATION, {
                     });
                 }
             })
-        })
+    })
 });
 
 export default compose(
-    connect((state: ReduxState) => ({ username: state.profile.name }), {}),
+    connect(
+        (state: ReduxState) => ({ username: state.profile.name, userID: state.login.id }),
+        {}
+    ),
     createMessage,
     completeApplicationMutation
 )(ChatDetail);

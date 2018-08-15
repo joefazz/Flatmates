@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, TextInput, Modal, AsyncStorage, Alert } from 'react-native';
-import Permissions from "react-native-permissions";
+import Permissions from 'react-native-permissions';
 import { Avatar } from 'react-native-elements';
 import { profile } from '../../styles';
 import { User } from '../../types/Entities';
@@ -12,7 +12,7 @@ import { UpdateUserMutationVariables, UpdateUserMutation } from '../../graphql/T
 import { FlatPicker } from '../../widgets/FlatPicker';
 import { STUDY_YEARS, GENDERS } from '../../consts/strings';
 import { ImageViewer } from 'react-native-image-zoom-viewer';
-import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker'
+import ImagePicker, { Image as ImageType } from 'react-native-image-crop-picker';
 import { DOMAIN } from '../../consts/endpoint';
 import OneSignal from 'react-native-onesignal';
 import { TouchableRect } from '../../widgets/TouchableRect';
@@ -22,7 +22,9 @@ interface Props {
     isLoading: boolean;
     navigation: { navigate: (route: string) => void };
     contentEditable: boolean;
-    updateUser: (params: UpdateUserMutationVariables & { tempProfilePicture: string }) => UpdateUserMutation;
+    updateUser: (
+        params: UpdateUserMutationVariables & { tempProfilePicture: string }
+    ) => UpdateUserMutation;
 }
 
 interface State {
@@ -73,7 +75,9 @@ export class ProfileComponent extends React.Component<Props, State> {
     async componentDidUpdate(prevProps: Props) {
         if (prevProps.contentEditable && !this.props.contentEditable) {
             // @ts-ignore
-            var params: UpdateUserMutationVariables & { tempProfilePicture: string } = { id: this.props.profile.id };
+            var params: UpdateUserMutationVariables & { tempProfilePicture: string } = {
+                id: this.props.profile.id
+            };
 
             if (this.isNameDirty) {
                 params.name = this.newName;
@@ -81,7 +85,6 @@ export class ProfileComponent extends React.Component<Props, State> {
                 params.firstName = names[0].trim();
                 params.lastName = names[1].trim();
             }
-
 
             if (this.isProfilePictureDirty) {
                 params.tempProfilePicture = this.state.tempProfilePic.path;
@@ -135,12 +138,12 @@ export class ProfileComponent extends React.Component<Props, State> {
             this.isSmokerDirty = false;
             this.isDrugsDirty = false;
             this.isDrinkDirty = false;
-            this.setState({ tempProfilePic: null })
+            this.setState({ tempProfilePic: null });
         }
     }
 
     private async selectProfilePicture(): Promise<void> {
-        Permissions.check('photo').then(res => {
+        Permissions.check('photo').then((res) => {
             if (res === 'denied') {
                 Alert.alert(
                     'Can we access your photos?',
@@ -149,14 +152,14 @@ export class ProfileComponent extends React.Component<Props, State> {
                         {
                             text: 'Still No',
                             onPress: () => console.log('Permission denied'),
-                            style: 'cancel',
+                            style: 'cancel'
                         },
                         {
                             text: 'Open Settings',
                             onPress: () => Permissions.openSettings()
                         }
-                    ],
-                )
+                    ]
+                );
             }
         });
 
@@ -242,7 +245,9 @@ export class ProfileComponent extends React.Component<Props, State> {
                                             borderRadius: toConstantWidth(32) / 2,
                                             backgroundColor: Colors.transparent
                                         }}
-                                        overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                        overlayContainerStyle={{
+                                            borderRadius: toConstantWidth(32) / 2
+                                        }}
                                         containerStyle={{
                                             width: toConstantWidth(32),
                                             height: toConstantWidth(32),
@@ -262,7 +267,9 @@ export class ProfileComponent extends React.Component<Props, State> {
                                             borderRadius: toConstantWidth(32) / 2,
                                             backgroundColor: Colors.transparent
                                         }}
-                                        overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                        overlayContainerStyle={{
+                                            borderRadius: toConstantWidth(32) / 2
+                                        }}
                                         containerStyle={{
                                             width: toConstantWidth(32),
                                             height: toConstantWidth(32),
@@ -275,13 +282,14 @@ export class ProfileComponent extends React.Component<Props, State> {
                                         rounded={true}
                                     />
                                 ) : (
-                                            <Avatar
-                                                large={true}
-                                                icon={{ name: 'person' }}
-                                                onPress={() => this.selectProfilePicture()}
-                                                activeOpacity={0.7}
-                                                rounded={true}
-                                            />)}
+                                    <Avatar
+                                        large={true}
+                                        icon={{ name: 'person' }}
+                                        onPress={() => this.selectProfilePicture()}
+                                        activeOpacity={0.7}
+                                        rounded={true}
+                                    />
+                                )}
                             </View>
                             <View style={profile.summaryDescriptionWrapper}>
                                 <TextInput
@@ -328,7 +336,8 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     selectStyle={{ borderWidth: 0, padding: 0 }}
                                     selectTextStyle={profile.summaryDescription}
                                     onChange={(val) => {
-                                        this.isCourseDirty = this.props.profile.course !== val.lablel;
+                                        this.isCourseDirty =
+                                            this.props.profile.course !== val.lablel;
                                         this.newCourse = val.label;
                                     }}
                                     initialValue={data.course || 'Select Course'}
@@ -348,16 +357,34 @@ export class ProfileComponent extends React.Component<Props, State> {
                             <View style={profile.preferencesWrapper}>
                                 <EditableStatRow
                                     items={[
-                                        { label: 'Age', value: data.age || 'N/A', inputType: data.age ? 'number' : 'text' },
-                                        { label: 'Year', value: data.studyYear ? data.studyYear.replace(' Year', '') : 'N/a', inputType: data.studyYear ? 'multi' : 'text', multiOptions: STUDY_YEARS },
-                                        { label: 'Gender', value: data.gender || 'N/A', inputType: data.gender ? 'multi' : 'text', multiOptions: GENDERS }
+                                        {
+                                            label: 'Age',
+                                            value: data.age || 'N/A',
+                                            inputType: data.age ? 'number' : 'text'
+                                        },
+                                        {
+                                            label: 'Year',
+                                            value: data.studyYear
+                                                ? data.studyYear.replace(' Year', '')
+                                                : 'N/a',
+                                            inputType: data.studyYear ? 'multi' : 'text',
+                                            multiOptions: STUDY_YEARS
+                                        },
+                                        {
+                                            label: 'Gender',
+                                            value: data.gender || 'N/A',
+                                            inputType: data.gender ? 'multi' : 'text',
+                                            multiOptions: GENDERS
+                                        }
                                     ]}
-                                    onEndEditing={(items: Array<{ value: string; label: string }>) =>
+                                    onEndEditing={(
+                                        items: Array<{ value: string; label: string }>
+                                    ) =>
                                         items.map((item) => {
                                             switch (item.label) {
                                                 case 'Age':
                                                     if (data.age !== Number(item.value)) {
-                                                        this.isAgeDirty = true
+                                                        this.isAgeDirty = true;
                                                         this.newAge = Number(item.value);
                                                     }
                                                     break;
@@ -381,11 +408,25 @@ export class ProfileComponent extends React.Component<Props, State> {
                             <View style={profile.preferencesWrapper}>
                                 <EditableStatRow
                                     items={[
-                                        { label: 'Smoker', value: data.isSmoker, inputType: 'switch' },
-                                        { label: 'Uses Drugs', value: data.isDruggie, inputType: 'switch' },
-                                        { label: 'Drinker', value: data.isDrinker, inputType: 'switch' }
+                                        {
+                                            label: 'Smoker',
+                                            value: data.isSmoker,
+                                            inputType: 'switch'
+                                        },
+                                        {
+                                            label: 'Uses Drugs',
+                                            value: data.isDruggie,
+                                            inputType: 'switch'
+                                        },
+                                        {
+                                            label: 'Drinker',
+                                            value: data.isDrinker,
+                                            inputType: 'switch'
+                                        }
                                     ]}
-                                    onEndEditing={(items: Array<{ value: string | boolean; label: string }>) =>
+                                    onEndEditing={(
+                                        items: Array<{ value: string | boolean; label: string }>
+                                    ) =>
                                         items.map((item) => {
                                             switch (item.label) {
                                                 case 'Smoker':
@@ -413,17 +454,35 @@ export class ProfileComponent extends React.Component<Props, State> {
                             </View>
                         </View>
                     </View>
-                    {this.props.navigation.state.params && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => { OneSignal.deleteTag('user_id', 'house_id'); this.props.navigation.navigate('Login'); })} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100) }} wrapperStyle={{ borderRadius: 0 }} />}
-
+                    {this.props.navigation.state.params && (
+                        <TouchableRect
+                            backgroundColor={Colors.brandTertiaryColor}
+                            onPress={() =>
+                                AsyncStorage.clear().then(() => {
+                                    OneSignal.deleteTag('user_id', 'house_id');
+                                    this.props.navigation.navigate('Login');
+                                })
+                            }
+                            title={'Sign Out'}
+                            buttonStyle={{ width: toConstantWidth(100) }}
+                            wrapperStyle={{ borderRadius: 0 }}
+                        />
+                    )}
                 </View>
             );
         }
 
         return (
             <View style={{ flex: 1, alignItems: 'stretch', justifyContent: 'space-between' }}>
-                <Modal animationType={"slide"} visible={this.state.isAvatarModalVisible}>
+                <Modal animationType={'slide'} visible={this.state.isAvatarModalVisible}>
                     <ImageViewer
-                        imageUrls={[{ url: !!this.state.tempProfilePic ? this.state.tempProfilePic.path : data.profilePicture }]}
+                        imageUrls={[
+                            {
+                                url: !!this.state.tempProfilePic
+                                    ? this.state.tempProfilePic.path
+                                    : data.profilePicture
+                            }
+                        ]}
                         enableSwipeDown={true}
                         onSwipeDown={() => this.setState({ isAvatarModalVisible: false })}
                         saveToLocalByLongPress={true}
@@ -440,7 +499,9 @@ export class ProfileComponent extends React.Component<Props, State> {
                                         borderRadius: toConstantWidth(32) / 2,
                                         backgroundColor: Colors.transparent
                                     }}
-                                    overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                    overlayContainerStyle={{
+                                        borderRadius: toConstantWidth(32) / 2
+                                    }}
                                     containerStyle={{
                                         width: toConstantWidth(32),
                                         height: toConstantWidth(32),
@@ -460,7 +521,9 @@ export class ProfileComponent extends React.Component<Props, State> {
                                         borderRadius: toConstantWidth(32) / 2,
                                         backgroundColor: Colors.transparent
                                     }}
-                                    overlayContainerStyle={{ borderRadius: toConstantWidth(32) / 2 }}
+                                    overlayContainerStyle={{
+                                        borderRadius: toConstantWidth(32) / 2
+                                    }}
                                     containerStyle={{
                                         width: toConstantWidth(32),
                                         height: toConstantWidth(32),
@@ -473,17 +536,19 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     rounded={true}
                                 />
                             ) : (
-                                        <Avatar
-                                            large={true}
-                                            icon={{ name: 'person' }}
-                                            activeOpacity={0.7}
-                                            rounded={true}
-                                        />
-                                    )}
+                                <Avatar
+                                    large={true}
+                                    icon={{ name: 'person' }}
+                                    activeOpacity={0.7}
+                                    rounded={true}
+                                />
+                            )}
                         </View>
                         <View style={profile.summaryDescriptionWrapper}>
                             <Text style={profile.headerText}>{data.name}</Text>
-                            <Text style={profile.summaryDescription}>{data.course ? data.course : 'No Course Provided'}</Text>
+                            <Text style={profile.summaryDescription}>
+                                {data.course ? data.course : 'No Course Provided'}
+                            </Text>
                             <Text style={profile.summaryDescription}>{data.bio}</Text>
                         </View>
                     </View>
@@ -492,7 +557,12 @@ export class ProfileComponent extends React.Component<Props, State> {
                             <StatRow
                                 items={[
                                     { label: 'Age', value: data.age ? data.age : 'N/A' },
-                                    { label: 'Year', value: data.studyYear ? data.studyYear.replace(' Year', '') : 'N/A' },
+                                    {
+                                        label: 'Year',
+                                        value: data.studyYear
+                                            ? data.studyYear.replace(' Year', '')
+                                            : 'N/A'
+                                    },
                                     { label: 'Gender', value: data.gender ? data.gender : 'N/A' }
                                 ]}
                             />
@@ -508,7 +578,20 @@ export class ProfileComponent extends React.Component<Props, State> {
                         </View>
                     </View>
                 </View>
-                {this.props.navigation && <TouchableRect backgroundColor={Colors.brandTertiaryColor} onPress={() => AsyncStorage.clear().then(() => { OneSignal.deleteTag('user_id', 'house_id'); this.props.navigation.navigate('Login'); })} title={'Sign Out'} buttonStyle={{ width: toConstantWidth(100) }} wrapperStyle={{ borderRadius: 0 }} />}
+                {this.props.navigation && (
+                    <TouchableRect
+                        backgroundColor={Colors.brandTertiaryColor}
+                        onPress={() =>
+                            AsyncStorage.clear().then(() => {
+                                OneSignal.deleteTag('user_id', 'house_id');
+                                this.props.navigation.navigate('Login');
+                            })
+                        }
+                        title={'Sign Out'}
+                        buttonStyle={{ width: toConstantWidth(100) }}
+                        wrapperStyle={{ borderRadius: 0 }}
+                    />
+                )}
             </View>
         );
     }

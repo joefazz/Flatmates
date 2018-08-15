@@ -105,12 +105,20 @@ export class PostDetail extends React.Component<Props, State> {
     }
 
     componentWillUnmount() {
-        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, { name: 'Profile', label: 'OtherUserProfile' });
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, {
+            name: 'Profile',
+            label: 'OtherUserProfile'
+        });
     }
 
     render() {
         if (this.state.error) {
-            return <ErrorScreen message={this.state.error.message} onPress={() => this.getPostDetails()} />;
+            return (
+                <ErrorScreen
+                    message={this.state.error.message}
+                    onPress={() => this.getPostDetails()}
+                />
+            );
         }
 
         return (
@@ -245,7 +253,9 @@ const createApplication = graphql(CREATE_APPLICATION_MUTATION, {
                         }
                     });
 
-                    userData.user.applications.unshift(createApplication);
+                    userData.user.applications = userData.user.applications.concat([
+                        createApplication
+                    ]);
 
                     store.writeQuery({
                         query: USER_APPLICATIONS_QUERY,

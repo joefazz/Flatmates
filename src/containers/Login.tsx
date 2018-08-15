@@ -262,8 +262,17 @@ export class Login extends React.Component<Props, State> {
                             backgroundColor={Colors.brandPrimaryColor}
                             buttonStyle={base.buttonStyle}
                         />
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('Feed', { isReadOnly: true })}>
-                            <Text style={[login.hyperlink, { marginTop: 10, ...FontFactory(), fontSize: 17 }]}>
+                        <TouchableOpacity
+                            onPress={() =>
+                                this.props.navigation.navigate('Feed', { isReadOnly: true })
+                            }
+                        >
+                            <Text
+                                style={[
+                                    login.hyperlink,
+                                    { marginTop: 10, ...FontFactory(), fontSize: 17 }
+                                ]}
+                            >
                                 Try without signing up!
                             </Text>
                         </TouchableOpacity>
@@ -271,8 +280,23 @@ export class Login extends React.Component<Props, State> {
                 </View>
 
                 <View style={[login.page, { justifyContent: 'space-around' }]}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
-                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={{
+                            position: 'absolute',
+                            top: toConstantHeight(3),
+                            left: 10,
+                            shadowColor: Colors.grey,
+                            shadowOpacity: 0.7,
+                            shadowRadius: 4,
+                            elevation: 2
+                        }}
+                        onPress={() => this.homeSwiper.scrollBy(-1)}
+                    >
+                        <Icon
+                            style={{ fontSize: 45, color: Colors.brandPrimaryColor }}
+                            name={'ios-arrow-dropleft-circle'}
+                        />
                     </TouchableOpacity>
                     <View
                         style={[
@@ -318,8 +342,23 @@ export class Login extends React.Component<Props, State> {
                 </View>
 
                 <KeyboardAvoidingView style={login.page}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
-                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={{
+                            position: 'absolute',
+                            top: toConstantHeight(3),
+                            left: 10,
+                            shadowColor: Colors.grey,
+                            shadowOpacity: 0.7,
+                            shadowRadius: 4,
+                            elevation: 2
+                        }}
+                        onPress={() => this.homeSwiper.scrollBy(-1)}
+                    >
+                        <Icon
+                            style={{ fontSize: 45, color: Colors.brandPrimaryColor }}
+                            name={'ios-arrow-dropleft-circle'}
+                        />
                     </TouchableOpacity>
                     <View style={base.headingWrapper}>
                         <Text style={base.headingTitle}>Basic Information</Text>
@@ -441,16 +480,16 @@ export class Login extends React.Component<Props, State> {
                                     rounded={true}
                                 />
                             ) : (
-                                    <Avatar
-                                        width={toConstantWidth(50)}
-                                        height={toConstantWidth(50)}
-                                        icon={{ name: 'person' }}
-                                        onPress={() => this.selectProfilePicture()}
-                                        activeOpacity={0.7}
-                                        containerStyle={[{ alignSelf: 'center' }, login.marginVertical]}
-                                        rounded={true}
-                                    />
-                                )}
+                                <Avatar
+                                    width={toConstantWidth(50)}
+                                    height={toConstantWidth(50)}
+                                    icon={{ name: 'person' }}
+                                    onPress={() => this.selectProfilePicture()}
+                                    activeOpacity={0.7}
+                                    containerStyle={[{ alignSelf: 'center' }, login.marginVertical]}
+                                    rounded={true}
+                                />
+                            )}
                         </View>
                     </View>
                     <View style={login.pageFooter}>
@@ -464,8 +503,7 @@ export class Login extends React.Component<Props, State> {
                             }}
                             title={'Next'}
                             backgroundColor={
-                                this.state.firstName === '' ||
-                                    this.state.lastName === ''
+                                this.state.firstName === '' || this.state.lastName === ''
                                     ? Colors.grey
                                     : Colors.brandSecondaryColor
                             }
@@ -475,19 +513,30 @@ export class Login extends React.Component<Props, State> {
                 </KeyboardAvoidingView>
 
                 <View style={login.page}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
-                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={{
+                            position: 'absolute',
+                            top: toConstantHeight(3),
+                            left: 10,
+                            shadowColor: Colors.grey,
+                            shadowOpacity: 0.7,
+                            shadowRadius: 4,
+                            elevation: 2
+                        }}
+                        onPress={() => this.homeSwiper.scrollBy(-1)}
+                    >
+                        <Icon
+                            style={{ fontSize: 45, color: Colors.brandPrimaryColor }}
+                            name={'ios-arrow-dropleft-circle'}
+                        />
                     </TouchableOpacity>
                     <View style={[base.headingWrapper, { marginTop: 15 }]}>
-                        <Text
-                            style={base.headingTitle}
-                        >
-                            Profile Information
-                        </Text>
-                        <Text
-                            style={[base.headingSubtitle, { textAlign: 'center' }]}
-                        >
-                            This information helps us find the{"\n"}best Flatmates
+                        <Text style={base.headingTitle}>Profile Information</Text>
+                        <Text style={[base.headingSubtitle, { textAlign: 'center' }]}>
+                            This information helps us find the
+                            {'\n'}
+                            best Flatmates
                         </Text>
                     </View>
                     <View
@@ -676,16 +725,12 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             onPress={() =>
                                 this.state.bio === ''
-                                    ? alert(
-                                        'Please provide a bio.'
-                                    )
+                                    ? alert('Please provide a bio.')
                                     : this.homeSwiper.scrollBy(1, true)
                             }
                             title={'Next'}
                             backgroundColor={
-                                this.state.bio === ''
-                                    ? Colors.grey
-                                    : Colors.brandSecondaryColor
+                                this.state.bio === '' ? Colors.grey : Colors.brandSecondaryColor
                             }
                             buttonStyle={base.buttonStyle}
                         />
@@ -708,13 +753,13 @@ export class Login extends React.Component<Props, State> {
                                 <Text style={login.shortIDStyle}>{this.state.shortID}</Text>
                             </View>
                         ) : (
-                                <View>
-                                    <Text style={login.congratsText}>Congrats!</Text>
-                                    <Text style={login.congratsSubtitleText}>
-                                        You're ready to find your new Flatmates!
+                            <View>
+                                <Text style={login.congratsText}>Congrats!</Text>
+                                <Text style={login.congratsSubtitleText}>
+                                    You're ready to find your new Flatmates!
                                 </Text>
-                                </View>
-                            )}
+                            </View>
+                        )}
                     </View>
 
                     <View
@@ -736,29 +781,51 @@ export class Login extends React.Component<Props, State> {
                         <TouchableRect
                             title={'Continue'}
                             onPress={async () => {
+                                TRACKER.trackTiming('SIGN_UP', moment().unix() - this.START_TIME, {
+                                    name: 'SignUp',
+                                    label: this.state.isCreatingHouse
+                                        ? 'CreatingHouseFlow'
+                                        : 'UserFlow'
+                                });
 
-                                TRACKER.trackTiming('SIGN_UP', moment().unix() - this.START_TIME, { name: 'SignUp', label: this.state.isCreatingHouse ? 'CreatingHouseFlow' : 'UserFlow' })
-
-                                let result = await fetch('https://flatmates-auth.eu.auth0.com/oauth/token',
+                                let result = await fetch(
+                                    'https://flatmates-auth.eu.auth0.com/oauth/token',
                                     {
-                                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({
                                             grant_type: 'client_credentials',
                                             client_id: 'kJyhKNP7jn6drUFIP4vWD98eTjsnJKQ6',
-                                            client_secret: '18V1vcmTOJVDHt7OGm6WGfASCAcRTqruUsGTPjimmbqQwBBhyBKeGw58DvSQa2gd',
+                                            client_secret:
+                                                '18V1vcmTOJVDHt7OGm6WGfASCAcRTqruUsGTPjimmbqQwBBhyBKeGw58DvSQa2gd',
                                             audience: 'https://flatmates-auth.eu.auth0.com/api/v2/'
                                         })
-                                    });
+                                    }
+                                );
 
                                 let json = await result.json();
 
-                                let userDetails = await fetch(`https://flatmates-auth.eu.auth0.com/api/v2/users?q=user_id:${this.authId}&search_engine=v3`, { headers: { authorization: `Bearer ${json.access_token}` } }).then(res => res.json())
+                                let userDetails = await fetch(
+                                    `https://flatmates-auth.eu.auth0.com/api/v2/users?q=user_id:${
+                                        this.authId
+                                    }&search_engine=v3`,
+                                    { headers: { authorization: `Bearer ${json.access_token}` } }
+                                ).then((res) => res.json());
 
                                 if (userDetails[0].email_verified) {
-                                    client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { email: userDetails[0].email, email_verified: true } });
+                                    client.mutate({
+                                        mutation: VERIFY_EMAIL_MUTATION,
+                                        variables: {
+                                            email: userDetails[0].email,
+                                            email_verified: true
+                                        }
+                                    });
                                     this.props.navigation.navigate('Home', { isReadOnly: false });
                                 } else {
-                                    Alert.alert('Verification Reminder', 'Flatmates is build on the trust that all users are students and we can only do that if you verify your student email address. If you\'re a first year without an email address yet please email me at "joseph@fazzino.net"');
+                                    Alert.alert(
+                                        'Verification Reminder',
+                                        'Flatmates is build on the trust that all users are students and we can only do that if you verify your student email address. If you\'re a first year without an email address yet please email me at "joseph@fazzino.net"'
+                                    );
                                     this.props.navigation.navigate('Feed', { isReadOnly: true });
                                 }
                             }}
@@ -776,8 +843,23 @@ export class Login extends React.Component<Props, State> {
         if (this.state.isLookingForHouse) {
             return (
                 <View style={login.page}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
-                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={{
+                            position: 'absolute',
+                            top: toConstantHeight(3),
+                            left: 10,
+                            shadowColor: Colors.grey,
+                            shadowOpacity: 0.7,
+                            shadowRadius: 4,
+                            elevation: 2
+                        }}
+                        onPress={() => this.homeSwiper.scrollBy(-1)}
+                    >
+                        <Icon
+                            style={{ fontSize: 45, color: Colors.brandPrimaryColor }}
+                            name={'ios-arrow-dropleft-circle'}
+                        />
                     </TouchableOpacity>
                     <View style={base.headingWrapper}>
                         <Text
@@ -791,7 +873,9 @@ export class Login extends React.Component<Props, State> {
                                 }
                             ]}
                         >
-                            Enter your preferences{"\n"}for a house
+                            Enter your preferences
+                            {'\n'}
+                            for a house
                         </Text>
                     </View>
                     <View
@@ -1096,27 +1180,27 @@ export class Login extends React.Component<Props, State> {
                             title={'Confirm'}
                             backgroundColor={
                                 Number(this.state.minPrice) === 0 ||
-                                    Number(this.state.maxPrice) === 0 ||
-                                    this.state.genderPreference === '' ||
-                                    this.state.drugPreference === '' ||
-                                    this.state.drinkPreference === '' ||
-                                    this.state.smokerPreference === ''
+                                Number(this.state.maxPrice) === 0 ||
+                                this.state.genderPreference === '' ||
+                                this.state.drugPreference === '' ||
+                                this.state.drinkPreference === '' ||
+                                this.state.smokerPreference === ''
                                     ? Colors.grey
                                     : Colors.brandPrimaryColor
                             }
                             onPress={() => {
                                 this.state.drugPreference === ''
                                     ? alert(
-                                        'Please state whether you would prefer to live with/without flatmates who use drugs'
-                                    )
+                                          'Please state whether you would prefer to live with/without flatmates who use drugs'
+                                      )
                                     : this.state.drinkPreference === ''
                                         ? alert(
-                                            'Please state whether you would prefer to live with/without flatmates who drink'
-                                        )
+                                              'Please state whether you would prefer to live with/without flatmates who drink'
+                                          )
                                         : this.state.smokerPreference === ''
                                             ? alert(
-                                                'Please state whether you would prefer to live with/without flatmates who use drugs'
-                                            )
+                                                  'Please state whether you would prefer to live with/without flatmates who use drugs'
+                                              )
                                             : this.completeUserSetup();
                             }}
                             buttonStyle={base.buttonStyle}
@@ -1127,8 +1211,23 @@ export class Login extends React.Component<Props, State> {
         } else {
             return (
                 <View style={login.page}>
-                    <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
-                        <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={{
+                            position: 'absolute',
+                            top: toConstantHeight(3),
+                            left: 10,
+                            shadowColor: Colors.grey,
+                            shadowOpacity: 0.7,
+                            shadowRadius: 4,
+                            elevation: 2
+                        }}
+                        onPress={() => this.homeSwiper.scrollBy(-1)}
+                    >
+                        <Icon
+                            style={{ fontSize: 45, color: Colors.brandPrimaryColor }}
+                            name={'ios-arrow-dropleft-circle'}
+                        />
                     </TouchableOpacity>
                     <View style={base.headingWrapper}>
                         <Text
@@ -1142,7 +1241,8 @@ export class Login extends React.Component<Props, State> {
                                 }
                             ]}
                         >
-                            Enter your House ID or if you don't{"\n"} have one press 'New House'
+                            Enter your House ID or if you don't
+                            {'\n'} have one press 'New House'
                         </Text>
                     </View>
                     <View style={login.mainContent}>
@@ -1156,7 +1256,7 @@ export class Login extends React.Component<Props, State> {
                         />
                     </View>
                     <View style={login.pageFooter}>
-                        {String(this.state.shortID).length !== 4 ? (
+                        {String(this.state.shortID).length !== 6 ? (
                             <TouchableRect
                                 title={'New House'}
                                 onPress={this.generateShortID}
@@ -1164,13 +1264,13 @@ export class Login extends React.Component<Props, State> {
                                 buttonStyle={base.buttonStyle}
                             />
                         ) : (
-                                <TouchableRect
-                                    title={'Confirm'}
-                                    onPress={this.completeJoiningHouseSetup}
-                                    backgroundColor={Colors.brandPrimaryColor}
-                                    buttonStyle={base.buttonStyle}
-                                />
-                            )}
+                            <TouchableRect
+                                title={'Confirm'}
+                                onPress={this.completeJoiningHouseSetup}
+                                backgroundColor={Colors.brandPrimaryColor}
+                                buttonStyle={base.buttonStyle}
+                            />
+                        )}
                     </View>
                 </View>
             );
@@ -1180,8 +1280,23 @@ export class Login extends React.Component<Props, State> {
     renderHouseDetail = () => {
         return (
             <View style={login.page}>
-                <TouchableOpacity activeOpacity={0.7} style={{ position: 'absolute', top: toConstantHeight(3), left: 10, shadowColor: Colors.grey, shadowOpacity: 0.7, shadowRadius: 4, elevation: 2 }} onPress={() => this.homeSwiper.scrollBy(-1)}>
-                    <Icon style={{ fontSize: 45, color: Colors.brandPrimaryColor }} name={'ios-arrow-dropleft-circle'} />
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    style={{
+                        position: 'absolute',
+                        top: toConstantHeight(3),
+                        left: 10,
+                        shadowColor: Colors.grey,
+                        shadowOpacity: 0.7,
+                        shadowRadius: 4,
+                        elevation: 2
+                    }}
+                    onPress={() => this.homeSwiper.scrollBy(-1)}
+                >
+                    <Icon
+                        style={{ fontSize: 45, color: Colors.brandPrimaryColor }}
+                        name={'ios-arrow-dropleft-circle'}
+                    />
                 </TouchableOpacity>
                 <View style={base.headingWrapper}>
                     <Text style={[base.headingText, { fontSize: 20 }]}>
@@ -1329,8 +1444,8 @@ export class Login extends React.Component<Props, State> {
                                                 />
                                             </TouchableOpacity>
                                         ) : (
-                                                <React.Fragment />
-                                            )}
+                                            <React.Fragment />
+                                        )}
                                     </View>
                                 );
                             })}
@@ -1365,7 +1480,7 @@ export class Login extends React.Component<Props, State> {
                             backgroundColor={Colors.purple}
                             buttonStyle={base.buttonStyle}
                             onPress={() => {
-                                Permissions.check('photo').then(res => {
+                                Permissions.check('photo').then((res) => {
                                     if (res === 'authorized' || res === 'undetermined') {
                                         this.selectImages();
                                     } else {
@@ -1376,28 +1491,42 @@ export class Login extends React.Component<Props, State> {
                                                 {
                                                     text: 'Still No',
                                                     onPress: () => console.log('Permission denied'),
-                                                    style: 'cancel',
+                                                    style: 'cancel'
                                                 },
                                                 {
                                                     text: 'Open Settings',
                                                     onPress: () => Permissions.openSettings()
                                                 }
-                                            ],
-                                        )
+                                            ]
+                                        );
                                     }
-                                })
+                                });
                             }}
                         />
                     ) : !!this.state.road.match(/[0-9]\d*/g) ? (
                         alert("Please don't enter your house number")
+                    ) : this.state.road &&
+                    this.state.billsPrice &&
+                    this.state.rentPrice &&
+                    this.state.spaces ? (
+                        <TouchableRect
+                            title={'Confirm'}
+                            backgroundColor={Colors.brandPrimaryColor}
+                            onPress={() => this.uploadImages()}
+                            buttonStyle={base.buttonStyle}
+                        />
                     ) : (
-                                <TouchableRect
-                                    title={'Confirm'}
-                                    backgroundColor={Colors.brandPrimaryColor}
-                                    onPress={() => this.uploadImages()}
-                                    buttonStyle={base.buttonStyle}
-                                />
-                            )}
+                        <TouchableRect
+                            title={'Confirm'}
+                            backgroundColor={Colors.grey}
+                            onPress={() =>
+                                Alert.alert(
+                                    'Error',
+                                    'Please make sure you enter all of your house data.'
+                                )
+                            }
+                        />
+                    )}
                     {this.state.isRentDueDatePickerVisible ? (
                         <View style={login.pickerWrapper}>
                             <DatePickerIOS
@@ -1417,8 +1546,8 @@ export class Login extends React.Component<Props, State> {
                             />
                         </View>
                     ) : (
-                            <View />
-                        )}
+                        <View />
+                    )}
                     {this.state.isBillsDueDatePickerVisible ? (
                         <View style={login.pickerWrapper}>
                             <DatePickerIOS
@@ -1438,8 +1567,8 @@ export class Login extends React.Component<Props, State> {
                             />
                         </View>
                     ) : (
-                            <View />
-                        )}
+                        <View />
+                    )}
                 </View>
                 {this.state.creatingDialogText !== '' && (
                     <View
@@ -1581,11 +1710,17 @@ export class Login extends React.Component<Props, State> {
 
                 if (decodedJSON.email_verified) {
                     if (!user.email_verified) {
-                        client.mutate({ mutation: VERIFY_EMAIL_MUTATION, variables: { email: decodedJSON.email, email_verified: true } });
+                        client.mutate({
+                            mutation: VERIFY_EMAIL_MUTATION,
+                            variables: { email: decodedJSON.email, email_verified: true }
+                        });
                     }
                     this.props.navigation.navigate('Home', { isReadOnly: false });
                 } else {
-                    Alert.alert('Verification Reminder', 'Flatmates is build on the trust that all users are students and we can only do that if you verify your student email address. If you\'re a first year without an email address yet please email me at "joseph@fazzino.net"');
+                    Alert.alert(
+                        'Verification Reminder',
+                        'Flatmates is build on the trust that all users are students and we can only do that if you verify your student email address. If you\'re a first year without an email address yet please email me at "joseph@fazzino.net"'
+                    );
                     this.props.navigation.navigate('Feed', { isReadOnly: true });
                 }
 
@@ -1604,7 +1739,7 @@ export class Login extends React.Component<Props, State> {
     private completeUserSetup = async (): Promise<void> => {
         if (this.state.tempProfilePic !== '') {
             await this.uploadProfilePicture();
-        };
+        }
 
         const fullName = `${this.state.firstName} ${this.state.lastName}`;
         this.props.createUser({
@@ -1692,7 +1827,7 @@ export class Login extends React.Component<Props, State> {
                                 onPress: (): void => {
                                     const fullName = `${this.state.firstName} ${
                                         this.state.lastName
-                                        }`;
+                                    }`;
 
                                     if (this.state.tempProfilePic !== '') {
                                         this.uploadProfilePicture().then(() => {
@@ -1882,9 +2017,7 @@ export class Login extends React.Component<Props, State> {
 
             imageUrls && this.setState({ houseImages: imageUrls }, this.completeHouseSetup);
         }
-
     }
-
 }
 
 const mapStateToProps = (state: ReduxState) => ({

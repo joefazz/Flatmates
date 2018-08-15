@@ -28,7 +28,7 @@ import {
 import OneSignal from 'react-native-onesignal';
 import { LEAVE_HOUSE_MUTATION } from '../../graphql/mutations/User/LeaveHouse';
 
-export const loginSaga = function* () {
+export const loginSaga = function*() {
     yield takeEvery(createUser.TRIGGER, login);
     yield takeEvery(getUserData.TRIGGER, saveData);
     yield takeEvery(readOnlyLogin.TRIGGER, readOnly);
@@ -89,12 +89,12 @@ async function leaveHouseMutation(
         mutation: LEAVE_HOUSE_MUTATION,
         variables: { ...params },
         fetchPolicy: 'no-cache'
-    })
+    });
 
     return leaveHouse;
 }
 
-const login = function* ({ payload }) {
+const login = function*({ payload }) {
     // Trigger request action
     yield put(createUser.request());
     // Wait for response from API and assign it to response
@@ -113,15 +113,18 @@ const login = function* ({ payload }) {
     createUser.fulfill();
 };
 
-const validate = function* ({ payload }) {
-    yield put(validateUserEmail.success({ email_validated: payload }))
+const validate = function*({ payload }) {
+    yield put(validateUserEmail.success({ email_validated: payload }));
 };
 
-const saveData = function* ({ payload }) {
+const saveData = function*({ payload }) {
+    if (!!payload.house) {
+        OneSignal.sendTags({ house_id: payload.house.shortID });
+    }
     yield put(getUserData.success(payload));
 };
 
-const houseLogin = function* ({ payload }) {
+const houseLogin = function*({ payload }) {
     // Trigger request action
     yield put(createUserWithHouse.request());
     // Wait for response from API and assign it to response
@@ -142,7 +145,7 @@ const houseLogin = function* ({ payload }) {
     createUserWithHouse.fulfill();
 };
 
-const joinHouse = function* ({ payload }) {
+const joinHouse = function*({ payload }) {
     // Trigger request action
     yield put(createUserJoinHouse.request());
     // Wait for response from API and assign it to response
@@ -163,7 +166,7 @@ const joinHouse = function* ({ payload }) {
     }
 };
 
-const leave = function* ({ payload }) {
+const leave = function*({ payload }) {
     yield put(leaveHouse.request());
     // Wait for response from API and assign it to response
     try {
@@ -177,8 +180,8 @@ const leave = function* ({ payload }) {
     } finally {
         leaveHouse.fulfill();
     }
-}
+};
 
-const readOnly = function* () {
+const readOnly = function*() {
     yield put(readOnlyLogin.success());
 };

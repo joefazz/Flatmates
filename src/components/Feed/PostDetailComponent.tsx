@@ -13,7 +13,8 @@ import {
     Platform,
     Modal,
     TouchableOpacity,
-    Linking
+    Linking,
+    AsyncStorage
 } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { RectButton } from 'react-native-gesture-handler';
@@ -88,9 +89,11 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         paddingBottom: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
                     }}
                 >
-                    <Modal animationType={"slide"} visible={this.state.isModalVisible}>
+                    <Modal animationType={'slide'} visible={this.state.isModalVisible}>
                         <ImageViewer
-                            imageUrls={this.props.house.houseImages.map(image => ({ url: image }))}
+                            imageUrls={this.props.house.houseImages.map((image) => ({
+                                url: image
+                            }))}
                             enableSwipeDown={true}
                             onSwipeDown={() => this.setState({ isModalVisible: false })}
                             saveToLocalByLongPress={true}
@@ -112,7 +115,10 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     >
                         {this.props.house.houseImages.map((image, index) => {
                             return (
-                                <TouchableOpacity key={index} onPress={() => this.setState({ isModalVisible: true })}>
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={() => this.setState({ isModalVisible: true })}
+                                >
                                     <Image
                                         style={feed.detailImage}
                                         source={{ uri: image }}
@@ -133,8 +139,31 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             >
                                 <Text style={feed.roadText}>{this.props.house.road}</Text>
                                 <View style={{ marginRight: 10, marginBottom: 3 }}>
-                                    <TouchableOpacity onPress={() => Alert.alert('Report Post', 'If this post contains content that you consider to be harmful or inappropriate please report it.', [{ text: 'Report', onPress: () => Linking.openURL(`mailto:joseph@fazzino.net?subject=Report%20Post%20${this.props.id}`) }, { text: 'Cancel', style: 'cancel' }])} >
-                                        <Icon name={'flag'} size={24} style={{ color: Colors.brandPrimaryColor }} />
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            Alert.alert(
+                                                'Report Post',
+                                                'If this post contains content that you consider to be harmful or inappropriate please report it.',
+                                                [
+                                                    {
+                                                        text: 'Report',
+                                                        onPress: () =>
+                                                            Linking.openURL(
+                                                                `mailto:joseph@fazzino.net?subject=Report%20Post%20${
+                                                                    this.props.id
+                                                                }`
+                                                            )
+                                                    },
+                                                    { text: 'Cancel', style: 'cancel' }
+                                                ]
+                                            )
+                                        }
+                                    >
+                                        <Icon
+                                            name={'flag'}
+                                            size={24}
+                                            style={{ color: Colors.brandPrimaryColor }}
+                                        />
                                     </TouchableOpacity>
                                     {/*<RNShineButton
                                         size={toConstantFontSize(3.5)}
@@ -149,21 +178,21 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             <Text style={feed.dateText}>
                                 {this.props.lastSeen
                                     ? 'Last Viewed: ' +
-                                    moment(this.props.lastSeen)
-                                        .utc()
-                                        .format('DD MMMM') +
-                                    ' at ' +
-                                    moment(this.props.lastSeen)
-                                        .utc()
-                                        .format('HH:MM')
+                                      moment(this.props.lastSeen)
+                                          .utc()
+                                          .format('DD MMMM') +
+                                      ' at ' +
+                                      moment(this.props.lastSeen)
+                                          .utc()
+                                          .format('HH:MM')
                                     : 'Created On: ' +
-                                    moment(this.props.createdAt)
-                                        .utc()
-                                        .format('DD MMM') +
-                                    ' at ' +
-                                    moment(this.props.createdAt)
-                                        .utc()
-                                        .format('HH:MM')}
+                                      moment(this.props.createdAt)
+                                          .utc()
+                                          .format('DD MMM') +
+                                      ' at ' +
+                                      moment(this.props.createdAt)
+                                          .utc()
+                                          .format('HH:MM')}
                             </Text>
                             <Text style={feed.spacesText}>
                                 {this.props.house.spaces} Spaces Remaining
@@ -227,8 +256,8 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             onPress={() =>
                                 Platform.OS === 'ios'
                                     ? this.props.navigation.push('MapView', {
-                                        data: { coords: this.props.house.coords }
-                                    })
+                                          data: { coords: this.props.house.coords }
+                                      })
                                     : console.log('coming soon')
                             }
                             styleUrl={Mapbox.StyleURL.Street}
@@ -278,43 +307,9 @@ export class PostDetailComponent extends React.Component<Props, State> {
                         )}
                     </View>
                 </ScrollView>
-                {(this.props.isReadOnly && !!this.props.userId) ? <View /> :
-                    <TouchableRect
-                        onPress={() =>
-                            Alert.alert(
-                                'Sign up',
-                                'Go back and either login to your account or create one in order to apply to houses.',
-                                [
-                                    {
-                                        text: 'Cancel',
-                                        onPress: () => console.log('Cancelled'),
-                                        style: 'cancel'
-                                    },
-                                    {
-                                        text: 'Login',
-                                        onPress: () =>
-                                            this.props.navigation.navigate('Login')
-                                    }
-                                ]
-                            )
-                        }
-                        title={
-                            this.props.userHasAppliedToHouse
-                                ? 'Application Sent!'
-                                : 'Send Application'
-                        }
-                        iconName={this.props.userHasAppliedToHouse ? 'envelope' : 'bullhorn'}
-                        enabled={!this.props.userHasAppliedToHouse}
-                        backgroundColor={Colors.brandPrimaryColor}
-                        wrapperStyle={{ borderRadius: 0 }}
-                        buttonStyle={{
-                            width: toConstantWidth(100),
-                            paddingBottom: isIphoneX() ? 18 : 0,
-                            height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
-                        }}
-                    />
-                }
-                {!isUsersPost && !this.props.isReadOnly && (
+                {isUsersPost ? (
+                    <View />
+                ) : !this.props.isReadOnly ? (
                     <View
                         style={{
                             height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
@@ -327,8 +322,8 @@ export class PostDetailComponent extends React.Component<Props, State> {
                                 Alert.alert(
                                     'Send Application',
                                     'Are you sure you want to apply to ' +
-                                    this.props.house.road +
-                                    '?',
+                                        this.props.house.road +
+                                        '?',
                                     [
                                         {
                                             text: 'Cancel',
@@ -364,6 +359,96 @@ export class PostDetailComponent extends React.Component<Props, State> {
                             }}
                         />
                     </View>
+                ) : !!this.props.userId ? (
+                    <View
+                        style={{
+                            height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
+                            position: 'absolute',
+                            bottom: 0
+                        }}
+                    >
+                        <TouchableRect
+                            onPress={() =>
+                                Alert.alert(
+                                    'Verification Required',
+                                    'In order to apply to houses you must verify your email address.',
+                                    [
+                                        {
+                                            text: 'Cancel',
+                                            onPress: () => console.log('Cancelled'),
+                                            style: 'cancel'
+                                        },
+                                        {
+                                            text: 'Login',
+                                            onPress: () =>
+                                                AsyncStorage.clear().then(() =>
+                                                    this.props.navigation.navigate('Login')
+                                                )
+                                        }
+                                    ]
+                                )
+                            }
+                            title={
+                                this.props.userHasAppliedToHouse
+                                    ? 'Application Sent!'
+                                    : 'Send Application'
+                            }
+                            iconName={this.props.userHasAppliedToHouse ? 'envelope' : 'bullhorn'}
+                            enabled={!this.props.userHasAppliedToHouse}
+                            backgroundColor={Colors.brandPrimaryColor}
+                            wrapperStyle={{ borderRadius: 0 }}
+                            buttonStyle={{
+                                width: toConstantWidth(100),
+                                paddingBottom: isIphoneX() ? 18 : 0,
+                                height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                            }}
+                        />
+                    </View>
+                ) : (
+                    <View
+                        style={{
+                            height: toConstantHeight(isIphoneX() ? 9.4 : 7.4),
+                            position: 'absolute',
+                            bottom: 0
+                        }}
+                    >
+                        <TouchableRect
+                            onPress={() =>
+                                Alert.alert(
+                                    'Login Required',
+                                    'In order to apply to houses you must login/register.',
+                                    [
+                                        {
+                                            text: 'Cancel',
+                                            onPress: () => console.log('Cancelled'),
+                                            style: 'cancel'
+                                        },
+                                        {
+                                            text: 'Login',
+                                            onPress: () =>
+                                                AsyncStorage.clear().then(() =>
+                                                    this.props.navigation.navigate('Login')
+                                                )
+                                        }
+                                    ]
+                                )
+                            }
+                            title={
+                                this.props.userHasAppliedToHouse
+                                    ? 'Application Sent!'
+                                    : 'Send Application'
+                            }
+                            iconName={this.props.userHasAppliedToHouse ? 'envelope' : 'bullhorn'}
+                            enabled={!this.props.userHasAppliedToHouse}
+                            backgroundColor={Colors.brandPrimaryColor}
+                            wrapperStyle={{ borderRadius: 0 }}
+                            buttonStyle={{
+                                width: toConstantWidth(100),
+                                paddingBottom: isIphoneX() ? 18 : 0,
+                                height: toConstantHeight(isIphoneX() ? 9.4 : 7.4)
+                            }}
+                        />
+                    </View>
                 )}
             </>
         );
@@ -374,28 +459,32 @@ export class PostDetailComponent extends React.Component<Props, State> {
             <RectButton
                 key={index}
                 underlayColor={Colors.grey}
-                onPress={() => this.props.isReadOnly ? alert('Please sign up to view user profiles!') :
-                    this.props.navigation.push('UserProfile', {
-                        id: user.id,
-                        data: user
-                    })
+                onPress={() =>
+                    this.props.isReadOnly
+                        ? alert('Please sign up to view user profiles!')
+                        : this.props.navigation.push('UserProfile', {
+                              id: user.id,
+                              data: user
+                          })
                 }
                 style={feed.userRow}
             >
                 <View style={feed.avatarWrapper}>
-                    {user.profilePicture ?
+                    {user.profilePicture ? (
                         <Avatar
                             medium={true}
                             source={{ uri: user.profilePicture }}
                             rounded={true}
                             title={user.firstName}
-                        /> :
+                        />
+                    ) : (
                         <Avatar
                             medium={true}
                             icon={{ name: 'person' }}
                             rounded={true}
                             title={user.firstName}
-                        />}
+                        />
+                    )}
                 </View>
                 <View style={feed.userDetailsWrapper}>
                     <View
@@ -406,9 +495,7 @@ export class PostDetailComponent extends React.Component<Props, State> {
                     >
                         <Text style={feed.userNameText}>{user.name}</Text>
                     </View>
-                    <Text style={feed.userInfoText}>
-                        {user.bio}
-                    </Text>
+                    <Text style={feed.userInfoText}>{user.bio}</Text>
                 </View>
             </RectButton>
         );

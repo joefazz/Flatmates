@@ -5,26 +5,47 @@ export const CREATE_APPLICATION_MUTATION = gql`
         createApplication(userID: $userID, houseID: $houseID, from: $from, message: $message) {
             id
             isActive
-                to {
+            from {
+                id
+                name
+                firstName
+                lastName
+                course
+                age
+                bio
+                studyYear
+                profilePicture
+                gender
+                isSmoker
+                isDruggie
+                isDrinker
+                minPrice
+                maxPrice
+                genderPreference
+                house {
                     shortID
-                    houseImages
-                    road
-                    coords
-                    spaces
-                    billsPrice
-                    rentPrice
-                    post {
-                        id
-                        description
-                    }
-                    users {
-                        id
-                        name
-                        profilePicture
-                        course
-                        studyYear
-                    }
                 }
+            }
+            to {
+                shortID
+                houseImages
+                road
+                coords
+                spaces
+                billsPrice
+                rentPrice
+                post {
+                    id
+                    description
+                }
+                users {
+                    id
+                    name
+                    profilePicture
+                    course
+                    studyYear
+                }
+            }
             createdAt
         }
     }

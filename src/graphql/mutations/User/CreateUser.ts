@@ -13,7 +13,7 @@ export const CREATE_USER_MUTATION = gql`
         $profilePicture: String
         $course: String
         $studyYear: String
-        $isSmoker: Boolean
+        $isSmoker: Boolean!
         $isDruggie: Boolean!
         $isDrinker: Boolean!
         $bio: String!

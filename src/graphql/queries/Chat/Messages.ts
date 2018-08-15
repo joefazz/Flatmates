@@ -9,10 +9,16 @@ export const GET_CHAT_MESSAGES_QUERY = gql`
                 createdAt
                 text
                 images
+                to {
+                    id
+                }
                 from {
                     id
                     name
                     profilePicture
+                    house {
+                        shortID
+                    }
                 }
             }
         }

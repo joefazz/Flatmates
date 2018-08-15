@@ -1,3 +1,4 @@
+import './utils/ReactotronConfig';
 import Mapbox from '@mapbox/react-native-mapbox-gl';
 import MapboxClient from 'mapbox/lib/services/geocoding';
 import React from 'react';
@@ -7,17 +8,18 @@ import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import client from './Client';
 import { MAPBOX_API_TOKEN } from './consts/strings';
-import CodePush from "react-native-code-push";
+import CodePush from 'react-native-code-push';
 import RootNavigation from './navigators/Root';
 import store from './redux/store';
 import OneSignal from 'react-native-onesignal';
 import { Sentry } from 'react-native-sentry';
-import { GoogleAnalyticsTracker } from "react-native-google-analytics-bridge";
+import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 
 Sentry.config(
-    'https://ff264cadb5f4403d8b6dbfd86e610646:41e9999cbe0745ab9fc6d069d656fee0@sentry.io/1216809', {
+    'https://ff264cadb5f4403d8b6dbfd86e610646:41e9999cbe0745ab9fc6d069d656fee0@sentry.io/1216809',
+    {
         deactivateStacktraceMerging: false
     }
 ).install();
@@ -40,7 +42,7 @@ const initialState = {
     isRehydrated: false
 };
 
-interface Props { }
+interface Props {}
 
 type State = Readonly<typeof initialState>;
 
@@ -74,12 +76,16 @@ class Root extends React.Component<Props, State> {
 
         // Sentry.nativeCrash();
 
-        CodePush.getUpdateMetadata().then((update) => {
-            if (update && update.isFirstRun) {
-                Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
-                Alert.alert('Flatmates has updated!', update.label, [{ text: 'OK', style: 'default' }]);
-            }
-        }).catch(err => Sentry.captureException(err));
+        CodePush.getUpdateMetadata()
+            .then((update) => {
+                if (update && update.isFirstRun) {
+                    Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
+                    Alert.alert('Flatmates has updated!', update.label, [
+                        { text: 'OK', style: 'default' }
+                    ]);
+                }
+            })
+            .catch((err) => Sentry.captureException(err));
     }
 
     componentWillUnmount() {
@@ -115,4 +121,8 @@ class Root extends React.Component<Props, State> {
     }
 }
 
-export default CodePush({ installMode: CodePush.InstallMode.ON_NEXT_RESUME, minimumBackgroundDuration: 60, checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME })(Root);
+export default CodePush({
+    installMode: CodePush.InstallMode.ON_NEXT_RESUME,
+    minimumBackgroundDuration: 60,
+    checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME
+})(Root);

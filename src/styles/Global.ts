@@ -121,7 +121,6 @@ export const base = StyleSheet.create({
     listSeperator: {
         height: 1,
         width: toConstantWidth(100),
-        backgroundColor: Colors.lineSeperatorColor,
-        marginLeft: toConstantWidth(14)
+        backgroundColor: Colors.lineSeperatorColor
     }
 });

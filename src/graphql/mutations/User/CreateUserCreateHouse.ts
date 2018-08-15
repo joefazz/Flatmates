@@ -8,11 +8,11 @@ export const CREATE_USER_CREATE_HOUSE_MUTATION = gql`
         $lastName: String!
         $name: String!
         $bio: String!
+        $email_verified: Boolean!
         $age: Int
         $gender: String
         $course: String
         $studyYear: String
-        $email_verified: Boolean!
         $profilePicture: String
         $isDrinker: Boolean!
         $isDruggie: Boolean!

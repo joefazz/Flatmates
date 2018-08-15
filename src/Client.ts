@@ -19,7 +19,7 @@ const wsLink = new WebSocketLink({
 });
 
 export const AUTH_HEADER =
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJmbGF0bWF0ZXMtcHJpc21hQGRldiIsInJvbGVzIjpbImFkbWluIl19LCJpYXQiOjE1MzMxNTcyMTUsImV4cCI6MTUzMzc2MjAxNX0.vwaFpyQtZG3wyVXadHlalV8MrHJ0HFF4c1nmZH-ffmg"
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJmbGF0bWF0ZXMtcHJpc21hQGRldiIsInJvbGVzIjpbImFkbWluIl19LCJpYXQiOjE1MzMxNTcyMTUsImV4cCI6MTUzMzc2MjAxNX0.vwaFpyQtZG3wyVXadHlalV8MrHJ0HFF4c1nmZH-ffmg';
 
 const authLink = setContext((_, { headers }) => {
     // get the authentication token from local storage if it exists
