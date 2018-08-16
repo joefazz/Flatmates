@@ -305,13 +305,14 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     items={[
                                         {
                                             section: true,
-                                            label: 'General Subject Areas (from UCAS)'
+                                            label: 'General Subject'
                                         },
                                         { label: 'Administration' },
                                         { label: 'Area Studies' },
                                         { label: 'Arts' },
                                         { label: 'Biology' },
                                         { label: 'Business Studies' },
+                                        { label: 'Chemistry' },
                                         { label: 'Classics' },
                                         { label: 'Computer Science' },
                                         { label: 'Economics' },
