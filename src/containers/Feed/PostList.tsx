@@ -83,9 +83,7 @@ export class PostList extends React.Component<Props> {
 
     componentDidMount() {
         StatusBar.setBarStyle('light-content');
-        this.props.navigation.state.params.isReadOnly
-            ? TRACKER.trackScreenView('ReadOnly')
-            : TRACKER.trackScreenView('PostList');
+        TRACKER.trackScreenView('PostList');
     }
 
     componentWillUnmount() {

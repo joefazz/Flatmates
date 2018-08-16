@@ -11,6 +11,7 @@ import { Group, House, User } from '../../../types/Entities';
 import { ErrorScreen } from '../../../widgets/ErrorScreen';
 import { ErrorToast } from '../../../widgets/ErrorToast';
 import { ApolloError } from 'apollo-client';
+import { TRACKER } from '../../../App';
 
 interface Props {
     loading: boolean;
@@ -33,10 +34,20 @@ export class ChatList extends React.Component<Props, State> {
         header: null
     };
 
+    START_TIME = moment().unix();
+
+    componentDidMount() {
+        TRACKER.trackScreenView('ChatList');
+    }
+
+    componentWillUnmount() {
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, {
+            name: 'PostList',
+            label: 'PostList'
+        });
+    }
+
     render() {
-
-        console.log(this.props.error)
-
         if (Boolean(this.props.house && this.props.house.shortID)) {
             return (
                 <Query
@@ -55,18 +66,30 @@ export class ChatList extends React.Component<Props, State> {
                         }
 
                         if (error) {
-                            return <ErrorScreen message={this.props.error.message} onPress={refetchData} />;
+                            return (
+                                <ErrorScreen
+                                    message={this.props.error.message}
+                                    onPress={refetchData}
+                                />
+                            );
                         }
 
                         return (
                             <>
-                                {error && <ErrorToast message={error.message} onPress={refetchData} />}
+                                {error && (
+                                    <ErrorToast message={error.message} onPress={refetchData} />
+                                )}
                                 <ChatListComponent
                                     navigation={this.props.navigation}
                                     isLoading={loading || this.props.loading}
                                     refetch={refetchData}
-                                    data={(!this.props.loading && !loading) ? !!data.house ?
-                                        this.props.user.groups.concat(data.house.groups) : this.props.user.groups : []}
+                                    data={
+                                        !this.props.loading && !loading
+                                            ? !!data.house
+                                                ? this.props.user.groups.concat(data.house.groups)
+                                                : this.props.user.groups
+                                            : []
+                                    }
                                     userID={this.props.login.id}
                                     username={this.props.login.name}
                                 />
@@ -81,13 +104,20 @@ export class ChatList extends React.Component<Props, State> {
             }
 
             if (this.props.error && this.props.user.groups === undefined) {
-                return <ErrorScreen message={this.props.error.message} onPress={this.props.refetch} />;
+                return (
+                    <ErrorScreen message={this.props.error.message} onPress={this.props.refetch} />
+                );
             }
 
             if (this.props.error && !!this.props.user.groups) {
                 return (
                     <>
-                        {this.props.error && <ErrorToast message={this.props.error.message} onPress={this.props.refetch} />}
+                        {this.props.error && (
+                            <ErrorToast
+                                message={this.props.error.message}
+                                onPress={this.props.refetch}
+                            />
+                        )}
                         <ChatListComponent
                             navigation={this.props.navigation}
                             data={this.props.user.groups}
@@ -100,7 +130,7 @@ export class ChatList extends React.Component<Props, State> {
                 );
             }
 
-            console.log(this.props.user.groups)
+            console.log(this.props.user.groups);
             return (
                 <ChatListComponent
                     navigation={this.props.navigation}
@@ -110,7 +140,7 @@ export class ChatList extends React.Component<Props, State> {
                     userID={this.props.login.id}
                     username={this.props.login.name}
                 />
-            )
+            );
         }
     }
 }

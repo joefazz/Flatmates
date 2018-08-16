@@ -1,5 +1,6 @@
 import { ApolloError } from 'apollo-client';
 import React from 'react';
+import moment from 'moment';
 import { compose, graphql, Query } from 'react-apollo';
 import { Platform, Text, TouchableOpacity, Modal, View, Alert } from 'react-native';
 import AndroidKeyboardAdjust from 'react-native-android-keyboard-adjust';
@@ -39,6 +40,7 @@ import { COMPLETE_APPLICATION_MUTATION } from '../../../graphql/mutations/Applic
 import { ErrorScreen } from '../../../widgets/ErrorScreen';
 import { ErrorToast } from '../../../widgets/ErrorToast';
 import Tron from '../../../utils/ReactotronConfig';
+import { TRACKER } from '../../../App';
 
 interface Props {
     createMessage: (params: CreateMessageMutationVariables) => void;
@@ -86,10 +88,14 @@ export class ChatDetail extends React.Component<Props, State> {
 
     state = { showOptionModal: false };
 
+    START_TIME = moment().unix();
+
     componentDidMount() {
         if (Platform.OS === 'android') {
             AndroidKeyboardAdjust.setAdjustResize();
         }
+
+        TRACKER.trackScreenView('ChatDetail');
 
         this.props.navigation.setParams({ toggleModal: this.toggleModal });
     }
@@ -97,6 +103,13 @@ export class ChatDetail extends React.Component<Props, State> {
     toggleModal = (option: boolean) => {
         this.setState({ showOptionModal: option });
     };
+
+    componentWillUnmount() {
+        TRACKER.trackTiming('Session', moment().unix() - this.START_TIME, {
+            name: 'PostList',
+            label: 'PostList'
+        });
+    }
 
     acceptFlatmate = () => {
         const { applicant, house } = this.props.navigation.state.params.groupData;
