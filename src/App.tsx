@@ -14,6 +14,7 @@ import store from './redux/store';
 import OneSignal from 'react-native-onesignal';
 import { Sentry } from 'react-native-sentry';
 import { GoogleAnalyticsTracker } from 'react-native-google-analytics-bridge';
+let json = require('../package.json');
 
 Mapbox.setAccessToken(MAPBOX_API_TOKEN);
 
@@ -79,7 +80,8 @@ class Root extends React.Component<Props, State> {
         CodePush.getUpdateMetadata()
             .then((update) => {
                 if (update && update.isFirstRun) {
-                    Sentry.setVersion(update.appVersion + '-codepush:' + update.label);
+                    TRACKER.setAppVersion(json.version);
+                    Sentry.setVersion(json.version);
                     Alert.alert('Flatmates has updated!', update.description, [
                         { text: 'OK', style: 'default' }
                     ]);
