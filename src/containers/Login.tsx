@@ -582,7 +582,7 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'Arts' },
                                             { label: 'Biology' },
                                             { label: 'Business Studies' },
-                                            { label: 'Chemistry'},
+                                            { label: 'Chemistry' },
                                             { label: 'Classics' },
                                             { label: 'Computer Science' },
                                             { label: 'Economics' },
@@ -1677,13 +1677,29 @@ export class Login extends React.Component<Props, State> {
                 })
                 .then((res) => this.doesUserExist(res.idToken))
                 .catch((error) =>
-                    this.setState({ isLoggingIn: false }, () =>
-                        Alert.alert(
-                            `Login Error: ${error.json.error}`,
-                            error.json.error === 'unauthorized'
-                                ? 'It looks like you may of tried to login with an email address other than @reading.ac.uk, @student.reading.ac.uk or @rusu.co.uk. If you made a mistake and used an invalid email address then please sign up again.'
-                                : error.json.error_description,
-                            [
+                    this.setState({ isLoggingIn: false }, () => {
+                        if (error.json) {
+                            Alert.alert(
+                                `Login Error: ${error.json.error}`,
+                                error.json.error === 'unauthorized'
+                                    ? 'It looks like you may of tried to login with an email address other than @reading.ac.uk, @student.reading.ac.uk or @rusu.co.uk. If you made a mistake and used an invalid email address then please sign up again.'
+                                    : error.json.error_description,
+                                [
+                                    {
+                                        text: 'Email Support',
+                                        onPress: () =>
+                                            Linking.openURL(
+                                                `mailto:joseph@fazzino.net?subject=I%20cannot%20%20login`
+                                            )
+                                    },
+                                    {
+                                        text: 'Cancel',
+                                        style: 'cancel'
+                                    }
+                                ]
+                            );
+                        } else {
+                            Alert.alert(`Login Error`, String(error), [
                                 {
                                     text: 'Email Support',
                                     onPress: () =>
@@ -1695,9 +1711,9 @@ export class Login extends React.Component<Props, State> {
                                     text: 'Cancel',
                                     style: 'cancel'
                                 }
-                            ]
-                        )
-                    )
+                            ]);
+                        }
+                    })
                 );
         });
     };
