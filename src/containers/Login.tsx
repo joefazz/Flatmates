@@ -14,7 +14,8 @@ import {
     View,
     Keyboard,
     ActivityIndicator,
-    StatusBar
+    StatusBar,
+    Linking
 } from 'react-native';
 import Permissions from 'react-native-permissions';
 import moment from 'moment';
@@ -61,6 +62,7 @@ import OneSignal from 'react-native-onesignal';
 import { getCoordsFromAddress } from '../utils/localdash';
 import { STUDY_YEARS, GENDERS } from '../consts/strings';
 import { VERIFY_EMAIL_MUTATION } from '../graphql/mutations/User/VerifyEmail';
+import Tron from '../utils/ReactotronConfig';
 var json = require('../../package.json');
 
 const auth0 = new Auth0({
@@ -580,6 +582,7 @@ export class Login extends React.Component<Props, State> {
                                             { label: 'Arts' },
                                             { label: 'Biology' },
                                             { label: 'Business Studies' },
+                                            { label: 'Chemistry'},
                                             { label: 'Classics' },
                                             { label: 'Computer Science' },
                                             { label: 'Economics' },
@@ -1673,7 +1676,29 @@ export class Login extends React.Component<Props, State> {
                     audience: 'https://flatmates-auth.eu.auth0.com/userinfo'
                 })
                 .then((res) => this.doesUserExist(res.idToken))
-                .catch((error) => this.setState({ isLoggingIn: false }, () => console.log(error)));
+                .catch((error) =>
+                    this.setState({ isLoggingIn: false }, () =>
+                        Alert.alert(
+                            `Login Error: ${error.json.error}`,
+                            error.json.error === 'unauthorized'
+                                ? 'It looks like you may of tried to login with an email address other than @reading.ac.uk, @student.reading.ac.uk or @rusu.co.uk. If you made a mistake and used an invalid email address then please sign up again.'
+                                : error.json.error_description,
+                            [
+                                {
+                                    text: 'Email Support',
+                                    onPress: () =>
+                                        Linking.openURL(
+                                            `mailto:joseph@fazzino.net?subject=I%20cannot%20%20login`
+                                        )
+                                },
+                                {
+                                    text: 'Cancel',
+                                    style: 'cancel'
+                                }
+                            ]
+                        )
+                    )
+                );
         });
     };
 
@@ -1691,13 +1716,15 @@ export class Login extends React.Component<Props, State> {
 
             this.authId = decodedJSON.sub;
 
-            const {
-                data: { user }
-            } = await client.query<UserLoginQuery>({
+            const res = await client.query<UserLoginQuery>({
                 query: USER_LOGIN_QUERY,
                 variables: { email: decodedJSON.email },
                 fetchPolicy: 'network-only'
             });
+
+            const {
+                data: { user }
+            } = res;
 
             if (!!user) {
                 OneSignal.sendTags({
