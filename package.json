@@ -1,6 +1,6 @@
 {
     "name": "flatmates",
-    "version": "1.0.1-c3",
+    "version": "1.0.3",
     "private": true,
     "devDependencies": {
         "@types/react": "^16.4.10",
@@ -40,7 +40,7 @@
         "beta-deploy:android": "bundle exec fastlane android alpha",
         "update-api-types": "apollo-codegen introspect-schema http://localhost:4000 --output schema.json && apollo-codegen generate src/graphql/**/**/*.ts --schema schema.json --target typescript --output src/graphql/Types.ts",
         "codepush-release:ios": "appcenter codepush release-react Flatmates/Flatmates-iOS ios --outputDir build",
-        "codepush-release:android": "appcenter codepush release-react Flatmates/Flatmates-Android" 
+        "codepush-release:android": "appcenter codepush release-react Flatmates/Flatmates-Android"
     },
     "prettier": {
         "arrowParens": "always",
