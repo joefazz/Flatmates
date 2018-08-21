@@ -50,9 +50,10 @@ class AuthLoadingScreen extends React.Component<Props, State> {
 
             if (data.user === null) {
                 AsyncStorage.clear().then(() => this.props.navigation.navigate('Login'));
+                return;
             }
 
-            if (this.props.login.id !== '' && this.props.isVerified) {
+            if (!!data.user && this.props.login.id !== '' && this.props.isVerified) {
                 if (Boolean(this.props.hasHouse) !== Boolean(data.user.house)) {
                     this.props.getUserData(data.user);
                 }
@@ -109,6 +110,7 @@ class AuthLoadingScreen extends React.Component<Props, State> {
             }
         } else {
             AsyncStorage.clear(() => this.props.navigation.navigate('Login'));
+            return;
         }
     };
 
