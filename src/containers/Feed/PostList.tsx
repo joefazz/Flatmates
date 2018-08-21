@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { compose, graphql, ChildProps, Query } from 'react-apollo';
-import { TouchableOpacity, Text, Platform, TouchableNativeFeedback, StatusBar } from 'react-native';
+import { TouchableOpacity, Text, Platform, StatusBar, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { ApolloError } from 'apollo-client';
@@ -22,11 +22,12 @@ import { FontFactory } from '../../consts/font';
 import { TRACKER } from '../../App';
 import { ErrorScreen } from '../../widgets/ErrorScreen';
 import { ErrorToast } from '../../widgets/ErrorToast';
+import { warningRead } from '../../redux/Routines';
 
 interface Props {
     login: LoginState;
     profile: ProfileState;
-
+    toggleWarning: () => void;
     navigation: { push: (route: string) => void; state: { params: { isReadOnly?: boolean } } };
 }
 
@@ -84,6 +85,14 @@ export class PostList extends React.Component<Props> {
     componentDidMount() {
         StatusBar.setBarStyle('light-content');
         TRACKER.trackScreenView('PostList');
+
+        if (this.props.login.id !== '' && !this.props.login.hasSeenWarning) {
+            Alert.alert(
+                'Note',
+                "Flatmates is just a platform for people to connect in order to help find housing and provide some structure to the process.\n\n Just because someone has accepted your application to be a housemate on here doesn't mean that you don't have to sign a contract, pay a deposit etcetra.\n\n Never hand over any money to anyone other than an estate agent, make good decisions and you'll be fine.",
+                [{ text: 'OK', onPress: () => this.props.toggleWarning() }]
+            );
+        }
     }
 
     componentWillUnmount() {
@@ -308,7 +317,11 @@ const mapStateToProps = (state: ReduxState) => ({
     profile: state.profile
 });
 
+const bindActions = (dispatch) => ({
+    toggleWarning: () => dispatch(warningRead())
+});
+
 export default connect(
     mapStateToProps,
-    {}
+    bindActions
 )(PostList);

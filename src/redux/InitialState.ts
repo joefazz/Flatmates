@@ -24,6 +24,7 @@ const initialState: State = {
         isRehydrated: false,
         loginStatus: LoginStatus.NOT_STARTED,
         isLoggedIn: false,
+        hasSeenWarning: false,
         isReadOnly: false,
         error: '',
         hasCreatedPost: false

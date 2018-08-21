@@ -8,6 +8,7 @@ export const getUserData = createRoutine('GET_USER_DATA');
 export const completeHouseLogin = createRoutine('HOUSE_LOGIN');
 export const validateUserEmail = createRoutine('VALIDATE_EMAIL');
 export const leaveHouse = createRoutine('LEAVE_HOUSE');
+export const warningRead = createRoutine('READ_WARNING');
 
 // export const getPosts = createRoutine('GET_POSTS');
 // export const createPost = createRoutine('CREATE_POST');
