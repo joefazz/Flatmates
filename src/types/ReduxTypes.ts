@@ -42,7 +42,14 @@ export interface ToggleFilterAction {
 }
 
 export interface ProfileAction {
-    type: GetUserData | HouseLogin | CreateUserWithHouse | CreateUser | CreateUserJoinHouse | ValidateUserEmail | LeaveHouse;
+    type:
+        | GetUserData
+        | HouseLogin
+        | CreateUserWithHouse
+        | CreateUser
+        | CreateUserJoinHouse
+        | ValidateUserEmail
+        | LeaveHouse;
     payload: {
         user: any;
         error: string;
@@ -63,6 +70,7 @@ export interface ChatAction {
 export interface LoginState {
     id: string;
     name: string;
+    hasSeenWarning: boolean;
     email: string;
     authId: string;
     isRehydrated: boolean;

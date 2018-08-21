@@ -21,6 +21,11 @@ export enum CreateUserJoinHouse {
     FULFILL = Routines.createUserJoinHouse.FULFILL
 }
 
+export enum WarningRead {
+    REQUEST = Routines.warningRead.REQUEST,
+    SUCCESS = Routines.warningRead.SUCCESS
+}
+
 export enum GetUserData {
     REQUEST = Routines.getUserData.REQUEST,
     SUCCESS = Routines.getUserData.SUCCESS,
@@ -30,7 +35,7 @@ export enum GetUserData {
 
 export enum ValidateUserEmail {
     SUCCESS = Routines.validateUserEmail.SUCCESS
-};
+}
 
 export enum HouseLogin {
     SUCCESS = Routines.completeHouseLogin.SUCCESS,

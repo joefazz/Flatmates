@@ -3,10 +3,10 @@ import { LoginStatus } from '../../types/Entities';
 import initialState from '../InitialState';
 import {
     CreateUser,
-    CreatePost,
     CreateUserWithHouse,
     GetUserData,
-    CreateUserJoinHouse
+    CreateUserJoinHouse,
+    WarningRead
 } from '../Types';
 
 // Modules
@@ -15,12 +15,6 @@ const INITIAL_STATE = initialState.login;
 
 export default function loginReducer(state: LoginState = INITIAL_STATE, action: LoginAction) {
     switch (action.type) {
-        // Read only login
-        // case Types.READ_ONLY_LOGIN_SUCCESS:
-        //     return Object.assign({}, state, {
-        //         isReadOnlyEnabled: true
-        //     });
-        // Auth0 Login Auth
         case CreateUser.REQUEST:
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.STARTED
@@ -106,7 +100,8 @@ export default function loginReducer(state: LoginState = INITIAL_STATE, action: 
             return Object.assign({}, state, {
                 loginStatus: LoginStatus.ENDED
             });
-
+        case WarningRead.SUCCESS:
+            return Object.assign({}, state, { hasSeenWarning: true });
         default:
             return state;
     }

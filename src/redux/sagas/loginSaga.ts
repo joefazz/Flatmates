@@ -23,7 +23,8 @@ import {
     createUserWithHouse,
     createUserJoinHouse,
     validateUserEmail,
-    leaveHouse
+    leaveHouse,
+    warningRead
 } from '../Routines';
 import OneSignal from 'react-native-onesignal';
 import { LEAVE_HOUSE_MUTATION } from '../../graphql/mutations/User/LeaveHouse';
@@ -36,6 +37,7 @@ export const loginSaga = function*() {
     yield takeEvery(createUserJoinHouse.TRIGGER, joinHouse);
     yield takeEvery(validateUserEmail.TRIGGER, validate);
     yield takeEvery(leaveHouse.TRIGGER, leave);
+    yield takeEvery(warningRead.TRIGGER, toggleWarning);
 };
 
 async function createUserMutation(
@@ -180,6 +182,10 @@ const leave = function*({ payload }) {
     } finally {
         leaveHouse.fulfill();
     }
+};
+
+const toggleWarning = function*() {
+    yield put(warningRead.success());
 };
 
 const readOnly = function*() {
