@@ -1689,7 +1689,7 @@ export class Login extends React.Component<Props, State> {
                                         text: 'Email Support',
                                         onPress: () =>
                                             Linking.openURL(
-                                                `mailto:joseph@fazzino.net?subject=I%20cannot%20%20login`
+                                                `mailto:joseph@fazzino.net?subject=I%20cannot%20login`
                                             )
                                     },
                                     {
@@ -1704,7 +1704,7 @@ export class Login extends React.Component<Props, State> {
                                     text: 'Email Support',
                                     onPress: () =>
                                         Linking.openURL(
-                                            `mailto:joseph@fazzino.net?subject=I%20cannot%20%20login`
+                                            `mailto:joseph@fazzino.net?subject=I%20cannot%20login`
                                         )
                                 },
                                 {
@@ -1986,7 +1986,7 @@ export class Login extends React.Component<Props, State> {
                 }
             });
         } else {
-            alert('No profile pic selected');
+            // If no profile picture is selected user this code block triggers
         }
 
         return null;

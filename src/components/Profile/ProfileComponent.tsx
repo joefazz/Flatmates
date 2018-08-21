@@ -222,7 +222,7 @@ export class ProfileComponent extends React.Component<Props, State> {
                 }
             });
         } else {
-            alert('No profile pic selected');
+            // Pretty sure this never executes but it happens when no profile picture is chosen
         }
 
         return null;
