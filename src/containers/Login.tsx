@@ -1699,19 +1699,21 @@ export class Login extends React.Component<Props, State> {
                                 ]
                             );
                         } else {
-                            Alert.alert(`Login Error`, String(error), [
-                                {
-                                    text: 'Email Support',
-                                    onPress: () =>
-                                        Linking.openURL(
-                                            `mailto:joseph@fazzino.net?subject=I%20cannot%20login`
-                                        )
-                                },
-                                {
-                                    text: 'Cancel',
-                                    style: 'cancel'
-                                }
-                            ]);
+                            if (error.error !== 'a0.session.user_cancelled') {
+                                Alert.alert(`Login Error`, error.error_description, [
+                                    {
+                                        text: 'Email Support',
+                                        onPress: () =>
+                                            Linking.openURL(
+                                                `mailto:joseph@fazzino.net?subject=I%20cannot%20login`
+                                            )
+                                    },
+                                    {
+                                        text: 'Cancel',
+                                        style: 'cancel'
+                                    }
+                                ]);
+                            }
                         }
                     })
                 );
