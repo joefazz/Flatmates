@@ -78,10 +78,11 @@ export class ApplicationListComponent extends React.PureComponent<Props> {
                   }
               ];
 
-        if (this.props.showReceived && this.props.receivedApplications.length === 0) {
+        if (this.props.showReceived) {
             if (
                 this.props.sentApplications.length === 0 &&
-                this.props.inactiveApplications.length === 0
+                this.props.inactiveApplications.length === 0 &&
+                this.props.receivedApplications.length === 0
             ) {
                 return this.renderEmpty();
             }

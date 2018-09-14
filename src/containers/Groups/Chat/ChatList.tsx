@@ -16,7 +16,7 @@ import { TRACKER } from '../../../App';
 interface Props {
     loading: boolean;
     error: ApolloError;
-    user: Array<User>;
+    user: User;
     navigation: { navigate: (route: string) => void };
     login: LoginState;
     house: House;
@@ -86,8 +86,14 @@ export class ChatList extends React.Component<Props, State> {
                                     data={
                                         !this.props.loading && !loading
                                             ? !!data.house
-                                                ? this.props.user.groups.concat(data.house.groups)
-                                                : this.props.user.groups
+                                                ? !!this.props.user
+                                                    ? this.props.user.groups.concat(
+                                                          data.house.groups
+                                                      )
+                                                    : data.house.groups
+                                                : !!this.props.user
+                                                    ? this.props.user.groups
+                                                    : []
                                             : []
                                     }
                                     userID={this.props.login.id}
@@ -109,7 +115,7 @@ export class ChatList extends React.Component<Props, State> {
                 );
             }
 
-            if (this.props.error && !!this.props.user.groups) {
+            if (this.props.error && this.props.user && !!this.props.user.groups) {
                 return (
                     <>
                         {this.props.error && (
@@ -130,7 +136,6 @@ export class ChatList extends React.Component<Props, State> {
                 );
             }
 
-            console.log(this.props.user.groups);
             return (
                 <ChatListComponent
                     navigation={this.props.navigation}

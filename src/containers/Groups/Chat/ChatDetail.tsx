@@ -25,7 +25,6 @@ import {
     MessageAddedSubscription,
     UserChatQuery,
     CompleteApplicationMutationVariables,
-    CompleteApplicationMutation,
     HouseDetailQuery,
     HouseApplicationsQuery,
     HousePostQuery,
@@ -39,7 +38,6 @@ import { FontFactory } from '../../../consts/font';
 import { COMPLETE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/CompleteApplication';
 import { ErrorScreen } from '../../../widgets/ErrorScreen';
 import { ErrorToast } from '../../../widgets/ErrorToast';
-import Tron from '../../../utils/ReactotronConfig';
 import { TRACKER } from '../../../App';
 
 interface Props {
@@ -240,7 +238,7 @@ export class ChatDetail extends React.Component<Props, State> {
                                 isHouseChat={true}
                                 data={{
                                     groupInfo: this.props.navigation.state.params.groupData,
-                                    messages: loading ? [] : data.group.messages
+                                    messages: loading ? [] : !!data.group ? data.group.messages : []
                                 }}
                                 refetch={refetch}
                                 userID={this.props.navigation.state.params.userID}

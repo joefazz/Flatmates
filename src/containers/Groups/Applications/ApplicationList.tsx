@@ -1,28 +1,11 @@
 import React from 'react';
-import {
-    Text,
-    View,
-    TouchableHighlight,
-    Modal,
-    TouchableOpacity,
-    ActivityIndicator
-} from 'react-native';
 import { ChildProps, compose, graphql, Query } from 'react-apollo';
-import { isIphoneX } from 'react-native-iphone-x-helper';
 import { connect } from 'react-redux';
 import { ApplicationListComponent } from '../../../components/Applications/ApplicationListComponent';
 import { ReduxState, ProfileState } from '../../../types/ReduxTypes';
 import { HOUSE_APPLICATIONS_QUERY, USER_APPLICATIONS_QUERY } from '../../../graphql/queries';
-import {
-    UserApplicationsQuery,
-    UserApplicationsQueryVariables,
-    AddApplicationsMutationVariables,
-    AddApplicationsMutation
-} from '../../../graphql/Types';
+import { UserApplicationsQuery, UserApplicationsQueryVariables } from '../../../graphql/Types';
 import { Application, House } from '../../../types/Entities';
-import { toConstantWidth, toConstantHeight } from '../../../utils/PercentageConversion';
-import { Colors } from '../../../consts';
-import { FontFactory } from '../../../consts/font';
 import { ErrorScreen } from '../../../widgets/ErrorScreen';
 import { ErrorToast } from '../../../widgets/ErrorToast';
 
@@ -34,7 +17,6 @@ interface Props {
         id: string;
         applications: Application[];
     };
-    addApplications: (params: AddApplicationsMutationVariables) => void;
     sentLoading: boolean;
     receivedLoading: boolean;
     receivedError: Error;
@@ -114,7 +96,7 @@ export class ApplicationList extends React.Component<Props, State> {
                 >
                     {({ loading, error, data: { house }, refetch }) => {
                         var inactiveApplications = [];
-                        if (!!this.props.user) {
+                        if (!!this.props.user && house) {
                             if (
                                 this.props.user.applications.filter((app) => !app.isActive)
                                     .length === 0 &&

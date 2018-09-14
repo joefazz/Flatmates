@@ -9,7 +9,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { FloatingAction } from 'react-native-floating-action';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 
 import { Colors, Font } from '../../consts';
 import { feed } from '../../styles';
@@ -17,6 +17,7 @@ import { toConstantFontSize } from '../../utils/PercentageConversion';
 import { Post } from '../../types/Entities';
 import { PostCard } from '../../widgets';
 import { FontFactory } from '../../consts/font';
+import { TouchableRect } from '../../widgets/TouchableRect';
 
 interface Props {
     navigation: {
@@ -211,7 +212,34 @@ export class PostListComponent extends React.Component<Props> {
         if (this.props.isLoading) {
             return <View />;
         }
-        return <Text>No posts</Text>;
+        return (
+            <View
+                style={{
+                    flex: 1,
+                    alignSelf: 'stretch',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
+                <Icon name={'eyeglass'} size={56} color={Colors.definetelyNotAirbnbRed} />
+                <Text
+                    style={{
+                        fontSize: 24,
+                        color: Colors.definetelyNotAirbnbRed,
+                        ...FontFactory({ weight: 'Bold' })
+                    }}
+                >
+                    Nothing here yet!
+                </Text>
+                {this.props.userPostPermissionEnabled && (
+                    <TouchableRect
+                        title={'Make the first post!'}
+                        backgroundColor={Colors.brandSecondaryColor}
+                        onPress={() => this.props.navigation.push('CreatePost')}
+                    />
+                )}
+            </View>
+        );
     };
 
     private renderCard = ({ item }) => {
