@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose, graphql } from 'react-apollo';
-import { Alert, View } from 'react-native';
+import { Alert, TouchableOpacity, Linking } from 'react-native';
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { Colors } from '../../../consts';
 import {
@@ -32,6 +32,7 @@ import { HouseApplicationDetail } from '../../../components/Applications/HouseAp
 import UserProfile from '../../Feed/UserProfile';
 import { UPDATE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/UpdateApplication';
 import { COMPLETE_APPLICATION_MUTATION } from '../../../graphql/mutations/Application/CompleteApplication';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
     loading: boolean;
@@ -66,12 +67,38 @@ interface State {
 export class ApplicationDetail extends React.Component<Props, State> {
     state = { isApproved: this.props.navigation.state.params.isActive };
 
-    static navigationOptions = () => ({
-        title: 'Application Detail'
+    static navigationOptions = ({ navigation }) => ({
+        title: 'Application Detail',
+        headerRight: navigation.state.params &&
+            !navigation.state.params.isSent && (
+                <TouchableOpacity
+                    onPress={() =>
+                        Alert.alert(
+                            'Report User',
+                            'If this user has done something you deem to be inappropriate or offensive please report them. In the email please be as detailed as possible.',
+                            [
+                                {
+                                    text: 'Report',
+                                    onPress: () =>
+                                        Linking.openURL(
+                                            `mailto:joseph@fazzino.net?subject=Report%20User%20${
+                                                navigation.state.params.id
+                                            }`
+                                        )
+                                },
+                                { text: 'Cancel', style: 'cancel' }
+                            ]
+                        )
+                    }
+                    style={{ paddingRight: 12 }}
+                >
+                    <Icon name={'ios-flag-outline'} color={Colors.white} size={32} />
+                </TouchableOpacity>
+            )
     });
 
     render() {
-        const { id, userData, isSent, houseData, isActive } = this.props.navigation.state.params;
+        const { id, userData, isSent, houseData } = this.props.navigation.state.params;
 
         return (
             <>
