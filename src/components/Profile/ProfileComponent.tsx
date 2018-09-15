@@ -116,10 +116,6 @@ export class ProfileComponent extends React.Component<Props, State> {
                 params.isSmoker = this.newSmoke;
             }
 
-            if (this.isDrugsDirty) {
-                params.isDruggie = this.newDrug;
-            }
-
             if (this.isDrinkDirty) {
                 params.isDrinker = this.newDrink;
             }
@@ -136,7 +132,6 @@ export class ProfileComponent extends React.Component<Props, State> {
             this.isGenderDirty = false;
             this.isYearDirty = false;
             this.isSmokerDirty = false;
-            this.isDrugsDirty = false;
             this.isDrinkDirty = false;
             this.setState({ tempProfilePic: null });
         }
@@ -572,7 +567,6 @@ export class ProfileComponent extends React.Component<Props, State> {
                             <StatRow
                                 items={[
                                     { label: 'Smoker', value: data.isSmoker ? 'Yes' : 'No' },
-                                    { label: 'Uses Drugs', value: data.isDruggie ? 'Yes' : 'No' },
                                     { label: 'Drinker', value: data.isDrinker ? 'Yes' : 'No' }
                                 ]}
                             />
