@@ -101,14 +101,12 @@ interface State {
 
     bio: string;
     isSmoker: boolean;
-    isDruggie: boolean;
     isDrinker: boolean;
     studyYear?: string;
     course?: string;
     minPrice: string;
     maxPrice: string;
     genderPreference: string;
-    drugPreference: string;
     drinkPreference: string;
     smokerPreference: string;
 
@@ -175,7 +173,6 @@ export class Login extends React.Component<Props, State> {
             gender: undefined,
             bio: '',
             isSmoker: false,
-            isDruggie: false,
             isDrinker: false,
             course: undefined,
             studyYear: undefined,
@@ -183,7 +180,6 @@ export class Login extends React.Component<Props, State> {
             maxPrice: '£450',
             genderPreference: 'No Preference',
             drinkPreference: '',
-            drugPreference: '',
             smokerPreference: '',
 
             shortID: 0 as number,
@@ -710,18 +706,6 @@ export class Login extends React.Component<Props, State> {
                                         value={this.state.isDrinker}
                                     />
                                 </View>
-                                <View>
-                                    <Text style={[base.labelText, { alignSelf: 'center' }]}>
-                                        Drugs?
-                                    </Text>
-                                    <Switch
-                                        onTintColor={Colors.grey}
-                                        thumbTintColor={Colors.brandPrimaryColor}
-                                        tintColor={Colors.grey}
-                                        onValueChange={(val) => this.setState({ isDruggie: val })}
-                                        value={this.state.isDruggie}
-                                    />
-                                </View>
                             </View>
                         </View>
                     </View>
@@ -1090,50 +1074,14 @@ export class Login extends React.Component<Props, State> {
                                     />
                                 </View>
                             </View>
-                            <View style={{ flexDirection: 'row', marginTop: 40 }}>
-                                <View>
-                                    <Text style={base.pickerLabelText}>Drug users</Text>
-                                    <FlatPicker
-                                        items={[
-                                            {
-                                                section: true,
-                                                label: 'Would you prefer to live with drug users?'
-                                            },
-                                            { label: 'Yes' },
-                                            { label: 'No' },
-                                            { label: 'No Preference' }
-                                        ]}
-                                        initialValue={'Select'}
-                                        selectStyle={[
-                                            {
-                                                borderWidth: 0,
-                                                borderBottomWidth: 1,
-                                                margin: 0,
-                                                padding: 0,
-                                                alignItems: 'flex-start',
-                                                justifyContent: 'flex-start',
-                                                borderRadius: 0,
-                                                marginRight: 20
-                                            },
-                                            base.halfWidthWrapper
-                                        ]}
-                                        selectTextStyle={[
-                                            {
-                                                fontSize:
-                                                    toConstantFontSize(2.5) > 18
-                                                        ? 18
-                                                        : toConstantFontSize(2.5),
-                                                ...FontFactory({ family: 'Nunito' })
-                                            },
-                                            this.state.studyYear === ''
-                                                ? { color: Colors.grey }
-                                                : { color: Colors.textHighlightColor }
-                                        ]}
-                                        onChange={(item) =>
-                                            this.setState({ drugPreference: item.label })
-                                        }
-                                    />
-                                </View>
+                            <View
+                                style={{
+                                    flexDirection: 'row',
+                                    marginTop: 20,
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
                                 <View>
                                     <Text style={base.pickerLabelText}>Smokers</Text>
                                     <FlatPicker
@@ -1187,26 +1135,21 @@ export class Login extends React.Component<Props, State> {
                                 Number(this.state.minPrice) === 0 ||
                                 Number(this.state.maxPrice) === 0 ||
                                 this.state.genderPreference === '' ||
-                                this.state.drugPreference === '' ||
                                 this.state.drinkPreference === '' ||
                                 this.state.smokerPreference === ''
                                     ? Colors.grey
                                     : Colors.brandPrimaryColor
                             }
                             onPress={() => {
-                                this.state.drugPreference === ''
+                                this.state.drinkPreference === ''
                                     ? alert(
-                                          'Please state whether you would prefer to live with/without flatmates who use drugs'
+                                          'Please state whether you would prefer to live with/without flatmates who drink'
                                       )
-                                    : this.state.drinkPreference === ''
+                                    : this.state.smokerPreference === ''
                                         ? alert(
-                                              'Please state whether you would prefer to live with/without flatmates who drink'
+                                              'Please state whether you would prefer to live with/without flatmates who smokes'
                                           )
-                                        : this.state.smokerPreference === ''
-                                            ? alert(
-                                                  'Please state whether you would prefer to live with/without flatmates who use drugs'
-                                              )
-                                            : this.completeUserSetup();
+                                        : this.completeUserSetup();
                             }}
                             buttonStyle={base.buttonStyle}
                         />
@@ -1804,11 +1747,9 @@ export class Login extends React.Component<Props, State> {
             studyYear: this.state.studyYear,
             isSmoker: this.state.isSmoker,
             isDrinker: this.state.isDrinker,
-            isDruggie: this.state.isDruggie,
             minPrice: Number(this.state.minPrice),
             maxPrice: Number(this.state.maxPrice),
             genderPreference: this.state.genderPreference,
-            drugPreference: this.state.drugPreference,
             drinkPreference: this.state.drinkPreference,
             smokerPreference: this.state.smokerPreference
         });
@@ -1841,7 +1782,6 @@ export class Login extends React.Component<Props, State> {
             studyYear: this.state.studyYear,
             isSmoker: this.state.isSmoker,
             isDrinker: this.state.isDrinker,
-            isDruggie: this.state.isDruggie,
             shortID: this.state.shortID as number,
             road: this.state.road,
             coords: coords as Array<number>,
@@ -1893,7 +1833,6 @@ export class Login extends React.Component<Props, State> {
                                                 studyYear: this.state.studyYear,
                                                 isSmoker: this.state.isSmoker,
                                                 isDrinker: this.state.isDrinker,
-                                                isDruggie: this.state.isDruggie,
                                                 houseId: this.state.shortID as number
                                             });
                                         });
@@ -1913,7 +1852,6 @@ export class Login extends React.Component<Props, State> {
                                             studyYear: this.state.studyYear,
                                             isSmoker: this.state.isSmoker,
                                             isDrinker: this.state.isDrinker,
-                                            isDruggie: this.state.isDruggie,
                                             houseId: this.state.shortID as number
                                         });
                                     }
