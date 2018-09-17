@@ -30,7 +30,6 @@ export interface Profile {
     genderPreference: string;
     course: string;
     isDrinker: boolean;
-    isDruggie: false;
     isSmoker: false;
 }
 

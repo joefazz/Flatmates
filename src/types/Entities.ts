@@ -5,7 +5,6 @@ export interface Post {
     createdAt: string;
     createdBy: House;
     viewCount?: number;
-
 }
 
 export interface House {
@@ -52,14 +51,12 @@ export interface User {
     course: string;
     studyYear: string;
     isSmoker: boolean;
-    isDruggie: boolean;
     isDrinker: boolean;
 
     minPrice: number;
     maxPrice: number;
 
     genderPreference: string;
-    drugPreference: string;
     drinkPreference: string;
     smokerPreference: string;
 

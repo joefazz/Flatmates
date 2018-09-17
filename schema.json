@@ -9996,20 +9996,6 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "isDruggie",
-                  "description": "",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Boolean",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "isDrinker",
                   "description": "",
                   "type": {
@@ -10059,16 +10045,6 @@
                 },
                 {
                   "name": "genderPreference",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "drugPreference",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -10246,20 +10222,6 @@
                 },
                 {
                   "name": "isSmoker",
-                  "description": "",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Boolean",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "isDruggie",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",
@@ -10596,20 +10558,6 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "isDruggie",
-                  "description": "",
-                  "type": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "SCALAR",
-                      "name": "Boolean",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "isDrinker",
                   "description": "",
                   "type": {
@@ -10780,16 +10728,6 @@
                 },
                 {
                   "name": "isDrinker",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Boolean",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "isDruggie",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -11699,6 +11637,20 @@
               "args": [
                 {
                   "name": "groupID",
+                  "description": "",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "userID",
                   "description": "",
                   "type": {
                     "kind": "NON_NULL",

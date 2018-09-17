@@ -90,7 +90,6 @@ export interface ProfileState {
     gender: string;
     email: string;
     email_validated: boolean;
-    isDruggie: boolean;
     isDrinker: boolean;
     isSmoker: boolean;
     bio: string;
