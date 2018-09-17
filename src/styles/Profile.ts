@@ -76,7 +76,7 @@ export const profile = StyleSheet.create({
     statWrapper: {
         marginTop: 20,
         borderBottomWidth: 1,
-        borderBottomColor: Colors.grey,
+        borderBottomColor: Colors.grey
     },
 
     summaryDescriptionWrapper: {
@@ -88,7 +88,7 @@ export const profile = StyleSheet.create({
 
     summaryDescription: {
         ...FontFactory({ weight: 'Light' }),
-        fontSize: 20,
+        fontSize: 18,
         paddingVertical: 0
     },
 
@@ -113,5 +113,18 @@ export const profile = StyleSheet.create({
     preference: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+
+    bioWrapper: {
+        backgroundColor: Colors.white,
+        paddingVertical: 5,
+        paddingHorizontal: 5,
+        shadowColor: Colors.grey,
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.7,
+        shadowRadius: 4
     }
 });
