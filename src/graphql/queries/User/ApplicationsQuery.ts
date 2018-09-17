@@ -19,7 +19,6 @@ export const USER_APPLICATIONS_QUERY = gql`
                     profilePicture
                     gender
                     isSmoker
-                    isDruggie
                     isDrinker
                     minPrice
                     maxPrice

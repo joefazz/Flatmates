@@ -14,13 +14,11 @@ export const CREATE_USER_MUTATION = gql`
         $course: String
         $studyYear: String
         $isSmoker: Boolean!
-        $isDruggie: Boolean!
         $isDrinker: Boolean!
         $bio: String!
         $maxPrice: Int
         $minPrice: Int
         $genderPreference: String
-        $drugPreference: String
         $drinkPreference: String
         $smokerPreference: String
     ) {
@@ -37,13 +35,11 @@ export const CREATE_USER_MUTATION = gql`
             course: $course
             studyYear: $studyYear
             isSmoker: $isSmoker
-            isDruggie: $isDruggie
             isDrinker: $isDrinker
             bio: $bio
             maxPrice: $maxPrice
             minPrice: $minPrice
             genderPreference: $genderPreference
-            drugPreference: $drugPreference
             drinkPreference: $drinkPreference
             smokerPreference: $smokerPreference
         ) {
@@ -61,7 +57,6 @@ export const CREATE_USER_MUTATION = gql`
             email_verified
             profilePicture
             isDrinker
-            isDruggie
             isSmoker
             maxPrice
             minPrice

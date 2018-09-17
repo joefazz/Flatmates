@@ -22,7 +22,6 @@ export const POST_DETAILS_QUERY = gql`
                     studyYear
                     isSmoker
                     isDrinker
-                    isDruggie
                     profilePicture
                     course
                     age

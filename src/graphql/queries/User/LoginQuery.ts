@@ -18,7 +18,6 @@ export const USER_LOGIN_QUERY = gql`
             email_verified
             profilePicture
             isDrinker
-            isDruggie
             isSmoker
             maxPrice
             minPrice

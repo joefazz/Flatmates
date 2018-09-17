@@ -14,7 +14,6 @@ export const CREATE_USER_UPDATE_HOUSE_MUTATION = gql`
         $course: String
         $studyYear: String
         $isSmoker: Boolean!
-        $isDruggie: Boolean!
         $isDrinker: Boolean!
         $bio: String!
         $houseId: Int!
@@ -32,7 +31,6 @@ export const CREATE_USER_UPDATE_HOUSE_MUTATION = gql`
             course: $course
             studyYear: $studyYear
             isSmoker: $isSmoker
-            isDruggie: $isDruggie
             isDrinker: $isDrinker
             bio: $bio
             houseId: $houseId
@@ -51,7 +49,6 @@ export const CREATE_USER_UPDATE_HOUSE_MUTATION = gql`
             email_verified
             profilePicture
             isDrinker
-            isDruggie
             isSmoker
             maxPrice
             minPrice

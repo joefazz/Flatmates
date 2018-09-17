@@ -15,7 +15,6 @@ export const USER_DETAILS_QUERY = gql`
             studyYear
             isSmoker
             isDrinker
-            isDruggie
             genderPreference
             profilePicture
             maxPrice

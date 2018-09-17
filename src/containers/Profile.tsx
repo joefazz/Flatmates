@@ -192,7 +192,6 @@ const updateUserMutation = graphql(UPDATE_USER_MUTATION, {
                         gender: params.gender,
                         studyYear: params.studyYear,
                         isSmoker: params.isSmoker,
-                        isDruggie: params.isDruggie,
                         isDrinker: params.isDrinker
                     }
                 }

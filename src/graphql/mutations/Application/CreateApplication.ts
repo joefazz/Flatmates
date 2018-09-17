@@ -17,7 +17,6 @@ export const CREATE_APPLICATION_MUTATION = gql`
                 profilePicture
                 gender
                 isSmoker
-                isDruggie
                 isDrinker
                 minPrice
                 maxPrice

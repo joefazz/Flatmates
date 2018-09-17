@@ -21,7 +21,6 @@ export const UPDATE_POST_MUTATION = gql`
                     age
                     gender
                     isSmoker
-                    isDruggie
                     isDrinker
                     profilePicture
                     course
