@@ -338,16 +338,18 @@ export class ProfileComponent extends React.Component<Props, State> {
                                     }}
                                     initialValue={data.course || 'Select Course'}
                                 />
-                                <TextInput
-                                    style={profile.summaryDescription}
-                                    defaultValue={data.bio}
-                                    underlineColorAndroid={Colors.transparent}
-                                    onChangeText={(text) => {
-                                        this.isBioDirty = text !== data.bio;
-                                        this.newBio = text;
-                                    }}
-                                />
                             </View>
+                        </View>
+                        <View style={profile.bioWrapper}>
+                            <TextInput
+                                style={profile.summaryDescription}
+                                defaultValue={data.bio}
+                                underlineColorAndroid={Colors.transparent}
+                                onChangeText={(text) => {
+                                    this.isBioDirty = text !== data.bio;
+                                    this.newBio = text;
+                                }}
+                            />
                         </View>
                         <View style={profile.statWrapper}>
                             <View style={profile.preferencesWrapper}>
@@ -410,11 +412,6 @@ export class ProfileComponent extends React.Component<Props, State> {
                                             inputType: 'switch'
                                         },
                                         {
-                                            label: 'Uses Drugs',
-                                            value: data.isDruggie,
-                                            inputType: 'switch'
-                                        },
-                                        {
                                             label: 'Drinker',
                                             value: data.isDrinker,
                                             inputType: 'switch'
@@ -429,12 +426,6 @@ export class ProfileComponent extends React.Component<Props, State> {
                                                     if (data.isSmoker !== Boolean(item.value)) {
                                                         this.isSmokerDirty = true;
                                                         this.newSmoke = Boolean(item.value);
-                                                    }
-                                                    break;
-                                                case 'Uses Drugs':
-                                                    if (data.isDruggie !== Boolean(item.value)) {
-                                                        this.isDrugsDirty = true;
-                                                        this.newDrug = Boolean(item.value);
                                                     }
                                                     break;
                                                 case 'Drinker':
@@ -545,8 +536,10 @@ export class ProfileComponent extends React.Component<Props, State> {
                             <Text style={profile.summaryDescription}>
                                 {data.course ? data.course : 'No Course Provided'}
                             </Text>
-                            <Text style={profile.summaryDescription}>{data.bio}</Text>
                         </View>
+                    </View>
+                    <View style={profile.bioWrapper}>
+                        <Text style={profile.summaryDescription}>{data.bio}</Text>
                     </View>
                     <View style={profile.statWrapper}>
                         <View style={profile.preferencesWrapper}>
