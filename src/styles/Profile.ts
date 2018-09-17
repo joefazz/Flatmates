@@ -88,7 +88,7 @@ export const profile = StyleSheet.create({
 
     summaryDescription: {
         ...FontFactory({ weight: 'Light' }),
-        fontSize: 18,
+        fontSize: 20,
         paddingVertical: 0
     },
 
@@ -125,6 +125,7 @@ export const profile = StyleSheet.create({
             height: 2
         },
         shadowOpacity: 0.7,
-        shadowRadius: 4
+        shadowRadius: 4,
+        elevation: 2
     }
 });
