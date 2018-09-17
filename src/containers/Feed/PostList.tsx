@@ -106,7 +106,7 @@ export class PostList extends React.Component<Props> {
     }
 
     render() {
-        if (!!this.props.profile.house) {
+        if (!!this.props.profile.house && this.props.profile.house.shortID !== 0) {
             return (
                 <Query
                     query={HOUSE_POST_QUERY}

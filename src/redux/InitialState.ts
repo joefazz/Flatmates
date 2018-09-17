@@ -42,10 +42,9 @@ const initialState: State = {
         course: '',
         bio: '',
         isDrinker: false,
-        isDruggie: false,
         isSmoker: false,
         house: {
-            shortId: 0,
+            shortID: 0,
             road: '',
             billsPrice: 0,
             rentPrice: 0,
