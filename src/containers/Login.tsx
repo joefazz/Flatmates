@@ -120,6 +120,7 @@ interface State {
     billsDue: string | Date;
     isRentDueDatePickerVisible: boolean;
     isBillsDueDatePickerVisible: boolean;
+    showDots: boolean;
 
     creatingDialogText: string;
 }
@@ -165,6 +166,7 @@ export class Login extends React.Component<Props, State> {
             removeImageToggle: false,
             tempImages: [],
             tempProfilePic: '',
+            showDots: false,
 
             firstName: '',
             lastName: '',
@@ -228,6 +230,8 @@ export class Login extends React.Component<Props, State> {
                 loop={false}
                 scrollEnabled={false}
                 dotStyle={login.dotStyle}
+                showsPagination={this.state.showDots}
+                onIndexChanged={(index) => this.setState({ showDots: index !== 0 })}
                 activeDotColor={Colors.textHighlightColor}
             >
                 <View style={[login.page, { justifyContent: 'space-around' }]}>
@@ -1349,7 +1353,6 @@ export class Login extends React.Component<Props, State> {
                     </View>
                     <View style={{ alignSelf: 'flex-start' }}>
                         <Text style={base.pickerLabelText}>Images</Text>
-                        {/* Probably want to make this a horizontal scroll view in the future */}
                         <ScrollView
                             style={{
                                 flexDirection: 'row',
@@ -1408,7 +1411,7 @@ export class Login extends React.Component<Props, State> {
                                     alignItems: 'center',
                                     justifyContent: 'center'
                                 }}
-                                onPress={() => this.selectImages()}
+                                onPress={() => this.selectHouseImages()}
                             >
                                 <Icon
                                     name={'ios-add'}
@@ -1430,7 +1433,7 @@ export class Login extends React.Component<Props, State> {
                             onPress={() => {
                                 Permissions.check('photo').then((res) => {
                                     if (res === 'authorized' || res === 'undetermined') {
-                                        this.selectImages();
+                                        this.selectHouseImages();
                                     } else {
                                         Alert.alert(
                                             'Can we access your photos?',
@@ -1932,7 +1935,7 @@ export class Login extends React.Component<Props, State> {
         return null;
     }
 
-    private async selectImages(): Promise<void> {
+    private async selectHouseImages(): Promise<void> {
         let images: Array<ImageType> | ImageType | void;
 
         images = await ImagePicker.openPicker({
@@ -1941,10 +1944,12 @@ export class Login extends React.Component<Props, State> {
             compressImageMaxWidth: 300,
             mediaType: 'photo',
             loadingLabelText: 'Processing photos...'
-        }).catch(() => alert('Image Upload Cancelled'));
+        }).catch(() => alert('You must upload at least one picture of your house.'));
 
-        images = this.state.tempImages.concat(images);
-        this.setState({ tempImages: images });
+        if (Array.isArray(images)) {
+            images = this.state.tempImages.concat(images);
+            this.setState({ tempImages: images });
+        }
     }
 
     private removeImage(index): void {
