@@ -196,16 +196,16 @@ export class PostList extends React.Component<Props> {
                                                     this.props.navigation.state.params.isReadOnly
                                                         ? false
                                                         : !(createLoading || loading)
-                                                            ? !!createData
-                                                                ? !!createData.house
-                                                                    ? createData.house.spaces > 0
-                                                                        ? !Boolean(
-                                                                              createData.house.post
-                                                                          )
-                                                                        : false
+                                                        ? !!createData
+                                                            ? !!createData.house
+                                                                ? createData.house.spaces > 0
+                                                                    ? !Boolean(
+                                                                          createData.house.post
+                                                                      )
                                                                     : false
                                                                 : false
                                                             : false
+                                                        : false
                                                 }
                                                 data={!!data.allPosts ? data.allPosts : []}
                                                 userId={this.props.login.id}
@@ -239,7 +239,7 @@ export class PostList extends React.Component<Props> {
                     fetchMore: any;
                     refetch: () => void;
                 }) => {
-                    if (error && !Boolean(data.allPosts)) {
+                    if (error && (!Boolean(data) || !Boolean(data.allPosts))) {
                         return <ErrorScreen message={error.message} onPress={refetch} />;
                     }
 
@@ -278,8 +278,8 @@ export class PostList extends React.Component<Props> {
                                     )
                                         ? false
                                         : !!this.props.user.house
-                                            ? !Boolean(this.props.user.house.post)
-                                            : false
+                                        ? !Boolean(this.props.user.house.post)
+                                        : false
                                 }
                                 data={!!data.allPosts ? data.allPosts : []}
                                 userId={this.props.login.id}

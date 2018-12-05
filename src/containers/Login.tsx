@@ -250,6 +250,9 @@ export class Login extends React.Component<Props, State> {
                         <Text style={[base.headingText, { fontSize: toConstantFontSize(2.9) }]}>
                             Student living made simple
                         </Text>
+                        <Text style={[base.headingText, { fontSize: toConstantFontSize(2) }]}>
+                            Remember to use your @reading.ac.uk email
+                        </Text>
                     </View>
                     <View style={[login.mainContent, { flex: 2 }]}>
                         <Image
@@ -502,8 +505,8 @@ export class Login extends React.Component<Props, State> {
                                 this.state.firstName === ''
                                     ? alert('Please enter your first name')
                                     : this.state.lastName === ''
-                                        ? alert('Please enter your last name')
-                                        : this.homeSwiper.scrollBy(1, true);
+                                    ? alert('Please enter your last name')
+                                    : this.homeSwiper.scrollBy(1, true);
                             }}
                             title={'Next'}
                             backgroundColor={
@@ -1150,10 +1153,10 @@ export class Login extends React.Component<Props, State> {
                                           'Please state whether you would prefer to live with/without flatmates who drink'
                                       )
                                     : this.state.smokerPreference === ''
-                                        ? alert(
-                                              'Please state whether you would prefer to live with/without flatmates who smokes'
-                                          )
-                                        : this.completeUserSetup();
+                                    ? alert(
+                                          'Please state whether you would prefer to live with/without flatmates who smokes'
+                                      )
+                                    : this.completeUserSetup();
                             }}
                             buttonStyle={base.buttonStyle}
                         />
@@ -1457,9 +1460,9 @@ export class Login extends React.Component<Props, State> {
                     ) : !!this.state.road.match(/[0-9]\d*/g) ? (
                         alert("Please don't enter your house number")
                     ) : this.state.road &&
-                    this.state.billsPrice &&
-                    this.state.rentPrice &&
-                    this.state.spaces ? (
+                      this.state.billsPrice &&
+                      this.state.rentPrice &&
+                      this.state.spaces ? (
                         <TouchableRect
                             title={'Confirm'}
                             backgroundColor={Colors.brandPrimaryColor}
@@ -1635,7 +1638,9 @@ export class Login extends React.Component<Props, State> {
                                         text: 'Email Support',
                                         onPress: () =>
                                             Linking.openURL(
-                                                `mailto:joseph@fazzino.net?subject=I%20cannot%20login`
+                                                `mailto:joseph@fazzino.net?subject=I%20cannot%20login&body=${JSON.stringify(
+                                                    json.error_description
+                                                )}`
                                             )
                                     },
                                     {
