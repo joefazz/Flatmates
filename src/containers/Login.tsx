@@ -1685,6 +1685,8 @@ export class Login extends React.Component<Props, State> {
 
             this.authId = decodedJSON.sub;
 
+            this.bearer = decodedJSON.token;
+
             const res = await client.query<UserLoginQuery>({
                 query: USER_LOGIN_QUERY,
                 variables: { email: decodedJSON.email },
