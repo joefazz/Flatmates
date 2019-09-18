@@ -6,6 +6,8 @@ Hello,
 
 This is my baby, it's dead now...
 
+All security keys/tokens/urls/auth related nic-nacs are either invalidated or expired. Yes they were just out in the code like that.
+
 It was a project to help students find somewhere to live and it had a fairly short life span. It's open source now. It wasn't before. Have fun perusing.
 
 This entire project is, and will no long continue, to be written in [TypeScript](https://www.typescriptlang.org/). I've tried [Flow](https://flow.org/), it's not as good with VSCode, I find it slows it down quite a lot.
