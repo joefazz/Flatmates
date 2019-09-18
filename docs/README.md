@@ -4,9 +4,11 @@
 
 Hello,
 
-This is my baby, don't hurt it!
+This is my baby, it's dead now...
 
-This entire project is, and will continue to be written in [TypeScript](https://www.typescriptlang.org/). I've tried [Flow](https://flow.org/), it's not as good with VSCode, I find it slows it down quite a lot.
+It was a project to help students find somewhere to live and it had a fairly short life span. It's open source now. It wasn't before. Have fun perusing.
+
+This entire project is, and will no long continue, to be written in [TypeScript](https://www.typescriptlang.org/). I've tried [Flow](https://flow.org/), it's not as good with VSCode, I find it slows it down quite a lot.
 
 This app is built with a lot of beta technologies which will undoubtably require updating once every month or so, the most core libs that we use and the places you will find yourself spending a lot of time visiting the docs of are:
 
@@ -29,21 +31,4 @@ Any IDE will work that can handle normal JavaScript coding. I personally recomme
 
 Any git tool you want is fine, I use SourceTree but it's certainly not out of joy or pleasure, I find myself commiting more from VSCode nowadays.
 
-Clone the repo and get hacking!
-
-### Git Flow
-A little aside here about how the repo is organised.
-
-- MASTER: Current prod release PRs here should only be from hotfix
-- DEVELOPMENT: Edge testing (rarely used)
-- HOTFIX: Fixes for prod issues that are merged directly to master.
-- FEATURE: Feature additions/changes/removals are to be done here, they are merged to a release for testing
-- RELEASE: Where test builds get deployed from, this is where PRs from feature are to be made to
-
-## Conventions
-
-VSCode lets you insert a tab as 4 spaces which is how I choose to live my life so either 1 tab or 4 spaces.
-
-Follow the TSLint rules.
-
-If you write good code you shouldn't need to comment it but if you think you've written some complex functionality then comment it.
+Clone the repo and witness the dissapointment!
